@@ -6,48 +6,25 @@ import cookieParser from 'cookie-parser';
 import { config as loadEnv } from 'dotenv';
 import { resolve } from 'node:path';
 import { AppModule } from './app.module';
+import {
+  createCorsOriginValidator,
+  resolveCorsPolicy,
+} from './common/cors-origin';
 import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { envOrDefault } from './common/env.util';
 
 loadEnv({ path: resolve(process.cwd(), '..', '..', '.env') });
 loadEnv({ path: resolve(process.cwd(), '.env') });
 
-function buildCorsOrigin() {
-  const configured = envOrDefault('API_CORS_ORIGIN', 'http://localhost:3000');
-  if (configured === '*') {
-    return true;
-  }
-
-  const allowedOrigins = new Set(
-    configured
-      .split(',')
-      .map((origin) => origin.trim())
-      .filter(Boolean),
-  );
-
-  if (process.env.NODE_ENV !== 'production') {
-    allowedOrigins.add('http://localhost:3000');
-    allowedOrigins.add('http://127.0.0.1:3000');
-    allowedOrigins.add('http://[::1]:3000');
-  }
-
-  return (
-    origin: string | undefined,
-    callback: (error: Error | null, allow?: boolean) => void,
-  ) => {
-    if (!origin || allowedOrigins.has(origin)) {
-      callback(null, true);
-      return;
-    }
-
-    callback(new Error(`CORS origin is not allowed: ${origin}`), false);
-  };
-}
-
 async function bootstrap(): Promise<void> {
   const logger = new Logger('Bootstrap');
+  const environment = process.env.NODE_ENV ?? 'development';
+  const corsPolicy = resolveCorsPolicy(
+    envOrDefault('API_CORS_ORIGIN', 'http://localhost:3000'),
+    environment,
+  );
 
-  if (process.env.NODE_ENV === 'production') {
+  if (environment === 'production') {
     if (envOrDefault('AUTH_COOKIE_SECURE', 'false').toLowerCase() !== 'true') {
       throw new Error(
         'AUTH_COOKIE_SECURE must be "true" when NODE_ENV=production',
@@ -69,7 +46,7 @@ async function bootstrap(): Promise<void> {
 
   // --- CORS ---
   app.enableCors({
-    origin: buildCorsOrigin(),
+    origin: corsPolicy.allowAll ? true : createCorsOriginValidator(corsPolicy),
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
@@ -79,6 +56,14 @@ async function bootstrap(): Promise<void> {
       'X-Requested-With',
     ],
   });
+
+  if (environment !== 'production') {
+    logger.log(
+      `Allowed CORS origins: ${
+        corsPolicy.allowAll ? '*' : corsPolicy.origins.join(', ')
+      }`,
+    );
+  }
 
   // --- Cookies (cho session auth) ---
   app.use(cookieParser());

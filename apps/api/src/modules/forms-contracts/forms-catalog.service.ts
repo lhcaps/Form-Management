@@ -6,9 +6,10 @@
  * Self-contained — does NOT import from web features/.
  */
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { resolveRepoRoot } from '../../common/repo-root';
 import type {
   LoadedFormContract,
   FormCatalogItem,
@@ -98,12 +99,15 @@ function discoverContractPaths(contractsRoot: string): {
   return { locked, draft };
 }
 
-function loadContractFromPath(fp: string): object | null {
+function loadContractFromPath(fp: string): Record<string, unknown> {
   try {
-    if (!fs.existsSync(fp)) return null;
-    return JSON.parse(fs.readFileSync(fp, 'utf8'));
-  } catch {
-    return null;
+    return JSON.parse(fs.readFileSync(fp, 'utf8')) as Record<string, unknown>;
+  } catch (error) {
+    throw new Error(
+      `Cannot parse form contract "${fp}": ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
   }
 }
 
@@ -191,9 +195,7 @@ function normalizeContract(c: Record<string, unknown>): LoadedFormContract {
     GENERIC_FIELD_PATTERN.test(s.slotId),
   ).length;
   const fieldsNeedingReviewCount = canonicalFields.filter(
-    (f) =>
-      f.source === 'unknown' ||
-      GENERIC_FIELD_PATTERN.test(f.path),
+    (f) => f.source === 'unknown' || GENERIC_FIELD_PATTERN.test(f.path),
   ).length;
   const stage = getStageForBm(templateCode);
 
@@ -250,12 +252,16 @@ function buildFormCatalog(
 
 @Injectable()
 export class FormsCatalogService {
+  private readonly logger = new Logger(FormsCatalogService.name);
   private readonly contractsRoot: string;
 
   constructor() {
-    const projectRoot = path.resolve(process.cwd());
+    const repoRoot = resolveRepoRoot({
+      cwd: process.cwd(),
+      repoRoot: process.env.REPO_ROOT,
+    });
     this.contractsRoot = path.join(
-      projectRoot,
+      repoRoot,
       'docs',
       'audit',
       'docx',
@@ -272,9 +278,15 @@ export class FormsCatalogService {
   private loadBySourceId(sourceId: string): LoadedFormContract | null {
     const { locked, draft } = discoverContractPaths(this.contractsRoot);
     for (const fp of [...locked, ...draft]) {
-      const c = loadContractFromPath(fp) as Record<string, unknown> | null;
-      if (!c || c.documentKind === 'reference') continue;
-      if (c.sourceId === sourceId) return normalizeContract(c);
+      try {
+        const contract = loadContractFromPath(fp);
+        if (contract.documentKind === 'reference') continue;
+        if (contract.sourceId === sourceId) return normalizeContract(contract);
+      } catch (error) {
+        this.logger.warn(
+          error instanceof Error ? error.message : String(error),
+        );
+      }
     }
     return null;
   }
@@ -282,14 +294,30 @@ export class FormsCatalogService {
   private loadByTemplateCode(templateCode: string): LoadedFormContract | null {
     const { locked, draft } = discoverContractPaths(this.contractsRoot);
     for (const fp of locked) {
-      const c = loadContractFromPath(fp) as Record<string, unknown> | null;
-      if (!c || c.documentKind === 'reference') continue;
-      if (c.templateCode === templateCode) return normalizeContract(c);
+      try {
+        const contract = loadContractFromPath(fp);
+        if (contract.documentKind === 'reference') continue;
+        if (contract.templateCode === templateCode) {
+          return normalizeContract(contract);
+        }
+      } catch (error) {
+        this.logger.warn(
+          error instanceof Error ? error.message : String(error),
+        );
+      }
     }
     for (const fp of draft) {
-      const c = loadContractFromPath(fp) as Record<string, unknown> | null;
-      if (!c || c.documentKind === 'reference') continue;
-      if (c.templateCode === templateCode) return normalizeContract(c);
+      try {
+        const contract = loadContractFromPath(fp);
+        if (contract.documentKind === 'reference') continue;
+        if (contract.templateCode === templateCode) {
+          return normalizeContract(contract);
+        }
+      } catch (error) {
+        this.logger.warn(
+          error instanceof Error ? error.message : String(error),
+        );
+      }
     }
     return null;
   }
@@ -311,29 +339,51 @@ export class FormsCatalogService {
   }
 
   private loadAllContracts(): LoadedFormContract[] {
-    try {
-      const { locked, draft } = discoverContractPaths(this.contractsRoot);
-      const byCode = new Map<string, LoadedFormContract>();
-
-      for (const fp of locked) {
-        const c = loadContractFromPath(fp) as Record<string, unknown> | null;
-        if (!c || c.documentKind === 'reference') continue;
-        const loaded = normalizeContract(c);
-        byCode.set(loaded.templateCode, loaded);
-      }
-      for (const fp of draft) {
-        const c = loadContractFromPath(fp) as Record<string, unknown> | null;
-        if (!c || c.documentKind === 'reference') continue;
-        if (byCode.has(String(c.templateCode))) continue;
-        const loaded = normalizeContract(c);
-        byCode.set(loaded.templateCode, loaded);
-      }
-
-      return Array.from(byCode.values()).sort((a, b) =>
-        (a.templateCode ?? '').localeCompare(b.templateCode ?? ''),
+    if (!fs.existsSync(this.contractsRoot)) {
+      throw new Error(
+        `Contracts root does not exist: "${this.contractsRoot}". ` +
+          `Set REPO_ROOT env var to the repository root.`,
       );
-    } catch {
-      return [];
     }
+
+    const { locked, draft } = discoverContractPaths(this.contractsRoot);
+    const byCode = new Map<string, LoadedFormContract>();
+    const skipped: string[] = [];
+
+    for (const fp of locked) {
+      try {
+        const contract = loadContractFromPath(fp);
+        if (contract.documentKind === 'reference') continue;
+        const loaded = normalizeContract(contract);
+        byCode.set(loaded.templateCode, loaded);
+      } catch (error) {
+        this.logger.warn(
+          error instanceof Error ? error.message : String(error),
+        );
+        skipped.push(fp);
+      }
+    }
+    for (const fp of draft) {
+      try {
+        const contract = loadContractFromPath(fp);
+        if (contract.documentKind === 'reference') continue;
+        if (byCode.has(String(contract.templateCode))) continue;
+        const loaded = normalizeContract(contract);
+        byCode.set(loaded.templateCode, loaded);
+      } catch (error) {
+        this.logger.warn(
+          error instanceof Error ? error.message : String(error),
+        );
+        skipped.push(fp);
+      }
+    }
+
+    if (skipped.length > 0) {
+      this.logger.warn(`Skipped ${skipped.length} invalid contract(s).`);
+    }
+
+    return Array.from(byCode.values()).sort((a, b) =>
+      (a.templateCode ?? '').localeCompare(b.templateCode ?? ''),
+    );
   }
 }

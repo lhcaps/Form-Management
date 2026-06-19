@@ -13,6 +13,13 @@ export interface HealthInfo {
   apiPrefix: string;
 }
 
+export interface SimpleHealthInfo {
+  ok: boolean;
+  service: string;
+  timestamp: string;
+  env: string;
+}
+
 @Injectable()
 export class AppService {
   private readonly startedAt = Date.now();
@@ -53,6 +60,15 @@ export class AppService {
       timestamp: new Date().toISOString(),
       docs: '/api/docs',
       apiPrefix,
+    };
+  }
+
+  getSimpleHealth(): SimpleHealthInfo {
+    return {
+      ok: true,
+      service: 'QUANLYVKS API',
+      timestamp: new Date().toISOString(),
+      env: process.env.NODE_ENV ?? 'development',
     };
   }
 }

@@ -10,9 +10,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/public.decorator';
 import { FormsCatalogService } from './forms-catalog.service';
 
 @ApiTags('Forms Catalog')
+@Public()
 @Controller('forms')
 export class FormsCatalogController {
   constructor(private readonly catalogService: FormsCatalogService) {}

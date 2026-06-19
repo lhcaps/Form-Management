@@ -10,8 +10,11 @@
   "scripts": {
     "dev": "concurrently -n api,web -c blue,green \"pnpm dev:api\" \"pnpm dev:web\"",
     "dev:stable": "concurrently -n api,web -c blue,green \"pnpm dev:api:stable\" \"pnpm dev:web\"",
+    "dev:stable:api-first": "concurrently -n api,web -c blue,green \"pnpm dev:api:stable\" \"pnpm dev:wait-api && pnpm dev:web\"",
     "dev:api": "pnpm --filter api start:dev",
     "dev:api:stable": "pnpm --filter api start:dev:stable",
+    "dev:wait-api": "node scripts/dev-healthcheck.mjs --wait --api-only",
+    "dev:health": "node scripts/dev-healthcheck.mjs",
     "dev:web": "pnpm --filter web dev",
     "build": "pnpm build:api && pnpm build:web",
     "build:api": "pnpm --filter api build",
@@ -50,7 +53,8 @@
     "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
     "audit:forms:corpus": "node scripts/docx-contract/reconcile-form-corpus.mjs",
     "audit:forms:runtime-readiness": "node scripts/docx-contract/generate-form-runtime-readiness.mjs",
-    "audit:encoding": "node scripts/audit-encoding-bom.mjs"
+    "audit:encoding": "node scripts/audit-encoding-bom.mjs",
+    "smoke:forms-runtime": "node scripts/smoke-forms-runtime.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
