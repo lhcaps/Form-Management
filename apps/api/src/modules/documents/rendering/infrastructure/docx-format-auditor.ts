@@ -65,6 +65,19 @@ function containsHalfPointSize(xml: string, halfPoints: number): boolean {
   ).test(xml);
 }
 
+function containsExplicitColor(xml: string, color: string): boolean {
+  return new RegExp(
+    `<w:color\\s[^>]*w:val="${color}"[^>]*(?:\\/>|>)`,
+    'iu',
+  ).test(xml);
+}
+
+function findVisibleRuns(xml: string): string[] {
+  return extractWordElements(xml, 'r').filter(
+    (runXml) => extractVisibleText(runXml).length > 0,
+  );
+}
+
 function findRunsContaining(xml: string, textPattern: RegExp): string[] {
   return extractWordElements(xml, 'r').filter((runXml) =>
     textPattern.test(extractVisibleText(runXml)),
@@ -369,6 +382,61 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
     evidence: hasDifferentFirstPage
       ? 'w:titlePg element found in document section properties'
       : 'w:titlePg not found in document section properties',
+  });
+
+  // FMT-018: BM-001 receiver identity legal content must print in black.
+  const receiverIdentityParagraph = findParagraphsContaining(
+    documentXml,
+    /Tôi\s*:/iu,
+  )[0];
+  const receiverVisibleRuns = receiverIdentityParagraph
+    ? findVisibleRuns(receiverIdentityParagraph)
+    : [];
+  const receiverRunsAreBlack =
+    receiverVisibleRuns.length > 0 &&
+    receiverVisibleRuns.every((runXml) =>
+      containsExplicitColor(runXml, '000000'),
+    );
+  checks.push({
+    id: 'FMT-018',
+    requirement:
+      'BM-001 receiver identity legal content uses explicit black text',
+    status: receiverIdentityParagraph
+      ? receiverRunsAreBlack
+        ? 'pass'
+        : 'fail'
+      : 'not_applicable',
+    evidence: receiverIdentityParagraph
+      ? `Visible runs=${receiverVisibleRuns.length}, all explicit black=${receiverRunsAreBlack}`
+      : 'BM-001 receiver identity paragraph not present',
+  });
+
+  // FMT-019: BM-001 top-right form note must remain legible in print output.
+  const formNoteTextbox = extractWordElements(documentXml, 'txbxContent').find(
+    (textboxXml) => /Mẫu\s*số\s*01\/HS/iu.test(extractVisibleText(textboxXml)),
+  );
+  const formNoteVisibleRuns = formNoteTextbox
+    ? findVisibleRuns(formNoteTextbox)
+    : [];
+  const formNoteRunsAreBlackAndSize8 =
+    formNoteVisibleRuns.length > 0 &&
+    formNoteVisibleRuns.every(
+      (runXml) =>
+        containsExplicitColor(runXml, '000000') &&
+        containsHalfPointSize(runXml, 16),
+    );
+  checks.push({
+    id: 'FMT-019',
+    requirement:
+      'BM-001 Mẫu số 01/HS form note uses explicit black text at 8pt',
+    status: formNoteTextbox
+      ? formNoteRunsAreBlackAndSize8
+        ? 'pass'
+        : 'fail'
+      : 'not_applicable',
+    evidence: formNoteTextbox
+      ? `Visible runs=${formNoteVisibleRuns.length}, all black8pt=${formNoteRunsAreBlackAndSize8}`
+      : 'BM-001 Mẫu số 01/HS textbox not present',
   });
 
   // Compute overall status:

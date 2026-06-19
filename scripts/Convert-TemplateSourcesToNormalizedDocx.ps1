@@ -122,6 +122,7 @@ function Convert-DocSourceWithWord {
 
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $normalizedRoot = Join-Path $repoRoot "storage\templates\normalized-docx"
+$apiNormalizedRoot = Join-Path $repoRoot "apps\api\storage\templates\normalized-docx"
 $sources = @(Get-CanonicalTemplateSources -RepoRoot $repoRoot -Codes $Codes)
 
 if ($sources.Count -eq 0) {
@@ -168,9 +169,16 @@ try {
         throw "Normalized DOCX was not created for $($source.Code): $targetPath"
       }
 
-      & node (Join-Path $PSScriptRoot "docx-contract\normalize-docx-format.mjs") $targetPath
+      & node (Join-Path $PSScriptRoot "docx-contract\normalize-docx-format.mjs") $targetPath $targetPath --template-code $source.Code
       if ($LASTEXITCODE -ne 0) {
         throw "DOCX format normalization failed for $($source.Code): $targetPath"
+      }
+
+      if ($source.Code -eq "BM-001") {
+        $apiTargetDir = Join-Path $apiNormalizedRoot $source.Code
+        $apiTargetPath = Join-Path $apiTargetDir "$($source.Code)_normalized.docx"
+        New-Item -ItemType Directory -Path $apiTargetDir -Force | Out-Null
+        Copy-Item -LiteralPath $targetPath -Destination $apiTargetPath -Force
       }
 
       Write-Output "[normalize] ready $($source.Code): $($source.RelativePath)"

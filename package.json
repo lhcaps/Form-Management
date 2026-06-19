@@ -48,6 +48,7 @@
     "audit:templates": "node scripts/audit-template-source-coverage.mjs",
     "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs",
     "normalize:templates:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1",
+    "normalize:bm001:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1 -Codes BM-001 -Force",
     "normalize:docx:format": "node scripts/docx-contract/normalize-docx-format.mjs",
     "audit:docx:inventory": "node scripts/docx-contract/inventory-docx.mjs",
     "audit:docx:extract": "node scripts/docx-contract/extract-docx-structure.mjs",

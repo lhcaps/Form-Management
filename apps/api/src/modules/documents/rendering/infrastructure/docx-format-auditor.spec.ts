@@ -1,12 +1,14 @@
 import { auditDocxFormat } from './docx-format-auditor';
 
-function makeParts(overrides: Partial<{
-  documentXml: string;
-  stylesXml: string;
-  settingsXml: string;
-  headerXmls: string[];
-  footerXmls: string[];
-}> = {}) {
+function makeParts(
+  overrides: Partial<{
+    documentXml: string;
+    stylesXml: string;
+    settingsXml: string;
+    headerXmls: string[];
+    footerXmls: string[];
+  }> = {},
+) {
   return {
     documentXml: overrides.documentXml ?? '',
     stylesXml: overrides.stylesXml,
@@ -19,7 +21,9 @@ function makeParts(overrides: Partial<{
 describe('docx-format-auditor', () => {
   describe('FMT-001: Times New Roman', () => {
     it('passes when Times New Roman is found', () => {
-      const parts = makeParts({ documentXml: '<w:r><w:rFonts w:ascii="Times New Roman"/></w:r>' });
+      const parts = makeParts({
+        documentXml: '<w:r><w:rFonts w:ascii="Times New Roman"/></w:r>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-001');
       expect(check?.status).toBe('pass');
@@ -40,7 +44,9 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns not_detectable when font is absent', () => {
-      const parts = makeParts({ documentXml: '<w:r><w:rFonts w:ascii="Arial"/></w:r>' });
+      const parts = makeParts({
+        documentXml: '<w:r><w:rFonts w:ascii="Arial"/></w:r>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-001');
       expect(check?.status).toBe('not_detectable');
@@ -49,14 +55,19 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-002: Agency header', () => {
     it('passes when VIỆN KIỂM SÁT NHÂN DÂN is present', () => {
-      const parts = makeParts({ documentXml: '<w:p><w:t>VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH</w:t></w:p>' });
+      const parts = makeParts({
+        documentXml:
+          '<w:p><w:t>VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH</w:t></w:p>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-002');
       expect(check?.status).toBe('pass');
     });
 
     it('returns not_detectable when header is absent', () => {
-      const parts = makeParts({ documentXml: '<w:p><w:t>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</w:t></w:p>' });
+      const parts = makeParts({
+        documentXml: '<w:p><w:t>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</w:t></w:p>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-002');
       expect(check?.status).toBe('not_detectable');
@@ -75,8 +86,7 @@ describe('docx-format-auditor', () => {
     });
 
     it('passes when bold formatting appears before the text in the same run', () => {
-      const xml =
-        '<w:r><w:rPr><w:b/></w:rPr><w:t>KHU VỰC 7</w:t></w:r>';
+      const xml = '<w:r><w:rPr><w:b/></w:rPr><w:t>KHU VỰC 7</w:t></w:r>';
       const result = auditDocxFormat(makeParts({ documentXml: xml }));
       const check = result.checks.find((c) => c.id === 'FMT-003');
 
@@ -84,7 +94,9 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns not_detectable when KHU VỰC 7 is absent', () => {
-      const parts = makeParts({ documentXml: '<w:p><w:t>Some other text</w:t></w:p>' });
+      const parts = makeParts({
+        documentXml: '<w:p><w:t>Some other text</w:t></w:p>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-003');
       expect(check?.status).toBe('not_detectable');
@@ -92,8 +104,7 @@ describe('docx-format-auditor', () => {
 
     it('returns warning when KHU VỰC 7 found but bold not nearby', () => {
       const xml =
-        '<w:r><w:t>KHU VỰC 7</w:t></w:r>' +
-        '<w:r><w:t>OTHER TEXT</w:t></w:r>';
+        '<w:r><w:t>KHU VỰC 7</w:t></w:r>' + '<w:r><w:t>OTHER TEXT</w:t></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-003');
@@ -110,7 +121,8 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns not_detectable when underline found (placement unverifiable)', () => {
-      const xml = '<w:r><w:t>KHU VỰC 7</w:t></w:r><w:r><w:u w:val="single"/></w:r>';
+      const xml =
+        '<w:r><w:t>KHU VỰC 7</w:t></w:r><w:r><w:u w:val="single"/></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-004');
@@ -120,7 +132,8 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-005: Legal basis line', () => {
     it('passes when Thông tư 03/2026/TT-VKSTC is found', () => {
-      const xml = '<w:p><w:t>Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026</w:t></w:p>';
+      const xml =
+        '<w:p><w:t>Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026</w:t></w:p>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-005');
@@ -140,7 +153,9 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns not_detectable when legal basis is absent', () => {
-      const parts = makeParts({ documentXml: '<w:p><w:t>Some document text</w:t></w:p>' });
+      const parts = makeParts({
+        documentXml: '<w:p><w:t>Some document text</w:t></w:p>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-005');
       expect(check?.status).toBe('not_detectable');
@@ -149,7 +164,9 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-006: National motto', () => {
     it('passes when CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM is found', () => {
-      const parts = makeParts({ documentXml: '<w:t>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</w:t>' });
+      const parts = makeParts({
+        documentXml: '<w:t>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</w:t>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-006');
       expect(check?.status).toBe('pass');
@@ -158,7 +175,9 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-007: Motto Độc lập - Tự do - Hạnh phúc', () => {
     it('passes when motto is found', () => {
-      const parts = makeParts({ documentXml: '<w:t>Độc lập - Tự do - Hạnh phúc</w:t>' });
+      const parts = makeParts({
+        documentXml: '<w:t>Độc lập - Tự do - Hạnh phúc</w:t>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-007');
       expect(check?.status).toBeTruthy();
@@ -185,7 +204,9 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns not_detectable when date pattern is absent', () => {
-      const parts = makeParts({ documentXml: '<w:t>Some text without date</w:t>' });
+      const parts = makeParts({
+        documentXml: '<w:t>Some text without date</w:t>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-009');
       expect(check?.status).toBe('not_detectable');
@@ -239,7 +260,8 @@ describe('docx-format-auditor', () => {
   describe('FMT-017: Different First Page', () => {
     it('passes when titlePg is found in the document section properties', () => {
       const parts = makeParts({
-        documentXml: '<w:document><w:body><w:sectPr><w:titlePg/></w:sectPr></w:body></w:document>',
+        documentXml:
+          '<w:document><w:body><w:sectPr><w:titlePg/></w:sectPr></w:body></w:document>',
       });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-017');
@@ -266,7 +288,8 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-016: Page number', () => {
     it('passes when PAGE field is found', () => {
-      const xml = '<w:fldChar w:fldCharType="begin"/><w:instrText>PAGE</w:instrText>';
+      const xml =
+        '<w:fldChar w:fldCharType="begin"/><w:instrText>PAGE</w:instrText>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-016');
@@ -278,6 +301,85 @@ describe('docx-format-auditor', () => {
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-016');
       expect(check?.status).toBe('not_detectable');
+    });
+  });
+
+  describe('FMT-018: BM-001 receiver identity text color', () => {
+    it('fails when the Tôi receiver paragraph contains a red run', () => {
+      const xml =
+        '<w:p>' +
+        '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Tôi: </w:t></w:r>' +
+        '<w:r><w:rPr><w:color w:val="FF0000"/></w:rPr><w:t>Nguyễn Văn Minh</w:t></w:r>' +
+        '<w:r><w:t>; chức danh: Kiểm sát viên</w:t></w:r>' +
+        '</w:p>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-018');
+
+      expect(check?.status).toBe('fail');
+    });
+
+    it('passes when every visible receiver paragraph run is explicitly black', () => {
+      const xml =
+        '<w:p>' +
+        '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Tôi: </w:t></w:r>' +
+        '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Nguyễn Văn Minh</w:t></w:r>' +
+        '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>; chức danh: Kiểm sát viên</w:t></w:r>' +
+        '</w:p>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-018');
+
+      expect(check?.status).toBe('pass');
+    });
+
+    it('is not applicable when the receiver paragraph is absent', () => {
+      const result = auditDocxFormat(
+        makeParts({
+          documentXml: '<w:p><w:r><w:t>Other form</w:t></w:r></w:p>',
+        }),
+      );
+      const check = result.checks.find((c) => c.id === 'FMT-018');
+
+      expect(check?.status).toBe('not_applicable');
+    });
+  });
+
+  describe('FMT-019: BM-001 top-right form note', () => {
+    it('fails when the Mẫu số 01/HS textbox lacks explicit black text', () => {
+      const xml =
+        '<w:txbxContent>' +
+        '<w:p><w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:t>Mẫu số 01/HS</w:t></w:r></w:p>' +
+        '<w:p><w:r><w:rPr><w:sz w:val="16"/></w:rPr>' +
+        '<w:t>(Ban hành theo Thông tư số 03/2026/TT-VKSTC)</w:t></w:r></w:p>' +
+        '</w:txbxContent>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-019');
+
+      expect(check?.status).toBe('fail');
+    });
+
+    it('passes when every visible form-note run is black and 8pt', () => {
+      const xml =
+        '<w:txbxContent>' +
+        '<w:p><w:r><w:rPr><w:color w:val="000000"/><w:sz w:val="16"/></w:rPr>' +
+        '<w:t>Mẫu số 01/HS</w:t></w:r></w:p>' +
+        '<w:p><w:r><w:rPr><w:color w:val="000000"/><w:sz w:val="16"/></w:rPr>' +
+        '<w:t>(Ban hành theo Thông tư số 03/2026/TT-VKSTC)</w:t></w:r></w:p>' +
+        '</w:txbxContent>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-019');
+
+      expect(check?.status).toBe('pass');
+    });
+
+    it('is not applicable when the BM-001 form note is absent', () => {
+      const result = auditDocxFormat(
+        makeParts({
+          documentXml: '<w:p><w:r><w:t>Other form</w:t></w:r></w:p>',
+        }),
+      );
+      const check = result.checks.find((c) => c.id === 'FMT-019');
+
+      expect(check?.status).toBe('not_applicable');
     });
   });
 
@@ -320,14 +422,17 @@ describe('docx-format-auditor', () => {
 
   describe('FMT-008: Motto underline width', () => {
     it('returns not_detectable for motto underline', () => {
-      const parts = makeParts({ documentXml: '<w:t>Độc lập - Tự do - Hạnh phúc</w:t>' });
+      const parts = makeParts({
+        documentXml: '<w:t>Độc lập - Tự do - Hạnh phúc</w:t>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-008');
       expect(check?.status).toBe('not_detectable');
     });
 
     it('returns warning when underline found near motto (width unverifiable)', () => {
-      const xml = '<w:r><w:t>Độc lập</w:t></w:r><w:r><w:u w:val="single"/></w:r>';
+      const xml =
+        '<w:r><w:t>Độc lập</w:t></w:r><w:r><w:u w:val="single"/></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-008');
