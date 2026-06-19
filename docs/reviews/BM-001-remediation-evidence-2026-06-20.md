@@ -11,7 +11,9 @@ Implementation commits:
 - `2362341` — deterministic BM-001 OOXML remediation and format gates;
 - `43b5949` — unobstructed BM-001 web print layout and browser regression;
 - `01bb519` — reconcile all 11 reviewed post-lock bindings into the BM-001
-  taxonomy, DOCX slots, and canonical fields.
+  taxonomy, DOCX slots, and canonical fields;
+- `4ede2b0` — scope the BM-001 receiver-color audit so another form containing
+  `Tôi:` is not treated as BM-001.
 
 Normalized template SHA-256, identical in both tracked locations:
 
@@ -57,16 +59,16 @@ failure.
 
 ## Fresh Artifacts
 
-Smoke timestamp prefix: `2026-06-19T23-53-22` UTC, generated after the
-post-lock contract reconciliation commit.
+Smoke timestamp prefix: `2026-06-19T23-56-15` UTC, generated after the
+post-lock contract reconciliation and final audit-scope hardening commits.
 
 | Scenario | Output directory | Rendered DOCX SHA-256 |
 |---|---|---|
-| Basic valid | `01-basic-valid-2026-06-19T23-53-22-390Z` | `BDAF5FEBC4835FABAB923293896DCFF2DD8F5C6492EB6BDCB5F9A837D3FCC6EE` |
-| Long source report | `02-long-source-report-2026-06-19T23-53-22-405Z` | `8E16202119352B14D6A6873C1F9E6BE63E492638646F6E59D079C74F8649C119` |
-| Organization informant | `03-organization-informant-2026-06-19T23-53-22-420Z` | `27953214C57087019DD3237D3D62FE5F71435EEE6643D64D0946EBE99FB2318B` |
-| Missing optional fields | `04-missing-optional-fields-2026-06-19T23-53-22-431Z` | `07E228FEB7CABADAE876B0A566DA3F7D0352D75B31E2E0ACA0DC845AD9BDEC7E` |
-| Vietnamese diacritics and addresses | `05-vietnamese-diacritics-and-addresses-2026-06-19T23-53-22-444Z` | `5A05F7C6752A3EB89E47D89CAB3B15514C1C0FEA752399CEEF6CE56AE5C85F39` |
+| Basic valid | `01-basic-valid-2026-06-19T23-56-15-544Z` | `CE7888678BE3043785E3B9DA2B62527C5B6F73F6B5D44E842EC970EEC592574F` |
+| Long source report | `02-long-source-report-2026-06-19T23-56-15-558Z` | `F1278C12BE9E6360123E06A2D84B006D171FF62ED39C2392E270FECB57E946D2` |
+| Organization informant | `03-organization-informant-2026-06-19T23-56-15-572Z` | `E46AFBBE9C77FC59A5661DB526213F5C6886634730A720A6C1EC54F62CCB6E48` |
+| Missing optional fields | `04-missing-optional-fields-2026-06-19T23-56-15-583Z` | `ABD658F47631CAFB0608317F8A4476B7273982ED64DA6ACE54E32BF50B6F7EE6` |
+| Vietnamese diacritics and addresses | `05-vietnamese-diacritics-and-addresses-2026-06-19T23-56-15-594Z` | `E126ADD8769AF0B556E9BB86131D62452CD30BBB44A97D11F90DD4CD6284FEB6` |
 
 ## Microsoft Word Technical Inspection
 
