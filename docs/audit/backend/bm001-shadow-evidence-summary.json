@@ -1,0 +1,417 @@
+{
+  "generated": "2026-06-19T18:06:39.379Z",
+  "phase": "D.2.2.5",
+  "scenariosRun": 5,
+  "summary": {
+    "semanticPass": 0,
+    "semanticWarning": 5,
+    "semanticFail": 0,
+    "formatPass": 0,
+    "formatWarning": 5,
+    "formatFail": 0,
+    "totalUnresolvedPlaceholders": 0,
+    "totalMissingExpectedText": 0
+  },
+  "scenarioMatrix": [
+    {
+      "scenarioId": "01-basic-valid",
+      "description": "BM-001 with all required fields filled, basic valid data. Tests that a well-formed contract renders all key personal data correctly.",
+      "semanticStatus": "warning",
+      "semanticMissing": [],
+      "semanticUnresolved": [],
+      "semanticNotes": [
+        "Contract text is significantly shorter (0.17x) than legacy."
+      ],
+      "formatStatus": "warning",
+      "formatFails": [],
+      "formatWarnings": [
+        "FMT-003",
+        "FMT-007",
+        "FMT-011",
+        "FMT-012",
+        "FMT-015"
+      ],
+      "formatNotDetectable": [
+        "FMT-004",
+        "FMT-005",
+        "FMT-008",
+        "FMT-010",
+        "FMT-013",
+        "FMT-014",
+        "FMT-016"
+      ]
+    },
+    {
+      "scenarioId": "02-long-source-report",
+      "description": "BM-001 with a very long crime report content to test text overflow handling and ensure the full content is rendered.",
+      "semanticStatus": "warning",
+      "semanticMissing": [],
+      "semanticUnresolved": [],
+      "semanticNotes": [
+        "Contract text is significantly shorter (0.20x) than legacy."
+      ],
+      "formatStatus": "warning",
+      "formatFails": [],
+      "formatWarnings": [
+        "FMT-003",
+        "FMT-007",
+        "FMT-011",
+        "FMT-012",
+        "FMT-015"
+      ],
+      "formatNotDetectable": [
+        "FMT-004",
+        "FMT-005",
+        "FMT-008",
+        "FMT-010",
+        "FMT-013",
+        "FMT-014",
+        "FMT-016"
+      ]
+    },
+    {
+      "scenarioId": "03-organization-informant",
+      "description": "BM-001 where the informant is a legal representative of an organization (representedOrganization is non-empty). Tests that org name renders correctly.",
+      "semanticStatus": "warning",
+      "semanticMissing": [],
+      "semanticUnresolved": [],
+      "semanticNotes": [
+        "Contract text is significantly shorter (0.18x) than legacy."
+      ],
+      "formatStatus": "warning",
+      "formatFails": [],
+      "formatWarnings": [
+        "FMT-003",
+        "FMT-007",
+        "FMT-011",
+        "FMT-012",
+        "FMT-015"
+      ],
+      "formatNotDetectable": [
+        "FMT-004",
+        "FMT-005",
+        "FMT-008",
+        "FMT-010",
+        "FMT-013",
+        "FMT-014",
+        "FMT-016"
+      ]
+    },
+    {
+      "scenarioId": "04-missing-optional-fields",
+      "description": "BM-001 with only the truly required fields (no optional fields like otherName, religion, representedOrganization). Tests graceful handling of empty optionals.",
+      "semanticStatus": "warning",
+      "semanticMissing": [],
+      "semanticUnresolved": [],
+      "semanticNotes": [
+        "Contract text is significantly shorter (0.16x) than legacy."
+      ],
+      "formatStatus": "warning",
+      "formatFails": [],
+      "formatWarnings": [
+        "FMT-003",
+        "FMT-007",
+        "FMT-011",
+        "FMT-012",
+        "FMT-015"
+      ],
+      "formatNotDetectable": [
+        "FMT-004",
+        "FMT-005",
+        "FMT-008",
+        "FMT-010",
+        "FMT-013",
+        "FMT-014",
+        "FMT-016"
+      ]
+    },
+    {
+      "scenarioId": "05-vietnamese-diacritics-and-addresses",
+      "description": "BM-001 with complex Vietnamese diacritics in names, addresses, and crime descriptions. Tests that Unicode normalization does not break semantic comparison.",
+      "semanticStatus": "warning",
+      "semanticMissing": [],
+      "semanticUnresolved": [],
+      "semanticNotes": [
+        "Contract text is significantly shorter (0.18x) than legacy."
+      ],
+      "formatStatus": "warning",
+      "formatFails": [],
+      "formatWarnings": [
+        "FMT-003",
+        "FMT-007",
+        "FMT-011",
+        "FMT-012",
+        "FMT-015"
+      ],
+      "formatNotDetectable": [
+        "FMT-004",
+        "FMT-005",
+        "FMT-008",
+        "FMT-010",
+        "FMT-013",
+        "FMT-014",
+        "FMT-016"
+      ]
+    }
+  ],
+  "formatRequirementCoverage": [
+    {
+      "requirementId": "FMT-001",
+      "requirement": "Times New Roman size 13 baseline",
+      "overallStatus": "pass",
+      "passCount": 5,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": [
+        "01-basic-valid",
+        "02-long-source-report",
+        "03-organization-informant",
+        "04-missing-optional-fields",
+        "05-vietnamese-diacritics-and-addresses"
+      ]
+    },
+    {
+      "requirementId": "FMT-002",
+      "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+      "overallStatus": "pass",
+      "passCount": 5,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": [
+        "01-basic-valid",
+        "02-long-source-report",
+        "03-organization-informant",
+        "04-missing-optional-fields",
+        "05-vietnamese-diacritics-and-addresses"
+      ]
+    },
+    {
+      "requirementId": "FMT-003",
+      "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 bold",
+      "overallStatus": "warning",
+      "passCount": 0,
+      "warningCount": 5,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-004",
+      "requirement": "Underline under KHU VỰC 7 only (not full line)",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-005",
+      "requirement": "Legal basis line size 8",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-006",
+      "requirement": "Quốc hiệu size 13",
+      "overallStatus": "pass",
+      "passCount": 5,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": [
+        "01-basic-valid",
+        "02-long-source-report",
+        "03-organization-informant",
+        "04-missing-optional-fields",
+        "05-vietnamese-diacritics-and-addresses"
+      ]
+    },
+    {
+      "requirementId": "FMT-007",
+      "requirement": "Độc lập - Tự do - Hạnh phúc size 14",
+      "overallStatus": "warning",
+      "passCount": 0,
+      "warningCount": 5,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-008",
+      "requirement": "Underline under motto matches exact line width",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-009",
+      "requirement": "Issue date line italic size 14",
+      "overallStatus": "pass",
+      "passCount": 5,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": [
+        "01-basic-valid",
+        "02-long-source-report",
+        "03-organization-informant",
+        "04-missing-optional-fields",
+        "05-vietnamese-diacritics-and-addresses"
+      ]
+    },
+    {
+      "requirementId": "FMT-010",
+      "requirement": "Số/date horizontal alignment",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-011",
+      "requirement": "Body titles bold size 14",
+      "overallStatus": "warning",
+      "passCount": 0,
+      "warningCount": 5,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-012",
+      "requirement": "Điều 1, Điều 2, section 1., 2. bold",
+      "overallStatus": "warning",
+      "passCount": 0,
+      "warningCount": 5,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-013",
+      "requirement": "Footer: Nơi nhận: bold italic size 12",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-014",
+      "requirement": "Footer recipient lines size 11",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-015",
+      "requirement": "Signature title bold size 14; 2-3 lines between title and name",
+      "overallStatus": "warning",
+      "passCount": 0,
+      "warningCount": 5,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-016",
+      "requirement": "Page number present for documents > 2 pages",
+      "overallStatus": "not_detectable",
+      "passCount": 0,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 5,
+      "totalScenarios": 5,
+      "evidenceScenarios": []
+    },
+    {
+      "requirementId": "FMT-017",
+      "requirement": "Different First Page enabled",
+      "overallStatus": "pass",
+      "passCount": 5,
+      "warningCount": 0,
+      "failCount": 0,
+      "notDetectableCount": 0,
+      "totalScenarios": 5,
+      "evidenceScenarios": [
+        "01-basic-valid",
+        "02-long-source-report",
+        "03-organization-informant",
+        "04-missing-optional-fields",
+        "05-vietnamese-diacritics-and-addresses"
+      ]
+    }
+  ],
+  "cutoverRecommendation": {
+    "recommendation": "Conditional",
+    "reason": "All semantic checks pass but warnings remain. Human review recommended."
+  },
+  "manifests": [
+    {
+      "scenarioId": "01-basic-valid",
+      "outputDir": "D:\\Study\\Project\\QLLaw-main\\storage\\generated\\shadow-renders\\BM-001\\01-basic-valid-2026-06-19T18-05-54-691Z",
+      "timestamp": "2026-06-19T18-05-54-691Z",
+      "semanticStatus": "warning",
+      "formatStatus": "warning"
+    },
+    {
+      "scenarioId": "02-long-source-report",
+      "outputDir": "D:\\Study\\Project\\QLLaw-main\\storage\\generated\\shadow-renders\\BM-001\\02-long-source-report-2026-06-19T18-05-54-708Z",
+      "timestamp": "2026-06-19T18-05-54-708Z",
+      "semanticStatus": "warning",
+      "formatStatus": "warning"
+    },
+    {
+      "scenarioId": "03-organization-informant",
+      "outputDir": "D:\\Study\\Project\\QLLaw-main\\storage\\generated\\shadow-renders\\BM-001\\03-organization-informant-2026-06-19T18-05-54-728Z",
+      "timestamp": "2026-06-19T18-05-54-728Z",
+      "semanticStatus": "warning",
+      "formatStatus": "warning"
+    },
+    {
+      "scenarioId": "04-missing-optional-fields",
+      "outputDir": "D:\\Study\\Project\\QLLaw-main\\storage\\generated\\shadow-renders\\BM-001\\04-missing-optional-fields-2026-06-19T18-05-54-739Z",
+      "timestamp": "2026-06-19T18-05-54-739Z",
+      "semanticStatus": "warning",
+      "formatStatus": "warning"
+    },
+    {
+      "scenarioId": "05-vietnamese-diacritics-and-addresses",
+      "outputDir": "D:\\Study\\Project\\QLLaw-main\\storage\\generated\\shadow-renders\\BM-001\\05-vietnamese-diacritics-and-addresses-2026-06-19T18-05-54-749Z",
+      "timestamp": "2026-06-19T18-05-54-749Z",
+      "semanticStatus": "warning",
+      "formatStatus": "warning"
+    }
+  ]
+}
