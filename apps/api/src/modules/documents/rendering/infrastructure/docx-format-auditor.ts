@@ -385,10 +385,13 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-018: BM-001 receiver identity legal content must print in black.
-  const receiverIdentityParagraph = findParagraphsContaining(
-    documentXml,
-    /Tôi\s*:/iu,
-  )[0];
+  const documentVisibleText = extractVisibleText(documentXml);
+  const isBm001 =
+    /Mẫu\s*số\s*01\/HS/iu.test(documentVisibleText) ||
+    /BIÊN\s*BẢN\s+TIẾP\s+NHẬN\s+NGUỒN\s+TIN/iu.test(documentVisibleText);
+  const receiverIdentityParagraph = isBm001
+    ? findParagraphsContaining(documentXml, /Tôi\s*:/iu)[0]
+    : undefined;
   const receiverVisibleRuns = receiverIdentityParagraph
     ? findVisibleRuns(receiverIdentityParagraph)
     : [];
@@ -408,7 +411,9 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
       : 'not_applicable',
     evidence: receiverIdentityParagraph
       ? `Visible runs=${receiverVisibleRuns.length}, all explicit black=${receiverRunsAreBlack}`
-      : 'BM-001 receiver identity paragraph not present',
+      : isBm001
+        ? 'BM-001 receiver identity paragraph not present'
+        : 'BM-001 identifying text not present',
   });
 
   // FMT-019: BM-001 top-right form note must remain legible in print output.

@@ -307,6 +307,7 @@ describe('docx-format-auditor', () => {
   describe('FMT-018: BM-001 receiver identity text color', () => {
     it('fails when the Tôi receiver paragraph contains a red run', () => {
       const xml =
+        '<w:p><w:r><w:t>Mẫu số 01/HS</w:t></w:r></w:p>' +
         '<w:p>' +
         '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Tôi: </w:t></w:r>' +
         '<w:r><w:rPr><w:color w:val="FF0000"/></w:rPr><w:t>Nguyễn Văn Minh</w:t></w:r>' +
@@ -320,6 +321,7 @@ describe('docx-format-auditor', () => {
 
     it('passes when every visible receiver paragraph run is explicitly black', () => {
       const xml =
+        '<w:p><w:r><w:t>Mẫu số 01/HS</w:t></w:r></w:p>' +
         '<w:p>' +
         '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Tôi: </w:t></w:r>' +
         '<w:r><w:rPr><w:color w:val="000000"/></w:rPr><w:t>Nguyễn Văn Minh</w:t></w:r>' +
@@ -334,7 +336,23 @@ describe('docx-format-auditor', () => {
     it('is not applicable when the receiver paragraph is absent', () => {
       const result = auditDocxFormat(
         makeParts({
-          documentXml: '<w:p><w:r><w:t>Other form</w:t></w:r></w:p>',
+          documentXml:
+            '<w:p><w:r><w:t>Mẫu số 01/HS</w:t></w:r></w:p>' +
+            '<w:p><w:r><w:t>Other content</w:t></w:r></w:p>',
+        }),
+      );
+      const check = result.checks.find((c) => c.id === 'FMT-018');
+
+      expect(check?.status).toBe('not_applicable');
+    });
+
+    it('is not applicable to another form that also contains a Tôi paragraph', () => {
+      const result = auditDocxFormat(
+        makeParts({
+          documentXml:
+            '<w:p><w:r><w:t>Other legal form</w:t></w:r></w:p>' +
+            '<w:p><w:r><w:rPr><w:color w:val="FF0000"/></w:rPr>' +
+            '<w:t>Tôi: Nguyễn Văn Minh</w:t></w:r></w:p>',
         }),
       );
       const check = result.checks.find((c) => c.id === 'FMT-018');
