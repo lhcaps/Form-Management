@@ -150,6 +150,33 @@ const main = () => {
       }
     }
 
+    // RenderBinding.from must reference an existing canonicalField path
+    const fieldPaths = new Set((contract.canonicalFields ?? []).map((f) => f.path));
+    for (const b of contract.renderBindings ?? []) {
+      // Simple binding: "canonical.path"
+      if (b.from && !b.from.startsWith("{") && !fieldPaths.has(b.from)) {
+        FAIL.push({
+          label: `[${bm}] RenderBinding.from not in canonicalFields: ${b.slotId} -> ${b.from}`,
+          detail: null,
+        });
+      }
+      // Compound binding: "{a:field1,b:field2}"
+      if (b.from && b.from.startsWith("{") && b.from.endsWith("}")) {
+        const compoundFields = b.from
+          .slice(1, -1)
+          .split(",")
+          .map((s) => s.trim().split(":")[1] ?? s.trim());
+        for (const cf of compoundFields) {
+          if (cf && !fieldPaths.has(cf)) {
+            FAIL.push({
+              label: `[${bm}] Compound binding field not in canonicalFields: ${b.slotId} -> ${cf}`,
+              detail: null,
+            });
+          }
+        }
+      }
+    }
+
     // All canonicalFields should be referenced by at least one binding
     const boundFields = new Set();
     for (const b of contract.renderBindings ?? []) {

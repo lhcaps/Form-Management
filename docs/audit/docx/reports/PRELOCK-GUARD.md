@@ -1,6 +1,6 @@
 # Prelock Guard Report
 
-Generated: 2026-06-19T08:21:59.858Z
+Generated: 2026-06-19T09:37:41.207Z
 Mode: locked-only (validates locked contracts)
 Target: BM-001, BM-002, BM-003, BM-004
 Contracts checked: 3
