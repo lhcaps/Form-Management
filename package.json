@@ -43,6 +43,9 @@
     "audit:docx:report": "node scripts/docx-contract/generate-audit-report.mjs",
     "audit:docx:pilot": "node scripts/docx-contract/generate-pilot-reviews.mjs",
     "audit:docx:prelock": "node scripts/docx-contract/prelock-guard.mjs",
+    "audit:docx:verify-locked": "node scripts/docx-contract/verify-locked-contracts.mjs",
+    "audit:docx:lock-reviewed": "node scripts/docx-contract/lock-reviewed-contracts.mjs --mapping docs/audit/docx/human-review/phase-c-lock-mapping.json",
+    "audit:docx:bm004-lock-map": "node scripts/docx-contract/generate-bm004-lock-map-draft.mjs",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
     "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
     "audit:encoding": "node scripts/audit-encoding-bom.mjs"
