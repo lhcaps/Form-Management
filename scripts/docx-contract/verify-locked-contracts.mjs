@@ -183,6 +183,16 @@ const main = () => {
       if (b.from && !b.from.startsWith("{")) {
         boundFields.add(b.from);
       }
+      // Compound binding: "{a:field1,b:field2}"
+      if (b.from && b.from.startsWith("{") && b.from.endsWith("}")) {
+        const compoundFields = b.from
+          .slice(1, -1)
+          .split(",")
+          .map((s) => s.trim().split(":")[1] ?? s.trim());
+        for (const cf of compoundFields) {
+          if (cf) boundFields.add(cf);
+        }
+      }
     }
     const unbound = (contract.canonicalFields ?? []).filter((f) => !boundFields.has(f.path));
     if (unbound.length > 0) {
