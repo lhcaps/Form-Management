@@ -40,15 +40,39 @@ const REQUIRED_FIELDS: RequiredField[] = [
   { section: "agency", field: "name", label: "Viện kiểm sát tiếp nhận" },
   { section: "agency", field: "issuePlace", label: "Địa danh" },
   { section: "document", field: "issueDate", label: "Ngày lập biên bản" },
-  { section: "reception", field: "startedAtTimeText", label: "Giờ bắt đầu tiếp nhận" },
-  { section: "reception", field: "startedAtDate", label: "Ngày bắt đầu tiếp nhận" },
+  {
+    section: "reception",
+    field: "startedAtTimeText",
+    label: "Giờ bắt đầu tiếp nhận",
+  },
+  {
+    section: "reception",
+    field: "startedAtDate",
+    label: "Ngày bắt đầu tiếp nhận",
+  },
   { section: "reception", field: "locationName", label: "Địa điểm tiếp nhận" },
-  { section: "reception", field: "endedAtTimeText", label: "Giờ kết thúc tiếp nhận" },
-  { section: "reception", field: "endedAtDate", label: "Ngày kết thúc tiếp nhận" },
+  {
+    section: "reception",
+    field: "endedAtTimeText",
+    label: "Giờ kết thúc tiếp nhận",
+  },
+  {
+    section: "reception",
+    field: "endedAtDate",
+    label: "Ngày kết thúc tiếp nhận",
+  },
   { section: "receiver", field: "fullName", label: "Người tiếp nhận" },
-  { section: "receiver", field: "positionTitle", label: "Chức danh người tiếp nhận" },
+  {
+    section: "receiver",
+    field: "positionTitle",
+    label: "Chức danh người tiếp nhận",
+  },
   { section: "receiver", field: "departmentName", label: "Đơn vị công tác" },
-  { section: "informant", field: "fullName", label: "Họ tên người cung cấp nguồn tin" },
+  {
+    section: "informant",
+    field: "fullName",
+    label: "Họ tên người cung cấp nguồn tin",
+  },
   { section: "informant", field: "genderLabel", label: "Giới tính" },
   { section: "informant", field: "otherName", label: "Tên gọi khác" },
   { section: "informant", field: "placeOfBirth", label: "Nơi sinh" },
@@ -56,7 +80,11 @@ const REQUIRED_FIELDS: RequiredField[] = [
   { section: "informant", field: "occupation", label: "Nghề nghiệp" },
   { section: "informant", field: "currentAddress", label: "Nơi ở hiện tại" },
   { section: "crimeReport", field: "content", label: "Nội dung nguồn tin" },
-  { section: "crimeReport", field: "attachedItemsDescription", label: "Tài liệu, đồ vật giao nộp" },
+  {
+    section: "crimeReport",
+    field: "attachedItemsDescription",
+    label: "Tài liệu, đồ vật giao nộp",
+  },
   { section: "recipients", field: "archiveLine", label: "Dòng lưu" },
 ];
 
@@ -190,9 +218,8 @@ function Bm001DateField({
     String(index + 1).padStart(2, "0"),
   );
 
-  const years = Array.from(
-    { length: currentYear + 2 - 1900 + 1 },
-    (_, index) => String(currentYear + 2 - index),
+  const years = Array.from({ length: currentYear + 2 - 1900 + 1 }, (_, index) =>
+    String(currentYear + 2 - index),
   );
 
   const update = (
@@ -314,7 +341,9 @@ function bm001LocalStorageKey(documentId: string | number): string {
   return `quanlyvks:bm001:formInputs:${documentId}`;
 }
 
-function readBm001SavedForm(documentId: string | number): Bm001FormInputs | null {
+function readBm001SavedForm(
+  documentId: string | number,
+): Bm001FormInputs | null {
   if (typeof window === "undefined") {
     return null;
   }
@@ -432,7 +461,6 @@ export function Bm001FormInputsPanel({
   }
   useEffect(() => {
     void loadForm();
-     
   }, [documentId]);
 
   function updateField(section: SectionKey, field: string, value: string) {
@@ -712,31 +740,31 @@ export function Bm001FormInputsPanel({
             label: option.label,
           }))}
           fullWidth
-         />
+        />
         <BmFieldText
           label="Cơ quan cấp trên"
           required
           value={form.agency.parentName}
           onChange={(value) => updateField("agency", "parentName", value)}
-         />
+        />
         <BmFieldText
           label="Viện kiểm sát tiếp nhận"
           required
           value={form.agency.name}
           onChange={(value) => updateField("agency", "name", value)}
-         />
+        />
         <BmFieldText
           label="Địa danh"
           required
           value={form.agency.issuePlace}
           onChange={(value) => updateField("agency", "issuePlace", value)}
-         />
+        />
         <Bm001DateField
           label="Ngày lập biên bản"
           required
           value={form.document.issueDate}
           onChange={(value) => updateField("document", "issueDate", value)}
-         />
+        />
       </BmFormSection>
 
       <BmFormSection title="2. Thời gian / địa điểm tiếp nhận">
@@ -748,19 +776,20 @@ export function Bm001FormInputsPanel({
           onChange={(value) =>
             updateField("reception", "startedAtTimeText", value)
           }
-         />
+        />
         <Bm001DateField
           label="Ngày bắt đầu"
           required
           value={form.reception.startedAtDate}
           onChange={(value) => updateField("reception", "startedAtDate", value)}
-         />
+        />
         <BmFieldText
           label="Địa điểm tiếp nhận"
           required
           value={form.reception.locationName}
-          onChange={(value) => updateField("reception", "locationName", value)} fullWidth
-         />
+          onChange={(value) => updateField("reception", "locationName", value)}
+          fullWidth
+        />
         <BmFieldText
           label="Giờ kết thúc"
           required
@@ -769,13 +798,13 @@ export function Bm001FormInputsPanel({
           onChange={(value) =>
             updateField("reception", "endedAtTimeText", value)
           }
-         />
+        />
         <Bm001DateField
           label="Ngày kết thúc"
           required
           value={form.reception.endedAtDate}
           onChange={(value) => updateField("reception", "endedAtDate", value)}
-         />
+        />
       </BmFormSection>
 
       <BmFormSection title="3. Người tiếp nhận">
@@ -788,30 +817,32 @@ export function Bm001FormInputsPanel({
             label: option.label,
           }))}
           fullWidth
-         />
+        />
         <BmFieldText
           label="Họ tên người tiếp nhận"
           required
           value={form.receiver.fullName}
           onChange={(value) => updateField("receiver", "fullName", value)}
-         />
+        />
         <BmFieldText
           label="Chức danh"
           required
           value={form.receiver.positionTitle}
           onChange={(value) => updateField("receiver", "positionTitle", value)}
-         />
+        />
         <BmFieldText
           label="Đơn vị công tác"
           required
           value={form.receiver.departmentName}
-          onChange={(value) => updateField("receiver", "departmentName", value)} fullWidth
-         />
+          onChange={(value) => updateField("receiver", "departmentName", value)}
+          fullWidth
+        />
         <BmFieldText
           label="Tên ký phần người tiếp nhận"
           value={form.receiver.signerName}
-          onChange={(value) => updateField("receiver", "signerName", value)} fullWidth
-         />
+          onChange={(value) => updateField("receiver", "signerName", value)}
+          fullWidth
+        />
       </BmFormSection>
 
       <BmFormSection title="4. Người cung cấp nguồn tin">
@@ -820,116 +851,127 @@ export function Bm001FormInputsPanel({
           required
           value={form.informant.fullName}
           onChange={(value) => updateField("informant", "fullName", value)}
-         />
-        <BmFieldSelect
-          label="Giới tính"
-          required
-          value={form.informant.genderLabel}
-          onChange={(value) => updateField("informant", "genderLabel", value)}
-          options={BM001_GENDER_OPTIONS}
-         />
-        <BmFieldText
-          label="Tên gọi khác"
-          required
-          value={form.informant.otherName}
-          onChange={(value) => updateField("informant", "otherName", value)}
-         />
+        />
+        <div data-bm001-field="gender">
+          <BmFieldSelect
+            label="Giới tính"
+            required
+            value={form.informant.genderLabel}
+            onChange={(value) => updateField("informant", "genderLabel", value)}
+            options={BM001_GENDER_OPTIONS}
+          />
+        </div>
+        <div data-bm001-field="other-name">
+          <BmFieldText
+            label="Tên gọi khác"
+            required
+            value={form.informant.otherName}
+            onChange={(value) => updateField("informant", "otherName", value)}
+          />
+        </div>
         <Bm001DateField
           label="Ngày sinh đầy đủ"
           value={form.informant.dateOfBirth}
           onChange={(value) => updateField("informant", "dateOfBirth", value)}
-         />
+        />
         <BmFieldText
           label="Năm sinh nếu không rõ ngày/tháng"
           value={form.informant.birthYear}
           onChange={(value) => updateField("informant", "birthYear", value)}
-         />
+        />
         <BmFieldText
           label="Nơi sinh"
           value={form.informant.placeOfBirth}
           onChange={(value) => updateField("informant", "placeOfBirth", value)}
-         />
+        />
         <BmFieldText
           label="Quốc tịch"
           required
           value={form.informant.nationality}
           onChange={(value) => updateField("informant", "nationality", value)}
-         />
+        />
         <BmFieldText
           label="Dân tộc"
           required
           value={form.informant.ethnicity}
           onChange={(value) => updateField("informant", "ethnicity", value)}
-         />
+        />
         <BmFieldText
           label="Tôn giáo"
           required
           value={form.informant.religion}
           onChange={(value) => updateField("informant", "religion", value)}
-         />
+        />
         <BmFieldText
           label="Nghề nghiệp"
           required
           value={form.informant.occupation}
           onChange={(value) => updateField("informant", "occupation", value)}
-         />
+        />
         <BmFieldText
           label="Số CMND/CCCD/Hộ chiếu"
           value={form.informant.identityNo}
           onChange={(value) => updateField("informant", "identityNo", value)}
-         />
+        />
         <Bm001DateField
           label="Ngày cấp"
           value={form.informant.identityIssuedDate}
           onChange={(value) =>
             updateField("informant", "identityIssuedDate", value)
           }
-         />
+        />
         <BmFieldText
           label="Nơi cấp"
           value={form.informant.identityIssuedPlace}
           onChange={(value) =>
             updateField("informant", "identityIssuedPlace", value)
-          } fullWidth
-         />
+          }
+          fullWidth
+        />
         <BmFieldTextarea
           label="Nơi thường trú"
           value={form.informant.permanentAddress}
           onChange={(value) =>
             updateField("informant", "permanentAddress", value)
-          } fullWidth
-         />
+          }
+          fullWidth
+        />
         <BmFieldTextarea
           label="Nơi tạm trú"
           value={form.informant.temporaryAddress}
           onChange={(value) =>
             updateField("informant", "temporaryAddress", value)
-          } fullWidth
-         />
+          }
+          fullWidth
+        />
         <BmFieldTextarea
           label="Nơi ở hiện tại"
           required
           value={form.informant.currentAddress}
-          onChange={(value) => updateField("informant", "currentAddress", value)} fullWidth
-         />
+          onChange={(value) =>
+            updateField("informant", "currentAddress", value)
+          }
+          fullWidth
+        />
         <BmFieldText
           label="Số điện thoại"
           type="tel"
           value={form.informant.phone}
           onChange={(value) => updateField("informant", "phone", value)}
-         />
+        />
         <BmFieldText
           label="Đại diện cơ quan/tổ chức nếu có"
           value={form.informant.representedOrganization}
           onChange={(value) =>
             updateField("informant", "representedOrganization", value)
           }
-         />
+        />
         <BmFieldText
           label="Tên ký phần người cung cấp nguồn tin"
           value={form.informant.signerName}
-          onChange={(value) => updateField("informant", "signerName", value)} fullWidth
-         />
+          onChange={(value) => updateField("informant", "signerName", value)}
+          fullWidth
+        />
       </BmFormSection>
 
       <BmFormSection title="5. Nội dung nguồn tin về tội phạm">
@@ -938,8 +980,9 @@ export function Bm001FormInputsPanel({
           required
           rows={6}
           value={form.crimeReport.content}
-          onChange={(value) => updateField("crimeReport", "content", value)} fullWidth
-         />
+          onChange={(value) => updateField("crimeReport", "content", value)}
+          fullWidth
+        />
       </BmFormSection>
 
       <BmFormSection title="6. Tài liệu, đồ vật giao nộp kèm theo">
@@ -950,8 +993,9 @@ export function Bm001FormInputsPanel({
           value={form.crimeReport.attachedItemsDescription}
           onChange={(value) =>
             updateField("crimeReport", "attachedItemsDescription", value)
-          } fullWidth
-         />
+          }
+          fullWidth
+        />
       </BmFormSection>
 
       <BmFormSection title="7. Dòng lưu hồ sơ">
@@ -959,11 +1003,15 @@ export function Bm001FormInputsPanel({
           label="Dòng lưu"
           required
           value={form.recipients.archiveLine}
-          onChange={(value) => updateField("recipients", "archiveLine", value)} fullWidth
-         />
+          onChange={(value) => updateField("recipients", "archiveLine", value)}
+          fullWidth
+        />
       </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <div
+        data-bm001-save-panel
+        className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur print:hidden"
+      >
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-600">
             Sau khi lưu, render lại DOCX/PDF để dữ liệu BM-001 thay vào đúng
@@ -983,10 +1031,3 @@ export function Bm001FormInputsPanel({
     </div>
   );
 }
-
-
-
-
-
-
-
