@@ -54,7 +54,7 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
       : undefined,
   });
 
-  // FMT-002: Header agency line 1
+  // FMT-002: Agency header line 1
   const hasVKSHeader = regexInXml(allXml, /VIỆN KIỂM SÁT NHÂN DÂN/i);
   checks.push({
     id: 'FMT-002',
@@ -80,6 +80,21 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
     evidence: hasKhuVucBold
       ? `KHU VỰC 7 found; bold tag proximity: ${khuVucBoldWithTag}`
       : undefined,
+  });
+
+  // FMT-004: Underline under KHU VỰC 7 only (not full line)
+  // Whether the underline is ONLY under KHU VỰC 7 (and not the whole line) cannot be verified structurally.
+  const hasKhuVucUnderline = regexInXml(
+    allXml,
+    /KHU VỰC\s*7[\s\S]{0,200}<w:u[\s"][^>]*(?:\/>|>)/i,
+  );
+  checks.push({
+    id: 'FMT-004',
+    requirement: 'Underline under KHU VỰC 7 only (not full line)',
+    status: hasKhuVucUnderline ? 'not_detectable' : 'not_detectable',
+    evidence: hasKhuVucUnderline
+      ? 'Underline found near KHU VỰC 7; exact placement requires visual/PDF pipeline'
+      : 'Underline not detectable from OOXML proximity check',
   });
 
   // FMT-005: Legal basis line
@@ -134,6 +149,21 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
       : undefined,
   });
 
+  // FMT-008: Underline under motto matches exact line width
+  // Exact pixel-width cannot be verified structurally; but presence of underline is detectable.
+  const hasMottoUnderline = regexInXml(
+    allXml,
+    /Độc[\s\S]{0,500}<w:u[\s"][^>]*(?:\/>|>)/i,
+  );
+  checks.push({
+    id: 'FMT-008',
+    requirement: 'Underline under motto matches exact line width',
+    status: hasMottoUnderline ? 'warning' : 'not_detectable',
+    evidence: hasMottoUnderline
+      ? 'Underline found near motto; exact width requires visual/PDF pipeline'
+      : 'Underline not detectable from OOXML proximity check',
+  });
+
   // FMT-009: Issue date italic size 14
   const hasIssueDate = regexInXml(
     allXml,
@@ -148,7 +178,21 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
       : undefined,
   });
 
+  // FMT-010: Số line and ngày/tháng/năm on same horizontal level
+  // Structural proximity check only; exact horizontal alignment requires visual pipeline.
+  const hasSoLine = regexInXml(allXml, /Số\s*:?\s*[A-ZÀ-ỹ0-9/-]+/i);
+  checks.push({
+    id: 'FMT-010',
+    requirement: 'Số... line and ngày/tháng/năm line on same horizontal level',
+    status: 'not_detectable',
+    evidence: hasSoLine
+      ? 'Số line found; horizontal alignment requires visual/PDF pipeline'
+      : 'Số line not detected',
+  });
+
   // FMT-011: Body titles bold size 14
+  // Proximity check: if found, it suggests bold+size14 formatting is present.
+  // When absent, mark not_detectable since we can't confirm absence without full style analysis.
   const hasTitleBold14 = regexInXml(
     allXml,
     /<w:sz\s[^>]*w:val="28"[\s\S]{0,100}<w:b[\s/]/i,
@@ -156,13 +200,14 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   checks.push({
     id: 'FMT-011',
     requirement: 'Body titles / main title bold size 14',
-    status: hasTitleBold14 ? 'pass' : 'warning',
+    status: hasTitleBold14 ? 'pass' : 'not_detectable',
     evidence: hasTitleBold14
-      ? 'Bold + size 14 (w:val=28) combination found'
+      ? 'Bold + size 14 (w:val=28) proximity detected'
       : 'Bold + size 14 combination not detected in proximity',
   });
 
   // FMT-012: Điều paragraphs bold
+  // Proximity across element boundaries is unreliable; mark as not_detectable.
   const hasDieuBold = regexInXml(allXml, /<w:b[\s/][\s\S]{0,200}Điều\s*\d+/i);
   const hasSectionBold = regexInXml(
     allXml,
@@ -171,12 +216,11 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   checks.push({
     id: 'FMT-012',
     requirement: 'Điều 1, Điều 2, or section headings 1., 2. bold',
-    status: hasDieuBold || hasSectionBold ? 'pass' : 'warning',
-    evidence: hasDieuBold
-      ? 'Điều paragraph with bold found'
-      : hasSectionBold
-        ? 'Numbered section with bold found'
-        : 'Điều or numbered section bold not detected',
+    status: hasDieuBold || hasSectionBold ? 'warning' : 'not_detectable',
+    evidence:
+      hasDieuBold || hasSectionBold
+        ? 'Điều/section bold proximity detected; not_detectable across element boundaries'
+        : 'Điều or numbered section bold not detected in proximity',
   });
 
   // FMT-013: Nơi nhận bold italic size 12
@@ -242,19 +286,20 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
       : 'settings.xml not available or w:titlePg not found',
   });
 
-  // Compute overall status
+  // Compute overall status:
+  // - fail if any check fails (hard failure)
+  // - warning if any check warns OR if all checks are not_detectable (no confirmation)
+  // - pass only when at least one check passes and no fails/warnings exist
   const statuses = checks.map((c) => c.status);
   const hasFail = statuses.includes('fail');
   const hasWarning = statuses.includes('warning');
-  const allDetectable = statuses.every((s) => s !== 'not_detectable');
+  const hasPass = statuses.includes('pass');
 
   const overallStatus: DocxFormatAuditStatus = hasFail
     ? 'fail'
-    : hasWarning
+    : hasWarning || !hasPass
       ? 'warning'
-      : allDetectable
-        ? 'pass'
-        : 'warning';
+      : 'pass';
 
   return Object.freeze({
     status: overallStatus,

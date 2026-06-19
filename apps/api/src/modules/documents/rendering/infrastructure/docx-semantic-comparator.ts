@@ -53,9 +53,14 @@ function findUnresolvedPlaceholders(text: string): {
 
   const all = Array.from(found);
 
-  // Ellipsis dots and underscores in templates are harmless template markers, not errors
+  // {{...}} and {...} are unresolved docxtemplater placeholders — always harmful.
+  // …… (Unicode ellipsis) and ___ (underscore chains) are intentional template markers — harmless.
   const harmful = all.filter((p) => {
-    return p.startsWith('{') && !p.startsWith('……') && !p.startsWith('___');
+    return (
+      (p.startsWith('{') || p.startsWith('{{')) &&
+      !p.startsWith('……') &&
+      !p.startsWith('___')
+    );
   });
 
   return { all, harmful };

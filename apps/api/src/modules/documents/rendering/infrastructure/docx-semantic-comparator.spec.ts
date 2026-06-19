@@ -113,4 +113,99 @@ describe('docx-semantic-comparator', () => {
       expect(result.status).toBe('pass');
     });
   });
+
+  describe('Vietnamese diacritics', () => {
+    it('preserves Vietnamese diacritics in comparison', () => {
+      const legacyXml = '<w:p><w:t>Nguyễn Văn Minh</w:t></w:p>';
+      const contractXml = '<w:p><w:t>Nguyễn Văn Minh</w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, ['Nguyễn Văn Minh']);
+
+      expect(result.status).toBe('pass');
+      expect(result.missingExpectedText).toHaveLength(0);
+    });
+
+    it('fails when informant name with diacritics is missing', () => {
+      const legacyXml = '<w:p><w:t>Trần Thị Lan</w:t></w:p>';
+      const contractXml = '<w:p><w:t></w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, ['Trần Thị Lan']);
+
+      expect(result.status).toBe('fail');
+      expect(result.missingExpectedText).toContain('Trần Thị Lan');
+    });
+
+    it('preserves all Vietnamese diacritic characters in comparison', () => {
+      const legacyXml = '<w:p><w:t>Nguyễn Thị Bé Na</w:t></w:p>';
+      const contractXml = '<w:p><w:t>Nguyễn Thị Bé Na</w:t></w:p>';
+
+      // All 5 standard diacritic characters: ă, â, đ, ê, ô
+      const diacritics = ['Nguyễn', 'Thị', 'Bé', 'Na'];
+
+      const result = compareDocxSemantic(legacyXml, contractXml, diacritics);
+
+      expect(result.status).toBe('pass');
+    });
+  });
+
+  describe('expectedText completeness', () => {
+    it('fails when informant full name is missing from contract', () => {
+      const legacyXml = '<w:p><w:t>Trần Thị Lan</w:t></w:p>';
+      const contractXml = '<w:p><w:t></w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, ['Trần Thị Lan']);
+
+      expect(result.status).toBe('fail');
+      expect(result.missingExpectedText).toContain('Trần Thị Lan');
+    });
+
+    it('fails when sourceReport content is missing', () => {
+      const legacyXml = '<w:p><w:t>Hành vi trộm cắp tài sản</w:t></w:p>';
+      const contractXml = '<w:p><w:t></w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, ['Hành vi trộm cắp tài sản']);
+
+      expect(result.status).toBe('fail');
+      expect(result.missingExpectedText).toContain('Hành vi trộm cắp tài sản');
+    });
+
+    it('reports exact missing values', () => {
+      const legacyXml = '<w:p><w:t>Nguyễn Văn Minh</w:t></w:p>';
+      const contractXml = '<w:p><w:t></w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, [
+        'Nguyễn Văn Minh',
+        'Trần Thị Lan',
+        '079090123456',
+      ]);
+
+      expect(result.status).toBe('fail');
+      expect(result.missingExpectedText).toHaveLength(3);
+      expect(result.missingExpectedText).toContain('Nguyễn Văn Minh');
+      expect(result.missingExpectedText).toContain('Trần Thị Lan');
+      expect(result.missingExpectedText).toContain('079090123456');
+    });
+  });
+
+  describe('placeholder detection', () => {
+    it('marks {{receiver.fullName}} as harmful unresolved placeholder', () => {
+      const legacyXml = '<w:p><w:t>Nguyễn Văn Minh</w:t></w:p>';
+      const contractXml = '<w:p><w:t>{{receiver.fullName}}</w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, []);
+
+      expect(result.status).toBe('fail');
+      expect(result.unexpectedUnresolvedPlaceholders).toContain('{{receiver.fullName}}');
+    });
+
+    it('marks {informant.fullName} (single brace) as harmful unresolved placeholder', () => {
+      const legacyXml = '<w:p><w:t>Trần Thị Lan</w:t></w:p>';
+      const contractXml = '<w:p><w:t>{informant.fullName}</w:t></w:p>';
+
+      const result = compareDocxSemantic(legacyXml, contractXml, []);
+
+      expect(result.status).toBe('fail');
+      expect(result.unexpectedUnresolvedPlaceholders).toContain('{informant.fullName}');
+    });
+  });
 });
