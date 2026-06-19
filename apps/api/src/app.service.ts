@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Injectable } from '@nestjs/common';
+import { AppConfigService } from './infrastructure/config/app-config.service';
+import { WorkspacePathsService } from './infrastructure/paths/workspace-paths.service';
 
 export interface HealthInfo {
   status: 'ok' | 'degraded';
@@ -24,14 +26,19 @@ export interface SimpleHealthInfo {
 export class AppService {
   private readonly startedAt = Date.now();
 
+  constructor(
+    private readonly config: AppConfigService,
+    private readonly paths: WorkspacePathsService,
+  ) {}
+
   private readPackageInfo(): {
     name: string;
     version: string;
     description: string;
   } {
-    // package.json ở cùng cấp với dist/src; đọc từ process.cwd (root api) cho chắc.
+    // Resolve from the workspace root so health metadata is independent of cwd.
     try {
-      const pkgPath = join(process.cwd(), 'package.json');
+      const pkgPath = join(this.paths.repoRoot, 'apps', 'api', 'package.json');
       const raw = readFileSync(pkgPath, 'utf8');
       const pkg = JSON.parse(raw) as {
         name?: string;
@@ -50,7 +57,7 @@ export class AppService {
 
   getHealth(): HealthInfo {
     const pkg = this.readPackageInfo();
-    const apiPrefix = process.env.API_GLOBAL_PREFIX ?? 'api/v1';
+    const apiPrefix = this.config.apiGlobalPrefix;
     return {
       status: 'ok',
       name: pkg.name,
@@ -68,7 +75,7 @@ export class AppService {
       ok: true,
       service: 'QUANLYVKS API',
       timestamp: new Date().toISOString(),
-      env: process.env.NODE_ENV ?? 'development',
+      env: this.config.environment,
     };
   }
 }

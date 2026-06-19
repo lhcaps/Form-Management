@@ -2,16 +2,11 @@
  * Phase D — Forms catalog controller.
  */
 
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ResourceNotFoundError } from '../../common/application-error';
 import { Public } from '../auth/public.decorator';
-import { FormsCatalogService } from './forms-catalog.service';
+import { FormsCatalogService } from './application/forms-catalog.service';
 
 @ApiTags('Forms Catalog')
 @Public()
@@ -61,10 +56,13 @@ export class FormsCatalogController {
     description:
       'SourceId đầy đủ (VD: BM-001__f4c2aa3682d3) hoặc mã BM (VD: BM-001)',
   })
-  getContract(@Param('sourceId') sourceId: string) {
-    const contract = this.catalogService.getContract(sourceId);
+  async getContract(@Param('sourceId') sourceId: string) {
+    const contract = await this.catalogService.getContract(sourceId);
     if (!contract) {
-      throw new NotFoundException(`Contract not found: ${sourceId}`);
+      throw new ResourceNotFoundError(
+        'FORM_CONTRACT_NOT_FOUND',
+        `Contract not found: ${sourceId}`,
+      );
     }
     return contract;
   }

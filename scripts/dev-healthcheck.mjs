@@ -8,6 +8,7 @@ import { resolve } from 'node:path';
 
 export const DEFAULT_HEALTH_URLS = Object.freeze({
   apiHealth: 'http://localhost:3001/api/v1/health',
+  apiReady: 'http://localhost:3001/api/v1/ready',
   apiCatalog:
     'http://localhost:3001/api/v1/forms/catalog?status=locked',
   web: 'http://localhost:3000',
@@ -123,19 +124,33 @@ export async function runHealthChecks({
     };
   }
 
-  const [apiCatalog, web] = await Promise.all([
+  const [apiReadiness, apiCatalog, web] = await Promise.all([
+    checkJsonEndpoint(urls.apiReady, { fetchImpl, timeoutMs }),
     checkJsonEndpoint(urls.apiCatalog, { fetchImpl, timeoutMs }),
     checkTextEndpoint(urls.web, { fetchImpl, timeoutMs }),
   ]);
 
+  const readinessHealthy =
+    apiReadiness.ok && apiReadiness.body?.ok === true;
   const catalogHasLockedForms =
     apiCatalog.ok &&
     Array.isArray(apiCatalog.body) &&
     apiCatalog.body.length > 0;
 
   return {
-    ok: apiHealth.ok && catalogHasLockedForms && web.ok,
+    ok:
+      apiHealth.ok &&
+      readinessHealthy &&
+      catalogHasLockedForms &&
+      web.ok,
     apiHealth,
+    apiReadiness: {
+      ...apiReadiness,
+      ok: readinessHealthy,
+      ...(!readinessHealthy && apiReadiness.ok
+        ? { error: 'API readiness reported ok=false.' }
+        : {}),
+    },
     apiCatalog: {
       ...apiCatalog,
       ok: catalogHasLockedForms,
@@ -187,6 +202,7 @@ function printHealthReport(result, { apiOnly = false } = {}) {
   logResult('API /api/v1/health', result.apiHealth);
 
   if (!apiOnly) {
+    logResult('API /api/v1/ready', result.apiReadiness);
     const lockedCount = Array.isArray(result.apiCatalog?.body)
       ? result.apiCatalog.body.length
       : 0;

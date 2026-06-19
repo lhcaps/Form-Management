@@ -2,12 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IS_PUBLIC_KEY } from './modules/auth/public.decorator';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [InfrastructureModule],
       controllers: [AppController],
       providers: [AppService],
     }).compile();

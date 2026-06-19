@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   checkJsonEndpoint,
   checkTextEndpoint,
+  runHealthChecks,
 } from '../scripts/dev-healthcheck.mjs';
 
 test('checkTextEndpoint accepts an HTML web response', async () => {
@@ -45,4 +46,30 @@ test('endpoint checks report fetch rejection as an unavailable service', async (
     status: 0,
     error: 'Failed to fetch',
   });
+});
+
+test('runHealthChecks fails when readiness is false', async () => {
+  const urls = {
+    apiHealth: 'http://api.test/health',
+    apiReady: 'http://api.test/ready',
+    apiCatalog: 'http://api.test/catalog',
+    web: 'http://web.test',
+  };
+  const fetchImpl = async (url) => {
+    if (url === urls.apiHealth) {
+      return Response.json({ ok: true });
+    }
+    if (url === urls.apiReady) {
+      return Response.json({ ok: false });
+    }
+    if (url === urls.apiCatalog) {
+      return Response.json([{ templateCode: 'BM-001' }]);
+    }
+    return new Response('<!doctype html>', { status: 200 });
+  };
+
+  const result = await runHealthChecks({ urls, fetchImpl });
+
+  assert.equal(result.apiReadiness.ok, false);
+  assert.equal(result.ok, false);
 });
