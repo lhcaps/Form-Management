@@ -24,6 +24,21 @@ Active mode remains disabled until every mandatory gate below is proven.
 - [ ] All 11 post-lock bindings are reviewed.
 - [ ] No legal-correctness claim is made.
 
+## D.2.3B.1 Technical Remediation
+
+- [x] Receiver identity text is explicitly black and protected by `FMT-018`.
+- [x] The canonical-source versus completed-document instruction policy is
+  recorded in [BM-001 rendering policy](BM-001-rendering-policy.md).
+- [x] The top-right form note is explicitly black at 8pt and protected by
+  `FMT-019`.
+- [x] The web save/action panel is hidden under print media.
+- [x] `Giới tính` and `Tên gọi khác` remain visible, labeled BM-001 controls.
+- [x] Fresh smoke, browser, hash, and Word technical evidence is recorded in
+  [BM-001 remediation evidence](../reviews/BM-001-remediation-evidence-2026-06-20.md).
+
+These checks record technical remediation only. They do not satisfy or waive
+the human gates above.
+
 ## Enablement
 
 Only after `pnpm check:bm001-cutover --require-ready` succeeds:
@@ -52,4 +67,7 @@ DOCUMENT_RENDERER_CONTRACT_TEMPLATES=BM-001
 
 ## Current Decision
 
-Conditional. Automated renderer gates pass, but active mode is not approved until the signed Microsoft Word review exists and the active renderer persistence path is implemented and verified.
+Conditional. The five D.2.3B.1 technical blockers are remediated, but active
+mode is not approved until a new signed Microsoft Word review approves the
+fresh artifacts and the active renderer persistence path is implemented and
+verified.

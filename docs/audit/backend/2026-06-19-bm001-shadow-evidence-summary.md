@@ -1,6 +1,6 @@
 # BM-001 Shadow Evidence Summary
 
-**Generated**: 2026-06-19T21:40:23.698Z
+**Generated**: 2026-06-19T23:53:22.774Z
 **Phase**: D.2.3A — Shared Renderer Foundation
 **Source**: `storage/generated/shadow-renders/BM-001/**`
 
@@ -49,6 +49,8 @@
 | FMT-015 | FMT-015 | `warning` | 0/5/0/0 | - |  |
 | FMT-016 | FMT-016 | `pass` | 5/0/0/0 | 01-basic-valid, 02-long-source-report, 03-organization-informant, 04-missing-optional-fields, 05-vietnamese-diacritics-and-addresses |  |
 | FMT-017 | FMT-017 | `pass` | 5/0/0/0 | 01-basic-valid, 02-long-source-report, 03-organization-informant, 04-missing-optional-fields, 05-vietnamese-diacritics-and-addresses |  |
+| FMT-018 | FMT-018 | `pass` | 5/0/0/0 | 01-basic-valid, 02-long-source-report, 03-organization-informant, 04-missing-optional-fields, 05-vietnamese-diacritics-and-addresses |  |
+| FMT-019 | FMT-019 | `pass` | 5/0/0/0 | 01-basic-valid, 02-long-source-report, 03-organization-informant, 04-missing-optional-fields, 05-vietnamese-diacritics-and-addresses |  |
 
 > **ND = not_detectable**: OOXML structure does not permit reliable verification of this requirement.
 > Visual/PDF rendering pipeline would be needed for pixel-perfect fidelity verification.
