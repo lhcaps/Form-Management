@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage\\templates\\normalized-docx\\BM-001\\BM-001_normalized.docx",
-    "sha256": "aaa023b7a2d092d7dcce8938ddd0d421e946a22d8bee252c0cfd1ec2c3a23701",
+    "sha256": "e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77",
     "format": "docx"
   },
   "status": "locked",
@@ -751,6 +751,270 @@
         "context": "P0048: {{recipients.archiveLine}} — dòng lưu hồ sơ",
         "blockId": "P0048"
       }
+    },
+    {
+      "slotId": "reception.startedAtTimeText",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.startedAtTimeText}}",
+      "label": "startedAtTimeText",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Hồi ",
+        "textAfter": ", ngày",
+        "rawPattern": "{{reception.startedAtTimeText}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.startedAtTimeText}}",
+        "context": "P0015: Hồi {{reception.startedAtTimeText}}, ngày … tháng … năm …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "slotId": "reception.startedAtDay",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.startedAtDay}}",
+      "label": "startedAtDay",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ngày ",
+        "textAfter": " tháng",
+        "rawPattern": "{{reception.startedAtDay}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.startedAtDay}}",
+        "context": "P0015: ngày {{reception.startedAtDay}} tháng … năm …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "slotId": "reception.startedAtMonth",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.startedAtMonth}}",
+      "label": "startedAtMonth",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "tháng ",
+        "textAfter": " năm",
+        "rawPattern": "{{reception.startedAtMonth}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.startedAtMonth}}",
+        "context": "P0015: ngày … tháng {{reception.startedAtMonth}} năm …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "slotId": "reception.startedAtYear",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.startedAtYear}}",
+      "label": "startedAtYear",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "năm ",
+        "textAfter": ", tại",
+        "rawPattern": "{{reception.startedAtYear}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.startedAtYear}}",
+        "context": "P0015: ngày … tháng … năm {{reception.startedAtYear}}",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "slotId": "reception.locationName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.locationName}}",
+      "label": "locationName",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "tại ",
+        "textAfter": "",
+        "rawPattern": "{{reception.locationName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.locationName}}",
+        "context": "P0015: tại {{reception.locationName}}",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "slotId": "crimeReport.content",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{crimeReport.content}}",
+      "label": "content",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "I. NỘI DUNG NGUỒN TIN VỀ TỘI PHẠM: ",
+        "textAfter": "",
+        "rawPattern": "{{crimeReport.content}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{crimeReport.content}}",
+        "context": "P0031: I. NỘI DUNG NGUỒN TIN VỀ TỘI PHẠM: {{crimeReport.content}}",
+        "blockId": "P0031"
+      }
+    },
+    {
+      "slotId": "crimeReport.attachedItemsDescription",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{crimeReport.attachedItemsDescription}}",
+      "label": "attachedItemsDescription",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "II. CÁC TÀI LIỆU, ĐỒ VẬT GIAO NỘP KÈM THEO (nếu có): ",
+        "textAfter": "",
+        "rawPattern": "{{crimeReport.attachedItemsDescription}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{crimeReport.attachedItemsDescription}}",
+        "context": "P0032: II. CÁC TÀI LIỆU, ĐỒ VẬT GIAO NỘP KÈM THEO (nếu có): {{crimeReport.attachedItemsDescription}}",
+        "blockId": "P0032"
+      }
+    },
+    {
+      "slotId": "reception.endedAtTimeText",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.endedAtTimeText}}",
+      "label": "endedAtTimeText",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "kết thúc hồi ",
+        "textAfter": " ngày",
+        "rawPattern": "{{reception.endedAtTimeText}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.endedAtTimeText}}",
+        "context": "P0034: kết thúc hồi {{reception.endedAtTimeText}} ngày …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "slotId": "reception.endedAtDay",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.endedAtDay}}",
+      "label": "endedAtDay",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ngày ",
+        "textAfter": " tháng",
+        "rawPattern": "{{reception.endedAtDay}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.endedAtDay}}",
+        "context": "P0034: ngày {{reception.endedAtDay}} tháng … năm …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "slotId": "reception.endedAtMonth",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.endedAtMonth}}",
+      "label": "endedAtMonth",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "tháng ",
+        "textAfter": " năm",
+        "rawPattern": "{{reception.endedAtMonth}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.endedAtMonth}}",
+        "context": "P0034: ngày … tháng {{reception.endedAtMonth}} năm …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "slotId": "reception.endedAtYear",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{reception.endedAtYear}}",
+      "label": "endedAtYear",
+      "slotType": "datePart",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "năm ",
+        "textAfter": ".",
+        "rawPattern": "{{reception.endedAtYear}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "rawPattern": "{{reception.endedAtYear}}",
+        "context": "P0034: ngày … tháng … năm {{reception.endedAtYear}}",
+        "blockId": "P0034"
+      }
     }
   ],
   "canonicalFields": [
@@ -1232,6 +1496,193 @@
         "context": "P0048: {{recipients.archiveLine}} — dòng lưu hồ sơ",
         "blockId": "P0048"
       }
+    },
+    {
+      "path": "reception.startedAtTimeText",
+      "type": "string",
+      "label": "Giờ bắt đầu tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0015: Hồi {{reception.startedAtTimeText}}, ngày …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "path": "reception.startedAtDay",
+      "type": "string",
+      "label": "Ngày bắt đầu tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0015: ngày {{reception.startedAtDay}} tháng … năm …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "path": "reception.startedAtMonth",
+      "type": "string",
+      "label": "Tháng bắt đầu tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0015: ngày … tháng {{reception.startedAtMonth}} năm …",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "path": "reception.startedAtYear",
+      "type": "string",
+      "label": "Năm bắt đầu tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0015: ngày … tháng … năm {{reception.startedAtYear}}",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "path": "reception.locationName",
+      "type": "string",
+      "label": "Địa điểm tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0015: tại {{reception.locationName}}",
+        "blockId": "P0015"
+      }
+    },
+    {
+      "path": "crimeReport.content",
+      "type": "string",
+      "label": "Nội dung nguồn tin về tội phạm",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "crimeReport",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0031: I. NỘI DUNG NGUỒN TIN VỀ TỘI PHẠM: {{crimeReport.content}}",
+        "blockId": "P0031"
+      }
+    },
+    {
+      "path": "crimeReport.attachedItemsDescription",
+      "type": "string",
+      "label": "Tài liệu, đồ vật giao nộp kèm theo",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "crimeReport",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0032: II. CÁC TÀI LIỆU, ĐỒ VẬT GIAO NỘP KÈM THEO (nếu có): {{crimeReport.attachedItemsDescription}}",
+        "blockId": "P0032"
+      }
+    },
+    {
+      "path": "reception.endedAtTimeText",
+      "type": "string",
+      "label": "Giờ kết thúc tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0034: kết thúc hồi {{reception.endedAtTimeText}} ngày …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "path": "reception.endedAtDay",
+      "type": "string",
+      "label": "Ngày kết thúc tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0034: ngày {{reception.endedAtDay}} tháng … năm …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "path": "reception.endedAtMonth",
+      "type": "string",
+      "label": "Tháng kết thúc tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0034: ngày … tháng {{reception.endedAtMonth}} năm …",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "path": "reception.endedAtYear",
+      "type": "string",
+      "label": "Năm kết thúc tiếp nhận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "reception",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "BM-001 product owner",
+      "reviewedAt": "2026-06-20T00:00:00.000Z",
+      "reviewEvidence": {
+        "context": "P0034: ngày … tháng … năm {{reception.endedAtYear}}",
+        "blockId": "P0034"
+      }
     }
   ],
   "renderBindings": [
@@ -1509,52 +1960,7 @@
       "reviewRequired": false
     }
   ],
-  "rejectedCandidates": [
-    {
-      "slotId": "reception.startedAtTimeText",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.startedAtDay",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.startedAtMonth",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.startedAtYear",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.locationName",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "crimeReport.content",
-      "reason": "Namespace \"crimeReport\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "crimeReport.attachedItemsDescription",
-      "reason": "Namespace \"crimeReport\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.endedAtTimeText",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.endedAtDay",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.endedAtMonth",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    },
-    {
-      "slotId": "reception.endedAtYear",
-      "reason": "Namespace \"reception\" không thuộc field-taxonomy"
-    }
-  ],
+  "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [],
   "productMetadata": {
