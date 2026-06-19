@@ -11,7 +11,7 @@
  * Usage:
  *   node scripts/report-bm001-shadow-evidence.mjs
  *
- *   REPORT_ONLY_NEW=true  Skip already-processed scenarios
+ * Reports always use the latest manifest for each scenario.
  */
 
 import { readFileSync, existsSync, readdirSync, statSync, mkdirSync, writeFileSync } from 'node:fs';
@@ -25,8 +25,6 @@ const REPORT_DIR = join(REPO_ROOT, 'docs', 'audit', 'backend');
 const REPORT_DATE = new Date().toISOString().slice(0, 10);
 const REPORT_MD_PATH = join(REPORT_DIR, `${REPORT_DATE}-bm001-shadow-evidence-summary.md`);
 const REPORT_JSON_PATH = join(REPORT_DIR, 'bm001-shadow-evidence-summary.json');
-
-const REPORT_ONLY_NEW = process.env.REPORT_ONLY_NEW === 'true';
 
 function log(level, ...args) {
   const prefix = level === 'FAIL' ? '[FAIL]' : level === 'WARN' ? '[WARN]' : level === 'PASS' ? '[PASS]' : '[INFO]';
@@ -56,21 +54,19 @@ function loadAllManifests() {
     }
   }
 
-  // Filter to latest per scenario if REPORT_ONLY_NEW
-  if (REPORT_ONLY_NEW) {
-    const latestByScenario = new Map();
-    for (const m of manifests) {
-      const existing = latestByScenario.get(m.scenarioId);
-      if (!existing || m.folderName > existing.folderName) {
-        latestByScenario.set(m.scenarioId, m);
-      }
+  const latestByScenario = new Map();
+  for (const manifest of manifests) {
+    const existing = latestByScenario.get(manifest.scenarioId);
+    if (!existing || manifest.folderName > existing.folderName) {
+      latestByScenario.set(manifest.scenarioId, manifest);
     }
-    const filtered = Array.from(latestByScenario.values());
-    log('INFO', `Filtered to ${filtered.length} latest manifest(s) from ${manifests.length} total`);
-    return filtered;
   }
-
-  return manifests;
+  const latest = Array.from(latestByScenario.values());
+  log(
+    'INFO',
+    `Selected ${latest.length} latest manifest(s) from ${manifests.length} total`,
+  );
+  return latest;
 }
 
 function buildScenarioMatrix(manifests) {
@@ -87,11 +83,18 @@ function buildScenarioMatrix(manifests) {
       semanticStatus: sem.status ?? 'unknown',
       semanticMissing: sem.missingExpectedText ?? [],
       semanticUnresolved: sem.unexpectedUnresolvedPlaceholders ?? [],
+      semanticLiteralValues: sem.unexpectedLiteralValues ?? [],
       semanticNotes: sem.notes ?? [],
       formatStatus: fmt.status ?? 'unknown',
       formatFails: fmtFailed.map((c) => c.id),
       formatWarnings: fmtWarnings.map((c) => c.id),
       formatNotDetectable: fmtNotDetectable.map((c) => c.id),
+      packageIntegrityStatus: manifest.packageIntegrity?.status ?? 'unknown',
+      packageMissingParts: manifest.packageIntegrity?.missingParts ?? [],
+      packageChangedParts:
+        manifest.packageIntegrity?.changedPreservedParts ?? [],
+      manifestSchemaVersion: manifest.schemaVersion ?? 1,
+      rendererProvenance: manifest.provenance?.renderer ?? null,
     };
   });
 }
@@ -147,7 +150,18 @@ function computeCutoverRecommendation(matrix, formatCoverage) {
   const allSemanticPass = matrix.every((s) => s.semanticStatus === 'pass');
   const allSemanticAtLeastWarn = matrix.every((s) => s.semanticStatus !== 'fail');
   const noUnresolvedPlaceholders = matrix.every((s) => s.semanticUnresolved.length === 0);
+  const noLiteralValues = matrix.every(
+    (s) => s.semanticLiteralValues.length === 0,
+  );
   const noHardFormatFails = matrix.every((s) => s.formatFails.length === 0);
+  const packageIntegrityPass = matrix.every(
+    (s) => s.packageIntegrityStatus === 'pass',
+  );
+  const currentEvidenceSchema = matrix.every(
+    (s) =>
+      s.manifestSchemaVersion === 2 &&
+      s.rendererProvenance === 'shared-full-package-docx-renderer/v1',
+  );
 
   const differentFirstPage = formatCoverage.find((f) => f.requirementId === 'FMT-017');
   // Different First Page is confirmed as 'pass' OR detected as 'not_detectable' (template has it, we just can't verify the first-page-only behavior structurally)
@@ -159,6 +173,15 @@ function computeCutoverRecommendation(matrix, formatCoverage) {
   if (!noUnresolvedPlaceholders) {
     return { recommendation: 'No', reason: 'Unresolved placeholders remain in rendered output.' };
   }
+  if (!noLiteralValues) {
+    return { recommendation: 'No', reason: 'Rendered output contains undefined/null literal values.' };
+  }
+  if (!packageIntegrityPass) {
+    return { recommendation: 'No', reason: 'DOCX package integrity is not proven for every scenario.' };
+  }
+  if (!currentEvidenceSchema) {
+    return { recommendation: 'No', reason: 'Evidence was not produced by the shared full-package renderer.' };
+  }
   if (!noHardFormatFails) {
     return { recommendation: 'No', reason: 'Hard format failures detected.' };
   }
@@ -166,9 +189,9 @@ function computeCutoverRecommendation(matrix, formatCoverage) {
     return { recommendation: 'Conditional', reason: 'Different First Page (FMT-017) not confirmed. Conditional approval pending visual verification.' };
   }
   if (!allSemanticPass) {
-    return { recommendation: 'Conditional', reason: 'All semantic checks pass but warnings remain. Human review recommended.' };
+    return { recommendation: 'Conditional', reason: 'Automated hard gates pass but semantic warnings and human Word review remain.' };
   }
-  return { recommendation: 'Yes', reason: 'All hard checks pass, no unresolved placeholders, format failures resolved or accepted.' };
+  return { recommendation: 'Conditional', reason: 'Automated hard gates pass; active cutover still requires signed Microsoft Word review.' };
 }
 
 function generateMarkdownReport(matrix, formatCoverage, cutover) {
@@ -180,7 +203,19 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
   const formatWarn = matrix.filter((s) => s.formatStatus === 'warning').length;
   const formatFail = matrix.filter((s) => s.formatStatus === 'fail').length;
   const unresolvedTotal = matrix.reduce((sum, s) => sum + s.semanticUnresolved.length, 0);
+  const literalValueTotal = matrix.reduce(
+    (sum, s) => sum + s.semanticLiteralValues.length,
+    0,
+  );
   const missingTotal = matrix.reduce((sum, s) => sum + s.semanticMissing.length, 0);
+  const packageIntegrityFail = matrix.filter(
+    (s) => s.packageIntegrityStatus !== 'pass',
+  ).length;
+  const staleEvidence = matrix.filter(
+    (s) =>
+      s.manifestSchemaVersion !== 2 ||
+      s.rendererProvenance !== 'shared-full-package-docx-renderer/v1',
+  ).length;
   const notDetectableTotal = matrix.filter((s) => s.formatNotDetectable.length > 0).length;
   const acceptedWarnings = matrix.filter((s) => s.formatWarnings.length > 0).map((s) => s.scenarioId);
   const differentFirstPageEntry = formatCoverage.find((f) => f.requirementId === 'FMT-017');
@@ -191,7 +226,7 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
   lines.push('# BM-001 Shadow Evidence Summary');
   lines.push('');
   lines.push(`**Generated**: ${new Date().toISOString()}`);
-  lines.push(`**Phase**: D.2.2.5`);
+  lines.push(`**Phase**: D.2.3A — Shared Renderer Foundation`);
   lines.push(`**Source**: \`storage/generated/shadow-renders/BM-001/**\``);
   lines.push('');
 
@@ -201,22 +236,30 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
   lines.push(`- semantic pass: **${semanticPass}** / warning: **${semanticWarn}** / fail: **${semanticFail}**`);
   lines.push(`- format pass: **${formatPass}** / warning: **${formatWarn}** / fail: **${formatFail}**`);
   lines.push(`- unresolved placeholders: **${unresolvedTotal}**`);
+  lines.push(`- unexpected undefined/null literals: **${literalValueTotal}**`);
   lines.push(`- missing expected text: **${missingTotal}**`);
+  lines.push(`- package integrity failures: **${packageIntegrityFail}**`);
+  lines.push(`- stale/non-shared renderer evidence: **${staleEvidence}**`);
   lines.push(`- not_detectable format checks: **${notDetectableTotal}** scenarios`);
   lines.push(`- accepted warnings: **${acceptedWarnings.length}** scenarios (${acceptedWarnings.join(', ') || 'none'})`);
-  lines.push(`- blockers: **${semanticFail > 0 || unresolvedTotal > 0 || formatFail > 0 ? (semanticFail > 0 ? 'semantic-fail; ' : '') + (unresolvedTotal > 0 ? 'unresolved-placeholder; ' : '') + (formatFail > 0 ? 'format-fail; ' : '') : 'none'}**`);
+  lines.push(`- blockers: **${semanticFail > 0 || unresolvedTotal > 0 || literalValueTotal > 0 || formatFail > 0 || packageIntegrityFail > 0 || staleEvidence > 0 ? (semanticFail > 0 ? 'semantic-fail; ' : '') + (unresolvedTotal > 0 ? 'unresolved-placeholder; ' : '') + (literalValueTotal > 0 ? 'literal-value; ' : '') + (formatFail > 0 ? 'format-fail; ' : '') + (packageIntegrityFail > 0 ? 'package-integrity; ' : '') + (staleEvidence > 0 ? 'stale-evidence; ' : '') : 'none'}**`);
   lines.push('');
 
   lines.push('## Scenario Matrix');
   lines.push('');
-  lines.push('| Scenario | Semantic | Format | Missing expected text | Unresolved placeholders | Format failures | Notes |');
-  lines.push('|---|---|---|---|---|---|---|');
+  lines.push('| Scenario | Semantic | Format | Package | Missing expected text | Unresolved/literal | Format failures | Notes |');
+  lines.push('|---|---|---|---|---|---|---|---|');
   for (const s of matrix) {
     const missing = s.semanticMissing.length > 0 ? s.semanticMissing.join('<br>') : '-';
-    const unresolved = s.semanticUnresolved.length > 0 ? s.semanticUnresolved.join('<br>') : '-';
+    const unresolvedValues = [
+      ...s.semanticUnresolved,
+      ...s.semanticLiteralValues,
+    ];
+    const unresolved =
+      unresolvedValues.length > 0 ? unresolvedValues.join('<br>') : '-';
     const fails = s.formatFails.length > 0 ? s.formatFails.join('<br>') : '-';
     const notes = [...s.semanticNotes, ...s.formatWarnings].filter(Boolean).join('<br>') || '-';
-    lines.push(`| ${s.scenarioId} | \`${s.semanticStatus}\` | \`${s.formatStatus}\` | ${missing} | ${unresolved} | ${fails} | ${notes} |`);
+    lines.push(`| ${s.scenarioId} | \`${s.semanticStatus}\` | \`${s.formatStatus}\` | \`${s.packageIntegrityStatus}\` | ${missing} | ${unresolved} | ${fails} | ${notes} |`);
   }
   lines.push('');
 
@@ -244,11 +287,14 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
   lines.push(`- [${totalScenarios >= 5 ? 'x' : ' '}] At least 5 shadow scenarios ran (actual: ${totalScenarios})`);
   lines.push(`- [${semanticFail === 0 ? 'x' : ' '}] No semantic failures (actual: ${semanticFail})`);
   lines.push(`- [${unresolvedTotal === 0 ? 'x' : ' '}] No unresolved placeholders (actual: ${unresolvedTotal})`);
+  lines.push(`- [${literalValueTotal === 0 ? 'x' : ' '}] No undefined/null literals (actual: ${literalValueTotal})`);
   lines.push(`- [${formatFail === 0 ? 'x' : ' '}] No hard format failures (actual: ${formatFail})`);
+  lines.push(`- [${packageIntegrityFail === 0 ? 'x' : ' '}] Full DOCX package integrity passed (failures: ${packageIntegrityFail})`);
+  lines.push(`- [${staleEvidence === 0 ? 'x' : ' '}] Evidence produced by shared full-package renderer`);
   lines.push(`- [${differentFirstPageOk ? 'x' : ' '}] Different First Page (FMT-017) confirmed or explicitly blocked`);
   lines.push(`- [ ] Human reviewer has inspected at least one rendered BM-001 DOCX`);
   lines.push(`- [ ] Legal correctness is not claimed unless human-reviewed`);
-  lines.push(`- [${REPORT_ONLY_NEW ? 'x' : ' '}] Sample fixture data cannot persist into production path (guarded by test fixture isolation)`);
+  lines.push(`- [x] Sample fixture data cannot persist into production path (guarded by test fixture isolation)`);
   lines.push('');
 
   lines.push('## Product Requirements Traceability');
@@ -281,6 +327,7 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
   lines.push('- Visual fidelity (underline width, exact pt sizes) requires PDF rendering pipeline.');
   lines.push('- Scenarios use only synthetic data in `test/fixtures/rendering/bm001-shadow-scenarios/`.');
   lines.push('- Shadow output writes to `storage/generated/shadow-renders/BM-001/` only.');
+  lines.push('- Each manifest records source, normalized template, locked contract, and rendered DOCX SHA-256 hashes.');
   lines.push('- API-001 (sample data non-interference) is guarded by test fixture isolation, full implementation pending D.3.');
   lines.push('');
 
@@ -290,7 +337,7 @@ function generateMarkdownReport(matrix, formatCoverage, cutover) {
 function generateJsonReport(matrix, formatCoverage, cutover, manifests) {
   return {
     generated: new Date().toISOString(),
-    phase: 'D.2.2.5',
+    phase: 'D.2.3A',
     scenariosRun: matrix.length,
     summary: {
       semanticPass: matrix.filter((s) => s.semanticStatus === 'pass').length,
@@ -300,7 +347,14 @@ function generateJsonReport(matrix, formatCoverage, cutover, manifests) {
       formatWarning: matrix.filter((s) => s.formatStatus === 'warning').length,
       formatFail: matrix.filter((s) => s.formatStatus === 'fail').length,
       totalUnresolvedPlaceholders: matrix.reduce((sum, s) => sum + s.semanticUnresolved.length, 0),
+      totalUnexpectedLiteralValues: matrix.reduce(
+        (sum, s) => sum + s.semanticLiteralValues.length,
+        0,
+      ),
       totalMissingExpectedText: matrix.reduce((sum, s) => sum + s.semanticMissing.length, 0),
+      packageIntegrityFailures: matrix.filter(
+        (s) => s.packageIntegrityStatus !== 'pass',
+      ).length,
     },
     scenarioMatrix: matrix,
     formatRequirementCoverage: formatCoverage,
@@ -311,6 +365,9 @@ function generateJsonReport(matrix, formatCoverage, cutover, manifests) {
       timestamp: manifest.timestamp,
       semanticStatus: manifest.semanticComparison?.status,
       formatStatus: manifest.formatAudit?.status,
+      packageIntegrityStatus: manifest.packageIntegrity?.status,
+      renderer: manifest.provenance?.renderer,
+      schemaVersion: manifest.schemaVersion,
     })),
   };
 }
@@ -351,6 +408,8 @@ async function main() {
   console.log(`  Semantic fail: ${matrix.filter((s) => s.semanticStatus === 'fail').length}`);
   console.log(`  Format fail: ${matrix.filter((s) => s.formatStatus === 'fail').length}`);
   console.log(`  Unresolved placeholders: ${matrix.reduce((sum, s) => sum + s.semanticUnresolved.length, 0)}`);
+  console.log(`  Unexpected literals: ${matrix.reduce((sum, s) => sum + s.semanticLiteralValues.length, 0)}`);
+  console.log(`  Package integrity failures: ${matrix.filter((s) => s.packageIntegrityStatus !== 'pass').length}`);
   console.log('');
 
   process.exit(0);

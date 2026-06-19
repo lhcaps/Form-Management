@@ -27,7 +27,7 @@ export type ContractRenderPlanMissingRequired = {
 
 export type ContractRenderPlan = Readonly<{
   sourceId: string;
-  templateCode: 'BM-001';
+  templateCode: string;
   contractStatus: 'locked';
   fields: readonly ContractRenderPlanField[];
   bindings: readonly ContractRenderPlanBinding[];
@@ -38,10 +38,11 @@ export type ContractRenderPlan = Readonly<{
 export function createContractRenderPlan(
   raw: Omit<ContractRenderPlan, 'sourceId' | 'templateCode' | 'contractStatus'>,
   sourceId: string,
+  templateCode: string,
 ): ContractRenderPlan {
   return Object.freeze({
     sourceId,
-    templateCode: 'BM-001',
+    templateCode,
     contractStatus: 'locked',
     fields: Object.freeze([...raw.fields]),
     bindings: Object.freeze([...raw.bindings]),

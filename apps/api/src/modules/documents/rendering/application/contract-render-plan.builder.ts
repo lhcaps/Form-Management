@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { Injectable, Logger } from '@nestjs/common';
 import { WorkspacePathsService } from '../../../../infrastructure/paths/workspace-paths.service';
@@ -11,20 +11,20 @@ import {
   type ContractRenderPlanMissingRequired,
 } from '../domain/contract-render-plan';
 
-interface Bm001Slot {
+interface ContractSlot {
   slotId: string;
   required: boolean;
   reviewRequired: boolean;
 }
 
-interface Bm001CanonicalField {
+interface ContractCanonicalField {
   path: string;
   source: string;
   required: boolean;
   transform: string;
 }
 
-interface Bm001RenderBinding {
+interface ContractRenderBinding {
   slotId: string;
   from: string;
   transform: string;
@@ -32,13 +32,13 @@ interface Bm001RenderBinding {
   reviewRequired: boolean;
 }
 
-interface Bm001LockedContract {
+interface LockedContract {
   sourceId: string;
   templateCode: string;
   status: string;
-  docxSlots: Bm001Slot[];
-  canonicalFields: Bm001CanonicalField[];
-  renderBindings: Bm001RenderBinding[];
+  docxSlots: ContractSlot[];
+  canonicalFields: ContractCanonicalField[];
+  renderBindings: ContractRenderBinding[];
 }
 
 const VALID_SOURCES = new Set([
@@ -64,13 +64,7 @@ export class ContractRenderPlanBuilder {
   build(descriptor: GeneratedDocumentDescriptor): ContractRenderPlan {
     const normalizedCode = descriptor.templateCode.trim().toUpperCase();
 
-    if (normalizedCode !== 'BM-001') {
-      throw new Error(
-        `ContractRenderPlanBuilder only supports BM-001; received "${descriptor.templateCode}".`,
-      );
-    }
-
-    const contract = this.loadLockedContract('BM-001');
+    const contract = this.loadLockedContract(normalizedCode);
 
     if (contract.status !== 'locked') {
       throw new Error(
@@ -158,40 +152,36 @@ export class ContractRenderPlanBuilder {
     return createContractRenderPlan(
       { fields, bindings, missingRequired, warnings },
       contract.sourceId,
+      normalizedCode,
     );
   }
 
-  private loadLockedContract(templateCode: string): Bm001LockedContract {
-    const contractPath = join(
-      this.workspace.contractsRoot,
-      'locked',
-      `${templateCode}__${this.computeSourceIdSuffix(templateCode)}.contract.locked.json`,
-    );
+  private loadLockedContract(templateCode: string): LockedContract {
+    const lockedRoot = join(this.workspace.contractsRoot, 'locked');
+    const contractFiles = readdirSync(lockedRoot)
+      .filter(
+        (fileName) =>
+          fileName.startsWith(`${templateCode}__`) &&
+          fileName.endsWith('.contract.locked.json'),
+      )
+      .sort();
 
-    try {
-      const raw = readFileSync(contractPath, 'utf-8');
-      return JSON.parse(raw) as Bm001LockedContract;
-    } catch {
+    if (contractFiles.length === 0) {
       throw new Error(
-        `Locked contract for "${templateCode}" not found at "${contractPath}". ` +
+        `Locked contract for "${templateCode}" not found in "${lockedRoot}". ` +
           'Ensure the locked contract JSON exists in docs/audit/docx/contracts/locked/.',
       );
     }
-  }
 
-  private computeSourceIdSuffix(templateCode: string): string {
-    // The sourceId suffix matches the sha256 hash in the existing locked contract filenames.
-    // We hard-code BM-001's known suffix here rather than recomputing it.
-    const knownSuffixes: Record<string, string> = {
-      'BM-001': 'f4c2aa3682d3',
-    };
-    const suffix = knownSuffixes[templateCode];
-    if (!suffix) {
+    if (contractFiles.length > 1) {
       throw new Error(
-        `No known locked contract suffix for "${templateCode}". Add it to ContractRenderPlanBuilder.knownSuffixes.`,
+        `Multiple locked contracts found for "${templateCode}": ${contractFiles.join(', ')}. Resolve the ambiguity before rendering.`,
       );
     }
-    return suffix;
+
+    const contractPath = join(lockedRoot, contractFiles[0]);
+    const raw = readFileSync(contractPath, 'utf-8');
+    return JSON.parse(raw) as LockedContract;
   }
 
   private applyTransform(

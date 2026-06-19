@@ -48,6 +48,7 @@
     "audit:templates": "node scripts/audit-template-source-coverage.mjs",
     "audit:templates:db": "pnpm --filter api exec node ../../scripts/audit-template-db-coverage.mjs",
     "normalize:templates:source": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/Convert-TemplateSourcesToNormalizedDocx.ps1",
+    "normalize:docx:format": "node scripts/docx-contract/normalize-docx-format.mjs",
     "audit:docx:inventory": "node scripts/docx-contract/inventory-docx.mjs",
     "audit:docx:extract": "node scripts/docx-contract/extract-docx-structure.mjs",
     "audit:docx:draft": "node scripts/docx-contract/draft-contracts.mjs",
@@ -65,8 +66,9 @@
     "audit:forms:runtime-readiness": "node scripts/docx-contract/generate-form-runtime-readiness.mjs",
     "audit:encoding": "node scripts/audit-encoding-bom.mjs",
     "smoke:forms-runtime": "node scripts/smoke-forms-runtime.mjs",
-    "smoke:bm001-shadow-render": "node scripts/smoke-bm001-shadow-render.mjs",
-    "report:bm001-shadow-evidence": "node scripts/report-bm001-shadow-evidence.mjs"
+    "smoke:bm001-shadow-render": "pnpm --filter api exec tsx ../../scripts/smoke-bm001-shadow-render.mjs",
+    "report:bm001-shadow-evidence": "node scripts/report-bm001-shadow-evidence.mjs",
+    "check:bm001-cutover": "node scripts/check-bm001-cutover-readiness.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",

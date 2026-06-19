@@ -30,6 +30,60 @@ function regexInXml(xml: string, pattern: RegExp): boolean {
   return pattern.test(xml);
 }
 
+function extractWordElements(xml: string, tagName: string): string[] {
+  const pattern = new RegExp(
+    `<w:${tagName}\\b[\\s\\S]*?<\\/w:${tagName}>`,
+    'giu',
+  );
+  return xml.match(pattern) ?? [];
+}
+
+function extractVisibleText(xml: string): string {
+  return [...xml.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>/giu)]
+    .map((match) => match[1])
+    .join('')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function containsWordProperty(xml: string, propertyName: string): boolean {
+  return new RegExp(
+    `<w:${propertyName}(?:\\s[^>]*)?(?:\\/>|>[\\s\\S]*?<\\/w:${propertyName}>)`,
+    'iu',
+  ).test(xml);
+}
+
+function containsHalfPointSize(xml: string, halfPoints: number): boolean {
+  return new RegExp(
+    `<w:sz(?:Cs)?\\s[^>]*w:val="${halfPoints}"[^>]*(?:\\/>|>)`,
+    'iu',
+  ).test(xml);
+}
+
+function findRunsContaining(xml: string, textPattern: RegExp): string[] {
+  return extractWordElements(xml, 'r').filter((runXml) =>
+    textPattern.test(extractVisibleText(runXml)),
+  );
+}
+
+function findParagraphsContaining(xml: string, textPattern: RegExp): string[] {
+  return extractWordElements(xml, 'p').filter((paragraphXml) =>
+    textPattern.test(extractVisibleText(paragraphXml)),
+  );
+}
+
+function findNormalStyle(stylesXml: string | undefined): string | undefined {
+  if (!stylesXml) return undefined;
+  return extractWordElements(stylesXml, 'style').find((styleXml) =>
+    /w:styleId="Normal"/iu.test(styleXml),
+  );
+}
+
 export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   const { documentXml, stylesXml, settingsXml, headerXmls, footerXmls } = parts;
 
@@ -44,14 +98,30 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   const checks: DocxFormatCheck[] = [];
 
   // FMT-001: Times New Roman base font
+  const normalStyle = findNormalStyle(stylesXml);
+  const normalUsesTimesNewRoman = normalStyle
+    ? /Times New Roman/iu.test(normalStyle)
+    : false;
+  const normalUsesSize13 = normalStyle
+    ? containsHalfPointSize(normalStyle, 26)
+    : false;
   const hasTimesNewRoman = regexInXml(allXml, /Times New Roman/i);
+  const baselineStatus: DocxFormatCheckStatus = normalStyle
+    ? normalUsesTimesNewRoman && normalUsesSize13
+      ? 'pass'
+      : 'fail'
+    : hasTimesNewRoman
+      ? 'pass'
+      : 'not_detectable';
   checks.push({
     id: 'FMT-001',
     requirement: 'Times New Roman size 13 baseline',
-    status: hasTimesNewRoman ? 'pass' : 'not_detectable',
-    evidence: hasTimesNewRoman
-      ? 'Times New Roman found in document XML'
-      : undefined,
+    status: baselineStatus,
+    evidence: normalStyle
+      ? `Normal style: Times New Roman=${normalUsesTimesNewRoman}, size13=${normalUsesSize13}`
+      : hasTimesNewRoman
+        ? 'Times New Roman found; Normal style unavailable'
+        : undefined,
   });
 
   // FMT-002: Agency header line 1
@@ -64,10 +134,10 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-003: KHU VỰC 7 bold in header
-  const hasKhuVucBold = regexInXml(allXml, /KHU VỰC 7/i);
-  const khuVucBoldWithTag = regexInXml(
-    allXml,
-    /KHU VỰC\s*7[\s\S]{0,200}<w:b[\s/]/i,
+  const khuVucRuns = findRunsContaining(allXml, /KHU VỰC\s*7/iu);
+  const hasKhuVucBold = khuVucRuns.length > 0;
+  const khuVucBoldWithTag = khuVucRuns.some((runXml) =>
+    containsWordProperty(runXml, 'b'),
   );
   checks.push({
     id: 'FMT-003',
@@ -98,14 +168,20 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-005: Legal basis line
-  const hasLegalBasis = regexInXml(
+  const legalBasisParagraphs = findParagraphsContaining(
     allXml,
-    /Thông tư\s*số\s*03[/-]?2026[/-]?TT[/-]?VKSTC/i,
+    /Thông tư\s+số\s+03\/2026\/TT-VKSTC/iu,
   );
-  const legalBasisSize8 = regexInXml(
-    allXml,
-    /Thông tư[\s\S]{0,300}<w:sz\s[^>]*w:val="16"/i,
-  );
+  const hasLegalBasis = legalBasisParagraphs.length > 0;
+  const legalBasisSize8 = legalBasisParagraphs.some((paragraphXml) => {
+    const textRuns = extractWordElements(paragraphXml, 'r').filter(
+      (runXml) => extractVisibleText(runXml).length > 0,
+    );
+    return (
+      textRuns.length > 0 &&
+      textRuns.every((runXml) => containsHalfPointSize(runXml, 16))
+    );
+  });
   checks.push({
     id: 'FMT-005',
     requirement: 'Legal basis line size 8 (w:sz val=16 in half-points)',
@@ -132,13 +208,13 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-007: Độc lập - Tự do - Hạnh phúc size 14
-  const hasMotto = regexInXml(
+  const mottoRuns = findRunsContaining(
     allXml,
-    /Độc\s*lập\s*-\s*Tự\s*do\s*-\s*Hạnh\s*phúc/i,
+    /Độc\s*lập\s*-\s*Tự\s*do\s*-\s*Hạnh\s*phúc/iu,
   );
-  const mottoSize14 = regexInXml(
-    allXml,
-    /Độc[\s\S]{0,500}<w:sz\s[^>]*w:val="28"/i,
+  const hasMotto = mottoRuns.length > 0;
+  const mottoSize14 = mottoRuns.some((runXml) =>
+    containsHalfPointSize(runXml, 28),
   );
   checks.push({
     id: 'FMT-007',
@@ -191,19 +267,27 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-011: Body titles bold size 14
-  // Proximity check: if found, it suggests bold+size14 formatting is present.
-  // When absent, mark not_detectable since we can't confirm absence without full style analysis.
-  const hasTitleBold14 = regexInXml(
+  const titleRuns = findRunsContaining(
     allXml,
-    /<w:sz\s[^>]*w:val="28"[\s\S]{0,100}<w:b[\s/]/i,
+    /^(?:BIÊN BẢN|QUYẾT ĐỊNH|CÁO TRẠNG|THÔNG BÁO|LỆNH|KẾ HOẠCH)$/iu,
+  );
+  const hasTitleBold14 = titleRuns.some(
+    (runXml) =>
+      containsWordProperty(runXml, 'b') && containsHalfPointSize(runXml, 28),
   );
   checks.push({
     id: 'FMT-011',
     requirement: 'Body titles / main title bold size 14',
-    status: hasTitleBold14 ? 'pass' : 'not_detectable',
-    evidence: hasTitleBold14
-      ? 'Bold + size 14 (w:val=28) proximity detected'
-      : 'Bold + size 14 combination not detected in proximity',
+    status:
+      titleRuns.length === 0
+        ? 'not_detectable'
+        : hasTitleBold14
+          ? 'pass'
+          : 'warning',
+    evidence:
+      titleRuns.length === 0
+        ? 'Known body title not found'
+        : `Known title runs=${titleRuns.length}, bold14=${hasTitleBold14}`,
   });
 
   // FMT-012: Điều paragraphs bold
@@ -274,16 +358,17 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-017: Different First Page enabled
-  const hasDifferentFirstPage = settingsXml
-    ? regexInXml(settingsXml, /<w:titlePg[\s/]/i)
-    : false;
+  const hasDifferentFirstPage = regexInXml(
+    documentXml,
+    /<w:sectPr[\s\S]*?<w:titlePg[\s/]/i,
+  );
   checks.push({
     id: 'FMT-017',
     requirement: 'Different First Page section property enabled',
     status: hasDifferentFirstPage ? 'pass' : 'not_detectable',
     evidence: hasDifferentFirstPage
-      ? 'w:titlePg element found in settings.xml'
-      : 'settings.xml not available or w:titlePg not found',
+      ? 'w:titlePg element found in document section properties'
+      : 'w:titlePg not found in document section properties',
   });
 
   // Compute overall status:

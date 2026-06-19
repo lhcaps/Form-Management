@@ -1,9 +1,20 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Injectable, Logger } from '@nestjs/common';
+import { WorkspacePathsService } from '../../../../infrastructure/paths/workspace-paths.service';
 import type { ContractRenderPlan } from '../domain/contract-render-plan';
-import { auditDocxFormat } from './docx-format-auditor';
-import { compareDocxSemantic } from './docx-semantic-comparator';
+import {
+  auditDocxFormat,
+  extractOoxmlPartsFromDocx,
+} from './docx-format-auditor';
+import {
+  compareDocxSemantic,
+  extractDocumentXmlFromZip,
+} from './docx-semantic-comparator';
+import {
+  auditDocxPackageIntegrity,
+  renderDocxTemplate,
+} from './docx-template-renderer';
 
 export type ShadowArtifactPath = Readonly<{
   docxPath: string;
@@ -11,6 +22,8 @@ export type ShadowArtifactPath = Readonly<{
   semanticDiffMdPath: string;
   formatAuditJsonPath: string;
   formatAuditMdPath: string;
+  packageIntegrityJsonPath: string;
+  packageIntegrityMdPath: string;
   manifestPath: string;
 }>;
 
@@ -19,6 +32,7 @@ export type ShadowRenderResult = Readonly<{
   artifacts: ShadowArtifactPath;
   semanticComparison: ReturnType<typeof compareDocxSemantic>;
   formatAudit: ReturnType<typeof auditDocxFormat>;
+  packageIntegrity: ReturnType<typeof auditDocxPackageIntegrity>;
 }>;
 
 interface ShadowManifest {
@@ -39,6 +53,8 @@ interface ShadowManifest {
     semanticDiffMd: string;
     formatAuditJson: string;
     formatAuditMd: string;
+    packageIntegrityJson: string;
+    packageIntegrityMd: string;
   };
   semanticComparison: {
     status: string;
@@ -46,6 +62,7 @@ interface ShadowManifest {
     contractTextLength: number;
     missingExpectedText: string[];
     unexpectedUnresolvedPlaceholders: string[];
+    unexpectedLiteralValues: string[];
     notes: string[];
   };
   formatAudit: {
@@ -57,11 +74,18 @@ interface ShadowManifest {
       evidence?: string;
     }>;
   };
+  packageIntegrity: {
+    status: string;
+    missingParts: string[];
+    changedPreservedParts: string[];
+  };
 }
 
 @Injectable()
 export class DocxtemplaterContractRenderEngine {
   private readonly logger = new Logger(DocxtemplaterContractRenderEngine.name);
+
+  constructor(private readonly workspace: WorkspacePathsService) {}
 
   async renderShadow(
     plan: ContractRenderPlan,
@@ -82,9 +106,13 @@ export class DocxtemplaterContractRenderEngine {
     writeFileSync(docxPath, renderedDocx);
 
     const legacyDocx = await this.loadTemplate(plan.templateCode);
+    const [legacyDocumentXml, renderedDocumentXml] = await Promise.all([
+      extractDocumentXmlFromZip(legacyDocx),
+      extractDocumentXmlFromZip(renderedDocx),
+    ]);
     const semanticComparison = compareDocxSemantic(
-      legacyDocx.toString('utf-8'),
-      renderedDocx.toString('utf-8'),
+      legacyDocumentXml,
+      renderedDocumentXml,
       this.extractExpectedValues(plan, formData),
     );
 
@@ -108,6 +136,21 @@ export class DocxtemplaterContractRenderEngine {
     const formatAuditMdPath = join(shadowDir, 'format-audit.md');
     writeFileSync(formatAuditMdPath, this.formatAuditMd(formatAudit));
 
+    const packageIntegrity = auditDocxPackageIntegrity(
+      contractDocx,
+      renderedDocx,
+    );
+    const packageIntegrityJsonPath = join(shadowDir, 'package-integrity.json');
+    writeFileSync(
+      packageIntegrityJsonPath,
+      JSON.stringify(packageIntegrity, null, 2),
+    );
+    const packageIntegrityMdPath = join(shadowDir, 'package-integrity.md');
+    writeFileSync(
+      packageIntegrityMdPath,
+      this.formatPackageIntegrityMd(packageIntegrity),
+    );
+
     const manifest: ShadowManifest = {
       documentId: plan.sourceId,
       templateCode: plan.templateCode,
@@ -126,6 +169,8 @@ export class DocxtemplaterContractRenderEngine {
         semanticDiffMd: semanticDiffMdPath,
         formatAuditJson: formatAuditJsonPath,
         formatAuditMd: formatAuditMdPath,
+        packageIntegrityJson: packageIntegrityJsonPath,
+        packageIntegrityMd: packageIntegrityMdPath,
       },
       semanticComparison: {
         status: semanticComparison.status,
@@ -134,6 +179,9 @@ export class DocxtemplaterContractRenderEngine {
         missingExpectedText: [...semanticComparison.missingExpectedText],
         unexpectedUnresolvedPlaceholders: [
           ...semanticComparison.unexpectedUnresolvedPlaceholders,
+        ],
+        unexpectedLiteralValues: [
+          ...semanticComparison.unexpectedLiteralValues,
         ],
         notes: [...semanticComparison.notes],
       },
@@ -145,6 +193,11 @@ export class DocxtemplaterContractRenderEngine {
           status: c.status,
           evidence: c.evidence,
         })),
+      },
+      packageIntegrity: {
+        status: packageIntegrity.status,
+        missingParts: [...packageIntegrity.missingParts],
+        changedPreservedParts: [...packageIntegrity.changedPreservedParts],
       },
     };
 
@@ -159,24 +212,19 @@ export class DocxtemplaterContractRenderEngine {
         semanticDiffMdPath,
         formatAuditJsonPath,
         formatAuditMdPath,
+        packageIntegrityJsonPath,
+        packageIntegrityMdPath,
         manifestPath,
       }),
       semanticComparison,
       formatAudit,
+      packageIntegrity,
     });
   }
 
   private async loadTemplate(templateCode: string): Promise<Buffer> {
-    const PizZip = require('pizzip') as typeof import('pizzip');
-
-    const Docxtemplater =
-      require('docxtemplater') as typeof import('docxtemplater');
-
     const normalizedTemplateRoot = join(
-      process.cwd(),
-      'storage',
-      'templates',
-      'normalized-docx',
+      this.workspace.normalizedTemplatesRoot,
       templateCode,
     );
 
@@ -192,74 +240,19 @@ export class DocxtemplaterContractRenderEngine {
       );
     }
 
-    const content = readFileSync(templatePath);
-    const zip = new PizZip(content);
-    new Docxtemplater(zip, {
-      paragraphLoop: true,
-      linebreaks: true,
-    });
-
-    const xml = zip.file('word/document.xml')?.asText() ?? '';
-    return Buffer.from(xml, 'utf-8');
+    return readFileSync(templatePath);
   }
 
   private async fillTemplate(
-    templateXml: Buffer,
+    templateBuffer: Buffer,
     bindings: Map<string, unknown>,
   ): Promise<Buffer> {
-    const PizZip = require('pizzip') as typeof import('pizzip');
-
-    const Docxtemplater =
-      require('docxtemplater') as typeof import('docxtemplater');
-
-    const templateXmlStr = templateXml.toString('utf-8');
-
-    const tempZip = new PizZip();
-    tempZip.file('word/document.xml', templateXmlStr);
-    tempZip.file(
-      '[Content_Types].xml',
-      '<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>',
-    );
-    tempZip.file(
-      '_rels/.rels',
-      '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>',
-    );
-    tempZip.file(
-      'word/_rels/document.xml.rels',
-      '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"/>',
-    );
-
-    const doc = new Docxtemplater(tempZip, {
-      paragraphLoop: true,
-      linebreaks: true,
-    });
-
-    const data: Record<string, unknown> = {};
-    for (const [key, value] of bindings) {
-      data[key] = value ?? '';
-    }
-
-    doc.render(data);
-
-    const renderedBuffer = doc.getZip().generate({ type: 'nodebuffer' });
-
-    const renderedZip = new PizZip(renderedBuffer);
-    const docXml = renderedZip.file('word/document.xml');
-
-    if (!docXml) {
-      throw new Error(
-        'word/document.xml not found after docxtemplater render.',
-      );
-    }
-
-    return Buffer.from(docXml.asText(), 'utf-8');
+    return renderDocxTemplate(templateBuffer, bindings);
   }
 
-  private async auditRenderedDocx(xmlBuffer: Buffer) {
+  private async auditRenderedDocx(docxBuffer: Buffer) {
     try {
-      const parts = {
-        documentXml: xmlBuffer.toString('utf-8'),
-      };
+      const parts = await extractOoxmlPartsFromDocx(docxBuffer);
       return auditDocxFormat(parts);
     } catch (error) {
       this.logger.error(
@@ -276,17 +269,16 @@ export class DocxtemplaterContractRenderEngine {
     plan: ContractRenderPlan,
     formData: Record<string, unknown>,
   ): string[] {
-    const values: string[] = [];
+    const values = new Set<string>();
 
-    for (const field of plan.fields) {
-      if (!field.required) continue;
-      const value = formData[field.path] ?? field.value;
+    for (const binding of plan.bindings) {
+      const value = formData[binding.from] ?? binding.value;
       if (typeof value === 'string' && value.trim()) {
-        values.push(value.trim());
+        values.add(value.trim());
       }
     }
 
-    return values;
+    return [...values];
   }
 
   private formatSemanticDiffMd(
@@ -320,6 +312,14 @@ export class DocxtemplaterContractRenderEngine {
       lines.push('');
     }
 
+    if (comparison.unexpectedLiteralValues.length > 0) {
+      lines.push('## Unexpected Literal Values');
+      for (const value of comparison.unexpectedLiteralValues) {
+        lines.push(`- \`${value}\``);
+      }
+      lines.push('');
+    }
+
     if (comparison.notes.length > 0) {
       lines.push('## Notes');
       for (const note of comparison.notes) {
@@ -346,6 +346,33 @@ export class DocxtemplaterContractRenderEngine {
       lines.push(
         `| ${check.id} | ${check.requirement} | \`${check.status}\` | ${evidence} |`,
       );
+    }
+
+    return lines.join('\n');
+  }
+
+  private formatPackageIntegrityMd(
+    integrity: ReturnType<typeof auditDocxPackageIntegrity>,
+  ): string {
+    const lines = [
+      '# DOCX Package Integrity',
+      '',
+      `**Status**: \`${integrity.status}\``,
+      '',
+      `- Missing parts: ${integrity.missingParts.length}`,
+      `- Changed preserved parts: ${integrity.changedPreservedParts.length}`,
+    ];
+
+    if (integrity.missingParts.length > 0) {
+      lines.push('', '## Missing Parts');
+      for (const part of integrity.missingParts) lines.push(`- \`${part}\``);
+    }
+
+    if (integrity.changedPreservedParts.length > 0) {
+      lines.push('', '## Changed Preserved Parts');
+      for (const part of integrity.changedPreservedParts) {
+        lines.push(`- \`${part}\``);
+      }
     }
 
     return lines.join('\n');

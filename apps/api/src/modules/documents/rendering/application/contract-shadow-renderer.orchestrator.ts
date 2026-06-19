@@ -1,9 +1,11 @@
+import { join } from 'node:path';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   GENERATED_DOCUMENT_DESCRIPTOR,
   type GeneratedDocumentDescriptorPort,
 } from '../application/document-renderer.ports';
 import { ContractRenderPlanBuilder } from '../application/contract-render-plan.builder';
+import { WorkspacePathsService } from '../../../../infrastructure/paths/workspace-paths.service';
 import { DocxtemplaterContractRenderEngine } from '../infrastructure/docxtemplater-contract-render-engine';
 import type {
   DocumentRenderCommand,
@@ -20,6 +22,7 @@ export class ContractShadowRendererOrchestrator {
     private readonly descriptors: GeneratedDocumentDescriptorPort,
     private readonly planBuilder: ContractRenderPlanBuilder,
     private readonly renderEngine: DocxtemplaterContractRenderEngine,
+    private readonly workspace: WorkspacePathsService,
   ) {}
 
   async renderShadow(
@@ -37,15 +40,6 @@ export class ContractShadowRendererOrchestrator {
     } catch (error) {
       this.logger.error(
         `Cannot resolve descriptor for documentId=${documentId}: ${error instanceof Error ? error.message : String(error)}`,
-      );
-      return;
-    }
-
-    const normalizedCode = descriptor.templateCode.trim().toUpperCase();
-
-    if (normalizedCode !== 'BM-001') {
-      this.logger.debug(
-        `Shadow renderer only supports BM-001; skipping documentId=${documentId} (templateCode=${descriptor.templateCode}).`,
       );
       return;
     }
@@ -77,6 +71,6 @@ export class ContractShadowRendererOrchestrator {
   }
 
   private resolveShadowOutputDir(): string {
-    return 'storage/generated/shadow-renders';
+    return join(this.workspace.generatedDocumentsRoot, 'shadow-renders');
   }
 }

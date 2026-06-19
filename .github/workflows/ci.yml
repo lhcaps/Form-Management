@@ -47,6 +47,9 @@ jobs:
       - name: DOCX contract tests
         run: node --test test/docx-contract/*.test.mjs
 
+      - name: BM-001 shared renderer smoke
+        run: pnpm smoke:bm001-shadow-render
+
       - name: DOCX prelock guard (informational)
         run: pnpm audit:docx:prelock || true
 

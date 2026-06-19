@@ -168,6 +168,11 @@ try {
         throw "Normalized DOCX was not created for $($source.Code): $targetPath"
       }
 
+      & node (Join-Path $PSScriptRoot "docx-contract\normalize-docx-format.mjs") $targetPath
+      if ($LASTEXITCODE -ne 0) {
+        throw "DOCX format normalization failed for $($source.Code): $targetPath"
+      }
+
       Write-Output "[normalize] ready $($source.Code): $($source.RelativePath)"
     }
   }

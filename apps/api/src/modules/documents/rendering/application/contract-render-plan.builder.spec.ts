@@ -23,19 +23,15 @@ function makeDescriptor(overrides: Partial<GeneratedDocumentDescriptor> = {}): G
 const REPO_ROOT = join(process.cwd(), '..', '..');
 
 describe('ContractRenderPlanBuilder', () => {
-  describe('template code validation', () => {
-    it('rejects templates other than BM-001', () => {
+  describe('locked contract resolution', () => {
+    it('loads another locked template without a hard-coded source suffix', () => {
       const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
-      expect(() => builder.build(makeDescriptor({ templateCode: 'BM-002' }))).toThrow(
-        /only supports BM-001/,
+      const plan = builder.build(
+        makeDescriptor({ templateCode: 'BM-002', formData: {} }),
       );
-    });
 
-    it('rejects BM-002 with whitespace', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
-      expect(() => builder.build(makeDescriptor({ templateCode: '  BM-002  ' }))).toThrow(
-        /only supports BM-001/,
-      );
+      expect(plan.templateCode).toBe('BM-002');
+      expect(plan.contractStatus).toBe('locked');
     });
   });
 

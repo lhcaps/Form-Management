@@ -208,4 +208,28 @@ describe('docx-semantic-comparator', () => {
       expect(result.unexpectedUnresolvedPlaceholders).toContain('{informant.fullName}');
     });
   });
+
+  describe('literal unresolved values', () => {
+    it('fails when a missing binding is rendered as undefined', () => {
+      const result = compareDocxSemantic(
+        '<w:p><w:t>Template</w:t></w:p>',
+        '<w:p><w:t>Nội dung: undefined</w:t></w:p>',
+        [],
+      );
+
+      expect(result.status).toBe('fail');
+      expect(result.unexpectedLiteralValues).toContain('undefined');
+    });
+
+    it('fails when a missing binding is rendered as null', () => {
+      const result = compareDocxSemantic(
+        '<w:p><w:t>Template</w:t></w:p>',
+        '<w:p><w:t>Nội dung: null</w:t></w:p>',
+        [],
+      );
+
+      expect(result.status).toBe('fail');
+      expect(result.unexpectedLiteralValues).toContain('null');
+    });
+  });
 });

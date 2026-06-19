@@ -25,6 +25,20 @@ describe('docx-format-auditor', () => {
       expect(check?.status).toBe('pass');
     });
 
+    it('fails when the Normal style uses 14pt instead of the required 13pt', () => {
+      const parts = makeParts({
+        documentXml: '<w:document/>',
+        stylesXml:
+          '<w:style w:type="paragraph" w:styleId="Normal">' +
+          '<w:rPr><w:rFonts w:ascii="Times New Roman"/><w:sz w:val="28"/></w:rPr>' +
+          '</w:style>',
+      });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-001');
+
+      expect(check?.status).toBe('fail');
+    });
+
     it('returns not_detectable when font is absent', () => {
       const parts = makeParts({ documentXml: '<w:r><w:rFonts w:ascii="Arial"/></w:r>' });
       const result = auditDocxFormat(parts);
@@ -50,11 +64,22 @@ describe('docx-format-auditor', () => {
   });
 
   describe('FMT-003: KHU VỰC 7 bold', () => {
-    it('passes when KHU VỰC 7 and bold tag are in proximity', () => {
-      const xml = '<w:p><w:t>KHU VỰC 7</w:t></w:p><w:p><w:b/></w:p>';
+    it('warns when KHU VỰC 7 and bold formatting are in different runs', () => {
+      const xml =
+        '<w:r><w:t>KHU VỰC 7</w:t></w:r>' +
+        '<w:r><w:rPr><w:b/></w:rPr><w:t>OTHER</w:t></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-003');
+      expect(check?.status).toBe('warning');
+    });
+
+    it('passes when bold formatting appears before the text in the same run', () => {
+      const xml =
+        '<w:r><w:rPr><w:b/></w:rPr><w:t>KHU VỰC 7</w:t></w:r>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-003');
+
       expect(check?.status).toBe('pass');
     });
 
@@ -66,7 +91,9 @@ describe('docx-format-auditor', () => {
     });
 
     it('returns warning when KHU VỰC 7 found but bold not nearby', () => {
-      const xml = '<w:p><w:t>KHU VỰC 7</w:t></w:p><w:p><w:t>OTHER TEXT</w:t></w:p>';
+      const xml =
+        '<w:r><w:t>KHU VỰC 7</w:t></w:r>' +
+        '<w:r><w:t>OTHER TEXT</w:t></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-003');
@@ -100,6 +127,18 @@ describe('docx-format-auditor', () => {
       expect(check?.status).toBeTruthy();
     });
 
+    it('passes when the legal basis paragraph uses 8pt runs', () => {
+      const xml =
+        '<w:p>' +
+        '<w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:t>Ban hành theo Thông tư số </w:t></w:r>' +
+        '<w:r><w:rPr><w:sz w:val="16"/></w:rPr><w:t>03/2026/TT-VKSTC</w:t></w:r>' +
+        '</w:p>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-005');
+
+      expect(check?.status).toBe('pass');
+    });
+
     it('returns not_detectable when legal basis is absent', () => {
       const parts = makeParts({ documentXml: '<w:p><w:t>Some document text</w:t></w:p>' });
       const result = auditDocxFormat(parts);
@@ -124,6 +163,16 @@ describe('docx-format-auditor', () => {
       const check = result.checks.find((c) => c.id === 'FMT-007');
       expect(check?.status).toBeTruthy();
     });
+
+    it('passes when the motto text is in a 14pt run', () => {
+      const xml =
+        '<w:r><w:rPr><w:sz w:val="28"/></w:rPr>' +
+        '<w:t>Độc lập - Tự do - Hạnh phúc</w:t></w:r>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-007');
+
+      expect(check?.status).toBe('pass');
+    });
   });
 
   describe('FMT-009: Issue date', () => {
@@ -144,12 +193,12 @@ describe('docx-format-auditor', () => {
   });
 
   describe('FMT-011: Body titles bold size 14', () => {
-    it('passes when bold and size 14 are found in proximity', () => {
+    it('returns not_detectable when formatting exists without known title text', () => {
       const xml = '<w:r><w:sz w:val="28"/><w:b/></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-011');
-      expect(check?.status).toBe('pass');
+      expect(check?.status).toBe('not_detectable');
     });
 
     it('returns not_detectable when bold size 14 not detected (proximity across elements unreliable)', () => {
@@ -188,14 +237,26 @@ describe('docx-format-auditor', () => {
   });
 
   describe('FMT-017: Different First Page', () => {
-    it('passes when titlePg is found in settings.xml', () => {
-      const parts = makeParts({ settingsXml: '<w:settings><w:titlePg/></w:settings>' });
+    it('passes when titlePg is found in the document section properties', () => {
+      const parts = makeParts({
+        documentXml: '<w:document><w:body><w:sectPr><w:titlePg/></w:sectPr></w:body></w:document>',
+      });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-017');
       expect(check?.status).toBe('pass');
     });
 
-    it('returns not_detectable when settings.xml is unavailable', () => {
+    it('passes when a known body title is bold and 14pt in the same run', () => {
+      const xml =
+        '<w:r><w:rPr><w:b/><w:sz w:val="28"/></w:rPr>' +
+        '<w:t>BIÊN BẢN</w:t></w:r>';
+      const result = auditDocxFormat(makeParts({ documentXml: xml }));
+      const check = result.checks.find((c) => c.id === 'FMT-011');
+
+      expect(check?.status).toBe('pass');
+    });
+
+    it('returns not_detectable when document section properties are unavailable', () => {
       const parts = makeParts({ documentXml: '<w:t>Document</w:t>' });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-017');

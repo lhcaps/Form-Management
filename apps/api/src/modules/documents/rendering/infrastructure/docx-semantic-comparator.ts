@@ -6,6 +6,7 @@ export type DocxSemanticComparison = Readonly<{
   contractTextLength: number;
   missingExpectedText: readonly string[];
   unexpectedUnresolvedPlaceholders: readonly string[];
+  unexpectedLiteralValues: readonly string[];
   notes: readonly string[];
 }>;
 
@@ -98,6 +99,13 @@ export function compareDocxSemantic(
   const unresolvedContract = findUnresolvedPlaceholders(contractText);
 
   const unexpectedUnresolvedPlaceholders: string[] = unresolvedContract.harmful;
+  const unexpectedLiteralValues = Array.from(
+    new Set(
+      [...contractText.matchAll(/\b(undefined|null)\b/giu)].map((match) =>
+        match[1].toLowerCase(),
+      ),
+    ),
+  );
 
   const notes: string[] = [];
   if (legacyLength > 0 && contractLength > 0) {
@@ -118,12 +126,20 @@ export function compareDocxSemantic(
       `${missingExpectedText.length} expected value(s) not found in contract output.`,
     );
   }
+  if (unexpectedLiteralValues.length > 0) {
+    notes.push(
+      `Rendered output contains unresolved literal value(s): ${unexpectedLiteralValues.join(', ')}.`,
+    );
+  }
 
   let status: DocxSemanticComparisonStatus = 'pass';
 
   if (missingExpectedText.length > 0) {
     status = 'fail';
-  } else if (unexpectedUnresolvedPlaceholders.length > 0) {
+  } else if (
+    unexpectedUnresolvedPlaceholders.length > 0 ||
+    unexpectedLiteralValues.length > 0
+  ) {
     status = 'fail';
   } else if (notes.length > 0) {
     status = 'warning';
@@ -150,6 +166,7 @@ export function compareDocxSemantic(
     unexpectedUnresolvedPlaceholders: Object.freeze([
       ...unexpectedUnresolvedPlaceholders,
     ]),
+    unexpectedLiteralValues: Object.freeze([...unexpectedLiteralValues]),
     notes: Object.freeze([...notes]),
   });
 }
