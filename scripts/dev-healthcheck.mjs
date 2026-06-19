@@ -162,7 +162,8 @@ export async function runHealthChecks({
   };
 }
 
-async function waitForApi({
+export async function waitForHealth({
+  apiOnly = false,
   urls = DEFAULT_HEALTH_URLS,
   fetchImpl = fetch,
   timeoutMs = DEFAULT_TIMEOUT_MS,
@@ -174,7 +175,7 @@ async function waitForApi({
 
   while (Date.now() < deadline) {
     lastResult = await runHealthChecks({
-      apiOnly: true,
+      apiOnly,
       urls,
       fetchImpl,
       timeoutMs,
@@ -222,11 +223,14 @@ function printHealthReport(result, { apiOnly = false } = {}) {
 export async function main(args = process.argv.slice(2)) {
   const apiOnly = args.includes('--api-only');
   const wait = args.includes('--wait');
-  const result = wait
-    ? await waitForApi()
-    : await runHealthChecks({ apiOnly });
+  const waitAll = args.includes('--wait-all');
+  const effectiveApiOnly = waitAll ? false : apiOnly;
+  const result =
+    wait || waitAll
+      ? await waitForHealth({ apiOnly: effectiveApiOnly })
+      : await runHealthChecks({ apiOnly: effectiveApiOnly });
 
-  printHealthReport(result, { apiOnly });
+  printHealthReport(result, { apiOnly: effectiveApiOnly });
   return result.ok ? 0 : 1;
 }
 

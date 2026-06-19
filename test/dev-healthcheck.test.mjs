@@ -4,6 +4,7 @@ import {
   checkJsonEndpoint,
   checkTextEndpoint,
   runHealthChecks,
+  waitForHealth,
 } from '../scripts/dev-healthcheck.mjs';
 
 test('checkTextEndpoint accepts an HTML web response', async () => {
@@ -72,4 +73,39 @@ test('runHealthChecks fails when readiness is false', async () => {
 
   assert.equal(result.apiReadiness.ok, false);
   assert.equal(result.ok, false);
+});
+
+test('waitForHealth waits for the complete API and web stack', async () => {
+  let attempts = 0;
+  const urls = {
+    apiHealth: 'http://api.test/health',
+    apiReady: 'http://api.test/ready',
+    apiCatalog: 'http://api.test/catalog',
+    web: 'http://web.test',
+  };
+  const fetchImpl = async (url) => {
+    if (url === urls.apiHealth) {
+      attempts += 1;
+      return Response.json({ ok: true });
+    }
+    if (url === urls.apiReady) {
+      return Response.json({ ok: true });
+    }
+    if (url === urls.apiCatalog) {
+      return Response.json([{ templateCode: 'BM-001' }]);
+    }
+    return new Response('<!doctype html>', {
+      status: attempts >= 2 ? 200 : 503,
+    });
+  };
+
+  const result = await waitForHealth({
+    urls,
+    fetchImpl,
+    waitTimeoutMs: 100,
+    intervalMs: 1,
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(attempts, 2);
 });
