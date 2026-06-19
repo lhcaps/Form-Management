@@ -11,6 +11,7 @@ import { CasesModule } from './modules/cases/cases.module';
 import { DocumentsModule } from './modules/documents/documents.module';
 import { ImportsModule } from './modules/imports/imports.module';
 import { TemplatesModule } from './modules/templates/templates.module';
+import { FormsContractsModule } from './modules/forms-contracts/forms-contracts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TemplatesModule } from './modules/templates/templates.module';
     DocumentsModule,
     ImportsModule,
     Bm031DirectModule,
+    FormsContractsModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
