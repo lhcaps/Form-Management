@@ -24,7 +24,18 @@ const loadContracts = (codes) => {
 };
 
 describe("review-required invariant: draft phase", () => {
-  const codes = new Set(["BM-001", "BM-002", "BM-003", "BM-004"]);
+  const codes = new Set([
+    "BM-001",
+    "BM-002",
+    "BM-003",
+    "BM-004",
+    "BM-005",
+    "BM-006",
+    "BM-007",
+    "BM-008",
+    "BM-009",
+    "BM-010",
+  ]);
   const contracts = (() => {
     try {
       return loadContracts(codes);

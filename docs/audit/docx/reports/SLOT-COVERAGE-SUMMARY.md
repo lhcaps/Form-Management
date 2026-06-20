@@ -1,47 +1,46 @@
 # Slot Coverage Summary
 
-Sinh lúc: 2026-06-19T07:37:09.020Z
+Sinh lúc: 2026-06-20T21:31:15.747Z
 
 ## Phạm vi verify
 
 - ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.
 - ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.
-- ❌ **Locked contract count**: Hiện tại = 0. Nghĩa là **không có contract nào pass strict semantic review**.
-- ⚠️ **Unknown sources**: 100% canonicalField đang `source=unknown` (chờ reviewer quyết định từng field thuộc nguồn nào).
-- ⚠️ **Review-required**: 100% slot+field+binding đang `reviewRequired=true` (chờ reviewer xác nhận).
+- ✅ **Locked contract count**: Hiện tại = 3. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.
+- ⚠️ **Unknown sources**: 1520/1598 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
+- ⚠️ **Review-required**: Còn 5106 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
 
-> Kết luận: Mọi số liệu dưới đây mô tả **structure của draft contract**, không phải sự đúng đắn về pháp lý/nghiệp vụ.
-
-> **Không có contract locked.** Kết quả này chỉ xác nhận cấu trúc draft, không xác nhận đúng với DOCX về mặt nghiệp vụ/pháp lý. Không dùng để khẳng định contract đã pass verification.
+> Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.
 
 ## Tổng quan
 
 - Tổng contract (form, KHÔNG tính reference docs): **214**
-- Tổng docxSlots: **1802**
-- Tổng renderBindings: **1802**
-- Tổng canonicalFields có source=unknown: **1526**
-- Tổng reviewRequired (slot+field+binding): **5130**
+- Tổng docxSlots: **1874**
+- Tổng renderBindings: **1874**
+- Tổng canonicalFields: **1598**
+- Tổng canonicalFields có source=unknown: **1520**
+- Tổng reviewRequired (slot+field+binding): **5106**
 - Tổng slot thiếu binding: **0**
-- Contract locked: **0** | draft: **214**
+- Contract locked: **3** | draft: **211**
 - Structural issues: **0**
 - Structural warnings: **0**
-- Extraction / contract warnings: **208**
+- Extraction / contract warnings: **214**
 - Locked contract invalid: **0** (sẽ thoát non-zero)
 
 ## Per BM
 
 | SourceId | BM | Status | Slots | Bound | Unknown source | Review required | Missing binding | Issues | Warnings | Extract/Contract Warnings |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| BM-001__f4c2aa3682d3 | BM-001 | draft | 28 | 28 | 28 | 84 | 0 | 0 | 0 | 0 |
-| BM-002__f78301178da7 | BM-002 | draft | 32 | 32 | 29 | 93 | 0 | 0 | 0 | 0 |
-| BM-003__bb64990bc49b | BM-003 | draft | 10 | 10 | 10 | 30 | 0 | 0 | 0 | 0 |
+| BM-001__f4c2aa3682d3 | BM-001 | locked | 39 | 39 | 0 | 0 | 0 | 0 | 0 | 0 |
+| BM-002__f78301178da7 | BM-002 | locked | 32 | 32 | 0 | 0 | 0 | 0 | 0 | 0 |
+| BM-003__bb64990bc49b | BM-003 | locked | 10 | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
 | BM-004__2775520fd22c | BM-004 | draft | 50 | 50 | 46 | 146 | 0 | 0 | 0 | 0 |
-| BM-005__4cf240724a90 | BM-005 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-006__87ff96f9a866 | BM-006 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-007__549970d471d1 | BM-007 | draft | 8 | 8 | 8 | 24 | 0 | 0 | 0 | 1 |
-| BM-008__87981f1c5cf8 | BM-008 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
-| BM-009__ad542fd7bc45 | BM-009 | draft | 12 | 12 | 12 | 36 | 0 | 0 | 0 | 1 |
-| BM-010__3814cd2b4bcf | BM-010 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
+| BM-005__4cf240724a90 | BM-005 | draft | 16 | 16 | 16 | 48 | 0 | 0 | 0 | 2 |
+| BM-006__87ff96f9a866 | BM-006 | draft | 15 | 15 | 15 | 45 | 0 | 0 | 0 | 2 |
+| BM-007__549970d471d1 | BM-007 | draft | 17 | 17 | 17 | 51 | 0 | 0 | 0 | 2 |
+| BM-008__87981f1c5cf8 | BM-008 | draft | 14 | 14 | 14 | 42 | 0 | 0 | 0 | 2 |
+| BM-009__ad542fd7bc45 | BM-009 | draft | 16 | 16 | 16 | 48 | 0 | 0 | 0 | 2 |
+| BM-010__3814cd2b4bcf | BM-010 | draft | 15 | 15 | 15 | 45 | 0 | 0 | 0 | 2 |
 | BM-011__26e6e688d223 | BM-011 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-012__7733d5ac8e86 | BM-012 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-013__9a1f7d37fec9 | BM-013 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |

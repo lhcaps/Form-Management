@@ -99,6 +99,7 @@ const verifyContract = (contract, taxonomies) => {
 const summarize = (results) => {
   let totalSlots = 0;
   let totalBound = 0;
+  let totalFields = 0;
   let totalUnknown = 0;
   let totalReview = 0;
   let totalMissingBinding = 0;
@@ -111,6 +112,7 @@ const summarize = (results) => {
     const c = r.contract;
     totalSlots += c.docxSlots?.length ?? 0;
     totalBound += c.renderBindings?.length ?? 0;
+    totalFields += c.canonicalFields?.length ?? 0;
     totalUnknown += (c.canonicalFields ?? []).filter((f) => f.source === "unknown").length;
     totalReview +=
       (c.canonicalFields ?? []).filter((f) => f.reviewRequired).length
@@ -127,6 +129,7 @@ const summarize = (results) => {
   return {
     totalSlots,
     totalBound,
+    totalFields,
     totalUnknown,
     totalReview,
     totalMissingBinding,
@@ -138,6 +141,30 @@ const summarize = (results) => {
   };
 };
 
+const collectCanonicalContractFiles = () => {
+  const candidates = [
+    ...fs.readdirSync(CONTRACTS_DIR)
+      .filter((name) => name.endsWith(".contract.draft.json"))
+      .map((name) => path.join(CONTRACTS_DIR, name)),
+    ...fs.readdirSync(path.join(CONTRACTS_DIR, "locked"))
+      .filter((name) => name.endsWith(".contract.locked.json"))
+      .map((name) => path.join(CONTRACTS_DIR, "locked", name)),
+  ];
+  const selectedBySourceId = new Map();
+
+  for (const filePath of candidates) {
+    const contract = loadJson(filePath);
+    const sourceId = contract.sourceId ?? path.basename(filePath);
+    const existing = selectedBySourceId.get(sourceId);
+    if (!existing || contract.status === "locked") {
+      selectedBySourceId.set(sourceId, { filePath, contract });
+    }
+  }
+  return [...selectedBySourceId.values()].sort((left, right) =>
+    left.contract.sourceId.localeCompare(right.contract.sourceId),
+  );
+};
+
 const main = () => {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
   fs.mkdirSync(COVERAGE_DIR, { recursive: true });
@@ -147,14 +174,12 @@ const main = () => {
   const transforms = loadJson(TRANSFORM_TAXONOMY).transforms;
   const taxonomies = { namespaces, sources, transforms };
 
-  const files = fs.readdirSync(CONTRACTS_DIR).filter((n) => n.endsWith(".contract.draft.json"));
   const results = [];
   let totalIssues = 0;
   let totalWarnings = 0;
   let lockedInvalid = 0;
 
-  for (const f of files) {
-    const c = JSON.parse(fs.readFileSync(path.join(CONTRACTS_DIR, f), "utf8"));
+  for (const { filePath, contract: c } of collectCanonicalContractFiles()) {
     const { issues, warnings } = verifyContract(c, taxonomies);
     totalIssues += issues.length;
     totalWarnings += warnings.length;
@@ -163,7 +188,7 @@ const main = () => {
     }
     results.push({
       code: c.templateCode,
-      file: f,
+      file: path.relative(CONTRACTS_DIR, filePath),
       status: c.status,
       issues,
       warnings,
@@ -185,11 +210,15 @@ const main = () => {
   md.push("");
   md.push("- ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.");
   md.push("- ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.");
-  md.push("- ❌ **Locked contract count**: Hiện tại = 0. Nghĩa là **không có contract nào pass strict semantic review**.");
-  md.push("- ⚠️ **Unknown sources**: 100% canonicalField đang `source=unknown` (chờ reviewer quyết định từng field thuộc nguồn nào).");
-  md.push("- ⚠️ **Review-required**: 100% slot+field+binding đang `reviewRequired=true` (chờ reviewer xác nhận).");
+  md.push(
+    summary.totalLocked > 0
+      ? `- ✅ **Locked contract count**: Hiện tại = ${summary.totalLocked}. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.`
+      : "- ❌ **Locked contract count**: Hiện tại = 0. Nghĩa là **không có contract nào pass strict semantic review**.",
+  );
+  md.push(`- ⚠️ **Unknown sources**: ${summary.totalUnknown}/${summary.totalFields} canonicalField đang \`source=unknown\`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.`);
+  md.push(`- ⚠️ **Review-required**: Còn ${summary.totalReview} cờ review trên inventory canonical; contract locked phải có 0 cờ review.`);
   md.push("");
-  md.push("> Kết luận: Mọi số liệu dưới đây mô tả **structure của draft contract**, không phải sự đúng đắn về pháp lý/nghiệp vụ.");
+  md.push("> Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.");
   if (summary.totalLocked === 0) {
     md.push("");
     md.push("> **Không có contract locked.** Kết quả này chỉ xác nhận cấu trúc draft, không xác nhận đúng với DOCX về mặt nghiệp vụ/pháp lý. Không dùng để khẳng định contract đã pass verification.");
@@ -200,6 +229,7 @@ const main = () => {
   md.push(`- Tổng contract (form, KHÔNG tính reference docs): **${results.length}**`);
   md.push(`- Tổng docxSlots: **${summary.totalSlots}**`);
   md.push(`- Tổng renderBindings: **${summary.totalBound}**`);
+  md.push(`- Tổng canonicalFields: **${summary.totalFields}**`);
   md.push(`- Tổng canonicalFields có source=unknown: **${summary.totalUnknown}**`);
   md.push(`- Tổng reviewRequired (slot+field+binding): **${summary.totalReview}**`);
   md.push(`- Tổng slot thiếu binding: **${summary.totalMissingBinding}**`);

@@ -62,6 +62,41 @@
       "description": "Các trường liên quan đến phân công KSV / kiểm tra viên.",
       "commonFields": ["assignedProsecutor", "assignedInspector", "reason", "effectiveDate"]
     },
+    "official": {
+      "label": "Chủ thể ban hành",
+      "description": "Chức danh hoặc người có thẩm quyền ban hành văn bản.",
+      "commonFields": ["issuerTitle", "fullName", "positionTitle"]
+    },
+    "sourceVerification": {
+      "label": "Yêu cầu kiểm tra, xác minh nguồn tin",
+      "description": "Căn cứ, vấn đề cần xác minh và yêu cầu gửi kết quả.",
+      "commonFields": ["requestRoundText", "procedureArticlesLine", "reasonLine", "requestedAuthorityLine", "issue1Line", "issue2Line", "issue3Line", "additionalIssuesLine", "resultSubmissionLine"]
+    },
+    "sourceRequest": {
+      "label": "Yêu cầu tiếp nhận, kiểm tra hoặc giải quyết nguồn tin",
+      "description": "Cơ quan được yêu cầu, hành động, vụ việc và kết quả cần thông báo.",
+      "commonFields": ["reasonLine", "receiverName", "actionLine", "caseSummary", "actionResultLine"]
+    },
+    "sourceMaterialRequest": {
+      "label": "Yêu cầu cung cấp tài liệu nguồn tin",
+      "description": "Danh mục tài liệu cần cung cấp và thời hạn thực hiện.",
+      "commonFields": ["reasonLine", "article1Line", "documentItem1Line", "documentItem2Line", "documentItem3Line", "additionalDocumentItemsLine", "deadlineLine"]
+    },
+    "sourceTransfer": {
+      "label": "Chuyển nguồn tin về tội phạm",
+      "description": "Vụ việc, lý do chuyển, cơ quan chuyển và cơ quan tiếp nhận.",
+      "commonFields": ["caseSummary", "reasonLine", "senderName", "receiverName"]
+    },
+    "sourceResolutionExtension": {
+      "label": "Gia hạn giải quyết nguồn tin",
+      "description": "Căn cứ, lý do, nội dung gia hạn và cơ quan nhận quyết định.",
+      "commonFields": ["procedureArticlesLine", "receptionLegalBasisLine", "proposalLegalBasisLine", "reasonLine", "article1Line", "article2Line", "requestingAgencyRecipientLine"]
+    },
+    "sourceSuspension": {
+      "label": "Tạm đình chỉ giải quyết nguồn tin",
+      "description": "Lý do, vụ việc, ngày tiếp nhận và các điều quyết định tạm đình chỉ.",
+      "commonFields": ["reasonLine", "caseSummary", "receivedDateLine", "article2Line", "article3Line"]
+    },
     "decision": {
       "label": "Nội dung quyết định",
       "description": "Điều 1, 2, 3 hoặc các khoản quyết định.",
