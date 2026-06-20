@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { CompiledFormContract } from "@qllaw/form-contracts";
+import { getRuntimeFormContract } from "@/lib/form-studio-api";
+import { PublishedContractFormInputsPanel } from "@/components/documents/published-contract-form-inputs";
 import { Bm173FormInputsPanel } from "./bm-173-form-inputs";
 import { Bm171FormInputsPanel } from "./bm-171-form-inputs";
 import { Bm091FormInputsPanel } from "@/components/documents/bm-091-form-inputs";
@@ -649,6 +652,11 @@ export function GeneratedDocumentWorkspace({
   const [payload, setPayload] = useState<RenderPayloadResponse | null>(null);
   const [isLoadingPayload, setIsLoadingPayload] = useState(true);
   const [payloadError, setPayloadError] = useState<string | null>(null);
+  const [publishedRuntime, setPublishedRuntime] = useState<{
+    source: string;
+    contractHash: string;
+    compiledContract: CompiledFormContract;
+  } | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -737,6 +745,33 @@ export function GeneratedDocumentWorkspace({
   const Panel = templateCode
     ? BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel
     : GenericTemplateFormInputsPanel;
+
+  useEffect(() => {
+    let active = true;
+    if (!templateCode || templateCode === "UNKNOWN") {
+      setPublishedRuntime(null);
+      return;
+    }
+    void getRuntimeFormContract(templateCode)
+      .then((result) => {
+        if (!active) return;
+        setPublishedRuntime(
+          result.source === "LOCKED_FILE"
+            ? null
+            : {
+                source: result.source,
+                contractHash: result.contractHash,
+                compiledContract: result.compiledContract,
+              },
+        );
+      })
+      .catch(() => {
+        if (active) setPublishedRuntime(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [templateCode]);
 
   return (
     <CasePayloadProvider value={casePayload}>
@@ -838,7 +873,16 @@ export function GeneratedDocumentWorkspace({
               </section>
             ) : null}
 
-            {!isInitialPayloadLoading && Panel ? (
+            {!isInitialPayloadLoading && publishedRuntime ? (
+              <PublishedContractFormInputsPanel
+                documentId={documentId}
+                contract={publishedRuntime.compiledContract}
+                contractHash={publishedRuntime.contractHash}
+                onSaved={() => setRefreshKey((current) => current + 1)}
+              />
+            ) : null}
+
+            {!isInitialPayloadLoading && !publishedRuntime && Panel ? (
               <Panel
                 documentId={documentId}
                 onSaved={() => setRefreshKey((current) => current + 1)}

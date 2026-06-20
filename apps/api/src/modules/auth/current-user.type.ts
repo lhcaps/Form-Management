@@ -1,4 +1,8 @@
 export type UserRole = 'ADMIN' | 'OFFICIAL' | 'VIEWER';
+export type FormPermission =
+  | 'FORM_TEMPLATE_EDIT'
+  | 'FORM_TEMPLATE_APPROVE'
+  | 'FORM_TEMPLATE_PERMISSION_ADMIN';
 
 export interface PublicUser {
   id: string;
@@ -13,6 +17,7 @@ export interface PublicUser {
   agencyName: string | null;
   agencyCode: string | null;
   isActive: boolean;
+  permissions: FormPermission[];
 }
 
 export type CurrentUser = PublicUser;

@@ -14,6 +14,7 @@ import { TemplatesModule } from './modules/templates/templates.module';
 import { FormsContractsModule } from './modules/forms-contracts/forms-contracts.module';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { HealthModule } from './modules/health/health.module';
+import { FormStudioModule } from './modules/form-studio/form-studio.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { HealthModule } from './modules/health/health.module';
     ImportsModule,
     Bm031DirectModule,
     FormsContractsModule,
+    FormStudioModule,
     HealthModule,
   ],
   controllers: [AppController],

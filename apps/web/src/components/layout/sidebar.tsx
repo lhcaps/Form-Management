@@ -137,6 +137,27 @@ export function Sidebar() {
   const displayName = user?.fullName ?? "Chưa đăng nhập";
   const subtitle = user?.agencyName ?? user?.positionTitle ?? user?.role ?? "";
   const initials = getInitials(displayName) || "QL";
+  const visibleMenuItems =
+    user?.role === "ADMIN" ||
+    user?.permissions?.includes("FORM_TEMPLATE_EDIT") ||
+    user?.permissions?.includes("FORM_TEMPLATE_APPROVE")
+      ? [
+          ...menuItems,
+          {
+            href: "/admin/form-studio",
+            label: "Form Studio",
+            icon: (
+              <SvgIcon>
+                <path d="M4 5h16v14H4z" />
+                <path d="M8 9h8" />
+                <path d="M8 13h5" />
+                <path d="M17 12v5" />
+                <path d="M14.5 14.5h5" />
+              </SvgIcon>
+            ),
+          },
+        ]
+      : menuItems;
 
   return (
     <aside className="sticky top-0 hidden h-screen w-[260px] shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col">
@@ -160,7 +181,7 @@ export function Sidebar() {
       </div>
 
       <nav className="grid gap-2 px-3">
-        {menuItems.map((item) => {
+        {visibleMenuItems.map((item) => {
           const active = isActivePath(pathname, item.href);
 
           return (

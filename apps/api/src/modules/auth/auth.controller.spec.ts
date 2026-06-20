@@ -90,6 +90,7 @@ describe('AuthController changePassword', () => {
     agencyName: 'VKS',
     agencyCode: 'VKSKV7',
     isActive: true,
+    permissions: [],
   };
 
   it('updates password and revokes other sessions when current is correct', async () => {

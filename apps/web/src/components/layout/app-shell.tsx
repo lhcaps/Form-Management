@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode, CSSProperties } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
 
@@ -26,12 +29,22 @@ const styles: Record<string, CSSProperties> = {
 };
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isFormStudio = pathname.startsWith("/admin/form-studio");
   return (
     <div style={styles.shell}>
       <Sidebar />
       <div style={styles.contentWrap}>
         <Topbar />
-        <main style={styles.main}>{children}</main>
+        <main
+          style={
+            isFormStudio
+              ? { width: "100%", minWidth: 0, flex: 1, padding: 0 }
+              : styles.main
+          }
+        >
+          {children}
+        </main>
       </div>
     </div>
   );

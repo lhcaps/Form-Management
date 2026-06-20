@@ -8,6 +8,10 @@
 import { absoluteApiUrl } from "./api-client";
 
 export type UserRole = "ADMIN" | "OFFICIAL" | "VIEWER";
+export type FormPermission =
+  | "FORM_TEMPLATE_EDIT"
+  | "FORM_TEMPLATE_APPROVE"
+  | "FORM_TEMPLATE_PERMISSION_ADMIN";
 
 export interface AuthUser {
   id: string;
@@ -22,6 +26,7 @@ export interface AuthUser {
   agencyName: string | null;
   agencyCode: string | null;
   isActive: boolean;
+  permissions: FormPermission[];
 }
 
 export async function login(username: string, password: string): Promise<AuthUser> {

@@ -46,6 +46,7 @@ export class AuthService {
       },
       include: {
         agencies: true,
+        official_permissions: true,
       },
     });
 
@@ -208,7 +209,7 @@ export class AuthService {
 
     const official = await this.prisma.officials.findUnique({
       where: { id: officialId },
-      include: { agencies: true },
+      include: { agencies: true, official_permissions: true },
     });
     if (!official || !official.is_active) return null;
     return this.toPublicUser(official);
@@ -230,6 +231,7 @@ export class AuthService {
       agency_name: string;
       agency_code: string | null;
     } | null;
+    official_permissions?: Array<{ permission_code: string }>;
   }): PublicUser {
     // Use explicit role from DB. Fallback heuristic only for legacy rows
     // where role is NULL (migrated data from before this column existed).
@@ -249,6 +251,23 @@ export class AuthService {
       role = isHeadPosition || lowerName === 'admin' ? 'ADMIN' : 'OFFICIAL';
     }
 
+    const adminPermissions = [
+      'FORM_TEMPLATE_EDIT',
+      'FORM_TEMPLATE_APPROVE',
+      'FORM_TEMPLATE_PERMISSION_ADMIN',
+    ] as const;
+    const permissions =
+      role === 'ADMIN'
+        ? [...adminPermissions]
+        : (official.official_permissions ?? [])
+            .map((permission) => permission.permission_code)
+            .filter(
+              (permission): permission is (typeof adminPermissions)[number] =>
+                adminPermissions.includes(
+                  permission as (typeof adminPermissions)[number],
+                ),
+            );
+
     return {
       id: String(official.id),
       username: official.username,
@@ -262,6 +281,7 @@ export class AuthService {
       agencyName: official.agencies?.agency_name ?? null,
       agencyCode: official.agencies?.agency_code ?? null,
       isActive: official.is_active,
+      permissions,
     };
   }
 }

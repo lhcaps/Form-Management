@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "2.0",
+  "templateCode": "CUS-SYNTHETIC-0001",
+  "title": "Synthetic Contract Platform v2",
+  "agencyId": "1",
+  "version": 1,
+  "status": "DRAFT",
+  "baseContractHash": null,
+  "contractHash": "",
+  "templateHash": "synthetic-template-hash",
+  "normalizedDocxPath": "storage/templates/normalized-docx/SYNTHETIC/synthetic.docx",
+  "sections": [
+    {
+      "id": "main",
+      "title": "Thông tin chính",
+      "order": 0,
+      "columns": 2
+    }
+  ],
+  "fields": [
+    {
+      "id": "full-name",
+      "key": "person.fullName",
+      "sectionId": "main",
+      "label": "Họ và tên",
+      "control": "TEXT",
+      "order": 0,
+      "width": 6,
+      "required": true,
+      "dataSource": {
+        "kind": "MANUAL"
+      }
+    },
+    {
+      "id": "has-witness",
+      "key": "document.hasWitness",
+      "sectionId": "main",
+      "label": "Có người làm chứng",
+      "control": "CHECKBOX",
+      "order": 1,
+      "width": 6,
+      "required": false,
+      "dataSource": {
+        "kind": "MANUAL"
+      }
+    },
+    {
+      "id": "witness-name",
+      "key": "witnesses.fullName",
+      "sectionId": "main",
+      "label": "Người làm chứng",
+      "control": "TEXT",
+      "order": 2,
+      "width": 12,
+      "required": false,
+      "dataSource": {
+        "kind": "MANUAL"
+      },
+      "repeatableGroupId": "witnesses"
+    },
+    {
+      "id": "summary",
+      "key": "document.summary",
+      "sectionId": "main",
+      "label": "Tóm tắt tự động",
+      "control": "COMPUTED",
+      "order": 3,
+      "width": 12,
+      "required": true,
+      "dataSource": {
+        "kind": "COMPUTED",
+        "expression": {
+          "op": "concat",
+          "args": [
+            {
+              "op": "literal",
+              "value": "Người khai: "
+            },
+            {
+              "op": "field",
+              "path": "person.fullName"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "repeatableGroups": [
+    {
+      "id": "witnesses",
+      "key": "witnesses",
+      "label": "Người làm chứng",
+      "minItems": 0,
+      "maxItems": 20,
+      "fieldKeys": [
+        "witnesses.fullName"
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "evidence",
+      "key": "evidenceItems",
+      "label": "Danh sách vật chứng",
+      "rowLoopStart": "evidenceItems",
+      "columns": [
+        {
+          "key": "description",
+          "label": "Mô tả",
+          "control": "TEXT",
+          "required": true
+        },
+        {
+          "key": "quantity",
+          "label": "Số lượng",
+          "control": "NUMBER",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "computedFields": [],
+  "conditionalRules": [
+    {
+      "id": "show-witnesses",
+      "targetFieldKey": "witnesses.fullName",
+      "effect": "SHOW",
+      "when": {
+        "op": "field",
+        "path": "document.hasWitness"
+      }
+    }
+  ],
+  "validationRules": [],
+  "defaultRules": [],
+  "presetRules": [],
+  "renderBindings": [
+    {
+      "id": "person-name",
+      "target": {
+        "kind": "SLOT",
+        "slotId": "person.fullName"
+      },
+      "source": {
+        "kind": "FIELD",
+        "fieldKey": "person.fullName"
+      },
+      "transform": "identity",
+      "fallback": ""
+    },
+    {
+      "id": "evidence-table",
+      "target": {
+        "kind": "TABLE",
+        "tableKey": "evidenceItems"
+      },
+      "source": {
+        "kind": "TABLE",
+        "tableKey": "evidenceItems"
+      },
+      "transform": "identity",
+      "fallback": []
+    },
+    {
+      "id": "document-has-witness",
+      "target": {
+        "kind": "SLOT",
+        "slotId": "document.hasWitness"
+      },
+      "source": {
+        "kind": "FIELD",
+        "fieldKey": "document.hasWitness"
+      },
+      "transform": "identity",
+      "fallback": false
+    }
+  ],
+  "migrationRules": [],
+  "extensionPoints": []
+}

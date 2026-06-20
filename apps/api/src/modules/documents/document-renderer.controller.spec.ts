@@ -14,6 +14,7 @@ const user: CurrentUser = {
   agencyName: null,
   agencyCode: null,
   isActive: true,
+  permissions: [],
 };
 
 describe('DocumentRendererController', () => {

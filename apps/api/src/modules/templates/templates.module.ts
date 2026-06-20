@@ -7,5 +7,6 @@ import { TemplatesService } from './templates.service';
 @Module({
   controllers: [TemplatesController, TemplateNormalizerController],
   providers: [TemplatesService, TemplateNormalizerService],
+  exports: [TemplatesService, TemplateNormalizerService],
 })
 export class TemplatesModule {}
