@@ -120,6 +120,157 @@ const EXPECTED_FIELDS = Object.freeze({
     "signature.positionTitle",
     "signature.signerName",
   ],
+  "BM-011": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "sourceSuspensionCancellation.considerationLine",
+    "sourceSuspensionCancellation.article1Line",
+    "sourceSuspensionCancellation.article2Line",
+    "recipients.primaryLine",
+    "recipients.sourceProviderLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-012": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "sourceRecovery.reasonLine",
+    "sourceRecovery.suspensionDecisionCode",
+    "sourceRecovery.suspensionDecisionIssueDateLine",
+    "sourceRecovery.suspensionDecisionIssuedBy",
+    "sourceRecovery.caseSummary",
+    "recipients.primaryLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-014": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "sourceDirectInspection.article1Line",
+    "sourceDirectInspection.teamLeaderLine",
+    "sourceDirectInspection.member1Line",
+    "sourceDirectInspection.member2Line",
+    "sourceDirectInspection.additionalMembersLine",
+    "sourceDirectInspection.article3Line",
+    "sourceDirectInspection.article4Line",
+    "recipients.primaryLine",
+    "recipients.teamMembersLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-015": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "sourceDirectInspectionPlan.attachedDecisionLine",
+    "sourceDirectInspectionPlan.purposeLine1",
+    "sourceDirectInspectionPlan.purposeLine2",
+    "sourceDirectInspectionPlan.purposeLine3",
+    "sourceDirectInspectionPlan.receivedStatsBlock",
+    "sourceDirectInspectionPlan.resolvedStatsBlock",
+    "sourceDirectInspectionPlan.prosecutionDecisionStatsLine",
+    "sourceDirectInspectionPlan.nonProsecutionDecisionStatsLine",
+    "sourceDirectInspectionPlan.transferredStatsLine",
+    "sourceDirectInspectionPlan.pendingStatsLine",
+    "sourceDirectInspectionPlan.suspendedStatsLine",
+    "sourceDirectInspectionPlan.advantagesLine",
+    "sourceDirectInspectionPlan.limitationsLine",
+    "sourceDirectInspectionPlan.recommendationsLine",
+    "sourceDirectInspectionPlan.inspectionTimeLine",
+    "sourceDirectInspectionPlan.dataPeriodLine",
+    "sourceDirectInspectionPlan.methodsBlock",
+    "sourceDirectInspectionPlan.requestPreparationLine",
+    "recipients.primaryLine",
+    "recipients.teamMembersLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-016": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "legalBasis.procedureArticlesLine",
+    "sourceDirectInspectionConclusion.implementationDecisionLine",
+    "sourceDirectInspectionConclusion.receivedTotalLine",
+    "sourceDirectInspectionConclusion.receivedDenunciationLine",
+    "sourceDirectInspectionConclusion.receivedCrimeReportLine",
+    "sourceDirectInspectionConclusion.receivedProsecutionRequestLine",
+    "sourceDirectInspectionConclusion.receivedDirectDiscoveryLine",
+    "sourceDirectInspectionConclusion.receivedSelfSurrenderLine",
+    "sourceDirectInspectionConclusion.receivedOtherLine",
+    "sourceDirectInspectionConclusion.resolvedStatsBlock",
+    "sourceDirectInspectionConclusion.prosecutionDecisionStatsLine",
+    "sourceDirectInspectionConclusion.nonProsecutionDecisionStatsLine",
+    "sourceDirectInspectionConclusion.transferredStatsLine",
+    "sourceDirectInspectionConclusion.pendingStatsLine",
+    "sourceDirectInspectionConclusion.suspendedStatsLine",
+    "sourceDirectInspectionConclusion.advantagesLine",
+    "sourceDirectInspectionConclusion.violationsLine",
+    "sourceDirectInspectionConclusion.violationReasonsLine",
+    "sourceDirectInspectionConclusion.recommendationsBlock",
+    "sourceDirectInspectionConclusion.implementationRequestLine",
+    "recipients.primaryLine",
+    "recipients.teamMembersLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-017": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "caseInitiationRequest.procedureArticlesLine",
+    "caseInitiationRequest.assessmentLine",
+    "caseInitiationRequest.article1Line",
+    "caseInitiationRequest.article2Line",
+    "caseInitiationRequest.investigationAuthorityRecipientLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-018": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "caseInitiationChangeRequest.considerationLine",
+    "caseInitiationChangeRequest.currentOffenseLegalLine",
+    "caseInitiationChangeRequest.changeGroundLine",
+    "caseInitiationChangeRequest.newOffenseLegalLine",
+    "caseInitiationChangeRequest.requestAuthorityLine",
+    "caseInitiationChangeRequest.requestChangeDecisionLine",
+    "recipients.primaryLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
 });
 
 let refinement = null;
@@ -169,6 +320,51 @@ test("contract preparation is a side-effect-free dry run", () => {
   assert.equal(after, before);
 });
 
+test("refinement evidence markdown ends with exactly one newline", () => {
+  const api = requireRefinement();
+  const markdown = api.formatRefinementEvidenceMarkdown({
+    codes: ["BM-011"],
+    overallStatus: "PASS",
+    results: [
+      {
+        code: "BM-011",
+        status: "PASS",
+        normalizedDocxPath:
+          "storage/templates/normalized-docx/BM-011/BM-011_normalized.docx",
+        normalizedDocxSha256: "abc123",
+        fields: 15,
+        bindings: 15,
+        compile: { ok: true },
+        packageIntegrity: { status: "pass" },
+        unresolvedPlaceholders: [],
+        missingSampleValues: [],
+        literalLeakage: [],
+      },
+    ],
+  });
+
+  assert.match(markdown, /\n$/u);
+  assert.doesNotMatch(markdown, /\n\n$/u);
+});
+
+test("every refinement profile uses a registered field taxonomy namespace", () => {
+  const api = requireRefinement();
+  const taxonomy = JSON.parse(
+    readFileSync(join(repoRoot, "docs", "contracts", "field-taxonomy.json"), "utf8"),
+  );
+  const namespaces = new Set(Object.keys(taxonomy.namespaces));
+
+  for (const code of Object.keys(EXPECTED_FIELDS)) {
+    const profile = api.loadRefinementProfile(repoRoot, code);
+    for (const path of Object.keys(profile.fields)) {
+      assert.ok(
+        namespaces.has(path.split(".")[0]),
+        `${code} uses unregistered namespace in ${path}`,
+      );
+    }
+  }
+});
+
 for (const [code, expectedFields] of Object.entries(EXPECTED_FIELDS)) {
   test(`${code} normalized DOCX placeholders exactly match its reviewed profile`, () => {
     const api = requireRefinement();
@@ -215,6 +411,17 @@ for (const [code, expectedFields] of Object.entries(EXPECTED_FIELDS)) {
     assert.deepEqual(
       refined.canonicalFields.filter((field) => /\.field\d+$/u.test(field.path)),
       [],
+    );
+    assert.equal(
+      refined.warnings.some((warning) => warning.startsWith("Clx parse error:")),
+      false,
+      `${code} normalized-DOCX refinement must not retain an obsolete legacy .doc parser warning`,
+    );
+    assert.ok(
+      refined.warnings.some((warning) =>
+        warning.includes("human semantic/legal review is still required"),
+      ),
+      `${code} must retain the human-review warning`,
     );
 
     const requireFromContracts = createRequire(

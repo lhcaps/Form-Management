@@ -5,6 +5,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 
 import {
+  formatRefinementEvidenceMarkdown,
   parseSelectedCodes,
   prepareContractRefinement,
   renderRefinementPreview,
@@ -85,36 +86,15 @@ const evidence = {
   },
   results,
 };
-const markdown = [
-  "# Form Refinement Evidence",
-  "",
-  `- Scope: ${codes.join(", ")}`,
-  `- Status: **${overallStatus}**`,
-  "- Lifecycle: draft / review-required; this report does not grant human legal approval.",
-  "- Visual QA: not run because LibreOffice/soffice is unavailable in this environment.",
-  "",
-  "| BM | Fields | Bindings | Compile | Package | Unresolved placeholders | Missing samples | Literal leakage |",
-  "|---|---:|---:|---|---|---:|---:|---:|",
-  ...results.map(
-    (result) =>
-      `| ${result.code} | ${result.fields} | ${result.bindings} | ${result.compile.ok ? "PASS" : "FAIL"} | ${result.packageIntegrity.status.toUpperCase()} | ${result.unresolvedPlaceholders.length} | ${result.missingSampleValues.length} | ${result.literalLeakage.length} |`,
-  ),
-  "",
-  "## Per-form provenance",
-  "",
-  ...results.flatMap((result) => [
-    `### ${result.code}`,
-    "",
-    `- Normalized DOCX: \`${result.normalizedDocxPath}\``,
-    `- SHA256: \`${result.normalizedDocxSha256}\``,
-    `- Result: **${result.status}**`,
-    "",
-  ]),
-];
+const markdown = formatRefinementEvidenceMarkdown({
+  codes,
+  overallStatus,
+  results,
+});
 
 mkdirSync(dirname(jsonPath), { recursive: true });
 writeFileSync(jsonPath, `${JSON.stringify(evidence, null, 2)}\n`, "utf8");
-writeFileSync(mdPath, `${markdown.join("\n")}\n`, "utf8");
+writeFileSync(mdPath, markdown, "utf8");
 
 console.log(`Refinement smoke: ${overallStatus}`);
 console.log(`Evidence: ${relative(repoRoot, mdPath)}`);

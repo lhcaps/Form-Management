@@ -128,6 +128,44 @@ export function parseSelectedCodes(argv) {
   return codes.sort();
 }
 
+export function formatRefinementEvidenceMarkdown({
+  codes,
+  overallStatus,
+  results,
+}) {
+  const lines = [
+    "# Form Refinement Evidence",
+    "",
+    `- Scope: ${codes.join(", ")}`,
+    `- Status: **${overallStatus}**`,
+    "- Lifecycle: draft / review-required; this report does not grant human legal approval.",
+    "- Visual QA: not run because LibreOffice/soffice is unavailable in this environment.",
+    "",
+    "| BM | Fields | Bindings | Compile | Package | Unresolved placeholders | Missing samples | Literal leakage |",
+    "|---|---:|---:|---|---|---:|---:|---:|",
+    ...results.map(
+      (result) =>
+        `| ${result.code} | ${result.fields} | ${result.bindings} | ${result.compile.ok ? "PASS" : "FAIL"} | ${result.packageIntegrity.status.toUpperCase()} | ${result.unresolvedPlaceholders.length} | ${result.missingSampleValues.length} | ${result.literalLeakage.length} |`,
+    ),
+    "",
+    "## Per-form provenance",
+    "",
+  ];
+
+  results.forEach((result, index) => {
+    lines.push(
+      `### ${result.code}`,
+      "",
+      `- Normalized DOCX: \`${result.normalizedDocxPath}\``,
+      `- SHA256: \`${result.normalizedDocxSha256}\``,
+      `- Result: **${result.status}**`,
+    );
+    if (index < results.length - 1) lines.push("");
+  });
+
+  return `${lines.join("\n")}\n`;
+}
+
 export function findContractFile(repoRoot, code) {
   const contractsDir = join(repoRoot, "docs", "audit", "docx", "contracts");
   const matches = readdirSync(contractsDir).filter(
@@ -276,7 +314,10 @@ export function buildRefinedContract({
   const warning =
     "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required.";
   const warnings = [
-    ...(contract.warnings ?? []).filter((value) => value !== warning),
+    ...(contract.warnings ?? []).filter(
+      (value) =>
+        value !== warning && !value.startsWith("Clx parse error:"),
+    ),
     warning,
   ];
 

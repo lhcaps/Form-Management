@@ -97,6 +97,41 @@
       "description": "Lý do, vụ việc, ngày tiếp nhận và các điều quyết định tạm đình chỉ.",
       "commonFields": ["reasonLine", "caseSummary", "receivedDateLine", "article2Line", "article3Line"]
     },
+    "sourceSuspensionCancellation": {
+      "label": "Hủy bỏ quyết định tạm đình chỉ giải quyết nguồn tin",
+      "description": "Nội dung xét thấy, quyết định hủy bỏ và yêu cầu tiếp tục giải quyết nguồn tin.",
+      "commonFields": ["considerationLine", "article1Line", "article2Line"]
+    },
+    "sourceRecovery": {
+      "label": "Phục hồi giải quyết nguồn tin",
+      "description": "Lý do phục hồi và thông tin quyết định tạm đình chỉ làm căn cứ phục hồi.",
+      "commonFields": ["reasonLine", "suspensionDecisionCode", "suspensionDecisionIssueDateLine", "suspensionDecisionIssuedBy", "caseSummary"]
+    },
+    "sourceDirectInspection": {
+      "label": "Quyết định trực tiếp kiểm sát nguồn tin",
+      "description": "Phạm vi, thời gian, thành phần đoàn và yêu cầu của quyết định trực tiếp kiểm sát.",
+      "commonFields": ["article1Line", "teamLeaderLine", "member1Line", "member2Line", "additionalMembersLine", "article3Line", "article4Line"]
+    },
+    "sourceDirectInspectionPlan": {
+      "label": "Kế hoạch trực tiếp kiểm sát nguồn tin",
+      "description": "Mục đích, nội dung thống kê, đánh giá, thời gian, phương pháp và yêu cầu chuẩn bị.",
+      "commonFields": ["attachedDecisionLine", "purposeLine1", "purposeLine2", "purposeLine3", "receivedStatsBlock", "resolvedStatsBlock", "prosecutionDecisionStatsLine", "nonProsecutionDecisionStatsLine", "transferredStatsLine", "pendingStatsLine", "suspendedStatsLine", "advantagesLine", "limitationsLine", "recommendationsLine", "inspectionTimeLine", "dataPeriodLine", "methodsBlock", "requestPreparationLine"]
+    },
+    "sourceDirectInspectionConclusion": {
+      "label": "Kết luận trực tiếp kiểm sát nguồn tin",
+      "description": "Kết quả tiếp nhận, giải quyết, vi phạm, nguyên nhân, kiến nghị và yêu cầu thực hiện.",
+      "commonFields": ["implementationDecisionLine", "receivedTotalLine", "receivedDenunciationLine", "receivedCrimeReportLine", "receivedProsecutionRequestLine", "receivedDirectDiscoveryLine", "receivedSelfSurrenderLine", "receivedOtherLine", "resolvedStatsBlock", "prosecutionDecisionStatsLine", "nonProsecutionDecisionStatsLine", "transferredStatsLine", "pendingStatsLine", "suspendedStatsLine", "advantagesLine", "violationsLine", "violationReasonsLine", "recommendationsBlock", "implementationRequestLine"]
+    },
+    "caseInitiationRequest": {
+      "label": "Yêu cầu khởi tố vụ án hình sự",
+      "description": "Căn cứ, đánh giá, nội dung yêu cầu khởi tố và cơ quan điều tra nhận yêu cầu.",
+      "commonFields": ["procedureArticlesLine", "assessmentLine", "article1Line", "article2Line", "investigationAuthorityRecipientLine"]
+    },
+    "caseInitiationChangeRequest": {
+      "label": "Yêu cầu thay đổi quyết định khởi tố vụ án hình sự",
+      "description": "Quyết định và tội danh cũ, căn cứ thay đổi, tội danh mới và nội dung yêu cầu.",
+      "commonFields": ["considerationLine", "currentOffenseLegalLine", "changeGroundLine", "newOffenseLegalLine", "requestAuthorityLine", "requestChangeDecisionLine"]
+    },
     "decision": {
       "label": "Nội dung quyết định",
       "description": "Điều 1, 2, 3 hoặc các khoản quyết định.",
@@ -110,7 +145,7 @@
     "recipients": {
       "label": "Nơi nhận / lưu",
       "description": "Dòng nơi nhận văn bản và dòng lưu hồ sơ.",
-      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "superiorProcuracyLine"]
+      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine"]
     },
     "signature": {
       "label": "Chữ ký",
