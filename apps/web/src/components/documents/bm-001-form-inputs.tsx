@@ -609,7 +609,7 @@ export function Bm001FormInputsPanel({
           "01 bản tường trình; 01 bản sao giấy tờ tùy thân; các tài liệu liên quan khác nếu có.",
       },
       recipients: {
-        archiveLine: "Lưu: HSVV, VP.",
+        archiveLine: "Lưu: HSVA, HSKS, VP.",
       },
     };
 

@@ -62,6 +62,7 @@ import { Bm017FormInputsPanel } from "@/components/documents/bm-017-form-inputs"
 import { Bm085FormInputsPanel } from "@/components/documents/bm-085-form-inputs";
 import { Bm168FormInputsPanel } from "@/components/documents/bm-168-form-inputs";
 import { Bm023FormInputsPanel } from "@/components/documents/bm-023-form-inputs";
+import { Bm027FormInputsPanel } from "@/components/documents/bm-027-form-inputs";
 import { Bm031FormInputsPanel } from "@/components/documents/bm-031-form-inputs";
 import { Bm033FormInputsPanel } from "@/components/documents/bm-033-form-inputs";
 import { Bm037FormInputsPanel } from "@/components/documents/bm-037-form-inputs";
@@ -152,7 +153,6 @@ import { Bm022FormInputsPanel } from "@/components/documents/bm-022-form-inputs"
 import { Bm024FormInputsPanel } from "@/components/documents/bm-024-form-inputs";
 import { Bm025FormInputsPanel } from "@/components/documents/bm-025-form-inputs";
 import { Bm026FormInputsPanel } from "@/components/documents/bm-026-form-inputs";
-import { Bm027FormInputsPanel } from "@/components/documents/bm-027-form-inputs";
 import { Bm028FormInputsPanel } from "@/components/documents/bm-028-form-inputs";
 import { Bm029FormInputsPanel } from "@/components/documents/bm-029-form-inputs";
 import { Bm032FormInputsPanel } from "@/components/documents/bm-032-form-inputs";
@@ -515,7 +515,12 @@ function getTemplateDescription(templateCode: string | null | undefined) {
       return "Form nhập dữ liệu riêng cho Quyết định về việc bảo lĩnh. Dữ liệu gồm bị can, người nhận bảo lĩnh, căn cứ khởi tố, thời hạn bảo lĩnh, Điều 1, Điều 2, nơi nhận và chữ ký.";    case "BM-046":
       return "Form nhập dữ liệu riêng cho Quyết định không phê chuẩn Quyết định về việc bảo lĩnh. Dữ liệu gồm căn cứ khởi tố vụ án, khởi tố bị can, hồ sơ đề nghị bảo lĩnh, lý do không đủ căn cứ, Điều 1, Điều 2, nơi nhận và chữ ký.";    case "BM-159":
       return "Form nhập dữ liệu riêng cho Quyết định phân công Viện kiểm sát cấp dưới thực hành quyền công tố, kiểm sát xét xử sơ thẩm vụ án hình sự. Dữ liệu gồm cáo trạng, Viện kiểm sát được phân công, vụ án, tội danh, Điều 1, Điều 2, nơi nhận và chữ ký.";    case "BM-086":
-      return "Form nhập dữ liệu riêng cho Quyết định chuyển việc thực hiện thẩm quyền thực hành quyền công tố, kiểm sát việc giải quyết vụ việc/vụ án hình sự. Dữ liệu gồm vụ án, VKS chuyển đi, VKS nhận, căn cứ thẩm quyền, Điều 1, Điều 2, nơi nhận và chữ ký.";
+      return "Form nhập dữ liệu riêng cho Quyết định chuyển việc thực hiện thẩm quyền thực hành quyền công tố, kiểm sát việc giải quyết vụ việc/vụ án hình sự. Dữ liệu gồm vụ án, VKS chuyển đi, VKS nhận, căn cứ thẩm quyền, Điều 1, Điều 2, nơi nhận và chữ ký.";    case "BM-048":
+      return "Form nhập dữ liệu riêng cho QĐ huỷ bỏ biện pháp bảo lĩnh. Dữ liệu gồm cơ quan, số QĐ bảo lĩnh bị hủy, thông tin bị can, tội danh, căn cứ pháp lý, lý do hủy bỏ, nơi nhận và chữ ký.";
+    case "BM-049":
+      return "Form nhập dữ liệu riêng cho QĐ phê chuẩn QĐ về việc đặt tiền để bảo đảm. Dữ liệu gồm cơ quan, số QĐ đặt tiền, thông tin người đặt tiền, số tiền, tội danh, nơi nhận và chữ ký.";
+    case "BM-050":
+      return "Form nhập dữ liệu riêng cho QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm. Dữ liệu gồm cơ quan, số QĐ đặt tiền, lý do không phê chuẩn, thông tin cá nhân, tội danh, nơi nhận và chữ ký.";
     case "BM-018":
       return "Form nhập dữ liệu riêng cho Yêu cầu ra Quyết định thay đổi Quyết định khởi tố vụ án hình sự. Dữ liệu gồm quyết định cũ, tội danh cũ, căn cứ thay đổi, tội danh mới, cơ quan được yêu cầu, nơi nhận và chữ ký.";    case "BM-016":
       return "Form nhập dữ liệu riêng cho Kết luận trực tiếp kiểm sát tiếp nhận, giải quyết nguồn tin về tội phạm. Dữ liệu gồm quyết định thực hiện, thống kê tiếp nhận/giải quyết, vi phạm, kiến nghị, nơi nhận và chữ ký.";    case "BM-015":
@@ -537,6 +542,10 @@ function getTemplateDescription(templateCode: string | null | undefined) {
       return "Form nhập dữ liệu riêng cho Biên bản tiếp nhận nguồn tin về tội phạm. Dữ liệu gồm cơ quan lập biên bản, thời gian tiếp nhận, người tiếp nhận, người cung cấp nguồn tin, nội dung nguồn tin, tài liệu giao nộp và chữ ký.";
     case "BM-023":
       return "Form nhập dữ liệu riêng cho Quyết định khởi tố vụ án hình sự. Dữ liệu gồm số quyết định, căn cứ pháp lý, nội dung vụ việc, tội danh, yêu cầu điều tra, nơi nhận và chữ ký.";
+    case "BM-027":
+      return "Form nhập dữ liệu riêng cho Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự. Dữ liệu gồm số thông báo, căn cứ pháp lý, thông tin QĐ khởi tố bị huỷ, lý do hủy, nơi nhận và chữ ký.";
+    case "BM-028":
+      return "Form nhập dữ liệu riêng cho QĐ huỷ bỏ QĐ thay đổi QĐ khởi tố vụ án hình sự. Dữ liệu gồm số quyết định, căn cứ pháp lý, thông tin QĐ thay đổi bị hủy (từ tội, sang tội, điều/khoản), nơi nhận và chữ ký.";
     case "BM-031":
       return "Form nhập dữ liệu riêng cho Quyết định phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp. Dữ liệu gồm số quyết định, căn cứ phê chuẩn, nội dung Điều 1/2, nơi nhận và chữ ký.";
     case "BM-033":

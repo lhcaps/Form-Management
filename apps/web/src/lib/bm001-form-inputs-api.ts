@@ -121,7 +121,7 @@ export const EMPTY_BM001_FORM_INPUTS: Bm001FormInputs = {
     attachedItemsDescription: "",
   },
   recipients: {
-    archiveLine: "Lưu: HSVV, VP.",
+    archiveLine: "Lưu: HSVA, HSKS, VP.",
   },
 };
 

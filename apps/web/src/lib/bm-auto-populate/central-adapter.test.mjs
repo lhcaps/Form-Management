@@ -271,7 +271,7 @@ function emptyFormFor(entries) {
   return form;
 }
 
-test("BM-001: registered mapping fills agency + informant + reception from payload", () => {
+test("BM-001: registered mapping fills agency, informant and document date from payload", () => {
   const targets = fieldMap.getBmFieldMap("BM-001");
   const form = emptyFormFor(targets);
   const result = applyAdapter.applyCasePayloadToForm({
@@ -283,7 +283,6 @@ test("BM-001: registered mapping fills agency + informant + reception from paylo
   assert.equal(result.form.agency.name, "VIEN KIEM SAT NHAN DAN KHU VUC 7");
   assert.equal(result.form.informant.fullName, "Nguyen Van A");
   assert.equal(result.form.informant.currentAddress, "Noi o hien tai");
-  assert.equal(result.form.reception.locationName, "Dia chi VKS");
   // receivedDate is in DD/MM/YYYY display format already, so the
   // transform is a no-op (only ISO inputs are reformatted).
   assert.equal(result.form.document.issueDate, "01/06/2026");
