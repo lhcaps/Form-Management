@@ -1,0 +1,78 @@
+/**
+ * Generated from apps/web/src/components/documents/bm-*-form-inputs.tsx.
+ *
+ * A code is GENERIC when its current legacy component delegates to
+ * GenericTemplateFormInputsPanel. Every other registered BM component is
+ * treated as BESPOKE. Regenerate/audit this list when a legacy panel changes.
+ */
+const GENERIC_LEGACY_RENDERERS = new Set([
+  'BM-051',
+  'BM-052',
+  'BM-060',
+  'BM-061',
+  'BM-062',
+  'BM-063',
+  'BM-064',
+  'BM-065',
+  'BM-066',
+  'BM-067',
+  'BM-068',
+  'BM-069',
+  'BM-073',
+  'BM-075',
+  'BM-077',
+  'BM-079',
+  'BM-080',
+  'BM-082',
+  'BM-162',
+  'BM-163',
+  'BM-164',
+  'BM-165',
+  'BM-167',
+  'BM-174',
+  'BM-175',
+  'BM-176',
+  'BM-177',
+  'BM-178',
+  'BM-179',
+  'BM-180',
+  'BM-181',
+  'BM-182',
+  'BM-183',
+  'BM-184',
+  'BM-185',
+  'BM-186',
+  'BM-187',
+  'BM-188',
+  'BM-189',
+  'BM-190',
+  'BM-191',
+  'BM-192',
+  'BM-193',
+  'BM-194',
+  'BM-195',
+  'BM-196',
+  'BM-197',
+  'BM-198',
+  'BM-199',
+  'BM-200',
+  'BM-201',
+  'BM-202',
+  'BM-203',
+  'BM-204',
+  'BM-205',
+  'BM-206',
+  'BM-207',
+  'BM-208',
+  'BM-209',
+  'BM-210',
+  'BM-211',
+  'BM-212',
+  'BM-213',
+]);
+
+export function legacyRendererKind(
+  templateCode: string,
+): 'BESPOKE' | 'GENERIC' {
+  return GENERIC_LEGACY_RENDERERS.has(templateCode) ? 'GENERIC' : 'BESPOKE';
+}

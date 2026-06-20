@@ -4,15 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 function clearTemplateSelectorTextInputs(target: EventTarget | null) {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return;
   }
 
   const anchor = target instanceof HTMLElement ? target : null;
   const root =
-    anchor?.closest('main') ??
-    anchor?.closest('section') ??
-    document.body;
+    anchor?.closest("main") ?? anchor?.closest("section") ?? document.body;
 
   const setNativeValue = (
     element: HTMLInputElement | HTMLTextAreaElement,
@@ -23,7 +21,7 @@ function clearTemplateSelectorTextInputs(target: EventTarget | null) {
         ? window.HTMLTextAreaElement.prototype
         : window.HTMLInputElement.prototype;
 
-    const descriptor = Object.getOwnPropertyDescriptor(prototype, 'value');
+    const descriptor = Object.getOwnPropertyDescriptor(prototype, "value");
 
     if (descriptor?.set) {
       descriptor.set.call(element, value);
@@ -31,17 +29,17 @@ function clearTemplateSelectorTextInputs(target: EventTarget | null) {
       element.value = value;
     }
 
-    element.dispatchEvent(new Event('input', { bubbles: true }));
-    element.dispatchEvent(new Event('change', { bubbles: true }));
+    element.dispatchEvent(new Event("input", { bubbles: true }));
+    element.dispatchEvent(new Event("change", { bubbles: true }));
   };
 
   const fields = root.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
     [
-      'input:not([type])',
+      "input:not([type])",
       'input[type="text"]',
       'input[type="search"]',
-      'textarea',
-    ].join(','),
+      "textarea",
+    ].join(","),
   );
 
   fields.forEach((field) => {
@@ -49,7 +47,7 @@ function clearTemplateSelectorTextInputs(target: EventTarget | null) {
       return;
     }
 
-    setNativeValue(field, '');
+    setNativeValue(field, "");
   });
 }
 
@@ -63,6 +61,14 @@ import {
   evaluateRecommendationRule,
   getTemplateRecommendationRule,
 } from "@/lib/template-recommendation-rules";
+import {
+  listFormPlatformCatalog,
+  type FormPlatformCatalogItem,
+} from "@/lib/form-studio-api";
+import {
+  runtimeBadge as describeRuntimeBadge,
+  type FormRuntimeSource,
+} from "@/lib/form-platform-catalog";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -243,6 +249,31 @@ function TemplateStatusBadge({ item }: { item: Candidate }) {
   );
 }
 
+function RuntimeBadge({
+  source,
+  available,
+}: {
+  source: FormRuntimeSource;
+  available: boolean;
+}) {
+  const badge = describeRuntimeBadge(source, available);
+  const className = {
+    success: "bg-emerald-100 text-emerald-800",
+    info: "bg-blue-100 text-blue-700",
+    warning: "bg-amber-100 text-amber-700",
+    legacy: "bg-orange-100 text-orange-700",
+    neutral: "bg-slate-200 text-slate-600",
+    danger: "bg-rose-100 text-rose-700",
+  }[badge.tone];
+  return (
+    <span
+      className={`rounded-full px-2 py-0.5 text-[10px] font-black ${className}`}
+    >
+      {badge.label}
+    </span>
+  );
+}
+
 function scoreTemplate(
   item: VksTemplateItem,
   input: SuggestInput,
@@ -292,21 +323,48 @@ function scoreTemplate(
   }
 
   if (offenseWords.length > 0) {
-    if (containsAny(corpus, ["khoi", "to", "bi", "can", "cao", "trang", "truy", "to", "vu", "an"])) {
+    if (
+      containsAny(corpus, [
+        "khoi",
+        "to",
+        "bi",
+        "can",
+        "cao",
+        "trang",
+        "truy",
+        "to",
+        "vu",
+        "an",
+      ])
+    ) {
       score += 8;
       reasons.push("Có liên quan tội danh/vụ án");
     }
   }
 
   if (articleWords.length > 0) {
-    if (containsAny(corpus, ["khoi", "to", "phe", "chuan", "cao", "trang", "truy", "to"])) {
+    if (
+      containsAny(corpus, [
+        "khoi",
+        "to",
+        "phe",
+        "chuan",
+        "cao",
+        "trang",
+        "truy",
+        "to",
+      ])
+    ) {
       score += 6;
       reasons.push("Có thể dùng điều luật/tội danh");
     }
   }
 
   if (personWords.length > 0) {
-    if (dbTemplate?.renderScope === "PERSON_LEVEL" || dbTemplate?.renderScope === "SELECTED_PERSONS") {
+    if (
+      dbTemplate?.renderScope === "PERSON_LEVEL" ||
+      dbTemplate?.renderScope === "SELECTED_PERSONS"
+    ) {
       score += 10;
       reasons.push("Biểu mẫu cấp người liên quan/bị can");
     }
@@ -328,15 +386,31 @@ function scoreTemplate(
   }
 
   const exactNeedBoosts: Array<[RegExp, string[], string]> = [
-    [/cam di khoi noi cu tru|cu tru|cam di/i, ["BM-053", "BM-054", "BM-055"], "Nhóm cấm đi khỏi nơi cư trú"],
-    [/tam hoan xuat canh|xuat canh/i, ["BM-056", "BM-057"], "Nhóm tạm hoãn xuất cảnh"],
+    [
+      /cam di khoi noi cu tru|cu tru|cam di/i,
+      ["BM-053", "BM-054", "BM-055"],
+      "Nhóm cấm đi khỏi nơi cư trú",
+    ],
+    [
+      /tam hoan xuat canh|xuat canh/i,
+      ["BM-056", "BM-057"],
+      "Nhóm tạm hoãn xuất cảnh",
+    ],
     [/tam giam|gia han tam giam/i, ["BM-058", "BM-059"], "Nhóm tạm giam"],
     [/khoi to vu an/i, ["BM-023"], "Khởi tố vụ án hình sự"],
     [/khoi to bi can/i, ["BM-090", "BM-097"], "Khởi tố bị can"],
     [/gia han dieu tra/i, ["BM-103", "BM-104"], "Gia hạn thời hạn điều tra"],
     [/cao trang|truy to/i, ["BM-156"], "Truy tố/Cáo trạng"],
-    [/phan cong|pho vien truong|kiem sat vien/i, ["BM-070", "BM-071"], "Phân công người tiến hành tố tụng"],
-    [/nguon tin|tiep nhan|to giac|tin bao/i, ["BM-001"], "Tiếp nhận nguồn tin về tội phạm"],
+    [
+      /phan cong|pho vien truong|kiem sat vien/i,
+      ["BM-070", "BM-071"],
+      "Phân công người tiến hành tố tụng",
+    ],
+    [
+      /nguon tin|tiep nhan|to giac|tin bao/i,
+      ["BM-001"],
+      "Tiếp nhận nguồn tin về tội phạm",
+    ],
   ];
 
   const rawQuery = normalizeSearchText(
@@ -350,7 +424,13 @@ function scoreTemplate(
     }
   }
 
-  if (!input.quickText.trim() && !input.offenseName.trim() && !input.legalArticle.trim() && !input.processNeed.trim() && !input.stageId) {
+  if (
+    !input.quickText.trim() &&
+    !input.offenseName.trim() &&
+    !input.legalArticle.trim() &&
+    !input.processNeed.trim() &&
+    !input.stageId
+  ) {
     score = dbTemplate ? 10 : item.isImplemented ? 6 : 1;
   }
 
@@ -378,8 +458,12 @@ function formatStageLabel(stageId: string) {
 export function TemplateSelectorWorkspace() {
   const router = useRouter();
   const [dbTemplates, setDbTemplates] = useState<DbTemplate[]>([]);
+  const [catalog, setCatalog] = useState<FormPlatformCatalogItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [openingTemplateCode, setOpeningTemplateCode] = useState<string | null>(null);
+  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [openingTemplateCode, setOpeningTemplateCode] = useState<string | null>(
+    null,
+  );
   const [errorMessage, setErrorMessage] = useState("");
   const [showFullCatalog, setShowFullCatalog] = useState(true);
 
@@ -388,7 +472,9 @@ export function TemplateSelectorWorkspace() {
   const [caseOptions, setCaseOptions] = useState<CaseListResponse["items"]>([]);
   const [casePickerLoading, setCasePickerLoading] = useState(false);
   const [casePickerError, setCasePickerError] = useState("");
-  const [pendingTemplate, setPendingTemplate] = useState<Candidate | null>(null);
+  const [pendingTemplate, setPendingTemplate] = useState<Candidate | null>(
+    null,
+  );
   const [caseSearch, setCaseSearch] = useState("");
 
   const [input, setInput] = useState<SuggestInput>({
@@ -417,7 +503,9 @@ export function TemplateSelectorWorkspace() {
 
       if (!response.ok) {
         const body = await response.text();
-        throw new Error(body || `Không tải được danh sách biểu mẫu. HTTP ${response.status}`);
+        throw new Error(
+          body || `Không tải được danh sách biểu mẫu. HTTP ${response.status}`,
+        );
       }
 
       const data = (await response.json()) as DbTemplatesResponse;
@@ -433,8 +521,21 @@ export function TemplateSelectorWorkspace() {
     }
   }
 
+  async function loadCatalog() {
+    setCatalogLoading(true);
+    try {
+      const items = await listFormPlatformCatalog();
+      setCatalog(items);
+    } catch {
+      // non-fatal — catalog is enhancement only
+    } finally {
+      setCatalogLoading(false);
+    }
+  }
+
   useEffect(() => {
     void loadDbTemplates();
+    void loadCatalog();
   }, []);
 
   const dbTemplateByCode = useMemo(() => {
@@ -447,11 +548,23 @@ export function TemplateSelectorWorkspace() {
     return map;
   }, [dbTemplates]);
 
+  const catalogByCode = useMemo(() => {
+    const map = new Map<string, FormPlatformCatalogItem>();
+    for (const item of catalog) {
+      map.set(item.templateCode, item);
+    }
+    return map;
+  }, [catalog]);
+
   const candidates = useMemo(() => {
     return vksTemplateCatalog
-      .map((item) => scoreTemplate(item, input, dbTemplateByCode.get(item.code)))
+      .map((item) =>
+        scoreTemplate(item, input, dbTemplateByCode.get(item.code)),
+      )
       .filter((item) => {
-        const hasDirectDocument = Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code]);
+        const hasDirectDocument = Boolean(
+          GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+        );
 
         if (input.onlyCreatable && !item.canCreate && !hasDirectDocument) {
           return false;
@@ -467,8 +580,12 @@ export function TemplateSelectorWorkspace() {
         const scoreDiff = b.score - a.score;
         if (scoreDiff !== 0) return scoreDiff;
 
-        const aOpenable = a.canCreate || Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code]);
-        const bOpenable = b.canCreate || Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code]);
+        const aOpenable =
+          a.canCreate ||
+          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code]);
+        const bOpenable =
+          b.canCreate ||
+          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code]);
 
         if (aOpenable !== bOpenable) {
           return aOpenable ? -1 : 1;
@@ -476,12 +593,15 @@ export function TemplateSelectorWorkspace() {
 
         return a.number - b.number;
       });
-  }, [dbTemplateByCode, input]);
+  }, [dbTemplateByCode, catalogByCode, input]);
 
   const topCandidates = candidates.slice(0, 40);
 
   const openableCount = useMemo(() => {
-    return topCandidates.filter((item) => item.canCreate || GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code]).length;
+    return topCandidates.filter(
+      (item) =>
+        item.canCreate || GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+    ).length;
   }, [topCandidates]);
 
   const groupedCatalog = useMemo(() => {
@@ -501,11 +621,11 @@ export function TemplateSelectorWorkspace() {
 
   const hasActiveSuggestionFilter = Boolean(
     input.quickText.trim() ||
-      input.offenseName.trim() ||
-      input.legalArticle.trim() ||
-      input.personName.trim() ||
-      input.processNeed.trim() ||
-      input.stageId,
+    input.offenseName.trim() ||
+    input.legalArticle.trim() ||
+    input.personName.trim() ||
+    input.processNeed.trim() ||
+    input.stageId,
   );
 
   const visibleCatalogGroups = useMemo(() => {
@@ -518,7 +638,11 @@ export function TemplateSelectorWorkspace() {
               .map((template) => candidateById.get(template.id))
               .filter((item): item is Candidate => Boolean(item))
           : stage.items.map((template) =>
-              scoreTemplate(template, input, dbTemplateByCode.get(template.code)),
+              scoreTemplate(
+                template,
+                input,
+                dbTemplateByCode.get(template.code),
+              ),
             );
 
         return {
@@ -527,9 +651,19 @@ export function TemplateSelectorWorkspace() {
         };
       })
       .filter((stage) => stage.items.length > 0);
-  }, [dbTemplateByCode, candidates, groupedCatalog, hasActiveSuggestionFilter, input]);
+  }, [
+    dbTemplateByCode,
+    catalogByCode,
+    candidates,
+    groupedCatalog,
+    hasActiveSuggestionFilter,
+    input,
+  ]);
 
-  function updateInput<Key extends keyof SuggestInput>(key: Key, value: SuggestInput[Key]) {
+  function updateInput<Key extends keyof SuggestInput>(
+    key: Key,
+    value: SuggestInput[Key],
+  ) {
     setInput((current) => ({
       ...current,
       [key]: value,
@@ -553,14 +687,18 @@ export function TemplateSelectorWorkspace() {
 
       if (!response.ok) {
         const body = await response.text();
-        throw new Error(body || `Không tải được danh sách hồ sơ. HTTP ${response.status}`);
+        throw new Error(
+          body || `Không tải được danh sách hồ sơ. HTTP ${response.status}`,
+        );
       }
 
       const data = (await response.json()) as CaseListResponse;
       setCaseOptions(data.items);
     } catch (error) {
       setCasePickerError(
-        error instanceof Error ? error.message : "Không tải được danh sách hồ sơ.",
+        error instanceof Error
+          ? error.message
+          : "Không tải được danh sách hồ sơ.",
       );
     } finally {
       setCasePickerLoading(false);
@@ -601,7 +739,10 @@ export function TemplateSelectorWorkspace() {
 
     if (!response.ok) {
       const body = await response.text();
-      throw new Error(body || `Không tạo được document cho ${item.code}. HTTP ${response.status}`);
+      throw new Error(
+        body ||
+          `Không tạo được document cho ${item.code}. HTTP ${response.status}`,
+      );
     }
 
     const data = (await response.json()) as SingleCreateResult;
@@ -694,7 +835,9 @@ export function TemplateSelectorWorkspace() {
     }
 
     const matched = caseOptions.find((item) => item.id === currentCaseId);
-    return matched ? `${matched.caseCode} - ${matched.caseTitle}` : currentCaseId;
+    return matched
+      ? `${matched.caseCode} - ${matched.caseTitle}`
+      : currentCaseId;
   }, [caseOptions, currentCaseId]);
 
   return (
@@ -710,9 +853,10 @@ export function TemplateSelectorWorkspace() {
                 Tìm kiếm và mở biểu mẫu
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-                Nhập dữ liệu đầu vào cơ bản như tội danh, điều luật, người liên quan,
-                nhu cầu nghiệp vụ hoặc mô tả vụ việc. Hệ thống sẽ gợi ý biểu mẫu phù hợp.
-                Khi bấm mở, người dùng được chuyển thẳng sang giao diện nhập dữ liệu của biểu mẫu đó.
+                Nhập dữ liệu đầu vào cơ bản như tội danh, điều luật, người liên
+                quan, nhu cầu nghiệp vụ hoặc mô tả vụ việc. Hệ thống sẽ gợi ý
+                biểu mẫu phù hợp. Khi bấm mở, người dùng được chuyển thẳng sang
+                giao diện nhập dữ liệu của biểu mẫu đó.
               </p>
             </div>
 
@@ -739,7 +883,9 @@ export function TemplateSelectorWorkspace() {
 
               <button
                 type="button"
-                onClick={(event) => clearTemplateSelectorTextInputs(event.currentTarget)}
+                onClick={(event) =>
+                  clearTemplateSelectorTextInputs(event.currentTarget)
+                }
                 className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
               >
                 Xóa nội dung nhập
@@ -749,7 +895,9 @@ export function TemplateSelectorWorkspace() {
 
           <div className="mt-6 grid gap-3 md:grid-cols-4">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Hồ sơ hiện tại</p>
+              <p className="text-xs font-bold uppercase text-slate-500">
+                Hồ sơ hiện tại
+              </p>
               <p className="mt-2 text-sm font-black text-slate-950">
                 {currentCaseId ? currentCaseLabel : "Chưa chọn"}
               </p>
@@ -761,23 +909,38 @@ export function TemplateSelectorWorkspace() {
             </div>
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
-              <p className="text-xs font-bold uppercase text-blue-700">Biểu mẫu trong DB</p>
+              <p className="text-xs font-bold uppercase text-blue-700">
+                Biểu mẫu trong DB
+              </p>
               <p className="mt-2 text-2xl font-black text-blue-800">
                 {dbTemplates.length}
               </p>
             </div>
 
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-              <p className="text-xs font-bold uppercase text-emerald-700">Gợi ý phù hợp</p>
+              <p className="text-xs font-bold uppercase text-emerald-700">
+                Gợi ý phù hợp
+              </p>
               <p className="mt-2 text-2xl font-black text-emerald-700">
                 {topCandidates.length}
               </p>
             </div>
 
             <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
-              <p className="text-xs font-bold uppercase text-indigo-700">Có thể mở</p>
+              <p className="text-xs font-bold uppercase text-indigo-700">
+                Có thể mở
+              </p>
               <p className="mt-2 text-2xl font-black text-indigo-800">
                 {openableCount}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
+              <p className="text-xs font-bold uppercase text-teal-700">
+                Catalog API
+              </p>
+              <p className="mt-2 text-2xl font-black text-teal-800">
+                {catalogLoading ? "..." : catalog.length}
               </p>
             </div>
           </div>
@@ -789,37 +952,51 @@ export function TemplateSelectorWorkspace() {
               <span className="text-sm font-bold text-slate-700">Tội danh</span>
               <input
                 value={input.offenseName}
-                onChange={(event) => updateInput("offenseName", event.target.value)}
+                onChange={(event) =>
+                  updateInput("offenseName", event.target.value)
+                }
                 placeholder="Ví dụ: Đánh bạc, Ma túy..."
                 className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               />
             </label>
 
             <label className="block space-y-1.5">
-              <span className="text-sm font-bold text-slate-700">Điều luật</span>
+              <span className="text-sm font-bold text-slate-700">
+                Điều luật
+              </span>
               <input
                 value={input.legalArticle}
-                onChange={(event) => updateInput("legalArticle", event.target.value)}
+                onChange={(event) =>
+                  updateInput("legalArticle", event.target.value)
+                }
                 placeholder="Ví dụ: khoản 1 Điều 321"
                 className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               />
             </label>
 
             <label className="block space-y-1.5">
-              <span className="text-sm font-bold text-slate-700">Người liên quan/bị can</span>
+              <span className="text-sm font-bold text-slate-700">
+                Người liên quan/bị can
+              </span>
               <input
                 value={input.personName}
-                onChange={(event) => updateInput("personName", event.target.value)}
+                onChange={(event) =>
+                  updateInput("personName", event.target.value)
+                }
                 placeholder="Nhập tên người liên quan"
                 className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               />
             </label>
 
             <label className="block space-y-1.5">
-              <span className="text-sm font-bold text-slate-700">Nhu cầu nghiệp vụ</span>
+              <span className="text-sm font-bold text-slate-700">
+                Nhu cầu nghiệp vụ
+              </span>
               <select
                 value={input.processNeed}
-                onChange={(event) => updateInput("processNeed", event.target.value)}
+                onChange={(event) =>
+                  updateInput("processNeed", event.target.value)
+                }
                 className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               >
                 {NEED_OPTIONS.map((item) => (
@@ -831,7 +1008,9 @@ export function TemplateSelectorWorkspace() {
             </label>
 
             <label className="block space-y-1.5">
-              <span className="text-sm font-bold text-slate-700">Giai đoạn biểu mẫu</span>
+              <span className="text-sm font-bold text-slate-700">
+                Giai đoạn biểu mẫu
+              </span>
               <select
                 value={input.stageId}
                 onChange={(event) => updateInput("stageId", event.target.value)}
@@ -850,7 +1029,9 @@ export function TemplateSelectorWorkspace() {
               <input
                 type="checkbox"
                 checked={input.onlyCreatable}
-                onChange={(event) => updateInput("onlyCreatable", event.target.checked)}
+                onChange={(event) =>
+                  updateInput("onlyCreatable", event.target.checked)
+                }
                 className="h-4 w-4 rounded border-slate-300"
               />
               <span className="text-sm font-semibold text-slate-700">
@@ -859,10 +1040,14 @@ export function TemplateSelectorWorkspace() {
             </label>
 
             <label className="block space-y-1.5 lg:col-span-2">
-              <span className="text-sm font-bold text-slate-700">Mô tả dữ liệu đầu vào / yêu cầu của khách</span>
+              <span className="text-sm font-bold text-slate-700">
+                Mô tả dữ liệu đầu vào / yêu cầu của khách
+              </span>
               <textarea
                 value={input.quickText}
-                onChange={(event) => updateInput("quickText", event.target.value)}
+                onChange={(event) =>
+                  updateInput("quickText", event.target.value)
+                }
                 rows={4}
                 placeholder="Ví dụ: Vụ án đánh bạc, cần khởi tố vụ án, khởi tố bị can, áp dụng cấm đi khỏi nơi cư trú, tạm giam hoặc cáo trạng..."
                 className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
@@ -888,8 +1073,9 @@ export function TemplateSelectorWorkspace() {
                 Danh sách tổng hợp biểu mẫu theo từng giai đoạn
               </h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Khi chưa nhập dữ liệu lọc, danh mục sẽ hiện đầy đủ theo Thông tư 03/2026/TT-VKSTC.
-                Khi đã nhập dữ liệu/gợi ý, khu vực này chỉ hiện các biểu mẫu phù hợp để dễ mở.
+                Khi chưa nhập dữ liệu lọc, danh mục sẽ hiện đầy đủ theo Thông tư
+                03/2026/TT-VKSTC. Khi đã nhập dữ liệu/gợi ý, khu vực này chỉ
+                hiện các biểu mẫu phù hợp để dễ mở.
               </p>
             </div>
 
@@ -905,7 +1091,9 @@ export function TemplateSelectorWorkspace() {
                 onClick={() => setShowFullCatalog((current) => !current)}
                 className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
               >
-                {showFullCatalog ? "Ẩn danh mục tổng hợp" : "Hiện danh mục tổng hợp"}
+                {showFullCatalog
+                  ? "Ẩn danh mục tổng hợp"
+                  : "Hiện danh mục tổng hợp"}
               </button>
             </div>
           </div>
@@ -937,7 +1125,11 @@ export function TemplateSelectorWorkspace() {
                       const isOpening = openingTemplateCode === candidate.code;
                       const canOpen =
                         candidate.canCreate ||
-                        Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[candidate.code]);
+                        Boolean(
+                          GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
+                            candidate.code
+                          ],
+                        );
 
                       return (
                         <article
@@ -960,8 +1152,32 @@ export function TemplateSelectorWorkspace() {
                               </h4>
 
                               <div className="mt-3">
-                                <TemplateStatusBadge item={candidate} />
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <TemplateStatusBadge item={candidate} />
+                                  {(() => {
+                                    const cat = catalogByCode.get(
+                                      candidate.code,
+                                    );
+                                    return cat ? (
+                                      <RuntimeBadge
+                                        source={cat.runtime.source}
+                                        available={cat.runtime.available}
+                                      />
+                                    ) : null;
+                                  })()}
+                                  {hasActiveSuggestionFilter ? (
+                                    <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-black text-indigo-700">
+                                      Điểm {candidate.score}
+                                    </span>
+                                  ) : null}
+                                </div>
                               </div>
+                              {hasActiveSuggestionFilter &&
+                              candidate.reasons.length > 0 ? (
+                                <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">
+                                  {candidate.reasons.slice(0, 2).join(" · ")}
+                                </p>
+                              ) : null}
                             </div>
                           </div>
 
@@ -988,108 +1204,6 @@ export function TemplateSelectorWorkspace() {
             {errorMessage}
           </section>
         ) : null}
-
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-slate-950">
-              Gợi ý biểu mẫu phù hợp
-            </h2>
-            <span className="text-sm font-semibold text-slate-500">
-              {topCandidates.length} kết quả
-            </span>
-          </div>
-
-          {isLoading ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-sm text-slate-600">
-              Đang tải danh sách biểu mẫu...
-            </div>
-          ) : null}
-
-          {!isLoading && topCandidates.length === 0 ? (
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center">
-              <h3 className="text-lg font-black text-slate-950">
-                Không tìm thấy biểu mẫu phù hợp
-              </h3>
-              <p className="mt-2 text-sm text-slate-500">
-                Thử nhập từ khóa nghiệp vụ khác, hoặc tắt bộ lọc “Chỉ hiện biểu mẫu có thể mở”.
-              </p>
-            </div>
-          ) : null}
-
-          {topCandidates.map((item) => {
-            const isOpening = openingTemplateCode === item.code;
-            const canOpen =
-              item.canCreate ||
-              Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code]);
-
-            return (
-              <article
-                key={item.id}
-                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-blue-200 hover:shadow-md"
-              >
-                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-black text-blue-700">
-                        {item.code}
-                      </span>
-                      <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
-                        Mẫu số {item.number}
-                      </span>
-                      <TemplateStatusBadge item={item} />
-                      <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-black text-indigo-700">
-                        Điểm phù hợp {item.score}
-                      </span>
-                    </div>
-
-                    <h3 className="mt-3 text-lg font-black text-slate-950">
-                      {item.title}
-                    </h3>
-
-                    <p className="mt-1 text-sm text-slate-500">
-                      {item.stageNo} - {item.stageLabel}
-                    </p>
-
-                    {item.dbTemplateName ? (
-                      <p className="mt-2 text-sm font-semibold text-slate-700">
-                        DB: {item.dbTemplateName}
-                        {item.renderScope ? ` (${item.renderScope})` : null}
-                      </p>
-                    ) : null}
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {item.reasons.slice(0, 4).map((reason) => (
-                        <span
-                          key={reason}
-                          className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-600"
-                        >
-                          {reason}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex shrink-0 flex-col gap-2 md:w-44">
-                    <button
-                      type="button"
-                      onClick={() => void openTemplate(item)}
-                      disabled={!canOpen || isOpening}
-                      className="rounded-2xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
-                    >
-                      {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
-                    </button>
-
-                    {!canOpen ? (
-                      <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-center text-xs font-semibold text-slate-500">
-                        Chưa thể mở tự động
-                      </span>
-                    ) : null}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </section>
       </div>
 
       {casePickerOpen ? (
@@ -1131,7 +1245,9 @@ export function TemplateSelectorWorkspace() {
 
             <div className="max-h-80 overflow-y-auto px-2 py-2">
               {casePickerLoading ? (
-                <p className="px-4 py-6 text-sm text-slate-500">Đang tải hồ sơ...</p>
+                <p className="px-4 py-6 text-sm text-slate-500">
+                  Đang tải hồ sơ...
+                </p>
               ) : casePickerError ? (
                 <p className="px-4 py-6 text-sm font-semibold text-red-600">
                   {casePickerError}
@@ -1155,7 +1271,9 @@ export function TemplateSelectorWorkspace() {
                         <button
                           type="button"
                           disabled={Boolean(openingTemplateCode)}
-                          onClick={() => void confirmCaseForPending(caseItem.id)}
+                          onClick={() =>
+                            void confirmCaseForPending(caseItem.id)
+                          }
                           className={`flex w-full flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left text-sm transition disabled:opacity-60 ${
                             isSelected
                               ? "border-blue-300 bg-blue-50"
@@ -1170,7 +1288,8 @@ export function TemplateSelectorWorkspace() {
                           </span>
                           {caseItem.currentStage || caseItem.currentStatus ? (
                             <span className="mt-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">
-                              {caseItem.currentStage ?? "—"} · {caseItem.currentStatus ?? "—"}
+                              {caseItem.currentStage ?? "—"} ·{" "}
+                              {caseItem.currentStatus ?? "—"}
                             </span>
                           ) : null}
                         </button>

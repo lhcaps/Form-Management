@@ -13,6 +13,10 @@ type FixtureOptions = {
   status: 'locked' | 'draft';
   documentKind?: 'form' | 'reference';
   title?: string;
+  extractionSource?: {
+    relativePath: string;
+    sha256: string;
+  };
 };
 
 describe('FileFormContractRepository', () => {
@@ -62,6 +66,7 @@ describe('FileFormContractRepository', () => {
         templateTitle: options.title ?? options.templateCode,
         documentKind: options.documentKind ?? 'form',
         status: options.status,
+        extractionSource: options.extractionSource,
         docxSlots: [],
         canonicalFields: [],
         renderBindings: [],
@@ -107,6 +112,28 @@ describe('FileFormContractRepository', () => {
     ).resolves.toMatchObject({ templateCode: 'BM-002' });
     await expect(repository.findByIdentifier('BM-002')).resolves.toMatchObject({
       sourceId: 'BM-002__locked',
+    });
+  });
+
+  it('preserves extraction provenance for authoring baselines', async () => {
+    const { paths, repository } = createRepository();
+    writeContract(paths, {
+      sourceId: 'BM-004__draft',
+      templateCode: 'BM-004',
+      status: 'draft',
+      extractionSource: {
+        relativePath:
+          'storage/templates/normalized-docx/BM-004/BM-004_normalized.docx',
+        sha256: '2775520fd22c',
+      },
+    });
+
+    await expect(repository.findByIdentifier('BM-004')).resolves.toMatchObject({
+      extractionSource: {
+        relativePath:
+          'storage/templates/normalized-docx/BM-004/BM-004_normalized.docx',
+        sha256: '2775520fd22c',
+      },
     });
   });
 

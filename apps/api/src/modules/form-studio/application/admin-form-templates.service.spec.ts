@@ -62,7 +62,7 @@ describe('Form Studio upload security', () => {
     zip.file('[Content_Types].xml', '<Types/>');
     expectErrorCode(
       () =>
-      checker()(file('template.docx', zip.generate({ type: 'nodebuffer' }))),
+        checker()(file('template.docx', zip.generate({ type: 'nodebuffer' }))),
       'INVALID_DOCX_PACKAGE',
     );
   });
@@ -77,8 +77,48 @@ describe('Form Studio upload security', () => {
 
     expectErrorCode(
       () =>
-      checker()(file('template.docx', zip.generate({ type: 'nodebuffer' }))),
+        checker()(file('template.docx', zip.generate({ type: 'nodebuffer' }))),
       'DOCX_ZIP_BOMB_BLOCKED',
     );
+  });
+});
+
+describe('AdminFormTemplatesService open-design', () => {
+  it('returns a structured not-found error for an invalid template id', async () => {
+    const service = new AdminFormTemplatesService(
+      {
+        templates: {
+          findUnique: jest.fn(),
+        },
+      } as never,
+      {} as never,
+      {} as never,
+      {} as never,
+      {} as never,
+    );
+
+    await expect(
+      service.openDesign(
+        {
+          id: '10',
+          agencyId: '7',
+          username: 'editor',
+          fullName: 'Editor',
+          positionTitle: null,
+          rankTitle: null,
+          email: null,
+          phone: null,
+          role: 'ADMIN',
+          agencyName: null,
+          agencyCode: null,
+          isActive: true,
+          permissions: [],
+        },
+        'not-a-number',
+      ),
+    ).rejects.toMatchObject({
+      code: 'FORM_TEMPLATE_NOT_FOUND',
+      status: 404,
+    });
   });
 });

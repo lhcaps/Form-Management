@@ -78,10 +78,100 @@ export type DraftOperation =
 
 export function listFormStudioTemplates(q?: string) {
   const query = q?.trim() ? `?q=${encodeURIComponent(q.trim())}` : "";
-  return readApi<FormStudioTemplateSummary[]>(
-    `/admin/form-templates${query}`,
-    { cache: "no-store" },
-  );
+  return readApi<FormStudioTemplateSummary[]>(`/admin/form-templates${query}`, {
+    cache: "no-store",
+  });
+}
+
+export type FormPlatformCatalogItem = {
+  templateId: string;
+  templateCode: string;
+  title: string;
+  stageCode: string | null;
+  docx: {
+    ready: boolean;
+    normalizedPath: string | null;
+    templateHash: string | null;
+  };
+  authoring: {
+    status:
+      | "NOT_INITIALIZED"
+      | "DRAFT"
+      | "CHANGES_REQUESTED"
+      | "IN_REVIEW"
+      | "APPROVED"
+      | "PUBLISHED"
+      | "ARCHIVED";
+    versionId: string | null;
+    canOpen: boolean;
+    mode: "EDIT" | "READ_ONLY" | "CREATE_VERSION";
+  };
+  runtime: {
+    available: boolean;
+    source:
+      | "AGENCY_PUBLISHED"
+      | "GLOBAL_PUBLISHED"
+      | "LOCKED_FILE"
+      | "LEGACY_BESPOKE"
+      | "GENERIC_FALLBACK"
+      | "UNAVAILABLE";
+    contractHash: string | null;
+  };
+  quality: {
+    grade: "LOCKED_VERIFIED" | "EXTRACTED_NEEDS_REVIEW" | "GENERIC_FALLBACK";
+    fieldCount: number;
+    bindingCount: number;
+    unresolvedCount: number;
+  };
+  renderer: {
+    kind: "PUBLISHED_V2" | "BESPOKE" | "GENERIC";
+    editableInStudio: boolean;
+  };
+};
+
+export type FormPlatformCatalogResponse = {
+  items: FormPlatformCatalogItem[];
+};
+
+export type AuthoringBaseline = {
+  templateCode: string;
+  title: string;
+  templateId: string;
+  normalizedDocxPath: string | null;
+  templateHash: string | null;
+  baselineContract: FormContractV2;
+  compiledBaseline: CompiledFormContract | null;
+  provenance: {
+    source:
+      | "AGENCY_DRAFT"
+      | "AGENCY_PUBLISHED"
+      | "GLOBAL_PUBLISHED"
+      | "LOCKED_V1"
+      | "DRAFT_V1"
+      | "VIRTUAL_FROM_DOCX";
+    sourceId: string | null;
+    v1Status: "locked" | "draft" | null;
+    extractionHash: string | null;
+  };
+  quality: {
+    grade: "LOCKED_VERIFIED" | "EXTRACTED_NEEDS_REVIEW" | "GENERIC_FALLBACK";
+    fieldCount: number;
+    bindingCount: number;
+    unresolvedCount: number;
+    warnings: Array<{
+      code: string;
+      message: string;
+      fieldCount?: number;
+    }>;
+  };
+  mode: "EDIT" | "READ_ONLY" | "CREATE_VERSION";
+  existingDraftId: string | null;
+};
+
+export function listFormPlatformCatalog() {
+  return readApi<FormPlatformCatalogItem[]>("/form-platform/catalog", {
+    cache: "no-store",
+  });
 }
 
 export function createBlankFormTemplate(input: {
@@ -94,9 +184,9 @@ export function createBlankFormTemplate(input: {
   });
 }
 
-export function cloneFormTemplate(templateId: string) {
-  return readApi<FormDraftRecord>(
-    `/admin/form-templates/${templateId}/clone`,
+export function openFormDesign(templateId: string) {
+  return readApi<{ draftId: string; baseline: AuthoringBaseline }>(
+    `/admin/form-templates/${templateId}/open-design`,
     { method: "POST", body: JSON.stringify({}) },
   );
 }
@@ -187,10 +277,10 @@ export function requestFormChanges(draftId: string, comment: string) {
 }
 
 export function approveFormDraft(draftId: string, comment?: string) {
-  return readApi<FormDraftRecord>(
-    `/admin/form-reviews/${draftId}/approve`,
-    { method: "POST", body: JSON.stringify({ comment }) },
-  );
+  return readApi<FormDraftRecord>(`/admin/form-reviews/${draftId}/approve`, {
+    method: "POST",
+    body: JSON.stringify({ comment }),
+  });
 }
 
 export function publishFormVersion(id: string) {

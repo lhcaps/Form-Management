@@ -41,6 +41,10 @@ export type RawFormContract = {
   templateTitle: string;
   documentKind: 'form' | 'reference';
   status: ContractStatus;
+  extractionSource?: {
+    relativePath?: string;
+    sha256?: string;
+  };
   docxSlots: DocxSlot[];
   canonicalFields: CanonicalField[];
   renderBindings: RenderBinding[];
@@ -52,6 +56,10 @@ export type LoadedFormContract = {
   templateCode: string;
   title: string;
   status: ContractStatus;
+  extractionSource?: {
+    relativePath?: string;
+    sha256?: string;
+  };
   documentKind: 'form';
   stage?: StageInfo;
   docxSlots: DocxSlot[];
@@ -144,6 +152,7 @@ export function normalizeFormContract(
     templateCode: contract.templateCode,
     title: contract.templateTitle,
     status: contract.status,
+    extractionSource: contract.extractionSource,
     documentKind: 'form',
     stage: getStage(contract.templateCode),
     docxSlots: contract.docxSlots,

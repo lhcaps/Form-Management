@@ -60,6 +60,12 @@ const rawContractSchema = z
     templateTitle: z.string(),
     documentKind: z.enum(['form', 'reference']),
     status: z.enum(['locked', 'draft']),
+    extractionSource: z
+      .object({
+        relativePath: z.string().optional(),
+        sha256: z.string().optional(),
+      })
+      .optional(),
     docxSlots: z.array(docxSlotSchema).default([]),
     canonicalFields: z.array(canonicalFieldSchema).default([]),
     renderBindings: z.array(renderBindingSchema).default([]),

@@ -20,6 +20,7 @@ import { CurrentUser } from '../auth/current-user.decorator';
 import type { CurrentUser as CurrentUserType } from '../auth/current-user.type';
 import { RequireFormPermissions } from '../auth/form-permission.decorator';
 import { AdminFormTemplatesService } from './application/admin-form-templates.service';
+import { FormPlatformCatalogService } from './application/form-platform-catalog.service';
 import { FormPreviewService } from './application/form-preview.service';
 import { FormStudioService } from './application/form-studio.service';
 import { RuntimeFormContractService } from './application/runtime-form-contract.service';
@@ -69,9 +70,9 @@ export class AdminFormTemplatesController {
     return this.templates.importFile(user, body, file);
   }
 
-  @Post(':id/clone')
-  clone(@CurrentUser() user: CurrentUserType, @Param('id') id: string) {
-    return this.templates.clone(user, id);
+  @Post(':id/open-design')
+  openDesign(@CurrentUser() user: CurrentUserType, @Param('id') id: string) {
+    return this.templates.openDesign(user, id);
   }
 }
 
@@ -225,5 +226,24 @@ export class RuntimeFormContractController {
     @Query('contractHash') contractHash?: string,
   ) {
     return this.runtime.resolve(templateCode, user.agencyId, contractHash);
+  }
+}
+
+@ApiTags('Form Platform Catalog')
+@Controller('form-platform/catalog')
+export class FormPlatformCatalogController {
+  constructor(private readonly catalog: FormPlatformCatalogService) {}
+
+  @Get()
+  list(@CurrentUser() user?: CurrentUserType | null) {
+    return this.catalog.listCatalog(user?.agencyId ?? null);
+  }
+
+  @Get(':templateCode')
+  get(
+    @Param('templateCode') templateCode: string,
+    @CurrentUser() user?: CurrentUserType | null,
+  ) {
+    return this.catalog.getCatalogItem(templateCode, user?.agencyId ?? null);
   }
 }

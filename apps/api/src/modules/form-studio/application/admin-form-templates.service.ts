@@ -8,9 +8,9 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import type { CurrentUser } from '../../auth/current-user.type';
 import { TemplateNormalizerService } from '../../templates/template-normalizer.service';
 import PizZip from 'pizzip';
+import { AuthoringContractService } from './authoring-contract.service';
 import { FormStudioError } from '../domain/form-studio.error';
 import { FormStudioService } from './form-studio.service';
-import { RuntimeFormContractService } from './runtime-form-contract.service';
 
 function normalizeAgencyCode(value: string | null): string {
   const normalized = (value ?? 'AGENCY')
@@ -27,7 +27,7 @@ export class AdminFormTemplatesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly studio: FormStudioService,
-    private readonly runtime: RuntimeFormContractService,
+    private readonly authoring: AuthoringContractService,
     private readonly paths: WorkspacePathsService,
     private readonly normalizer: TemplateNormalizerService,
   ) {}
@@ -126,9 +126,19 @@ export class AdminFormTemplatesService {
     });
   }
 
-  async clone(user: CurrentUser, sourceTemplateId: string) {
+  async openDesign(user: CurrentUser, templateId: string) {
+    let parsedTemplateId: bigint;
+    try {
+      parsedTemplateId = BigInt(templateId);
+    } catch {
+      throw new FormStudioError(
+        'FORM_TEMPLATE_NOT_FOUND',
+        'Không tìm thấy biểu mẫu để mở thiết kế.',
+        404,
+      );
+    }
     const template = await this.prisma.templates.findUnique({
-      where: { id: BigInt(sourceTemplateId) },
+      where: { id: parsedTemplateId },
     });
     if (!template) {
       throw new FormStudioError(
@@ -137,30 +147,11 @@ export class AdminFormTemplatesService {
         404,
       );
     }
-    const resolved = await this.runtime.resolve(
+    return this.authoring.openDesign(
       template.template_code,
       user.agencyId,
+      user.id,
     );
-    const latest = await this.prisma.form_contract_versions.findFirst({
-      where: {
-        template_id: template.id,
-        agency_id: user.agencyId ? BigInt(user.agencyId) : null,
-      },
-      orderBy: { version_no: 'desc' },
-      select: { version_no: true },
-    });
-    const contract = structuredClone(resolved.compiledContract.source);
-    contract.agencyId = user.agencyId;
-    contract.version = (latest?.version_no ?? 0) + 1;
-    contract.status = 'DRAFT';
-    contract.baseContractHash = resolved.contractHash;
-    contract.contractHash = '';
-    return this.studio.createDraft({
-      templateId: String(template.id),
-      agencyId: user.agencyId,
-      actorId: user.id,
-      contract,
-    });
   }
 
   async importFile(

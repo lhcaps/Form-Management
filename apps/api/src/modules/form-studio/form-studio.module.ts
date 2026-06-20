@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { FormsContractsModule } from '../forms-contracts/forms-contracts.module';
 import { TemplatesModule } from '../templates/templates.module';
 import { AdminFormTemplatesService } from './application/admin-form-templates.service';
+import { AuthoringContractService } from './application/authoring-contract.service';
 import { FormContractVersionRepository } from './application/form-contract-version.repository';
+import { FormPlatformCatalogService } from './application/form-platform-catalog.service';
 import { FormPreviewService } from './application/form-preview.service';
 import { FormStudioService } from './application/form-studio.service';
 import { RuntimeFormContractService } from './application/runtime-form-contract.service';
@@ -15,6 +17,7 @@ import {
   AdminFormReviewsController,
   AdminFormTemplatesController,
   AdminFormVersionsController,
+  FormPlatformCatalogController,
   FormPreviewJobsController,
   RuntimeFormContractController,
 } from './form-studio.controller';
@@ -29,6 +32,7 @@ import { PrismaFormContractVersionRepository } from './infrastructure/prisma-for
     AdminFormVersionsController,
     FormPreviewJobsController,
     RuntimeFormContractController,
+    FormPlatformCatalogController,
     FormPermissionsController,
     ContractFormInputsController,
   ],
@@ -36,6 +40,8 @@ import { PrismaFormContractVersionRepository } from './infrastructure/prisma-for
     FormStudioService,
     RuntimeFormContractService,
     AdminFormTemplatesService,
+    AuthoringContractService,
+    FormPlatformCatalogService,
     FormPreviewService,
     ContractFormInputsService,
     FormReviewQueryService,
@@ -44,6 +50,10 @@ import { PrismaFormContractVersionRepository } from './infrastructure/prisma-for
       useClass: PrismaFormContractVersionRepository,
     },
   ],
-  exports: [FormStudioService, RuntimeFormContractService],
+  exports: [
+    FormStudioService,
+    RuntimeFormContractService,
+    AuthoringContractService,
+  ],
 })
 export class FormStudioModule {}

@@ -22,19 +22,20 @@ import type {
   FieldDefinition,
   FormContractV2,
 } from "@qllaw/form-contracts";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { useAuth } from "@/lib/auth-context";
 import {
   approveFormDraft,
   archiveFormVersion,
-  cloneFormTemplate,
   createBlankFormTemplate,
   getFormDraft,
   getFormReview,
   importFormTemplate,
+  listFormPlatformCatalog,
   listFormStudioTemplates,
+  openFormDesign,
   patchFormDraft,
   previewArtifactUrl,
   previewFormDraft,
@@ -42,11 +43,19 @@ import {
   requestFormChanges,
   submitFormDraft,
   validateFormDraft,
+  type AuthoringBaseline,
   type DraftOperation,
   type FormDraftRecord,
+  type FormPlatformCatalogItem,
   type FormStudioTemplateSummary,
   type FormReviewDetail,
 } from "@/lib/form-studio-api";
+import {
+  collectDocxSlotOptions,
+  lifecycleLabel,
+  studioPrimaryAction,
+  type FormLifecycleStatus,
+} from "@/lib/form-platform-catalog";
 
 const CONTROL_PALETTE: Array<{
   control: ControlType;
@@ -112,9 +121,7 @@ function applyLocalOperation(
       break;
     case "REMOVE_FIELD": {
       const field = next.fields.find((item) => item.id === operation.fieldId);
-      next.fields = next.fields.filter(
-        (item) => item.id !== operation.fieldId,
-      );
+      next.fields = next.fields.filter((item) => item.id !== operation.fieldId);
       if (field) {
         next.renderBindings = next.renderBindings.filter(
           (binding) =>
@@ -149,9 +156,7 @@ function applyLocalOperation(
       next.tables.push(operation.table);
       break;
     case "REMOVE_TABLE":
-      next.tables = next.tables.filter(
-        (item) => item.id !== operation.tableId,
-      );
+      next.tables = next.tables.filter((item) => item.id !== operation.tableId);
       break;
     case "REPLACE_CONTRACT":
       return structuredClone(operation.contract);
@@ -164,26 +169,54 @@ function applyLocalOperation(
 export function FormStudioWorkspace() {
   const { user } = useAuth();
   const [templates, setTemplates] = useState<FormStudioTemplateSummary[]>([]);
+  const [catalog, setCatalog] = useState<FormPlatformCatalogItem[]>([]);
   const [draft, setDraft] = useState<FormDraftRecord | null>(null);
+  const [draftBaseline, setDraftBaseline] = useState<AuthoringBaseline | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
   const canEdit =
-    user?.role === "ADMIN" ||
-    user?.permissions?.includes("FORM_TEMPLATE_EDIT");
+    user?.role === "ADMIN" || user?.permissions?.includes("FORM_TEMPLATE_EDIT");
 
-  const loadTemplates = useCallback(async (search = query) => {
-    setLoading(true);
-    setError("");
-    try {
-      setTemplates(await listFormStudioTemplates(search));
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "Không tải được dữ liệu.");
-    } finally {
-      setLoading(false);
-    }
-  }, [query]);
+  const loadTemplates = useCallback(
+    async (search = query) => {
+      setLoading(true);
+      setError("");
+      try {
+        const [catalogItems, templateVersions] = await Promise.all([
+          listFormPlatformCatalog(),
+          listFormStudioTemplates(),
+        ]);
+        const normalizedSearch = search.trim().toLocaleLowerCase("vi");
+        setCatalog(
+          normalizedSearch
+            ? catalogItems.filter((item) =>
+                `${item.templateCode} ${item.title}`
+                  .toLocaleLowerCase("vi")
+                  .includes(normalizedSearch),
+              )
+            : catalogItems,
+        );
+        setTemplates(templateVersions);
+      } catch (cause) {
+        setError(
+          cause instanceof Error ? cause.message : "Không tải được dữ liệu.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [query],
+  );
+
+  const templateByCode = useMemo(
+    () =>
+      new Map(templates.map((template) => [template.templateCode, template])),
+    [templates],
+  );
 
   useEffect(() => {
     if (canEdit) void loadTemplates("");
@@ -209,9 +242,11 @@ export function FormStudioWorkspace() {
     return (
       <StudioEditor
         initialDraft={draft}
+        initialBaseline={draftBaseline}
         templates={templates}
         onClose={() => {
           setDraft(null);
+          setDraftBaseline(null);
           void loadTemplates();
         }}
       />
@@ -230,8 +265,8 @@ export function FormStudioWorkspace() {
               Form Studio
             </h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              Thiết kế trường dữ liệu, quy tắc và binding DOCX theo cơ quan.
-              Chỉ phiên bản đã duyệt và publish mới xuất hiện cho người dùng.
+              Thiết kế trường dữ liệu, quy tắc và binding DOCX theo cơ quan. Chỉ
+              phiên bản đã duyệt và publish mới xuất hiện cho người dùng.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -307,65 +342,81 @@ export function FormStudioWorkspace() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-5 py-12 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-5 py-12 text-center text-slate-500"
+                  >
                     Đang tải danh mục…
                   </td>
                 </tr>
               ) : null}
-              {!loading && templates.length === 0 ? (
+              {!loading && catalog.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-5 py-12 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-5 py-12 text-center text-slate-500"
+                  >
                     Chưa có biểu mẫu phù hợp.
                   </td>
                 </tr>
               ) : null}
-              {templates.map((template) => {
-                const latest = template.versions[0];
+              {catalog.map((item) => {
+                const template = templateByCode.get(item.templateCode);
+                const currentVersion =
+                  template?.versions.find(
+                    (version) => version.id === item.authoring.versionId,
+                  ) ?? template?.versions[0];
                 return (
-                  <tr key={template.id} className="border-t border-slate-100">
+                  <tr
+                    key={item.templateId}
+                    className="border-t border-slate-100"
+                  >
                     <td className="px-5 py-4">
                       <div className="font-black text-slate-950">
-                        {template.templateCode}
+                        {item.templateCode}
                       </div>
                       <div className="mt-1 max-w-xl text-slate-600">
-                        {template.title}
+                        {item.title}
                       </div>
                     </td>
                     <td className="px-5 py-4 text-slate-600">
-                      {latest ? `v${latest.version} · rev ${latest.revision}` : "Chưa có"}
+                      {currentVersion
+                        ? `v${currentVersion.version} · rev ${currentVersion.revision}`
+                        : "Chưa có"}
                     </td>
                     <td className="px-5 py-4">
-                      <StatusPill status={latest?.status ?? "DRAFT"} />
+                      <StatusPill status={item.authoring.status} />
                     </td>
                     <td className="px-5 py-4">
-                      <div className="flex justify-end gap-2">
-                        {latest && latest.status !== "PUBLISHED" && latest.status !== "ARCHIVED" ? (
-                          <button
-                            type="button"
-                            className="rounded-lg border border-slate-300 px-3 py-2 font-bold"
-                            onClick={() =>
-                              void getFormDraft(latest.id).then(setDraft).catch((cause) =>
-                                setError(cause instanceof Error ? cause.message : "Không mở được draft."),
-                              )
-                            }
-                          >
-                            Mở draft
-                          </button>
-                        ) : null}
-                        <button
-                          type="button"
-                          className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 font-bold text-blue-800"
-                          onClick={() =>
-                            void cloneFormTemplate(template.id)
-                              .then(setDraft)
-                              .catch((cause) =>
-                                setError(cause instanceof Error ? cause.message : "Không clone được biểu mẫu."),
-                              )
-                          }
-                        >
-                          Clone cho cơ quan
-                        </button>
-                      </div>
+                      <StudioActionButton
+                        status={item.authoring.status}
+                        onClick={() => {
+                          const opening =
+                            item.authoring.status === "ARCHIVED" &&
+                            item.authoring.versionId
+                              ? getFormDraft(item.authoring.versionId).then(
+                                  (record) => {
+                                    setDraftBaseline(null);
+                                    return record;
+                                  },
+                                )
+                              : openFormDesign(item.templateId).then(
+                                  (result) => {
+                                    setDraftBaseline(result.baseline);
+                                    return getFormDraft(result.draftId);
+                                  },
+                                );
+                          void opening
+                            .then(setDraft)
+                            .catch((cause) =>
+                              setError(
+                                cause instanceof Error
+                                  ? cause.message
+                                  : "Không mở được thiết kế.",
+                              ),
+                            );
+                        }}
+                      />
                     </td>
                   </tr>
                 );
@@ -431,14 +482,21 @@ function CreateBlankDialog({
               onClose();
             })
             .catch((cause) =>
-              onError(cause instanceof Error ? cause.message : "Không tạo được biểu mẫu."),
+              onError(
+                cause instanceof Error
+                  ? cause.message
+                  : "Không tạo được biểu mẫu.",
+              ),
             )
             .finally(() => setSaving(false));
         }}
       >
-        <h2 className="text-xl font-black text-slate-950">Tạo biểu mẫu trống</h2>
+        <h2 className="text-xl font-black text-slate-950">
+          Tạo biểu mẫu trống
+        </h2>
         <p className="mt-1 text-sm text-slate-500">
-          Draft chưa thể publish cho đến khi có DOCX chuẩn hóa và binding hợp lệ.
+          Draft chưa thể publish cho đến khi có DOCX chuẩn hóa và binding hợp
+          lệ.
         </p>
         <label className="mt-5 block text-sm font-bold text-slate-700">
           Tên biểu mẫu
@@ -458,7 +516,11 @@ function CreateBlankDialog({
           />
         </label>
         <div className="mt-6 flex justify-end gap-2">
-          <button type="button" onClick={onClose} className="rounded-lg px-4 py-2 font-bold">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg px-4 py-2 font-bold"
+          >
             Hủy
           </button>
           <button
@@ -475,15 +537,18 @@ function CreateBlankDialog({
 
 function StudioEditor({
   initialDraft,
+  initialBaseline,
   templates,
   onClose,
 }: {
   initialDraft: FormDraftRecord;
+  initialBaseline: AuthoringBaseline | null;
   templates: FormStudioTemplateSummary[];
   onClose: () => void;
 }) {
   const { user } = useAuth();
   const [draft, setDraft] = useState(initialDraft);
+  const [baseline] = useState<AuthoringBaseline | null>(initialBaseline);
   const [contract, setContract] = useState(initialDraft.contract);
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(
     initialDraft.contract.fields[0]?.id ?? null,
@@ -499,8 +564,12 @@ function StudioEditor({
   } | null>(null);
   const [message, setMessage] = useState("");
   const [reviewComment, setReviewComment] = useState("");
-  const [reviewDetail, setReviewDetail] = useState<FormReviewDetail | null>(null);
-  const [conflictDraft, setConflictDraft] = useState<FormDraftRecord | null>(null);
+  const [reviewDetail, setReviewDetail] = useState<FormReviewDetail | null>(
+    null,
+  );
+  const [conflictDraft, setConflictDraft] = useState<FormDraftRecord | null>(
+    null,
+  );
   const [desktopEditing, setDesktopEditing] = useState(true);
   const [history, setHistory] = useState<FormContractV2[]>([]);
   const [redo, setRedo] = useState<FormContractV2[]>([]);
@@ -512,10 +581,13 @@ function StudioEditor({
     user?.role === "ADMIN" ||
     user?.permissions?.includes("FORM_TEMPLATE_APPROVE");
   const editable =
-    desktopEditing &&
-    ["DRAFT", "CHANGES_REQUESTED"].includes(draft.status);
+    desktopEditing && ["DRAFT", "CHANGES_REQUESTED"].includes(draft.status);
   const selectedField =
     contract.fields.find((field) => field.id === selectedFieldId) ?? null;
+  const availableDocxSlots = useMemo(
+    () => collectDocxSlotOptions(baseline?.baselineContract ?? contract),
+    [baseline, contract],
+  );
   const template = templates.find((item) => item.id === draft.templateId);
 
   const flush = useCallback(async (): Promise<void> => {
@@ -546,7 +618,9 @@ function StudioEditor({
           setMessage(text);
           setSaveState(text.includes("409") ? "conflict" : "error");
           if (text.includes("409")) {
-            void getFormDraft(draft.id).then(setConflictDraft).catch(() => {});
+            void getFormDraft(draft.id)
+              .then(setConflictDraft)
+              .catch(() => {});
           }
           throw cause;
         })
@@ -594,7 +668,10 @@ function StudioEditor({
   }, []);
 
   useEffect(() => {
-    if (tab !== "VERSIONS" || !["IN_REVIEW", "APPROVED", "PUBLISHED", "ARCHIVED"].includes(draft.status)) {
+    if (
+      tab !== "VERSIONS" ||
+      !["IN_REVIEW", "APPROVED", "PUBLISHED", "ARCHIVED"].includes(draft.status)
+    ) {
       return;
     }
     void getFormReview(draft.id)
@@ -627,7 +704,9 @@ function StudioEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const addSection = () => {
@@ -665,7 +744,8 @@ function StudioEditor({
       sectionId,
       label: "Trường mới",
       control,
-      order: contract.fields.filter((item) => item.sectionId === sectionId).length,
+      order: contract.fields.filter((item) => item.sectionId === sectionId)
+        .length,
       width: 6,
       required: false,
       dataSource:
@@ -743,6 +823,11 @@ function StudioEditor({
                 <span>{saveLabel(saveState)}</span>
                 <span>{contract.agencyId ? "Overlay cơ quan" : "Global"}</span>
               </div>
+              {baseline ? (
+                <div className="mt-2">
+                  <BaselineProvenanceBanner baseline={baseline} />
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -770,7 +855,11 @@ function StudioEditor({
                   .then((result) => {
                     setIssues(result.issues);
                     setTab("VALIDATION");
-                    setMessage(result.valid ? "Validation đạt." : "Còn lỗi chặn publish.");
+                    setMessage(
+                      result.valid
+                        ? "Validation đạt."
+                        : "Còn lỗi chặn publish.",
+                    );
                   })
                   .catch(() => {})
               }
@@ -872,8 +961,8 @@ function StudioEditor({
         {saveState === "conflict" && conflictDraft ? (
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900">
             <div>
-              <span className="font-black">Xung đột revision.</span>{" "}
-              Server đang ở rev {conflictDraft.revision}; bản local chưa được ghi.
+              <span className="font-black">Xung đột revision.</span> Server đang
+              ở rev {conflictDraft.revision}; bản local chưa được ghi.
             </div>
             <div className="flex gap-2">
               <button
@@ -890,9 +979,7 @@ function StudioEditor({
                 type="button"
                 className="rounded-lg bg-rose-700 px-3 py-2 font-bold text-white"
                 onClick={() => {
-                  pendingRef.current = [
-                    { type: "REPLACE_CONTRACT", contract },
-                  ];
+                  pendingRef.current = [{ type: "REPLACE_CONTRACT", contract }];
                   revisionRef.current = conflictDraft.revision;
                   setDraft((current) => ({
                     ...current,
@@ -918,12 +1005,18 @@ function StudioEditor({
             />
           </label>
         ) : null}
-        <nav className="mt-3 flex gap-1 overflow-x-auto" aria-label="Các vùng Form Studio">
+        <nav
+          className="mt-3 flex gap-1 overflow-x-auto"
+          aria-label="Các vùng Form Studio"
+        >
           {[
             ["FORM", "Form"],
             ["BINDINGS", "Bindings"],
             ["PREVIEW", "DOCX Preview"],
-            ["VALIDATION", `Validation${issues.length ? ` (${issues.length})` : ""}`],
+            [
+              "VALIDATION",
+              `Validation${issues.length ? ` (${issues.length})` : ""}`,
+            ],
             ["VERSIONS", "Versions"],
           ].map(([value, label]) => (
             <button
@@ -978,7 +1071,10 @@ function StudioEditor({
                       .filter((field) => field.sectionId === section.id)
                       .sort((a, b) => a.order - b.order);
                     return (
-                      <div key={section.id} className="rounded-lg border border-slate-200">
+                      <div
+                        key={section.id}
+                        className="rounded-lg border border-slate-200"
+                      >
                         <div className="flex items-center justify-between bg-slate-50 px-3 py-2">
                           <span className="truncate text-sm font-extrabold text-slate-800">
                             {section.title}
@@ -1019,8 +1115,12 @@ function StudioEditor({
                     onClick={() => addField(item.control)}
                     className="flex min-h-16 flex-col items-start justify-between rounded-lg border border-slate-200 bg-white p-2 text-left transition hover:border-blue-300 hover:bg-blue-50 disabled:opacity-40"
                   >
-                    <span className="text-base font-black text-blue-700">{item.symbol}</span>
-                    <span className="text-xs font-bold text-slate-700">{item.label}</span>
+                    <span className="text-base font-black text-blue-700">
+                      {item.symbol}
+                    </span>
+                    <span className="text-xs font-bold text-slate-700">
+                      {item.label}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -1095,6 +1195,7 @@ function StudioEditor({
               <FieldInspector
                 field={selectedField}
                 contract={contract}
+                availableDocxSlots={availableDocxSlots}
                 editable={editable}
                 onUpdate={(patch) =>
                   selectedField &&
@@ -1118,9 +1219,7 @@ function StudioEditor({
         </DndContext>
       ) : null}
 
-      {tab === "BINDINGS" ? (
-        <BindingsPanel contract={contract} />
-      ) : null}
+      {tab === "BINDINGS" ? <BindingsPanel contract={contract} /> : null}
       {tab === "PREVIEW" ? (
         <PreviewPanel
           job={previewJob}
@@ -1135,7 +1234,9 @@ function StudioEditor({
                 }),
               )
               .catch((cause) =>
-                setMessage(cause instanceof Error ? cause.message : "Preview thất bại."),
+                setMessage(
+                  cause instanceof Error ? cause.message : "Preview thất bại.",
+                ),
               )
           }
         />
@@ -1176,13 +1277,17 @@ function SortableFieldItem({
       onClick={onSelect}
       className={[
         "flex w-full items-center gap-2 rounded-md px-2 py-2 text-left text-sm",
-        selected ? "bg-blue-100 font-extrabold text-blue-900" : "text-slate-700 hover:bg-slate-50",
+        selected
+          ? "bg-blue-100 font-extrabold text-blue-900"
+          : "text-slate-700 hover:bg-slate-50",
         sortable.isDragging ? "z-10 shadow-lg" : "",
       ].join(" ")}
     >
       <span className="cursor-grab text-slate-400">⋮⋮</span>
       <span className="min-w-0 flex-1 truncate">{field.label}</span>
-      <span className="text-[10px] font-black text-slate-400">{field.control}</span>
+      <span className="text-[10px] font-black text-slate-400">
+        {field.control}
+      </span>
     </button>
   );
 }
@@ -1191,6 +1296,7 @@ function SortableFieldItem({
 function FieldInspector({
   field,
   contract,
+  availableDocxSlots,
   editable,
   onUpdate,
   onDelete,
@@ -1198,6 +1304,7 @@ function FieldInspector({
 }: {
   field: FieldDefinition | null;
   contract: FormContractV2;
+  availableDocxSlots: string[];
   editable: boolean;
   onUpdate: (patch: Partial<FieldDefinition>) => void;
   onDelete: () => void;
@@ -1211,7 +1318,8 @@ function FieldInspector({
     );
   }
   const binding = contract.renderBindings.find(
-    (item) => item.source.kind === "FIELD" && item.source.fieldKey === field.key,
+    (item) =>
+      item.source.kind === "FIELD" && item.source.fieldKey === field.key,
   );
   const inputClass =
     "mt-1.5 min-h-10 w-full rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-blue-500 disabled:bg-slate-50";
@@ -1414,7 +1522,9 @@ function FieldInspector({
                 type="checkbox"
                 checked={field.required}
                 disabled={!editable}
-                onChange={(event) => onUpdate({ required: event.target.checked })}
+                onChange={(event) =>
+                  onUpdate({ required: event.target.checked })
+                }
               />
               Áp dụng
             </label>
@@ -1438,14 +1548,13 @@ function FieldInspector({
         </InspectorLabel>
         <div className="border-t border-slate-200 pt-4">
           <InspectorLabel label="DOCX slot binding">
-            <input
+            <select
               className={inputClass}
-              defaultValue={
+              value={
                 binding?.target.kind === "SLOT" ? binding.target.slotId : ""
               }
               disabled={!editable}
-              placeholder="ví dụ receiver.fullName"
-              onBlur={(event) => {
+              onChange={(event) => {
                 const slotId = event.target.value.trim();
                 const next = structuredClone(contract);
                 next.renderBindings = next.renderBindings.filter(
@@ -1466,7 +1575,14 @@ function FieldInspector({
                 }
                 onReplaceContract(next);
               }}
-            />
+            >
+              <option value="">Chưa binding</option>
+              {availableDocxSlots.map((slotId) => (
+                <option key={slotId} value={slotId}>
+                  {slotId}
+                </option>
+              ))}
+            </select>
           </InspectorLabel>
           <p className="mt-2 text-xs leading-5 text-slate-500">
             Field tùy chỉnh phải có slot hoặc nguồn computed/default trước khi
@@ -1497,7 +1613,9 @@ function BindingsPanel({ contract }: { contract: FormContractV2 }) {
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <div className="mx-auto max-w-6xl rounded-xl border border-slate-200 bg-white p-5">
-        <h2 className="text-lg font-black text-slate-950">Bản đồ DOCX bindings</h2>
+        <h2 className="text-lg font-black text-slate-950">
+          Bản đồ DOCX bindings
+        </h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase text-slate-500">
@@ -1522,12 +1640,17 @@ function BindingsPanel({ contract }: { contract: FormContractV2 }) {
                       : binding.target.tableKey}
                   </td>
                   <td className="px-3 py-3">{binding.transform}</td>
-                  <td className="px-3 py-3">{JSON.stringify(binding.fallback)}</td>
+                  <td className="px-3 py-3">
+                    {JSON.stringify(binding.fallback)}
+                  </td>
                 </tr>
               ))}
               {contract.renderBindings.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-3 py-10 text-center text-slate-500">
+                  <td
+                    colSpan={4}
+                    className="px-3 py-10 text-center text-slate-500"
+                  >
                     Chưa có binding. Chọn field ở tab Form để gắn DOCX slot.
                   </td>
                 </tr>
@@ -1564,7 +1687,9 @@ function PreviewPanel({
         </button>
         {job ? (
           <div className="mt-5 rounded-lg bg-slate-50 p-4 text-sm">
-            <div className="font-black">Job #{job.id} · {job.status}</div>
+            <div className="font-black">
+              Job #{job.id} · {job.status}
+            </div>
             {job.errorCode ? (
               <div className="mt-2 text-rose-700">{job.errorCode}</div>
             ) : null}
@@ -1701,7 +1826,9 @@ function VersionsPanel({
               ].join(" ")}
             >
               <div>
-                <div className="font-black">v{version.version} · rev {version.revision}</div>
+                <div className="font-black">
+                  v{version.version} · rev {version.revision}
+                </div>
                 <div className="mt-1 text-xs text-slate-500">
                   {version.contractHash ?? "Chưa có immutable hash"}
                 </div>
@@ -1715,7 +1842,57 @@ function VersionsPanel({
   );
 }
 
-function StatusPill({ status }: { status: string }) {
+function StudioActionButton({
+  status,
+  onClick,
+}: {
+  status: FormLifecycleStatus;
+  onClick: () => void;
+}) {
+  const action = studioPrimaryAction(status);
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 font-bold text-blue-800"
+    >
+      {action.label}
+    </button>
+  );
+}
+
+function BaselineProvenanceBanner({
+  baseline,
+}: {
+  baseline: AuthoringBaseline | null;
+}) {
+  if (!baseline) return null;
+  const sparse = baseline.quality.warnings.some(
+    (warning) => warning.code === "EXTRACTION_SPARSE",
+  );
+  return (
+    <div className="rounded border border-amber-200 bg-amber-50 px-3 py-2 text-xs">
+      <strong>Nguồn baseline:</strong> {baseline.provenance.source}
+      {" | "} <strong>Grade:</strong> {baseline.quality.grade}
+      {" | "} <strong>Fields:</strong> {baseline.quality.fieldCount}
+      {" | "} <strong>Bindings:</strong> {baseline.quality.bindingCount}
+      {sparse ? (
+        <div className="mt-1 font-black text-amber-900">
+          Extraction còn thô — cần đối chiếu trực tiếp DOCX.
+        </div>
+      ) : null}
+      {baseline.quality.warnings.length > 0 && (
+        <ul className="mt-1 list-inside list-disc text-amber-700">
+          {baseline.quality.warnings.map((warning) => (
+            <li key={warning.code}>{warning.message}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function StatusPill({ status }: { status: FormLifecycleStatus }) {
   const style =
     status === "PUBLISHED"
       ? "bg-emerald-100 text-emerald-800"
@@ -1729,8 +1906,10 @@ function StatusPill({ status }: { status: string }) {
               ? "bg-slate-200 text-slate-700"
               : "bg-blue-100 text-blue-800";
   return (
-    <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-black ${style}`}>
-      {status}
+    <span
+      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-black ${style}`}
+    >
+      {lifecycleLabel(status)}
     </span>
   );
 }
