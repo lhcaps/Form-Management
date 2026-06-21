@@ -1,25 +1,25 @@
 # Slot Coverage Summary
 
-Sinh lúc: 2026-06-21T13:19:32.652Z
+Sinh lúc: 2026-06-21T15:27:40.500Z
 
 ## Phạm vi verify
 
 - ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.
 - ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.
 - ✅ **Locked contract count**: Hiện tại = 3. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.
-- ⚠️ **Unknown sources**: 2383/2461 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
-- ⚠️ **Review-required**: Còn 7591 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
+- ⚠️ **Unknown sources**: 2405/2483 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
+- ⚠️ **Review-required**: Còn 7657 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
 
 > Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.
 
 ## Tổng quan
 
 - Tổng contract (form, KHÔNG tính reference docs): **214**
-- Tổng docxSlots: **2685**
-- Tổng renderBindings: **2685**
-- Tổng canonicalFields: **2461**
-- Tổng canonicalFields có source=unknown: **2383**
-- Tổng reviewRequired (slot+field+binding): **7591**
+- Tổng docxSlots: **2707**
+- Tổng renderBindings: **2707**
+- Tổng canonicalFields: **2483**
+- Tổng canonicalFields có source=unknown: **2405**
+- Tổng reviewRequired (slot+field+binding): **7657**
 - Tổng slot thiếu binding: **0**
 - Contract locked: **3** | draft: **211**
 - Structural issues: **0**
@@ -49,8 +49,8 @@ Sinh lúc: 2026-06-21T13:19:32.652Z
 | BM-016__565ec1fc2103 | BM-016 | draft | 30 | 30 | 30 | 90 | 0 | 0 | 0 | 1 |
 | BM-017__6b3cad999c61 | BM-017 | draft | 14 | 14 | 14 | 42 | 0 | 0 | 0 | 1 |
 | BM-018__fe8c39468552 | BM-018 | draft | 17 | 17 | 17 | 51 | 0 | 0 | 0 | 1 |
-| BM-019__3c2858f47dad | BM-019 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
-| BM-020__0f61c04c750d | BM-020 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
+| BM-019__3c2858f47dad | BM-019 | draft | 17 | 17 | 17 | 51 | 0 | 0 | 0 | 1 |
+| BM-020__0f61c04c750d | BM-020 | draft | 13 | 13 | 13 | 39 | 0 | 0 | 0 | 1 |
 | BM-021__772319486f41 | BM-021 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-022__13d342bdfc56 | BM-022 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-023__78e4f3906e4c | BM-023 | draft | 17 | 17 | 17 | 51 | 0 | 0 | 0 | 1 |
