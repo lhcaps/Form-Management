@@ -45,7 +45,7 @@
     "informant": {
       "label": "Người cung cấp nguồn tin",
       "description": "Thông tin người cung cấp nguồn tin cho cơ quan.",
-      "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityNo", "identityIssuedDate", "identityIssuedPlace", "permanentAddress", "temporaryAddress", "currentAddress", "phone", "representedOrganization", "signerName"]
+      "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirth", "birthYear", "birthDay", "birthMonth", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityNo", "identityIssuedDate", "identityIssuedDay", "identityIssuedMonth", "identityIssuedYear", "identityIssuedPlace", "permanentAddress", "temporaryAddress", "currentAddress", "phone", "representedOrganization", "signerName"]
     },
     "receiver": {
       "label": "Người tiếp nhận",
@@ -55,7 +55,7 @@
     "reporter": {
       "label": "Người trình báo / tố giác",
       "description": "Alias cũ của informant, dùng cho BM cũ.",
-      "commonFields": ["fullName", "address", "phone", "content"]
+      "commonFields": ["fullName", "address", "phone", "content", "genderText", "otherName", "birthDateLine", "birthPlace", "nationality", "ethnicity", "religion", "occupation", "identityNumber", "identityIssueDateLine", "identityIssuePlace", "permanentResidence", "temporaryResidence", "currentResidence", "phoneNumber", "organizationRepresentative"]
     },
     "prosecutor": {
       "label": "Kiểm sát viên",
@@ -251,6 +251,31 @@
       "label": "Chữ ký",
       "description": "Chức danh + người ký văn bản.",
       "commonFields": ["signMode", "positionTitle", "signerName"]
+    },
+    "reception": {
+      "label": "Tiếp nhận nguồn tin",
+      "description": "Thông tin về thời điểm bắt đầu và kết thúc tiếp nhận nguồn tin về tội phạm.",
+      "commonFields": ["startedAtTimeText", "startedAtDay", "startedAtMonth", "startedAtYear", "locationName", "endedAtTimeText", "endedAtDay", "endedAtMonth", "endedAtYear"]
+    },
+    "crimeReport": {
+      "label": "Tố giác / Tin báo về tội phạm",
+      "description": "Nội dung tố giác, tin báo về tội phạm và tài liệu đính kèm.",
+      "commonFields": ["content", "attachedItemsDescription"]
+    },
+    "sourceReport": {
+      "label": "Báo cáo nguồn tin",
+      "description": "Nội dung báo cáo nguồn tin, ngày tiếp nhận.",
+      "commonFields": ["receivedDateLine", "content"]
+    },
+    "sourceTransfer": {
+      "label": "Chuyển nguồn tin",
+      "description": "Nội dung quyết định chuyển nguồn tin về tội phạm.",
+      "commonFields": ["attachedItemsDescription"]
+    },
+    "sourceAssignment": {
+      "label": "Phân công nguồn tin",
+      "description": "Nội dung quyết định phân công KSV tiếp nhận và xử lý nguồn tin về tội phạm.",
+      "commonFields": ["article1Line", "article2Line", "article3Line"]
     },
     "caseDecision": {
       "label": "Quyết định truy tố / quyết định không truy tố",

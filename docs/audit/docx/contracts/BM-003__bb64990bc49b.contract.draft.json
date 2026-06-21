@@ -15,7 +15,7 @@
   },
   "extractionSource": {
     "kind": "normalized-docx",
-    "relativePath": "storage\\templates\\normalized-docx\\BM-003\\BM-003_normalized.docx",
+    "relativePath": "storage/templates/normalized-docx/BM-003/BM-003_normalized.docx",
     "sha256": "1a5baf6739edc3d7769853a6b8d8d3be80a72e4ca105c7850278590ca4e31128",
     "format": "docx"
   },
@@ -25,14 +25,14 @@
       "slotId": "agency.parentName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0002",
         "tableCellId": null
       },
       "context": "{{agency.parentName}}",
-      "label": "parentName",
+      "label": "Co quan cap tren",
       "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -44,14 +44,14 @@
       "slotId": "agency.name",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0003",
         "tableCellId": null
       },
       "context": "{{agency.name}}",
-      "label": "name",
+      "label": "Vien kiem sat ban hanh",
       "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -63,16 +63,16 @@
       "slotId": "document.documentCode",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0009",
         "tableCellId": null
       },
-      "context": "{{document.documentCode}}",
-      "label": "documentCode",
+      "context": "Số: {{document.documentCode}}",
+      "label": "So quyet dinh",
       "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "Số:",
         "textAfter": "",
         "rawPattern": "{{document.documentCode}}"
       },
@@ -82,14 +82,14 @@
       "slotId": "document.issuePlaceAndDateLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0011",
         "tableCellId": null
       },
       "context": "{{document.issuePlaceAndDateLine}}",
-      "label": "issuePlaceAndDateLine",
-      "slotType": "datePart",
+      "label": "Dia danh, ngay ban hanh",
+      "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -98,17 +98,36 @@
       "reviewRequired": true
     },
     {
+      "slotId": "official.issuerTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "{{official.issuerTitle}}",
+      "label": "Chu the ban hanh",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
       "slotId": "legalBasis.procedureArticlesLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0022",
         "tableCellId": null
       },
       "context": "{{legalBasis.procedureArticlesLine}}",
-      "label": "procedureArticlesLine",
-      "slotType": "text",
+      "label": "Can cu Bo luat To tung hinh su",
+      "slotType": "multilineText",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -117,20 +136,77 @@
       "reviewRequired": true
     },
     {
+      "slotId": "sourceAssignment.article1Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "Điều 1. {{sourceAssignment.article1Line}}",
+      "label": "Dieu 1 - Noi dung phan cong",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 1.",
+        "textAfter": "",
+        "rawPattern": "{{sourceAssignment.article1Line}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "sourceAssignment.article2Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "Điều 2. {{sourceAssignment.article2Line}}",
+      "label": "Dieu 2 - Thoi han",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 2.",
+        "textAfter": "",
+        "rawPattern": "{{sourceAssignment.article2Line}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "sourceAssignment.article3Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "Điều 3. {{sourceAssignment.article3Line}}",
+      "label": "Dieu 3 - Yeu cau",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 3.",
+        "textAfter": "",
+        "rawPattern": "{{sourceAssignment.article3Line}}"
+      },
+      "reviewRequired": true
+    },
+    {
       "slotId": "recipients.primaryLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0029",
         "tableCellId": null
       },
-      "context": "{{recipients.primaryLine}}",
-      "label": "primaryLine",
+      "context": "- {{recipients.primaryLine}};",
+      "label": "Noi nhan chinh",
       "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
+        "textBefore": "-",
+        "textAfter": ";",
         "rawPattern": "{{recipients.primaryLine}}"
       },
       "reviewRequired": true
@@ -139,17 +215,17 @@
       "slotId": "recipients.archiveLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0031",
         "tableCellId": null
       },
-      "context": "{{recipients.archiveLine}}",
-      "label": "archiveLine",
+      "context": "- {{recipients.archiveLine}}.",
+      "label": "Luu ho so",
       "slotType": "text",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
+        "textBefore": "-",
+        "textAfter": ".",
         "rawPattern": "{{recipients.archiveLine}}"
       },
       "reviewRequired": true
@@ -158,14 +234,14 @@
       "slotId": "signature.signMode",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0033",
         "tableCellId": null
       },
       "context": "{{signature.signMode}}",
-      "label": "signMode",
-      "slotType": "text",
+      "label": "Che do ky",
+      "slotType": "signature",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -177,14 +253,14 @@
       "slotId": "signature.positionTitle",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0034",
         "tableCellId": null
       },
       "context": "{{signature.positionTitle}}",
-      "label": "positionTitle",
-      "slotType": "text",
+      "label": "Chuc vu nguoi ky",
+      "slotType": "signature",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -196,14 +272,14 @@
       "slotId": "signature.signerName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": null,
+        "blockId": "P0038",
         "tableCellId": null
       },
       "context": "{{signature.signerName}}",
-      "label": "signerName",
-      "slotType": "text",
+      "label": "Nguoi ky",
+      "slotType": "signature",
       "required": true,
-      "confidence": 0.9,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -216,101 +292,141 @@
     {
       "path": "agency.parentName",
       "type": "string",
-      "label": "parentName",
+      "label": "Co quan cap tren",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "agency",
+      "section": "Co quan va van ban",
       "reviewRequired": true
     },
     {
       "path": "agency.name",
       "type": "string",
-      "label": "name",
+      "label": "Vien kiem sat ban hanh",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "agency",
+      "section": "Co quan va van ban",
       "reviewRequired": true
     },
     {
       "path": "document.documentCode",
       "type": "string",
-      "label": "documentCode",
+      "label": "So quyet dinh",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Co quan va van ban",
       "reviewRequired": true
     },
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "issuePlaceAndDateLine",
+      "label": "Dia danh, ngay ban hanh",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Co quan va van ban",
+      "reviewRequired": true
+    },
+    {
+      "path": "official.issuerTitle",
+      "type": "string",
+      "label": "Chu the ban hanh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Co quan va van ban",
       "reviewRequired": true
     },
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
-      "label": "procedureArticlesLine",
+      "label": "Can cu Bo luat To tung hinh su",
       "source": "unknown",
       "required": true,
-      "uiComponent": "text",
-      "section": "legalBasis",
+      "uiComponent": "textarea",
+      "section": "Can cu phap ly",
+      "reviewRequired": true
+    },
+    {
+      "path": "sourceAssignment.article1Line",
+      "type": "string",
+      "label": "Dieu 1 - Noi dung phan cong",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Noi dung quyet dinh",
+      "reviewRequired": true
+    },
+    {
+      "path": "sourceAssignment.article2Line",
+      "type": "string",
+      "label": "Dieu 2 - Thoi han",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Noi dung quyet dinh",
+      "reviewRequired": true
+    },
+    {
+      "path": "sourceAssignment.article3Line",
+      "type": "string",
+      "label": "Dieu 3 - Yeu cau",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Noi dung quyet dinh",
       "reviewRequired": true
     },
     {
       "path": "recipients.primaryLine",
       "type": "string",
-      "label": "primaryLine",
+      "label": "Noi nhan chinh",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "recipients",
+      "section": "Noi nhan",
       "reviewRequired": true
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
-      "label": "archiveLine",
+      "label": "Luu ho so",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "recipients",
+      "section": "Noi nhan",
       "reviewRequired": true
     },
     {
       "path": "signature.signMode",
       "type": "string",
-      "label": "signMode",
+      "label": "Che do ky",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "signature",
+      "section": "Chu ky",
       "reviewRequired": true
     },
     {
       "path": "signature.positionTitle",
       "type": "string",
-      "label": "positionTitle",
+      "label": "Chuc vu nguoi ky",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "signature",
+      "section": "Chu ky",
       "reviewRequired": true
     },
     {
       "path": "signature.signerName",
       "type": "string",
-      "label": "signerName",
+      "label": "Nguoi ky",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "signature",
+      "section": "Chu ky",
       "reviewRequired": true
     }
   ],
@@ -344,8 +460,36 @@
       "reviewRequired": true
     },
     {
+      "slotId": "official.issuerTitle",
+      "from": "official.issuerTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
       "slotId": "legalBasis.procedureArticlesLine",
       "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "sourceAssignment.article1Line",
+      "from": "sourceAssignment.article1Line",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "sourceAssignment.article2Line",
+      "from": "sourceAssignment.article2Line",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "sourceAssignment.article3Line",
+      "from": "sourceAssignment.article3Line",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -405,7 +549,9 @@
     }
   ],
   "unresolvedQuestions": [],
-  "warnings": [],
+  "warnings": [
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+  ],
   "productMetadata": {
     "stage": {
       "code": "01",
@@ -429,8 +575,73 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "agency",
+      "document",
+      "official",
+      "legalBasis",
+      "sourceAssignment",
+      "recipients",
+      "signature"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "control": "text"
+      },
+      {
+        "path": "official.issuerTitle",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "control": "textarea"
+      },
+      {
+        "path": "sourceAssignment.article1Line",
+        "control": "textarea"
+      },
+      {
+        "path": "sourceAssignment.article2Line",
+        "control": "textarea"
+      },
+      {
+        "path": "sourceAssignment.article3Line",
+        "control": "textarea"
+      },
+      {
+        "path": "recipients.primaryLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "control": "text"
+      },
+      {
+        "path": "signature.signMode",
+        "control": "text"
+      },
+      {
+        "path": "signature.positionTitle",
+        "control": "text"
+      },
+      {
+        "path": "signature.signerName",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },
