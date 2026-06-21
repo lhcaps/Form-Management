@@ -1,25 +1,25 @@
 # Slot Coverage Summary
 
-Sinh lúc: 2026-06-21T11:06:14.655Z
+Sinh lúc: 2026-06-21T11:13:38.850Z
 
 ## Phạm vi verify
 
 - ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.
 - ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.
 - ✅ **Locked contract count**: Hiện tại = 3. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.
-- ⚠️ **Unknown sources**: 2348/2426 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
-- ⚠️ **Review-required**: Còn 7486 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
+- ⚠️ **Unknown sources**: 2383/2461 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
+- ⚠️ **Review-required**: Còn 7591 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
 
 > Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.
 
 ## Tổng quan
 
 - Tổng contract (form, KHÔNG tính reference docs): **214**
-- Tổng docxSlots: **2650**
-- Tổng renderBindings: **2650**
-- Tổng canonicalFields: **2426**
-- Tổng canonicalFields có source=unknown: **2348**
-- Tổng reviewRequired (slot+field+binding): **7486**
+- Tổng docxSlots: **2685**
+- Tổng renderBindings: **2685**
+- Tổng canonicalFields: **2461**
+- Tổng canonicalFields có source=unknown: **2383**
+- Tổng reviewRequired (slot+field+binding): **7591**
 - Tổng slot thiếu binding: **0**
 - Contract locked: **3** | draft: **211**
 - Structural issues: **0**
@@ -74,7 +74,7 @@ Sinh lúc: 2026-06-21T11:06:14.655Z
 | BM-041__9a027eeceb3a | BM-041 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-042__a4da3c74d437 | BM-042 | draft | 23 | 23 | 23 | 69 | 0 | 0 | 0 | 1 |
 | BM-043__8eab35cfeedb | BM-043 | draft | 19 | 19 | 19 | 57 | 0 | 0 | 0 | 1 |
-| BM-044__8552b13c78ff | BM-044 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
+| BM-044__8552b13c78ff | BM-044 | draft | 21 | 21 | 21 | 63 | 0 | 0 | 0 | 1 |
 | BM-045__13efe0d94756 | BM-045 | draft | 20 | 20 | 20 | 60 | 0 | 0 | 0 | 1 |
 | BM-046__501a15f0fbb7 | BM-046 | draft | 20 | 20 | 20 | 60 | 0 | 0 | 0 | 1 |
 | BM-047__ec7dc3448f91 | BM-047 | draft | 34 | 34 | 34 | 102 | 0 | 0 | 0 | 1 |
@@ -134,7 +134,7 @@ Sinh lúc: 2026-06-21T11:06:14.655Z
 | BM-101__2fe2187f4777 | BM-101 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-102__88bde5060df8 | BM-102 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-103__665eb32a5626 | BM-103 | draft | 21 | 21 | 21 | 63 | 0 | 0 | 0 | 1 |
-| BM-104__6d6f5903cad3 | BM-104 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
+| BM-104__6d6f5903cad3 | BM-104 | draft | 18 | 18 | 18 | 54 | 0 | 0 | 0 | 1 |
 | BM-105__c83181e6b64b | BM-105 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-106__7f44c9dd261a | BM-106 | draft | 12 | 12 | 8 | 32 | 0 | 0 | 0 | 1 |
 | BM-107__9b3379af7cfe | BM-107 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
