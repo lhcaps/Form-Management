@@ -10,7 +10,7 @@
     "document": {
       "label": "Thông tin văn bản",
       "description": "Số hiệu, ngày ban hành, loại văn bản.",
-      "commonFields": ["documentCode", "issueDate", "issuePlace", "issuePlaceAndDateLine", "issueDay", "issueMonth", "issueYear"]
+      "commonFields": ["documentCode", "issueDate", "issuePlace", "issuePlaceAndDateLine", "issuePlaceDateLine", "issueDay", "issueMonth", "issueYear", "fullDocumentCode"]
     },
     "case": {
       "label": "Thông tin vụ án / vụ việc / nguồn tin",
@@ -165,7 +165,7 @@
     "legalBasis": {
       "label": "Căn cứ pháp lý",
       "description": "Căn cứ Bộ luật Tố tụng hình sự, Bộ luật Hình sự, luật liên quan.",
-      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine", "assignmentProcedureArticlesLine", "staffAssignmentProcedureArticlesLine"]
+      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine", "assignmentProcedureArticlesLine", "staffAssignmentProcedureArticlesLine", "jurisdictionCircularLine"]
     },
     "prosecutionTransfer": {
       "label": "Chuyển truy tố",
@@ -186,6 +186,26 @@
       "label": "Phân công đại diện / Kiểm sát viên",
       "description": "Nội dung quyết định phân công Phó Viện trưởng hoặc Kiểm sát viên đại diện Viện kiểm sát thực hiện nhiệm vụ.",
       "commonFields": ["deputyChiefName", "deputyChiefTitle", "deputyChiefAgencyName", "responsibilityLine", "assignedRoleText", "assignedOfficerName", "assignedOfficerTitle", "assignedOfficerAgencyName", "additionalAssignedOfficersLine"]
+    },
+    "prosecutionJurisdictionTransfer": {
+      "label": "Chuyển thẩm quyền truy tố",
+      "description": "Nội dung quyết định chuyển thẩm quyền truy tố vụ án hình sự sang Viện kiểm sát có thẩm quyền.",
+      "commonFields": ["considerationLine", "article1Line", "article2Line"]
+    },
+    "approval": {
+      "label": "Phê chuẩn / xác nhận",
+      "description": "Nội dung quyết định phê chuẩn, xác nhận hoặc giữ nguyên quyết định truy tố.",
+      "commonFields": ["assessmentLine"]
+    },
+    "evidenceHandlingCancellation": {
+      "label": "Hủy bỏ quyết định xử lý vật chứng",
+      "description": "Nội dung quyết định hủy bỏ Quyết định xử lý vật chứng do Cơ quan điều tra ban hành.",
+      "commonFields": ["caseInitiationLine", "defendantInitiationLine", "evidenceHandlingDecisionReviewLine", "unlawfulReasonLine", "article1Line", "article2Line"]
+    },
+    "caseFileHandover": {
+      "label": "Bàn giao hồ sơ vụ án",
+      "description": "Nội dung biên bản bàn giao hồ sơ vụ án giữa các Kiểm sát viên.",
+      "commonFields": ["startedAtLine", "giverName", "giverPositionTitle", "giverSignerName", "receiverName", "receiverPositionTitle", "receiverSignerName", "caseFileTitle", "handoverReasonLine", "fileStatsLine", "evidenceLine", "endedAtLine"]
     },
     "prosecutionCaseTermination": {
       "label": "Chấm dứt truy tố",
@@ -215,7 +235,7 @@
     "recipients": {
       "label": "Nơi nhận / lưu",
       "description": "Dòng nơi nhận văn bản và dòng lưu hồ sơ.",
-      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "investigationUnitLine", "monitoringUnitLine", "immigrationUnitLine", "personLine", "otherRecipientLine", "otherRecipientsLine", "guarantorLine", "courtLine", "accusedLine", "defenseCounselLine", "investigatingAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine", "propertyRecipientLine", "noteLine", "line1", "line2", "superiorProcuracyName", "personRepresentativeLine", "bailReceiverLine", "defendantRepresentativeLine", "detentionExecutionUnitLine", "executionAgencyLine", "assignedPersonLine", "investigationAuthorityLine"]
+      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "investigationUnitLine", "monitoringUnitLine", "immigrationUnitLine", "personLine", "otherRecipientLine", "otherRecipientsLine", "guarantorLine", "courtLine", "accusedLine", "defenseCounselLine", "investigatingAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine", "propertyRecipientLine", "noteLine", "line1", "line2", "superiorProcuracyName", "personRepresentativeLine", "bailReceiverLine", "defendantRepresentativeLine", "detentionExecutionUnitLine", "executionAgencyLine", "assignedPersonLine", "investigationAuthorityLine", "sourceProcuracyLine", "targetProcuracyLine", "detentionFacilityLine"]
     },
     "signature": {
       "label": "Chữ ký",
@@ -225,7 +245,7 @@
     "caseDecision": {
       "label": "Quyết định truy tố / quyết định không truy tố",
       "description": "Căn cứ quyết định truy tố (hoặc không truy tố) của Viện kiểm sát.",
-      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine", "caseProsecutionDecisionLine"]
+      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine", "caseProsecutionDecisionLine", "prosecutionDecisionSummaryLine", "approvalArticle1Line", "investigationRequestLine"]
     },
     "arrestNonApproval": {
       "label": "Không phê chuẩn bắt/giữ",

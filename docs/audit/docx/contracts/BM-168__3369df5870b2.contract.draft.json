@@ -14,127 +14,517 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/168-BB giao nhận hồ sơ vụ án, vụ việc.doc",
-    "sha256": "3369df5870b270e722bbf4bf395ecb7db79b2fe8e65b9674033916f09cb0540f",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-168/BM-168_normalized.docx",
+    "sha256": "a6820df65409e4a08e9678207b323ebccba19fc89dd7666fa793e3f348c3d931",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.parentName",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0011",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{agency.parentName}}",
+      "label": "Cơ quan cấp trên",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "................................................."
+        "rawPattern": "{{agency.parentName}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
+      "slotId": "agency.name",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
+        "blockId": "P0012",
+        "tableCellId": null
+      },
+      "context": "{{agency.name}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.startedAtLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "{{caseFileHandover.startedAtLine}}",
+      "label": "Thời điểm bắt đầu bàn giao",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.startedAtLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.giverName",
+      "location": {
+        "partName": "word/document.xml",
         "blockId": "P0022",
         "tableCellId": null
       },
-      "context": "bút lục, đánh số từ 01 đến ....",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Bên giao: {{caseFileHandover.giverName}}",
+      "label": "Người giao",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "Bên giao:",
         "textAfter": "",
-        "rawPattern": "...."
+        "rawPattern": "{{caseFileHandover.giverName}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "case.field3",
+      "slotId": "caseFileHandover.giverPositionTitle",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
         "blockId": "P0023",
         "tableCellId": null
       },
-      "context": "Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):....................",
-      "label": "Ô trống dạng \"...\" (case)",
+      "context": "Chức danh: {{caseFileHandover.giverPositionTitle}}",
+      "label": "Chức danh người giao",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "case",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Chức danh:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.giverPositionTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "Bên nhận: {{caseFileHandover.receiverName}}",
+      "label": "Người nhận",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Bên nhận:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.receiverName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverPositionTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "Chức danh: {{caseFileHandover.receiverPositionTitle}}",
+      "label": "Chức danh người nhận",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Chức danh:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.receiverPositionTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.caseFileTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "Bàn giao hồ sơ vụ việc/vụ án: {{caseFileHandover.caseFileTitle}}",
+      "label": "Tên hồ sơ bàn giao",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Bàn giao hồ sơ vụ việc/vụ án:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.caseFileTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.handoverReasonLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0027",
+        "tableCellId": null
+      },
+      "context": "Lý do bàn giao: {{caseFileHandover.handoverReasonLine}}",
+      "label": "Lý do bàn giao",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Lý do bàn giao:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.handoverReasonLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.fileStatsLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Hồ sơ gồm: {{caseFileHandover.fileStatsLine}}",
+      "label": "Thống kê hồ sơ",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Hồ sơ gồm:",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.fileStatsLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.evidenceLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có): {{caseFileHandover.evidenceLine}}",
+      "label": "Vật chứng",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Vật chứng và bảng kê vật chứng của vụ việc/vụ án kèm theo (nếu có):",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.evidenceLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.endedAtLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "{{caseFileHandover.endedAtLine}}",
+      "label": "Thời điểm kết thúc",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "...................."
+        "rawPattern": "{{caseFileHandover.endedAtLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverSignerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0039",
+        "tableCellId": null
+      },
+      "context": "{{caseFileHandover.receiverSignerName}}",
+      "label": "Người nhận ký",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.receiverSignerName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.giverSignerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0046",
+        "tableCellId": null
+      },
+      "context": "{{caseFileHandover.giverSignerName}}",
+      "label": "Người giao ký",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseFileHandover.giverSignerName}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.parentName",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Cơ quan cấp trên",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "agency.name",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Viện kiểm sát ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "case.field3",
+      "path": "caseFileHandover.startedAtLine",
       "type": "string",
-      "label": "Trường cần điền (case)",
+      "label": "Thời điểm bắt đầu bàn giao",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "case",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.giverName",
+      "type": "string",
+      "label": "Người giao",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.giverPositionTitle",
+      "type": "string",
+      "label": "Chức danh người giao",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.receiverName",
+      "type": "string",
+      "label": "Người nhận",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.receiverPositionTitle",
+      "type": "string",
+      "label": "Chức danh người nhận",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.caseFileTitle",
+      "type": "string",
+      "label": "Tên hồ sơ bàn giao",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.handoverReasonLine",
+      "type": "string",
+      "label": "Lý do bàn giao",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.fileStatsLine",
+      "type": "string",
+      "label": "Thống kê hồ sơ",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.evidenceLine",
+      "type": "string",
+      "label": "Vật chứng",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.endedAtLine",
+      "type": "string",
+      "label": "Thời điểm kết thúc",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.receiverSignerName",
+      "type": "string",
+      "label": "Người nhận ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
+      "reviewRequired": true
+    },
+    {
+      "path": "caseFileHandover.giverSignerName",
+      "type": "string",
+      "label": "Người giao ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Biên bản bàn giao",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
-      "from": "document.field2",
+      "slotId": "agency.name",
+      "from": "agency.name",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "case.field3",
-      "from": "case.field3",
+      "slotId": "caseFileHandover.startedAtLine",
+      "from": "caseFileHandover.startedAtLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.giverName",
+      "from": "caseFileHandover.giverName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.giverPositionTitle",
+      "from": "caseFileHandover.giverPositionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverName",
+      "from": "caseFileHandover.receiverName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverPositionTitle",
+      "from": "caseFileHandover.receiverPositionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.caseFileTitle",
+      "from": "caseFileHandover.caseFileTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.handoverReasonLine",
+      "from": "caseFileHandover.handoverReasonLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.fileStatsLine",
+      "from": "caseFileHandover.fileStatsLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.evidenceLine",
+      "from": "caseFileHandover.evidenceLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.endedAtLine",
+      "from": "caseFileHandover.endedAtLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.receiverSignerName",
+      "from": "caseFileHandover.receiverSignerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "caseFileHandover.giverSignerName",
+      "from": "caseFileHandover.giverSignerName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -143,7 +533,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: The value of \"offset\" is out of range. It must be >= 0 and <= 12. Received 13"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -168,8 +558,68 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "agency",
+      "caseFileHandover"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.startedAtLine",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.giverName",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.giverPositionTitle",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.receiverName",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.receiverPositionTitle",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.caseFileTitle",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.handoverReasonLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseFileHandover.fileStatsLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseFileHandover.evidenceLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseFileHandover.endedAtLine",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.receiverSignerName",
+        "control": "text"
+      },
+      {
+        "path": "caseFileHandover.giverSignerName",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },
