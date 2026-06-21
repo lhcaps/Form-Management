@@ -9,7 +9,7 @@ Snapshot: deterministic from current repository state
 - LOCKED_VERIFIED: 3
 - EXTRACTED_NEEDS_REVIEW: 210
 - GENERIC_FALLBACK: 0
-- Compile/refinement warnings: 57
+- Compile/refinement warnings: 55
 
 This report proves authoring coverage and provenance. It does not certify legal or semantic correctness.
 

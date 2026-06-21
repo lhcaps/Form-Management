@@ -62,6 +62,11 @@ describe("review-required invariant: draft phase", () => {
     "BM-057",
     "BM-148",
     "BM-169",
+    "BM-056",
+    "BM-085",
+    "BM-173",
+    "BM-159",
+    "BM-054",
   ]);
   const contracts = (() => {
     try {

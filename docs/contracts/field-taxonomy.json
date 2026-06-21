@@ -150,7 +150,7 @@
     "measure": {
       "label": "Biện pháp ngăn chặn và cưỡng chế",
       "description": "Lý do, thời hạn và các điều của quyết định áp dụng, phê chuẩn hoặc hủy bỏ biện pháp.",
-      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine", "preventiveMeasureOrderLegalBasisLine", "cancelReasonLine", "cancellationArticle1Line", "cancellationArticle2Line", "exitPostponementDecisionLegalBasisLine", "exitPostponementCancelReasonLine", "immigrationAgencyName", "article2Line"]
+      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine", "preventiveMeasureOrderLegalBasisLine", "cancelReasonLine", "cancellationArticle1Line", "cancellationArticle2Line", "exitPostponementDecisionLegalBasisLine", "exitPostponementCancelReasonLine", "exitPostponementReasonLine", "exitPostponementDurationText", "exitPostponementFromDateText", "exitPostponementToDateText", "exitPostponementArticle2Line", "immigrationAgencyName", "article2Line"]
     },
     "custody": {
       "label": "Tạm giữ và gia hạn tạm giữ",
@@ -276,6 +276,26 @@
       "label": "Tạm đình chỉ điều tra",
       "description": "Nội dung quyết định tạm đình chỉ điều tra vụ án và đối với bị can (áp dụng trong giai đoạn điều tra).",
       "commonFields": ["reasonLine", "article1Line", "article2ActionLine", "executionRequestLine"]
+    },
+    "caseInvestigationTransfer": {
+      "label": "Chuyển điều tra",
+      "description": "Nội dung quyết định chuyển vụ án hình sự từ Cơ quan điều tra này sang Cơ quan điều tra khác hoặc sang Viện kiểm sát cấp trên.",
+      "commonFields": ["procedureArticlesLine", "reasonLine", "article1Line", "article2Line", "fromInvestigationAuthorityRecipientLine", "toInvestigationAuthorityRecipientLine", "toProcuracyRecipientLine", "accusedOrRepresentativeRecipientLine", "defenderRecipientLine", "otherParticipantRecipientLine"]
+    },
+    "evidenceTransfer": {
+      "label": "Chuyển giao vật chứng, tài liệu",
+      "description": "Nội dung quyết định chuyển giao tang vật, phương tiện, tài liệu trong vụ án hình sự.",
+      "commonFields": ["prosecutionDecisionLegalBasisLine", "considerationLine", "article1Line", "article2Line"]
+    },
+    "subordinateProcuracyTrialAssignment": {
+      "label": "Phân công Viện kiểm sát cấp dưới thực hành quyền công tố",
+      "description": "Nội dung quyết định phân công Viện kiểm sát nhân dân cấp dưới thực hành quyền công tố và kiểm sát điều tra, truy tố tại Tòa án.",
+      "commonFields": ["indictmentLine", "article1Line", "article2Line"]
+    },
+    "notification": {
+      "label": "Thông báo",
+      "description": "Nội dung thông báo của Viện kiểm sát gửi cho các cơ quan, tổ chức hoặc cá nhân có liên quan.",
+      "commonFields": ["preventiveMeasureOrderLine"]
     },
     "renderMeta": {
       "label": "Metadata render",
