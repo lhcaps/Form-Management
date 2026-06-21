@@ -99,21 +99,8 @@
     },
     {
       "slotId": "agency.bodyName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0021",
-        "tableCellId": null
-      },
-      "context": "Viện trưởng {{agency.bodyName}}",
-      "label": "Tên Viện kiểm sát trong thân văn bản",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Viện trưởng",
-        "textAfter": "",
-        "rawPattern": "{{agency.bodyName}}"
-      },
       "reviewRequired": true
     },
     {
@@ -369,12 +356,11 @@
     },
     {
       "path": "agency.bodyName",
-      "type": "string",
       "label": "Tên Viện kiểm sát trong thân văn bản",
-      "source": "unknown",
-      "required": true,
+      "type": "text",
       "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
+      "required": true,
+      "source": "unknown",
       "reviewRequired": true
     },
     {
@@ -519,6 +505,7 @@
     },
     {
       "slotId": "agency.bodyName",
+      "fieldPath": "agency.bodyName",
       "from": "agency.bodyName",
       "transform": "identity",
       "fallback": "",

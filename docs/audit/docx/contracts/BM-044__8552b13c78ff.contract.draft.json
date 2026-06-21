@@ -23,21 +23,8 @@
   "docxSlots": [
     {
       "slotId": "agency.parentNameUpper",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0011",
-        "tableCellId": null
-      },
-      "context": "{{agency.parentNameUpper}}",
-      "label": "Cơ quan cấp trên (viết hoa)",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{agency.parentNameUpper}}"
-      },
       "reviewRequired": true
     },
     {
@@ -424,12 +411,11 @@
   "canonicalFields": [
     {
       "path": "agency.parentNameUpper",
-      "type": "string",
       "label": "Cơ quan cấp trên (viết hoa)",
-      "source": "unknown",
-      "required": true,
+      "type": "text",
       "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
+      "required": true,
+      "source": "unknown",
       "reviewRequired": true
     },
     {
@@ -636,6 +622,7 @@
   "renderBindings": [
     {
       "slotId": "agency.parentNameUpper",
+      "fieldPath": "agency.parentNameUpper",
       "from": "agency.parentNameUpper",
       "transform": "identity",
       "fallback": "",

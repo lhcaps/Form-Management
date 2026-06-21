@@ -631,21 +631,8 @@
     },
     {
       "slotId": "recipients.personLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0048",
-        "tableCellId": null
-      },
-      "context": "{{recipients.personLine}}{{recipients.detentionExecutionUnitLine}}{{recipients.archiveLine}}",
-      "label": "Nơi nhận - Người bị tạm giam",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "{{recipients.detentionExecutionUnitLine}}{{recipients.archiveLine}}",
-        "rawPattern": "{{recipients.personLine}}"
-      },
       "reviewRequired": true
     },
     {
@@ -1105,12 +1092,11 @@
     },
     {
       "path": "recipients.personLine",
-      "type": "string",
       "label": "Nơi nhận - Người bị tạm giam",
-      "source": "unknown",
-      "required": true,
+      "type": "text",
       "uiComponent": "text",
-      "section": "Nơi nhận",
+      "required": true,
+      "source": "unknown",
       "reviewRequired": true
     },
     {
@@ -1411,6 +1397,7 @@
     },
     {
       "slotId": "recipients.personLine",
+      "fieldPath": "recipients.personLine",
       "from": "recipients.personLine",
       "transform": "identity",
       "fallback": "",

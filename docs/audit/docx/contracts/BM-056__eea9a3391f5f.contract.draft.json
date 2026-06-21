@@ -270,21 +270,8 @@
     },
     {
       "slotId": "person.religion",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0026",
-        "tableCellId": null
-      },
-      "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-      "label": "Tôn giáo",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo:",
-        "textAfter": "",
-        "rawPattern": "{{person.religion}}"
-      },
       "reviewRequired": true
     },
     {
@@ -716,12 +703,11 @@
     },
     {
       "path": "person.religion",
-      "type": "string",
       "label": "Tôn giáo",
-      "source": "unknown",
-      "required": false,
+      "type": "text",
       "uiComponent": "text",
-      "section": "Thông tin người bị can",
+      "required": false,
+      "source": "unknown",
       "reviewRequired": true
     },
     {
@@ -969,6 +955,7 @@
     },
     {
       "slotId": "person.religion",
+      "fieldPath": "person.religion",
       "from": "person.religion",
       "transform": "identity",
       "fallback": "",
