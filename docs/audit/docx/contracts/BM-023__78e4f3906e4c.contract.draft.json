@@ -14,241 +14,625 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/23-QĐ khởi tố vụ án hình sự.doc",
-    "sha256": "78e4f3906e4c2fac9f61ec4d536892b32c9c503ea8235e3ada7041172dcd4cd5",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-023/BM-023_normalized.docx",
+    "sha256": "760346fba10094d009298d36fb7c9d679a8dd658ee7d735b99ed2ca3a2675741",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.parentName",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0006",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Cơ quan cấp trên",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "................................................."
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
+      "slotId": "agency.name",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0015",
+        "partName": "word/document.xml",
+        "blockId": "P0006",
         "tableCellId": null
       },
-      "context": "... về vụ việc",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Viện kiểm sát ban hành",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "{{agency.parentName}}",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{agency.name}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "case.field3",
+      "slotId": "document.documentCode",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
+        "blockId": "P0008",
+        "tableCellId": null
+      },
+      "context": "Số: {{document.documentCode}}",
+      "label": "Số quyết định",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
         "blockId": "P0016",
         "tableCellId": null
       },
-      "context": "... có dấu hiệu tội phạm",
-      "label": "Ô trống dạng \"...\" (case)",
+      "context": "{{document.issuePlaceAndDateLine}}",
+      "label": "Địa danh, ngày ban hành",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "case",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field4",
+      "slotId": "official.issuerTitle",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0017",
-        "tableCellId": null
-      },
-      "context": "quy định tại khoản ... Điều",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "..."
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.field5",
-      "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
         "blockId": "P0021",
         "tableCellId": null
       },
-      "context": "quy định tại khoản ... Điều ... của Bộ luật Hình sự.",
-      "label": "Ô trống dạng \"...\" (legalBasis)",
+      "context": "{{official.issuerTitle}}",
+      "label": "Chủ thể ban hành",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "legalBasis",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{official.issuerTitle}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "legalBasis.field6",
+      "slotId": "legalBasis.procedureArticlesLine",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0021",
+        "partName": "word/document.xml",
+        "blockId": "P0022",
         "tableCellId": null
       },
-      "context": "quy định tại khoản ... Điều ... của Bộ luật Hình sự.",
-      "label": "Ô trống dạng \"...\" (legalBasis)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "legalBasis",
-      "suggestedBy": "heuristic",
+      "context": "{{legalBasis.procedureArticlesLine}}",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "crimeReport.content",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0023",
+        "tableCellId": null
+      },
+      "context": "Xét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+      "label": "Nội dung nguồn tin, vụ việc",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy",
+        "textAfter": "về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+        "rawPattern": "{{crimeReport.content}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "case.caseTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0023",
+        "tableCellId": null
+      },
+      "context": "Xét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+      "label": "Tên vụ việc",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy {{crimeReport.content}} về vụ việc",
+        "textAfter": "có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+        "rawPattern": "{{case.caseTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "offense.offenseName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0023",
+        "tableCellId": null
+      },
+      "context": "Xét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+      "label": "Tội danh",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm",
+        "textAfter": "quy định tại {{offense.legalArticle}},",
+        "rawPattern": "{{offense.offenseName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "offense.legalArticle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0023",
+        "tableCellId": null
+      },
+      "context": "Xét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại {{offense.legalArticle}},",
+      "label": "Điều khoản Bộ luật Hình sự",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ét thấy {{crimeReport.content}} về vụ việc {{case.caseTitle}} có dấu hiệu tội phạm {{offense.offenseName}} quy định tại",
+        "textAfter": ",",
+        "rawPattern": "{{offense.legalArticle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "investigation.article2Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "Điều 2. {{investigation.article2Line}}./.",
+      "label": "Nội dung Điều 2",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 2.",
+        "textAfter": "./.",
+        "rawPattern": "{{investigation.article2Line}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.investigationUnitLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "{{recipients.investigationUnitLine}}",
+      "label": "Nơi nhận - cơ quan điều tra",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.investigationUnitLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.superiorProcuracyLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "{{recipients.superiorProcuracyLine}}",
+      "label": "Nơi nhận - Viện kiểm sát cấp trên",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.superiorProcuracyLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "{{recipients.archiveLine}}",
+      "label": "Lưu hồ sơ",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.archiveLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signMode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}{{signature.positionTitle}}",
+      "label": "Chế độ ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{signature.positionTitle}}",
+        "rawPattern": "{{signature.signMode}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}{{signature.positionTitle}}",
+      "label": "Chức vụ người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{signature.signMode}}",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0035",
+        "tableCellId": null
+      },
+      "context": "{{signature.signerName}}",
+      "label": "Người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.parentName",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Cơ quan cấp trên",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "agency.name",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Viện kiểm sát ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "case.field3",
+      "path": "document.documentCode",
       "type": "string",
-      "label": "Trường cần điền (case)",
+      "label": "Số quyết định",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "case",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field4",
+      "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Địa danh, ngày ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "legalBasis.field5",
+      "path": "official.issuerTitle",
       "type": "string",
-      "label": "Trường cần điền (legalBasis)",
+      "label": "Chủ thể ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "legalBasis",
+      "section": "Căn cứ và nội dung vụ việc",
       "reviewRequired": true
     },
     {
-      "path": "legalBasis.field6",
+      "path": "legalBasis.procedureArticlesLine",
       "type": "string",
-      "label": "Trường cần điền (legalBasis)",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
       "source": "unknown",
-      "required": false,
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ và nội dung vụ việc",
+      "reviewRequired": true
+    },
+    {
+      "path": "crimeReport.content",
+      "type": "string",
+      "label": "Nội dung nguồn tin, vụ việc",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ và nội dung vụ việc",
+      "reviewRequired": true
+    },
+    {
+      "path": "case.caseTitle",
+      "type": "string",
+      "label": "Tên vụ việc",
+      "source": "unknown",
+      "required": true,
       "uiComponent": "text",
-      "section": "legalBasis",
+      "section": "Căn cứ và nội dung vụ việc",
+      "reviewRequired": true
+    },
+    {
+      "path": "offense.offenseName",
+      "type": "string",
+      "label": "Tội danh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Tội danh và quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "offense.legalArticle",
+      "type": "string",
+      "label": "Điều khoản Bộ luật Hình sự",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Tội danh và quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "investigation.article2Line",
+      "type": "string",
+      "label": "Nội dung Điều 2",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Tội danh và quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.investigationUnitLine",
+      "type": "string",
+      "label": "Nơi nhận - cơ quan điều tra",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.superiorProcuracyLine",
+      "type": "string",
+      "label": "Nơi nhận - Viện kiểm sát cấp trên",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "Lưu hồ sơ",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.signMode",
+      "type": "string",
+      "label": "Chế độ ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.positionTitle",
+      "type": "string",
+      "label": "Chức vụ người ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
-      "from": "document.field2",
+      "slotId": "agency.name",
+      "from": "agency.name",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "case.field3",
-      "from": "case.field3",
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field4",
-      "from": "document.field4",
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "legalBasis.field5",
-      "from": "legalBasis.field5",
+      "slotId": "official.issuerTitle",
+      "from": "official.issuerTitle",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "legalBasis.field6",
-      "from": "legalBasis.field6",
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "crimeReport.content",
+      "from": "crimeReport.content",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "case.caseTitle",
+      "from": "case.caseTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "offense.offenseName",
+      "from": "offense.offenseName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "offense.legalArticle",
+      "from": "offense.legalArticle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "investigation.article2Line",
+      "from": "investigation.article2Line",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.investigationUnitLine",
+      "from": "recipients.investigationUnitLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.superiorProcuracyLine",
+      "from": "recipients.superiorProcuracyLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signMode",
+      "from": "signature.signMode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "from": "signature.positionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -257,7 +641,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 0 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -282,8 +666,88 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "agency",
+      "document",
+      "official",
+      "legalBasis",
+      "crimeReport",
+      "case",
+      "offense",
+      "investigation",
+      "recipients",
+      "signature"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "control": "text"
+      },
+      {
+        "path": "official.issuerTitle",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "control": "textarea"
+      },
+      {
+        "path": "crimeReport.content",
+        "control": "textarea"
+      },
+      {
+        "path": "case.caseTitle",
+        "control": "text"
+      },
+      {
+        "path": "offense.offenseName",
+        "control": "text"
+      },
+      {
+        "path": "offense.legalArticle",
+        "control": "text"
+      },
+      {
+        "path": "investigation.article2Line",
+        "control": "textarea"
+      },
+      {
+        "path": "recipients.investigationUnitLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.superiorProcuracyLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "control": "text"
+      },
+      {
+        "path": "signature.signMode",
+        "control": "text"
+      },
+      {
+        "path": "signature.positionTitle",
+        "control": "text"
+      },
+      {
+        "path": "signature.signerName",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

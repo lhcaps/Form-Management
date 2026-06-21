@@ -1,9 +1,12 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import test from "node:test";
 import { pathToFileURL } from "node:url";
+
+import PizZip from "pizzip";
 
 const repoRoot = resolve(import.meta.dirname, "..");
 const modulePath = join(
@@ -271,6 +274,283 @@ const EXPECTED_FIELDS = Object.freeze({
     "signature.positionTitle",
     "signature.signerName",
   ],
+  "BM-023": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "crimeReport.content",
+    "case.caseTitle",
+    "offense.offenseName",
+    "offense.legalArticle",
+    "investigation.article2Line",
+    "recipients.investigationUnitLine",
+    "recipients.superiorProcuracyLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-030": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "recipients.primaryLine",
+    "legalBasis.procedureArticlesLine",
+    "sourceResolutionNotice.agencyActionLine",
+    "sourceResolutionNotice.noticeRecipientLine",
+    "sourceResolutionNotice.sourceInfoLine",
+    "sourceResolutionNotice.resolutionResultLine",
+    "recipients.copyLine",
+    "recipients.archiveLine",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-031": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCodeLine",
+    "document.issuePlaceAndDateLine",
+    "agency.bodyName",
+    "legalBasis.juvenileLegalBasisLine",
+    "legalBasis.requestApprovalLine",
+    "measure.reasonLine",
+    "measure.article1Line",
+    "measure.article2Line",
+    "recipients.investigationUnitLine",
+    "recipients.personLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-033": [
+    "agency.parentNameUpper",
+    "agency.nameUpper",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "custody.extensionAttemptText",
+    "official.issuingAuthorityLine",
+    "legalBasis.procedureArticlesLine",
+    "legalBasis.juvenileJusticeLine",
+    "custody.detentionDecisionLine",
+    "custody.previousExtensionDecisionLine",
+    "custody.approvalProposalLine",
+    "custody.approvalProposalAgencyLine",
+    "custody.approvalReasonLine",
+    "custody.approvalArticle1Line",
+    "custody.executionRequestLine",
+    "recipients.executionAgencyLine",
+    "recipients.personLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-156": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "caseDecision.prosecutionDecisionLegalBasisLine",
+    "accusedDecision.prosecutionDecisionLegalBasisLine",
+    "caseJoinder.legalBasisLine",
+    "caseRecovery.legalBasisLine",
+    "investigationConclusion.legalBasisLine",
+    "indictment.criminalActDescriptionLine",
+    "indictment.aggravatingMitigatingAnalysisLine",
+    "indictment.evidenceHandlingLine",
+    "indictment.civilLiabilityLine",
+    "indictment.otherFactsLine",
+    "indictment.summaryConclusionLine",
+    "indictment.absentAccusedNoteLine",
+    "indictment.defendantIdentityLine",
+    "indictment.familyBackgroundLine",
+    "indictment.specialStatusLine",
+    "indictment.administrativeViolationLine",
+    "indictment.criminalRecordLine",
+    "indictment.preventiveMeasureLine",
+    "indictment.crimeConclusionLine",
+    "indictment.aggravatingMitigatingLine",
+    "indictment.separatedCaseHandlingLine",
+    "indictment.article1Line",
+    "indictment.replacementLine",
+    "indictment.caseFileLine",
+    "indictment.evidenceListLine",
+    "indictment.summonedPersonsLine",
+    "recipients.courtLine",
+    "recipients.accusedLine",
+    "recipients.defenseCounselLine",
+    "recipients.investigatingAgencyLine",
+    "recipients.otherRecipientLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-039": [
+    "agency.parentNameUpper",
+    "agency.nameUpper",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuingAuthorityLine",
+    "legalBasis.procedureArticlesLine",
+    "legalBasis.juvenileJusticeLine",
+    "detentionArrest.caseDecisionLegalBasisLine",
+    "detentionArrest.accusedDecisionLegalBasisLine",
+    "detentionArrest.reasonLine",
+    "detentionArrest.accusedName",
+    "detentionArrest.genderLabel",
+    "detentionArrest.otherName",
+    "detentionArrest.birthDay",
+    "detentionArrest.birthMonth",
+    "detentionArrest.birthYear",
+    "detentionArrest.placeOfBirth",
+    "detentionArrest.nationality",
+    "detentionArrest.ethnicity",
+    "detentionArrest.religion",
+    "detentionArrest.occupation",
+    "detentionArrest.identityNo",
+    "detentionArrest.identityIssuedDay",
+    "detentionArrest.identityIssuedMonth",
+    "detentionArrest.identityIssuedYear",
+    "detentionArrest.identityIssuedPlace",
+    "detentionArrest.permanentAddress",
+    "detentionArrest.temporaryAddress",
+    "detentionArrest.currentAddress",
+    "detentionArrest.detentionDurationText",
+    "detentionArrest.detentionToDateLine",
+    "detentionArrest.detentionExecutionUnitName",
+    "detentionArrest.detentionFacilityName",
+    "recipients.executionAgencyLine",
+    "recipients.detentionFacilityLine",
+    "recipients.personLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
+  "BM-059": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "legalBasis.juvenileJusticeLine",
+    "caseDecision.legalBasisLine",
+    "accusedDecision.legalBasisLine",
+    "measure.detentionOrderLegalBasisLine",
+    "measure.prosecutionExtensionDecisionLegalBasisLine",
+    "measure.detentionExtensionReasonLine",
+    "measure.detentionExtensionArticle1Line",
+    "person.fullName",
+    "person.genderLabel",
+    "person.otherName",
+    "person.birthDay",
+    "person.birthMonth",
+    "person.birthYear",
+    "person.placeOfBirth",
+    "person.nationality",
+    "person.ethnicity",
+    "person.religion",
+    "person.occupation",
+    "person.identityDocumentLine",
+    "person.permanentAddress",
+    "person.temporaryAddress",
+    "person.currentAddress",
+    "measure.detentionExtensionDurationText",
+    "measure.detentionExtensionFromDateText",
+    "measure.detentionExtensionToDateText",
+    "measure.detentionExtensionArticle2Line",
+    "recipients.personLine",
+    "recipients.detentionExecutionUnitLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+    "delivery.deliveredAtText",
+    "delivery.receiverTitle",
+  ],
+  "BM-058": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "legalBasis.juvenileJusticeLine",
+    "caseDecision.legalBasisLine",
+    "accusedDecision.legalBasisLine",
+    "measure.detentionReasonLine",
+    "measure.detentionArticle1Line",
+    "person.fullName",
+    "person.genderLabel",
+    "person.otherName",
+    "person.dateOfBirthText",
+    "person.placeOfBirth",
+    "person.nationality",
+    "person.ethnicity",
+    "person.religion",
+    "person.occupation",
+    "person.identityDocumentLine",
+    "person.permanentAddress",
+    "person.temporaryAddress",
+    "person.currentAddress",
+    "measure.exitPostponementDurationText",
+    "measure.exitPostponementFromDateText",
+    "measure.exitPostponementToDateText",
+    "measure.detentionArticle2Line",
+    "recipients.personLine",
+    "recipients.detentionExecutionUnitLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+    "delivery.deliveredAtText",
+    "delivery.receiverTitle",
+  ],
+  "BM-047": [
+    "agency.parentName",
+    "agency.name",
+    "document.documentCode",
+    "document.issuePlaceAndDateLine",
+    "official.issuerTitle",
+    "legalBasis.procedureArticlesLine",
+    "legalBasis.juvenileJusticeLine",
+    "guaranteeApproval.caseInitiationLine",
+    "guaranteeApproval.defendantInitiationLine",
+    "guaranteeApproval.sufficientGroundsLine",
+    "guaranteeApproval.assignmentLine",
+    "defendant.fullName",
+    "defendant.gender",
+    "defendant.aliasName",
+    "defendant.birthDateLine",
+    "defendant.birthPlace",
+    "defendant.nationality",
+    "defendant.ethnicity",
+    "defendant.religion",
+    "defendant.occupation",
+    "defendant.identityNumber",
+    "defendant.identityIssueDateLine",
+    "defendant.identityIssuePlace",
+    "defendant.permanentResidence",
+    "defendant.temporaryResidence",
+    "defendant.currentResidence",
+    "guaranteeApproval.guaranteePeriodLine",
+    "guaranteeApproval.article2Line",
+    "recipients.defendantLine",
+    "recipients.guarantorLine",
+    "recipients.archiveLine",
+    "signature.signMode",
+    "signature.positionTitle",
+    "signature.signerName",
+  ],
 });
 
 let refinement = null;
@@ -345,6 +625,53 @@ test("refinement evidence markdown ends with exactly one newline", () => {
 
   assert.match(markdown, /\n$/u);
   assert.doesNotMatch(markdown, /\n\n$/u);
+});
+
+test("normalized placeholder evidence contains visible Word text but not drawing coordinates", () => {
+  const api = requireRefinement();
+  const discovery = api.discoverNormalizedPlaceholders(repoRoot, "BM-031");
+  const headerContext = discovery.occurrencesByPath.get("agency.parentName")?.[0]
+    ?.context;
+
+  assert.equal(headerContext, "{{agency.parentName}}");
+  assert.doesNotMatch(
+    [...discovery.occurrencesByPath.values()]
+      .flat()
+      .map((occurrence) => occurrence.context)
+      .join("\n"),
+    /735965|32385|813435|25400|3724275|349250/u,
+  );
+});
+
+test("preview artifacts are persisted as complete DOCX packages with deterministic metadata", () => {
+  const api = requireRefinement();
+  assert.equal(typeof api.writeRefinementPreviewArtifact, "function");
+  const profile = api.loadRefinementProfile(repoRoot, "BM-023");
+  const preview = api.renderRefinementPreview({
+    repoRoot,
+    code: "BM-023",
+    profile,
+  });
+  const outputRoot = mkdtempSync(join(tmpdir(), "qllaw-form-preview-"));
+
+  try {
+    const artifact = api.writeRefinementPreviewArtifact({
+      repoRoot,
+      outputRoot,
+      batchName: "BM-023",
+      code: "BM-023",
+      renderedBuffer: preview.renderedBuffer,
+    });
+    const persisted = readFileSync(artifact.filePath);
+    const zip = new PizZip(persisted);
+
+    assert.equal(artifact.byteSize, persisted.length);
+    assert.match(artifact.sha256, /^[a-f0-9]{64}$/u);
+    assert.ok(artifact.relativePath.endsWith("/BM-023-preview.docx"));
+    assert.ok(zip.file("word/document.xml"));
+  } finally {
+    rmSync(outputRoot, { recursive: true, force: true });
+  }
 });
 
 test("every refinement profile uses a registered field taxonomy namespace", () => {

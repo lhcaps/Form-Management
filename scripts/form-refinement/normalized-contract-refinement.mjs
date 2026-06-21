@@ -1,11 +1,17 @@
 import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 import PizZip from "pizzip";
 
-const PLACEHOLDER_PATTERN = /\{\{\s*([^{}]+?)\s*\}\}/gu;
+const PLACEHOLDER_PATTERN = /\{\{([^{}]+)\}\}|\{([^{}]{3,})\}\}/g;
 const GENERIC_FIELD_PATTERN = /\.[Ff]ield\d+$/u;
 const MUTABLE_PACKAGE_PARTS = new Set([
   "[Content_Types].xml",
@@ -139,7 +145,7 @@ export function formatRefinementEvidenceMarkdown({
     `- Scope: ${codes.join(", ")}`,
     `- Status: **${overallStatus}**`,
     "- Lifecycle: draft / review-required; this report does not grant human legal approval.",
-    "- Visual QA: not run because LibreOffice/soffice is unavailable in this environment.",
+    "- LibreOffice visual QA: not run because LibreOffice/soffice is unavailable; Microsoft Word visual QA is recorded separately when available.",
     "",
     "| BM | Fields | Bindings | Compile | Package | Unresolved placeholders | Missing samples | Literal leakage |",
     "|---|---:|---:|---|---|---:|---:|---:|",
@@ -160,6 +166,13 @@ export function formatRefinementEvidenceMarkdown({
       `- SHA256: \`${result.normalizedDocxSha256}\``,
       `- Result: **${result.status}**`,
     );
+    if (result.previewArtifact) {
+      lines.push(
+        `- Preview DOCX: \`${result.previewArtifact.relativePath}\``,
+        `- Preview SHA256: \`${result.previewArtifact.sha256}\``,
+        `- Preview bytes: ${result.previewArtifact.byteSize}`,
+      );
+    }
     if (index < results.length - 1) lines.push("");
   });
 
@@ -213,7 +226,8 @@ export function discoverNormalizedPlaceholders(repoRoot, code) {
   paragraphs.forEach((match, index) => {
     const context = plainTextFromXml(match[0]).replace(/\s+/gu, " ").trim();
     for (const placeholder of context.matchAll(PLACEHOLDER_PATTERN)) {
-      const path = placeholder[1].trim();
+      const path = (placeholder[1] ?? placeholder[2] ?? "").trim();
+      if (!path) continue;
       if (!occurrencesByPath.has(path)) {
         orderedPaths.push(path);
         occurrencesByPath.set(path, []);
@@ -428,6 +442,34 @@ export function renderRefinementPreview({ repoRoot, code, profile }) {
       discovery.buffer,
       renderedBuffer,
     ),
+  };
+}
+
+export function writeRefinementPreviewArtifact({
+  repoRoot,
+  outputRoot,
+  batchName,
+  code,
+  renderedBuffer,
+}) {
+  if (!Buffer.isBuffer(renderedBuffer) || renderedBuffer.length === 0) {
+    throw new Error(`${code} preview buffer is empty or invalid.`);
+  }
+  const zip = new PizZip(renderedBuffer);
+  if (!zip.file("word/document.xml")) {
+    throw new Error(`${code} preview is not a complete DOCX package.`);
+  }
+
+  const outputDir = join(outputRoot, batchName);
+  const filePath = join(outputDir, `${code}-preview.docx`);
+  mkdirSync(outputDir, { recursive: true });
+  writeFileSync(filePath, renderedBuffer);
+
+  return {
+    filePath,
+    relativePath: portable(relative(repoRoot, filePath)),
+    sha256: sha256(renderedBuffer),
+    byteSize: renderedBuffer.length,
   };
 }
 

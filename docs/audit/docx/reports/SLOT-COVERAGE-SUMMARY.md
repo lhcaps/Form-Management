@@ -1,28 +1,28 @@
 # Slot Coverage Summary
 
-Sinh lúc: 2026-06-20T21:42:34.847Z
+Sinh lúc: 2026-06-21T08:42:15.150Z
 
 ## Phạm vi verify
 
 - ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.
 - ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.
 - ✅ **Locked contract count**: Hiện tại = 3. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.
-- ⚠️ **Unknown sources**: 1634/1712 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
-- ⚠️ **Review-required**: Còn 5448 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
+- ⚠️ **Unknown sources**: 1822/1900 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
+- ⚠️ **Review-required**: Còn 5980 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
 
 > Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.
 
 ## Tổng quan
 
 - Tổng contract (form, KHÔNG tính reference docs): **214**
-- Tổng docxSlots: **1988**
-- Tổng renderBindings: **1988**
-- Tổng canonicalFields: **1712**
-- Tổng canonicalFields có source=unknown: **1634**
-- Tổng reviewRequired (slot+field+binding): **5448**
+- Tổng docxSlots: **2160**
+- Tổng renderBindings: **2160**
+- Tổng canonicalFields: **1900**
+- Tổng canonicalFields có source=unknown: **1822**
+- Tổng reviewRequired (slot+field+binding): **5980**
 - Tổng slot thiếu binding: **0**
 - Contract locked: **3** | draft: **211**
-- Structural issues: **0**
+- Structural issues: **28**
 - Structural warnings: **0**
 - Extraction / contract warnings: **208**
 - Locked contract invalid: **0** (sẽ thoát non-zero)
@@ -53,23 +53,23 @@ Sinh lúc: 2026-06-20T21:42:34.847Z
 | BM-020__0f61c04c750d | BM-020 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-021__772319486f41 | BM-021 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-022__13d342bdfc56 | BM-022 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
-| BM-023__78e4f3906e4c | BM-023 | draft | 6 | 6 | 6 | 18 | 0 | 0 | 0 | 1 |
+| BM-023__78e4f3906e4c | BM-023 | draft | 17 | 17 | 17 | 51 | 0 | 0 | 0 | 1 |
 | BM-024__575a6d8e9173 | BM-024 | draft | 6 | 6 | 6 | 18 | 0 | 0 | 0 | 1 |
 | BM-025__5dcf0eb7f481 | BM-025 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
 | BM-026__6e339663e320 | BM-026 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-027__7c207d24faee | BM-027 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
 | BM-028__e895e0889340 | BM-028 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-029__0bf65fba614a | BM-029 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-030__0cfa7ae4b177 | BM-030 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-031__ec3276d1eebe | BM-031 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
+| BM-030__0cfa7ae4b177 | BM-030 | draft | 14 | 14 | 14 | 42 | 0 | 0 | 0 | 1 |
+| BM-031__ec3276d1eebe | BM-031 | draft | 16 | 16 | 16 | 48 | 0 | 0 | 0 | 1 |
 | BM-032__cce50086cd38 | BM-032 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-033__51058a699877 | BM-033 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
+| BM-033__51058a699877 | BM-033 | draft | 21 | 21 | 21 | 63 | 0 | 0 | 0 | 1 |
 | BM-034__e02f842b6038 | BM-034 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-035__be0035952622 | BM-035 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-036__6f4466480a94 | BM-036 | draft | 17 | 17 | 13 | 47 | 0 | 0 | 0 | 1 |
 | BM-037__1fa31d43251e | BM-037 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-038__7a37ca9c9d8e | BM-038 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
-| BM-039__733f9ddd4783 | BM-039 | draft | 14 | 14 | 10 | 38 | 0 | 0 | 0 | 1 |
+| BM-039__733f9ddd4783 | BM-039 | draft | 40 | 40 | 40 | 120 | 0 | 0 | 0 | 1 |
 | BM-040__aab092911088 | BM-040 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-041__9a027eeceb3a | BM-041 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-042__a4da3c74d437 | BM-042 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
@@ -77,7 +77,7 @@ Sinh lúc: 2026-06-20T21:42:34.847Z
 | BM-044__8552b13c78ff | BM-044 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
 | BM-045__13efe0d94756 | BM-045 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-046__501a15f0fbb7 | BM-046 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-047__ec7dc3448f91 | BM-047 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
+| BM-047__ec7dc3448f91 | BM-047 | draft | 34 | 34 | 34 | 102 | 0 | 0 | 0 | 1 |
 | BM-048__724a5a8b3421 | BM-048 | draft | 12 | 12 | 8 | 32 | 0 | 0 | 0 | 1 |
 | BM-049__798e9b21ce2e | BM-049 | draft | 1 | 1 | 1 | 3 | 0 | 0 | 0 | 1 |
 | BM-050__2d31c941887e | BM-050 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
@@ -88,8 +88,8 @@ Sinh lúc: 2026-06-20T21:42:34.847Z
 | BM-055__b1819db1f92b | BM-055 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
 | BM-056__eea9a3391f5f | BM-056 | draft | 14 | 14 | 10 | 38 | 0 | 0 | 0 | 1 |
 | BM-057__9053c61ee677 | BM-057 | draft | 15 | 15 | 11 | 41 | 0 | 0 | 0 | 1 |
-| BM-058__6de8f0022bff | BM-058 | draft | 16 | 16 | 12 | 44 | 0 | 0 | 0 | 1 |
-| BM-059__4cdec41fdb1d | BM-059 | draft | 16 | 16 | 12 | 44 | 0 | 0 | 0 | 1 |
+| BM-058__6de8f0022bff | BM-058 | draft | 36 | 36 | 36 | 108 | 0 | 13 | 0 | 1 |
+| BM-059__4cdec41fdb1d | BM-059 | draft | 40 | 40 | 40 | 120 | 0 | 15 | 0 | 1 |
 | BM-060__55a252b4f98f | BM-060 | draft | 20 | 20 | 15 | 55 | 0 | 0 | 0 | 1 |
 | BM-061__ec44550246e9 | BM-061 | draft | 12 | 12 | 8 | 32 | 0 | 0 | 0 | 1 |
 | BM-062__110961a781fa | BM-062 | draft | 21 | 21 | 17 | 59 | 0 | 0 | 0 | 1 |
@@ -187,7 +187,7 @@ Sinh lúc: 2026-06-20T21:42:34.847Z
 | BM-153__829ed04c824a | BM-153 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-154__618d13a959ca | BM-154 | draft | 7 | 7 | 7 | 21 | 0 | 0 | 0 | 1 |
 | BM-155__d89766f2092a | BM-155 | draft | 18 | 18 | 14 | 50 | 0 | 0 | 0 | 1 |
-| BM-156__ef438a40e567 | BM-156 | draft | 11 | 11 | 11 | 33 | 0 | 0 | 0 | 1 |
+| BM-156__ef438a40e567 | BM-156 | draft | 41 | 41 | 41 | 123 | 0 | 0 | 0 | 1 |
 | BM-157__a5c6971a69d2 | BM-157 | draft | 1 | 1 | 1 | 3 | 0 | 0 | 0 | 1 |
 | BM-158__7a98055a3e9c | BM-158 | draft | 14 | 14 | 13 | 41 | 0 | 0 | 0 | 0 |
 | BM-159__d95eb7bda8e3 | BM-159 | draft | 6 | 6 | 6 | 18 | 0 | 0 | 0 | 1 |

@@ -14,473 +14,1237 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/47-QĐ về việc bảo lĩnh.doc",
-    "sha256": "ec7dc3448f91bd76f6db399a8ed821cc8a1a501ecb7ae1907d433f432cb7516f",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-047/BM-047_normalized.docx",
+    "sha256": "af15b4ac8ba439061a2fcf0f5937b791a78c0daf7d579df3a5a4c9167899a452",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "informant.Day",
+      "slotId": "agency.parentName",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0048",
+        "partName": "word/document.xml",
+        "blockId": "P0011",
         "tableCellId": null
       },
-      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "DAY (từ P0048)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.birthDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains 'Sinh ngày'",
-      "evidence": {
-        "textBefore": "Tên gọi khác:",
-        "textAfter": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Month",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0048",
-        "tableCellId": null
-      },
-      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "MONTH (từ P0048)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.birthDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains 'Sinh ngày'",
-      "evidence": {
-        "textBefore": "Tên gọi khác:",
-        "textAfter": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Year",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0048",
-        "tableCellId": null
-      },
-      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "YEAR (từ P0048)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.birthDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains 'Sinh ngày'",
-      "evidence": {
-        "textBefore": "Tên gọi khác:",
-        "textAfter": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Day_2",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0052",
-        "tableCellId": null
-      },
-      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "DAY (từ P0052)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.idDocument.issueDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains ID document issue date",
-      "evidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
-        "textAfter": "Nơi thường trú:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Month_2",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0052",
-        "tableCellId": null
-      },
-      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "MONTH (từ P0052)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.idDocument.issueDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains ID document issue date",
-      "evidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
-        "textAfter": "Nơi thường trú:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Year_2",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0052",
-        "tableCellId": null
-      },
-      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "YEAR (từ P0052)",
-      "slotType": "datePart",
-      "required": true,
-      "confidence": 0.6,
-      "suggestedCanonicalPath": "informant.idDocument.issueDate",
-      "suggestedBy": "heuristic",
-      "suggestedReason": "context contains ID document issue date",
-      "evidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
-        "textAfter": "Nơi thường trú:",
-        "rawPattern": "ngày … tháng … năm …"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.field7",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
-        "tableCellId": null
-      },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Cơ quan cấp trên",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0011",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0013",
+        "tableCellId": null
+      },
+      "context": "Số: {{document.documentCode}}",
+      "label": "Số quyết định",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "{{document.issuePlaceAndDateLine}}",
+      "label": "Địa danh, ngày ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "................................................."
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "informant.field8",
+      "slotId": "official.issuerTitle",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "{{official.issuerTitle}}",
+      "label": "Chủ thể ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "{{legalBasis.procedureArticlesLine}}",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "legalBasis.juvenileJusticeLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "{{legalBasis.juvenileJusticeLine}}",
+      "label": "Căn cứ pháp luật về vi phạm hành chính",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.juvenileJusticeLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.caseInitiationLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0027",
+        "tableCellId": null
+      },
+      "context": "{{guaranteeApproval.caseInitiationLine}}",
+      "label": "Nội dung Điều 1 - Vụ việc khởi tố",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.caseInitiationLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.defendantInitiationLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "{{guaranteeApproval.defendantInitiationLine}}",
+      "label": "Nội dung Điều 1 - Bị can/bị cáo",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.defendantInitiationLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.sufficientGroundsLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "{{guaranteeApproval.sufficientGroundsLine}}",
+      "label": "Điều kiện bảo lĩnh đủ căn cứ",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.sufficientGroundsLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.assignmentLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": "Điều 1. {{guaranteeApproval.assignmentLine}}",
+      "label": "Điều 1 - Nhiệm vụ của bị can",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 1.",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.assignmentLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.fullName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0032",
+        "tableCellId": null
+      },
+      "context": "Họ tên: {{defendant.fullName}} Giới tính: {{defendant.gender}}",
+      "label": "Họ tên bị can",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Họ tên:",
+        "textAfter": "Giới tính: {{defendant.gender}}",
+        "rawPattern": "{{defendant.fullName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.gender",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0032",
+        "tableCellId": null
+      },
+      "context": "Họ tên: {{defendant.fullName}} Giới tính: {{defendant.gender}}",
+      "label": "Giới tính",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Họ tên: {{defendant.fullName}} Giới tính:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.gender}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.aliasName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0033",
+        "tableCellId": null
+      },
+      "context": "Tên gọi khác: {{defendant.aliasName}}",
+      "label": "Tên gọi khác",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Tên gọi khác:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.aliasName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.birthDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0034",
+        "tableCellId": null
+      },
+      "context": "Sinh ngày {{defendant.birthDateLine}} tại: {{defendant.birthPlace}}",
+      "label": "Ngày sinh",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Sinh ngày",
+        "textAfter": "tại: {{defendant.birthPlace}}",
+        "rawPattern": "{{defendant.birthDateLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.birthPlace",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0034",
+        "tableCellId": null
+      },
+      "context": "Sinh ngày {{defendant.birthDateLine}} tại: {{defendant.birthPlace}}",
+      "label": "Nơi sinh",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Sinh ngày {{defendant.birthDateLine}} tại:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.birthPlace}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.nationality",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0035",
+        "tableCellId": null
+      },
+      "context": "Quốc tịch: {{defendant.nationality}}; Dân tộc: {{defendant.ethnicity}}; Tôn giáo: {{defendant.religion}}",
+      "label": "Quốc tịch",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Quốc tịch:",
+        "textAfter": "; Dân tộc: {{defendant.ethnicity}}; Tôn giáo: {{defendant.religion}}",
+        "rawPattern": "{{defendant.nationality}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.ethnicity",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0035",
+        "tableCellId": null
+      },
+      "context": "Quốc tịch: {{defendant.nationality}}; Dân tộc: {{defendant.ethnicity}}; Tôn giáo: {{defendant.religion}}",
+      "label": "Dân tộc",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Quốc tịch: {{defendant.nationality}}; Dân tộc:",
+        "textAfter": "; Tôn giáo: {{defendant.religion}}",
+        "rawPattern": "{{defendant.ethnicity}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.religion",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0035",
+        "tableCellId": null
+      },
+      "context": "Quốc tịch: {{defendant.nationality}}; Dân tộc: {{defendant.ethnicity}}; Tôn giáo: {{defendant.religion}}",
+      "label": "Tôn giáo",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Quốc tịch: {{defendant.nationality}}; Dân tộc: {{defendant.ethnicity}}; Tôn giáo:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.religion}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.occupation",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0036",
+        "tableCellId": null
+      },
+      "context": "Nghề nghiệp: {{defendant.occupation}}",
+      "label": "Nghề nghiệp",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nghề nghiệp:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.occupation}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityNumber",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0037",
+        "tableCellId": null
+      },
+      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{defendant.identityNumber}}",
+      "label": "Số CMND/CCCD",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.identityNumber}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityIssueDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "Cấp ngày {{defendant.identityIssueDateLine}} Nơi cấp: {{defendant.identityIssuePlace}}",
+      "label": "Ngày cấp CMND/CCCD",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Cấp ngày",
+        "textAfter": "Nơi cấp: {{defendant.identityIssuePlace}}",
+        "rawPattern": "{{defendant.identityIssueDateLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityIssuePlace",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "Cấp ngày {{defendant.identityIssueDateLine}} Nơi cấp: {{defendant.identityIssuePlace}}",
+      "label": "Nơi cấp CMND/CCCD",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Cấp ngày {{defendant.identityIssueDateLine}} Nơi cấp:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.identityIssuePlace}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.permanentResidence",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0039",
+        "tableCellId": null
+      },
+      "context": "Nơi thường trú: {{defendant.permanentResidence}}",
+      "label": "Nơi thường trú",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nơi thường trú:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.permanentResidence}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.temporaryResidence",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0040",
+        "tableCellId": null
+      },
+      "context": "Nơi tạm trú: {{defendant.temporaryResidence}}",
+      "label": "Nơi tạm trú",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nơi tạm trú:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.temporaryResidence}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.currentResidence",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0041",
+        "tableCellId": null
+      },
+      "context": "Nơi ở hiện tại: {{defendant.currentResidence}}",
+      "label": "Nơi ở hiện tại",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nơi ở hiện tại:",
+        "textAfter": "",
+        "rawPattern": "{{defendant.currentResidence}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.guaranteePeriodLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0042",
+        "tableCellId": null
+      },
+      "context": "{{guaranteeApproval.guaranteePeriodLine}}",
+      "label": "Thời hạn bảo lĩnh",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.guaranteePeriodLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.article2Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0043",
+        "tableCellId": null
+      },
+      "context": "Điều 2. {{guaranteeApproval.article2Line}}",
+      "label": "Điều 2 - Giao nhiệm vụ giám sát",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 2.",
+        "textAfter": "",
+        "rawPattern": "{{guaranteeApproval.article2Line}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.defendantLine",
+      "location": {
+        "partName": "word/document.xml",
         "blockId": "P0046",
         "tableCellId": null
       },
-      "context": "Họ tên:8......................................................................................... Giới tính:",
-      "label": "Ô trống dạng \"...\" (informant)",
+      "context": "- {{recipients.defendantLine}};",
+      "label": "Nơi nhận - Bị can",
       "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "informant",
-      "suggestedBy": "heuristic",
+      "required": true,
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "........................................................................................."
+        "textBefore": "-",
+        "textAfter": ";",
+        "rawPattern": "{{recipients.defendantLine}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issuePlaceDateLine",
+      "slotId": "recipients.guarantorLine",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
+        "blockId": "P0047",
+        "tableCellId": null
+      },
+      "context": "- {{recipients.guarantorLine}};",
+      "label": "Nơi nhận - Người bảo lãnh",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "-",
+        "textAfter": ";",
+        "rawPattern": "{{recipients.guarantorLine}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
         "blockId": "P0048",
         "tableCellId": null
       },
-      "context": "Sinh ngày ............ tháng ............ năm ...................... tại:",
-      "label": "Dòng địa danh, ngày tháng năm",
-      "slotType": "date",
+      "context": "- {{recipients.archiveLine}}.",
+      "label": "Lưu hồ sơ",
+      "slotType": "text",
       "required": true,
-      "confidence": 0.85,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "ngày ............ tháng ............ năm ......................"
+        "textBefore": "-",
+        "textAfter": ".",
+        "rawPattern": "{{recipients.archiveLine}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "informant.field10",
+      "slotId": "signature.signMode",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
         "blockId": "P0049",
         "tableCellId": null
       },
-      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
-      "label": "Ô trống dạng \"...\" (informant)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "informant",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "................................................"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.field11",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0049",
-        "tableCellId": null
-      },
-      "context": "Quốc tịch: ................................................; Dân tộc: ........................; Tôn giáo:",
-      "label": "Ô trống dạng \"...\" (informant)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "informant",
-      "suggestedBy": "heuristic",
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "........................"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceDateLine_2",
-      "location": {
-        "partName": "WordDocument",
-        "blockId": "P0052",
-        "tableCellId": null
-      },
-      "context": "Cấp ngày............ tháng ............ năm ................... Nơi cấp:",
-      "label": "Dòng địa danh, ngày tháng năm",
-      "slotType": "date",
+      "context": "{{signature.signMode}}",
+      "label": "Chế độ ký",
+      "slotType": "signature",
       "required": true,
-      "confidence": 0.85,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "ngày............ tháng ............ năm ..................."
+        "rawPattern": "{{signature.signMode}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field13",
+      "slotId": "signature.positionTitle",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0065",
+        "partName": "word/document.xml",
+        "blockId": "P0050",
         "tableCellId": null
       },
-      "context": "thực hiện đầy đủ nghĩa vụ theo giấy cam đoan; nếu bị can8... vi phạm thì bị áp dụng biện pháp tạm giam; nếu9",
-      "label": "Ô trống dạng \"...\" (document)",
-      "slotType": "text",
-      "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "context": "{{signature.positionTitle}}",
+      "label": "Chức vụ người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{signature.positionTitle}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0054",
+        "tableCellId": null
+      },
+      "context": "{{signature.signerName}}",
+      "label": "Người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "informant.birthDate",
-      "type": "date",
-      "label": "Ngày tháng năm (context contains 'Sinh ngày')",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "date",
-      "section": "Thời gian",
-      "reviewRequired": true
-    },
-    {
-      "path": "informant.idDocument.issueDate",
-      "type": "date",
-      "label": "Ngày tháng năm (context contains ID document issue date)",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "date",
-      "section": "Thời gian",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.field7",
+      "path": "agency.parentName",
       "type": "string",
-      "label": "Trường cần điền (document)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "document",
-      "reviewRequired": true
-    },
-    {
-      "path": "informant.field8",
-      "type": "string",
-      "label": "Trường cần điền (informant)",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "informant",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issueDate",
-      "type": "date",
-      "label": "Ngày ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "date",
-      "section": "Văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issuePlace",
-      "type": "string",
-      "label": "Địa danh ban hành",
+      "label": "Cơ quan cấp trên",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Văn bản",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "informant.field10",
+      "path": "agency.name",
       "type": "string",
-      "label": "Trường cần điền (informant)",
+      "label": "Viện kiểm sát ban hành",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "informant",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "informant.field11",
+      "path": "document.documentCode",
       "type": "string",
-      "label": "Trường cần điền (informant)",
+      "label": "Số quyết định",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "informant",
+      "section": "Cơ quan và văn bản",
       "reviewRequired": true
     },
     {
-      "path": "document.field13",
+      "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Địa danh, ngày ban hành",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": true
+    },
+    {
+      "path": "official.issuerTitle",
+      "type": "string",
+      "label": "Chủ thể ban hành",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": true
+    },
+    {
+      "path": "legalBasis.procedureArticlesLine",
+      "type": "string",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": true
+    },
+    {
+      "path": "legalBasis.juvenileJusticeLine",
+      "type": "string",
+      "label": "Căn cứ pháp luật về vi phạm hành chính",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.caseInitiationLine",
+      "type": "string",
+      "label": "Nội dung Điều 1 - Vụ việc khởi tố",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.defendantInitiationLine",
+      "type": "string",
+      "label": "Nội dung Điều 1 - Bị can/bị cáo",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.sufficientGroundsLine",
+      "type": "string",
+      "label": "Điều kiện bảo lĩnh đủ căn cứ",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.assignmentLine",
+      "type": "string",
+      "label": "Điều 1 - Nhiệm vụ của bị can",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.fullName",
+      "type": "string",
+      "label": "Họ tên bị can",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.gender",
+      "type": "string",
+      "label": "Giới tính",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.aliasName",
+      "type": "string",
+      "label": "Tên gọi khác",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.birthDateLine",
+      "type": "string",
+      "label": "Ngày sinh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.birthPlace",
+      "type": "string",
+      "label": "Nơi sinh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.nationality",
+      "type": "string",
+      "label": "Quốc tịch",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.ethnicity",
+      "type": "string",
+      "label": "Dân tộc",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.religion",
+      "type": "string",
+      "label": "Tôn giáo",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.occupation",
+      "type": "string",
+      "label": "Nghề nghiệp",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.identityNumber",
+      "type": "string",
+      "label": "Số CMND/CCCD",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.identityIssueDateLine",
+      "type": "string",
+      "label": "Ngày cấp CMND/CCCD",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.identityIssuePlace",
+      "type": "string",
+      "label": "Nơi cấp CMND/CCCD",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.permanentResidence",
+      "type": "string",
+      "label": "Nơi thường trú",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.temporaryResidence",
+      "type": "string",
+      "label": "Nơi tạm trú",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "defendant.currentResidence",
+      "type": "string",
+      "label": "Nơi ở hiện tại",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin nhân thân bị can",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.guaranteePeriodLine",
+      "type": "string",
+      "label": "Thời hạn bảo lĩnh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "guaranteeApproval.article2Line",
+      "type": "string",
+      "label": "Điều 2 - Giao nhiệm vụ giám sát",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung quyết định",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.defendantLine",
+      "type": "string",
+      "label": "Nơi nhận - Bị can",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.guarantorLine",
+      "type": "string",
+      "label": "Nơi nhận - Người bảo lãnh",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "Lưu hồ sơ",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.signMode",
+      "type": "string",
+      "label": "Chế độ ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.positionTitle",
+      "type": "string",
+      "label": "Chức vụ người ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": true
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "unknown",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "informant.Day",
-      "from": "informant.birthDate",
-      "transform": "date.day",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Month",
-      "from": "informant.birthDate",
-      "transform": "date.month",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Year",
-      "from": "informant.birthDate",
-      "transform": "date.year",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Day_2",
-      "from": "informant.idDocument.issueDate",
-      "transform": "date.day",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Month_2",
-      "from": "informant.idDocument.issueDate",
-      "transform": "date.month",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.Year_2",
-      "from": "informant.idDocument.issueDate",
-      "transform": "date.year",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.field7",
-      "from": "document.field7",
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "informant.field8",
-      "from": "informant.field8",
+      "slotId": "agency.name",
+      "from": "agency.name",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issuePlaceDateLine",
-      "from": "{issuePlace:document.issuePlace, issueDate:document.issueDate}",
-      "transform": "date.issuePlaceDateLine",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "informant.field10",
-      "from": "informant.field10",
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "informant.field11",
-      "from": "informant.field11",
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issuePlaceDateLine_2",
-      "from": "{issuePlace:document.issuePlace, issueDate:document.issueDate}",
-      "transform": "date.issuePlaceDateLine",
+      "slotId": "official.issuerTitle",
+      "from": "official.issuerTitle",
+      "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field13",
-      "from": "document.field13",
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "legalBasis.juvenileJusticeLine",
+      "from": "legalBasis.juvenileJusticeLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.caseInitiationLine",
+      "from": "guaranteeApproval.caseInitiationLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.defendantInitiationLine",
+      "from": "guaranteeApproval.defendantInitiationLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.sufficientGroundsLine",
+      "from": "guaranteeApproval.sufficientGroundsLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.assignmentLine",
+      "from": "guaranteeApproval.assignmentLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.fullName",
+      "from": "defendant.fullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.gender",
+      "from": "defendant.gender",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.aliasName",
+      "from": "defendant.aliasName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.birthDateLine",
+      "from": "defendant.birthDateLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.birthPlace",
+      "from": "defendant.birthPlace",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.nationality",
+      "from": "defendant.nationality",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.ethnicity",
+      "from": "defendant.ethnicity",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.religion",
+      "from": "defendant.religion",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.occupation",
+      "from": "defendant.occupation",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityNumber",
+      "from": "defendant.identityNumber",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityIssueDateLine",
+      "from": "defendant.identityIssueDateLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.identityIssuePlace",
+      "from": "defendant.identityIssuePlace",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.permanentResidence",
+      "from": "defendant.permanentResidence",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.temporaryResidence",
+      "from": "defendant.temporaryResidence",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "defendant.currentResidence",
+      "from": "defendant.currentResidence",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.guaranteePeriodLine",
+      "from": "guaranteeApproval.guaranteePeriodLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "guaranteeApproval.article2Line",
+      "from": "guaranteeApproval.article2Line",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.defendantLine",
+      "from": "recipients.defendantLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.guarantorLine",
+      "from": "recipients.guarantorLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signMode",
+      "from": "signature.signMode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "from": "signature.positionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -489,7 +1253,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 0 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -514,8 +1278,154 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "agency",
+      "document",
+      "official",
+      "legalBasis",
+      "guaranteeApproval",
+      "defendant",
+      "recipients",
+      "signature"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "control": "text"
+      },
+      {
+        "path": "official.issuerTitle",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "control": "textarea"
+      },
+      {
+        "path": "legalBasis.juvenileJusticeLine",
+        "control": "textarea"
+      },
+      {
+        "path": "guaranteeApproval.caseInitiationLine",
+        "control": "textarea"
+      },
+      {
+        "path": "guaranteeApproval.defendantInitiationLine",
+        "control": "textarea"
+      },
+      {
+        "path": "guaranteeApproval.sufficientGroundsLine",
+        "control": "textarea"
+      },
+      {
+        "path": "guaranteeApproval.assignmentLine",
+        "control": "textarea"
+      },
+      {
+        "path": "defendant.fullName",
+        "control": "text"
+      },
+      {
+        "path": "defendant.gender",
+        "control": "text"
+      },
+      {
+        "path": "defendant.aliasName",
+        "control": "text"
+      },
+      {
+        "path": "defendant.birthDateLine",
+        "control": "text"
+      },
+      {
+        "path": "defendant.birthPlace",
+        "control": "text"
+      },
+      {
+        "path": "defendant.nationality",
+        "control": "text"
+      },
+      {
+        "path": "defendant.ethnicity",
+        "control": "text"
+      },
+      {
+        "path": "defendant.religion",
+        "control": "text"
+      },
+      {
+        "path": "defendant.occupation",
+        "control": "text"
+      },
+      {
+        "path": "defendant.identityNumber",
+        "control": "text"
+      },
+      {
+        "path": "defendant.identityIssueDateLine",
+        "control": "text"
+      },
+      {
+        "path": "defendant.identityIssuePlace",
+        "control": "text"
+      },
+      {
+        "path": "defendant.permanentResidence",
+        "control": "text"
+      },
+      {
+        "path": "defendant.temporaryResidence",
+        "control": "text"
+      },
+      {
+        "path": "defendant.currentResidence",
+        "control": "text"
+      },
+      {
+        "path": "guaranteeApproval.guaranteePeriodLine",
+        "control": "textarea"
+      },
+      {
+        "path": "guaranteeApproval.article2Line",
+        "control": "textarea"
+      },
+      {
+        "path": "recipients.defendantLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.guarantorLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "control": "text"
+      },
+      {
+        "path": "signature.signMode",
+        "control": "text"
+      },
+      {
+        "path": "signature.positionTitle",
+        "control": "text"
+      },
+      {
+        "path": "signature.signerName",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

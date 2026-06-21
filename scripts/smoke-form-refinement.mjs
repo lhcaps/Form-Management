@@ -10,6 +10,7 @@ import {
   prepareContractRefinement,
   renderRefinementPreview,
   resolveRepoRoot,
+  writeRefinementPreviewArtifact,
 } from "./form-refinement/normalized-contract-refinement.mjs";
 
 const repoRoot = resolveRepoRoot();
@@ -25,6 +26,14 @@ const requireFromContracts = createRequire(
 const { adaptV1Contract, compileContract } =
   requireFromContracts("@qllaw/form-contracts");
 
+const suffix = codes.join("-");
+const previewOutputRoot = join(
+  repoRoot,
+  "storage",
+  "form-preview",
+  "form-refinement",
+);
+
 const results = codes.map((code) => {
   const prepared = prepareContractRefinement(repoRoot, code);
   const preview = renderRefinementPreview({
@@ -36,6 +45,18 @@ const results = codes.map((code) => {
   adapted.templateHash = prepared.discovery.sha256;
   adapted.normalizedDocxPath = prepared.discovery.relativePath;
   const compiled = compileContract(adapted);
+  const artifact = writeRefinementPreviewArtifact({
+    repoRoot,
+    outputRoot: previewOutputRoot,
+    batchName: suffix,
+    code,
+    renderedBuffer: preview.renderedBuffer,
+  });
+  const previewArtifact = {
+    relativePath: artifact.relativePath,
+    sha256: artifact.sha256,
+    byteSize: artifact.byteSize,
+  };
   const status =
     compiled.ok &&
     preview.packageIntegrity.status === "pass" &&
@@ -50,6 +71,7 @@ const results = codes.map((code) => {
     status,
     normalizedDocxPath: prepared.discovery.relativePath,
     normalizedDocxSha256: prepared.discovery.sha256,
+    previewArtifact,
     fields: prepared.refined.canonicalFields.length,
     bindings: prepared.refined.renderBindings.length,
     compile: {
@@ -63,7 +85,6 @@ const results = codes.map((code) => {
   };
 });
 
-const suffix = codes.join("-");
 const outputDir = join(
   repoRoot,
   "docs",
@@ -82,7 +103,7 @@ const evidence = {
   visualQa: {
     status: "NOT_RUN",
     reason:
-      "LibreOffice/soffice is unavailable; evidence is structural DOCX render and package-integrity QA.",
+      "LibreOffice/soffice is unavailable; this automated report covers structural DOCX render and package-integrity QA. Any Microsoft Word visual inspection is recorded separately.",
   },
   results,
 };

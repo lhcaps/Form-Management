@@ -32,6 +32,16 @@
       "description": "Nội dung được trình báo và tài liệu, đồ vật giao nộp kèm theo.",
       "commonFields": ["content", "attachedItemsDescription"]
     },
+    "offense": {
+      "label": "Tội danh và điều khoản hình sự",
+      "description": "Tên tội danh, điều khoản áp dụng và mô tả căn cứ của Bộ luật Hình sự.",
+      "commonFields": ["offenseName", "legalArticle", "criminalCodeText"]
+    },
+    "investigation": {
+      "label": "Hoạt động và cơ quan điều tra",
+      "description": "Cơ quan điều tra, yêu cầu điều tra và các dòng thực hiện quyết định.",
+      "commonFields": ["investigationUnitName", "agencyName", "article2Line"]
+    },
     "informant": {
       "label": "Người cung cấp nguồn tin",
       "description": "Thông tin người cung cấp nguồn tin cho cơ quan.",
@@ -107,6 +117,11 @@
       "description": "Lý do phục hồi và thông tin quyết định tạm đình chỉ làm căn cứ phục hồi.",
       "commonFields": ["reasonLine", "suspensionDecisionCode", "suspensionDecisionIssueDateLine", "suspensionDecisionIssuedBy", "caseSummary"]
     },
+    "sourceResolutionNotice": {
+      "label": "Thông báo kết quả giải quyết nguồn tin",
+      "description": "Chủ thể thông báo, người nhận, nội dung nguồn tin và kết quả giải quyết.",
+      "commonFields": ["agencyActionLine", "noticeRecipientLine", "sourceProviderName", "sourceProvidedDateLine", "caseSummary", "resolutionDecisionLine", "sourceInfoLine", "resolutionResultLine"]
+    },
     "sourceDirectInspection": {
       "label": "Quyết định trực tiếp kiểm sát nguồn tin",
       "description": "Phạm vi, thời gian, thành phần đoàn và yêu cầu của quyết định trực tiếp kiểm sát.",
@@ -132,6 +147,16 @@
       "description": "Quyết định và tội danh cũ, căn cứ thay đổi, tội danh mới và nội dung yêu cầu.",
       "commonFields": ["considerationLine", "currentOffenseLegalLine", "changeGroundLine", "newOffenseLegalLine", "requestAuthorityLine", "requestChangeDecisionLine"]
     },
+    "measure": {
+      "label": "Biện pháp ngăn chặn và cưỡng chế",
+      "description": "Lý do, thời hạn và các điều của quyết định áp dụng, phê chuẩn hoặc hủy bỏ biện pháp.",
+      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine"]
+    },
+    "custody": {
+      "label": "Tạm giữ và gia hạn tạm giữ",
+      "description": "Lần gia hạn, quyết định tạm giữ, hồ sơ đề nghị phê chuẩn và yêu cầu thực hiện.",
+      "commonFields": ["extensionAttemptText", "detentionDecisionLine", "previousExtensionDecisionLine", "approvalProposalLine", "approvalProposalAgencyLine", "approvalReasonLine", "approvalArticle1Line", "executionRequestLine"]
+    },
     "decision": {
       "label": "Nội dung quyết định",
       "description": "Điều 1, 2, 3 hoặc các khoản quyết định.",
@@ -151,6 +176,61 @@
       "label": "Chữ ký",
       "description": "Chức danh + người ký văn bản.",
       "commonFields": ["signMode", "positionTitle", "signerName"]
+    },
+    "caseDecision": {
+      "label": "Quyết định truy tố / quyết định không truy tố",
+      "description": "Căn cứ quyết định truy tố (hoặc không truy tố) của Viện kiểm sát.",
+      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine"]
+    },
+    "accusedDecision": {
+      "label": "Quyết định liên quan đến bị can",
+      "description": "Căn cứ quyết định liên quan đến bị can trong vụ án hình sự.",
+      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine"]
+    },
+    "caseJoinder": {
+      "label": "Quyết định gộp vụ án",
+      "description": "Căn cứ gộp vụ án hình sự.",
+      "commonFields": ["legalBasisLine"]
+    },
+    "caseRecovery": {
+      "label": "Quyết định thu hồi vụ án",
+      "description": "Căn cứ thu hồi vụ án hình sự.",
+      "commonFields": ["legalBasisLine"]
+    },
+    "investigationConclusion": {
+      "label": "Kết luận điều tra",
+      "description": "Căn cứ kết luận điều tra vụ án hình sự.",
+      "commonFields": ["legalBasisLine"]
+    },
+    "indictment": {
+      "label": "Các trường trong cáo trạng",
+      "description": "Tất cả các trường dữ liệu được điền vào cáo trạng (quyết định truy tố).",
+      "commonFields": ["criminalActDescriptionLine", "aggravatingMitigatingAnalysisLine", "evidenceHandlingLine", "civilLiabilityLine", "otherFactsLine", "summaryConclusionLine", "absentAccusedNoteLine", "defendantIdentityLine", "familyBackgroundLine", "specialStatusLine", "administrativeViolationLine", "criminalRecordLine", "preventiveMeasureLine", "crimeConclusionLine", "aggravatingMitigatingLine", "separatedCaseHandlingLine", "article1Line", "replacementLine", "caseFileLine", "evidenceListLine", "summonedPersonsLine"]
+    },
+    "detentionArrest": {
+      "label": "Lệnh bắt giữ và tạm giam",
+      "description": "Thông tin về việc bắt giữ, tạm giam và các biện pháp ngăn chặn liên quan.",
+      "commonFields": ["caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "reasonLine", "accusedName", "genderLabel", "otherName", "birthDay", "birthMonth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityNo", "identityIssuedDay", "identityIssuedMonth", "identityIssuedYear", "identityIssuedPlace", "permanentAddress", "temporaryAddress", "currentAddress", "detentionDurationText", "detentionToDateLine", "detentionExecutionUnitName", "detentionFacilityName"]
+    },
+    "delivery": {
+      "label": "Thông tin giao nhận văn bản",
+      "description": "Thời gian giao và người nhận văn bản.",
+      "commonFields": ["deliveredAtText", "receiverTitle"]
+    },
+    "guaranteeApproval": {
+      "label": "Phê chuẩn bảo lĩnh",
+      "description": "Nội dung quyết định phê chuẩn bảo lĩnh (đình chỉ điều tra hoặc tạm đình chỉ) theo Thông tư 03/2026-VKSTC.",
+      "commonFields": ["caseInitiationLine", "defendantInitiationLine", "sufficientGroundsLine", "assignmentLine", "guaranteePeriodLine", "article2Line"]
+    },
+    "defendant": {
+      "label": "Bị can / bị cáo",
+      "description": "Thông tin nhân thân bị can hoặc bị cáo trong vụ án hình sự.",
+      "commonFields": ["fullName", "gender", "aliasName", "birthDateLine", "birthPlace", "nationality", "ethnicity", "religion", "occupation", "identityNumber", "identityIssueDateLine", "identityIssuePlace", "permanentResidence", "temporaryResidence", "currentResidence"]
+    },
+    "person": {
+      "label": "Người liên quan",
+      "description": "Thông tin nhân thân người bị tạm giữ, bị can hoặc người có liên quan trong vụ án.",
+      "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirthText", "birthDay", "birthMonth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityDocumentLine", "permanentAddress", "temporaryAddress", "currentAddress"]
     },
     "renderMeta": {
       "label": "Metadata render",
