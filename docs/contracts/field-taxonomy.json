@@ -150,7 +150,7 @@
     "measure": {
       "label": "Biện pháp ngăn chặn và cưỡng chế",
       "description": "Lý do, thời hạn và các điều của quyết định áp dụng, phê chuẩn hoặc hủy bỏ biện pháp.",
-      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine"]
+      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine", "preventiveMeasureOrderLegalBasisLine", "cancelReasonLine", "cancellationArticle1Line", "cancellationArticle2Line", "exitPostponementDecisionLegalBasisLine", "exitPostponementCancelReasonLine", "immigrationAgencyName", "article2Line"]
     },
     "custody": {
       "label": "Tạm giữ và gia hạn tạm giữ",
@@ -170,7 +170,7 @@
     "recipients": {
       "label": "Nơi nhận / lưu",
       "description": "Dòng nơi nhận văn bản và dòng lưu hồ sơ.",
-      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine"]
+      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "investigationUnitLine", "monitoringUnitLine", "immigrationUnitLine", "personLine", "otherRecipientLine", "otherRecipientsLine", "guarantorLine", "courtLine", "accusedLine", "defenseCounselLine", "investigatingAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine", "propertyRecipientLine", "noteLine", "line1", "line2"]
     },
     "signature": {
       "label": "Chữ ký",
@@ -230,7 +230,7 @@
     "person": {
       "label": "Người liên quan",
       "description": "Thông tin nhân thân người bị tạm giữ, bị can hoặc người có liên quan trong vụ án.",
-      "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirthText", "birthDay", "birthMonth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityDocumentLine", "permanentAddress", "temporaryAddress", "currentAddress"]
+      "commonFields": ["fullName", "genderLabel", "genderText", "otherName", "dateOfBirthText", "birthDateLine", "birthDay", "birthMonth", "birthYear", "placeOfBirth", "nationality", "nationalityEthnicityReligionLine", "ethnicity", "religion", "occupation", "identityDocumentLine", "identityNo", "identityIssueLine", "permanentAddress", "permanentResidence", "temporaryAddress", "temporaryResidence", "currentAddress", "currentResidence"]
     },
     "monitoring": {
       "label": "Đơn vị quản lý",
@@ -256,6 +256,26 @@
       "label": "Người nhận tài sản",
       "description": "Thông tin nhân thân người được nhận tài sản sau khi quyết định trả tài sản được hủy bỏ.",
       "commonFields": ["gender", "aliasName", "birthDateLine", "birthPlace", "nationality", "ethnicity", "religion", "occupation", "identityNumber", "identityIssueDateLine", "identityIssuePlace", "permanentResidence", "temporaryResidence", "currentResidence"]
+    },
+    "prosecutionSupplementReturn": {
+      "label": "Trả hồ sơ để điều tra bổ sung",
+      "description": "Nội dung quyết định trả hồ sơ vụ án cho Cơ quan điều tra để bổ sung chứng cứ, làm rõ các vấn đề còn thiếu.",
+      "commonFields": ["returnRoundLine", "procedureArticlesLine", "investigationConclusionLegalBasisLine", "courtReturnDecisionLegalBasisLine", "reasonLine", "article1IntroLine", "supplementIssue1Line", "supplementIssue2Line", "supplementIssue3Line", "article2Line", "article3Line", "investigationAuthorityRecipientLine"]
+    },
+    "prosecutionCaseSuspension": {
+      "label": "Đình chỉ điều tra vụ án",
+      "description": "Nội dung quyết định đình chỉ điều tra vụ án hình sự do hết thời hạn hoặc không đủ căn cứ.",
+      "commonFields": ["procedureArticlesLine", "caseDecisionLegalBasisLine", "reasonLine", "article1Line", "article2Line", "article3Line", "article4Line", "investigationAuthorityRecipientLine"]
+    },
+    "evidenceHandling": {
+      "label": "Xử lý vật chứng",
+      "description": "Nội dung quyết định xử lý vật chứng trong vụ án hình sự khi tạm đình chỉ hoặc đình chỉ điều tra.",
+      "commonFields": ["investigationConclusionLegalBasisLine", "caseSuspensionDecisionLegalBasisLine", "accusedSuspensionDecisionLegalBasisLine", "considerationLine", "evidenceListLine", "handlingMethodLine", "executionRequestLine"]
+    },
+    "suspension": {
+      "label": "Tạm đình chỉ điều tra",
+      "description": "Nội dung quyết định tạm đình chỉ điều tra vụ án và đối với bị can (áp dụng trong giai đoạn điều tra).",
+      "commonFields": ["reasonLine", "article1Line", "article2ActionLine", "executionRequestLine"]
     },
     "renderMeta": {
       "label": "Metadata render",
