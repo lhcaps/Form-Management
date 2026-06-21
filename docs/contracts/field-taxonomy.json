@@ -5,7 +5,7 @@
     "agency": {
       "label": "Cơ quan ban hành / tiếp nhận",
       "description": "Thông tin cơ quan lập văn bản (Viện kiểm sát, Cơ quan điều tra, ...).",
-      "commonFields": ["parentName", "name", "bodyName", "shortName", "issuePlace"]
+      "commonFields": ["parentName", "name", "bodyName", "shortName", "issuePlace", "parentNameUpper", "nameUpper"]
     },
     "document": {
       "label": "Thông tin văn bản",
@@ -150,7 +150,7 @@
     "measure": {
       "label": "Biện pháp ngăn chặn và cưỡng chế",
       "description": "Lý do, thời hạn và các điều của quyết định áp dụng, phê chuẩn hoặc hủy bỏ biện pháp.",
-      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine", "preventiveMeasureOrderLegalBasisLine", "cancelReasonLine", "cancellationArticle1Line", "cancellationArticle2Line", "exitPostponementDecisionLegalBasisLine", "exitPostponementCancelReasonLine", "exitPostponementReasonLine", "exitPostponementDurationText", "exitPostponementFromDateText", "exitPostponementToDateText", "exitPostponementArticle2Line", "immigrationAgencyName", "article2Line"]
+      "commonFields": ["reasonLine", "article1Line", "article2Line", "article3Line", "detentionDurationLine", "preventiveMeasureOrderLegalBasisLine", "cancelReasonLine", "cancellationArticle1Line", "cancellationArticle2Line", "exitPostponementDecisionLegalBasisLine", "exitPostponementCancelReasonLine", "exitPostponementReasonLine", "exitPostponementDurationText", "exitPostponementFromDateText", "exitPostponementToDateText", "exitPostponementArticle2Line", "immigrationAgencyName", "extensionRoundText", "detentionOrderLegalBasisLine", "previousExtensionDecisionLegalBasisLine"]
     },
     "custody": {
       "label": "Tạm giữ và gia hạn tạm giữ",
@@ -165,7 +165,7 @@
     "legalBasis": {
       "label": "Căn cứ pháp lý",
       "description": "Căn cứ Bộ luật Tố tụng hình sự, Bộ luật Hình sự, luật liên quan.",
-      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine"]
+      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine"]
     },
     "recipients": {
       "label": "Nơi nhận / lưu",
@@ -181,6 +181,11 @@
       "label": "Quyết định truy tố / quyết định không truy tố",
       "description": "Căn cứ quyết định truy tố (hoặc không truy tố) của Viện kiểm sát.",
       "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine"]
+    },
+    "arrestNonApproval": {
+      "label": "Không phê chuẩn bắt/giữ",
+      "description": "Nội dung quyết định không phê chuẩn Lệnh bắt, Lệnh giữ, Lệnh tạm giam do Cơ quan điều tra đề nghị.",
+      "commonFields": ["caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "proposalLine", "proposalAgencyLine", "reasonLine", "article1Line", "article2Line"]
     },
     "accusedDecision": {
       "label": "Quyết định liên quan đến bị can",
