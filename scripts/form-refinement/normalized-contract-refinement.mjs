@@ -307,7 +307,7 @@ export function buildRefinedContract({
   });
   const canonicalFields = discovery.orderedPaths.map((path) => {
     const field = profile.fields[path];
-    return {
+    const cf = {
       path,
       type: field.type ?? "string",
       label: field.label,
@@ -317,6 +317,10 @@ export function buildRefinedContract({
       section: field.section,
       reviewRequired: true,
     };
+    if (field.uiComponent === "select" && field.options) {
+      cf.options = field.options;
+    }
+    return cf;
   });
   const renderBindings = discovery.orderedPaths.map((path) => ({
     slotId: path,

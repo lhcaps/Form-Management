@@ -80,7 +80,8 @@ export function adaptV1Contract(
   }));
   adapted.fields = (contract.canonicalFields ?? []).map((field, index) => {
     const sectionTitle = field.section || "Thông tin biểu mẫu";
-    return {
+    const control = controlFromV1(field.uiComponent);
+    const fieldBase = {
       id: `field-${slug(field.path) || index + 1}`,
       key: field.path,
       sectionId:
@@ -91,12 +92,16 @@ export function adaptV1Contract(
         contract.docxSlots?.find((slot) => slot.slotId === field.path)?.label ??
         field.path.split(".").at(-1) ??
         field.path,
-      control: controlFromV1(field.uiComponent),
+      control,
       order: index,
-      width: 6,
+      width: 6 as 6,
       required: Boolean(field.required),
       dataSource: sourceFromV1(field.source),
     };
+    if (control === "SELECT" && field.options) {
+      return { ...fieldBase, options: field.options };
+    }
+    return fieldBase;
   });
   adapted.renderBindings = (contract.renderBindings ?? []).map(
     (binding, index) => ({

@@ -232,6 +232,31 @@
       "description": "Thông tin nhân thân người bị tạm giữ, bị can hoặc người có liên quan trong vụ án.",
       "commonFields": ["fullName", "genderLabel", "otherName", "dateOfBirthText", "birthDay", "birthMonth", "birthYear", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityDocumentLine", "permanentAddress", "temporaryAddress", "currentAddress"]
     },
+    "monitoring": {
+      "label": "Đơn vị quản lý",
+      "description": "Thông tin đơn vị được giao quản lý, theo dõi bị can trong thời gian tạm giữ hoặc biện pháp ngăn chặn.",
+      "commonFields": ["unitName", "article3Line"]
+    },
+    "assetReturn": {
+      "label": "Trả tài sản",
+      "description": "Nội dung quyết định trả tài sản đã kê biên, tạm giữ cho chủ sở hữu hợp pháp trong vụ án hình sự.",
+      "commonFields": ["investigationConclusionLegalBasisLine", "caseSuspensionDecisionLegalBasisLine", "accusedSuspensionDecisionLegalBasisLine", "considerationLine", "assetListLine", "executionRequestLine"]
+    },
+    "assetOwner": {
+      "label": "Chủ tài sản",
+      "description": "Thông tin nhân thân chủ sở hữu tài sản được trả lại.",
+      "commonFields": ["fullName", "genderText", "otherName", "dateOfBirthText", "placeOfBirth", "nationality", "ethnicity", "religion", "occupation", "identityNo", "identityIssuedDateText", "identityIssuedPlace", "permanentResidence", "temporaryResidence", "currentResidence"]
+    },
+    "propertyReturnCancellation": {
+      "label": "Hủy quyết định trả tài sản",
+      "description": "Nội dung quyết định hủy bỏ quyết định trả tài sản trước đó vì không đúng căn cứ pháp luật.",
+      "commonFields": ["caseInitiationLine", "defendantInitiationLine", "propertyReturnDecisionReviewLine", "unlawfulReasonLine", "article1Line", "article2Line", "article3RequestLine", "article3ExecutionLine"]
+    },
+    "propertyRecipient": {
+      "label": "Người nhận tài sản",
+      "description": "Thông tin nhân thân người được nhận tài sản sau khi quyết định trả tài sản được hủy bỏ.",
+      "commonFields": ["gender", "aliasName", "birthDateLine", "birthPlace", "nationality", "ethnicity", "religion", "occupation", "identityNumber", "identityIssueDateLine", "identityIssuePlace", "permanentResidence", "temporaryResidence", "currentResidence"]
+    },
     "renderMeta": {
       "label": "Metadata render",
       "description": "Metadata phục vụ render, không hiển thị trong form.",

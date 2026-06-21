@@ -309,6 +309,7 @@ export type V1Contract = {
     uiComponent?: string;
     section?: string;
     required?: boolean;
+    options?: Array<{ value: string; label: string }>;
   }>;
   renderBindings?: Array<{
     slotId: string;

@@ -1,28 +1,28 @@
 # Slot Coverage Summary
 
-Sinh lúc: 2026-06-21T08:42:15.150Z
+Sinh lúc: 2026-06-21T09:34:06.097Z
 
 ## Phạm vi verify
 
 - ✅ **Structural verification**: schema hợp lệ, slotId duy nhất, renderBinding trỏ tới slot tồn tại, namespace trong field-taxonomy, source trong source-taxonomy, transform trong transform-taxonomy.
 - ❌ **Semantic / legal verification**: KHÔNG thuộc phạm vi pipeline này. Reviewer phải đọc DOCX đối chiếu.
 - ✅ **Locked contract count**: Hiện tại = 3. Các contract này được tính theo bản locked canonical, không đếm lặp bản draft cùng sourceId.
-- ⚠️ **Unknown sources**: 1822/1900 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
-- ⚠️ **Review-required**: Còn 5980 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
+- ⚠️ **Unknown sources**: 1935/2013 canonicalField đang `source=unknown`; các field này thuộc contract draft và vẫn chờ reviewer quyết định nguồn.
+- ⚠️ **Review-required**: Còn 6279 cờ review trên inventory canonical; contract locked phải có 0 cờ review.
 
 > Kết luận: Mọi số liệu dưới đây mô tả **structure của inventory canonical (draft + locked)**. Chỉ trạng thái locked mới phản ánh review đã hoàn tất; kiểm tra này không tự chứng nhận tính đúng đắn pháp lý/nghiệp vụ.
 
 ## Tổng quan
 
 - Tổng contract (form, KHÔNG tính reference docs): **214**
-- Tổng docxSlots: **2160**
-- Tổng renderBindings: **2160**
-- Tổng canonicalFields: **1900**
-- Tổng canonicalFields có source=unknown: **1822**
-- Tổng reviewRequired (slot+field+binding): **5980**
+- Tổng docxSlots: **2253**
+- Tổng renderBindings: **2253**
+- Tổng canonicalFields: **2013**
+- Tổng canonicalFields có source=unknown: **1935**
+- Tổng reviewRequired (slot+field+binding): **6279**
 - Tổng slot thiếu binding: **0**
 - Contract locked: **3** | draft: **211**
-- Structural issues: **28**
+- Structural issues: **0**
 - Structural warnings: **0**
 - Extraction / contract warnings: **208**
 - Locked contract invalid: **0** (sẽ thoát non-zero)
@@ -83,13 +83,13 @@ Sinh lúc: 2026-06-21T08:42:15.150Z
 | BM-050__2d31c941887e | BM-050 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
 | BM-051__594c6c63b397 | BM-051 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-052__9919ecdb3971 | BM-052 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
-| BM-053__0a5a43238f28 | BM-053 | draft | 16 | 16 | 12 | 44 | 0 | 0 | 0 | 1 |
+| BM-053__0a5a43238f28 | BM-053 | draft | 34 | 34 | 34 | 102 | 0 | 0 | 0 | 1 |
 | BM-054__71a4c9ac7e0e | BM-054 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
-| BM-055__b1819db1f92b | BM-055 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
+| BM-055__b1819db1f92b | BM-055 | draft | 33 | 33 | 33 | 99 | 0 | 0 | 0 | 1 |
 | BM-056__eea9a3391f5f | BM-056 | draft | 14 | 14 | 10 | 38 | 0 | 0 | 0 | 1 |
 | BM-057__9053c61ee677 | BM-057 | draft | 15 | 15 | 11 | 41 | 0 | 0 | 0 | 1 |
-| BM-058__6de8f0022bff | BM-058 | draft | 36 | 36 | 36 | 108 | 0 | 13 | 0 | 1 |
-| BM-059__4cdec41fdb1d | BM-059 | draft | 40 | 40 | 40 | 120 | 0 | 15 | 0 | 1 |
+| BM-058__6de8f0022bff | BM-058 | draft | 36 | 36 | 36 | 108 | 0 | 0 | 0 | 1 |
+| BM-059__4cdec41fdb1d | BM-059 | draft | 40 | 40 | 40 | 120 | 0 | 0 | 0 | 1 |
 | BM-060__55a252b4f98f | BM-060 | draft | 20 | 20 | 15 | 55 | 0 | 0 | 0 | 1 |
 | BM-061__ec44550246e9 | BM-061 | draft | 12 | 12 | 8 | 32 | 0 | 0 | 0 | 1 |
 | BM-062__110961a781fa | BM-062 | draft | 21 | 21 | 17 | 59 | 0 | 0 | 0 | 1 |
@@ -127,7 +127,7 @@ Sinh lúc: 2026-06-21T08:42:15.150Z
 | BM-094__12ad016b36d2 | BM-094 | draft | 5 | 5 | 5 | 15 | 0 | 0 | 0 | 1 |
 | BM-095__83c3c1ef212f | BM-095 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
 | BM-096__a50a08efa62f | BM-096 | draft | 18 | 18 | 14 | 50 | 0 | 0 | 0 | 1 |
-| BM-097__17f981bf5afd | BM-097 | draft | 18 | 18 | 14 | 50 | 0 | 0 | 0 | 1 |
+| BM-097__17f981bf5afd | BM-097 | draft | 32 | 32 | 32 | 96 | 0 | 0 | 0 | 1 |
 | BM-098__949d75027001 | BM-098 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-099__ce4aa505a071 | BM-099 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
 | BM-100__a359d20c8fed | BM-100 | draft | 2 | 2 | 2 | 6 | 0 | 0 | 0 | 1 |
@@ -202,8 +202,8 @@ Sinh lúc: 2026-06-21T08:42:15.150Z
 | BM-168__3369df5870b2 | BM-168 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
 | BM-169__b737aefc0c16 | BM-169 | draft | 6 | 6 | 6 | 18 | 0 | 0 | 0 | 1 |
 | BM-170__c8f50b0e9f5b | BM-170 | draft | 3 | 3 | 3 | 9 | 0 | 0 | 0 | 1 |
-| BM-171__46b9a8be4e01 | BM-171 | draft | 14 | 14 | 10 | 38 | 0 | 0 | 0 | 1 |
-| BM-172__e3a3eb687d2f | BM-172 | draft | 13 | 13 | 9 | 35 | 0 | 0 | 0 | 1 |
+| BM-171__46b9a8be4e01 | BM-171 | draft | 34 | 34 | 34 | 102 | 0 | 0 | 0 | 1 |
+| BM-172__e3a3eb687d2f | BM-172 | draft | 34 | 34 | 34 | 102 | 0 | 0 | 0 | 1 |
 | BM-173__2e06ac25958d | BM-173 | draft | 6 | 6 | 6 | 18 | 0 | 0 | 0 | 1 |
 | BM-174__f8e45c638bb6 | BM-174 | draft | 17 | 17 | 13 | 47 | 0 | 0 | 0 | 1 |
 | BM-175__6d3f2b46283d | BM-175 | draft | 4 | 4 | 4 | 12 | 0 | 0 | 0 | 1 |
