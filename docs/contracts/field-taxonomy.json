@@ -165,7 +165,27 @@
     "legalBasis": {
       "label": "Căn cứ pháp lý",
       "description": "Căn cứ Bộ luật Tố tụng hình sự, Bộ luật Hình sự, luật liên quan.",
-      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine"]
+      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine", "assignmentProcedureArticlesLine"]
+    },
+    "prosecutionTransfer": {
+      "label": "Chuyển truy tố",
+      "description": "Nội dung quyết định chuyển hồ sơ vụ án để chuyển điều tra theo thủ tục chuyển truy tố.",
+      "commonFields": ["procedureArticlesLine", "caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "investigationConclusionLegalBasisLine", "transferReasonLine", "article1Line", "toProcuracyRecipientLine", "detentionFacilityRecipientLine"]
+    },
+    "prosecutionExtension": {
+      "label": "Gia hạn truy tố",
+      "description": "Nội dung quyết định gia hạn thời hạn truy tố.",
+      "commonFields": ["procedureArticlesLine", "caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "investigationConclusionLegalBasisLine", "reasonLine", "article1Line"]
+    },
+    "returnInvestigation": {
+      "label": "Trả hồ sơ điều tra bổ sung",
+      "description": "Nội dung quyết định trả hồ sơ vụ án cho Cơ quan điều tra để điều tra bổ sung theo yêu cầu của Tòa án.",
+      "commonFields": ["courtDecisionLegalBasisLine", "article1Line", "article2Line"]
+    },
+    "assignment": {
+      "label": "Phân công đại diện",
+      "description": "Nội dung quyết định phân công Phó Viện trưởng hoặc Kiểm sát viên đại diện Viện kiểm sát thực hiện nhiệm vụ.",
+      "commonFields": ["deputyChiefName", "deputyChiefTitle", "deputyChiefAgencyName", "responsibilityLine"]
     },
     "recipients": {
       "label": "Nơi nhận / lưu",
@@ -180,7 +200,7 @@
     "caseDecision": {
       "label": "Quyết định truy tố / quyết định không truy tố",
       "description": "Căn cứ quyết định truy tố (hoặc không truy tố) của Viện kiểm sát.",
-      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine"]
+      "commonFields": ["legalBasisLine", "prosecutionDecisionLegalBasisLine", "caseProsecutionDecisionLine"]
     },
     "arrestNonApproval": {
       "label": "Không phê chuẩn bắt/giữ",
