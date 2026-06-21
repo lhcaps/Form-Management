@@ -165,7 +165,7 @@
     "legalBasis": {
       "label": "Căn cứ pháp lý",
       "description": "Căn cứ Bộ luật Tố tụng hình sự, Bộ luật Hình sự, luật liên quan.",
-      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine", "assignmentProcedureArticlesLine"]
+      "commonFields": ["procedureArticlesLine", "criminalCodeLine", "otherLawLine", "juvenileJusticeLine", "baseProcedureLine", "juvenileLegalBasisLine", "requestApprovalLine", "requestExtensionLine", "assignmentProcedureArticlesLine", "staffAssignmentProcedureArticlesLine"]
     },
     "prosecutionTransfer": {
       "label": "Chuyển truy tố",
@@ -183,14 +183,39 @@
       "commonFields": ["courtDecisionLegalBasisLine", "article1Line", "article2Line"]
     },
     "assignment": {
-      "label": "Phân công đại diện",
+      "label": "Phân công đại diện / Kiểm sát viên",
       "description": "Nội dung quyết định phân công Phó Viện trưởng hoặc Kiểm sát viên đại diện Viện kiểm sát thực hiện nhiệm vụ.",
-      "commonFields": ["deputyChiefName", "deputyChiefTitle", "deputyChiefAgencyName", "responsibilityLine"]
+      "commonFields": ["deputyChiefName", "deputyChiefTitle", "deputyChiefAgencyName", "responsibilityLine", "assignedRoleText", "assignedOfficerName", "assignedOfficerTitle", "assignedOfficerAgencyName", "additionalAssignedOfficersLine"]
+    },
+    "prosecutionCaseTermination": {
+      "label": "Chấm dứt truy tố",
+      "description": "Nội dung quyết định chấm dứt việc truy tố bị can.",
+      "commonFields": ["procedureArticlesLine", "caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "reasonLine", "article1Line", "article2Line", "article3Line", "article4Line", "superiorProcuracyRecipientLine", "accusedOrRepresentativeRecipientLine", "investigationAuthorityRecipientLine", "defenseCounselRecipientLine"]
+    },
+    "bailApproval": {
+      "label": "Phê chuẩn cho bảo lãnh / tại ngoại",
+      "description": "Nội dung quyết định phê chuẩn cho bị can được tại ngoại có bảo lãnh.",
+      "commonFields": ["caseDecisionLegalBasisLine", "accusedDecisionLegalBasisLine", "proposalLine", "reasonLine", "article1Line", "article2Line"]
+    },
+    "guaranteeNonApproval": {
+      "label": "Không phê chuẩn bảo lãnh",
+      "description": "Nội dung quyết định không phê chuẩn đề nghị cho bị can được bảo lãnh / tại ngoại.",
+      "commonFields": ["caseInitiationLine", "defendantInitiationLine", "proposalReviewLine", "insufficientGroundsLine", "article1Line", "article2Line"]
+    },
+    "investigationExtension": {
+      "label": "Gia hạn điều tra",
+      "description": "Nội dung quyết định gia hạn thời hạn điều tra vụ án hình sự.",
+      "commonFields": ["previousDecisionLegalBasisLine", "requestRoundText", "durationText", "fromDateText", "toDateText"]
+    },
+    "proposal": {
+      "label": "Đề nghị",
+      "description": "Thông tin văn bản đề nghị và tên cơ quan đề nghị.",
+      "commonFields": ["requestingDocumentLine", "proposingProcuracyName"]
     },
     "recipients": {
       "label": "Nơi nhận / lưu",
       "description": "Dòng nơi nhận văn bản và dòng lưu hồ sơ.",
-      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "investigationUnitLine", "monitoringUnitLine", "immigrationUnitLine", "personLine", "otherRecipientLine", "otherRecipientsLine", "guarantorLine", "courtLine", "accusedLine", "defenseCounselLine", "investigatingAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine", "propertyRecipientLine", "noteLine", "line1", "line2"]
+      "commonFields": ["primaryLine", "archiveLine", "investigationAgencyLine", "investigationUnitLine", "monitoringUnitLine", "immigrationUnitLine", "personLine", "otherRecipientLine", "otherRecipientsLine", "guarantorLine", "courtLine", "accusedLine", "defenseCounselLine", "investigatingAgencyLine", "superiorProcuracyLine", "sourceProviderLine", "teamMembersLine", "investigationAuthorityRecipientLine", "propertyRecipientLine", "noteLine", "line1", "line2", "superiorProcuracyName", "personRepresentativeLine", "bailReceiverLine", "defendantRepresentativeLine", "detentionExecutionUnitLine", "executionAgencyLine", "assignedPersonLine", "investigationAuthorityLine"]
     },
     "signature": {
       "label": "Chữ ký",
