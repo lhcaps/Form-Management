@@ -283,9 +283,7 @@ async function publishToDb(toPublish, opts) {
   const { officialId, agencyId, expectExactly } = opts;
   const now = new Date().toISOString();
 
-  let DATABASE_URL;
-  const envVars = parseEnv();
-  DATABASE_URL = envVars.DATABASE_URL;
+  let DATABASE_URL = process.env.DATABASE_URL ?? parseEnv().DATABASE_URL;
 
   if (!DATABASE_URL) {
     console.log(
