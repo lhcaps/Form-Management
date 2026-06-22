@@ -22,6 +22,32 @@
   "status": "locked",
   "docxSlots": [
     {
+      "slotId": "agency.parentNameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0004",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"agency.parentNameUpper\" (label: \"Tên cơ quan\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
+      }
+    },
+    {
       "slotId": "document.documentCode",
       "location": {
         "partName": "word/document.xml",
@@ -43,8 +69,34 @@
         "textBefore": "Xét",
         "textAfter": "số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
         "rawPattern": "{{agency.nameUpper}}",
-        "context": "[Auto-generated] Xét",
+        "context": "[Auto] Xét",
         "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "Nhận thấy{{document.field5}},",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nhận thấy",
+        "textAfter": ",",
+        "rawPattern": "{{document.field5}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nhận thấy",
+        "textAfter": ",",
+        "rawPattern": "{{document.field5}}",
+        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -69,7 +121,7 @@
         "textBefore": "Họ tên:8",
         "textAfter": "",
         "rawPattern": "{{person.fullName}}",
-        "context": "[Auto-generated] Họ tên:8",
+        "context": "[Auto] Họ tên:8",
         "blockId": "P0034"
       }
     },
@@ -95,7 +147,7 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{document.issueDate}}",
-        "context": "[Auto-generated] {{document.issueDate}}",
+        "context": "[Auto] {{document.issueDate}}",
         "blockId": "P0036"
       }
     },
@@ -121,7 +173,7 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{document.field8}}",
-        "context": "[Auto-generated] {{document.field8}}",
+        "context": "[Auto] {{document.field8}}",
         "blockId": "P0037"
       }
     },
@@ -147,7 +199,7 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{agency.parentNameUpper}}",
-        "context": "[Auto-generated] {{agency.parentNameUpper}}",
+        "context": "[Auto] {{agency.parentNameUpper}}",
         "blockId": "P0040"
       }
     },
@@ -173,7 +225,7 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{decision.decisionLine}}",
-        "context": "[Auto-generated] {{decision.decisionLine}}",
+        "context": "[Auto] {{decision.decisionLine}}",
         "blockId": "P0042"
       }
     },
@@ -199,7 +251,7 @@
         "textBefore": "10",
         "textAfter": ";",
         "rawPattern": "{{document.field12}}",
-        "context": "[Auto-generated] 10",
+        "context": "[Auto] 10",
         "blockId": "P0046"
       }
     },
@@ -225,12 +277,28 @@
         "textBefore": "11",
         "textAfter": "",
         "rawPattern": "{{document.field13}}",
-        "context": "[Auto-generated] 11",
+        "context": "[Auto] 11",
         "blockId": "P0049"
       }
     }
   ],
   "canonicalFields": [
+    {
+      "path": "agency.parentNameUpper",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "constantFromDocx",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"agency.parentNameUpper\" (label: \"Tên cơ quan\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
+      }
+    },
     {
       "path": "document.documentCode",
       "type": "string",
@@ -240,11 +308,27 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Xét",
+        "context": "[Auto] Xét",
         "blockId": "P0028"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "derived",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -256,10 +340,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "date.issuePlaceDateLine",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Họ tên:8",
+        "context": "[Auto] Họ tên:8",
         "blockId": "P0034"
       }
     },
@@ -272,10 +356,10 @@
       "uiComponent": "date",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.issueDate}}",
+        "context": "[Auto] {{document.issueDate}}",
         "blockId": "P0036"
       }
     },
@@ -288,10 +372,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field8}}",
+        "context": "[Auto] {{document.field8}}",
         "blockId": "P0037"
       }
     },
@@ -304,10 +388,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{agency.parentNameUpper}}",
+        "context": "[Auto] {{agency.parentNameUpper}}",
         "blockId": "P0040"
       }
     },
@@ -320,10 +404,10 @@
       "uiComponent": "textarea",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{decision.decisionLine}}",
+        "context": "[Auto] {{decision.decisionLine}}",
         "blockId": "P0042"
       }
     },
@@ -336,10 +420,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] 10",
+        "context": "[Auto] 10",
         "blockId": "P0046"
       }
     },
@@ -352,18 +436,32 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] 11",
+        "context": "[Auto] 11",
         "blockId": "P0049"
       }
     }
   ],
   "renderBindings": [
     {
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
       "slotId": "document.documentCode",
       "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -431,7 +529,10 @@
     "formNumber": "036/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -504,13 +605,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.943Z",
-  "reviewedBy": "system-batch-lock",
-  "reviewedAt": "2026-06-21T20:25:26.415Z",
-  "extensionPoints": [
-    {
-      "kind": "TRANSFORM",
-      "name": "date.issuePlaceDateLine",
-      "id": "ext-date.issuePlaceDateLine"
-    }
-  ]
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }

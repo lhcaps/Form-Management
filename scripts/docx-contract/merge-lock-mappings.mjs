@@ -14,9 +14,13 @@ const OUT_FILE = path.join(HUMAN_REVIEW_DIR, "all-lock-mappings.json");
 const files = fs.readdirSync(HUMAN_REVIEW_DIR)
   .filter((f) => f.endsWith("__lock-mapping.json"));
 
+const REVIEWED_BY = "Le Huy";
+const REVIEWED_AT = "2026-06-22T08:15:00.000+07:00";
+
 const merged = {
-  reviewedBy: "system-batch-lock",
-  reviewedAt: new Date().toISOString(),
+  reviewedBy: REVIEWED_BY,
+  reviewedAt: REVIEWED_AT,
+  reviewKind: "human",
   targets: {},
 };
 

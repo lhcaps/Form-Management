@@ -48,32 +48,6 @@
       }
     },
     {
-      "slotId": "document.field",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0029",
-        "tableCellId": null
-      },
-      "context": "Xét hồ sơ đề nghị phê chuẩn Quyết định áp dụng biện pháp giám sát điện tử đối với người chưa thành niên số … ngày … tháng … năm … của{{decision.field3}}8…;",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "nghị phê chuẩn Quyết định áp dụng biện pháp giám sát điện tử đối với người chưa thành niên số … ngày … tháng … năm … của",
-        "textAfter": "8…;",
-        "rawPattern": "{{decision.field3}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "nghị phê chuẩn Quyết định áp dụng biện pháp giám sát điện tử đối với người chưa thành niên số … ngày … tháng … năm … của",
-        "textAfter": "8…;",
-        "rawPattern": "{{decision.field3}}",
-        "context": "[Auto-generated] nghị phê chuẩn Quyết định áp dụng biện pháp giám sát điện tử đối với người chưa thành niên số … ngày … tháng … năm … của",
-        "blockId": "P0029"
-      }
-    },
-    {
       "slotId": "recipients.personLine",
       "location": {
         "partName": "word/document.xml",
@@ -98,32 +72,6 @@
         "context": "[Auto-generated] Họ tên:8",
         "blockId": "P0034"
       }
-    },
-    {
-      "slotId": "recipients.field",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0035",
-        "tableCellId": null
-      },
-      "context": "{{document.field5}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}",
-        "context": "[Auto-generated] {{document.field16}}",
-        "blockId": "P0052"
-      }
     }
   ],
   "canonicalFields": [
@@ -136,27 +84,11 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0024"
-      }
-    },
-    {
-      "path": "document.field",
-      "type": "string",
-      "label": "Ô trống",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
-      "reviewEvidence": {
-        "context": "[Auto-generated] nghị phê chuẩn Quyết định áp dụng biện pháp giám sát điện tử đối với người chưa thành niên số … ngày … tháng … năm … của",
-        "blockId": "P0029"
       }
     },
     {
@@ -168,27 +100,11 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] Họ tên:8",
         "blockId": "P0034"
-      }
-    },
-    {
-      "path": "recipients.field",
-      "type": "string",
-      "label": "Ô trống",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
-      "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field16}}",
-        "blockId": "P0052"
       }
     }
   ],
@@ -201,22 +117,8 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": false
-    },
-    {
       "slotId": "recipients.personLine",
       "from": "recipients.personLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": false
-    },
-    {
-      "slotId": "recipients.field",
-      "from": "recipients.field",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -235,7 +137,10 @@
     "formNumber": "208/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -332,6 +237,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.034Z",
-  "reviewedBy": "system-batch-lock",
-  "reviewedAt": "2026-06-21T20:25:26.415Z"
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }

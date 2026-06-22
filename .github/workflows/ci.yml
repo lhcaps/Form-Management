@@ -50,8 +50,11 @@ jobs:
       - name: BM-001 shared renderer smoke
         run: pnpm smoke:bm001-shadow-render
 
-      - name: DOCX prelock guard (informational)
+      - name: DOCX prelock guard (informational — generic draft forms)
         run: pnpm audit:docx:prelock || true
+
+      - name: Gate: 213 forms corpus readiness
+        run: pnpm gate:forms:213
 
   docker-production-build:
     name: Docker production build

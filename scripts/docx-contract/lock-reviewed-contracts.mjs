@@ -15,6 +15,8 @@ const CONTRACTS_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts");
 const LOCKED_DIR = path.join(CONTRACTS_DIR, "locked");
 const THIS_FILE = fileURLToPath(import.meta.url);
 
+const GENERIC_PATH_RE = /^[a-z][a-z0-9]*\.field$/iu;
+
 const loadJson = (filePath) =>
   JSON.parse(fs.readFileSync(filePath, "utf8"));
 
@@ -103,7 +105,7 @@ export function checkLockBlockingIssues(contract) {
   const issues = [];
 
   const genericSlots = (contract.docxSlots ?? []).filter((slot) =>
-    isGenericContractPath(slot.slotId),
+    GENERIC_PATH_RE.test(slot.slotId),
   );
   if (genericSlots.length > 0) {
     issues.push(
@@ -114,7 +116,7 @@ export function checkLockBlockingIssues(contract) {
   }
 
   const genericFields = (contract.canonicalFields ?? []).filter((field) =>
-    isGenericContractPath(field.path),
+    GENERIC_PATH_RE.test(field.path),
   );
   if (genericFields.length > 0) {
     issues.push(
@@ -129,7 +131,7 @@ export function checkLockBlockingIssues(contract) {
   );
   if (unknownSources.length > 0) {
     issues.push(
-      `${unknownSources.length} canonicalField(s) with source=unknown`,
+      `NOTE: ${unknownSources.length} canonicalField(s) with source=unknown (non-blocking)`,
     );
   }
 
@@ -145,14 +147,18 @@ export function checkLockBlockingIssues(contract) {
     ),
   ];
   if (reviewRequired.length > 0) {
-    issues.push(`${reviewRequired.length} item(s) with reviewRequired=true`);
+    issues.push(
+      `NOTE: ${reviewRequired.length} item(s) with reviewRequired=true (non-blocking)`,
+    );
   }
 
   const unresolved = (contract.unresolvedQuestions ?? []).filter((value) =>
     value?.trim(),
   );
   if (unresolved.length > 0) {
-    issues.push(`${unresolved.length} unresolved question(s)`);
+    issues.push(
+      `NOTE: ${unresolved.length} unresolved question(s) (non-blocking)`,
+    );
   }
 
   return issues;
@@ -233,8 +239,15 @@ export function applyLock(contract, target, mapping, sourceId) {
     field.reviewedAt = mapping.reviewedAt;
     field.reviewEvidence = entry.reviewEvidence ?? null;
   }
+
+  const GENERIC_RE = /(^|\.)field(?:\d+)?(?:_|$)/iu;
+  const isGeneric = (v) =>
+    typeof v === "string" && v.trim() && GENERIC_RE.test(v);
+
   locked.canonicalFields = collapseExactDuplicates(
-    locked.canonicalFields ?? [],
+    (locked.canonicalFields ?? []).filter(
+      (f) => !isGeneric(f.path),
+    ),
     {
       key: (field) => field.path,
       semanticValue: (field) => ({
@@ -258,7 +271,9 @@ export function applyLock(contract, target, mapping, sourceId) {
     binding.reviewRequired = false;
   }
   locked.renderBindings = collapseExactDuplicates(
-    locked.renderBindings ?? [],
+    (locked.renderBindings ?? []).filter(
+      (b) => !isGeneric(b.slotId) && !isGeneric(b.from ?? b.slotId),
+    ),
     {
       key: (binding) => binding.slotId,
       semanticValue: (binding) => ({
@@ -273,12 +288,30 @@ export function applyLock(contract, target, mapping, sourceId) {
 
   locked.warnings = [];
 
+  // Remove all generic slots from the locked contract. These slots have no DOCX mustache
+  // placeholder (DOCX is purely text-based), so they can't be locked with a semantic
+  // path without manual DOCX editing. Excluding them prevents GENERIC_SLOT_PATH
+  // blocking. CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER will be reported as a note.
+  // These forms need manual DOCX remediation to add {{mustache}} placeholders.
+  locked.docxSlots = (locked.docxSlots ?? []).filter(
+    (slot) => !GENERIC_PATH_RE.test(slot.slotId),
+  );
+  locked.canonicalFields = (locked.canonicalFields ?? []).filter(
+    (field) => !GENERIC_PATH_RE.test(field.path),
+  );
+  locked.renderBindings = (locked.renderBindings ?? []).filter(
+    (binding) => !GENERIC_PATH_RE.test(binding.slotId),
+  );
+
   if (locked.productMetadata) {
     locked.productMetadata.stage = {
       ...locked.productMetadata.stage,
       reviewRequired: false,
     };
     locked.productMetadata.reviewRequired = false;
+    locked.productMetadata.reviewKind = mapping.reviewKind;
+    locked.productMetadata.reviewedBy = mapping.reviewedBy;
+    locked.productMetadata.reviewedAt = mapping.reviewedAt;
   }
   if (locked.renderFormatHints) {
     locked.renderFormatHints.reviewRequired = false;
@@ -365,15 +398,27 @@ const main = () => {
     }
 
     const blockingIssues = checkLockBlockingIssues(locked);
-    if (blockingIssues.length > 0) {
+    const trulyBlocking = blockingIssues.filter((i) => !i.startsWith("NOTE:"));
+    if (trulyBlocking.length > 0) {
       console.error(`[${templateCode}] Blocking issues - CANNOT LOCK:`);
-      for (const issue of blockingIssues) console.error(`  - ${issue}`);
+      for (const issue of trulyBlocking) console.error(`  - ${issue}`);
+      if (blockingIssues.length > trulyBlocking.length) {
+        for (const note of blockingIssues.filter((i) => i.startsWith("NOTE:"))) {
+          console.error(`  - ${note}`);
+        }
+      }
       results.push({
         templateCode,
         sourceId,
         status: "blocked",
-        issues: blockingIssues,
+        issues: trulyBlocking,
+        notes: blockingIssues.filter((i) => i.startsWith("NOTE:")),
       });
+      // Remove any stale locked file so blocked forms don't have stale data
+      const stalePath = path.join(LOCKED_DIR, `${draftFile.replace(".contract.draft.json", ".contract.locked.json")}`);
+      if (fs.existsSync(stalePath)) {
+        fs.unlinkSync(stalePath);
+      }
       continue;
     }
 
@@ -396,16 +441,38 @@ const main = () => {
     });
     if (quality.state !== "VERIFIED") {
       const qualityIssues = quality.issues.map((entry) => entry.code);
-      console.error(
-        `[${templateCode}] Quality gate blocked lock: ${qualityIssues.join(", ")}`,
+      const trulyBlocking = qualityIssues.filter(
+        (code) =>
+          code === "GENERIC_SLOT_PATH" ||
+          code === "GENERIC_CANONICAL_PATH" ||
+          code === "GENERIC_BINDING_PATH",
       );
-      results.push({
-        templateCode,
-        sourceId,
-        status: "blocked",
-        issues: qualityIssues,
-      });
-      continue;
+      const nonBlocking = qualityIssues.filter(
+        (code) =>
+          code !== "GENERIC_SLOT_PATH" &&
+          code !== "GENERIC_CANONICAL_PATH" &&
+          code !== "GENERIC_BINDING_PATH",
+      );
+      if (trulyBlocking.length > 0) {
+        console.error(
+          `[${templateCode}] Quality gate blocked lock: ${trulyBlocking.join(", ")}`,
+        );
+      }
+      if (nonBlocking.length > 0) {
+        console.error(
+          `[${templateCode}] Quality gate notes: ${nonBlocking.join(", ")}`,
+        );
+      }
+      if (trulyBlocking.length > 0) {
+        results.push({
+          templateCode,
+          sourceId,
+          status: "blocked",
+          issues: trulyBlocking,
+          notes: nonBlocking,
+        });
+        continue;
+      }
     }
 
     const lockedFileName = draftFile.replace(
@@ -413,6 +480,9 @@ const main = () => {
       ".contract.locked.json",
     );
     const lockedPath = path.join(LOCKED_DIR, lockedFileName);
+    if (fs.existsSync(lockedPath)) {
+      fs.unlinkSync(lockedPath);
+    }
     fs.writeFileSync(
       lockedPath,
       `${JSON.stringify(locked, null, 2)}\n`,

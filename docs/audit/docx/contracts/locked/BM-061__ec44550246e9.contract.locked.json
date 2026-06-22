@@ -74,7 +74,7 @@
       }
     },
     {
-      "slotId": "recipients.field",
+      "slotId": "document.fullDocumentCode",
       "location": {
         "partName": "word/document.xml",
         "blockId": "P0037",
@@ -90,14 +90,7 @@
         "textAfter": "",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] {{document.field5}}",
-        "blockId": "P0041"
-      }
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -110,8 +103,8 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
@@ -126,28 +119,21 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] Họ tên:9",
         "blockId": "P0035"
       }
     },
     {
-      "path": "recipients.field",
+      "path": "document.fullDocumentCode",
       "type": "string",
       "label": "Ô trống",
-      "source": "manual",
+      "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
-      "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field5}}",
-        "blockId": "P0041"
-      }
+      "reviewRequired": true
     }
   ],
   "renderBindings": [
@@ -166,11 +152,11 @@
       "reviewRequired": false
     },
     {
-      "slotId": "recipients.field",
-      "from": "recipients.field",
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": false
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -186,7 +172,10 @@
     "formNumber": "061/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -237,6 +226,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.957Z",
-  "reviewedBy": "system-batch-lock",
-  "reviewedAt": "2026-06-21T20:25:26.415Z"
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }

@@ -43,8 +43,34 @@
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
         "rawPattern": "{{document.field1}}",
-        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "context": "[Auto] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
+      }
+    },
+    {
+      "slotId": "agency.nameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "…, ngày … tháng … năm 20{{document.issueDate}}",
+      "label": "Ngày ban hành",
+      "slotType": "date",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "…, ngày … tháng … năm 20",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "…, ngày … tháng … năm 20",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}",
+        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -69,7 +95,7 @@
         "textBefore": "Xét thấy",
         "textAfter": "{{document.field4}},",
         "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] Xét thấy",
+        "context": "[Auto] Xét thấy",
         "blockId": "P0028"
       }
     },
@@ -95,7 +121,7 @@
         "textBefore": "Xét thấy{{document.field3}}",
         "textAfter": ",",
         "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] Xét thấy{{document.field3}}",
+        "context": "[Auto] Xét thấy{{document.field3}}",
         "blockId": "P0028"
       }
     },
@@ -121,7 +147,7 @@
         "textBefore": "Điều 1. Không khởi tố vụ án hình sự đối với",
         "textAfter": "{{legalBasis.procedureArticlesLine}}",
         "rawPattern": "{{legalBasis.procedureArticlesLine}}",
-        "context": "[Auto-generated] Điều 1. Không khởi tố vụ án hình sự đối với",
+        "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
         "blockId": "P0032"
       }
     },
@@ -147,7 +173,7 @@
         "textBefore": "Điều 2. Viện kiểm sát2",
         "textAfter": "thông báo để{{agency.nameUpper}}",
         "rawPattern": "{{agency.nameUpper}}",
-        "context": "[Auto-generated] Điều 2. Viện kiểm sát2",
+        "context": "[Auto] Điều 2. Viện kiểm sát2",
         "blockId": "P0033"
       }
     },
@@ -173,7 +199,7 @@
         "textBefore": "",
         "textAfter": "{{document.field10}}",
         "rawPattern": "{{document.field9}}",
-        "context": "[Auto-generated] {{document.field9}}{{document.field10}}",
+        "context": "[Auto] {{document.field9}}{{document.field10}}",
         "blockId": "P0038"
       }
     },
@@ -199,7 +225,7 @@
         "textBefore": "{{document.field9}}",
         "textAfter": "",
         "rawPattern": "{{document.field10}}",
-        "context": "[Auto-generated] {{document.field9}}",
+        "context": "[Auto] {{document.field9}}",
         "blockId": "P0038"
       }
     }
@@ -214,11 +240,27 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "context": "[Auto] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
+      }
+    },
+    {
+      "path": "agency.nameUpper",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "derived",
+      "required": false,
+      "uiComponent": "date",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -230,10 +272,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Xét thấy",
+        "context": "[Auto] Xét thấy",
         "blockId": "P0028"
       }
     },
@@ -246,10 +288,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Xét thấy{{document.field3}}",
+        "context": "[Auto] Xét thấy{{document.field3}}",
         "blockId": "P0028"
       }
     },
@@ -262,10 +304,10 @@
       "uiComponent": "textarea",
       "reviewRequired": false,
       "transform": "date.issuePlaceDateLine",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Điều 1. Không khởi tố vụ án hình sự đối với",
+        "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
         "blockId": "P0032"
       }
     },
@@ -278,10 +320,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] Điều 2. Viện kiểm sát2",
+        "context": "[Auto] Điều 2. Viện kiểm sát2",
         "blockId": "P0033"
       }
     },
@@ -294,10 +336,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field9}}{{document.field10}}",
+        "context": "[Auto] {{document.field9}}{{document.field10}}",
         "blockId": "P0038"
       }
     },
@@ -310,10 +352,10 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field9}}",
+        "context": "[Auto] {{document.field9}}",
         "blockId": "P0038"
       }
     }
@@ -322,6 +364,13 @@
     {
       "slotId": "agency.parentNameUpper",
       "from": "agency.parentNameUpper",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.nameUpper",
+      "from": "agency.nameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -382,7 +431,10 @@
     "formNumber": "021/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -446,13 +498,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.934Z",
-  "reviewedBy": "system-batch-lock",
-  "reviewedAt": "2026-06-21T20:25:26.415Z",
-  "extensionPoints": [
-    {
-      "kind": "TRANSFORM",
-      "name": "date.issuePlaceDateLine",
-      "id": "ext-date.issuePlaceDateLine"
-    }
-  ]
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }

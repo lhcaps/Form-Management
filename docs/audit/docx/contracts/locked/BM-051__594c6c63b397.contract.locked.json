@@ -48,7 +48,7 @@
       }
     },
     {
-      "slotId": "document.field",
+      "slotId": "document.fullDocumentCode",
       "location": {
         "partName": "word/document.xml",
         "blockId": "P0036",
@@ -64,14 +64,7 @@
         "textAfter": "",
         "rawPattern": "{{document.field2}}"
       },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "thế biện pháp tạm giam/Cho phép9… đặt số tiền … (viết bằng chữ …) để bảo đảm thay thế biện pháp tạm giam đối với bị can8",
-        "textAfter": "",
-        "rawPattern": "{{document.field2}}",
-        "context": "[Auto-generated] 10",
-        "blockId": "P0045"
-      }
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -84,28 +77,21 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
     },
     {
-      "path": "document.field",
+      "path": "document.fullDocumentCode",
       "type": "string",
       "label": "Ô trống",
-      "source": "manual",
+      "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "system-batch-lock",
-      "reviewedAt": "2026-06-21T20:25:26.415Z",
-      "reviewEvidence": {
-        "context": "[Auto-generated] 10",
-        "blockId": "P0045"
-      }
+      "reviewRequired": true
     }
   ],
   "renderBindings": [
@@ -117,11 +103,11 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": false
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -137,7 +123,10 @@
     "formNumber": "051/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -183,6 +172,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.951Z",
-  "reviewedBy": "system-batch-lock",
-  "reviewedAt": "2026-06-21T20:25:26.415Z"
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }

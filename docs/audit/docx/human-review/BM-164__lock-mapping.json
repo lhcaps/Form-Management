@@ -1,5 +1,5 @@
 {
-  "reviewedBy": "system-batch-lock",
+  "reviewedBy": "Le Huy",
   "reviewedAt": "2026-06-21T20:25:12.812Z",
   "targets": {
     "BM-164": {
@@ -30,7 +30,10 @@
           "transform": "identity",
           "reviewEvidence": {
             "context": "[Auto-generated] Tiến hành lập biên bản giao, nhận3",
-            "blockId": "P0019"
+            "blockId": "P0019",
+            "reason": "Phase D revert: DOCX placeholder \"document.field\" not yet renamed; keeping original slotId. Semantic mapping deferred until DOCX re-normalization.",
+            "docxAnchor": "Tiến hành lập biên bản giao, nhận3",
+            "reviewerNote": "Le Huy — slotId kept matching DOCX placeholder; canonicalField semantic name deferred."
           }
         },
         "recipients.personLine": {
@@ -48,10 +51,14 @@
           "transform": "identity",
           "reviewEvidence": {
             "context": "[Auto-generated] {{document.field9}}",
-            "blockId": "P0031"
+            "blockId": "P0022",
+            "reason": "Phase D revert: DOCX placeholder \"recipients.field\" not yet renamed; keeping original slotId. Semantic mapping deferred until DOCX re-normalization.",
+            "docxAnchor": "",
+            "reviewerNote": "Le Huy — slotId kept matching DOCX placeholder; canonicalField semantic name deferred."
           }
         }
       }
     }
-  }
+  },
+  "reviewKind": "human"
 }

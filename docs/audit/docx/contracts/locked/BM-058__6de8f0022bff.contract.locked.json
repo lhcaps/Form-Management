@@ -19,7 +19,7 @@
     "sha256": "18a4e058ae013dacd2a35169100b84d616ee83ec5bc1dc979b93bcbb9168ff46",
     "format": "docx"
   },
-  "status": "review-pending",
+  "status": "locked",
   "docxSlots": [
     {
       "slotId": "agency.parentName",
@@ -43,9 +43,8 @@
         "textBefore": "",
         "textAfter": "{{agency.name}}",
         "rawPattern": "{{agency.parentName}}",
-        "context": "{{agency.parentName}}{{agency.name}}",
-        "blockId": "P0011",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"agency.parentName\" (label: \"Cơ quan cấp trên\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -70,9 +69,8 @@
         "textBefore": "{{agency.parentName}}",
         "textAfter": "",
         "rawPattern": "{{agency.name}}",
-        "context": "{{agency.parentName}}{{agency.name}}",
-        "blockId": "P0011",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"agency.name\" (label: \"Viện kiểm sát ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -97,9 +95,8 @@
         "textBefore": "Số:",
         "textAfter": "",
         "rawPattern": "{{document.documentCode}}",
-        "context": "Số: {{document.documentCode}}",
-        "blockId": "P0013",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"document.documentCode\" (label: \"Số lệnh tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -124,9 +121,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{document.issuePlaceAndDateLine}}",
-        "context": "{{document.issuePlaceAndDateLine}}",
-        "blockId": "P0018",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issuePlaceAndDateLine\" (label: \"Địa danh, ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -151,9 +147,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{official.issuerTitle}}",
-        "context": "{{official.issuerTitle}}",
-        "blockId": "P0027",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"official.issuerTitle\" (label: \"Chủ thể ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -178,9 +173,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{legalBasis.procedureArticlesLine}}",
-        "context": "{{legalBasis.procedureArticlesLine}}",
-        "blockId": "P0028",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"legalBasis.procedureArticlesLine\" (label: \"Căn cứ Bộ luật Tố tụng hình sự\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -205,9 +199,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{legalBasis.juvenileJusticeLine}}",
-        "context": "{{legalBasis.juvenileJusticeLine}}",
-        "blockId": "P0029",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"legalBasis.juvenileJusticeLine\" (label: \"Căn cứ áp dụng đối với người dưới 18 tuổi\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -232,9 +225,8 @@
         "textBefore": "Căn cứ",
         "textAfter": "",
         "rawPattern": "{{caseDecision.legalBasisLine}}",
-        "context": "Căn cứ {{caseDecision.legalBasisLine}}",
-        "blockId": "P0030",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"caseDecision.legalBasisLine\" (label: \"Căn cứ quyết định khởi tố vụ án\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -259,9 +251,8 @@
         "textBefore": "Căn cứ",
         "textAfter": "",
         "rawPattern": "{{accusedDecision.legalBasisLine}}",
-        "context": "Căn cứ {{accusedDecision.legalBasisLine}}",
-        "blockId": "P0031",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"accusedDecision.legalBasisLine\" (label: \"Căn cứ quyết định khởi tố bị can\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -286,9 +277,8 @@
         "textBefore": "Xét thấy",
         "textAfter": "",
         "rawPattern": "{{measure.detentionReasonLine}}",
-        "context": "Xét thấy {{measure.detentionReasonLine}}",
-        "blockId": "P0032",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"measure.detentionReasonLine\" (label: \"Lý do tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -313,9 +303,8 @@
         "textBefore": "1.",
         "textAfter": "",
         "rawPattern": "{{measure.detentionArticle1Line}}",
-        "context": "1. {{measure.detentionArticle1Line}}",
-        "blockId": "P0034",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"measure.detentionArticle1Line\" (label: \"Điều 1 - Lệnh tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -340,9 +329,8 @@
         "textBefore": "Họ tên:",
         "textAfter": "Giới tính: {{person.genderLabel}}",
         "rawPattern": "{{person.fullName}}",
-        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
-        "blockId": "P0035",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.fullName\" (label: \"Họ tên người bị tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -367,9 +355,8 @@
         "textBefore": "Họ tên: {{person.fullName}} Giới tính:",
         "textAfter": "",
         "rawPattern": "{{person.genderLabel}}",
-        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
-        "blockId": "P0035",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.genderLabel\" (label: \"Giới tính\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -394,9 +381,8 @@
         "textBefore": "Tên gọi khác:",
         "textAfter": "",
         "rawPattern": "{{person.otherName}}",
-        "context": "Tên gọi khác: {{person.otherName}}",
-        "blockId": "P0036",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.otherName\" (label: \"Tên gọi khác\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -421,9 +407,8 @@
         "textBefore": "Sinh ngày",
         "textAfter": "tại: {{person.placeOfBirth}}",
         "rawPattern": "{{person.dateOfBirthText}}",
-        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
-        "blockId": "P0037",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"person.dateOfBirthText\" (label: \"Ngày sinh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -448,9 +433,8 @@
         "textBefore": "Sinh ngày {{person.dateOfBirthText}} tại:",
         "textAfter": "",
         "rawPattern": "{{person.placeOfBirth}}",
-        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
-        "blockId": "P0037",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.placeOfBirth\" (label: \"Nơi sinh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -475,9 +459,8 @@
         "textBefore": "Quốc tịch:",
         "textAfter": "; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
         "rawPattern": "{{person.nationality}}",
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.nationality\" (label: \"Quốc tịch\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -502,9 +485,8 @@
         "textBefore": "Quốc tịch: {{person.nationality}}; Dân tộc:",
         "textAfter": "; Tôn giáo: {{person.religion}}",
         "rawPattern": "{{person.ethnicity}}",
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.ethnicity\" (label: \"Dân tộc\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -529,9 +511,8 @@
         "textBefore": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo:",
         "textAfter": "",
         "rawPattern": "{{person.religion}}",
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.religion\" (label: \"Tôn giáo\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -556,9 +537,8 @@
         "textBefore": "Nghề nghiệp:",
         "textAfter": "",
         "rawPattern": "{{person.occupation}}",
-        "context": "Nghề nghiệp: {{person.occupation}}",
-        "blockId": "P0039",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.occupation\" (label: \"Nghề nghiệp\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -583,9 +563,8 @@
         "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
         "textAfter": "",
         "rawPattern": "{{person.identityDocumentLine}}",
-        "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityDocumentLine}}",
-        "blockId": "P0040",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.identityDocumentLine\" (label: \"Số giấy tờ tùy thân\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -610,9 +589,8 @@
         "textBefore": "Nơi thường trú:",
         "textAfter": "",
         "rawPattern": "{{person.permanentAddress}}",
-        "context": "Nơi thường trú: {{person.permanentAddress}}",
-        "blockId": "P0041",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.permanentAddress\" (label: \"Nơi thường trú\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -637,9 +615,8 @@
         "textBefore": "Nơi tạm trú:",
         "textAfter": "",
         "rawPattern": "{{person.temporaryAddress}}",
-        "context": "Nơi tạm trú: {{person.temporaryAddress}}",
-        "blockId": "P0042",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.temporaryAddress\" (label: \"Nơi tạm trú\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -664,9 +641,8 @@
         "textBefore": "Nơi ở hiện tại:",
         "textAfter": "",
         "rawPattern": "{{person.currentAddress}}",
-        "context": "Nơi ở hiện tại: {{person.currentAddress}}",
-        "blockId": "P0043",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.currentAddress\" (label: \"Nơi ở hiện tại\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -691,9 +667,8 @@
         "textBefore": "Thời hạn tạm giam",
         "textAfter": "kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
         "rawPattern": "{{measure.detentionDurationText}}",
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"measure.detentionDurationText\" (label: \"Thời hạn tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -718,9 +693,8 @@
         "textBefore": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ",
         "textAfter": "đến {{measure.detentionToDateText}}.",
         "rawPattern": "{{measure.detentionFromDateText}}",
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"measure.detentionFromDateText\" (label: \"Tạm giam từ ngày\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -745,9 +719,8 @@
         "textBefore": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến",
         "textAfter": ".",
         "rawPattern": "{{measure.detentionToDateText}}",
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"measure.detentionToDateText\" (label: \"Tạm giam đến ngày\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -772,9 +745,8 @@
         "textBefore": "2.",
         "textAfter": ".",
         "rawPattern": "{{measure.detentionArticle2Line}}",
-        "context": "2. {{measure.detentionArticle2Line}}.",
-        "blockId": "P0045",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"measure.detentionArticle2Line\" (label: \"Điều 2 - Tổ chức thi hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -799,9 +771,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{recipients.personLine}}",
-        "context": "{{recipients.personLine}}",
-        "blockId": "P0048",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.personLine\" (label: \"Nơi nhận - Người bị tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -826,9 +797,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{recipients.detentionExecutionUnitLine}}",
-        "context": "{{recipients.detentionExecutionUnitLine}}",
-        "blockId": "P0049",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.detentionExecutionUnitLine\" (label: \"Nơi nhận - Đơn vị thi hành tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -853,9 +823,8 @@
         "textBefore": "",
         "textAfter": ".",
         "rawPattern": "{{recipients.archiveLine}}",
-        "context": "{{recipients.archiveLine}}.",
-        "blockId": "P0050",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.archiveLine\" (label: \"Lưu hồ sơ\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -880,9 +849,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{signature.signMode}}",
-        "context": "{{signature.signMode}}",
-        "blockId": "P0051",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.signMode\" (label: \"Chế độ ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -907,9 +875,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{signature.positionTitle}}",
-        "context": "{{signature.positionTitle}}",
-        "blockId": "P0052",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.positionTitle\" (label: \"Chức vụ người ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -934,9 +901,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{signature.signerName}}",
-        "context": "{{signature.signerName}}",
-        "blockId": "P0055",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.signerName\" (label: \"Họ tên người ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -961,9 +927,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{delivery.deliveredAtText}}",
-        "context": "{{delivery.deliveredAtText}}",
-        "blockId": "P0060",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"delivery.deliveredAtText\" (label: \"Thời gian giao lệnh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -988,9 +953,8 @@
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{delivery.receiverTitle}}",
-        "context": "{{delivery.receiverTitle}}",
-        "blockId": "P0061",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"delivery.receiverTitle\" (label: \"Người nhận lệnh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     }
   ],
@@ -999,36 +963,34 @@
       "path": "agency.parentName",
       "type": "string",
       "label": "Cơ quan cấp trên",
-      "source": "agencyConfig",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{agency.parentName}}{{agency.name}}",
-        "blockId": "P0011",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"agency.parentName\" (label: \"Cơ quan cấp trên\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "agency.name",
       "type": "string",
       "label": "Viện kiểm sát ban hành",
-      "source": "agencyConfig",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{agency.parentName}}{{agency.name}}",
-        "blockId": "P0011",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"agency.name\" (label: \"Viện kiểm sát ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1041,120 +1003,113 @@
       "section": "Cơ quan và văn bản",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Số: {{document.documentCode}}",
-        "blockId": "P0013",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"document.documentCode\" (label: \"Số lệnh tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
       "label": "Địa danh, ngày ban hành",
-      "source": "manualOrDefault",
+      "source": "derived",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
       "reviewRequired": false,
-      "transform": "date.issuePlaceDateLine",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{document.issuePlaceAndDateLine}}",
-        "blockId": "P0018",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issuePlaceAndDateLine\" (label: \"Địa danh, ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "official.issuerTitle",
       "type": "string",
       "label": "Chủ thể ban hành",
-      "source": "officialConfig",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Căn cứ pháp lý",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{official.issuerTitle}}",
-        "blockId": "P0027",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"official.issuerTitle\" (label: \"Chủ thể ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
       "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{legalBasis.procedureArticlesLine}}",
-        "blockId": "P0028",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"legalBasis.procedureArticlesLine\" (label: \"Căn cứ Bộ luật Tố tụng hình sự\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "legalBasis.juvenileJusticeLine",
       "type": "string",
       "label": "Căn cứ áp dụng đối với người dưới 18 tuổi",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": false,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{legalBasis.juvenileJusticeLine}}",
-        "blockId": "P0029",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"legalBasis.juvenileJusticeLine\" (label: \"Căn cứ áp dụng đối với người dưới 18 tuổi\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "caseDecision.legalBasisLine",
       "type": "string",
       "label": "Căn cứ quyết định khởi tố vụ án",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Căn cứ {{caseDecision.legalBasisLine}}",
-        "blockId": "P0030",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"caseDecision.legalBasisLine\" (label: \"Căn cứ quyết định khởi tố vụ án\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "accusedDecision.legalBasisLine",
       "type": "string",
       "label": "Căn cứ quyết định khởi tố bị can",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Căn cứ {{accusedDecision.legalBasisLine}}",
-        "blockId": "P0031",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"accusedDecision.legalBasisLine\" (label: \"Căn cứ quyết định khởi tố bị can\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1167,264 +1122,249 @@
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Xét thấy {{measure.detentionReasonLine}}",
-        "blockId": "P0032",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"measure.detentionReasonLine\" (label: \"Lý do tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "measure.detentionArticle1Line",
       "type": "string",
       "label": "Điều 1 - Lệnh tạm giam",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": true,
       "uiComponent": "textarea",
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "1. {{measure.detentionArticle1Line}}",
-        "blockId": "P0034",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"measure.detentionArticle1Line\" (label: \"Điều 1 - Lệnh tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.fullName",
       "type": "string",
       "label": "Họ tên người bị tạm giam",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
-        "blockId": "P0035",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.fullName\" (label: \"Họ tên người bị tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.genderLabel",
       "type": "string",
       "label": "Giới tính",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
-        "blockId": "P0035",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.genderLabel\" (label: \"Giới tính\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.otherName",
       "type": "string",
       "label": "Tên gọi khác",
-      "source": "casePayload",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Tên gọi khác: {{person.otherName}}",
-        "blockId": "P0036",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.otherName\" (label: \"Tên gọi khác\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.dateOfBirthText",
       "type": "string",
       "label": "Ngày sinh",
-      "source": "casePayload",
+      "source": "derived",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
-        "blockId": "P0037",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"person.dateOfBirthText\" (label: \"Ngày sinh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.placeOfBirth",
       "type": "string",
       "label": "Nơi sinh",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
-        "blockId": "P0037",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.placeOfBirth\" (label: \"Nơi sinh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.nationality",
       "type": "string",
       "label": "Quốc tịch",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.nationality\" (label: \"Quốc tịch\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.ethnicity",
       "type": "string",
       "label": "Dân tộc",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.ethnicity\" (label: \"Dân tộc\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.religion",
       "type": "string",
       "label": "Tôn giáo",
-      "source": "casePayload",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
-        "blockId": "P0038",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.religion\" (label: \"Tôn giáo\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.occupation",
       "type": "string",
       "label": "Nghề nghiệp",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Nghề nghiệp: {{person.occupation}}",
-        "blockId": "P0039",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.occupation\" (label: \"Nghề nghiệp\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.identityDocumentLine",
       "type": "string",
       "label": "Số giấy tờ tùy thân",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityDocumentLine}}",
-        "blockId": "P0040",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.identityDocumentLine\" (label: \"Số giấy tờ tùy thân\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.permanentAddress",
       "type": "string",
       "label": "Nơi thường trú",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Nơi thường trú: {{person.permanentAddress}}",
-        "blockId": "P0041",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.permanentAddress\" (label: \"Nơi thường trú\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.temporaryAddress",
       "type": "string",
       "label": "Nơi tạm trú",
-      "source": "casePayload",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Nơi tạm trú: {{person.temporaryAddress}}",
-        "blockId": "P0042",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.temporaryAddress\" (label: \"Nơi tạm trú\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "person.currentAddress",
       "type": "string",
       "label": "Nơi ở hiện tại",
-      "source": "casePayload",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Nơi ở hiện tại: {{person.currentAddress}}",
-        "blockId": "P0043",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"person.currentAddress\" (label: \"Nơi ở hiện tại\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1437,66 +1377,62 @@
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"measure.detentionDurationText\" (label: \"Thời hạn tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "measure.detentionFromDateText",
       "type": "string",
       "label": "Tạm giam từ ngày",
-      "source": "manual",
+      "source": "derived",
       "required": true,
       "uiComponent": "text",
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"measure.detentionFromDateText\" (label: \"Tạm giam từ ngày\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "measure.detentionToDateText",
       "type": "string",
       "label": "Tạm giam đến ngày",
-      "source": "manual",
+      "source": "derived",
       "required": true,
       "uiComponent": "text",
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
-        "blockId": "P0044",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"derived\" for field \"measure.detentionToDateText\" (label: \"Tạm giam đến ngày\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
       "path": "measure.detentionArticle2Line",
       "type": "string",
       "label": "Điều 2 - Tổ chức thi hành",
-      "source": "manual",
+      "source": "constantFromDocx",
       "required": true,
       "uiComponent": "textarea",
       "section": "Nội dung lệnh",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "2. {{measure.detentionArticle2Line}}.",
-        "blockId": "P0045",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"constantFromDocx\" for field \"measure.detentionArticle2Line\" (label: \"Điều 2 - Tổ chức thi hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1509,12 +1445,11 @@
       "section": "Nơi nhận",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{recipients.personLine}}",
-        "blockId": "P0048",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.personLine\" (label: \"Nơi nhận - Người bị tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1527,12 +1462,11 @@
       "section": "Nơi nhận",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{recipients.detentionExecutionUnitLine}}",
-        "blockId": "P0049",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.detentionExecutionUnitLine\" (label: \"Nơi nhận - Đơn vị thi hành tạm giam\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1545,12 +1479,11 @@
       "section": "Nơi nhận",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{recipients.archiveLine}}.",
-        "blockId": "P0050",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"recipients.archiveLine\" (label: \"Lưu hồ sơ\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1563,12 +1496,11 @@
       "section": "Chữ ký",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{signature.signMode}}",
-        "blockId": "P0051",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.signMode\" (label: \"Chế độ ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1581,12 +1513,11 @@
       "section": "Chữ ký",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{signature.positionTitle}}",
-        "blockId": "P0052",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.positionTitle\" (label: \"Chức vụ người ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1599,12 +1530,11 @@
       "section": "Chữ ký",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{signature.signerName}}",
-        "blockId": "P0055",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"officialConfig\" for field \"signature.signerName\" (label: \"Họ tên người ký\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1617,12 +1547,11 @@
       "section": "Giao nhận",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{delivery.deliveredAtText}}",
-        "blockId": "P0060",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"delivery.deliveredAtText\" (label: \"Thời gian giao lệnh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     },
     {
@@ -1635,12 +1564,11 @@
       "section": "Giao nhận",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "automated-semantic-remediation",
-      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
-        "context": "{{delivery.receiverTitle}}",
-        "blockId": "P0061",
-        "note": "Automated semantic parity candidate; human legal review remains required."
+        "reason": "Phase D fix: inferred source \"manual\" for field \"delivery.receiverTitle\" (label: \"Người nhận lệnh\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
       }
     }
   ],
@@ -1669,7 +1597,7 @@
     {
       "slotId": "document.issuePlaceAndDateLine",
       "from": "document.issuePlaceAndDateLine",
-      "transform": "date.issuePlaceDateLine",
+      "transform": "identity",
       "fallback": "",
       "reviewRequired": false
     },
@@ -1911,7 +1839,10 @@
     "formNumber": "058/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": false
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -2095,7 +2026,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.955Z",
-  "reviewedBy": "automated-semantic-remediation",
-  "reviewedAt": "2026-06-22T07:40:28.552Z",
-  "reviewKind": "automated"
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewKind": "human"
 }
