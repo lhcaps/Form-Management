@@ -20,6 +20,12 @@ const VOLATILE_FIELDS = new Set([
   "reportGeneratedAt",
   "lockedAt",
   "publishedAt",
+  // Audit metadata — extraction context, not semantic content.
+  // Excluding these from the hash ensures that fixing stale rawPattern values
+  // (e.g., correcting {{document.field1}} -> {{agency.name}} in evidence) does
+  // not change the contract hash, preserving publish idempotency.
+  "evidence",
+  "reviewEvidence",
 ]);
 
 // Top-level fields that carry semantic meaning for hashing.
