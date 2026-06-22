@@ -128,8 +128,10 @@ function buildPublishPlan(contracts) {
     }
 
     const contractHash = sha256HexString(JSON.stringify(contract.draftJson));
+    const dbTemplateCode = contract.sourceId.replace(/__.*$/, "");
     toPublish.push({
       templateCode: contract.templateCode,
+      dbTemplateCode,
       templateTitle: contract.templateTitle,
       sourceId: contract.sourceId,
       contractHash,
@@ -178,7 +180,7 @@ function generateSql(toPublish, opts) {
       `--   reviewed_by: ${p.reviewedBy} @ ${p.reviewedAt}`,
     );
     lines.push(
-      `--   Check: SELECT id FROM form_contract_versions WHERE template_id IN (SELECT id FROM templates WHERE source_id = '${p.sourceId}') AND scope_key = '${p.templateCode}' AND contract_hash = '${p.contractHash}' AND status = 'PUBLISHED';`,
+      `--   Check: SELECT id FROM form_contract_versions WHERE template_id IN (SELECT id FROM templates WHERE template_code = '${p.dbTemplateCode}') AND scope_key = '${p.templateCode}' AND contract_hash = '${p.contractHash}' AND status = 'PUBLISHED';`,
     );
     lines.push(
       `--   If found: this version already published, skipping.`,
@@ -260,18 +262,18 @@ function writePublishReport(toPublish, skipped, opts) {
 }
 
 async function preflightTemplates(toPublish, prisma) {
-  const sourceIds = toPublish.map((p) => p.sourceId);
+  const dbCodes = toPublish.map((p) => p.dbTemplateCode);
   const found = await prisma.templates.findMany({
-    where: { sourceId: { in: sourceIds } },
-    select: { sourceId: true, id: true },
+    where: { template_code: { in: dbCodes } },
+    select: { template_code: true, id: true },
   });
-  const foundSet = new Set(found.map((t) => t.sourceId));
+  const foundSet = new Set(found.map((t) => t.template_code));
 
-  const missing = toPublish.filter((p) => !foundSet.has(p.sourceId));
+  const missing = toPublish.filter((p) => !foundSet.has(p.dbTemplateCode));
   if (missing.length > 0) {
     throw new Error(
       `Preflight failed: ${missing.length} template(s) not found in DB:\n` +
-      missing.map((p) => `  - ${p.templateCode} (sourceId="${p.sourceId}")`).join("\n") +
+      missing.map((p) => `  - ${p.templateCode} (template_code="${p.dbTemplateCode}")`).join("\n") +
       "\nEnsure all 213 templates exist before running publish.",
     );
   }
@@ -331,13 +333,13 @@ async function publishToDb(toPublish, opts) {
 
   await prisma.$transaction(async (tx) => {
     for (const p of toPublish) {
-      // Find template by sourceId (preflight guarantees this exists)
+      // Find template by template_code (derived from sourceId: "BM-001__hash" -> "BM-001")
       const template = await tx.templates.findFirst({
-        where: { sourceId: p.sourceId },
+        where: { template_code: p.dbTemplateCode },
       });
       if (!template) {
         throw new Error(
-          `Template not found for sourceId="${p.sourceId}" (${p.templateCode}). ` +
+          `Template not found for template_code="${p.dbTemplateCode}" (${p.templateCode}). ` +
           `Preflight should have caught this. Rolling back transaction.`,
         );
       }
@@ -345,14 +347,14 @@ async function publishToDb(toPublish, opts) {
       // Check idempotency: skip if latest published version already has this contractHash
       const latestPublished = await tx.form_contract_versions.findFirst({
         where: {
-          templateId: template.id,
-          scopeKey: p.templateCode,
+          template_id: template.id,
+          scope_key: "GLOBAL",
           status: "PUBLISHED",
         },
-        orderBy: { versionNo: "desc" },
+        orderBy: { version_no: "desc" },
       });
 
-      if (latestPublished?.contractHash === p.contractHash) {
+      if (latestPublished?.contract_hash === p.contractHash) {
         console.log(`  [SKIP] ${p.templateCode} — already published with same contractHash`);
         skipped++;
         continue;
@@ -361,34 +363,34 @@ async function publishToDb(toPublish, opts) {
       // Determine next version number
       const latestAny = await tx.form_contract_versions.findFirst({
         where: {
-          templateId: template.id,
-          scopeKey: p.templateCode,
+          template_id: template.id,
+          scope_key: "GLOBAL",
         },
-        orderBy: { versionNo: "desc" },
+        orderBy: { version_no: "desc" },
       });
-      const nextVersion = (latestAny?.versionNo ?? 0) + 1;
+      const nextVersion = (latestAny?.version_no ?? 0) + 1;
 
-      // Create the published version
+      // Create the published version (all snake_case, BigInt strings)
       await tx.form_contract_versions.create({
         data: {
-          templateId: template.id,
-          agencyId: agencyId ? BigInt(agencyId) : null,
-          scopeKey: p.templateCode,
-          versionNo: nextVersion,
+          template_id: String(template.id),
+          agency_id: agencyId ? String(agencyId) : null,
+          scope_key: "GLOBAL",
+          version_no: nextVersion,
           status: "PUBLISHED",
           revision: 0,
-          baseContractHash: null,
-          contractHash: p.contractHash,
-          templateHash: p.templateHash,
-          normalizedDocxPath: p.normalizedDocxPath,
-          draftJson: p.draftJson,
-          compiledJson: p.draftJson,
-          createdByOfficialId: BigInt(officialId),
-          approvedByOfficialId: BigInt(officialId),
-          publishedByOfficialId: BigInt(officialId),
-          submittedAt: new Date(p.lockedAt),
-          approvedAt: new Date(p.lockedAt),
-          publishedAt: new Date(now),
+          base_contract_hash: null,
+          contract_hash: p.contractHash,
+          template_hash: p.templateHash,
+          normalized_docx_path: p.normalizedDocxPath,
+          draft_json: p.draftJson,
+          compiled_json: p.draftJson,
+          created_by_official_id: String(officialId),
+          approved_by_official_id: String(officialId),
+          published_by_official_id: String(officialId),
+          submitted_at: new Date(p.lockedAt),
+          approved_at: new Date(p.lockedAt),
+          published_at: new Date(now),
         },
       });
 
@@ -396,11 +398,11 @@ async function publishToDb(toPublish, opts) {
       await tx.audit_logs.create({
         data: {
           action: "PUBLISH_LOCKED",
-          entityType: "form_contract_versions",
-          actorName: p.reviewedBy,
-          oldValueJson: latestPublished?.draftJson ?? null,
-          newValueJson: p.draftJson,
-          createdAt: new Date(),
+          entity_type: "form_contract_versions",
+          actor_name: p.reviewedBy,
+          old_value_json: latestPublished?.draft_json ?? null,
+          new_value_json: p.draftJson,
+          created_at: new Date(),
         },
       });
 
