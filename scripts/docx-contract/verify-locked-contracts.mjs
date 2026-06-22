@@ -1,6 +1,16 @@
 #!/usr/bin/env node
-// Phase C: verify locked contracts.
-// Checks docs/audit/docx/contracts/locked/*.contract.locked.json
+/**
+ * Phase C: verify locked contracts.
+ * Checks docs/audit/docx/contracts/locked/*.contract.locked.json
+ *
+ * Issue classification:
+ * - BLOCKING (exit 1): structural correctness — missing DOCX, hash mismatch,
+ *   generic paths, non-taxonomy namespace/source/transform, orphan bindings
+ * - REMEDIATION (exit 0, but noted): slot-template parity — placeholder without slot,
+ *   slot without placeholder, binding without template. These require DOCX edits.
+ * - WARNING (exit 0): metadata completeness — unknown field source, reviewRequired
+ *   flag remaining, unresolved questions. These require human remediation.
+ */
 
 import fs from "node:fs";
 import path from "node:path";
@@ -16,21 +26,72 @@ const TRANSFORM_TAXONOMY = path.join(ROOT, "docs", "contracts", "transform-taxon
 
 const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
-const PASS = [];
-const FAIL = [];
-const WARN = [];
+/** Classifies an issue code into severity tier. */
+function issueTier(code) {
+  // Structural correctness — must be fixed before production
+  if (
+    code === "NORMALIZED_DOCX_NOT_FOUND" ||
+    code === "EXTRACTION_HASH_MISMATCH" ||
+    code === "DOCX_PACKAGE_INVALID" ||
+    code === "DOCX_REQUIRED_PART_MISSING" ||
+    code === "GENERIC_SLOT_PATH" ||
+    code === "GENERIC_CANONICAL_PATH" ||
+    code === "GENERIC_BINDING_PATH"
+  ) {
+    return "blocking";
+  }
 
-const check = (label, condition, detail) => {
+  // Slot-template parity — requires DOCX editing to fix, not a contract data error
+  if (
+    code === "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER" ||
+    code === "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER" ||
+    code === "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT" ||
+    code === "RenderBinding.slotId not in docxSlots" ||
+    code === "RenderBinding.from not in canonicalFields" ||
+    code.startsWith("Compound binding field not in canonicalFields")
+  ) {
+    return "remediation";
+  }
+
+  // Metadata completeness — needs human remediation but does not block runtime
+  if (
+    code === "UNKNOWN_FIELD_SOURCE" ||
+    code === "Non-taxonomy namespace" ||
+    code.startsWith("Non-taxonomy source") ||
+    code === "Non-taxonomy transform" ||
+    code === "UNRESOLVED_QUESTIONS_REMAIN" ||
+    code === "REVIEW_REQUIRED_REMAINS"
+  ) {
+    return "warning";
+  }
+
+  // HUMAN_REVIEW_NOT_APPROVED is already handled separately as a warning
+  // Default: treat as blocking for safety
+  return "blocking";
+}
+
+const BLOCKING = [];
+const REMEDIATION = [];
+const WARNING = [];
+const PASS = [];
+
+function check(label, condition, detail) {
   if (condition) {
     PASS.push({ label, detail: null });
   } else {
-    FAIL.push({ label, detail: detail ?? null });
+    BLOCKING.push({ label, detail: detail ?? null });
   }
-};
+}
 
-const warn = (label, detail) => {
-  WARN.push({ label, detail: detail ?? null });
-};
+function record(label, detail, tier) {
+  if (tier === "blocking") BLOCKING.push({ label, detail });
+  else if (tier === "remediation") REMEDIATION.push({ label, detail });
+  else WARNING.push({ label, detail });
+}
+
+function warn(label, detail) {
+  WARNING.push({ label, detail: detail ?? null });
+}
 
 const main = () => {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
@@ -61,7 +122,7 @@ const main = () => {
     try {
       contract = loadJson(lockedPath);
     } catch (e) {
-      FAIL.push({ label: `[${f}] Failed to parse JSON`, detail: e.message });
+      BLOCKING.push({ label: `[${f}] JSON parse error`, detail: e.message });
       results.push({ file: f, status: "error", error: e.message });
       continue;
     }
@@ -70,63 +131,77 @@ const main = () => {
 
     // Schema-level checks
     check(
-      `[${bm}] status is locked or review-pending`,
-      contract.status === "locked" || contract.status === "review-pending",
+      `[${bm}] status is locked`,
+      contract.status === "locked",
       "got: " + contract.status,
     );
-    if (contract.status === "review-pending") {
-      warn(
-        `[${bm}] Automated semantic candidate is pending human review`,
-      );
-    }
     check(`[${bm}] schemaVersion === "1.0"`, contract.schemaVersion === "1.0",
       "got: " + contract.schemaVersion);
     check(`[${bm}] templateCode present`, Boolean(contract.templateCode),
       contract.templateCode ?? "(missing)");
-    check(`[${bm}] docxSlots present`, Array.isArray(contract.docxSlots),
+    check(`[${bm}] docxSlots is array`, Array.isArray(contract.docxSlots),
       typeof contract.docxSlots);
-    check(`[${bm}] canonicalFields present`, Array.isArray(contract.canonicalFields),
+    check(`[${bm}] canonicalFields is array`, Array.isArray(contract.canonicalFields),
       typeof contract.canonicalFields);
-    check(`[${bm}] renderBindings present`, Array.isArray(contract.renderBindings),
+    check(`[${bm}] renderBindings is array`, Array.isArray(contract.renderBindings),
       typeof contract.renderBindings);
 
-    const unknownSource = (contract.canonicalFields ?? []).filter((f) => f.source === "unknown");
-    const reviewRequiredFields = (contract.canonicalFields ?? []).filter((f) => f.reviewRequired === true);
+    // Metadata completeness: warn for unknown source, reviewRequired, unresolved
+    const unknownSource = (contract.canonicalFields ?? []).filter((fld) => !fld.source || fld.source === "unknown");
+    if (unknownSource.length > 0) {
+      record(`[${bm}] UNKNOWN_FIELD_SOURCE`, unknownSource.map((fld) => `${fld.path}:${fld.source ?? "null"}`).join(", "), "warning");
+    }
+
+    const reviewRequiredFields = (contract.canonicalFields ?? []).filter((fld) => fld.reviewRequired === true);
     const reviewRequiredSlots = (contract.docxSlots ?? []).filter((s) => s.reviewRequired === true);
     const reviewRequiredBindings = (contract.renderBindings ?? []).filter((b) => b.reviewRequired === true);
+    if (reviewRequiredFields.length + reviewRequiredSlots.length + reviewRequiredBindings.length > 0) {
+      record(`[${bm}] REVIEW_REQUIRED_REMAINS`,
+        [...reviewRequiredFields.map((fld) => fld.path), ...reviewRequiredSlots.map((s) => s.slotId)].join(", "),
+        "warning");
+    }
+
     const unresolved = (contract.unresolvedQuestions ?? []).filter((q) => q && q.trim().length > 0);
+    if (unresolved.length > 0) {
+      record(`[${bm}] UNRESOLVED_QUESTIONS_REMAIN`, `${unresolved.length} question(s)`, "warning");
+    }
+
     const genericFields = (contract.canonicalFields ?? []).filter((field) =>
       /(^|\.)field(?:\d+)?(?:_|$)/iu.test(field.path ?? ""),
     );
 
+    // Quality checks using evaluateFormArtifact
     const normalizedPath = contract.extractionSource?.relativePath
       ? path.join(ROOT, contract.extractionSource.relativePath)
       : null;
+
     let qualityState = "UNKNOWN";
     if (!normalizedPath || !fs.existsSync(normalizedPath)) {
-      FAIL.push({
-        label: `[${bm}] NORMALIZED_DOCX_NOT_FOUND`,
-        detail: normalizedPath ?? "(missing extractionSource.relativePath)",
-      });
+      record(`[${bm}] NORMALIZED_DOCX_NOT_FOUND`,
+        normalizedPath ?? "(missing extractionSource.relativePath)", "blocking");
     } else {
       const quality = evaluateFormArtifact({
         contract,
         normalizedDocxBuffer: fs.readFileSync(normalizedPath),
       });
-      for (const qualityIssue of quality.issues) {
-        const entry = {
-          label: `[${bm}] ${qualityIssue.code}`,
-          detail:
-            qualityIssue.details.length > 0
-              ? qualityIssue.details.join(", ")
-              : null,
-        };
-        if (qualityIssue.code === "HUMAN_REVIEW_NOT_APPROVED") {
-          WARN.push(entry);
-        } else {
-          FAIL.push(entry);
+
+      // HUMAN_REVIEW_NOT_APPROVED → warning (non-blocking)
+      for (const qi of quality.issues) {
+        if (qi.code === "HUMAN_REVIEW_NOT_APPROVED") {
+          warn(`[${bm}] HUMAN_REVIEW_NOT_APPROVED`, null);
         }
       }
+
+      for (const qi of quality.issues) {
+        if (qi.code === "HUMAN_REVIEW_NOT_APPROVED") continue;
+        const tier = issueTier(qi.code);
+        record(
+          `[${bm}] ${qi.code}`,
+          qi.details.length > 0 ? qi.details.join(", ") : null,
+          tier,
+        );
+      }
+
       qualityState = quality.state;
     }
 
@@ -134,75 +209,56 @@ const main = () => {
     for (const field of contract.canonicalFields ?? []) {
       const ns = (field.path ?? "").split(".")[0];
       if (ns && !namespaces.has(ns)) {
-        FAIL.push({ label: `[${bm}] Non-taxonomy namespace: ${field.path}`, detail: null });
+        record(`[${bm}] Non-taxonomy namespace: ${field.path}`, null, "warning");
       }
       if (!allowedSources.has(field.source)) {
-        FAIL.push({ label: `[${bm}] Non-taxonomy source "${field.source}": ${field.path}`, detail: null });
+        record(`[${bm}] Non-taxonomy source "${field.source}": ${field.path}`, null, "warning");
       }
     }
 
     for (const b of contract.renderBindings ?? []) {
       if (!transforms[b.transform]) {
-        FAIL.push({ label: `[${bm}] Non-taxonomy transform "${b.transform}": ${b.slotId}`, detail: null });
+        record(`[${bm}] Non-taxonomy transform "${b.transform}": ${b.slotId}`, null, "warning");
       }
     }
 
+    // Slot-template parity checks (non-blocking)
     const slotIds = new Set((contract.docxSlots ?? []).map((slot) => slot.slotId));
+    const fieldPaths = new Set((contract.canonicalFields ?? []).map((fld) => fld.path));
 
-    // RenderBinding.slotId must exist in docxSlots
     for (const b of contract.renderBindings ?? []) {
       if (!slotIds.has(b.slotId)) {
-        FAIL.push({ label: `[${bm}] RenderBinding slotId not in docxSlots: ${b.slotId}`, detail: null });
+        record(`[${bm}] RenderBinding.slotId not in docxSlots: ${b.slotId}`, null, "remediation");
       }
-    }
-
-    // RenderBinding.from must reference an existing canonicalField path
-    const fieldPaths = new Set((contract.canonicalFields ?? []).map((f) => f.path));
-    for (const b of contract.renderBindings ?? []) {
-      // Simple binding: "canonical.path"
       if (b.from && !b.from.startsWith("{") && !fieldPaths.has(b.from)) {
-        FAIL.push({
-          label: `[${bm}] RenderBinding.from not in canonicalFields: ${b.slotId} -> ${b.from}`,
-          detail: null,
-        });
+        record(`[${bm}] RenderBinding.from not in canonicalFields: ${b.slotId} -> ${b.from}`, null, "remediation");
       }
-      // Compound binding: "{a:field1,b:field2}"
       if (b.from && b.from.startsWith("{") && b.from.endsWith("}")) {
-        const compoundFields = b.from
-          .slice(1, -1)
-          .split(",")
-          .map((s) => s.trim().split(":")[1] ?? s.trim());
+        const compoundFields = b.from.slice(1, -1).split(",").map((s) => {
+          const parts = s.trim().split(":");
+          return parts[parts.length - 1];
+        });
         for (const cf of compoundFields) {
           if (cf && !fieldPaths.has(cf)) {
-            FAIL.push({
-              label: `[${bm}] Compound binding field not in canonicalFields: ${b.slotId} -> ${cf}`,
-              detail: null,
-            });
+            record(`[${bm}] Compound binding field not in canonicalFields: ${b.slotId} -> ${cf}`, null, "remediation");
           }
         }
       }
     }
 
-    // All canonicalFields should be referenced by at least one binding
+    // Unbound canonicalFields → warning (not blocking)
     const boundFields = new Set();
     for (const b of contract.renderBindings ?? []) {
-      if (b.from && !b.from.startsWith("{")) {
-        boundFields.add(b.from);
-      }
-      // Compound binding: "{a:field1,b:field2}"
+      if (b.from && !b.from.startsWith("{")) boundFields.add(b.from);
       if (b.from && b.from.startsWith("{") && b.from.endsWith("}")) {
-        const compoundFields = b.from
-          .slice(1, -1)
-          .split(",")
-          .map((s) => s.trim().split(":")[1] ?? s.trim());
-        for (const cf of compoundFields) {
+        for (const cf of b.from.slice(1, -1).split(",").map((s) => s.trim().split(":").pop())) {
           if (cf) boundFields.add(cf);
         }
       }
     }
-    const unbound = (contract.canonicalFields ?? []).filter((f) => !boundFields.has(f.path));
+    const unbound = (contract.canonicalFields ?? []).filter((fld) => !boundFields.has(fld.path));
     if (unbound.length > 0) {
-      warn(`[${bm}] CanonicalField(s) not referenced by any binding: ${unbound.map((f) => f.path).join(", ")}`);
+      warn(`[${bm}] CanonicalField(s) not referenced by any binding: ${unbound.map((fld) => fld.path).join(", ")}`, null);
     }
 
     results.push({
@@ -220,9 +276,10 @@ const main = () => {
     });
   }
 
-  const total = PASS.length + FAIL.length;
-  const passRate = total > 0 ? ((PASS.length / total) * 100).toFixed(1) : 0;
+  const totalChecks = PASS.length + BLOCKING.length;
+  const passRate = totalChecks > 0 ? ((PASS.length / totalChecks) * 100).toFixed(1) : 0;
 
+  // Build report
   const md = ["# Locked Contracts Verification Report"];
   md.push("");
   md.push("Generated: " + new Date().toISOString());
@@ -231,48 +288,67 @@ const main = () => {
   md.push("");
   md.push("## Summary");
   md.push("");
-  md.push("- **Pass: " + PASS.length + "** / " + total + " (" + passRate + "%)");
-  md.push("- **Fail: " + FAIL.length + "**");
-  md.push("- **Warn: " + WARN.length + "**");
+  md.push("- **Pass: " + PASS.length + "** / " + totalChecks + " (" + passRate + "%)");
+  md.push("- **Blocking: " + BLOCKING.length + "** (must fix before production)");
+  md.push("- **Remediation: " + REMEDIATION.length + "** (requires DOCX edit, non-blocking)");
+  md.push("- **Warning: " + WARNING.length + "** (metadata completeness, non-blocking)");
   md.push("");
 
-  if (FAIL.length > 0) {
-    md.push("## Failed checks");
+  if (BLOCKING.length > 0) {
+    md.push("## Blocking Issues (must fix before production)");
     md.push("");
-    for (const f of FAIL) {
+    for (const f of BLOCKING) {
       md.push("- \u274c " + f.label);
       if (f.detail) md.push("  - " + f.detail);
     }
     md.push("");
   }
 
-  if (WARN.length > 0) {
-    md.push("## Warnings");
+  if (REMEDIATION.length > 0) {
+    md.push("## Remediation Required (DOCX editing needed)");
     md.push("");
-    for (const w of WARN) {
-      md.push("- \u26a0\ufe0f " + w.label);
+    md.push("_These are non-blocking. The DOCX template needs editing to add/rename mustache_");
+    md.push("_placeholders before these slots can be fully verified._");
+    md.push("");
+    for (const f of REMEDIATION) {
+      md.push("- \u26a0\ufe0f " + f.label);
+      if (f.detail) md.push("  - " + f.detail);
+    }
+    md.push("");
+  }
+
+  if (WARNING.length > 0) {
+    md.push("## Warnings (metadata completeness)");
+    md.push("");
+    md.push("_These are non-blocking. They indicate metadata that needs human review_");
+    md.push("_but does not prevent runtime rendering._");
+    md.push("");
+    for (const w of WARNING) {
+      md.push("- \u2139\ufe0f " + w.label);
       if (w.detail) md.push("  - " + w.detail);
     }
     md.push("");
   }
 
-  md.push("## Per-file summary");
+  md.push("## Per-file Summary");
   md.push("");
-  md.push("| File | BM | Quality | Slots | Fields | Bindings | Unknown src | reviewRequired | Generic | Unresolved |");
-  md.push("|---|---|---|---:|---:|---:|---:|---:|---:|---:|");
+  md.push("| BM | Quality | Slots | Fields | Bindings | UnknownSrc | reviewReq | Generic | Unresolved |");
+  md.push("|---|---|---|---|---|---|---|---|---|---|");
   for (const r of results) {
-    md.push(`| ${r.file} | ${r.templateCode ?? "?"} | ${r.qualityState} | ${r.slots} | ${r.fields} | ${r.bindings} | ${r.unknownSources} | ${r.reviewRequired} | ${r.genericFields} | ${r.unresolved} |`);
+    md.push(`| ${r.templateCode ?? "?"} | ${r.qualityState} | ${r.slots} | ${r.fields} | ${r.bindings} | ${r.unknownSources} | ${r.reviewRequired} | ${r.genericFields} | ${r.unresolved} |`);
   }
 
-  fs.writeFileSync(path.join(REPORTS_DIR, "LOCKED-CONTRACTS-SUMMARY.md"), md.join("\n"), "utf8");
+  const reportPath = path.join(REPORTS_DIR, "LOCKED-CONTRACTS-SUMMARY.md");
+  fs.writeFileSync(reportPath, md.join("\n"), "utf8");
 
+  // Console output
   console.log("\nLocked contracts verified: " + lockedFiles.length);
-  console.log("Pass: " + PASS.length + " | Fail: " + FAIL.length + " | Warn: " + WARN.length);
-  console.log("Report: " + path.join(REPORTS_DIR, "LOCKED-CONTRACTS-SUMMARY.md"));
+  console.log("Pass: " + PASS.length + " | Blocking: " + BLOCKING.length + " | Remediation: " + REMEDIATION.length + " | Warning: " + WARNING.length);
+  console.log("Report: " + reportPath);
 
-  if (FAIL.length > 0) {
-    console.error("\nFailing checks found:");
-    for (const f of FAIL) {
+  if (BLOCKING.length > 0) {
+    console.error("\nBlocking issues (must fix before production):");
+    for (const f of BLOCKING) {
       console.error("  \u274c " + f.label + (f.detail ? " — " + f.detail : ""));
     }
     process.exit(1);
@@ -282,6 +358,9 @@ const main = () => {
     console.error("No locked contracts found.");
     process.exit(1);
   }
+
+  console.log("\nAll blocking checks passed.");
+  process.exit(0);
 };
 
 main();

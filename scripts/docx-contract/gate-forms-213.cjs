@@ -20,10 +20,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const LOCKED_DIR = path.join(__dirname, "..", "..", "docs", "audit", "docx", "contracts", "locked");
+const REPORTS_DIR = path.join(__dirname, "..", "..", "docs", "audit", "docx", "reports");
 
 // Matches: document.field, recipients.field, decision.field
-// Does NOT match: document.documentCode, recipients.personLine
-const GENERIC_RE = new RegExp(String.raw`(^|\.)\.field`, "iu");
+// Also matches: document.field2, recipients.field1, document.field_legacy
+// Does NOT match: document.documentCode, document.fieldName, pending_review/document.field
+const GENERIC_RE = new RegExp(String.raw`(^|\.)field(?:\d+)?(?:_|$)`, "iu");
 
 function isGenericContractPath(value) {
   if (typeof value !== "string" || !value.trim()) return false;
@@ -92,6 +94,41 @@ console.log(`  Generic slots:  ${genericSlots}`);
 console.log(`  Generic fields: ${genericFields}`);
 console.log(`  Generic binds:  ${genericBindings}`);
 
+// Read verify report to surface blocking/remediation/warning counts
+const reportPath = path.join(REPORTS_DIR, "LOCKED-CONTRACTS-SUMMARY.md");
+let blockingCount = null;
+let remediationCount = null;
+let warningCount = null;
+let reportFresh = false;
+if (fs.existsSync(reportPath)) {
+  const content = fs.readFileSync(reportPath, "utf8");
+  const mBlocking = content.match(/\*\*Blocking:\s+(\d+)\*\*/);
+  const mRemediation = content.match(/\*\*Remediation:\s+(\d+)\*\*/);
+  const mWarning = content.match(/\*\*Warning:\s+(\d+)\*\*/);
+  blockingCount = mBlocking ? parseInt(mBlocking[1], 10) : null;
+  remediationCount = mRemediation ? parseInt(mRemediation[1], 10) : null;
+  warningCount = mWarning ? parseInt(mWarning[1], 10) : null;
+  const genMatch = content.match(/Generated:\s+([\dT:.+-]+)/);
+  if (genMatch) {
+    const genDate = new Date(genMatch[1]);
+    const now = new Date();
+    reportFresh = (now - genDate) < 24 * 60 * 60 * 1000;
+  }
+  console.log(`  Verify report:  ${path.basename(reportPath)}`);
+  if (blockingCount !== null) {
+    console.log(`  Blocking:       ${blockingCount} (must fix before production)`);
+    console.log(`  Remediation:    ${remediationCount} (DOCX edit needed)`);
+    console.log(`  Warning:        ${warningCount} (metadata completeness)`);
+  }
+  if (!reportFresh) {
+    console.error(`  WARNING: Verify report is stale. Run: pnpm audit:docx:verify-locked`);
+    issues.push(`verify report is stale`);
+  }
+} else {
+  console.error(`  WARNING: Verify report not found. Run: pnpm audit:docx:verify-locked`);
+  issues.push(`verify report not found`);
+}
+
 if (humanReviewed < totalLocked) {
   issues.push(`human-reviewed: ${humanReviewed}/${totalLocked}`);
 }
@@ -103,6 +140,9 @@ if (genericFields > 0) {
 }
 if (genericBindings > 0) {
   issues.push(`generic bindings: ${genericBindings}`);
+}
+if (blockingCount !== null && blockingCount > 0) {
+  issues.push(`blocking verify issues: ${blockingCount}`);
 }
 
 if (issues.length > 0) {

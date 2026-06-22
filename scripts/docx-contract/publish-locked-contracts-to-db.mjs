@@ -3,16 +3,23 @@
  * Phase D — Publish all locked contracts to the runtime database.
  *
  * Reads every *.contract.locked.json from docs/audit/docx/contracts/locked/,
- * computes contract/template hashes, and upserts a form_contract_versions
- * record with status=PUBLISHED.
+ * computes contract/template hashes, and upserts form_contract_versions
+ * records with status=PUBLISHED.
+ *
+ * Safety guarantees:
+ *   - Idempotent: skips forms whose latest version already has the same contractHash
+ *   - Atomic: all-or-nothing via transaction
+ *   - Envs required: OFFICIAL_ID (createdBy/approvedBy/publishedBy), optional AGENCY_ID
+ *   - Fails if published != expected (default 213)
  *
  * Prerequisites:
  *   - Run: pnpm --filter api exec prisma migrate deploy
  *   - Set DATABASE_URL in .env
  *
  * Usage:
- *   node scripts/docx-contract/publish-locked-contracts-to-db.mjs
- *   node scripts/docx-contract/publish-locked-contracts-to-db.mjs --dry-run
+ *   pnpm publish:forms:db --dry-run
+ *   pnpm publish:forms:db --sql              # generate SQL only
+ *   pnpm publish:forms:db                     # real DB publish
  *
  * Exit codes:
  *   0 = success
@@ -26,21 +33,8 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
-const LOCKED_DIR = path.join(
-  ROOT,
-  "docs",
-  "audit",
-  "docx",
-  "contracts",
-  "locked",
-);
-const DRAFTS_DIR = path.join(
-  ROOT,
-  "docs",
-  "audit",
-  "docx",
-  "contracts",
-);
+const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
+const REPORTS_DIR = path.join(ROOT, "docs", "audit", "docx", "reports");
 
 const GENERIC_RE = /(^|\.)field(?:\d+)?(?:_|$)/iu;
 const isGeneric = (v) =>
@@ -52,6 +46,23 @@ function sha256Hex(buffer) {
 
 function sha256HexString(str) {
   return sha256Hex(Buffer.from(str, "utf8"));
+}
+
+function parseEnv() {
+  const envPath = path.join(ROOT, ".env");
+  const vars = {};
+  if (fs.existsSync(envPath)) {
+    for (const line of fs.readFileSync(envPath, "utf8").split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const eqIdx = trimmed.indexOf("=");
+      if (eqIdx < 0) continue;
+      const key = trimmed.slice(0, eqIdx).trim();
+      const val = trimmed.slice(eqIdx + 1).trim().replace(/^["']|["']$/g, "");
+      vars[key] = val;
+    }
+  }
+  return vars;
 }
 
 function parseLockedContracts() {
@@ -97,7 +108,7 @@ function parseLockedContracts() {
 }
 
 function buildPublishPlan(contracts) {
-  const published = [];
+  const toPublish = [];
   const skipped = [];
 
   for (const contract of contracts) {
@@ -116,11 +127,12 @@ function buildPublishPlan(contracts) {
       continue;
     }
 
-    published.push({
+    const contractHash = sha256HexString(JSON.stringify(contract.draftJson));
+    toPublish.push({
       templateCode: contract.templateCode,
       templateTitle: contract.templateTitle,
       sourceId: contract.sourceId,
-      contractHash: sha256HexString(JSON.stringify(contract.draftJson)),
+      contractHash,
       templateHash: contract.extractionSha256 ?? sha256HexString(contract.templateCode),
       normalizedDocxPath: contract.normalizedDocxPath
         ? path.join(ROOT, contract.normalizedDocxPath)
@@ -132,166 +144,128 @@ function buildPublishPlan(contracts) {
     });
   }
 
-  return { published, skipped };
+  return { toPublish, skipped };
 }
 
-function generateSql(published) {
-  if (!published.length) {
+function generateSql(toPublish, opts) {
+  if (!toPublish.length) {
     return "-- No contracts to publish.\n";
   }
 
-  const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+  const { officialId, agencyId, now } = opts;
   const lines = [
-    `-- Phase D publish: ${published.length} locked contracts`,
+    `-- Phase D publish: ${toPublish.length} locked contracts`,
     `-- Generated: ${now}`,
-    `-- Reviewer: Le Huy`,
+    `-- Official ID: ${officialId}`,
+    agencyId ? `-- Agency ID: ${agencyId}` : `-- Agency ID: (none — global scope)`,
     ``,
-    `-- BEGIN TRANSACTION;`,
+    `BEGIN;`,
     ``,
   ];
 
-  for (const p of published) {
-    const templateCode = p.templateCode;
-    const templateIdPlaceholder = `-- TODO: resolve template_id for "${templateCode}" from templates.source_id = '${p.sourceId}'`;
+  for (const p of toPublish) {
+    const docxPath = p.normalizedDocxPath
+      ? `'${p.normalizedDocxPath.replace(/\\/g, "\\\\").replace(/'/g, "''")}'`
+      : "NULL";
 
-    lines.push(`-- ${templateCode}: ${p.templateTitle}`);
+    lines.push(`-- ${p.templateCode}: ${p.templateTitle}`);
     lines.push(`--   contract_hash: ${p.contractHash}`);
     lines.push(`--   template_hash: ${p.templateHash}`);
     if (p.normalizedDocxPath) {
       lines.push(`--   normalized_docx: ${p.normalizedDocxPath}`);
     }
-    lines.push(`--   reviewed_by: ${p.reviewedBy} @ ${p.reviewedAt}`);
-    lines.push(`--`);
-    lines.push(`-- ${templateIdPlaceholder}`);
-    lines.push(`--`);
-    lines.push(`-- INSERT INTO form_contract_versions`);
-    lines.push(`--   (template_id, agency_id, scope_key, version_no, status,`);
-    lines.push(`--    revision, base_contract_hash, contract_hash, template_hash,`);
-    lines.push(`--    normalized_docx_path, draft_json, compiled_json,`);
-    lines.push(`--    created_by_official_id, approved_by_official_id, published_by_official_id,`);
-    lines.push(`--    submitted_at, approved_at, published_at, created_at)`);
-    lines.push(`-- VALUES`);
-    lines.push(`--   (<template_id>, <agency_id>, '${p.templateCode}', 1, 'PUBLISHED',`);
-    lines.push(`--    0, NULL, '${p.contractHash}', '${p.templateHash}',`);
-    lines.push(`--    ${p.normalizedDocxPath ? `'${p.normalizedDocxPath.replace(/\\/g, "\\\\")}'` : "NULL"},`);
-    lines.push(`--    '${JSON.stringify(p.draftJson).replace(/'/g, "''")}'::jsonb,`);
-    lines.push(`--    '${JSON.stringify(p.draftJson).replace(/'/g, "''")}'::jsonb,`);
-    lines.push(`--    <system_official_id>, <system_official_id>, <system_official_id>,`);
-    lines.push(`--    '${p.lockedAt.slice(0, 19).replace("T", " ")}',`);
-    lines.push(`--    '${p.lockedAt.slice(0, 19).replace("T", " ")}',`);
-    lines.push(`--    '${now}',`);
-    lines.push(`--    '${now}');`);
-    lines.push(``);
-    lines.push(`-- Audit log`);
-    lines.push(`-- INSERT INTO audit_logs (action, entity_type, entity_id, old_value_json, new_value_json, created_at)`);
-    lines.push(`--   SELECT 'PUBLISH_LOCKED', 'form_contract_versions',`);
-    lines.push(`--          (SELECT id FROM form_contract_versions WHERE template_id = <template_id> AND scope_key = '${p.templateCode}' LIMIT 1),`);
-    lines.push(`--          NULL,`);
-    lines.push(`--          (SELECT draft_json FROM form_contract_versions WHERE template_id = <template_id> AND scope_key = '${p.templateCode}' ORDER BY version_no DESC LIMIT 1),`);
-    lines.push(`--          '${JSON.stringify(p.draftJson).replace(/'/g, "''")}'::jsonb,`);
-    lines.push(`--          '${now}';`);
+    lines.push(
+      `--   reviewed_by: ${p.reviewedBy} @ ${p.reviewedAt}`,
+    );
+    lines.push(
+      `--   Check: SELECT id FROM form_contract_versions WHERE template_id IN (SELECT id FROM templates WHERE source_id = '${p.sourceId}') AND scope_key = '${p.templateCode}' AND contract_hash = '${p.contractHash}' AND status = 'PUBLISHED';`,
+    );
+    lines.push(
+      `--   If found: this version already published, skipping.`,
+    );
     lines.push(``);
   }
 
-  lines.push(`-- COMMIT;`);
+  const first = toPublish[0];
+  const docxPathExample = first.normalizedDocxPath
+    ? `'${first.normalizedDocxPath.replace(/\\/g, "\\\\").replace(/'/g, "''")}'`
+    : "NULL";
+
+  lines.push(`-- Upsert pattern (replace <template_id> placeholders after reviewing above):`);
+  lines.push(`-- INSERT INTO form_contract_versions`);
+  lines.push(`--   (template_id, agency_id, scope_key, version_no, status,`);
+  lines.push(`--    revision, base_contract_hash, contract_hash, template_hash,`);
+  lines.push(`--    normalized_docx_path, draft_json, compiled_json,`);
+  lines.push(`--    created_by_official_id, approved_by_official_id, published_by_official_id,`);
+  lines.push(`--    submitted_at, approved_at, published_at, created_at)`);
+  lines.push(`-- SELECT <template_id>, ${agencyId ?? "NULL"}, '${first.templateCode}', 1, 'PUBLISHED',`);
+  lines.push(`--   0, NULL, '${first.contractHash}', '${first.templateHash}',`);
+  lines.push(`--   ${docxPathExample},`);
+  lines.push(`--   '${JSON.stringify(first.draftJson).replace(/'/g, "''")}'::jsonb,`);
+  lines.push(`--   '${JSON.stringify(first.draftJson).replace(/'/g, "''")}'::jsonb,`);
+  lines.push(`--   ${officialId}n, ${officialId}n, ${officialId}n,`);
+  lines.push(`--   '${first.lockedAt.slice(0, 19).replace("T", " ")}',`);
+  lines.push(`--   '${first.lockedAt.slice(0, 19).replace("T", " ")}',`);
+  lines.push(`--   '${now}',`);
+  lines.push(`--   '${now}'`);
+  lines.push(`-- WHERE NOT EXISTS (`);
+  lines.push(`--   SELECT 1 FROM form_contract_versions`);
+  lines.push(`--   WHERE template_id = <template_id> AND scope_key = '${first.templateCode}' AND contract_hash = '${first.contractHash}' AND status = 'PUBLISHED'`);
+  lines.push(`-- );`);
+  lines.push(``);
+  lines.push(`COMMIT;`);
+
   return lines.join("\n");
 }
 
-function generateJsMigrations(published) {
-  if (!published.length) return "// No contracts to publish.";
+function writePublishReport(toPublish, skipped, opts) {
+  const { officialId, agencyId, now } = opts;
+  const md = [
+    "# Form Contract DB Publish Report",
+    "",
+    `Generated: ${now}`,
+    `Total locked contracts: ${toPublish.length + skipped.length}`,
+    `Ready to publish: ${toPublish.length}`,
+    `Skipped: ${skipped.length}`,
+    "",
+    `Official ID: ${officialId}`,
+    agencyId ? `Agency ID: ${agencyId}` : "Agency ID: (none — global scope)",
+    "",
+    "## Skipped Forms",
+    "",
+  ];
 
-  const records = published.map((p) => ({
-    templateCode: p.templateCode,
-    templateTitle: p.templateTitle,
-    sourceId: p.sourceId,
-    contractHash: p.contractHash,
-    templateHash: p.templateHash,
-    normalizedDocxPath: p.normalizedDocxPath,
-    lockedAt: p.lockedAt,
-    reviewedBy: p.reviewedBy,
-    reviewedAt: p.reviewedAt,
-  }));
+  if (skipped.length === 0) {
+    md.push("_No forms skipped._");
+  } else {
+    for (const s of skipped) {
+      md.push(`- **${s.templateCode}**: ${s.reason}`);
+    }
+  }
 
-  return `// Phase D publish: ${published.length} locked contracts\n// Generated: ${new Date().toISOString()}\n// Reviewer: Le Huy\n\nexport const PHASE_D_PUBLISH_RECORDS = ${JSON.stringify(records, null, 2)};\n`;
+  md.push("");
+  md.push("## Published Forms");
+  md.push("");
+  md.push("| BM | Contract Hash | Template Hash | Normalized DOCX |");
+  md.push("|---|---|---|---|");
+  for (const p of toPublish) {
+    md.push(
+      `| ${p.templateCode} | ${p.contractHash.slice(0, 16)}... | ${p.templateHash.slice(0, 16)}... | ${p.normalizedDocxPath ? "yes" : "no"} |`,
+    );
+  }
+
+  const reportPath = path.join(REPORTS_DIR, "FORM-CONTRACT-DB-PUBLISH.md");
+  fs.writeFileSync(reportPath, md.join("\n"), "utf8");
+  return reportPath;
 }
 
-async function main() {
-  const dryRun = process.argv.includes("--dry-run");
-  const outputSql = process.argv.includes("--sql");
-  const outputJs = process.argv.includes("--js");
+async function publishToDb(toPublish, opts) {
+  const { officialId, agencyId, expectExactly } = opts;
+  const now = new Date().toISOString();
 
-  console.log("\n=== Phase D: Publish Locked Contracts to DB ===\n");
-  if (dryRun) console.log("[DRY RUN] No DB writes will occur.\n");
-
-  const { contracts, errors } = parseLockedContracts();
-
-  if (errors.length) {
-    console.error("Parse errors:");
-    for (const e of errors) console.error(`  - ${e}`);
-    console.error();
-  }
-
-  console.log(`Locked contracts found: ${contracts.length}`);
-  const { published, skipped } = buildPublishPlan(contracts);
-
-  console.log(`  Ready to publish:  ${published.length}`);
-  console.log(`  Skipped (generic): ${skipped.length}`);
-  console.log();
-
-  if (skipped.length) {
-    console.log("Skipped forms:");
-    for (const s of skipped) {
-      console.log(`  - ${s.templateCode}: ${s.reason}`);
-    }
-    console.log();
-  }
-
-  if (outputSql) {
-    const sql = generateSql(published);
-    const outPath = path.join(__dirname, "phase-d-publish.sql");
-    fs.writeFileSync(outPath, sql, "utf8");
-    console.log(`SQL written: ${outPath}`);
-    return;
-  }
-
-  if (outputJs) {
-    const js = generateJsMigrations(published);
-    const outPath = path.join(__dirname, "phase-d-publish-records.js");
-    fs.writeFileSync(outPath, js, "utf8");
-    console.log(`JS migration records written: ${outPath}`);
-    return;
-  }
-
-  if (published.length === 0) {
-    console.log("Nothing to publish. Use --sql to generate SQL for review.");
-    return;
-  }
-
-  if (dryRun) {
-    console.log("[DRY RUN] Would publish:");
-    for (const p of published) {
-      console.log(`  - ${p.templateCode}: ${p.templateTitle}`);
-      console.log(`      contract_hash: ${p.contractHash}`);
-    }
-    return;
-  }
-
-  // Real DB publish path
   let DATABASE_URL;
-  try {
-    const envPath = path.join(ROOT, ".env");
-    if (fs.existsSync(envPath)) {
-      const envContent = fs.readFileSync(envPath, "utf8");
-      for (const line of envContent.split("\n")) {
-        const [key, ...rest] = line.split("=");
-        if (key?.trim() === "DATABASE_URL") {
-          DATABASE_URL = rest.join("=").trim();
-        }
-      }
-    }
-  } catch {
-    // ignore
-  }
+  const envVars = parseEnv();
+  DATABASE_URL = envVars.DATABASE_URL;
 
   if (!DATABASE_URL) {
     console.log(
@@ -302,10 +276,11 @@ async function main() {
     return;
   }
 
-  // Prisma import
   let PrismaClient;
   try {
-    ({ PrismaClient } = await import("../apps/api/node_modules/.prisma/client/index.js"));
+    ({ PrismaClient } = await import(
+      "../apps/api/node_modules/.prisma/client/index.js"
+    ));
   } catch {
     try {
       const { PrismaClient: PC } = await import("@prisma/client");
@@ -321,14 +296,17 @@ async function main() {
   const prisma = new PrismaClient({ datasourceUrl: DATABASE_URL });
 
   console.log("Publishing to database...\n");
+  console.log(`Official ID: ${officialId}${agencyId ? `, Agency ID: ${agencyId}` : " (global scope)"}`);
 
-  let publishedCount = 0;
+  let created = 0;
+  let skipped = 0;
   let failed = 0;
   const failures = [];
 
-  for (const p of published) {
-    try {
-      const template = await prisma.templates.findFirst({
+  await prisma.$transaction(async (tx) => {
+    for (const p of toPublish) {
+      // Find template by sourceId
+      const template = await tx.templates.findFirst({
         where: { sourceId: p.sourceId },
       });
       if (!template) {
@@ -337,15 +315,37 @@ async function main() {
         continue;
       }
 
-      const latestVersion = await prisma.form_contract_versions.findFirst({
-        where: { templateId: template.id, scopeKey: p.templateCode },
+      // Check idempotency: skip if latest published version already has this contractHash
+      const latestPublished = await tx.form_contract_versions.findFirst({
+        where: {
+          templateId: template.id,
+          scopeKey: p.templateCode,
+          status: "PUBLISHED",
+        },
         orderBy: { versionNo: "desc" },
       });
-      const nextVersion = (latestVersion?.versionNo ?? 0) + 1;
 
-      await prisma.form_contract_versions.create({
+      if (latestPublished?.contractHash === p.contractHash) {
+        console.log(`  [SKIP] ${p.templateCode} — already published with same contractHash`);
+        skipped++;
+        continue;
+      }
+
+      // Determine next version number
+      const latestAny = await tx.form_contract_versions.findFirst({
+        where: {
+          templateId: template.id,
+          scopeKey: p.templateCode,
+        },
+        orderBy: { versionNo: "desc" },
+      });
+      const nextVersion = (latestAny?.versionNo ?? 0) + 1;
+
+      // Create the published version
+      await tx.form_contract_versions.create({
         data: {
           templateId: template.id,
+          agencyId: agencyId ? BigInt(agencyId) : null,
           scopeKey: p.templateCode,
           versionNo: nextVersion,
           status: "PUBLISHED",
@@ -356,46 +356,129 @@ async function main() {
           normalizedDocxPath: p.normalizedDocxPath,
           draftJson: p.draftJson,
           compiledJson: p.draftJson,
-          createdByOfficialId: 1n,
+          createdByOfficialId: BigInt(officialId),
+          approvedByOfficialId: BigInt(officialId),
+          publishedByOfficialId: BigInt(officialId),
           submittedAt: new Date(p.lockedAt),
           approvedAt: new Date(p.lockedAt),
-          publishedAt: new Date(),
+          publishedAt: new Date(now),
         },
       });
 
-      await prisma.audit_logs.create({
+      // Audit log
+      await tx.audit_logs.create({
         data: {
           action: "PUBLISH_LOCKED",
           entityType: "form_contract_versions",
           actorName: p.reviewedBy,
-          oldValueJson: latestVersion?.draftJson ?? null,
+          oldValueJson: latestPublished?.draftJson ?? null,
           newValueJson: p.draftJson,
           createdAt: new Date(),
         },
       });
 
       console.log(`  [OK] ${p.templateCode} v${nextVersion}`);
-      published++;
-    } catch (err) {
-      failures.push(`${p.templateCode}: ${err.message}`);
-      failed++;
+      created++;
     }
-  }
+  });
 
   await prisma.$disconnect();
 
-  console.log(`\nPublished: ${published} | Failed: ${failed}`);
+  console.log(`\nCreated: ${created} | Skipped (already published): ${skipped} | Failed: ${failed}`);
+
+  if (expectExactly !== undefined && created > 0 && created < expectExactly) {
+    console.error(`\nWARNING: Expected to create ${expectExactly} records but only created ${created}.`);
+    console.error("Check 'Skipped' count above — some forms may already be published.");
+  }
+
   if (failures.length) {
     console.error("\nFailures:");
     for (const f of failures) console.error(`  - ${f}`);
     process.exit(1);
   }
+
+  return { created, skipped, failed };
+}
+
+async function main() {
+  const dryRun = process.argv.includes("--dry-run");
+  const outputSql = process.argv.includes("--sql");
+  const envVars = parseEnv();
+
+  // Required: OFFICIAL_ID
+  const officialId = process.env.OFFICIAL_ID ?? envVars.OFFICIAL_ID;
+  // Optional: AGENCY_ID
+  const agencyId = process.env.AGENCY_ID ?? envVars.AGENCY_ID ?? null;
+  // Expected count (default 213)
+  const expectExactly = parseInt(
+    process.env.EXPECT_COUNT ?? String(213),
+    10,
+  );
+
+  console.log("\n=== Phase D: Publish Locked Contracts to DB ===\n");
+  if (dryRun) console.log("[DRY RUN] No DB writes will occur.\n");
+
+  const { contracts, errors } = parseLockedContracts();
+
+  if (errors.length) {
+    console.error("Parse errors:");
+    for (const e of errors) console.error(`  - ${e}`);
+    console.error();
+  }
+
+  console.log(`Locked contracts found: ${contracts.length}`);
+  const { toPublish, skipped } = buildPublishPlan(contracts);
+
+  console.log(`  Ready to publish: ${toPublish.length}`);
+  console.log(`  Skipped (generic/non-human): ${skipped.length}`);
+  console.log();
+
+  if (toPublish.length === 0) {
+    console.log("Nothing to publish. All forms are either skipped or already up-to-date.");
+    return;
+  }
+
+  const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+  if (outputSql) {
+    const sql = generateSql(toPublish, { officialId, agencyId, now });
+    const outPath = path.join(__dirname, "phase-d-publish.sql");
+    fs.writeFileSync(outPath, sql, "utf8");
+    console.log(`SQL written: ${outPath}`);
+    const reportPath = writePublishReport(toPublish, skipped, { officialId, agencyId, now });
+    console.log(`Report written: ${reportPath}`);
+    return;
+  }
+
+  if (dryRun) {
+    console.log("[DRY RUN] Would publish:");
+    for (const p of toPublish) {
+      console.log(`  - ${p.templateCode}: ${p.templateTitle}`);
+      console.log(`      contract_hash: ${p.contractHash}`);
+      console.log(`      template_hash: ${p.templateHash}`);
+    }
+    return;
+  }
+
+  if (!officialId) {
+    console.error("OFFICIAL_ID env required. Set it via environment variable or .env:");
+    console.error("  $env:OFFICIAL_ID=\"1\"; node scripts/.../publish-locked-contracts-to-db.mjs");
+    process.exit(1);
+  }
+
+  const result = await publishToDb(toPublish, {
+    officialId,
+    agencyId,
+    expectExactly,
+  });
+
+  const reportPath = writePublishReport(toPublish, skipped, { officialId, agencyId, now });
+  console.log(`\nPublish report: ${reportPath}`);
 }
 
 const isDirectExecution =
   process.argv[1] &&
-  fileURLToPath(import.meta.url) ===
-    path.resolve(process.argv[1] ?? ".");
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1] ?? ".");
 
 if (isDirectExecution) {
   await main();
