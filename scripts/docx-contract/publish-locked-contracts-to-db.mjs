@@ -370,11 +370,11 @@ async function publishToDb(toPublish, opts) {
       });
       const nextVersion = (latestAny?.version_no ?? 0) + 1;
 
-      // Create the published version (all snake_case, BigInt strings)
+      // Create the published version (all snake_case, BigInt objects for @db.UnsignedBigInt fields)
       await tx.form_contract_versions.create({
         data: {
-          template_id: String(template.id),
-          agency_id: agencyId ? String(agencyId) : null,
+          template_id: BigInt(template.id.toString()),
+          agency_id: agencyId ? BigInt(agencyId) : null,
           scope_key: "GLOBAL",
           version_no: nextVersion,
           status: "PUBLISHED",
@@ -385,9 +385,9 @@ async function publishToDb(toPublish, opts) {
           normalized_docx_path: p.normalizedDocxPath,
           draft_json: p.draftJson,
           compiled_json: p.draftJson,
-          created_by_official_id: String(officialId),
-          approved_by_official_id: String(officialId),
-          published_by_official_id: String(officialId),
+          created_by_official_id: BigInt(officialId),
+          approved_by_official_id: BigInt(officialId),
+          published_by_official_id: BigInt(officialId),
           submitted_at: new Date(p.lockedAt),
           approved_at: new Date(p.lockedAt),
           published_at: new Date(now),
