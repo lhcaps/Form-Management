@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-067/BM-067_normalized.docx",
-    "sha256": "fcf741da18d62f946bfbb883bb15c13ca3f072b09aff81d52e799e7828ef07e6",
+    "sha256": "fcc25a7e21ddaf7e9966e159303def46889f3137810787a3431b9f66362d6e67",
     "format": "docx"
   },
   "status": "locked",
@@ -110,6 +110,44 @@
         "rawPattern": "{{document.field9}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "document.fullDocumentCode6",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode6}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine3}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -123,7 +161,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0012"
@@ -148,7 +186,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] Họ tên:",
         "blockId": "P0028"
@@ -159,6 +197,24 @@
       "type": "string",
       "label": "Ô trống",
       "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.fullDocumentCode6",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.personLine3",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": true
@@ -192,6 +248,20 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
+    },
+    {
+      "slotId": "document.fullDocumentCode6",
+      "from": "document.fullDocumentCode6",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "from": "recipients.personLine3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -210,7 +280,7 @@
     "reviewRequired": false,
     "reviewKind": "human",
     "reviewedBy": "Le Huy",
-    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -286,7 +356,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.961Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-22T15:33:55.525Z",
   "reviewKind": "human"
 }

@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-064/BM-064_normalized.docx",
-    "sha256": "40c15301b06058d8ca8b1cd58eca62e5c7c6912ad3639b8e0792c6d46560a295",
+    "sha256": "c84d7b06c8d98af77a2c5a764065905470914b0fcf2e2ef1f09f1715fdd88652",
     "format": "docx"
   },
   "status": "locked",
@@ -65,6 +65,25 @@
         "rawPattern": "{{document.field3}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "n\"/> {{document.issueDate4}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "n\"/> {{document.issueDate4}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Ti",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate4}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -78,7 +97,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0020"
@@ -89,6 +108,15 @@
       "type": "string",
       "label": "Ô trống",
       "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.issueDate4",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": true
@@ -105,6 +133,13 @@
     {
       "slotId": "document.fullDocumentCode",
       "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "from": "document.issueDate4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -126,7 +161,7 @@
     "reviewRequired": false,
     "reviewKind": "human",
     "reviewedBy": "Le Huy",
-    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -181,7 +216,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.959Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-22T15:33:55.521Z",
   "reviewKind": "human"
 }
