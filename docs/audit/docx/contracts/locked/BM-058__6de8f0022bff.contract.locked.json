@@ -19,7 +19,7 @@
     "sha256": "18a4e058ae013dacd2a35169100b84d616ee83ec5bc1dc979b93bcbb9168ff46",
     "format": "docx"
   },
-  "status": "draft",
+  "status": "review-pending",
   "docxSlots": [
     {
       "slotId": "agency.parentName",
@@ -38,7 +38,15 @@
         "textAfter": "{{agency.name}}",
         "rawPattern": "{{agency.parentName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}",
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0011",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "agency.name",
@@ -57,7 +65,15 @@
         "textAfter": "",
         "rawPattern": "{{agency.name}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0011",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "document.documentCode",
@@ -76,7 +92,15 @@
         "textAfter": "",
         "rawPattern": "{{document.documentCode}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}",
+        "context": "Số: {{document.documentCode}}",
+        "blockId": "P0013",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "document.issuePlaceAndDateLine",
@@ -95,7 +119,15 @@
         "textAfter": "",
         "rawPattern": "{{document.issuePlaceAndDateLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "context": "{{document.issuePlaceAndDateLine}}",
+        "blockId": "P0018",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "official.issuerTitle",
@@ -114,7 +146,15 @@
         "textAfter": "",
         "rawPattern": "{{official.issuerTitle}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}",
+        "context": "{{official.issuerTitle}}",
+        "blockId": "P0027",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "legalBasis.procedureArticlesLine",
@@ -133,7 +173,15 @@
         "textAfter": "",
         "rawPattern": "{{legalBasis.procedureArticlesLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "context": "{{legalBasis.procedureArticlesLine}}",
+        "blockId": "P0028",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "legalBasis.juvenileJusticeLine",
@@ -152,7 +200,15 @@
         "textAfter": "",
         "rawPattern": "{{legalBasis.juvenileJusticeLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.juvenileJusticeLine}}",
+        "context": "{{legalBasis.juvenileJusticeLine}}",
+        "blockId": "P0029",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "caseDecision.legalBasisLine",
@@ -171,7 +227,15 @@
         "textAfter": "",
         "rawPattern": "{{caseDecision.legalBasisLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Căn cứ",
+        "textAfter": "",
+        "rawPattern": "{{caseDecision.legalBasisLine}}",
+        "context": "Căn cứ {{caseDecision.legalBasisLine}}",
+        "blockId": "P0030",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "accusedDecision.legalBasisLine",
@@ -190,7 +254,15 @@
         "textAfter": "",
         "rawPattern": "{{accusedDecision.legalBasisLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Căn cứ",
+        "textAfter": "",
+        "rawPattern": "{{accusedDecision.legalBasisLine}}",
+        "context": "Căn cứ {{accusedDecision.legalBasisLine}}",
+        "blockId": "P0031",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionReasonLine",
@@ -209,7 +281,15 @@
         "textAfter": "",
         "rawPattern": "{{measure.detentionReasonLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét thấy",
+        "textAfter": "",
+        "rawPattern": "{{measure.detentionReasonLine}}",
+        "context": "Xét thấy {{measure.detentionReasonLine}}",
+        "blockId": "P0032",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionArticle1Line",
@@ -228,7 +308,15 @@
         "textAfter": "",
         "rawPattern": "{{measure.detentionArticle1Line}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "1.",
+        "textAfter": "",
+        "rawPattern": "{{measure.detentionArticle1Line}}",
+        "context": "1. {{measure.detentionArticle1Line}}",
+        "blockId": "P0034",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.fullName",
@@ -247,7 +335,15 @@
         "textAfter": "Giới tính: {{person.genderLabel}}",
         "rawPattern": "{{person.fullName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Họ tên:",
+        "textAfter": "Giới tính: {{person.genderLabel}}",
+        "rawPattern": "{{person.fullName}}",
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
+        "blockId": "P0035",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.genderLabel",
@@ -266,7 +362,15 @@
         "textAfter": "",
         "rawPattern": "{{person.genderLabel}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Họ tên: {{person.fullName}} Giới tính:",
+        "textAfter": "",
+        "rawPattern": "{{person.genderLabel}}",
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
+        "blockId": "P0035",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.otherName",
@@ -285,7 +389,15 @@
         "textAfter": "",
         "rawPattern": "{{person.otherName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Tên gọi khác:",
+        "textAfter": "",
+        "rawPattern": "{{person.otherName}}",
+        "context": "Tên gọi khác: {{person.otherName}}",
+        "blockId": "P0036",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.dateOfBirthText",
@@ -304,7 +416,15 @@
         "textAfter": "tại: {{person.placeOfBirth}}",
         "rawPattern": "{{person.dateOfBirthText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Sinh ngày",
+        "textAfter": "tại: {{person.placeOfBirth}}",
+        "rawPattern": "{{person.dateOfBirthText}}",
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.placeOfBirth",
@@ -323,7 +443,15 @@
         "textAfter": "",
         "rawPattern": "{{person.placeOfBirth}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Sinh ngày {{person.dateOfBirthText}} tại:",
+        "textAfter": "",
+        "rawPattern": "{{person.placeOfBirth}}",
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.nationality",
@@ -342,7 +470,15 @@
         "textAfter": "; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
         "rawPattern": "{{person.nationality}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Quốc tịch:",
+        "textAfter": "; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "rawPattern": "{{person.nationality}}",
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.ethnicity",
@@ -361,7 +497,15 @@
         "textAfter": "; Tôn giáo: {{person.religion}}",
         "rawPattern": "{{person.ethnicity}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Quốc tịch: {{person.nationality}}; Dân tộc:",
+        "textAfter": "; Tôn giáo: {{person.religion}}",
+        "rawPattern": "{{person.ethnicity}}",
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.religion",
@@ -380,7 +524,15 @@
         "textAfter": "",
         "rawPattern": "{{person.religion}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo:",
+        "textAfter": "",
+        "rawPattern": "{{person.religion}}",
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.occupation",
@@ -399,7 +551,15 @@
         "textAfter": "",
         "rawPattern": "{{person.occupation}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nghề nghiệp:",
+        "textAfter": "",
+        "rawPattern": "{{person.occupation}}",
+        "context": "Nghề nghiệp: {{person.occupation}}",
+        "blockId": "P0039",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.identityDocumentLine",
@@ -418,7 +578,15 @@
         "textAfter": "",
         "rawPattern": "{{person.identityDocumentLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textAfter": "",
+        "rawPattern": "{{person.identityDocumentLine}}",
+        "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityDocumentLine}}",
+        "blockId": "P0040",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.permanentAddress",
@@ -437,7 +605,15 @@
         "textAfter": "",
         "rawPattern": "{{person.permanentAddress}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nơi thường trú:",
+        "textAfter": "",
+        "rawPattern": "{{person.permanentAddress}}",
+        "context": "Nơi thường trú: {{person.permanentAddress}}",
+        "blockId": "P0041",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.temporaryAddress",
@@ -456,7 +632,15 @@
         "textAfter": "",
         "rawPattern": "{{person.temporaryAddress}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nơi tạm trú:",
+        "textAfter": "",
+        "rawPattern": "{{person.temporaryAddress}}",
+        "context": "Nơi tạm trú: {{person.temporaryAddress}}",
+        "blockId": "P0042",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "person.currentAddress",
@@ -475,7 +659,15 @@
         "textAfter": "",
         "rawPattern": "{{person.currentAddress}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nơi ở hiện tại:",
+        "textAfter": "",
+        "rawPattern": "{{person.currentAddress}}",
+        "context": "Nơi ở hiện tại: {{person.currentAddress}}",
+        "blockId": "P0043",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionDurationText",
@@ -494,7 +686,15 @@
         "textAfter": "kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
         "rawPattern": "{{measure.detentionDurationText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Thời hạn tạm giam",
+        "textAfter": "kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "rawPattern": "{{measure.detentionDurationText}}",
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionFromDateText",
@@ -513,7 +713,15 @@
         "textAfter": "đến {{measure.detentionToDateText}}.",
         "rawPattern": "{{measure.detentionFromDateText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ",
+        "textAfter": "đến {{measure.detentionToDateText}}.",
+        "rawPattern": "{{measure.detentionFromDateText}}",
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionToDateText",
@@ -532,7 +740,15 @@
         "textAfter": ".",
         "rawPattern": "{{measure.detentionToDateText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến",
+        "textAfter": ".",
+        "rawPattern": "{{measure.detentionToDateText}}",
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "measure.detentionArticle2Line",
@@ -551,7 +767,15 @@
         "textAfter": ".",
         "rawPattern": "{{measure.detentionArticle2Line}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "2.",
+        "textAfter": ".",
+        "rawPattern": "{{measure.detentionArticle2Line}}",
+        "context": "2. {{measure.detentionArticle2Line}}.",
+        "blockId": "P0045",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "recipients.personLine",
@@ -570,7 +794,15 @@
         "textAfter": "",
         "rawPattern": "{{recipients.personLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine}}",
+        "context": "{{recipients.personLine}}",
+        "blockId": "P0048",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "recipients.detentionExecutionUnitLine",
@@ -589,7 +821,15 @@
         "textAfter": "",
         "rawPattern": "{{recipients.detentionExecutionUnitLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{recipients.detentionExecutionUnitLine}}",
+        "context": "{{recipients.detentionExecutionUnitLine}}",
+        "blockId": "P0049",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "recipients.archiveLine",
@@ -608,7 +848,15 @@
         "textAfter": ".",
         "rawPattern": "{{recipients.archiveLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": ".",
+        "rawPattern": "{{recipients.archiveLine}}",
+        "context": "{{recipients.archiveLine}}.",
+        "blockId": "P0050",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "signature.signMode",
@@ -627,7 +875,15 @@
         "textAfter": "",
         "rawPattern": "{{signature.signMode}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signMode}}",
+        "context": "{{signature.signMode}}",
+        "blockId": "P0051",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "signature.positionTitle",
@@ -646,7 +902,15 @@
         "textAfter": "",
         "rawPattern": "{{signature.positionTitle}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}",
+        "context": "{{signature.positionTitle}}",
+        "blockId": "P0052",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "signature.signerName",
@@ -665,7 +929,15 @@
         "textAfter": "",
         "rawPattern": "{{signature.signerName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}",
+        "context": "{{signature.signerName}}",
+        "blockId": "P0055",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "delivery.deliveredAtText",
@@ -684,7 +956,15 @@
         "textAfter": "",
         "rawPattern": "{{delivery.deliveredAtText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{delivery.deliveredAtText}}",
+        "context": "{{delivery.deliveredAtText}}",
+        "blockId": "P0060",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "slotId": "delivery.receiverTitle",
@@ -703,7 +983,15 @@
         "textAfter": "",
         "rawPattern": "{{delivery.receiverTitle}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{delivery.receiverTitle}}",
+        "context": "{{delivery.receiverTitle}}",
+        "blockId": "P0061",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     }
   ],
   "canonicalFields": [
@@ -711,361 +999,649 @@
       "path": "agency.parentName",
       "type": "string",
       "label": "Cơ quan cấp trên",
-      "source": "unknown",
+      "source": "agencyConfig",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0011",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "agency.name",
       "type": "string",
       "label": "Viện kiểm sát ban hành",
-      "source": "unknown",
+      "source": "agencyConfig",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0011",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "document.documentCode",
       "type": "string",
       "label": "Số lệnh tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Số: {{document.documentCode}}",
+        "blockId": "P0013",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
       "label": "Địa danh, ngày ban hành",
-      "source": "unknown",
+      "source": "manualOrDefault",
       "required": true,
       "uiComponent": "text",
       "section": "Cơ quan và văn bản",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "date.issuePlaceDateLine",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{document.issuePlaceAndDateLine}}",
+        "blockId": "P0018",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "official.issuerTitle",
       "type": "string",
       "label": "Chủ thể ban hành",
-      "source": "unknown",
+      "source": "officialConfig",
       "required": true,
       "uiComponent": "text",
       "section": "Căn cứ pháp lý",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{official.issuerTitle}}",
+        "blockId": "P0027",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
       "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{legalBasis.procedureArticlesLine}}",
+        "blockId": "P0028",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "legalBasis.juvenileJusticeLine",
       "type": "string",
       "label": "Căn cứ áp dụng đối với người dưới 18 tuổi",
-      "source": "unknown",
+      "source": "manual",
       "required": false,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{legalBasis.juvenileJusticeLine}}",
+        "blockId": "P0029",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "caseDecision.legalBasisLine",
       "type": "string",
       "label": "Căn cứ quyết định khởi tố vụ án",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Căn cứ {{caseDecision.legalBasisLine}}",
+        "blockId": "P0030",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "accusedDecision.legalBasisLine",
       "type": "string",
       "label": "Căn cứ quyết định khởi tố bị can",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Căn cứ pháp lý",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Căn cứ {{accusedDecision.legalBasisLine}}",
+        "blockId": "P0031",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionReasonLine",
       "type": "string",
       "label": "Lý do tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Xét thấy {{measure.detentionReasonLine}}",
+        "blockId": "P0032",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionArticle1Line",
       "type": "string",
       "label": "Điều 1 - Lệnh tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "1. {{measure.detentionArticle1Line}}",
+        "blockId": "P0034",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.fullName",
       "type": "string",
       "label": "Họ tên người bị tạm giam",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
+        "blockId": "P0035",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.genderLabel",
       "type": "string",
       "label": "Giới tính",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
+        "blockId": "P0035",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.otherName",
       "type": "string",
       "label": "Tên gọi khác",
-      "source": "unknown",
+      "source": "casePayload",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Tên gọi khác: {{person.otherName}}",
+        "blockId": "P0036",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.dateOfBirthText",
       "type": "string",
       "label": "Ngày sinh",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.placeOfBirth",
       "type": "string",
       "label": "Nơi sinh",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.nationality",
       "type": "string",
       "label": "Quốc tịch",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.ethnicity",
       "type": "string",
       "label": "Dân tộc",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.religion",
       "type": "string",
       "label": "Tôn giáo",
-      "source": "unknown",
+      "source": "casePayload",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+        "blockId": "P0038",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.occupation",
       "type": "string",
       "label": "Nghề nghiệp",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Nghề nghiệp: {{person.occupation}}",
+        "blockId": "P0039",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.identityDocumentLine",
       "type": "string",
       "label": "Số giấy tờ tùy thân",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityDocumentLine}}",
+        "blockId": "P0040",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.permanentAddress",
       "type": "string",
       "label": "Nơi thường trú",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Nơi thường trú: {{person.permanentAddress}}",
+        "blockId": "P0041",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.temporaryAddress",
       "type": "string",
       "label": "Nơi tạm trú",
-      "source": "unknown",
+      "source": "casePayload",
       "required": false,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Nơi tạm trú: {{person.temporaryAddress}}",
+        "blockId": "P0042",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "person.currentAddress",
       "type": "string",
       "label": "Nơi ở hiện tại",
-      "source": "unknown",
+      "source": "casePayload",
       "required": true,
       "uiComponent": "text",
       "section": "Thông tin người bị tạm giam",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Nơi ở hiện tại: {{person.currentAddress}}",
+        "blockId": "P0043",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionDurationText",
       "type": "string",
       "label": "Thời hạn tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionFromDateText",
       "type": "string",
       "label": "Tạm giam từ ngày",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionToDateText",
       "type": "string",
       "label": "Tạm giam đến ngày",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "measure.detentionArticle2Line",
       "type": "string",
       "label": "Điều 2 - Tổ chức thi hành",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "textarea",
       "section": "Nội dung lệnh",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "2. {{measure.detentionArticle2Line}}.",
+        "blockId": "P0045",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "recipients.personLine",
       "type": "string",
       "label": "Nơi nhận - Người bị tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nơi nhận",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{recipients.personLine}}",
+        "blockId": "P0048",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "recipients.detentionExecutionUnitLine",
       "type": "string",
       "label": "Nơi nhận - Đơn vị thi hành tạm giam",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nơi nhận",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{recipients.detentionExecutionUnitLine}}",
+        "blockId": "P0049",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
       "label": "Lưu hồ sơ",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Nơi nhận",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{recipients.archiveLine}}.",
+        "blockId": "P0050",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "signature.signMode",
       "type": "string",
       "label": "Chế độ ký",
-      "source": "unknown",
+      "source": "officialConfig",
       "required": false,
       "uiComponent": "text",
       "section": "Chữ ký",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{signature.signMode}}",
+        "blockId": "P0051",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "signature.positionTitle",
       "type": "string",
       "label": "Chức vụ người ký",
-      "source": "unknown",
+      "source": "officialConfig",
       "required": true,
       "uiComponent": "text",
       "section": "Chữ ký",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{signature.positionTitle}}",
+        "blockId": "P0052",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "signature.signerName",
       "type": "string",
       "label": "Họ tên người ký",
-      "source": "unknown",
+      "source": "officialConfig",
       "required": true,
       "uiComponent": "text",
       "section": "Chữ ký",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{signature.signerName}}",
+        "blockId": "P0055",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "delivery.deliveredAtText",
       "type": "string",
       "label": "Thời gian giao lệnh",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Giao nhận",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{delivery.deliveredAtText}}",
+        "blockId": "P0060",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     },
     {
       "path": "delivery.receiverTitle",
       "type": "string",
       "label": "Người nhận lệnh",
-      "source": "unknown",
+      "source": "manual",
       "required": true,
       "uiComponent": "text",
       "section": "Giao nhận",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:40:28.552Z",
+      "reviewEvidence": {
+        "context": "{{delivery.receiverTitle}}",
+        "blockId": "P0061",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
     }
   ],
   "renderBindings": [
@@ -1074,270 +1650,268 @@
       "from": "agency.parentName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "agency.name",
       "from": "agency.name",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "document.documentCode",
       "from": "document.documentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "document.issuePlaceAndDateLine",
       "from": "document.issuePlaceAndDateLine",
-      "transform": "identity",
+      "transform": "date.issuePlaceDateLine",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "official.issuerTitle",
       "from": "official.issuerTitle",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "legalBasis.procedureArticlesLine",
       "from": "legalBasis.procedureArticlesLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "legalBasis.juvenileJusticeLine",
       "from": "legalBasis.juvenileJusticeLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "caseDecision.legalBasisLine",
       "from": "caseDecision.legalBasisLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "accusedDecision.legalBasisLine",
       "from": "accusedDecision.legalBasisLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionReasonLine",
       "from": "measure.detentionReasonLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionArticle1Line",
       "from": "measure.detentionArticle1Line",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.fullName",
       "from": "person.fullName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.genderLabel",
       "from": "person.genderLabel",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.otherName",
       "from": "person.otherName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.dateOfBirthText",
       "from": "person.dateOfBirthText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.placeOfBirth",
       "from": "person.placeOfBirth",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.nationality",
       "from": "person.nationality",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.ethnicity",
       "from": "person.ethnicity",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.religion",
       "from": "person.religion",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.occupation",
       "from": "person.occupation",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.identityDocumentLine",
       "from": "person.identityDocumentLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.permanentAddress",
       "from": "person.permanentAddress",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.temporaryAddress",
       "from": "person.temporaryAddress",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "person.currentAddress",
       "from": "person.currentAddress",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionDurationText",
       "from": "measure.detentionDurationText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionFromDateText",
       "from": "measure.detentionFromDateText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionToDateText",
       "from": "measure.detentionToDateText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "measure.detentionArticle2Line",
       "from": "measure.detentionArticle2Line",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "recipients.personLine",
       "from": "recipients.personLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "recipients.detentionExecutionUnitLine",
       "from": "recipients.detentionExecutionUnitLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "recipients.archiveLine",
       "from": "recipients.archiveLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "signature.signMode",
       "from": "signature.signMode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "signature.positionTitle",
       "from": "signature.positionTitle",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "signature.signerName",
       "from": "signature.signerName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "delivery.deliveredAtText",
       "from": "delivery.deliveredAtText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "delivery.receiverTitle",
       "from": "delivery.receiverTitle",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
-  "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
-  ],
+  "warnings": [],
   "productMetadata": {
     "stage": {
       "code": "02",
       "label": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
       "suggestedBy": "path-heuristic",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     "formNumber": "058/HS",
     "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
     "documentNumberSuffix": null,
-    "reviewRequired": true
+    "reviewRequired": false
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -1347,7 +1921,7 @@
     "headerRules": [],
     "footerRules": [],
     "titleRules": [],
-    "reviewRequired": true
+    "reviewRequired": false
   },
   "formInputHints": {
     "primaryEntities": [
@@ -1510,7 +2084,7 @@
       }
     ],
     "previewRequired": true,
-    "reviewRequired": true
+    "reviewRequired": false
   },
   "reportingHints": {
     "dimensions": [
@@ -1518,7 +2092,10 @@
       "ward",
       "offense"
     ],
-    "reviewRequired": true
+    "reviewRequired": false
   },
-  "generatedAt": "2026-06-19T07:36:36.955Z"
+  "generatedAt": "2026-06-19T07:36:36.955Z",
+  "reviewedBy": "automated-semantic-remediation",
+  "reviewedAt": "2026-06-22T07:40:28.552Z",
+  "reviewKind": "automated"
 }

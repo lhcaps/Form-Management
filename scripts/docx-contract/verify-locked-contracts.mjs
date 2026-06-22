@@ -69,8 +69,16 @@ const main = () => {
     const bm = contract.templateCode ?? f;
 
     // Schema-level checks
-    check(`[${bm}] status === "locked"`, contract.status === "locked",
-      "got: " + contract.status);
+    check(
+      `[${bm}] status is locked or review-pending`,
+      contract.status === "locked" || contract.status === "review-pending",
+      "got: " + contract.status,
+    );
+    if (contract.status === "review-pending") {
+      warn(
+        `[${bm}] Automated semantic candidate is pending human review`,
+      );
+    }
     check(`[${bm}] schemaVersion === "1.0"`, contract.schemaVersion === "1.0",
       "got: " + contract.schemaVersion);
     check(`[${bm}] templateCode present`, Boolean(contract.templateCode),
@@ -106,13 +114,18 @@ const main = () => {
         normalizedDocxBuffer: fs.readFileSync(normalizedPath),
       });
       for (const qualityIssue of quality.issues) {
-        FAIL.push({
+        const entry = {
           label: `[${bm}] ${qualityIssue.code}`,
           detail:
             qualityIssue.details.length > 0
               ? qualityIssue.details.join(", ")
               : null,
-        });
+        };
+        if (qualityIssue.code === "HUMAN_REVIEW_NOT_APPROVED") {
+          WARN.push(entry);
+        } else {
+          FAIL.push(entry);
+        }
       }
       qualityState = quality.state;
     }

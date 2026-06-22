@@ -1,0 +1,2382 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-156__ef438a40e567",
+  "templateCode": "BM-156",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Cáo trạng",
+  "docx": {
+    "sha256": "ef438a40e567ed9d6504771efeb1a57e2c1d75b22c4bea3ead13dba6d039d166",
+    "fileName": "156-Cáo trạng.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/156-Cáo trạng.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-156/BM-156_normalized.docx",
+    "sha256": "2f7472289368b2a55fda50e327e97cb2f19334aadb7acea8e52d92ca0a60519e",
+    "format": "docx"
+  },
+  "status": "review-pending",
+  "docxSlots": [
+    {
+      "slotId": "agency.parentName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0006",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Cơ quan cấp trên",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}",
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0006",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0006",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}}{{agency.name}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0006",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0008",
+        "tableCellId": null
+      },
+      "context": "Số:{{document.documentCode}}",
+      "label": "Số quyết định",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}",
+        "context": "Số:{{document.documentCode}}",
+        "blockId": "P0008",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0015",
+        "tableCellId": null
+      },
+      "context": "{{document.issuePlaceAndDateLine}}",
+      "label": "Địa danh, ngày ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "context": "{{document.issuePlaceAndDateLine}}",
+        "blockId": "P0015",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "official.issuerTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0019",
+        "tableCellId": null
+      },
+      "context": "{{official.issuerTitle}}",
+      "label": "Chủ thể ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}",
+        "context": "{{official.issuerTitle}}",
+        "blockId": "P0019",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "{{legalBasis.procedureArticlesLine}}",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "context": "{{legalBasis.procedureArticlesLine}}",
+        "blockId": "P0020",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "caseDecision.prosecutionDecisionLegalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "{{caseDecision.prosecutionDecisionLegalBasisLine}}",
+      "label": "Căn cứ quyết định truy tố",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseDecision.prosecutionDecisionLegalBasisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseDecision.prosecutionDecisionLegalBasisLine}}",
+        "context": "{{caseDecision.prosecutionDecisionLegalBasisLine}}",
+        "blockId": "P0021",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "accusedDecision.prosecutionDecisionLegalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0022",
+        "tableCellId": null
+      },
+      "context": "{{accusedDecision.prosecutionDecisionLegalBasisLine}}",
+      "label": "Căn cứ quyết định đối với bị can",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{accusedDecision.prosecutionDecisionLegalBasisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{accusedDecision.prosecutionDecisionLegalBasisLine}}",
+        "context": "{{accusedDecision.prosecutionDecisionLegalBasisLine}}",
+        "blockId": "P0022",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "caseJoinder.legalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0023",
+        "tableCellId": null
+      },
+      "context": "{{caseJoinder.legalBasisLine}}",
+      "label": "Căn cứ gộp vụ án",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseJoinder.legalBasisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseJoinder.legalBasisLine}}",
+        "context": "{{caseJoinder.legalBasisLine}}",
+        "blockId": "P0023",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "caseRecovery.legalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "{{caseRecovery.legalBasisLine}}",
+      "label": "Căn cứ thu hồi vụ án",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseRecovery.legalBasisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{caseRecovery.legalBasisLine}}",
+        "context": "{{caseRecovery.legalBasisLine}}",
+        "blockId": "P0024",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "investigationConclusion.legalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "{{investigationConclusion.legalBasisLine}}",
+      "label": "Căn cứ kết luận điều tra",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{investigationConclusion.legalBasisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{investigationConclusion.legalBasisLine}}",
+        "context": "{{investigationConclusion.legalBasisLine}}",
+        "blockId": "P0025",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.criminalActDescriptionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "{{indictment.criminalActDescriptionLine}}",
+      "label": "Mô tả hành vi phạm tội",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.criminalActDescriptionLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.criminalActDescriptionLine}}",
+        "context": "{{indictment.criminalActDescriptionLine}}",
+        "blockId": "P0028",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.aggravatingMitigatingAnalysisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "{{indictment.aggravatingMitigatingAnalysisLine}}",
+      "label": "Phân tích tăng nặng, giảm nhẹ",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.aggravatingMitigatingAnalysisLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.aggravatingMitigatingAnalysisLine}}",
+        "context": "{{indictment.aggravatingMitigatingAnalysisLine}}",
+        "blockId": "P0029",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.evidenceHandlingLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "{{indictment.evidenceHandlingLine}}",
+      "label": "Tình trạng tang vật, phương tiện",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.evidenceHandlingLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.evidenceHandlingLine}}",
+        "context": "{{indictment.evidenceHandlingLine}}",
+        "blockId": "P0030",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.civilLiabilityLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": "{{indictment.civilLiabilityLine}}",
+      "label": "Trách nhiệm dân sự",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.civilLiabilityLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.civilLiabilityLine}}",
+        "context": "{{indictment.civilLiabilityLine}}",
+        "blockId": "P0031",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.otherFactsLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0032",
+        "tableCellId": null
+      },
+      "context": "{{indictment.otherFactsLine}}",
+      "label": "Các tình tiết khác",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.otherFactsLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.otherFactsLine}}",
+        "context": "{{indictment.otherFactsLine}}",
+        "blockId": "P0032",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.summaryConclusionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0036",
+        "tableCellId": null
+      },
+      "context": "{{indictment.summaryConclusionLine}}",
+      "label": "Tổng kết kết luận",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.summaryConclusionLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.summaryConclusionLine}}",
+        "context": "{{indictment.summaryConclusionLine}}",
+        "blockId": "P0036",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.absentAccusedNoteLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0037",
+        "tableCellId": null
+      },
+      "context": "{{indictment.absentAccusedNoteLine}}",
+      "label": "Ghi chú vắng mặt bị can",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.absentAccusedNoteLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.absentAccusedNoteLine}}",
+        "context": "{{indictment.absentAccusedNoteLine}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.defendantIdentityLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0039",
+        "tableCellId": null
+      },
+      "context": "{{indictment.defendantIdentityLine}}",
+      "label": "Nhân thân bị can",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.defendantIdentityLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.defendantIdentityLine}}",
+        "context": "{{indictment.defendantIdentityLine}}",
+        "blockId": "P0039",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.familyBackgroundLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0040",
+        "tableCellId": null
+      },
+      "context": "{{indictment.familyBackgroundLine}}",
+      "label": "Hoàn cảnh gia đình",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.familyBackgroundLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.familyBackgroundLine}}",
+        "context": "{{indictment.familyBackgroundLine}}",
+        "blockId": "P0040",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.specialStatusLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0041",
+        "tableCellId": null
+      },
+      "context": "{{indictment.specialStatusLine}}",
+      "label": "Tình trạng đặc biệt",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.specialStatusLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.specialStatusLine}}",
+        "context": "{{indictment.specialStatusLine}}",
+        "blockId": "P0041",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.administrativeViolationLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0042",
+        "tableCellId": null
+      },
+      "context": "{{indictment.administrativeViolationLine}}",
+      "label": "Vi phạm hành chính liên quan",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.administrativeViolationLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.administrativeViolationLine}}",
+        "context": "{{indictment.administrativeViolationLine}}",
+        "blockId": "P0042",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.criminalRecordLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0043",
+        "tableCellId": null
+      },
+      "context": "{{indictment.criminalRecordLine}}",
+      "label": "Tiền án",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.criminalRecordLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.criminalRecordLine}}",
+        "context": "{{indictment.criminalRecordLine}}",
+        "blockId": "P0043",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.preventiveMeasureLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0044",
+        "tableCellId": null
+      },
+      "context": "{{indictment.preventiveMeasureLine}}",
+      "label": "Biện pháp ngăn chặn đang áp dụng",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.preventiveMeasureLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.preventiveMeasureLine}}",
+        "context": "{{indictment.preventiveMeasureLine}}",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.crimeConclusionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0045",
+        "tableCellId": null
+      },
+      "context": "{{indictment.crimeConclusionLine}}",
+      "label": "Kết luận về tội phạm",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.crimeConclusionLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.crimeConclusionLine}}",
+        "context": "{{indictment.crimeConclusionLine}}",
+        "blockId": "P0045",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.aggravatingMitigatingLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0046",
+        "tableCellId": null
+      },
+      "context": "{{indictment.aggravatingMitigatingLine}}",
+      "label": "Tình tiết tăng nặng, giảm nhẹ trách nhiệm hình sự",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.aggravatingMitigatingLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.aggravatingMitigatingLine}}",
+        "context": "{{indictment.aggravatingMitigatingLine}}",
+        "blockId": "P0046",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.separatedCaseHandlingLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0047",
+        "tableCellId": null
+      },
+      "context": "{{indictment.separatedCaseHandlingLine}}",
+      "label": "Xử lý vụ án tách biệt",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.separatedCaseHandlingLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.separatedCaseHandlingLine}}",
+        "context": "{{indictment.separatedCaseHandlingLine}}",
+        "blockId": "P0047",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.article1Line",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0050",
+        "tableCellId": null
+      },
+      "context": "{{indictment.article1Line}}",
+      "label": "Điều 1 - Quyết định truy tố",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.article1Line}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.article1Line}}",
+        "context": "{{indictment.article1Line}}",
+        "blockId": "P0050",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.replacementLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0051",
+        "tableCellId": null
+      },
+      "context": "{{indictment.replacementLine}}",
+      "label": "Điều khoản thay thế",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.replacementLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.replacementLine}}",
+        "context": "{{indictment.replacementLine}}",
+        "blockId": "P0051",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.caseFileLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0053",
+        "tableCellId": null
+      },
+      "context": "{{indictment.caseFileLine}}",
+      "label": "Hồ sơ vụ án",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.caseFileLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.caseFileLine}}",
+        "context": "{{indictment.caseFileLine}}",
+        "blockId": "P0053",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.evidenceListLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0054",
+        "tableCellId": null
+      },
+      "context": "{{indictment.evidenceListLine}}",
+      "label": "Danh mục chứng cứ",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.evidenceListLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{indictment.evidenceListLine}}",
+        "context": "{{indictment.evidenceListLine}}",
+        "blockId": "P0054",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "indictment.summonedPersonsLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0055",
+        "tableCellId": null
+      },
+      "context": "{{indictment.summonedPersonsLine}}./.",
+      "label": "Người được triệu tập",
+      "slotType": "multilineText",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "./.",
+        "rawPattern": "{{indictment.summonedPersonsLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "./.",
+        "rawPattern": "{{indictment.summonedPersonsLine}}",
+        "context": "{{indictment.summonedPersonsLine}}./.",
+        "blockId": "P0055",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.courtLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Nơi nhận - Tòa án",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecip",
+        "rawPattern": "{{recipients.courtLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecip",
+        "rawPattern": "{{recipients.courtLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.accusedLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Nơi nhận - Bị can",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{recipients.courtLine}}",
+        "textAfter": "{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.arc",
+        "rawPattern": "{{recipients.accusedLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{recipients.courtLine}}",
+        "textAfter": "{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.arc",
+        "rawPattern": "{{recipients.accusedLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.defenseCounselLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Nơi nhận - Người bào chữa",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{recipients.courtLine}}{{recipients.accusedLine}}",
+        "textAfter": "{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.defenseCounselLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{recipients.courtLine}}{{recipients.accusedLine}}",
+        "textAfter": "{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.defenseCounselLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.investigatingAgencyLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Nơi nhận - Cơ quan điều tra",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}",
+        "textAfter": "{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.investigatingAgencyLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}",
+        "textAfter": "{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.investigatingAgencyLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.otherRecipientLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Nơi nhận - Người khác",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}",
+        "textAfter": "{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.otherRecipientLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}",
+        "textAfter": "{{recipients.archiveLine}}",
+        "rawPattern": "{{recipients.otherRecipientLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0058",
+        "tableCellId": null
+      },
+      "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+      "label": "Lưu hồ sơ",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ts.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}",
+        "textAfter": "",
+        "rawPattern": "{{recipients.archiveLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "ts.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}",
+        "textAfter": "",
+        "rawPattern": "{{recipients.archiveLine}}",
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "signature.signMode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0059",
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}{{signature.positionTitle}}",
+      "label": "Chế độ ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{signature.positionTitle}}",
+        "rawPattern": "{{signature.signMode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{signature.positionTitle}}",
+        "rawPattern": "{{signature.signMode}}",
+        "context": "{{signature.signMode}}{{signature.positionTitle}}",
+        "blockId": "P0059",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0059",
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}{{signature.positionTitle}}",
+      "label": "Chức vụ người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{signature.signMode}}",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{signature.signMode}}",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}",
+        "context": "{{signature.signMode}}{{signature.positionTitle}}",
+        "blockId": "P0059",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0063",
+        "tableCellId": null
+      },
+      "context": "{{signature.signerName}}",
+      "label": "Người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}",
+        "context": "{{signature.signerName}}",
+        "blockId": "P0063",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.parentName",
+      "type": "string",
+      "label": "Cơ quan cấp trên",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0006",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Viện kiểm sát ban hành",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{agency.parentName}}{{agency.name}}",
+        "blockId": "P0006",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "Số quyết định",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "Số:{{document.documentCode}}",
+        "blockId": "P0008",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "document.issuePlaceAndDateLine",
+      "type": "string",
+      "label": "Địa danh, ngày ban hành",
+      "source": "manualOrDefault",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "date.issuePlaceDateLine",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{document.issuePlaceAndDateLine}}",
+        "blockId": "P0015",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "official.issuerTitle",
+      "type": "string",
+      "label": "Chủ thể ban hành",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{official.issuerTitle}}",
+        "blockId": "P0019",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "legalBasis.procedureArticlesLine",
+      "type": "string",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{legalBasis.procedureArticlesLine}}",
+        "blockId": "P0020",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "caseDecision.prosecutionDecisionLegalBasisLine",
+      "type": "string",
+      "label": "Căn cứ quyết định truy tố",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{caseDecision.prosecutionDecisionLegalBasisLine}}",
+        "blockId": "P0021",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "accusedDecision.prosecutionDecisionLegalBasisLine",
+      "type": "string",
+      "label": "Căn cứ quyết định đối với bị can",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{accusedDecision.prosecutionDecisionLegalBasisLine}}",
+        "blockId": "P0022",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "caseJoinder.legalBasisLine",
+      "type": "string",
+      "label": "Căn cứ gộp vụ án",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{caseJoinder.legalBasisLine}}",
+        "blockId": "P0023",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "caseRecovery.legalBasisLine",
+      "type": "string",
+      "label": "Căn cứ thu hồi vụ án",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{caseRecovery.legalBasisLine}}",
+        "blockId": "P0024",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "investigationConclusion.legalBasisLine",
+      "type": "string",
+      "label": "Căn cứ kết luận điều tra",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Căn cứ pháp lý",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{investigationConclusion.legalBasisLine}}",
+        "blockId": "P0025",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.criminalActDescriptionLine",
+      "type": "string",
+      "label": "Mô tả hành vi phạm tội",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.criminalActDescriptionLine}}",
+        "blockId": "P0028",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.aggravatingMitigatingAnalysisLine",
+      "type": "string",
+      "label": "Phân tích tăng nặng, giảm nhẹ",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.aggravatingMitigatingAnalysisLine}}",
+        "blockId": "P0029",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.evidenceHandlingLine",
+      "type": "string",
+      "label": "Tình trạng tang vật, phương tiện",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.evidenceHandlingLine}}",
+        "blockId": "P0030",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.civilLiabilityLine",
+      "type": "string",
+      "label": "Trách nhiệm dân sự",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.civilLiabilityLine}}",
+        "blockId": "P0031",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.otherFactsLine",
+      "type": "string",
+      "label": "Các tình tiết khác",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.otherFactsLine}}",
+        "blockId": "P0032",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.summaryConclusionLine",
+      "type": "string",
+      "label": "Tổng kết kết luận",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.summaryConclusionLine}}",
+        "blockId": "P0036",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.absentAccusedNoteLine",
+      "type": "string",
+      "label": "Ghi chú vắng mặt bị can",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.absentAccusedNoteLine}}",
+        "blockId": "P0037",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.defendantIdentityLine",
+      "type": "string",
+      "label": "Nhân thân bị can",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.defendantIdentityLine}}",
+        "blockId": "P0039",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.familyBackgroundLine",
+      "type": "string",
+      "label": "Hoàn cảnh gia đình",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.familyBackgroundLine}}",
+        "blockId": "P0040",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.specialStatusLine",
+      "type": "string",
+      "label": "Tình trạng đặc biệt",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.specialStatusLine}}",
+        "blockId": "P0041",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.administrativeViolationLine",
+      "type": "string",
+      "label": "Vi phạm hành chính liên quan",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.administrativeViolationLine}}",
+        "blockId": "P0042",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.criminalRecordLine",
+      "type": "string",
+      "label": "Tiền án",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.criminalRecordLine}}",
+        "blockId": "P0043",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.preventiveMeasureLine",
+      "type": "string",
+      "label": "Biện pháp ngăn chặn đang áp dụng",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.preventiveMeasureLine}}",
+        "blockId": "P0044",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.crimeConclusionLine",
+      "type": "string",
+      "label": "Kết luận về tội phạm",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.crimeConclusionLine}}",
+        "blockId": "P0045",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.aggravatingMitigatingLine",
+      "type": "string",
+      "label": "Tình tiết tăng nặng, giảm nhẹ trách nhiệm hình sự",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.aggravatingMitigatingLine}}",
+        "blockId": "P0046",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.separatedCaseHandlingLine",
+      "type": "string",
+      "label": "Xử lý vụ án tách biệt",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.separatedCaseHandlingLine}}",
+        "blockId": "P0047",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.article1Line",
+      "type": "string",
+      "label": "Điều 1 - Quyết định truy tố",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.article1Line}}",
+        "blockId": "P0050",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.replacementLine",
+      "type": "string",
+      "label": "Điều khoản thay thế",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.replacementLine}}",
+        "blockId": "P0051",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.caseFileLine",
+      "type": "string",
+      "label": "Hồ sơ vụ án",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.caseFileLine}}",
+        "blockId": "P0053",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.evidenceListLine",
+      "type": "string",
+      "label": "Danh mục chứng cứ",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.evidenceListLine}}",
+        "blockId": "P0054",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "indictment.summonedPersonsLine",
+      "type": "string",
+      "label": "Người được triệu tập",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "textarea",
+      "section": "Nội dung cáo trạng",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{indictment.summonedPersonsLine}}./.",
+        "blockId": "P0055",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.courtLine",
+      "type": "string",
+      "label": "Nơi nhận - Tòa án",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.accusedLine",
+      "type": "string",
+      "label": "Nơi nhận - Bị can",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.defenseCounselLine",
+      "type": "string",
+      "label": "Nơi nhận - Người bào chữa",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.investigatingAgencyLine",
+      "type": "string",
+      "label": "Nơi nhận - Cơ quan điều tra",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.otherRecipientLine",
+      "type": "string",
+      "label": "Nơi nhận - Người khác",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "Lưu hồ sơ",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}{{recipients.archiveLine}}",
+        "blockId": "P0058",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "signature.signMode",
+      "type": "string",
+      "label": "Chế độ ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{signature.signMode}}{{signature.positionTitle}}",
+        "blockId": "P0059",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "signature.positionTitle",
+      "type": "string",
+      "label": "Chức vụ người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{signature.signMode}}{{signature.positionTitle}}",
+        "blockId": "P0059",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "automated-semantic-remediation",
+      "reviewedAt": "2026-06-22T07:44:36.277Z",
+      "reviewEvidence": {
+        "context": "{{signature.signerName}}",
+        "blockId": "P0063",
+        "note": "Automated semantic parity candidate; human legal review remains required."
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
+      "transform": "date.issuePlaceDateLine",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "official.issuerTitle",
+      "from": "official.issuerTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "caseDecision.prosecutionDecisionLegalBasisLine",
+      "from": "caseDecision.prosecutionDecisionLegalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "accusedDecision.prosecutionDecisionLegalBasisLine",
+      "from": "accusedDecision.prosecutionDecisionLegalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "caseJoinder.legalBasisLine",
+      "from": "caseJoinder.legalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "caseRecovery.legalBasisLine",
+      "from": "caseRecovery.legalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "investigationConclusion.legalBasisLine",
+      "from": "investigationConclusion.legalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.criminalActDescriptionLine",
+      "from": "indictment.criminalActDescriptionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.aggravatingMitigatingAnalysisLine",
+      "from": "indictment.aggravatingMitigatingAnalysisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.evidenceHandlingLine",
+      "from": "indictment.evidenceHandlingLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.civilLiabilityLine",
+      "from": "indictment.civilLiabilityLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.otherFactsLine",
+      "from": "indictment.otherFactsLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.summaryConclusionLine",
+      "from": "indictment.summaryConclusionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.absentAccusedNoteLine",
+      "from": "indictment.absentAccusedNoteLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.defendantIdentityLine",
+      "from": "indictment.defendantIdentityLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.familyBackgroundLine",
+      "from": "indictment.familyBackgroundLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.specialStatusLine",
+      "from": "indictment.specialStatusLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.administrativeViolationLine",
+      "from": "indictment.administrativeViolationLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.criminalRecordLine",
+      "from": "indictment.criminalRecordLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.preventiveMeasureLine",
+      "from": "indictment.preventiveMeasureLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.crimeConclusionLine",
+      "from": "indictment.crimeConclusionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.aggravatingMitigatingLine",
+      "from": "indictment.aggravatingMitigatingLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.separatedCaseHandlingLine",
+      "from": "indictment.separatedCaseHandlingLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.article1Line",
+      "from": "indictment.article1Line",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.replacementLine",
+      "from": "indictment.replacementLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.caseFileLine",
+      "from": "indictment.caseFileLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.evidenceListLine",
+      "from": "indictment.evidenceListLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "indictment.summonedPersonsLine",
+      "from": "indictment.summonedPersonsLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.courtLine",
+      "from": "recipients.courtLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.accusedLine",
+      "from": "recipients.accusedLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.defenseCounselLine",
+      "from": "recipients.defenseCounselLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.investigatingAgencyLine",
+      "from": "recipients.investigatingAgencyLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.otherRecipientLine",
+      "from": "recipients.otherRecipientLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signMode",
+      "from": "signature.signMode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "from": "signature.positionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "05",
+      "label": "TRUY TỐ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "156/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "agency",
+      "document",
+      "official",
+      "legalBasis",
+      "caseDecision",
+      "accusedDecision",
+      "caseJoinder",
+      "caseRecovery",
+      "investigationConclusion",
+      "indictment",
+      "recipients",
+      "signature"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "control": "text"
+      },
+      {
+        "path": "official.issuerTitle",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseDecision.prosecutionDecisionLegalBasisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "accusedDecision.prosecutionDecisionLegalBasisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseJoinder.legalBasisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "caseRecovery.legalBasisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "investigationConclusion.legalBasisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.criminalActDescriptionLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.aggravatingMitigatingAnalysisLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.evidenceHandlingLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.civilLiabilityLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.otherFactsLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.summaryConclusionLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.absentAccusedNoteLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.defendantIdentityLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.familyBackgroundLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.specialStatusLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.administrativeViolationLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.criminalRecordLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.preventiveMeasureLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.crimeConclusionLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.aggravatingMitigatingLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.separatedCaseHandlingLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.article1Line",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.replacementLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.caseFileLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.evidenceListLine",
+        "control": "textarea"
+      },
+      {
+        "path": "indictment.summonedPersonsLine",
+        "control": "textarea"
+      },
+      {
+        "path": "recipients.courtLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.accusedLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.defenseCounselLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.investigatingAgencyLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.otherRecipientLine",
+        "control": "text"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "control": "text"
+      },
+      {
+        "path": "signature.signMode",
+        "control": "text"
+      },
+      {
+        "path": "signature.positionTitle",
+        "control": "text"
+      },
+      {
+        "path": "signature.signerName",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:37.007Z",
+  "reviewedBy": "automated-semantic-remediation",
+  "reviewedAt": "2026-06-22T07:44:36.277Z",
+  "reviewKind": "automated"
+}

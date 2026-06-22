@@ -198,7 +198,11 @@ describe("contract-normalizer (JS mirror)", () => {
     assert.strictEqual(n.status, "draft");
     assert.strictEqual(n.runtimeEligible, false);
     assert.strictEqual(n.needsReview, true);
-    assert.ok(n.genericFieldCount > 0, "BM-004 should have generic fields");
+    assert.strictEqual(
+      n.genericFieldCount,
+      0,
+      "BM-004 has semantic paths but remains review-required while draft",
+    );
   });
 
   it("reference docs excluded from contracts", () => {

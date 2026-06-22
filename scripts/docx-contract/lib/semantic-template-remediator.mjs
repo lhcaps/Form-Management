@@ -33,6 +33,48 @@ const BM020_SOURCE = Object.freeze({
   signature: "7………………………………",
 });
 
+const BM058_SOURCE = Object.freeze({
+  detentionDuration:
+    "Thời hạn tạm hoãn xuất cảnh {{measure.exitPostponementDurationText}} kể từ {{measure.exitPostponementFromDateText}} đến {{measure.exitPostponementToDateText}}.",
+});
+
+const BM213_SOURCE = Object.freeze({
+  agency: "VIỆN KIỂM SÁT … .................................................",
+  documentCode: "Số: …/YC-VKS…-…",
+  issueDate: "…, ngày … tháng … năm 20…",
+  official: "VIỆN TRƯỞNG VIỆN KIỂM SÁT2…",
+  identity:
+    "Họ tên:......................................................................................... Giới tính:………",
+  otherName:
+    "Tên gọi khác: …………...........................................................................................",
+  birth:
+    "Sinh ngày ............ tháng ............ năm ...................... tại:…………………….. …...",
+  nationality:
+    "Quốc tịch: .............................................; Dân tộc: ......................; Tôn giáo:… …...",
+  occupation:
+    "Nghề nghiệp:.............................................................................................................",
+  identityDocument:
+    "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân:……..…………..",
+  identityIssue:
+    "Cấp ngày............ tháng ............ năm ................... Nơi cấp:………………..……...",
+  permanentAddress: "Nơi thường trú: ……………………………………………………………………",
+  temporaryAddress: "Nơi tạm trú: ………………………………………………………………………..",
+  currentAddress: "Nơi ở hiện tại: ……………………………………………………………………..",
+  context:
+    "là bị hại/người làm chứng trong vụ án… có thông tin/hình ảnh/… cá nhân đã/đang/có nguy cơ bị phát tán trên không gian mạng, ảnh hưởng nghiêm trọng đến quyền riêng tư, danh dự, nhân phẩm và quyền lợi ích hợp pháp của người chưa thành niên theo quy định pháp luật,",
+  article1:
+    "1. Cơ quan, người có thẩm quyền… áp dụng các biện pháp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân phẩm của người chưa thành niên là bị hại/người làm chứng bị phát tán trên không gian mạng.",
+  resultDeadline:
+    "Cơ quan, người có thẩm quyền7… thông báo kết quả thực hiện cho Viện kiểm sát2 … trước … giờ … ngày … tháng … năm ….",
+  article2:
+    "2. Cơ quan/tổ chức/cá nhân liên quan… phối hợp chặt chẽ với7… trong việc rà soát, cung cấp thông tin, phát hiện và xử lý hành vi phát tán trái pháp luật thông tin/hình ảnh/… cá nhân của người chưa thành niên để bảo đảm quyền và lợi hợp pháp của người chưa thành niên./.",
+  primaryRecipient: "- 5…;",
+  investigationRecipient: "- 7…;",
+  otherRecipients: "- 8…;",
+  archive: "- Lưu: HSVV/VA, HSKS, VP.",
+  signature: "……………………………..",
+});
+
 const BM019_REPLACEMENTS = Object.freeze([
   {
     id: "agency",
@@ -146,6 +188,142 @@ const BM020_REPLACEMENTS = Object.freeze([
   },
 ]);
 
+const BM058_REPLACEMENTS = Object.freeze([
+  {
+    id: "detention-duration",
+    source: BM058_SOURCE.detentionDuration,
+    lines: [
+      "Thời hạn tạm giam {{measure.detentionDurationText}} kể từ {{measure.detentionFromDateText}} đến {{measure.detentionToDateText}}.",
+    ],
+  },
+]);
+
+const BM213_REPLACEMENTS = Object.freeze([
+  {
+    id: "agency",
+    source: BM213_SOURCE.agency,
+    lines: ["{{agency.parentName}} {{agency.name}}"],
+  },
+  {
+    id: "document-code",
+    source: BM213_SOURCE.documentCode,
+    lines: ["Số: {{document.documentCode}}"],
+  },
+  {
+    id: "issue-date",
+    source: BM213_SOURCE.issueDate,
+    lines: ["{{document.issuePlaceAndDateLine}}"],
+  },
+  {
+    id: "official",
+    source: BM213_SOURCE.official,
+    lines: ["{{official.issuerTitle}}"],
+  },
+  {
+    id: "identity",
+    source: BM213_SOURCE.identity,
+    lines: [
+      "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}",
+    ],
+  },
+  {
+    id: "other-name",
+    source: BM213_SOURCE.otherName,
+    lines: ["Tên gọi khác: {{person.otherName}}"],
+  },
+  {
+    id: "birth",
+    source: BM213_SOURCE.birth,
+    lines: [
+      "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}",
+    ],
+  },
+  {
+    id: "nationality",
+    source: BM213_SOURCE.nationality,
+    lines: [
+      "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}",
+    ],
+  },
+  {
+    id: "occupation",
+    source: BM213_SOURCE.occupation,
+    lines: ["Nghề nghiệp: {{person.occupation}}"],
+  },
+  {
+    id: "identity-document",
+    source: BM213_SOURCE.identityDocument,
+    lines: [
+      "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}}",
+    ],
+  },
+  {
+    id: "identity-issue",
+    source: BM213_SOURCE.identityIssue,
+    lines: ["{{person.identityIssueLine}}"],
+  },
+  {
+    id: "permanent-address",
+    source: BM213_SOURCE.permanentAddress,
+    lines: ["Nơi thường trú: {{person.permanentAddress}}"],
+  },
+  {
+    id: "temporary-address",
+    source: BM213_SOURCE.temporaryAddress,
+    lines: ["Nơi tạm trú: {{person.temporaryAddress}}"],
+  },
+  {
+    id: "current-address",
+    source: BM213_SOURCE.currentAddress,
+    lines: ["Nơi ở hiện tại: {{person.currentAddress}}"],
+  },
+  {
+    id: "context",
+    source: BM213_SOURCE.context,
+    lines: ["{{juvenileProtection.contextLine}}"],
+  },
+  {
+    id: "article-1",
+    source: BM213_SOURCE.article1,
+    lines: ["1. {{juvenileProtection.article1Line}}"],
+  },
+  {
+    id: "result-deadline",
+    source: BM213_SOURCE.resultDeadline,
+    lines: ["{{juvenileProtection.resultDeadlineLine}}"],
+  },
+  {
+    id: "article-2",
+    source: BM213_SOURCE.article2,
+    lines: ["2. {{juvenileProtection.article2Line}}"],
+  },
+  {
+    id: "primary-recipient",
+    source: BM213_SOURCE.primaryRecipient,
+    lines: ["- {{recipients.primaryLine}};"],
+  },
+  {
+    id: "investigation-recipient",
+    source: BM213_SOURCE.investigationRecipient,
+    lines: ["- {{recipients.investigationAuthorityLine}};"],
+  },
+  {
+    id: "other-recipients",
+    source: BM213_SOURCE.otherRecipients,
+    lines: ["- {{recipients.otherRecipientsLine}};"],
+  },
+  {
+    id: "archive",
+    source: BM213_SOURCE.archive,
+    lines: ["- {{recipients.archiveLine}}."],
+  },
+  {
+    id: "signature",
+    source: BM213_SOURCE.signature,
+    lines: ["{{signature.signerName}}"],
+  },
+]);
+
 const TEMPLATE_CONFIG = Object.freeze({
   "BM-019": {
     replacements: BM019_REPLACEMENTS,
@@ -184,6 +362,47 @@ const TEMPLATE_CONFIG = Object.freeze({
       "{{recipients.archiveLine}}",
       "{{signature.signMode}}",
       "{{signature.positionTitle}}",
+      "{{signature.signerName}}",
+    ],
+  },
+  "BM-058": {
+    replacements: BM058_REPLACEMENTS,
+    requiredOutputs: [
+      "{{measure.detentionDurationText}}",
+      "{{measure.detentionFromDateText}}",
+      "{{measure.detentionToDateText}}",
+    ],
+  },
+  "BM-213": {
+    replacements: BM213_REPLACEMENTS,
+    requiredOutputs: [
+      "{{agency.parentName}}",
+      "{{agency.name}}",
+      "{{document.documentCode}}",
+      "{{document.issuePlaceAndDateLine}}",
+      "{{official.issuerTitle}}",
+      "{{person.fullName}}",
+      "{{person.genderLabel}}",
+      "{{person.otherName}}",
+      "{{person.dateOfBirthText}}",
+      "{{person.placeOfBirth}}",
+      "{{person.nationality}}",
+      "{{person.ethnicity}}",
+      "{{person.religion}}",
+      "{{person.occupation}}",
+      "{{person.identityDocumentLine}}",
+      "{{person.identityIssueLine}}",
+      "{{person.permanentAddress}}",
+      "{{person.temporaryAddress}}",
+      "{{person.currentAddress}}",
+      "{{juvenileProtection.contextLine}}",
+      "{{juvenileProtection.article1Line}}",
+      "{{juvenileProtection.resultDeadlineLine}}",
+      "{{juvenileProtection.article2Line}}",
+      "{{recipients.primaryLine}}",
+      "{{recipients.investigationAuthorityLine}}",
+      "{{recipients.otherRecipientsLine}}",
+      "{{recipients.archiveLine}}",
       "{{signature.signerName}}",
     ],
   },
