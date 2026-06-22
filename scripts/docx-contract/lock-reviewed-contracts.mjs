@@ -1,47 +1,86 @@
 #!/usr/bin/env node
-// Phase C lock helper: apply human-reviewed mapping to draft contracts.
-// Writes locked contracts to docs/audit/docx/contracts/locked/.
+// Applies explicitly reviewed semantic mappings to draft DOCX contracts.
 
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+import {
+  evaluateFormArtifact,
+  isGenericContractPath,
+} from "./lib/form-corpus-quality.mjs";
 
 const ROOT = process.cwd();
 const CONTRACTS_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts");
-const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
-const HUMAN_REVIEW_DIR = path.join(ROOT, "docs", "audit", "docx", "human-review");
+const LOCKED_DIR = path.join(CONTRACTS_DIR, "locked");
+const THIS_FILE = fileURLToPath(import.meta.url);
 
-const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
+const loadJson = (filePath) =>
+  JSON.parse(fs.readFileSync(filePath, "utf8"));
 
 function getMappingPath() {
-  const idx = process.argv.findIndex((a) => a === "--mapping");
-  if (idx === -1 || idx >= process.argv.length - 1) {
-    throw new Error("Usage: node lock-reviewed-contracts.mjs --mapping <path-to-mapping.json>");
+  const index = process.argv.findIndex((argument) => argument === "--mapping");
+  if (index === -1 || index >= process.argv.length - 1) {
+    throw new Error(
+      "Usage: node lock-reviewed-contracts.mjs --mapping <path-to-mapping.json>",
+    );
   }
-  return process.argv[idx + 1];
+  return process.argv[index + 1];
 }
 
-function validateMapping(mapping) {
+export function validateMapping(mapping) {
   const errors = [];
 
   if (!mapping.reviewedBy) errors.push("mapping.reviewedBy is required");
   if (!mapping.reviewedAt) errors.push("mapping.reviewedAt is required");
+  if (!["human", "automated"].includes(mapping.reviewKind)) {
+    errors.push('mapping.reviewKind must be "human" or "automated"');
+  }
   if (!mapping.targets || typeof mapping.targets !== "object") {
     errors.push("mapping.targets must be an object");
     return errors;
   }
 
-  for (const [bm, target] of Object.entries(mapping.targets)) {
-    if (!target.decision) errors.push(`[${bm}] decision is required`);
-    if (target.decision === "locked") {
-      if (!target.sourceId) errors.push(`[${bm}] sourceId is required for locked decision`);
-      if (!target.slotMappings || typeof target.slotMappings !== "object") {
-        errors.push(`[${bm}] slotMappings must be an object for locked decision`);
-      } else {
-        for (const [slotId, mappingEntry] of Object.entries(target.slotMappings)) {
-          if (!mappingEntry.canonicalPath) errors.push(`[${bm}][${slotId}] canonicalPath is required`);
-          if (!mappingEntry.source) errors.push(`[${bm}][${slotId}] source is required`);
-          if (!mappingEntry.reviewEvidence) errors.push(`[${bm}][${slotId}] reviewEvidence is required`);
-        }
+  for (const [templateCode, target] of Object.entries(mapping.targets)) {
+    if (!target.decision) {
+      errors.push(`[${templateCode}] decision is required`);
+    }
+    if (
+      target.decision === "locked" &&
+      mapping.reviewKind === "automated"
+    ) {
+      errors.push(
+        `[${templateCode}] automated review cannot produce decision="locked"`,
+      );
+    }
+    if (target.decision !== "locked") continue;
+
+    if (!target.sourceId) {
+      errors.push(
+        `[${templateCode}] sourceId is required for locked decision`,
+      );
+    }
+    if (!target.slotMappings || typeof target.slotMappings !== "object") {
+      errors.push(
+        `[${templateCode}] slotMappings must be an object for locked decision`,
+      );
+      continue;
+    }
+    for (const [slotId, mappingEntry] of Object.entries(
+      target.slotMappings,
+    )) {
+      if (!mappingEntry.canonicalPath) {
+        errors.push(
+          `[${templateCode}][${slotId}] canonicalPath is required`,
+        );
+      }
+      if (!mappingEntry.source) {
+        errors.push(`[${templateCode}][${slotId}] source is required`);
+      }
+      if (!mappingEntry.reviewEvidence) {
+        errors.push(
+          `[${templateCode}][${slotId}] reviewEvidence is required`,
+        );
       }
     }
   }
@@ -50,108 +89,195 @@ function validateMapping(mapping) {
 }
 
 function findDraftContract(sourceId) {
-  const files = fs.readdirSync(CONTRACTS_DIR).filter(
-    (n) => n.endsWith(".contract.draft.json") && !n.startsWith("_"),
-  );
-  return files.find((f) => f.includes(sourceId));
+  return fs
+    .readdirSync(CONTRACTS_DIR)
+    .filter(
+      (fileName) =>
+        fileName.endsWith(".contract.draft.json") &&
+        !fileName.startsWith("_"),
+    )
+    .find((fileName) => fileName.includes(sourceId));
 }
 
-function checkGenericFieldIssues(contract) {
+export function checkLockBlockingIssues(contract) {
   const issues = [];
 
-  const genericSlots = (contract.docxSlots ?? []).filter((s) => /^[a-z]+\.field\d+$/i.test(s.slotId));
+  const genericSlots = (contract.docxSlots ?? []).filter((slot) =>
+    isGenericContractPath(slot.slotId),
+  );
   if (genericSlots.length > 0) {
-    issues.push(`${genericSlots.length} generic .field# slotId(s): ${genericSlots.map((s) => s.slotId).join(", ")}`);
+    issues.push(
+      `${genericSlots.length} generic slotId(s): ${genericSlots
+        .map((slot) => slot.slotId)
+        .join(", ")}`,
+    );
   }
 
-  const genericFields = (contract.canonicalFields ?? []).filter((f) => /\.field\d+$/.test(f.path));
+  const genericFields = (contract.canonicalFields ?? []).filter((field) =>
+    isGenericContractPath(field.path),
+  );
   if (genericFields.length > 0) {
-    issues.push(`${genericFields.length} generic .field# canonicalField path(s): ${genericFields.map((f) => f.path).join(", ")}`);
+    issues.push(
+      `${genericFields.length} generic canonicalField path(s): ${genericFields
+        .map((field) => field.path)
+        .join(", ")}`,
+    );
   }
 
-  const unknownSources = (contract.canonicalFields ?? []).filter((f) => f.source === "unknown");
+  const unknownSources = (contract.canonicalFields ?? []).filter(
+    (field) => !field.source || field.source === "unknown",
+  );
   if (unknownSources.length > 0) {
-    issues.push(`${unknownSources.length} canonicalField with source=unknown`);
+    issues.push(
+      `${unknownSources.length} canonicalField(s) with source=unknown`,
+    );
   }
 
   const reviewRequired = [
-    ...(contract.canonicalFields ?? []).filter((f) => f.reviewRequired === true),
-    ...(contract.docxSlots ?? []).filter((s) => s.reviewRequired === true),
-    ...(contract.renderBindings ?? []).filter((b) => b.reviewRequired === true),
+    ...(contract.canonicalFields ?? []).filter(
+      (field) => field.reviewRequired === true,
+    ),
+    ...(contract.docxSlots ?? []).filter(
+      (slot) => slot.reviewRequired === true,
+    ),
+    ...(contract.renderBindings ?? []).filter(
+      (binding) => binding.reviewRequired === true,
+    ),
   ];
   if (reviewRequired.length > 0) {
     issues.push(`${reviewRequired.length} item(s) with reviewRequired=true`);
   }
 
+  const unresolved = (contract.unresolvedQuestions ?? []).filter((value) =>
+    value?.trim(),
+  );
+  if (unresolved.length > 0) {
+    issues.push(`${unresolved.length} unresolved question(s)`);
+  }
+
   return issues;
 }
 
-function applyLock(contract, target, mapping, sourceId) {
-  const locked = JSON.parse(JSON.stringify(contract));
+export function collapseExactDuplicates(
+  records,
+  { key, semanticValue, label },
+) {
+  const byKey = new Map();
+  for (const record of records) {
+    const recordKey = key(record);
+    const existing = byKey.get(recordKey);
+    if (!existing) {
+      byKey.set(recordKey, record);
+      continue;
+    }
+    if (
+      JSON.stringify(semanticValue(existing)) !==
+      JSON.stringify(semanticValue(record))
+    ) {
+      throw new Error(`Conflicting duplicate ${label} "${recordKey}".`);
+    }
+  }
+  return [...byKey.values()];
+}
+
+function mappingEntryFor(target, pathValue) {
+  return (
+    target.slotMappings?.[pathValue] ??
+    target.slotMappings?.[pathValue.replace(/_(\d+)$/u, "")] ??
+    Object.values(target.slotMappings ?? {}).find(
+      (entry) => entry.canonicalPath === pathValue,
+    )
+  );
+}
+
+export function applyLock(contract, target, mapping, sourceId) {
+  const locked = structuredClone(contract);
 
   locked.status = "locked";
   locked.sourceId = sourceId;
   locked.reviewedBy = mapping.reviewedBy;
   locked.reviewedAt = mapping.reviewedAt;
+  locked.reviewKind = mapping.reviewKind;
 
-  // Apply slotMappings to docxSlots
-  for (const slot of locked.docxSlots ?? []) {
-    // Try exact match first, then base-name match (strip _2, _3, etc. suffix)
-    const entry =
-      target.slotMappings?.[slot.slotId] ??
-      target.slotMappings?.[slot.slotId.replace(/_(\d+)$/, "")];
-    if (entry) {
-      slot.reviewRequired = false;
-      if (entry.reviewEvidence) {
-        slot.reviewEvidence = {
-          ...(slot.evidence ?? {}),
-          ...entry.reviewEvidence,
-        };
-      }
-    } else {
-      // Slot not in mapping — clear reviewRequired for non-generic slots
-      if (slot.reviewRequired === true && !/\.field\d+$/.test(slot.slotId)) {
-        slot.reviewRequired = false;
-      }
-    }
-  }
+  locked.docxSlots = (locked.docxSlots ?? []).map((slot) => {
+    const entry = mappingEntryFor(target, slot.slotId);
+    if (!entry) return slot;
 
-  // Apply slotMappings to canonicalFields
+    slot.slotId = entry.canonicalPath;
+    slot.reviewRequired = false;
+    slot.reviewEvidence = {
+      ...(slot.evidence ?? {}),
+      ...entry.reviewEvidence,
+    };
+    return slot;
+  });
+  locked.docxSlots = collapseExactDuplicates(locked.docxSlots, {
+    key: (slot) => slot.slotId,
+    semanticValue: (slot) => ({
+      slotType: slot.slotType ?? null,
+      required: Boolean(slot.required),
+      reviewRequired: Boolean(slot.reviewRequired),
+    }),
+    label: "DOCX slot",
+  });
+
   for (const field of locked.canonicalFields ?? []) {
-    // Find the slot that maps to this field's path
-    const slotEntry = Object.values(target.slotMappings ?? {}).find(
-      (e) => e.canonicalPath === field.path,
-    );
-    if (slotEntry) {
-      field.source = slotEntry.source;
-      field.transform = slotEntry.transform;
-      field.reviewRequired = false;
-      field.reviewedBy = mapping.reviewedBy;
-      field.reviewedAt = mapping.reviewedAt;
-      field.reviewEvidence = slotEntry.reviewEvidence ?? null;
-    }
-    // If field has no mapping entry, keep as-is
-  }
+    const entry = mappingEntryFor(target, field.path);
+    if (!entry) continue;
 
-  // Apply slotMappings to renderBindings
+    field.path = entry.canonicalPath;
+    field.source = entry.source;
+    field.transform = entry.transform;
+    field.reviewRequired = false;
+    field.reviewedBy = mapping.reviewedBy;
+    field.reviewedAt = mapping.reviewedAt;
+    field.reviewEvidence = entry.reviewEvidence ?? null;
+  }
+  locked.canonicalFields = collapseExactDuplicates(
+    locked.canonicalFields ?? [],
+    {
+      key: (field) => field.path,
+      semanticValue: (field) => ({
+        type: field.type ?? null,
+        source: field.source ?? null,
+        required: Boolean(field.required),
+        uiComponent: field.uiComponent ?? null,
+        reviewRequired: Boolean(field.reviewRequired),
+      }),
+      label: "canonical field",
+    },
+  );
+
   for (const binding of locked.renderBindings ?? []) {
-    const entry = target.slotMappings?.[binding.slotId];
-    if (entry) {
-      binding.reviewRequired = false;
-      binding.from = entry.canonicalPath ?? binding.from;
-      binding.transform = entry.transform ?? binding.transform;
-    } else {
-      binding.reviewRequired = false;
-    }
-  }
+    const entry = mappingEntryFor(target, binding.slotId);
+    if (!entry) continue;
 
-  // Set unresolvedQuestions to empty for locked contract
-  locked.unresolvedQuestions = [];
+    binding.slotId = entry.canonicalPath;
+    binding.from = entry.canonicalPath;
+    binding.transform = entry.transform ?? binding.transform;
+    binding.reviewRequired = false;
+  }
+  locked.renderBindings = collapseExactDuplicates(
+    locked.renderBindings ?? [],
+    {
+      key: (binding) => binding.slotId,
+      semanticValue: (binding) => ({
+        from: binding.from ?? null,
+        transform: binding.transform ?? null,
+        fallback: binding.fallback ?? null,
+        reviewRequired: Boolean(binding.reviewRequired),
+      }),
+      label: "render binding",
+    },
+  );
+
   locked.warnings = [];
 
-  // Set all reviewRequired to false on productMetadata and renderFormatHints
   if (locked.productMetadata) {
-    locked.productMetadata.stage = { ...locked.productMetadata.stage, reviewRequired: false };
+    locked.productMetadata.stage = {
+      ...locked.productMetadata.stage,
+      reviewRequired: false,
+    };
     locked.productMetadata.reviewRequired = false;
   }
   if (locked.renderFormatHints) {
@@ -167,60 +293,140 @@ function applyLock(contract, target, mapping, sourceId) {
   return locked;
 }
 
+function normalizedPathFor(contract) {
+  return contract.extractionSource?.relativePath
+    ? path.join(ROOT, contract.extractionSource.relativePath)
+    : null;
+}
+
 const main = () => {
   const mappingPath = getMappingPath();
   if (!fs.existsSync(mappingPath)) {
     console.error(`Mapping file not found: ${mappingPath}`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   const mapping = loadJson(mappingPath);
-  const errors = validateMapping(mapping);
-  if (errors.length > 0) {
+  const mappingErrors = validateMapping(mapping);
+  if (mappingErrors.length > 0) {
     console.error("Mapping validation errors:");
-    for (const e of errors) console.error("  - " + e);
-    process.exit(1);
+    for (const error of mappingErrors) console.error(`  - ${error}`);
+    process.exitCode = 1;
+    return;
   }
 
   fs.mkdirSync(LOCKED_DIR, { recursive: true });
 
   const results = [];
-  for (const [bm, target] of Object.entries(mapping.targets)) {
+  for (const [templateCode, target] of Object.entries(mapping.targets)) {
     if (target.decision !== "locked") {
-      console.log(`[${bm}] decision = "${target.decision}" — skipping`);
-      results.push({ bm, decision: target.decision, status: "skipped" });
+      console.log(
+        `[${templateCode}] decision = "${target.decision}" - skipping`,
+      );
+      results.push({
+        templateCode,
+        decision: target.decision,
+        status: "skipped",
+      });
       continue;
     }
 
-    const sourceId = target.sourceId ?? bm;
+    const sourceId = target.sourceId ?? templateCode;
     const draftFile = findDraftContract(sourceId);
     if (!draftFile) {
-      console.error(`[${bm}] Draft contract not found for sourceId: ${sourceId}`);
-      results.push({ bm, sourceId, status: "error", error: "Draft not found" });
+      console.error(
+        `[${templateCode}] Draft contract not found for sourceId: ${sourceId}`,
+      );
+      results.push({
+        templateCode,
+        sourceId,
+        status: "error",
+        error: "Draft not found",
+      });
       continue;
     }
 
     const draftPath = path.join(CONTRACTS_DIR, draftFile);
     const contract = loadJson(draftPath);
-
-    // Apply lock first so checkGenericFieldIssues sees the post-lock state
-    // (which resolves source=unknown and reviewRequired=true via the mapping)
-    const locked = applyLock(contract, target, mapping, sourceId);
-
-    // Check for blocking issues AFTER applying lock
-    const issues = checkGenericFieldIssues(locked);
-    if (issues.length > 0) {
-      console.error(`[${bm}] Blocking issues — CANNOT LOCK:`);
-      for (const issue of issues) console.error("  - " + issue);
-      results.push({ bm, sourceId, status: "blocked", issues });
+    let locked;
+    try {
+      locked = applyLock(contract, target, mapping, sourceId);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`[${templateCode}] ${message}`);
+      results.push({
+        templateCode,
+        sourceId,
+        status: "blocked",
+        issues: [message],
+      });
       continue;
     }
 
-    const lockedFileName = draftFile.replace(".contract.draft.json", ".contract.locked.json");
+    const blockingIssues = checkLockBlockingIssues(locked);
+    if (blockingIssues.length > 0) {
+      console.error(`[${templateCode}] Blocking issues - CANNOT LOCK:`);
+      for (const issue of blockingIssues) console.error(`  - ${issue}`);
+      results.push({
+        templateCode,
+        sourceId,
+        status: "blocked",
+        issues: blockingIssues,
+      });
+      continue;
+    }
+
+    const normalizedPath = normalizedPathFor(locked);
+    if (!normalizedPath || !fs.existsSync(normalizedPath)) {
+      const message = `Normalized DOCX not found: ${normalizedPath ?? "(missing path)"}`;
+      console.error(`[${templateCode}] ${message}`);
+      results.push({
+        templateCode,
+        sourceId,
+        status: "blocked",
+        issues: [message],
+      });
+      continue;
+    }
+
+    const quality = evaluateFormArtifact({
+      contract: locked,
+      normalizedDocxBuffer: fs.readFileSync(normalizedPath),
+    });
+    if (quality.state !== "VERIFIED") {
+      const qualityIssues = quality.issues.map((entry) => entry.code);
+      console.error(
+        `[${templateCode}] Quality gate blocked lock: ${qualityIssues.join(", ")}`,
+      );
+      results.push({
+        templateCode,
+        sourceId,
+        status: "blocked",
+        issues: qualityIssues,
+      });
+      continue;
+    }
+
+    const lockedFileName = draftFile.replace(
+      ".contract.draft.json",
+      ".contract.locked.json",
+    );
     const lockedPath = path.join(LOCKED_DIR, lockedFileName);
-    fs.writeFileSync(lockedPath, JSON.stringify(locked, null, 2), "utf8");
-    console.log(`[${bm}] Locked: ${lockedPath}`);
-    results.push({ bm, sourceId, file: lockedFileName, status: "locked", slots: locked.docxSlots?.length, fields: locked.canonicalFields?.length });
+    fs.writeFileSync(
+      lockedPath,
+      `${JSON.stringify(locked, null, 2)}\n`,
+      "utf8",
+    );
+    console.log(`[${templateCode}] Locked: ${lockedPath}`);
+    results.push({
+      templateCode,
+      sourceId,
+      file: lockedFileName,
+      status: "locked",
+      slots: locked.docxSlots?.length,
+      fields: locked.canonicalFields?.length,
+    });
   }
 
   const summary = {
@@ -228,11 +434,14 @@ const main = () => {
     mappingFile: mappingPath,
     reviewedBy: mapping.reviewedBy,
     reviewedAt: mapping.reviewedAt,
+    reviewKind: mapping.reviewKind,
     results,
-    totalLocked: results.filter((r) => r.status === "locked").length,
-    totalSkipped: results.filter((r) => r.status === "skipped").length,
-    totalBlocked: results.filter((r) => r.status === "blocked").length,
-    totalError: results.filter((r) => r.status === "error").length,
+    totalLocked: results.filter((result) => result.status === "locked").length,
+    totalSkipped: results.filter((result) => result.status === "skipped")
+      .length,
+    totalBlocked: results.filter((result) => result.status === "blocked")
+      .length,
+    totalError: results.filter((result) => result.status === "error").length,
   };
 
   console.log("\nSummary:");
@@ -241,10 +450,11 @@ const main = () => {
   console.log(`  Blocked: ${summary.totalBlocked}`);
   console.log(`  Error:   ${summary.totalError}`);
 
-  if (summary.totalBlocked > 0) {
-    console.error("\nBlocked contracts must be fixed before locking.");
-    process.exit(1);
+  if (summary.totalBlocked > 0 || summary.totalError > 0) {
+    process.exitCode = 1;
   }
 };
 
-main();
+if (path.resolve(process.argv[1] ?? "") === path.resolve(THIS_FILE)) {
+  main();
+}
