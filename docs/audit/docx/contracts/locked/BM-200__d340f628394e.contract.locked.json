@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-200__d340f628394e",
+  "templateCode": "BM-200",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết",
+  "docx": {
+    "sha256": "d340f628394e30896b4e5739aa6b1c714969cc0238e423f149b8b3621b9f320c",
+    "fileName": "200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/09. NGUOI CHƯA THANH NIEN/200-Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-200/BM-200_normalized.docx",
+    "sha256": "161e42d802bdc9766d5880d1e2c74a1bdf9a44b6d2f0518078deb6ec0e4fe51b",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0011",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0011"
+      }
+    },
+    {
+      "slotId": "document.field",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "Viện kiểm sát2… thông báo cho{{agency.field2}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Viện kiểm sát2… thông báo cho",
+        "textAfter": "",
+        "rawPattern": "{{agency.field2}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Viện kiểm sát2… thông báo cho",
+        "textAfter": "",
+        "rawPattern": "{{agency.field2}}",
+        "context": "[Auto-generated] Viện kiểm sát2… thông báo cho",
+        "blockId": "P0026"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0011"
+      }
+    },
+    {
+      "path": "document.field",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Viện kiểm sát2… thông báo cho",
+        "blockId": "P0026"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.field",
+      "from": "document.field",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": null,
+      "label": null,
+      "suggestedBy": null,
+      "reviewRequired": false
+    },
+    "formNumber": "200/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "agency"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "agency.field2",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:37.030Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z"
+}

@@ -43,8 +43,15 @@ function makeWorkspacePaths(): WorkspacePathsService {
   } as WorkspacePathsService;
 }
 
+function makePrismaService() {
+  return { $connect: jest.fn(), $disconnect: jest.fn() } as unknown;
+}
+
 function buildPlan(formData: Record<string, unknown>): ContractRenderPlan {
-  return new ContractRenderPlanBuilder(makeWorkspacePaths()).build({
+  return new ContractRenderPlanBuilder(
+    makePrismaService() as any,
+    makeWorkspacePaths(),
+  ).build({
     documentId: 'test-document',
     formData,
     templateCode: 'BM-001',

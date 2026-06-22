@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-183__294fc847169f",
+  "templateCode": "BM-183",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ truy tố theo thủ tục rút gọn",
+  "docx": {
+    "sha256": "294fc847169fffca50c187246e8ae500095d58f20eb90ffaf3b50efd7fc45b66",
+    "fileName": "183-QĐ truy tố theo thủ tục rút gọn.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/08. THU TUC DAC BIET/183-QĐ truy tố theo thủ tục rút gọn.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-183/BM-183_normalized.docx",
+    "sha256": "26ae27d5b6bcc002f591a3d08d63b6a8e87e6151b2bf5a2bb03894a97ddfb922",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0011",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0022"
+      }
+    },
+    {
+      "slotId": "document.field",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Trên cơ sở kết quả điều tra và Quyết định đề nghị truy tố số … ngày … tháng … năm … của…, xác định được như sau: {{legalBasis.field3}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Trên cơ sở kết quả điều tra và Quyết định đề nghị truy tố số … ngày … tháng … năm … của…, xác định được như sau:",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.field3}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Trên cơ sở kết quả điều tra và Quyết định đề nghị truy tố số … ngày … tháng … năm … của…, xác định được như sau:",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.field3}}",
+        "context": "[Auto-generated] {{document.field10}}",
+        "blockId": "P0052"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0022"
+      }
+    },
+    {
+      "path": "document.field",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.field10}}",
+        "blockId": "P0052"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.field",
+      "from": "document.field",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "08",
+      "label": "THỦ TỤC ĐẶC BIỆT",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "183/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "legalBasis"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.field3",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.field4",
+        "control": "text"
+      },
+      {
+        "path": "document.field5",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.field6",
+        "control": "text"
+      },
+      {
+        "path": "document.field7",
+        "control": "text"
+      },
+      {
+        "path": "document.field8",
+        "control": "text"
+      },
+      {
+        "path": "document.field9",
+        "control": "text"
+      },
+      {
+        "path": "document.field10",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:37.021Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z"
+}

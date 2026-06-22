@@ -1,0 +1,84 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z",
+  "targets": {
+    "BM-036": {
+      "sourceId": "BM-036__6f4466480a94",
+      "decision": "locked",
+      "slotMappings": {
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] Xét",
+            "blockId": "P0028"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto] Họ tên:8",
+            "blockId": "P0034"
+          }
+        },
+        "person.fullName": {
+          "canonicalPath": "person.fullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{document.issueDate}}",
+            "blockId": "P0036"
+          }
+        },
+        "legalBasis.procedureArticlesLine": {
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{document.field8}}",
+            "blockId": "P0037"
+          }
+        },
+        "decision.summaryLine": {
+          "canonicalPath": "decision.summaryLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{agency.parentNameUpper}}",
+            "blockId": "P0040"
+          }
+        },
+        "recipients.executionAgencyLine": {
+          "canonicalPath": "recipients.executionAgencyLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{decision.decisionLine}}",
+            "blockId": "P0042"
+          }
+        },
+        "recipients.personLine": {
+          "canonicalPath": "recipients.personLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] 10",
+            "blockId": "P0046"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] 11",
+            "blockId": "P0049"
+          }
+        }
+      }
+    }
+  }
+}

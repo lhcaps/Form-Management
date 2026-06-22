@@ -25,6 +25,58 @@ export class ContractShadowRendererOrchestrator {
     private readonly workspace: WorkspacePathsService,
   ) {}
 
+  async renderActive(documentId: string): Promise<void> {
+    let descriptor: Awaited<
+      ReturnType<GeneratedDocumentDescriptorPort['findByDocumentId']>
+    >;
+    try {
+      descriptor = await this.descriptors.findByDocumentId(documentId);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `Cannot resolve descriptor for documentId=${documentId}: ${msg}`,
+      );
+    }
+
+    let plan: ContractRenderPlan;
+    try {
+      plan = this.planBuilder.build(descriptor);
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `Failed to build render plan for documentId=${documentId}: ${msg}`,
+      );
+    }
+
+    const formData = descriptor.formData ?? {};
+    const renderedDocx = await this.renderEngine.renderActiveDocx(
+      plan,
+      formData,
+    );
+
+    const activeOutputDir = join(
+      this.workspace.generatedDocumentsRoot,
+      'cases',
+    );
+
+    try {
+      await this.renderEngine.persistActiveRender(
+        plan,
+        renderedDocx,
+        activeOutputDir,
+      );
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `Active render persistence failed for documentId=${documentId}: ${msg}`,
+      );
+    }
+
+    this.logger.log(
+      `Active render complete for documentId=${documentId}, templateCode=${plan.templateCode}.`,
+    );
+  }
+
   async renderShadow(
     command: DocumentRenderCommand,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

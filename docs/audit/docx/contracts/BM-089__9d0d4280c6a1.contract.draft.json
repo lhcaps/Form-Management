@@ -14,51 +14,83 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/89-QĐ huỷ bỏ QĐ tách vụ án hình sự.doc",
-    "sha256": "9d0d4280c6a17205e7f13d14e0319e9b1e6f51fcb9671a653d23c86c4e80c0b6",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-089/BM-089_normalized.docx",
+    "sha256": "7d8cabd7d9036cb0c36d0b268d885de9ba061bde9869561ddcff3d80b445fcce",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.vienKiem",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0010",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "agency.vienKiem",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "{{document.field2}}..",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "................................................."
+        "textAfter": "..",
+        "rawPattern": "{{document.field2}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.vienKiem",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "agency.vienKiem",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -67,7 +99,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 0 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -92,8 +124,19 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "document"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

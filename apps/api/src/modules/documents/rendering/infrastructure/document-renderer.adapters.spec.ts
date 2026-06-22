@@ -77,6 +77,7 @@ describe('renderer infrastructure adapters', () => {
       },
       select: {
         id: true,
+        render_payload_snapshot: true,
         templates: {
           select: {
             id: true,

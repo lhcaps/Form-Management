@@ -1,0 +1,318 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.818Z",
+  "targets": {
+    "BM-172": {
+      "sourceId": "BM-172__e3a3eb687d2f",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}{{agency.name}}",
+            "blockId": "P0011"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}",
+            "blockId": "P0011"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số:",
+            "blockId": "P0013"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0020"
+          }
+        },
+        "official.issuerTitle": {
+          "canonicalPath": "official.issuerTitle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{official.issuerTitle}}",
+            "blockId": "P0024"
+          }
+        },
+        "legalBasis.procedureArticlesLine": {
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{legalBasis.procedureArticlesLine}}",
+            "blockId": "P0025"
+          }
+        },
+        "propertyReturnCancellation.caseInitiationLine": {
+          "canonicalPath": "propertyReturnCancellation.caseInitiationLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{propertyReturnCancellation.caseInitiationLine}}",
+            "blockId": "P0026"
+          }
+        },
+        "propertyReturnCancellation.defendantInitiationLine": {
+          "canonicalPath": "propertyReturnCancellation.defendantInitiationLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{propertyReturnCancellation.defendantInitiationLine}}",
+            "blockId": "P0027"
+          }
+        },
+        "propertyReturnCancellation.propertyReturnDecisionReviewLine": {
+          "canonicalPath": "propertyReturnCancellation.propertyReturnDecisionReviewLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{propertyReturnCancellation.propertyReturnDecisionReviewLine}}",
+            "blockId": "P0028"
+          }
+        },
+        "propertyReturnCancellation.unlawfulReasonLine": {
+          "canonicalPath": "propertyReturnCancellation.unlawfulReasonLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{propertyReturnCancellation.unlawfulReasonLine}}",
+            "blockId": "P0029"
+          }
+        },
+        "propertyReturnCancellation.article1Line": {
+          "canonicalPath": "propertyReturnCancellation.article1Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 1.",
+            "blockId": "P0031"
+          }
+        },
+        "propertyReturnCancellation.article2Line": {
+          "canonicalPath": "propertyReturnCancellation.article2Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 2.",
+            "blockId": "P0032"
+          }
+        },
+        "propertyReturnCancellation.article3RequestLine": {
+          "canonicalPath": "propertyReturnCancellation.article3RequestLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 3.",
+            "blockId": "P0033"
+          }
+        },
+        "propertyRecipient.gender": {
+          "canonicalPath": "propertyRecipient.gender",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 3. {{propertyReturnCancellation.article3RequestLine}} Giới tính:",
+            "blockId": "P0033"
+          }
+        },
+        "propertyRecipient.aliasName": {
+          "canonicalPath": "propertyRecipient.aliasName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Tên gọi khác:",
+            "blockId": "P0034"
+          }
+        },
+        "propertyRecipient.birthDateLine": {
+          "canonicalPath": "propertyRecipient.birthDateLine",
+          "source": "systemDate",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Sinh ngày",
+            "blockId": "P0035"
+          }
+        },
+        "propertyRecipient.birthPlace": {
+          "canonicalPath": "propertyRecipient.birthPlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Sinh ngày {{propertyRecipient.birthDateLine}} tại:",
+            "blockId": "P0035"
+          }
+        },
+        "propertyRecipient.nationality": {
+          "canonicalPath": "propertyRecipient.nationality",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Quốc tịch:",
+            "blockId": "P0036"
+          }
+        },
+        "propertyRecipient.ethnicity": {
+          "canonicalPath": "propertyRecipient.ethnicity",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Quốc tịch: {{propertyRecipient.nationality}}; Dân tộc:",
+            "blockId": "P0036"
+          }
+        },
+        "propertyRecipient.religion": {
+          "canonicalPath": "propertyRecipient.religion",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Quốc tịch: {{propertyRecipient.nationality}}; Dân tộc: {{propertyRecipient.ethnicity}}; Tôn giáo:",
+            "blockId": "P0036"
+          }
+        },
+        "propertyRecipient.occupation": {
+          "canonicalPath": "propertyRecipient.occupation",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Nghề nghiệp:",
+            "blockId": "P0037"
+          }
+        },
+        "propertyRecipient.identityNumber": {
+          "canonicalPath": "propertyRecipient.identityNumber",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+            "blockId": "P0038"
+          }
+        },
+        "propertyRecipient.identityIssueDateLine": {
+          "canonicalPath": "propertyRecipient.identityIssueDateLine",
+          "source": "systemDate",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Cấp ngày",
+            "blockId": "P0039"
+          }
+        },
+        "propertyRecipient.identityIssuePlace": {
+          "canonicalPath": "propertyRecipient.identityIssuePlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Cấp ngày {{propertyRecipient.identityIssueDateLine}} Nơi cấp:",
+            "blockId": "P0039"
+          }
+        },
+        "propertyRecipient.permanentResidence": {
+          "canonicalPath": "propertyRecipient.permanentResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Nơi thường trú:",
+            "blockId": "P0040"
+          }
+        },
+        "propertyRecipient.temporaryResidence": {
+          "canonicalPath": "propertyRecipient.temporaryResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Nơi tạm trú:",
+            "blockId": "P0041"
+          }
+        },
+        "propertyRecipient.currentResidence": {
+          "canonicalPath": "propertyRecipient.currentResidence",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Nơi ở hiện tại:",
+            "blockId": "P0042"
+          }
+        },
+        "propertyReturnCancellation.article3ExecutionLine": {
+          "canonicalPath": "propertyReturnCancellation.article3ExecutionLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{propertyReturnCancellation.article3ExecutionLine}}",
+            "blockId": "P0043"
+          }
+        },
+        "recipients.primaryLine": {
+          "canonicalPath": "recipients.primaryLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] -",
+            "blockId": "P0046"
+          }
+        },
+        "recipients.propertyRecipientLine": {
+          "canonicalPath": "recipients.propertyRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] -",
+            "blockId": "P0047"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] -",
+            "blockId": "P0048"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signMode}}",
+            "blockId": "P0049"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.positionTitle}}",
+            "blockId": "P0050"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signerName}}",
+            "blockId": "P0052"
+          }
+        }
+      }
+    }
+  }
+}

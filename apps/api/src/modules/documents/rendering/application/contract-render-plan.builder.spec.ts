@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { PrismaService } from '../../../../prisma/prisma.service';
 import { ContractRenderPlanBuilder } from './contract-render-plan.builder';
 import { WorkspacePathsService } from '../../../../infrastructure/paths/workspace-paths.service';
 import type { GeneratedDocumentDescriptor } from './document-renderer.ports';
@@ -8,6 +9,17 @@ function makeWorkspacePaths(repoRoot: string): WorkspacePathsService {
     repoRoot,
     contractsRoot: `${repoRoot}/docs/audit/docx/contracts`,
   } as unknown as WorkspacePathsService;
+}
+
+function makePrismaService(): PrismaService {
+  return {
+    $connect: jest.fn(),
+    $disconnect: jest.fn(),
+  } as unknown as PrismaService;
+}
+
+function makeBuilder(repoRoot: string) {
+  return new ContractRenderPlanBuilder(makePrismaService(), makeWorkspacePaths(repoRoot));
 }
 
 function makeDescriptor(overrides: Partial<GeneratedDocumentDescriptor> = {}): GeneratedDocumentDescriptor {
@@ -25,7 +37,7 @@ const REPO_ROOT = join(process.cwd(), '..', '..');
 describe('ContractRenderPlanBuilder', () => {
   describe('locked contract resolution', () => {
     it('loads another locked template without a hard-coded source suffix', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(
         makeDescriptor({ templateCode: 'BM-002', formData: {} }),
       );
@@ -37,14 +49,14 @@ describe('ContractRenderPlanBuilder', () => {
 
   describe('BM-001 locked contract', () => {
     it('loads the locked BM-001 contract and builds a plan', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
       expect(plan.templateCode).toBe('BM-001');
       expect(plan.contractStatus).toBe('locked');
     });
 
     it('populates fields from canonical fields', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(
         makeDescriptor({
           formData: {
@@ -65,7 +77,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('marks missing required fields explicitly', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor({ formData: {} }));
 
       const missingRequired = plan.missingRequired.map((m) => m.path);
@@ -74,7 +86,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('skips generic field paths containing .field# or [#]', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
 
       const genericFields = plan.fields.filter(
@@ -84,7 +96,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('skips fields with unknown source', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
 
       // Unknown source fields should be treated as 'manual', not rejected
@@ -94,7 +106,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('maps unknown source to manual in the plan', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
 
       // Fields with unknown source should appear as 'manual', not rejected
@@ -103,7 +115,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('does not promote reviewRequired=true slots to binding values', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
 
       // The locked contract BM-001 has no reviewRequired=true slots.
@@ -115,7 +127,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('applies identity transform correctly', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(
         makeDescriptor({
           formData: {
@@ -130,7 +142,7 @@ describe('ContractRenderPlanBuilder', () => {
     });
 
     it('uses fallback when form data is missing', () => {
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor({ formData: {} }));
 
       const binding = plan.bindings.find((b) => b.slotId === 'receiver.fullName');
@@ -144,7 +156,7 @@ describe('ContractRenderPlanBuilder', () => {
       // by verifying that the current locked contract produces no unknown transforms.
       // The builder throws when loading a contract with an unknown transform.
       // We verify the current contract is clean (no unknown transforms in bindings).
-      const builder = new ContractRenderPlanBuilder(makeWorkspacePaths(REPO_ROOT));
+      const builder = makeBuilder(REPO_ROOT);
       const plan = builder.build(makeDescriptor());
 
       const unknownTransformBindings = plan.bindings.filter(

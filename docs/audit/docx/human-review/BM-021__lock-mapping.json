@@ -1,0 +1,75 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z",
+  "targets": {
+    "BM-021": {
+      "sourceId": "BM-021__772319486f41",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentNameUpper": {
+          "canonicalPath": "agency.parentNameUpper",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] VIỆN KIỂM SÁT …",
+            "blockId": "P0013"
+          }
+        },
+        "agency.issuePlace": {
+          "canonicalPath": "agency.issuePlace",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] Xét thấy",
+            "blockId": "P0028"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] Xét thấy{{document.field3}}",
+            "blockId": "P0028"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
+            "blockId": "P0032"
+          }
+        },
+        "legalBasis.procedureArticlesLine": {
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] Điều 2. Viện kiểm sát2",
+            "blockId": "P0033"
+          }
+        },
+        "decision.summaryLine": {
+          "canonicalPath": "decision.summaryLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{document.field9}}{{document.field10}}",
+            "blockId": "P0038"
+          }
+        },
+        "decision.decisionLine": {
+          "canonicalPath": "decision.decisionLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{document.field9}}",
+            "blockId": "P0038"
+          }
+        }
+      }
+    }
+  }
+}

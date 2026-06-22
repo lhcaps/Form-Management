@@ -14,127 +14,118 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/07. BIEN PHAP DIEU TRA DAC BIET/177-QĐ gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.doc",
-    "sha256": "05be0ed9739804279ad6402b5dee206e08d729809bc74650876388ee1d656968",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-177/BM-177_normalized.docx",
+    "sha256": "f771fd16388d3e6c0d06e4efb4b1b03cca54e6a948d95bdf9f966362da5dd23a",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.name",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0004",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "................................................."
+        "rawPattern": "{{document.field1}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field2",
+      "slotId": "agency.name",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0012",
+        "partName": "word/document.xml",
+        "blockId": "P0022",
         "tableCellId": null
       },
-      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
-      "label": "Ô trống dạng \"...\" (agency)",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2{{document.field2}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "agency",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{document.field2}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field3",
+      "slotId": "document.field",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0058",
+        "partName": "word/document.xml",
+        "blockId": "P0038",
         "tableCellId": null
       },
-      "context": "............................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{document.field3}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "............................................"
+        "rawPattern": "{{document.field3}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.name",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.field2",
+      "path": "agency.name",
       "type": "string",
-      "label": "Trường cần điền (agency)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "document.field",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.name",
+      "from": "agency.name",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field2",
-      "from": "agency.field2",
+      "slotId": "agency.name",
+      "from": "agency.name",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field3",
-      "from": "document.field3",
+      "slotId": "document.field",
+      "from": "document.field",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -143,7 +134,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 126 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -168,8 +159,23 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "document"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "document.field3",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

@@ -1,0 +1,138 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.704Z",
+  "targets": {
+    "BM-017": {
+      "sourceId": "BM-017__6b3cad999c61",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}",
+            "blockId": "P0004"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.name}}",
+            "blockId": "P0005"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số:",
+            "blockId": "P0007"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0018"
+          }
+        },
+        "official.issuerTitle": {
+          "canonicalPath": "official.issuerTitle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{official.issuerTitle}}",
+            "blockId": "P0028"
+          }
+        },
+        "caseInitiationRequest.procedureArticlesLine": {
+          "canonicalPath": "caseInitiationRequest.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInitiationRequest.procedureArticlesLine}}",
+            "blockId": "P0029"
+          }
+        },
+        "caseInitiationRequest.assessmentLine": {
+          "canonicalPath": "caseInitiationRequest.assessmentLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInitiationRequest.assessmentLine}}",
+            "blockId": "P0030"
+          }
+        },
+        "caseInitiationRequest.article1Line": {
+          "canonicalPath": "caseInitiationRequest.article1Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] 1.",
+            "blockId": "P0032"
+          }
+        },
+        "caseInitiationRequest.article2Line": {
+          "canonicalPath": "caseInitiationRequest.article2Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] 2.",
+            "blockId": "P0033"
+          }
+        },
+        "caseInitiationRequest.investigationAuthorityRecipientLine": {
+          "canonicalPath": "caseInitiationRequest.investigationAuthorityRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInitiationRequest.investigationAuthorityRecipientLine}}",
+            "blockId": "P0036"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{recipients.archiveLine}}",
+            "blockId": "P0037"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signMode}}",
+            "blockId": "P0038"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.positionTitle}}",
+            "blockId": "P0039"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signerName}}",
+            "blockId": "P0043"
+          }
+        }
+      }
+    }
+  }
+}

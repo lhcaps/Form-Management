@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-107__9b3379af7cfe",
+  "templateCode": "BM-107",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS",
+  "docx": {
+    "sha256": "9b3379af7cfe0c9b6048e7b132a2a1bf3a355f64627212a2001653c930a18162",
+    "fileName": "107-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/107-QĐ huỷ bỏ QĐ tạm đình chỉ điều tra VAHS.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-107/BM-107_normalized.docx",
+    "sha256": "ef94c1780d1de54a7ba8bb44028908d0e9dc7bdf021c84d88e43a9d4acd64213",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.vienKiem",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0013",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0024"
+      }
+    },
+    {
+      "slotId": "document.soQuyet",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Xét Quyết định tạm đình chỉ điều tra vụ án hình sự số … ngày … tháng … năm … của{{case.field3}}về tội … quy định tại khoản … Điều … của Bộ luật Hình sự;",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét Quyết định tạm đình chỉ điều tra vụ án hình sự số … ngày … tháng … năm … của",
+        "textAfter": "về tội … quy định tại khoản … Điều … của Bộ luật Hình sự;",
+        "rawPattern": "{{case.field3}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét Quyết định tạm đình chỉ điều tra vụ án hình sự số … ngày … tháng … năm … của",
+        "textAfter": "về tội … quy định tại khoản … Điều … của Bộ luật Hình sự;",
+        "rawPattern": "{{case.field3}}",
+        "context": "[Auto-generated] Xét Quyết định tạm đình chỉ điều tra vụ án hình sự số … ngày … tháng … năm … của",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0040",
+        "tableCellId": null
+      },
+      "context": "{{document.field4}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field4}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field4}}",
+        "context": "[Auto-generated] {{document.field4}}",
+        "blockId": "P0040"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.vienKiem",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0024"
+      }
+    },
+    {
+      "path": "document.soQuyet",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Xét Quyết định tạm đình chỉ điều tra vụ án hình sự số … ngày … tháng … năm … của",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "agency.diaDanh",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.field4}}",
+        "blockId": "P0040"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.soQuyet",
+      "from": "document.soQuyet",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "from": "agency.diaDanh",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "04",
+      "label": "KHỞI TỐ, ĐIỀU TRA",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "107/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "case"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "case.field3",
+        "control": "text"
+      },
+      {
+        "path": "document.field4",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:36.981Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z"
+}

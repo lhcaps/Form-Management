@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { Injectable, Logger } from '@nestjs/common';
+import { PrismaService } from '../../../../prisma/prisma.service';
 import { WorkspacePathsService } from '../../../../infrastructure/paths/workspace-paths.service';
 import type { GeneratedDocumentDescriptor } from '../application/document-renderer.ports';
 import {
@@ -59,7 +60,10 @@ const VALID_TRANSFORMS = new Set([
 export class ContractRenderPlanBuilder {
   private readonly logger = new Logger(ContractRenderPlanBuilder.name);
 
-  constructor(private readonly workspace: WorkspacePathsService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly workspace: WorkspacePathsService,
+  ) {}
 
   build(descriptor: GeneratedDocumentDescriptor): ContractRenderPlan {
     const normalizedCode = descriptor.templateCode.trim().toUpperCase();
@@ -72,6 +76,8 @@ export class ContractRenderPlanBuilder {
       );
     }
 
+    const formData = this.resolveFormData(descriptor);
+
     const slotMap = new Map(contract.docxSlots.map((s) => [s.slotId, s]));
 
     const fields: ContractRenderPlanField[] = [];
@@ -82,7 +88,7 @@ export class ContractRenderPlanBuilder {
     for (const canonical of contract.canonicalFields) {
       if (canonical.path.includes('.field#') || canonical.path.includes('[#')) {
         warnings.push(
-          `Generic field path "${canonical.path}" not supported in BM-001 plan.`,
+          `Generic field path "${canonical.path}" not supported in contract render plan.`,
         );
         continue;
       }
@@ -94,7 +100,6 @@ export class ContractRenderPlanBuilder {
         );
       }
 
-      const formData = descriptor.formData ?? {};
       const rawValue = formData[canonical.path];
       const resolvedValue = rawValue ?? null;
       const isMissingRequired =
@@ -119,10 +124,9 @@ export class ContractRenderPlanBuilder {
     }
 
     for (const binding of contract.renderBindings) {
-      const slot = slotMap.get(binding.slotId);
-      if (slot?.reviewRequired === true) {
+      if (slotMap.get(binding.slotId)?.reviewRequired === true) {
         warnings.push(
-          `Binding for slot "${binding.slotId}" has reviewRequired=true; D.2.2 shadow render skips review slots.`,
+          `Binding for slot "${binding.slotId}" has reviewRequired=true.`,
         );
       }
 
@@ -132,7 +136,6 @@ export class ContractRenderPlanBuilder {
         );
       }
 
-      const formData = descriptor.formData ?? {};
       const rawValue = formData[binding.from];
       const resolvedValue = this.applyTransform(
         binding.transform,
@@ -154,6 +157,15 @@ export class ContractRenderPlanBuilder {
       contract.sourceId,
       normalizedCode,
     );
+  }
+
+  private resolveFormData(
+    descriptor: GeneratedDocumentDescriptor,
+  ): Record<string, unknown> {
+    if (descriptor.formData && Object.keys(descriptor.formData).length > 0) {
+      return descriptor.formData;
+    }
+    return {};
   }
 
   private loadLockedContract(templateCode: string): LockedContract {

@@ -14,89 +14,188 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/27-Thông báo về việc huỷ bỏ QĐ khởi tố vụ án hình sự.doc",
-    "sha256": "7c207d24faeeccadbe5ae4c5f7d92d1d4cdadff2bcc57748cadca159f2d04fb1",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-027/BM-027_normalized.docx",
+    "sha256": "c7b31b174737891a24dcdb50cf96581a69768e549a851cdda1b56cdc97485cdd",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.tenVien",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0011",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "................................................."
+        "rawPattern": "{{document.field1}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
+      "slotId": "agency.coQuan",
       "location": {
-        "partName": "WordDocument",
+        "partName": "word/document.xml",
+        "blockId": "P0022",
+        "tableCellId": null
+      },
+      "context": "Kính gửi:{{document.field2}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Kính gửi:",
+        "textAfter": "",
+        "rawPattern": "{{document.field2}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "location": {
+        "partName": "word/document.xml",
         "blockId": "P0025",
         "tableCellId": null
       },
-      "context": ".........................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì",
+        "textAfter": "{{case.field4}}..{{case.field5}}",
+        "rawPattern": "{{case.field3}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.soThong",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}",
+        "textAfter": "..{{case.field5}}",
+        "rawPattern": "{{case.field4}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.ngayBan",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ăm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..",
         "textAfter": "",
-        "rawPattern": "........................."
+        "rawPattern": "{{case.field5}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.tenVien",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "document.field2",
+      "path": "agency.coQuan",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "agency.diaDanh",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.soThong",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.ngayBan",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.tenVien",
+      "from": "agency.tenVien",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field2",
-      "from": "document.field2",
+      "slotId": "agency.coQuan",
+      "from": "agency.coQuan",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "from": "agency.diaDanh",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.soThong",
+      "from": "document.soThong",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.ngayBan",
+      "from": "document.ngayBan",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -105,7 +204,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 26 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -130,8 +229,32 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "document",
+      "case"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "case.field3",
+        "control": "text"
+      },
+      {
+        "path": "case.field4",
+        "control": "text"
+      },
+      {
+        "path": "case.field5",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

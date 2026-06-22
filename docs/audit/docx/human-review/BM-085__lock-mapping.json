@@ -1,0 +1,183 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.758Z",
+  "targets": {
+    "BM-085": {
+      "sourceId": "BM-085__ae0054d1db43",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}",
+            "blockId": "P0003"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.name}}",
+            "blockId": "P0004"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số:",
+            "blockId": "P0006"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0018"
+          }
+        },
+        "official.issuerTitle": {
+          "canonicalPath": "official.issuerTitle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{official.issuerTitle}}",
+            "blockId": "P0022"
+          }
+        },
+        "caseInvestigationTransfer.procedureArticlesLine": {
+          "canonicalPath": "caseInvestigationTransfer.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.procedureArticlesLine}}",
+            "blockId": "P0023"
+          }
+        },
+        "caseInvestigationTransfer.reasonLine": {
+          "canonicalPath": "caseInvestigationTransfer.reasonLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.reasonLine}}",
+            "blockId": "P0024"
+          }
+        },
+        "caseInvestigationTransfer.article1Line": {
+          "canonicalPath": "caseInvestigationTransfer.article1Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 1.",
+            "blockId": "P0026"
+          }
+        },
+        "caseInvestigationTransfer.article2Line": {
+          "canonicalPath": "caseInvestigationTransfer.article2Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 2.",
+            "blockId": "P0027"
+          }
+        },
+        "caseInvestigationTransfer.fromInvestigationAuthorityRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.fromInvestigationAuthorityRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.fromInvestigationAuthorityRecipientLine}}",
+            "blockId": "P0030"
+          }
+        },
+        "caseInvestigationTransfer.toInvestigationAuthorityRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.toInvestigationAuthorityRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.toInvestigationAuthorityRecipientLine}}",
+            "blockId": "P0031"
+          }
+        },
+        "caseInvestigationTransfer.toProcuracyRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.toProcuracyRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.toProcuracyRecipientLine}}",
+            "blockId": "P0032"
+          }
+        },
+        "caseInvestigationTransfer.accusedOrRepresentativeRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.accusedOrRepresentativeRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.accusedOrRepresentativeRecipientLine}}",
+            "blockId": "P0033"
+          }
+        },
+        "caseInvestigationTransfer.defenderRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.defenderRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.defenderRecipientLine}}",
+            "blockId": "P0034"
+          }
+        },
+        "caseInvestigationTransfer.otherParticipantRecipientLine": {
+          "canonicalPath": "caseInvestigationTransfer.otherParticipantRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{caseInvestigationTransfer.otherParticipantRecipientLine}}",
+            "blockId": "P0035"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{recipients.archiveLine}}",
+            "blockId": "P0036"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signMode}}",
+            "blockId": "P0037"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.positionTitle}}",
+            "blockId": "P0038"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signerName}}",
+            "blockId": "P0040"
+          }
+        }
+      }
+    }
+  }
+}

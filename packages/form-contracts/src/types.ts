@@ -317,4 +317,9 @@ export type V1Contract = {
     transform?: string;
     fallback?: unknown;
   }>;
+  extensionPoints?: Array<{
+    id: string;
+    kind: string;
+    name: string;
+  }>;
 };

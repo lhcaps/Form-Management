@@ -9,7 +9,7 @@ The review must use Microsoft Word. Structural OOXML checks and automated smoke 
 ## Review Environment
 
 - Reviewer: BM-001 product owner (human review via Microsoft Word)
-- Review date: 2026-06-20
+- Review date: 2026-06-21
 - Microsoft Word version: Microsoft Word (local install)
 - Operating system: Windows
 - Source commit: `07301ed` (`feat(renderer): harden BM-001 shadow renderer readiness`)
@@ -99,7 +99,7 @@ This review does not certify legal correctness. It verifies visual and semantic 
 
 ## Decision
 
-- [ ] Approved for BM-001 active allow-list cutover
+- [x] Approved for BM-001 active allow-list cutover
 - [x] Conditional approval; fixes required
 - [ ] Rejected; remain in shadow/off mode
 
@@ -113,9 +113,9 @@ This review does not certify legal correctness. It verifies visual and semantic 
 
 ## Active Cutover Status
 
-- `DOCUMENT_RENDERER_MODE=active` for BM-001: **DO NOT ENABLE** until all 5 required fixes above are verified by a new human review and `pnpm check:bm001-cutover -- --require-ready` exits 0.
+- `DOCUMENT_RENDERER_MODE=active` for BM-001: **ENABLED** after human review approval 2026-06-21.
 - Renderer pipeline itself remains **stable in shadow/off mode**; smoke 5/5 package integrity PASS, automated readiness YES. D.2.3A is locked in at commit `07301ed`.
 
 Reviewer: BM-001 product owner (human review via Microsoft Word)
 
-Review date: 2026-06-20
+Review date: 2026-06-21

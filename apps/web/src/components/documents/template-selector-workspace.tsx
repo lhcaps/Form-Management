@@ -142,6 +142,7 @@ type Candidate = VksTemplateItem & {
   canCreate: boolean;
   score: number;
   reasons: string[];
+  catalogItem: FormPlatformCatalogItem | null;
 };
 
 const NEED_OPTIONS = [
@@ -226,7 +227,21 @@ function containsAny(corpus: string, words: string[]) {
 }
 
 function TemplateStatusBadge({ item }: { item: Candidate }) {
-  if (item.canCreate || GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code]) {
+  const catalogItem = item.catalogItem;
+  const hasDirectDocument = Boolean(
+    GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+  );
+  const hasDbTemplate = Boolean(item.dbTemplateId);
+
+  if (catalogItem?.authoring.canOpen) {
+    return (
+      <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-black text-emerald-700">
+        Mở Studio
+      </span>
+    );
+  }
+
+  if (hasDirectDocument) {
     return (
       <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-black text-emerald-700">
         Có thể mở
@@ -234,7 +249,15 @@ function TemplateStatusBadge({ item }: { item: Candidate }) {
     );
   }
 
-  if (item.isImplemented) {
+  if (catalogItem) {
+    return (
+      <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-black text-amber-700">
+        {item.isImplemented ? "Chưa khả dụng" : "Chưa triển khai"}
+      </span>
+    );
+  }
+
+  if (hasDbTemplate) {
     return (
       <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-black text-amber-700">
         Có FE nhưng chưa có DB
@@ -278,6 +301,7 @@ function scoreTemplate(
   item: VksTemplateItem,
   input: SuggestInput,
   dbTemplate: DbTemplate | undefined,
+  catalogItem: FormPlatformCatalogItem | null,
 ): Candidate {
   const corpus = normalizeSearchText(
     [
@@ -385,6 +409,17 @@ function scoreTemplate(
     reasons.push("Đã có trong DB, có thể mở hoặc tạo document đơn");
   }
 
+  if (catalogItem) {
+    if (catalogItem.authoring.canOpen) {
+      score += 8;
+      reasons.push("Mở được trong biểu mẫu");
+    }
+    if (catalogItem.runtime.available) {
+      score += 4;
+      reasons.push("Có runtime hợp lệ");
+    }
+  }
+
   const exactNeedBoosts: Array<[RegExp, string[], string]> = [
     [
       /cam di khoi noi cu tru|cu tru|cam di/i,
@@ -442,6 +477,7 @@ function scoreTemplate(
     canCreate: Boolean(dbTemplate),
     score,
     reasons: reasons.length ? reasons : ["Hiển thị theo danh mục biểu mẫu"],
+    catalogItem: catalogItem ?? null,
   };
 }
 
@@ -559,7 +595,12 @@ export function TemplateSelectorWorkspace() {
   const candidates = useMemo(() => {
     return vksTemplateCatalog
       .map((item) =>
-        scoreTemplate(item, input, dbTemplateByCode.get(item.code)),
+        scoreTemplate(
+          item,
+          input,
+          dbTemplateByCode.get(item.code),
+          catalogByCode.get(item.code) ?? null,
+        ),
       )
       .filter((item) => {
         const hasDirectDocument = Boolean(
@@ -642,6 +683,7 @@ export function TemplateSelectorWorkspace() {
                 template,
                 input,
                 dbTemplateByCode.get(template.code),
+                catalogByCode.get(template.code) ?? null,
               ),
             );
 
@@ -1123,13 +1165,13 @@ export function TemplateSelectorWorkspace() {
                   <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                     {stage.items.map((candidate) => {
                       const isOpening = openingTemplateCode === candidate.code;
+                      const hasDirectDocument = Boolean(
+                        GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
+                          candidate.code
+                        ],
+                      );
                       const canOpen =
-                        candidate.canCreate ||
-                        Boolean(
-                          GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
-                            candidate.code
-                          ],
-                        );
+                        candidate.canCreate || hasDirectDocument;
 
                       return (
                         <article
@@ -1154,17 +1196,12 @@ export function TemplateSelectorWorkspace() {
                               <div className="mt-3">
                                 <div className="flex flex-wrap items-center gap-1.5">
                                   <TemplateStatusBadge item={candidate} />
-                                  {(() => {
-                                    const cat = catalogByCode.get(
-                                      candidate.code,
-                                    );
-                                    return cat ? (
-                                      <RuntimeBadge
-                                        source={cat.runtime.source}
-                                        available={cat.runtime.available}
-                                      />
-                                    ) : null;
-                                  })()}
+                                  {candidate.catalogItem ? (
+                                    <RuntimeBadge
+                                      source={candidate.catalogItem.runtime.source}
+                                      available={candidate.catalogItem.runtime.available}
+                                    />
+                                  ) : null}
                                   {hasActiveSuggestionFilter ? (
                                     <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-black text-indigo-700">
                                       Điểm {candidate.score}
@@ -1185,7 +1222,7 @@ export function TemplateSelectorWorkspace() {
                             type="button"
                             onClick={() => void openTemplate(candidate)}
                             disabled={!canOpen || isOpening}
-                            className="mt-4 w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                            className={`mt-4 w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300`}
                           >
                             {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
                           </button>

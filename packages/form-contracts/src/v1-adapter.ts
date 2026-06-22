@@ -78,11 +78,13 @@ export function adaptV1Contract(
     order: index,
     columns: 2,
   }));
-  adapted.fields = (contract.canonicalFields ?? []).map((field, index) => {
+  adapted.fields = (contract.canonicalFields ?? [])
+    .filter((field, idx, arr) => arr.findIndex((f) => f.path === field.path) === idx)
+    .map((field, index) => {
     const sectionTitle = field.section || "Thông tin biểu mẫu";
     const control = controlFromV1(field.uiComponent);
     const fieldBase = {
-      id: `field-${slug(field.path) || index + 1}`,
+      id: `field-${slug(field.path)}`,
       key: field.path,
       sectionId:
         adapted.sections.find((section) => section.title === sectionTitle)?.id ??
@@ -112,5 +114,30 @@ export function adaptV1Contract(
       fallback: binding.fallback ?? "",
     }),
   );
+
+  // Carry over extensionPoints from V1 contract, plus auto-detect any
+  // non-builtin transforms used in renderBindings.
+  const BUILTIN_TRANSFORMS = new Set([
+    "identity", "trim", "uppercase", "lowercase",
+    "vietnameseDate", "number", "booleanMark", "derived",
+  ]);
+  const existingNames = new Set(
+    (contract.extensionPoints ?? [])
+      .filter((e) => e.kind === "TRANSFORM")
+      .map((e) => e.name),
+  );
+  const needed = (adapted.renderBindings ?? [])
+    .map((b) => b.transform)
+    .filter((t) => t && !BUILTIN_TRANSFORMS.has(t) && !existingNames.has(t));
+
+  adapted.extensionPoints = [
+    ...(contract.extensionPoints ?? []).map((e) => ({
+      id: e.id ?? `ext-${e.name}`,
+      kind: e.kind as "CONTROL" | "TRANSFORM" | "RENDER_PLUGIN",
+      name: e.name,
+    })),
+    ...needed.map((name) => ({ id: `ext-${name}`, kind: "TRANSFORM" as const, name })),
+  ];
+
   return adapted;
 }

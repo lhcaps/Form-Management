@@ -1,0 +1,246 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z",
+  "targets": {
+    "BM-156": {
+      "sourceId": "BM-156__ef438a40e567",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{agency.parentName}}{{agency.name}}",
+            "blockId": "P0006"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{agency.parentName}}",
+            "blockId": "P0006"
+          }
+        },
+        "agency.shortName": {
+          "canonicalPath": "agency.shortName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] Số:",
+            "blockId": "P0008"
+          }
+        },
+        "agency.issuePlace": {
+          "canonicalPath": "agency.issuePlace",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0015"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{official.issuerTitle}}",
+            "blockId": "P0019"
+          }
+        },
+        "caseInfo.accusedName": {
+          "canonicalPath": "caseInfo.accusedName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{legalBasis.procedureArticlesLine}}",
+            "blockId": "P0020"
+          }
+        },
+        "caseInfo.offenseName": {
+          "canonicalPath": "caseInfo.offenseName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{caseDecision.prosecutionDecisionLegalBasisLine}}",
+            "blockId": "P0021"
+          }
+        },
+        "official.issuerTitle": {
+          "canonicalPath": "official.issuerTitle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{accusedDecision.prosecutionDecisionLegalBasisLine}}",
+            "blockId": "P0022"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto] {{caseJoinder.legalBasisLine}}",
+            "blockId": "P0023"
+          }
+        },
+        "legalBasis.procedureArticlesLine": {
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{caseRecovery.legalBasisLine}}",
+            "blockId": "P0024"
+          }
+        },
+        "caseDecision.prosecutionDecisionLegalBasisLine": {
+          "canonicalPath": "caseDecision.prosecutionDecisionLegalBasisLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{investigationConclusion.legalBasisLine}}",
+            "blockId": "P0025"
+          }
+        },
+        "accusedDecision.prosecutionDecisionLegalBasisLine": {
+          "canonicalPath": "accusedDecision.prosecutionDecisionLegalBasisLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.criminalActDescriptionLine}}",
+            "blockId": "P0028"
+          }
+        },
+        "investigationConclusion.legalBasisLine": {
+          "canonicalPath": "investigationConclusion.legalBasisLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.aggravatingMitigatingAnalysisLine}}",
+            "blockId": "P0029"
+          }
+        },
+        "indictment.criminalActDescriptionLine": {
+          "canonicalPath": "indictment.criminalActDescriptionLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.evidenceHandlingLine}}",
+            "blockId": "P0030"
+          }
+        },
+        "indictment.aggravatingMitigatingAnalysisLine": {
+          "canonicalPath": "indictment.aggravatingMitigatingAnalysisLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.civilLiabilityLine}}",
+            "blockId": "P0031"
+          }
+        },
+        "indictment.evidenceHandlingLine": {
+          "canonicalPath": "indictment.evidenceHandlingLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.otherFactsLine}}",
+            "blockId": "P0032"
+          }
+        },
+        "indictment.otherFactsLine": {
+          "canonicalPath": "indictment.otherFactsLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.summaryConclusionLine}}",
+            "blockId": "P0036"
+          }
+        },
+        "indictment.summaryConclusionLine": {
+          "canonicalPath": "indictment.summaryConclusionLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.absentAccusedNoteLine}}",
+            "blockId": "P0037"
+          }
+        },
+        "indictment.defendantIdentityLine": {
+          "canonicalPath": "indictment.defendantIdentityLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.defendantIdentityLine}}",
+            "blockId": "P0039"
+          }
+        },
+        "indictment.familyBackgroundLine": {
+          "canonicalPath": "indictment.familyBackgroundLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{indictment.familyBackgroundLine}}",
+            "blockId": "P0040"
+          }
+        },
+        "recipients.investigatingAgencyLine": {
+          "canonicalPath": "recipients.investigatingAgencyLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}",
+            "blockId": "P0058"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] ts.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}{{recipients.otherRecipientLine}}",
+            "blockId": "P0058"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{signature.signMode}}{{signature.positionTitle}}",
+            "blockId": "P0059"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{signature.signMode}}",
+            "blockId": "P0059"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {{signature.signerName}}",
+            "blockId": "P0063"
+          }
+        },
+        "recipients.otherRecipientLine": {
+          "canonicalPath": "recipients.otherRecipientLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto] {recipients.courtLine}}{{recipients.accusedLine}}{{recipients.defenseCounselLine}}{{recipients.investigatingAgencyLine}}",
+            "blockId": "P0058"
+          }
+        }
+      }
+    }
+  }
+}

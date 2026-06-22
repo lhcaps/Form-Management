@@ -1,0 +1,1004 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-019__3c2858f47dad",
+  "templateCode": "BM-019",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Yêu cầu ra QĐ bổ sung QĐ khởi tố vụ án hình sự",
+  "docx": {
+    "sha256": "3c2858f47dad607d8eb0af2a180810e3b7e9e003c08940d1a672af770febd4bf",
+    "fileName": "19-Yêu cầu ra QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/19-Yêu cầu ra QĐ bổ sung QĐ khởi tố vụ án hình sự.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-019/BM-019_normalized.docx",
+    "sha256": "84169120d2a94668c1c132a36632f2020868421c7b6958c498082b9a2878e5ae",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.parentName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0007",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}} {{agency.name}}",
+      "label": "Cơ quan cấp trên",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{agency.name}}",
+        "rawPattern": "{{agency.parentName}}",
+        "context": "[Auto-generated] {{agency.parentName}} {{agency.name}}",
+        "blockId": "P0007"
+      }
+    },
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0007",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentName}} {{agency.name}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{agency.parentName}}",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "[Auto-generated] {{agency.parentName}}",
+        "blockId": "P0007"
+      }
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0009",
+        "tableCellId": null
+      },
+      "context": "Số: {{document.documentCode}}",
+      "label": "Số yêu cầu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Số:",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}",
+        "context": "[Auto-generated] Số:",
+        "blockId": "P0009"
+      }
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0014",
+        "tableCellId": null
+      },
+      "context": "{{document.issuePlaceAndDateLine}}",
+      "label": "Địa danh, ngày ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+        "blockId": "P0014"
+      }
+    },
+    {
+      "slotId": "official.issuerTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0018",
+        "tableCellId": null
+      },
+      "context": "{{official.issuerTitle}}",
+      "label": "Chủ thể ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{official.issuerTitle}}",
+        "context": "[Auto-generated] {{official.issuerTitle}}",
+        "blockId": "P0018"
+      }
+    },
+    {
+      "slotId": "initiationRequest.originatingDecisionCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Số quyết định khởi tố ban đầu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy Quyết định khởi tố vụ án hình sự số",
+        "textAfter": "ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiat",
+        "rawPattern": "{{initiationRequest.originatingDecisionCode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét thấy Quyết định khởi tố vụ án hình sự số",
+        "textAfter": "ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiat",
+        "rawPattern": "{{initiationRequest.originatingDecisionCode}}",
+        "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.originatingDecisionDateText",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Ngày quyết định khởi tố ban đầu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày",
+        "textAfter": "của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiat",
+        "rawPattern": "{{initiationRequest.originatingDecisionDateText}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày",
+        "textAfter": "của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiat",
+        "rawPattern": "{{initiationRequest.originatingDecisionDateText}}",
+        "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.originatingIssuerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Cơ quan ra quyết định khởi tố ban đầu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của",
+        "textAfter": "về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hì",
+        "rawPattern": "{{initiationRequest.originatingIssuerName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của",
+        "textAfter": "về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hì",
+        "rawPattern": "{{initiationRequest.originatingIssuerName}}",
+        "context": "[Auto-generated] án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.originalOffenseName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Tội danh đã khởi tố",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội",
+        "textAfter": "quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xá",
+        "rawPattern": "{{initiationRequest.originalOffenseName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "ionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội",
+        "textAfter": "quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xá",
+        "rawPattern": "{{initiationRequest.originalOffenseName}}",
+        "context": "[Auto-generated] ionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.originalLegalArticle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Điều khoản của tội danh đã khởi tố",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại",
+        "textAfter": "của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOf",
+        "rawPattern": "{{initiationRequest.originalLegalArticle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "ateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại",
+        "textAfter": "của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOf",
+        "rawPattern": "{{initiationRequest.originalLegalArticle}}",
+        "context": "[Auto-generated] ateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.additionalOffenseName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Tội danh cần khởi tố bổ sung",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "onRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội",
+        "textAfter": "quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+        "rawPattern": "{{initiationRequest.additionalOffenseName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "onRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội",
+        "textAfter": "quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+        "rawPattern": "{{initiationRequest.additionalOffenseName}}",
+        "context": "[Auto-generated] onRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.additionalLegalArticle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0021",
+        "tableCellId": null
+      },
+      "context": "Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại {{initiationRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự nhưng chưa được khởi tố,",
+      "label": "Điều khoản của tội danh cần bổ sung",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "textAfter": "của Bộ luật Hình sự nhưng chưa được khởi tố,",
+        "rawPattern": "{{initiationRequest.additionalLegalArticle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "ài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "textAfter": "của Bộ luật Hình sự nhưng chưa được khởi tố,",
+        "rawPattern": "{{initiationRequest.additionalLegalArticle}}",
+        "context": "[Auto-generated] ài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "slotId": "initiationRequest.orderedAuthorityName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "{{initiationRequest.orderedAuthorityName}} ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự, để tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./.",
+      "label": "Cơ quan được yêu cầu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "rawPattern": "{{initiationRequest.orderedAuthorityName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "rawPattern": "{{initiationRequest.orderedAuthorityName}}",
+        "context": "[Auto-generated] {{initiationRequest.orderedAuthorityName}} ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự, để tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./.",
+        "blockId": "P0024"
+      }
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "- {{recipients.archiveLine}}.",
+      "label": "Dòng lưu hồ sơ",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "-",
+        "textAfter": ".",
+        "rawPattern": "{{recipients.archiveLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "-",
+        "textAfter": ".",
+        "rawPattern": "{{recipients.archiveLine}}",
+        "context": "[Auto-generated] -",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "signature.signMode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0029",
+        "tableCellId": null
+      },
+      "context": "{{signature.signMode}}",
+      "label": "Chế độ ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signMode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signMode}}",
+        "context": "[Auto-generated] {{signature.signMode}}",
+        "blockId": "P0029"
+      }
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "{{signature.positionTitle}}",
+      "label": "Chức vụ người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.positionTitle}}",
+        "context": "[Auto-generated] {{signature.positionTitle}}",
+        "blockId": "P0030"
+      }
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0031",
+        "tableCellId": null
+      },
+      "context": "{{signature.signerName}}",
+      "label": "Người ký",
+      "slotType": "signature",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}",
+        "context": "[Auto-generated] {{signature.signerName}}",
+        "blockId": "P0031"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.parentName",
+      "type": "string",
+      "label": "Cơ quan cấp trên",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{agency.parentName}} {{agency.name}}",
+        "blockId": "P0007"
+      }
+    },
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Viện kiểm sát ban hành",
+      "source": "agencyConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{agency.parentName}}",
+        "blockId": "P0007"
+      }
+    },
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "Số yêu cầu",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Số:",
+        "blockId": "P0009"
+      }
+    },
+    {
+      "path": "document.issuePlaceAndDateLine",
+      "type": "string",
+      "label": "Địa danh, ngày ban hành",
+      "source": "systemDate",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Cơ quan và văn bản",
+      "reviewRequired": false,
+      "transform": "date.issuePlaceDateLine",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+        "blockId": "P0014"
+      }
+    },
+    {
+      "path": "official.issuerTitle",
+      "type": "string",
+      "label": "Chủ thể ban hành",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nội dung yêu cầu bổ sung khởi tố",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{official.issuerTitle}}",
+        "blockId": "P0018"
+      }
+    },
+    {
+      "path": "initiationRequest.originatingDecisionCode",
+      "type": "string",
+      "label": "Số quyết định khởi tố ban đầu",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Quyết định và tội danh ban đầu",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.originatingDecisionDateText",
+      "type": "string",
+      "label": "Ngày quyết định khởi tố ban đầu",
+      "source": "systemDate",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Quyết định và tội danh ban đầu",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.originatingIssuerName",
+      "type": "string",
+      "label": "Cơ quan ra quyết định khởi tố ban đầu",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Quyết định và tội danh ban đầu",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.originalOffenseName",
+      "type": "string",
+      "label": "Tội danh đã khởi tố",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Quyết định và tội danh ban đầu",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] ionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.originalLegalArticle",
+      "type": "string",
+      "label": "Điều khoản của tội danh đã khởi tố",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Quyết định và tội danh ban đầu",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] ateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.additionalOffenseName",
+      "type": "string",
+      "label": "Tội danh cần khởi tố bổ sung",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nội dung yêu cầu bổ sung khởi tố",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] onRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.additionalLegalArticle",
+      "type": "string",
+      "label": "Điều khoản của tội danh cần bổ sung",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nội dung yêu cầu bổ sung khởi tố",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] ài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại",
+        "blockId": "P0021"
+      }
+    },
+    {
+      "path": "initiationRequest.orderedAuthorityName",
+      "type": "string",
+      "label": "Cơ quan được yêu cầu",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nội dung yêu cầu bổ sung khởi tố",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{initiationRequest.orderedAuthorityName}} ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự, để tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./.",
+        "blockId": "P0024"
+      }
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "Dòng lưu hồ sơ",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Nơi nhận",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] -",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "signature.signMode",
+      "type": "string",
+      "label": "Chế độ ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{signature.signMode}}",
+        "blockId": "P0029"
+      }
+    },
+    {
+      "path": "signature.positionTitle",
+      "type": "string",
+      "label": "Chức vụ người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{signature.positionTitle}}",
+        "blockId": "P0030"
+      }
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{signature.signerName}}",
+        "blockId": "P0031"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.parentName",
+      "from": "agency.parentName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
+      "transform": "date.issuePlaceDateLine",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "official.issuerTitle",
+      "from": "official.issuerTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.originatingDecisionCode",
+      "from": "initiationRequest.originatingDecisionCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.originatingDecisionDateText",
+      "from": "initiationRequest.originatingDecisionDateText",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.originatingIssuerName",
+      "from": "initiationRequest.originatingIssuerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.originalOffenseName",
+      "from": "initiationRequest.originalOffenseName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.originalLegalArticle",
+      "from": "initiationRequest.originalLegalArticle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.additionalOffenseName",
+      "from": "initiationRequest.additionalOffenseName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.additionalLegalArticle",
+      "from": "initiationRequest.additionalLegalArticle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "initiationRequest.orderedAuthorityName",
+      "from": "initiationRequest.orderedAuthorityName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signMode",
+      "from": "signature.signMode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.positionTitle",
+      "from": "signature.positionTitle",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "01",
+      "label": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "019/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "agency",
+      "document",
+      "official",
+      "initiationRequest",
+      "recipients",
+      "signature"
+    ],
+    "suggestedControls": [
+      {
+        "path": "agency.parentName",
+        "control": "text"
+      },
+      {
+        "path": "agency.name",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "control": "text"
+      },
+      {
+        "path": "official.issuerTitle",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.originatingDecisionCode",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.originatingDecisionDateText",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.originatingIssuerName",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.originalOffenseName",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.originalLegalArticle",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.additionalOffenseName",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.additionalLegalArticle",
+        "control": "text"
+      },
+      {
+        "path": "initiationRequest.orderedAuthorityName",
+        "control": "text"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "control": "text"
+      },
+      {
+        "path": "signature.signMode",
+        "control": "text"
+      },
+      {
+        "path": "signature.positionTitle",
+        "control": "text"
+      },
+      {
+        "path": "signature.signerName",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:36.933Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z",
+  "extensionPoints": [
+    {
+      "kind": "TRANSFORM",
+      "name": "date.issuePlaceDateLine",
+      "id": "ext-date.issuePlaceDateLine"
+    }
+  ]
+}

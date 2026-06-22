@@ -1,0 +1,156 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.691Z",
+  "targets": {
+    "BM-005": {
+      "sourceId": "BM-005__4cf240724a90",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}} {{agency.name}}",
+            "blockId": "P0005"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}",
+            "blockId": "P0005"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số:",
+            "blockId": "P0010"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0011"
+          }
+        },
+        "sourceVerification.requestRoundText": {
+          "canonicalPath": "sourceVerification.requestRoundText",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.requestRoundText}}",
+            "blockId": "P0015"
+          }
+        },
+        "sourceVerification.procedureArticlesLine": {
+          "canonicalPath": "sourceVerification.procedureArticlesLine",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.procedureArticlesLine}}",
+            "blockId": "P0018"
+          }
+        },
+        "sourceVerification.reasonLine": {
+          "canonicalPath": "sourceVerification.reasonLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.reasonLine}}",
+            "blockId": "P0019"
+          }
+        },
+        "sourceVerification.requestedAuthorityLine": {
+          "canonicalPath": "sourceVerification.requestedAuthorityLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.requestedAuthorityLine}}",
+            "blockId": "P0021"
+          }
+        },
+        "sourceVerification.issue1Line": {
+          "canonicalPath": "sourceVerification.issue1Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.issue1Line}}",
+            "blockId": "P0022"
+          }
+        },
+        "sourceVerification.issue2Line": {
+          "canonicalPath": "sourceVerification.issue2Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.issue2Line}}",
+            "blockId": "P0023"
+          }
+        },
+        "sourceVerification.issue3Line": {
+          "canonicalPath": "sourceVerification.issue3Line",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.issue3Line}}",
+            "blockId": "P0024"
+          }
+        },
+        "sourceVerification.additionalIssuesLine": {
+          "canonicalPath": "sourceVerification.additionalIssuesLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.additionalIssuesLine}}",
+            "blockId": "P0025"
+          }
+        },
+        "sourceVerification.resultSubmissionLine": {
+          "canonicalPath": "sourceVerification.resultSubmissionLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{sourceVerification.resultSubmissionLine}}",
+            "blockId": "P0026"
+          }
+        },
+        "recipients.investigatingAgencyLine": {
+          "canonicalPath": "recipients.investigatingAgencyLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{recipients.investigatingAgencyLine}}",
+            "blockId": "P0029"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{recipients.archiveLine}}",
+            "blockId": "P0030"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signerName}}",
+            "blockId": "P0036"
+          }
+        }
+      }
+    }
+  }
+}

@@ -10,13 +10,25 @@ const command: DocumentRenderCommand = {
 
 describe('ContractDocumentRendererAdapter', () => {
   describe('renderActive', () => {
-    it('fails clearly with a descriptive error', async () => {
-      const orchestrator = {} as ContractShadowRendererOrchestrator;
+    it('calls renderActive on the orchestrator and returns a result', async () => {
+      const orchestrator = {
+        renderActive: jest.fn().mockResolvedValue(undefined),
+      } as unknown as ContractShadowRendererOrchestrator;
       const adapter = new ContractDocumentRendererAdapter(orchestrator);
 
-      await expect(adapter.renderActive(command)).rejects.toThrow(
-        /not enabled for BM-001 in D\.2\.2/,
-      );
+      const result = await adapter.renderActive(command);
+
+      expect(orchestrator.renderActive).toHaveBeenCalledWith('42');
+      expect(result).toEqual({ documentId: '42', renderedBy: 'contract-active' });
+    });
+
+    it('propagates orchestrator errors', async () => {
+      const orchestrator = {
+        renderActive: jest.fn().mockRejectedValue(new Error('plan build failed')),
+      } as unknown as ContractShadowRendererOrchestrator;
+      const adapter = new ContractDocumentRendererAdapter(orchestrator);
+
+      await expect(adapter.renderActive(command)).rejects.toThrow('plan build failed');
     });
   });
 

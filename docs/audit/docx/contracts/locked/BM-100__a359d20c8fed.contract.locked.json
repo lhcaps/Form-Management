@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-100__a359d20c8fed",
+  "templateCode": "BM-100",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can",
+  "docx": {
+    "sha256": "a359d20c8fed8fc347f618bcf70183d7c2a2a677aa1d5865eba219d3cce04fdf",
+    "fileName": "100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/100-Yêu cầu ra QĐ bổ sung QĐ khởi tố bị can.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-100/BM-100_normalized.docx",
+    "sha256": "6f9af2f1bc42b46a484154b90d8769aaaf7420b4efb3968146ce6eb071efa733",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.vienKiem",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0004",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto-generated] …",
+        "blockId": "P0012"
+      }
+    },
+    {
+      "slotId": "document.soYeu",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Nhận thấy{{document.field3}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Nhận thấy",
+        "textAfter": "",
+        "rawPattern": "{{document.field3}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Nhận thấy",
+        "textAfter": "",
+        "rawPattern": "{{document.field3}}",
+        "context": "[Auto-generated] Nhận thấy",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "{{document.field4}}..",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "..",
+        "rawPattern": "{{document.field4}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "..",
+        "rawPattern": "{{document.field4}}",
+        "context": "[Auto-generated] {{document.field4}}..",
+        "blockId": "P0038"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.vienKiem",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] …",
+        "blockId": "P0012"
+      }
+    },
+    {
+      "path": "document.soYeu",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Nhận thấy",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "agency.diaDanh",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.field4}}..",
+        "blockId": "P0038"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.soYeu",
+      "from": "document.soYeu",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.diaDanh",
+      "from": "agency.diaDanh",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "04",
+      "label": "KHỞI TỐ, ĐIỀU TRA",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "100/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "document.field3",
+        "control": "text"
+      },
+      {
+        "path": "document.field4",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:36.978Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z"
+}

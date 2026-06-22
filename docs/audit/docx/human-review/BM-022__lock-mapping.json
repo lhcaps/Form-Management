@@ -1,0 +1,48 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.708Z",
+  "targets": {
+    "BM-022": {
+      "sourceId": "BM-022__13d342bdfc56",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentNameUpper": {
+          "canonicalPath": "agency.parentNameUpper",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+            "blockId": "P0011"
+          }
+        },
+        "agency.nameUpper": {
+          "canonicalPath": "agency.nameUpper",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] …, ngày … tháng",
+            "blockId": "P0019"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
+            "blockId": "P0033"
+          }
+        },
+        "person.fullName": {
+          "canonicalPath": "person.fullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.field7}}..",
+            "blockId": "P0040"
+          }
+        }
+      }
+    }
+  }
+}

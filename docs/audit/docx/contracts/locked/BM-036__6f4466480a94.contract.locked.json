@@ -1,0 +1,516 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-036__6f4466480a94",
+  "templateCode": "BM-036",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ trả tự do cho người bị tạm giữ",
+  "docx": {
+    "sha256": "6f4466480a94e4d10bf813576b026467ea3d0e2d76eaebfaa3b31a406190dc29",
+    "fileName": "36-QĐ trả tự do cho người bị tạm giữ.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/36-QĐ trả tự do cho người bị tạm giữ.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-036/BM-036_normalized.docx",
+    "sha256": "feadce0db218e209531d5d9f5963df56f35a1e4470ad8d6e0a10d2c2968a0b80",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Xét {{agency.nameUpper}}số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét",
+        "textAfter": "số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét",
+        "textAfter": "số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "[Auto-generated] Xét",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0034",
+        "tableCellId": null
+      },
+      "context": "Họ tên:8{{person.fullName}}",
+      "label": "Họ tên người bị áp dụng",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Họ tên:8",
+        "textAfter": "",
+        "rawPattern": "{{person.fullName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Họ tên:8",
+        "textAfter": "",
+        "rawPattern": "{{person.fullName}}",
+        "context": "[Auto-generated] Họ tên:8",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "slotId": "person.fullName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0036",
+        "tableCellId": null
+      },
+      "context": "{{document.issueDate}}",
+      "label": "Ngày ban hành",
+      "slotType": "date",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}",
+        "context": "[Auto-generated] {{document.issueDate}}",
+        "blockId": "P0036"
+      }
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0037",
+        "tableCellId": null
+      },
+      "context": "{{document.field8}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field8}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field8}}",
+        "context": "[Auto-generated] {{document.field8}}",
+        "blockId": "P0037"
+      }
+    },
+    {
+      "slotId": "decision.summaryLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0040",
+        "tableCellId": null
+      },
+      "context": "{{agency.parentNameUpper}}",
+      "label": "Cơ quan cấp trên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.parentNameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{agency.parentNameUpper}}",
+        "context": "[Auto-generated] {{agency.parentNameUpper}}",
+        "blockId": "P0040"
+      }
+    },
+    {
+      "slotId": "recipients.executionAgencyLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0042",
+        "tableCellId": null
+      },
+      "context": "{{decision.decisionLine}}",
+      "label": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{decision.decisionLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{decision.decisionLine}}",
+        "context": "[Auto-generated] {{decision.decisionLine}}",
+        "blockId": "P0042"
+      }
+    },
+    {
+      "slotId": "recipients.personLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0046",
+        "tableCellId": null
+      },
+      "context": "10{{document.field12}};",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "10",
+        "textAfter": ";",
+        "rawPattern": "{{document.field12}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "10",
+        "textAfter": ";",
+        "rawPattern": "{{document.field12}}",
+        "context": "[Auto-generated] 10",
+        "blockId": "P0046"
+      }
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0049",
+        "tableCellId": null
+      },
+      "context": "11{{document.field13}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "11",
+        "textAfter": "",
+        "rawPattern": "{{document.field13}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "11",
+        "textAfter": "",
+        "rawPattern": "{{document.field13}}",
+        "context": "[Auto-generated] 11",
+        "blockId": "P0049"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "Viện kiểm sát ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Xét",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "document.issuePlaceAndDateLine",
+      "type": "string",
+      "label": "Họ tên người bị áp dụng",
+      "source": "systemDate",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "date.issuePlaceDateLine",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Họ tên:8",
+        "blockId": "P0034"
+      }
+    },
+    {
+      "path": "person.fullName",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "date",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.issueDate}}",
+        "blockId": "P0036"
+      }
+    },
+    {
+      "path": "legalBasis.procedureArticlesLine",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "constantFromDocx",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{document.field8}}",
+        "blockId": "P0037"
+      }
+    },
+    {
+      "path": "decision.summaryLine",
+      "type": "string",
+      "label": "Cơ quan cấp trên",
+      "source": "constantFromDocx",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{agency.parentNameUpper}}",
+        "blockId": "P0040"
+      }
+    },
+    {
+      "path": "recipients.executionAgencyLine",
+      "type": "string",
+      "label": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] {{decision.decisionLine}}",
+        "blockId": "P0042"
+      }
+    },
+    {
+      "path": "recipients.personLine",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] 10",
+        "blockId": "P0046"
+      }
+    },
+    {
+      "path": "recipients.archiveLine",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "system-batch-lock",
+      "reviewedAt": "2026-06-21T20:25:26.415Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] 11",
+        "blockId": "P0049"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
+      "transform": "date.issuePlaceDateLine",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.fullName",
+      "from": "person.fullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "decision.summaryLine",
+      "from": "decision.summaryLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.executionAgencyLine",
+      "from": "recipients.executionAgencyLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.personLine",
+      "from": "recipients.personLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.archiveLine",
+      "from": "recipients.archiveLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "02",
+      "label": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "036/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "agency",
+      "person",
+      "decision"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "agency.nameUpper",
+        "control": "text"
+      },
+      {
+        "path": "document.field5",
+        "control": "text"
+      },
+      {
+        "path": "person.fullName",
+        "control": "text"
+      },
+      {
+        "path": "document.issueDate",
+        "control": "date"
+      },
+      {
+        "path": "document.field8",
+        "control": "text"
+      },
+      {
+        "path": "agency.parentNameUpper",
+        "control": "text"
+      },
+      {
+        "path": "decision.decisionLine",
+        "control": "textarea"
+      },
+      {
+        "path": "document.field12",
+        "control": "text"
+      },
+      {
+        "path": "document.field13",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-19T07:36:36.943Z",
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:26.415Z",
+  "extensionPoints": [
+    {
+      "kind": "TRANSFORM",
+      "name": "date.issuePlaceDateLine",
+      "id": "ext-date.issuePlaceDateLine"
+    }
+  ]
+}

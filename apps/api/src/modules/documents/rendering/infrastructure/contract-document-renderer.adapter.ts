@@ -15,13 +15,19 @@ export class ContractDocumentRendererAdapter implements ContractDocumentRenderer
   ) {}
 
   async renderActive(
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    _command: DocumentRenderCommand,
+    command: DocumentRenderCommand,
   ): Promise<DocumentRenderResult> {
-    throw new Error(
-      'Contract active render is not enabled for BM-001 in D.2.2. ' +
-        'Set DOCUMENT_RENDERER_MODE=active after D.2.3 criteria are met.',
-    );
+    const documentId = command.documentId;
+    try {
+      await this.shadowOrchestrator.renderActive(documentId);
+      return { documentId, renderedBy: 'contract-active' };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.logger.error(
+        `Contract active render failed for documentId=${documentId}: ${message}`,
+      );
+      throw error;
+    }
   }
 
   async renderShadow(

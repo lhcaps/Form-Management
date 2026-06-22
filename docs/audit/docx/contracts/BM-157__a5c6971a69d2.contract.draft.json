@@ -14,62 +14,58 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/157. Bản kê vật chứng kèm theo Cáo trạng.doc",
-    "sha256": "a5c6971a69d2bdea2dca8e892c498b0afe6c02bf585148af85ca05460700c287",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-157/BM-157_normalized.docx",
+    "sha256": "891cc52d42184b928fbdef43975687badff9630658b5befa3af697b7d0785154",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "case.field1",
+      "slotId": "agency.vienKiem",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0011",
         "tableCellId": null
       },
-      "context": "VỤ ÁN:..........................................................................",
-      "label": "Ô trống dạng \"...\" (case)",
+      "context": "VỤ ÁN:{{document.field1}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "case",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VỤ ÁN:",
         "textAfter": "",
-        "rawPattern": ".........................................................................."
+        "rawPattern": "{{document.field1}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "case.field1",
+      "path": "agency.vienKiem",
       "type": "string",
-      "label": "Trường cần điền (case)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "case",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "case.field1",
-      "from": "case.field1",
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
-  "unresolvedQuestions": [
-    "17 paragraph có nội dung đặc thù cần reviewer xem xét: P0001=\"BẢN KÊ VẬT CHỨNG KÈM THEO BẢN CÁO TRẠNG\"; P0003=\"TÊN VẬT CHỨNG\"; P0004=\"SỐ LƯỢNG\"; P0005=\"ĐẶC ĐIỂM\"; P0006=\"GHI CHÚ\""
-  ],
+  "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse fail (fcClx/lcbClx không hợp lệ)"
+    "Clx parse fail (fcClx/lcbClx không hợp lệ)",
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -94,8 +90,15 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "document"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

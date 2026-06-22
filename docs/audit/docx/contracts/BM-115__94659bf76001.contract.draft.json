@@ -14,279 +14,258 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "original",
-    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/115-Yêu cầu phục hồi điều tra VAHS đối với bị can.doc",
-    "sha256": "94659bf760015bc8e7ab0e0ab00169e6bf44029e296ad62b237bf350a10f1504",
-    "format": "doc"
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-115/BM-115_normalized.docx",
+    "sha256": "df71e45a9fbd61d2bf4b81949c9dd341545a85aaec8a01a5031d1cd14bf6543c",
+    "format": "docx"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "document.field1",
+      "slotId": "agency.vienKiem",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0002",
+        "partName": "word/document.xml",
+        "blockId": "P0003",
         "tableCellId": null
       },
-      "context": ".................................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "................................................."
+        "rawPattern": "{{document.field1}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field2",
+      "slotId": "agency.vienKiem",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0012",
+        "partName": "word/document.xml",
+        "blockId": "P0020",
         "tableCellId": null
       },
-      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
-      "label": "Ô trống dạng \"...\" (agency)",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2{{document.field2}}",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "agency",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{document.field2}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field3",
+      "slotId": "document.soQuyet",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0055",
+        "partName": "word/document.xml",
+        "blockId": "P0027",
         "tableCellId": null
       },
-      "context": ".......................................................,",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "Xét thấy{{document.field3}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "Xét thấy",
         "textAfter": "",
-        "rawPattern": "......................................................."
+        "rawPattern": "{{document.field3}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "case.field4",
+      "slotId": "agency.diaDanh",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0058",
+        "partName": "word/document.xml",
+        "blockId": "P0031",
         "tableCellId": null
       },
-      "context": "ra Quyết định phục hồi điều tra vụ án hình sự đối với bị can9... và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự.",
-      "label": "Ô trống dạng \"...\" (case)",
+      "context": "1. Cơ quan, người có thẩm quyền10… ra Quyết định phục hồi điều tra vụ án hình sự đối với bị can9{{agency.field4}}và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự.",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "case",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "..."
+        "textBefore": "1. Cơ quan, người có thẩm quyền10… ra Quyết định phục hồi điều tra vụ án hình sự đối với bị can9",
+        "textAfter": "và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự.",
+        "rawPattern": "{{agency.field4}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field5",
+      "slotId": "document.ngayBan",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0060",
+        "partName": "word/document.xml",
+        "blockId": "P0032",
         "tableCellId": null
       },
-      "context": "gửi, thông báo Quyết định phục hồi điều tra vụ án hình sự đối với bị can cho Viện kiểm sát2... và người tham gia tố tụng theo quy định tại khoản 2 Điều 235 của Bộ luật Tố tụng hình sự./.",
-      "label": "Ô trống dạng \"...\" (agency)",
+      "context": "2. Cơ quan, người có thẩm quyền10… gửi, thông báo Quyết định phục hồi điều tra vụ án hình sự đối với bị can cho Viện kiểm sát2{{agency.field5}}của Bộ luật Tố tụng hình sự./.",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "agency",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "..."
+        "textBefore": "quan, người có thẩm quyền10… gửi, thông báo Quyết định phục hồi điều tra vụ án hình sự đối với bị can cho Viện kiểm sát2",
+        "textAfter": "của Bộ luật Tố tụng hình sự./.",
+        "rawPattern": "{{agency.field5}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field6",
+      "slotId": "agency.dongDia",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0062",
+        "partName": "word/document.xml",
+        "blockId": "P0035",
         "tableCellId": null
       },
-      "context": "- 10...;",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "- 10{{document.field6}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
-        "textBefore": "",
+        "textBefore": "- 10",
         "textAfter": "",
-        "rawPattern": "..."
+        "rawPattern": "{{document.field6}}"
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field7",
+      "slotId": "document.chuThe",
       "location": {
-        "partName": "WordDocument",
-        "blockId": "P0064",
+        "partName": "word/document.xml",
+        "blockId": "P0037",
         "tableCellId": null
       },
-      "context": "........................................",
-      "label": "Ô trống dạng \"...\" (document)",
+      "context": "{{document.field7}}",
+      "label": "Ô trống",
       "slotType": "text",
       "required": false,
-      "confidence": 0.4,
-      "suggestedNamespace": "document",
-      "suggestedBy": "heuristic",
+      "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "........................................"
+        "rawPattern": "{{document.field7}}"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "document.field1",
+      "path": "agency.vienKiem",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.field2",
+      "path": "agency.vienKiem",
       "type": "string",
-      "label": "Trường cần điền (agency)",
+      "label": "Tên cơ quan",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.field3",
+      "path": "document.soQuyet",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "case.field4",
+      "path": "agency.diaDanh",
       "type": "string",
-      "label": "Trường cần điền (case)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "case",
       "reviewRequired": true
     },
     {
-      "path": "agency.field5",
+      "path": "document.ngayBan",
       "type": "string",
-      "label": "Trường cần điền (agency)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.field6",
+      "path": "agency.dongDia",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "document.field7",
+      "path": "document.chuThe",
       "type": "string",
-      "label": "Trường cần điền (document)",
+      "label": "Ô trống",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "document.field1",
-      "from": "document.field1",
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field2",
-      "from": "agency.field2",
+      "slotId": "agency.vienKiem",
+      "from": "agency.vienKiem",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field3",
-      "from": "document.field3",
+      "slotId": "document.soQuyet",
+      "from": "document.soQuyet",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "case.field4",
-      "from": "case.field4",
+      "slotId": "agency.diaDanh",
+      "from": "agency.diaDanh",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.field5",
-      "from": "agency.field5",
+      "slotId": "document.ngayBan",
+      "from": "document.ngayBan",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field6",
-      "from": "document.field6",
+      "slotId": "agency.dongDia",
+      "from": "agency.dongDia",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field7",
-      "from": "document.field7",
+      "slotId": "document.chuThe",
+      "from": "document.chuThe",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -295,7 +274,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Clx parse error: Unknown Clxt tag 0 at 0"
+    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
   ],
   "productMetadata": {
     "stage": {
@@ -320,8 +299,40 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [],
-    "suggestedControls": [],
+    "primaryEntities": [
+      "document",
+      "agency"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "document.field3",
+        "control": "text"
+      },
+      {
+        "path": "agency.field4",
+        "control": "text"
+      },
+      {
+        "path": "agency.field5",
+        "control": "text"
+      },
+      {
+        "path": "document.field6",
+        "control": "text"
+      },
+      {
+        "path": "document.field7",
+        "control": "text"
+      }
+    ],
     "previewRequired": true,
     "reviewRequired": true
   },

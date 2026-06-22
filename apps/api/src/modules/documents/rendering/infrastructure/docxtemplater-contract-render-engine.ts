@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Injectable, Logger } from '@nestjs/common';
@@ -222,6 +223,55 @@ export class DocxtemplaterContractRenderEngine {
     });
   }
 
+  async renderActiveDocx(
+    plan: ContractRenderPlan,
+    formData: Record<string, unknown>,
+  ): Promise<Buffer> {
+    const contractDocx = await this.loadTemplate(plan.templateCode);
+    const bindingMap = new Map(plan.bindings.map((b) => [b.slotId, b.value]));
+    for (const [key, value] of Object.entries(formData)) {
+      if (value !== undefined && value !== null && value !== '') {
+        bindingMap.set(key, String(value));
+      }
+    }
+    return this.fillTemplate(contractDocx, bindingMap);
+  }
+
+  async persistActiveRender(
+    plan: ContractRenderPlan,
+    renderedDocx: Buffer,
+    outputRoot: string,
+  ): Promise<void> {
+    const timestamp = buildTimestampForFileName();
+    const safeCaseDir = 'document-' + plan.templateCode.toLowerCase();
+    const outputDir = join(outputRoot, safeCaseDir);
+    mkdirSync(outputDir, { recursive: true });
+
+    const fileName = `${plan.templateCode}_active_${timestamp}.docx`;
+    const outputPath = join(outputDir, fileName);
+    writeFileSync(outputPath, renderedDocx);
+
+    const manifestPath = join(
+      outputDir,
+      `${plan.templateCode}_active_${timestamp}.manifest.json`,
+    );
+    const checksum = sha256(renderedDocx);
+    const manifest = {
+      templateCode: plan.templateCode,
+      sourceId: plan.sourceId,
+      contractStatus: plan.contractStatus,
+      fieldCount: plan.fields.length,
+      bindingCount: plan.bindings.length,
+      timestamp,
+      fileName,
+      checksum,
+      bytes: renderedDocx.length,
+      missingRequiredCount: plan.missingRequired.length,
+      warnings: [...plan.warnings],
+    };
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+  }
+
   private async loadTemplate(templateCode: string): Promise<Buffer> {
     const normalizedTemplateRoot = join(
       this.workspace.normalizedTemplatesRoot,
@@ -377,4 +427,23 @@ export class DocxtemplaterContractRenderEngine {
 
     return lines.join('\n');
   }
+}
+
+function sha256(buffer: Buffer): string {
+  return createHash('sha256').update(buffer).digest('hex');
+}
+
+function buildTimestampForFileName(date = new Date()): string {
+  const pad = (value: number) => String(value).padStart(2, '0');
+  const datePart = [
+    date.getFullYear(),
+    pad(date.getMonth() + 1),
+    pad(date.getDate()),
+  ].join('');
+  const timePart = [
+    pad(date.getHours()),
+    pad(date.getMinutes()),
+    pad(date.getSeconds()),
+  ].join('');
+  return `${datePart}-${timePart}`;
 }

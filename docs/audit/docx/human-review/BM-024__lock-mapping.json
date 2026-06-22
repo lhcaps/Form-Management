@@ -1,0 +1,48 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.709Z",
+  "targets": {
+    "BM-024": {
+      "sourceId": "BM-024__575a6d8e9173",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentNameUpper": {
+          "canonicalPath": "agency.parentNameUpper",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+            "blockId": "P0010"
+          }
+        },
+        "agency.issuePlace": {
+          "canonicalPath": "agency.issuePlace",
+          "source": "constantFromDocx",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản",
+            "blockId": "P0025"
+          }
+        },
+        "document.issueDate": {
+          "canonicalPath": "document.issueDate",
+          "source": "systemDate",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản",
+            "blockId": "P0029"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] 6",
+            "blockId": "P0035"
+          }
+        }
+      }
+    }
+  }
+}

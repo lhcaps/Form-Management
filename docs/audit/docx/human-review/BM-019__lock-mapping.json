@@ -1,0 +1,165 @@
+{
+  "reviewedBy": "system-batch-lock",
+  "reviewedAt": "2026-06-21T20:25:12.706Z",
+  "targets": {
+    "BM-019": {
+      "sourceId": "BM-019__3c2858f47dad",
+      "decision": "locked",
+      "slotMappings": {
+        "agency.parentName": {
+          "canonicalPath": "agency.parentName",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}} {{agency.name}}",
+            "blockId": "P0007"
+          }
+        },
+        "agency.name": {
+          "canonicalPath": "agency.name",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{agency.parentName}}",
+            "blockId": "P0007"
+          }
+        },
+        "document.documentCode": {
+          "canonicalPath": "document.documentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Số:",
+            "blockId": "P0009"
+          }
+        },
+        "document.issuePlaceAndDateLine": {
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "source": "systemDate",
+          "transform": "date.issuePlaceDateLine",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
+            "blockId": "P0014"
+          }
+        },
+        "official.issuerTitle": {
+          "canonicalPath": "official.issuerTitle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{official.issuerTitle}}",
+            "blockId": "P0018"
+          }
+        },
+        "initiationRequest.originatingDecisionCode": {
+          "canonicalPath": "initiationRequest.originatingDecisionCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.originatingDecisionDateText": {
+          "canonicalPath": "initiationRequest.originatingDecisionDateText",
+          "source": "systemDate",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] Xét thấy Quyết định khởi tố vụ án hình sự số {{initiationRequest.originatingDecisionCode}} ngày",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.originatingIssuerName": {
+          "canonicalPath": "initiationRequest.originatingIssuerName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] án hình sự số {{initiationRequest.originatingDecisionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.originalOffenseName": {
+          "canonicalPath": "initiationRequest.originalOffenseName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] ionCode}} ngày {{initiationRequest.originatingDecisionDateText}} của {{initiationRequest.originatingIssuerName}} về tội",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.originalLegalArticle": {
+          "canonicalPath": "initiationRequest.originalLegalArticle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] ateText}} của {{initiationRequest.originatingIssuerName}} về tội {{initiationRequest.originalOffenseName}} quy định tại",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.additionalOffenseName": {
+          "canonicalPath": "initiationRequest.additionalOffenseName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] onRequest.originalLegalArticle}} của Bộ luật Hình sự, ngoài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.additionalLegalArticle": {
+          "canonicalPath": "initiationRequest.additionalLegalArticle",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] ài tội phạm đã khởi tố còn có căn cứ xác định dấu hiệu của tội {{initiationRequest.additionalOffenseName}} quy định tại",
+            "blockId": "P0021"
+          }
+        },
+        "initiationRequest.orderedAuthorityName": {
+          "canonicalPath": "initiationRequest.orderedAuthorityName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{initiationRequest.orderedAuthorityName}} ra Quyết định bổ sung Quyết định khởi tố vụ án hình sự về tội {{initiationRequest.additionalOffenseName}} quy định tại {{initiationRequest.additionalLegalArticle}} của Bộ luật Hình sự, để tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./.",
+            "blockId": "P0024"
+          }
+        },
+        "recipients.archiveLine": {
+          "canonicalPath": "recipients.archiveLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] -",
+            "blockId": "P0028"
+          }
+        },
+        "signature.signMode": {
+          "canonicalPath": "signature.signMode",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signMode}}",
+            "blockId": "P0029"
+          }
+        },
+        "signature.positionTitle": {
+          "canonicalPath": "signature.positionTitle",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.positionTitle}}",
+            "blockId": "P0030"
+          }
+        },
+        "signature.signerName": {
+          "canonicalPath": "signature.signerName",
+          "source": "officialConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "context": "[Auto-generated] {{signature.signerName}}",
+            "blockId": "P0031"
+          }
+        }
+      }
+    }
+  }
+}

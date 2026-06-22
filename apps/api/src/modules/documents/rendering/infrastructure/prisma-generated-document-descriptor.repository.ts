@@ -23,6 +23,7 @@ export class PrismaGeneratedDocumentDescriptorRepository implements GeneratedDoc
       },
       select: {
         id: true,
+        render_payload_snapshot: true,
         templates: {
           select: {
             id: true,
@@ -41,6 +42,8 @@ export class PrismaGeneratedDocumentDescriptorRepository implements GeneratedDoc
       templateCode: document.templates.template_code,
       templateId: String(document.templates.id),
       sourceId: document.templates.template_code,
+      formData:
+        (document.render_payload_snapshot as Record<string, unknown>) ?? {},
     };
   }
 

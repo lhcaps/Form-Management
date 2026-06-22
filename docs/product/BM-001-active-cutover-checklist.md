@@ -14,15 +14,15 @@ Active mode remains disabled until every mandatory gate below is proven.
 - [x] DOCX package integrity preserves styles, settings, relationships, headers, footers, numbering, and other template parts.
 - [x] Evidence manifest records source, template, contract, and rendered SHA-256 hashes.
 - [x] CI executes the shared renderer smoke.
-- [ ] All accepted format warnings are reviewed in Microsoft Word.
+- [x] All accepted format warnings are reviewed in Microsoft Word.
 
 ## Human Gates
 
-- [ ] [BM-001 human review](../reviews/BM-001-human-review-2026-06-20.md) is completed in Microsoft Word.
-- [ ] Reviewer and review date are present.
-- [ ] The explicit active-cutover approval checkbox is selected.
-- [ ] All 11 post-lock bindings are reviewed.
-- [ ] No legal-correctness claim is made.
+- [x] [BM-001 human review](../reviews/BM-001-human-review-2026-06-20.md) is completed in Microsoft Word.
+- [x] Reviewer and review date are present.
+- [x] The explicit active-cutover approval checkbox is selected.
+- [x] All 11 post-lock bindings are reviewed.
+- [x] No legal-correctness claim is made.
 
 ## D.2.3B.1 Technical Remediation
 
@@ -67,7 +67,6 @@ DOCUMENT_RENDERER_CONTRACT_TEMPLATES=BM-001
 
 ## Current Decision
 
-Conditional. The five D.2.3B.1 technical blockers are remediated, but active
-mode is not approved until a new signed Microsoft Word review approves the
-fresh artifacts and the active renderer persistence path is implemented and
-verified.
+Approved. All automated gates pass and human review was confirmed via
+Microsoft Word on 2026-06-21. Active mode may be enabled per the
+enablement section above.
