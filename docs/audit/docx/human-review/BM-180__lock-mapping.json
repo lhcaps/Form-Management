@@ -15,16 +15,103 @@
             "blockId": "P0022"
           }
         },
-        "document.field": {
-          "canonicalPath": "document.field",
+        "document.summaryLine": {
+          "canonicalPath": "document.summaryLine",
           "source": "manual",
           "transform": "identity",
           "reviewEvidence": {
-            "context": "[Auto-generated] 12",
-            "blockId": "P0027",
-            "reason": "Phase D revert: DOCX placeholder \"document.field\" not yet renamed; keeping original slotId. Semantic mapping deferred until DOCX re-normalization.",
-            "docxAnchor": "Căn cứ Quyết định áp dụng biện pháp bắt buộc chữa bệnh số … ngày … tháng … năm … của Viện kiểm sát2… đối với7",
-            "reviewerNote": "Le Huy — slotId kept matching DOCX placeholder; canonicalField semantic name deferred."
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.summaryLine}}. Decision summary line",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "person.personFullName": {
+          "canonicalPath": "person.personFullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{person.personFullName}}. Subject name (hint: field10=person.*)",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.contentLine": {
+          "canonicalPath": "document.contentLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.contentLine}}. Disposition content",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.reasonLine2": {
+          "canonicalPath": "document.reasonLine2",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.reasonLine2}}. Legal basis paragraph",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.reasonLine": {
+          "canonicalPath": "document.reasonLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.reasonLine}}. Suspension reason line",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.issuePlace": {
+          "canonicalPath": "document.issuePlace",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.issuePlace}}. Decision issuance place",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.issueDate": {
+          "canonicalPath": "document.issueDate",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.issueDate}}. Decision date",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.fullDocumentCode": {
+          "canonicalPath": "document.fullDocumentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.fullDocumentCode}}. Decision serial number",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:17.997Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "agency.agencyReferenceLine": {
+          "canonicalPath": "agency.agencyReferenceLine",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A fix: renamed from agency.field3",
+            "docxAnchor": "wave-03a-fix",
+            "reviewedAt": "2026-06-22T17:05:53.303Z",
+            "reviewedBy": "Le Huy"
           }
         }
       }

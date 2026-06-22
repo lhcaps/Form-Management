@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T16:30:21.626Z
+Generated: 2026-06-22T17:14:16.292Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 74** (requires DOCX edit, non-blocking)
+- **Remediation: 62** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -82,30 +82,6 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-139] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - agency.dongDia, document.chuThe, document.ngayBan
-- ⚠️ [BM-164] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-165] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-174] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-175] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-176] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-177] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-178] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-179] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-180] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-181] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-182] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-183] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
 - ⚠️ [BM-184] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - decision.field, document.field
 - ⚠️ [BM-185] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
@@ -454,8 +430,8 @@ _but does not prevent runtime rendering._
 | BM-161 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-162 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 21 | 0 | 0 |
 | BM-163 | CONTRACT_REPAIR_REQUIRED | 11 | 11 | 11 | 0 | 30 | 0 | 0 |
-| BM-164 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-165 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-164 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
+| BM-165 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-166 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-167 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-168 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
@@ -464,16 +440,16 @@ _but does not prevent runtime rendering._
 | BM-171 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-172 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-173 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
-| BM-174 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-175 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-176 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-177 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-178 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-179 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-180 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-181 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-182 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-183 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-174 | VERIFIED | 11 | 11 | 11 | 0 | 0 | 0 | 0 |
+| BM-175 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-176 | VERIFIED | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
+| BM-177 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-178 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-179 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
+| BM-180 | VERIFIED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-181 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-182 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-183 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
 | BM-184 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-185 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-186 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |

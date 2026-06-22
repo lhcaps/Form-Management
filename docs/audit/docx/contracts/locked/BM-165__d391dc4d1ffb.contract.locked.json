@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-165/BM-165_normalized.docx",
-    "sha256": "edccedcb087c746122b9d49062bad9f072918b9c7d3f8be3d6bee836d1dcc4a4",
+    "sha256": "96fdc0a74d500a4ce8f431db2f9cf5ec5240d017a017bbfa29da31b2382f3348",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,25 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0004"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Document serial in header",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:17.933Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +83,35 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0004"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Document serial in header",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:17.933Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -129,7 +171,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.011Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03a remediation)",
+  "reviewedAt": "2026-06-22T17:04:17.933Z",
   "reviewKind": "human"
 }

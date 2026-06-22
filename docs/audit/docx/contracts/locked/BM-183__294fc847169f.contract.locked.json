@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-183/BM-183_normalized.docx",
-    "sha256": "26ae27d5b6bcc002f591a3d08d63b6a8e87e6151b2bf5a2bb03894a97ddfb922",
+    "sha256": "1ef10979d394df16e9c98040873742a5f233566324e4d0c5d73937256b6370a4",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,158 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0022"
       }
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "label": "Ngày sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Defendant date of birth",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.dateOfBirth}}"
+      }
+    },
+    {
+      "slotId": "person.personFullName",
+      "label": "Họ và tên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Defendant full name",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.personFullName}}"
+      }
+    },
+    {
+      "slotId": "legalBasis.statuteReference",
+      "label": "Điều luật tham chiếu",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Statute reference (hint: field6=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.field6}}"
+      }
+    },
+    {
+      "slotId": "document.contentLine",
+      "label": "Nội dung (dòng)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Charge / prosecution content",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.contentLine}}"
+      }
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine2",
+      "label": "Căn cứ pháp luật (dòng 2)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Additional legal basis (hint: field4=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.legalBasisLine2}}"
+      }
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine",
+      "label": "Căn cứ pháp luật (dòng)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Legal basis citation (hint: field3=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.legalBasisLine}}"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Decision date",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Decision serial number",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +216,196 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0022"
       }
+    },
+    {
+      "path": "person.dateOfBirth",
+      "type": "string",
+      "label": "Ngày sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Defendant date of birth",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "person.personFullName",
+      "type": "string",
+      "label": "Họ và tên",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Defendant full name",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "legalBasis.statuteReference",
+      "type": "string",
+      "label": "Điều luật tham chiếu",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Statute reference (hint: field6=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.contentLine",
+      "type": "string",
+      "label": "Nội dung (dòng)",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Charge / prosecution content",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "legalBasis.legalBasisLine2",
+      "type": "string",
+      "label": "Căn cứ pháp luật (dòng 2)",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Additional legal basis (hint: field4=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "legalBasis.legalBasisLine",
+      "type": "string",
+      "label": "Căn cứ pháp luật (dòng)",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Legal basis citation (hint: field3=legalBasis.*)",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Decision date",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Decision serial number",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.016Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "from": "person.dateOfBirth",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.personFullName",
+      "from": "person.personFullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.statuteReference",
+      "from": "legalBasis.statuteReference",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.contentLine",
+      "from": "document.contentLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine2",
+      "from": "legalBasis.legalBasisLine2",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine",
+      "from": "legalBasis.legalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -162,7 +498,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.021Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03a fix)",
+  "reviewedAt": "2026-06-22T17:10:33.369Z",
   "reviewKind": "human"
 }
