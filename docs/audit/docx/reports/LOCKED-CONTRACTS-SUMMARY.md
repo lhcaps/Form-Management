@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T15:34:44.142Z
+Generated: 2026-06-22T16:30:21.626Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,8 +8,8 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 83** (requires DOCX edit, non-blocking)
-- **Warning: 40** (metadata completeness, non-blocking)
+- **Remediation: 74** (requires DOCX edit, non-blocking)
+- **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
 
@@ -80,26 +80,8 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-068] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-069] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-073] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-075] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-077] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-080] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-082] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
 - ⚠️ [BM-139] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - agency.dongDia, document.chuThe, document.ngayBan
-- ⚠️ [BM-162] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-163] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
 - ⚠️ [BM-164] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - document.field, recipients.field
 - ⚠️ [BM-165] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
@@ -268,6 +250,42 @@ _but does not prevent runtime rendering._
   - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
 - ℹ️ [BM-067] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode, document.fullDocumentCode2
+- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province
+- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, person.idNumber2, person.occupation, person.occupation2, person.permanentAddress, person.permanentAddress2, person.permanentAddress3, person.province, person.temporaryAddress
+- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine
+- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
+  - decision.decisionLine, document.fullDocumentCode, document.issueDate, document.reasonLine, document.reasonLine2, document.summaryLine, person.currentAddress, person.currentAddress2, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
+- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
+- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
+- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress, document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress
+- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, person.currentAddress, person.dateOfBirth, person.personFullName
+- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.fullDocumentCode
+- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode
+- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine, document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine
+- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, legalBasis.legalBasisLine, person.currentAddress, person.dateOfBirth, person.personFullName
+- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.fullDocumentCode
+- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode
+- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber
+- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
+- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber
+- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
+  - case.caseNumber, document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName, person.province, person.ward
 
 ## Per-file Summary
 
@@ -340,21 +358,21 @@ _but does not prevent runtime rendering._
 | BM-065 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
 | BM-066 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
 | BM-067 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
-| BM-068 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-069 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-068 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
+| BM-069 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
 | BM-070 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-071 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-072 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-073 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-073 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
 | BM-074 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
-| BM-075 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-075 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
 | BM-076 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-077 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-077 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
 | BM-078 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-079 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-080 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-080 | CONTRACT_REPAIR_REQUIRED | 7 | 7 | 7 | 0 | 18 | 0 | 0 |
 | BM-081 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-082 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-082 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
 | BM-083 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-084 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-085 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
@@ -434,8 +452,8 @@ _but does not prevent runtime rendering._
 | BM-159 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
 | BM-160 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-161 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
-| BM-162 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-163 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-162 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 21 | 0 | 0 |
+| BM-163 | CONTRACT_REPAIR_REQUIRED | 11 | 11 | 11 | 0 | 30 | 0 | 0 |
 | BM-164 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-165 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-166 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
