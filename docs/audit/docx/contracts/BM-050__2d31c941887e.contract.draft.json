@@ -14,118 +14,89 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-050/BM-050_normalized.docx",
-    "sha256": "1aba6730aabc9a43d85fd675d940534a467c67d095bf4d176f4f8099e0b29ec2",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/50-QĐ không phê chuẩn QĐ về việc đặt tiền để bảo đảm.doc",
+    "sha256": "2d31c941887e23c181c1461c45ce86af8e8735154d08f1ca5f36d3ad6c5594a2",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.tenVien",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0003",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
-      "label": "Tên cơ quan",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT …",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.coQuan",
+      "slotId": "document.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0031",
+        "partName": "WordDocument",
+        "blockId": "P0046",
         "tableCellId": null
       },
-      "context": "Xét hồ sơ đề nghị phê chuẩn Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của10{{decision.field2}}",
-      "label": "Ô trống",
+      "context": "của10...;",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Xét hồ sơ đề nghị phê chuẩn Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của10",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{decision.field2}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "agency.diaDanh",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0043",
-        "tableCellId": null
-      },
-      "context": "11{{document.field3}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "11",
-        "textAfter": "",
-        "rawPattern": "{{document.field3}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.tenVien",
+      "path": "document.field1",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.coQuan",
+      "path": "document.field2",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "agency.diaDanh",
-      "type": "string",
-      "label": "Ô trống",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.tenVien",
-      "from": "agency.tenVien",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.coQuan",
-      "from": "agency.coQuan",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "agency.diaDanh",
-      "from": "agency.diaDanh",
+      "slotId": "document.field2",
+      "from": "document.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -134,7 +105,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 0 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -159,24 +130,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "decision"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "decision.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -188,5 +143,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.950Z"
+  "generatedAt": "2026-06-22T18:04:11.771Z"
 }

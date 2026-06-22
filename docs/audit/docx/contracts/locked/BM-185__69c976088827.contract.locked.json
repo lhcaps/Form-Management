@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-185/BM-185_normalized.docx",
-    "sha256": "c8c70941c8d4259c74b8c45178d950421dda7e8900691d46842000133da1772d",
+    "sha256": "eec0fde55f958b559cecff2b34acf36ad6488c222c67f779809d7814bbfeb6a2",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,101 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "slotId": "person.currentAddress",
+      "label": "Địa chỉ thường trú",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: renamed from {{document.field}}. Subject's current address",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.currentAddress}}"
+      }
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "label": "Ngày sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: renamed from {{document.field}}. Subject's date of birth",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.dateOfBirth}}"
+      }
+    },
+    {
+      "slotId": "person.personFullName",
+      "label": "Họ và tên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: renamed from {{document.field}}. Subject's full name",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.personFullName}}"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: renamed from {{document.field}}. Issuance date",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: renamed from {{document.field}}. Document serial in header",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +159,127 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "path": "person.currentAddress",
+      "type": "string",
+      "label": "Địa chỉ thường trú",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: Subject's current address",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "person.dateOfBirth",
+      "type": "string",
+      "label": "Ngày sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: Subject's date of birth",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "person.personFullName",
+      "type": "string",
+      "label": "Họ và tên",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: Subject's full name",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: Issuance date",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-1: Document serial in header",
+        "docxAnchor": "wave-03c-1-remediation.mjs",
+        "reviewedAt": "2026-06-22T18:03:29.920Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.currentAddress",
+      "from": "person.currentAddress",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "from": "person.dateOfBirth",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.personFullName",
+      "from": "person.personFullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -145,7 +355,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.022Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03c-1 remediation)",
+  "reviewedAt": "2026-06-22T18:03:29.920Z",
   "reviewKind": "human"
 }

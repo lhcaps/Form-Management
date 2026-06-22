@@ -14,188 +14,165 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-147/BM-147_normalized.docx",
-    "sha256": "21d2be51876b3b665559dfbaa0535a3625de277a8bb1dd17536bb00eb08b2d40",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/147-QĐ huỷ bỏ QĐ tạm đình chỉ vụ án.doc",
+    "sha256": "7bf9bc811caddb7805b9cbe4808ba56c0794eea044beecac197e03262ab112d8",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.vienKiem",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0003",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
-      "label": "Tên cơ quan",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT …",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.vienKiem",
+      "slotId": "agency.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0021",
+        "partName": "WordDocument",
+        "blockId": "P0012",
         "tableCellId": null
       },
-      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2{{document.field2}}",
-      "label": "Tên cơ quan",
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "agency",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field2}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.soQuyet",
+      "slotId": "agency.field3",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0025",
+        "partName": "WordDocument",
+        "blockId": "P0031",
         "tableCellId": null
       },
-      "context": "Xét Quyết định tạm đình chỉ vụ án hình sự số … ngày … tháng … năm … của Viện kiểm sát7{{agency.field3}}",
-      "label": "Ô trống",
+      "context": "của Viện kiểm sát7...;",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "agency",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Xét Quyết định tạm đình chỉ vụ án hình sự số … ngày … tháng … năm … của Viện kiểm sát7",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{agency.field3}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.diaDanh",
+      "slotId": "document.field4",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0026",
+        "partName": "WordDocument",
+        "blockId": "P0033",
         "tableCellId": null
       },
-      "context": "Nhận thấy8{{document.field4}}",
-      "label": "Ô trống",
+      "context": "............................................................................,",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Nhận thấy8",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field4}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.ngayBan",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0038",
-        "tableCellId": null
-      },
-      "context": "10{{document.field5}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "10",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}"
+        "rawPattern": "............................................................................"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.vienKiem",
+      "path": "document.field1",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.vienKiem",
+      "path": "agency.field2",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.soQuyet",
+      "path": "agency.field3",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "agency.diaDanh",
+      "path": "document.field4",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.ngayBan",
-      "type": "string",
-      "label": "Ô trống",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.vienKiem",
-      "from": "agency.vienKiem",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.vienKiem",
-      "from": "agency.vienKiem",
+      "slotId": "agency.field2",
+      "from": "agency.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.soQuyet",
-      "from": "document.soQuyet",
+      "slotId": "agency.field3",
+      "from": "agency.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.diaDanh",
-      "from": "agency.diaDanh",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.ngayBan",
-      "from": "document.ngayBan",
+      "slotId": "document.field4",
+      "from": "document.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -204,7 +181,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 79 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -229,32 +206,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "agency.field3",
-        "control": "text"
-      },
-      {
-        "path": "document.field4",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -266,5 +219,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:37.001Z"
+  "generatedAt": "2026-06-22T18:04:11.920Z"
 }

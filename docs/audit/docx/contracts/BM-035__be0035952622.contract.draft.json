@@ -14,118 +14,165 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-035/BM-035_normalized.docx",
-    "sha256": "549f38862899b5cfedab4bd4f6e15c4a4e89eb059ee712a87a9784c92b2499ee",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
+    "sha256": "be0035952622ea412f64d75e187b89d33fba81b6957669785f3361eb398916ce",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.parentNameUpper",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0011",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
-      "label": "Tên cơ quan",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT …",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.documentCode",
+      "slotId": "legalBasis.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0026",
+        "partName": "WordDocument",
+        "blockId": "P0020",
         "tableCellId": null
       },
-      "context": "Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8{{document.documentCode}}",
-      "label": "Số quyết định",
+      "context": "đối với8... là không có căn cứ/không cần thiết,",
+      "label": "Ô trống dạng \"...\" (legalBasis)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "legalBasis",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.documentCode}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDate",
+      "slotId": "document.field3",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0037",
+        "partName": "WordDocument",
+        "blockId": "P0027",
         "tableCellId": null
       },
-      "context": "10{{document.field5}}",
-      "label": "Ô trống",
+      "context": "đối với8....",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "10",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field5}}"
+        "rawPattern": "...."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.field4",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Điều 2. Yêu cầu9... trả tự do ngay cho người bị tạm giữ theo quy định của Bộ luật Tố tụng hình sự./.",
+      "label": "Ô trống dạng \"...\" (decision)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "decision",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.parentNameUpper",
+      "path": "document.field1",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "document.documentCode",
+      "path": "legalBasis.field2",
       "type": "string",
-      "label": "Số quyết định",
+      "label": "Trường cần điền (legalBasis)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "legalBasis",
       "reviewRequired": true
     },
     {
-      "path": "document.issueDate",
+      "path": "document.field3",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
+      "reviewRequired": true
+    },
+    {
+      "path": "decision.field4",
+      "type": "string",
+      "label": "Trường cần điền (decision)",
+      "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "section": "decision",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentNameUpper",
-      "from": "agency.parentNameUpper",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.documentCode",
-      "from": "document.documentCode",
+      "slotId": "legalBasis.field2",
+      "from": "legalBasis.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
+      "slotId": "document.field3",
+      "from": "document.field3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.field4",
+      "from": "decision.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -134,7 +181,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 0 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -159,23 +206,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.documentCode",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -187,5 +219,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.942Z"
+  "generatedAt": "2026-06-22T18:04:11.762Z"
 }

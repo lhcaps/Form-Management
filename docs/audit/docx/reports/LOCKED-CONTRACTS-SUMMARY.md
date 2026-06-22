@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T17:42:03.120Z
+Generated: 2026-06-22T18:09:55.693Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 61** (requires DOCX edit, non-blocking)
+- **Remediation: 54** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -16,6 +16,12 @@ Files checked: 213
 _These are non-blocking. The DOCX template needs editing to add/rename mustache_
 _placeholders before these slots can be fully verified._
 
+- ⚠️ [BM-001] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - crimeReport.attachedItemsDescription, crimeReport.content, reception.endedAtDay, reception.endedAtMonth, reception.endedAtTimeText, reception.endedAtYear, reception.locationName, reception.startedAtDay, reception.startedAtMonth, reception.startedAtTimeText, reception.startedAtYear
+- ⚠️ [BM-002] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - sourceTransfer.attachedItemsDescription
+- ⚠️ [BM-003] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - official.issuerTitle, sourceAssignment.article1Line, sourceAssignment.article2Line, sourceAssignment.article3Line
 - ⚠️ [BM-021] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.nameUpper
 - ⚠️ [BM-021] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
@@ -80,26 +86,6 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-184] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - decision.field, document.field
-- ⚠️ [BM-185] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-186] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-187] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-188] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-189] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-190] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-191] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-192] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-193] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-194] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - document.field
 - ⚠️ [BM-195] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
@@ -265,9 +251,9 @@ _but does not prevent runtime rendering._
 
 | BM | Quality | Slots | Fields | Bindings | UnknownSrc | reviewReq | Generic | Unresolved |
 |---|---|---|---|---|---|---|---|---|---|
-| BM-001 | VERIFIED | 39 | 39 | 39 | 0 | 0 | 0 | 0 |
-| BM-002 | VERIFIED | 30 | 30 | 30 | 0 | 0 | 0 | 0 |
-| BM-003 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
+| BM-001 | CONTRACT_REPAIR_REQUIRED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
+| BM-002 | CONTRACT_REPAIR_REQUIRED | 29 | 29 | 29 | 0 | 0 | 0 | 0 |
+| BM-003 | CONTRACT_REPAIR_REQUIRED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
 | BM-004 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-005 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
 | BM-006 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
@@ -448,16 +434,16 @@ _but does not prevent runtime rendering._
 | BM-181 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-182 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-183 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
-| BM-184 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-185 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-186 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-187 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-188 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-189 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-190 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-191 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-192 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-193 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-184 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
+| BM-185 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
+| BM-186 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-187 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-188 | VERIFIED | 18 | 18 | 18 | 0 | 0 | 0 | 0 |
+| BM-189 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-190 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
+| BM-191 | VERIFIED | 18 | 18 | 18 | 0 | 0 | 0 | 0 |
+| BM-192 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-193 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
 | BM-194 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-195 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-196 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |

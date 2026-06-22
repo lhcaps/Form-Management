@@ -14,756 +14,89 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-044/BM-044_normalized.docx",
-    "sha256": "59385ec899971b74bbc0946f77d428bac80c28af5edc84014fc55e0bd6504671",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/44-QĐ thay thế biện pháp tạm giam.doc",
+    "sha256": "8552b13c78ff6f4f305c2ebc5e41660000183ea922276e26c9dd2463ee96a43c",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.parentNameUpper",
+      "slotId": "document.field1",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0002",
+        "tableCellId": null
+      },
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
-      "required": true,
-      "reviewRequired": true
-    },
-    {
-      "slotId": "agency.nameUpper",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0012",
-        "tableCellId": null
-      },
-      "context": "{{agency.nameUpper}}",
-      "label": "Viện kiểm sát (viết hoa)",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{agency.nameUpper}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.documentCode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0014",
-        "tableCellId": null
-      },
-      "context": "Số: {{document.documentCode}}",
-      "label": "Số quyết định",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Số:",
-        "textAfter": "",
-        "rawPattern": "{{document.documentCode}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceAndDateLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0021",
-        "tableCellId": null
-      },
-      "context": "{{document.issuePlaceAndDateLine}}",
-      "label": "Địa danh, ngày ban hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.issuePlaceAndDateLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "official.issuingAuthorityLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0025",
-        "tableCellId": null
-      },
-      "context": "{{official.issuingAuthorityLine}}",
-      "label": "Cơ quan ban hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{official.issuingAuthorityLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.procedureArticlesLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0026",
-        "tableCellId": null
-      },
-      "context": "{{legalBasis.procedureArticlesLine}}",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.juvenileJusticeLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0027",
-        "tableCellId": null
-      },
-      "context": "{{legalBasis.juvenileJusticeLine}}",
-      "label": "Căn cứ Luật xử lý vi phạm hành chính",
-      "slotType": "multilineText",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{legalBasis.juvenileJusticeLine}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "detentionReplacement.detentionOrderLegalBasisLine",
+      "slotId": "document.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0028",
+        "partName": "WordDocument",
+        "blockId": "P0022",
         "tableCellId": null
       },
-      "context": "{{detentionReplacement.detentionOrderLegalBasisLine}}",
-      "label": "Căn cứ Lệnh tạm giam",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.detentionOrderLegalBasisLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.detentionExtensionLegalBasisLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0029",
-        "tableCellId": null
-      },
-      "context": "{{detentionReplacement.detentionExtensionLegalBasisLine}}",
-      "label": "Căn cứ Quyết định gia hạn tạm giam",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.detentionExtensionLegalBasisLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.proposalLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
-        "tableCellId": null
-      },
-      "context": "{{detentionReplacement.proposalLine}}",
-      "label": "Đề nghị thay thế",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.proposalLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.reasonLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0031",
-        "tableCellId": null
-      },
-      "context": "{{detentionReplacement.reasonLine}}",
-      "label": "Lý do thay thế",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.reasonLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.article1Line",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0033",
-        "tableCellId": null
-      },
-      "context": "Điều 1. {{detentionReplacement.article1Line}}",
-      "label": "Điều 1 - Nội dung quyết định",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Điều 1.",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.article1Line}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.durationLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "{{detentionReplacement.durationLine}}",
-      "label": "Thời hạn áp dụng",
+      "context": "... về tội",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
-      "required": true,
-      "confidence": 1,
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{detentionReplacement.durationLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.article2Line",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0035",
-        "tableCellId": null
-      },
-      "context": "Điều 2. {{detentionReplacement.article2Line}}",
-      "label": "Điều 2 - Yêu cầu",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Điều 2.",
-        "textAfter": "",
-        "rawPattern": "{{detentionReplacement.article2Line}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.personLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0038",
-        "tableCellId": null
-      },
-      "context": "{{recipients.personLine}}",
-      "label": "Nơi nhận - Bị can",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{recipients.personLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.proposalAgencyLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0039",
-        "tableCellId": null
-      },
-      "context": "{{recipients.proposalAgencyLine}}",
-      "label": "Nơi nhận - Cơ quan đề nghị",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{recipients.proposalAgencyLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.executionAgencyLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0040",
-        "tableCellId": null
-      },
-      "context": "{{recipients.executionAgencyLine}}",
-      "label": "Nơi nhận - Cơ quan thi hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{recipients.executionAgencyLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.archiveLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0041",
-        "tableCellId": null
-      },
-      "context": "{{recipients.archiveLine}}",
-      "label": "Lưu hồ sơ",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{recipients.archiveLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signMode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0042",
-        "tableCellId": null
-      },
-      "context": "{{signature.signMode}}",
-      "label": "Chế độ ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{signature.signMode}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.positionTitle",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0043",
-        "tableCellId": null
-      },
-      "context": "{{signature.positionTitle}}",
-      "label": "Chức vụ người ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{signature.positionTitle}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signerName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0047",
-        "tableCellId": null
-      },
-      "context": "{{signature.signerName}}",
-      "label": "Người ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{signature.signerName}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.parentNameUpper",
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "type": "text",
-      "uiComponent": "text",
-      "required": true,
-      "source": "unknown",
-      "reviewRequired": true
-    },
-    {
-      "path": "agency.nameUpper",
+      "path": "document.field1",
       "type": "string",
-      "label": "Viện kiểm sát (viết hoa)",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.documentCode",
-      "type": "string",
-      "label": "Số quyết định",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issuePlaceAndDateLine",
-      "type": "string",
-      "label": "Địa danh, ngày ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "official.issuingAuthorityLine",
-      "type": "string",
-      "label": "Cơ quan ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "legalBasis.procedureArticlesLine",
-      "type": "string",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "legalBasis.juvenileJusticeLine",
-      "type": "string",
-      "label": "Căn cứ Luật xử lý vi phạm hành chính",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.detentionOrderLegalBasisLine",
-      "type": "string",
-      "label": "Căn cứ Lệnh tạm giam",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.detentionExtensionLegalBasisLine",
-      "type": "string",
-      "label": "Căn cứ Quyết định gia hạn tạm giam",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.proposalLine",
-      "type": "string",
-      "label": "Đề nghị thay thế",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.reasonLine",
-      "type": "string",
-      "label": "Lý do thay thế",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.article1Line",
-      "type": "string",
-      "label": "Điều 1 - Nội dung quyết định",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "detentionReplacement.durationLine",
-      "type": "string",
-      "label": "Thời hạn áp dụng",
-      "source": "unknown",
-      "required": true,
       "uiComponent": "text",
-      "section": "Nội dung quyết định",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "detentionReplacement.article2Line",
+      "path": "document.field2",
       "type": "string",
-      "label": "Điều 2 - Yêu cầu",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "recipients.personLine",
-      "type": "string",
-      "label": "Nơi nhận - Bị can",
-      "source": "unknown",
-      "required": true,
+      "required": false,
       "uiComponent": "text",
-      "section": "Nơi nhận",
-      "reviewRequired": true
-    },
-    {
-      "path": "recipients.proposalAgencyLine",
-      "type": "string",
-      "label": "Nơi nhận - Cơ quan đề nghị",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nơi nhận",
-      "reviewRequired": true
-    },
-    {
-      "path": "recipients.executionAgencyLine",
-      "type": "string",
-      "label": "Nơi nhận - Cơ quan thi hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nơi nhận",
-      "reviewRequired": true
-    },
-    {
-      "path": "recipients.archiveLine",
-      "type": "string",
-      "label": "Lưu hồ sơ",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nơi nhận",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.signMode",
-      "type": "string",
-      "label": "Chế độ ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.positionTitle",
-      "type": "string",
-      "label": "Chức vụ người ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.signerName",
-      "type": "string",
-      "label": "Người ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
+      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentNameUpper",
-      "fieldPath": "agency.parentNameUpper",
-      "from": "agency.parentNameUpper",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.nameUpper",
-      "from": "agency.nameUpper",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.documentCode",
-      "from": "document.documentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceAndDateLine",
-      "from": "document.issuePlaceAndDateLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "official.issuingAuthorityLine",
-      "from": "official.issuingAuthorityLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.procedureArticlesLine",
-      "from": "legalBasis.procedureArticlesLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.juvenileJusticeLine",
-      "from": "legalBasis.juvenileJusticeLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.detentionOrderLegalBasisLine",
-      "from": "detentionReplacement.detentionOrderLegalBasisLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.detentionExtensionLegalBasisLine",
-      "from": "detentionReplacement.detentionExtensionLegalBasisLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.proposalLine",
-      "from": "detentionReplacement.proposalLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.reasonLine",
-      "from": "detentionReplacement.reasonLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.article1Line",
-      "from": "detentionReplacement.article1Line",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.durationLine",
-      "from": "detentionReplacement.durationLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "detentionReplacement.article2Line",
-      "from": "detentionReplacement.article2Line",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.personLine",
-      "from": "recipients.personLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.proposalAgencyLine",
-      "from": "recipients.proposalAgencyLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.executionAgencyLine",
-      "from": "recipients.executionAgencyLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.archiveLine",
-      "from": "recipients.archiveLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signMode",
-      "from": "signature.signMode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.positionTitle",
-      "from": "signature.positionTitle",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signerName",
-      "from": "signature.signerName",
+      "slotId": "document.field2",
+      "from": "document.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -772,7 +105,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 20 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -797,101 +130,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "agency",
-      "document",
-      "official",
-      "legalBasis",
-      "detentionReplacement",
-      "recipients",
-      "signature"
-    ],
-    "suggestedControls": [
-      {
-        "path": "agency.parentNameUpper",
-        "control": "text"
-      },
-      {
-        "path": "agency.nameUpper",
-        "control": "text"
-      },
-      {
-        "path": "document.documentCode",
-        "control": "text"
-      },
-      {
-        "path": "document.issuePlaceAndDateLine",
-        "control": "text"
-      },
-      {
-        "path": "official.issuingAuthorityLine",
-        "control": "text"
-      },
-      {
-        "path": "legalBasis.procedureArticlesLine",
-        "control": "textarea"
-      },
-      {
-        "path": "legalBasis.juvenileJusticeLine",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.detentionOrderLegalBasisLine",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.detentionExtensionLegalBasisLine",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.proposalLine",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.reasonLine",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.article1Line",
-        "control": "textarea"
-      },
-      {
-        "path": "detentionReplacement.durationLine",
-        "control": "text"
-      },
-      {
-        "path": "detentionReplacement.article2Line",
-        "control": "textarea"
-      },
-      {
-        "path": "recipients.personLine",
-        "control": "text"
-      },
-      {
-        "path": "recipients.proposalAgencyLine",
-        "control": "text"
-      },
-      {
-        "path": "recipients.executionAgencyLine",
-        "control": "text"
-      },
-      {
-        "path": "recipients.archiveLine",
-        "control": "text"
-      },
-      {
-        "path": "signature.signMode",
-        "control": "text"
-      },
-      {
-        "path": "signature.positionTitle",
-        "control": "text"
-      },
-      {
-        "path": "signature.signerName",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -903,5 +143,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.947Z"
+  "generatedAt": "2026-06-22T18:04:11.767Z"
 }

@@ -14,83 +14,89 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-124/BM-124_normalized.docx",
-    "sha256": "ec281f1d677dc8667e1860fce69a75c8b30d18c9acd99525d7f011a769ac803b",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/04. GIAI DOAN DIEU TRA/124-Biên bản thực nghiệm điều tra.doc",
+    "sha256": "1fca98cb2e902eb01f7d391878b4ccd95f614d39d0cfc55b47b1a874b0582310",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.vienKiem",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0009",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
-      "label": "Tên cơ quan",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT …",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.vienKiem",
+      "slotId": "prosecutor.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0021",
+        "partName": "WordDocument",
+        "blockId": "P0019",
         "tableCellId": null
       },
-      "context": "Ông/B{{document.field2}} là Kiểm sát viên chủ trì thực nghiệm điều tra;",
-      "label": "Ô trống",
+      "context": "Ông/Bà: ........................................................ là Kiểm sát viên chủ trì thực nghiệm điều tra;",
+      "label": "Ô trống dạng \"...\" (prosecutor)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "prosecutor",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Ông/B",
-        "textAfter": "là Kiểm sát viên chủ trì thực nghiệm điều tra;",
-        "rawPattern": "{{document.field2}}"
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "........................................................"
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.vienKiem",
+      "path": "document.field1",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.vienKiem",
+      "path": "prosecutor.field2",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (prosecutor)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "prosecutor",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.vienKiem",
-      "from": "agency.vienKiem",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.vienKiem",
-      "from": "agency.vienKiem",
+      "slotId": "prosecutor.field2",
+      "from": "prosecutor.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -99,7 +105,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 74 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -124,19 +130,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -148,5 +143,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.989Z"
+  "generatedAt": "2026-06-22T18:04:11.872Z"
 }
