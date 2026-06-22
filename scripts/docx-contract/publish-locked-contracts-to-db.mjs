@@ -29,7 +29,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -259,6 +259,26 @@ function writePublishReport(toPublish, skipped, opts) {
   return reportPath;
 }
 
+async function preflightTemplates(toPublish, prisma) {
+  const sourceIds = toPublish.map((p) => p.sourceId);
+  const found = await prisma.templates.findMany({
+    where: { sourceId: { in: sourceIds } },
+    select: { sourceId: true, id: true },
+  });
+  const foundSet = new Set(found.map((t) => t.sourceId));
+
+  const missing = toPublish.filter((p) => !foundSet.has(p.sourceId));
+  if (missing.length > 0) {
+    throw new Error(
+      `Preflight failed: ${missing.length} template(s) not found in DB:\n` +
+      missing.map((p) => `  - ${p.templateCode} (sourceId="${p.sourceId}")`).join("\n") +
+      "\nEnsure all 213 templates exist before running publish.",
+    );
+  }
+
+  return found;
+}
+
 async function publishToDb(toPublish, opts) {
   const { officialId, agencyId, expectExactly } = opts;
   const now = new Date().toISOString();
@@ -273,21 +293,24 @@ async function publishToDb(toPublish, opts) {
     );
     console.log("\nTo generate SQL:");
     console.log("  node scripts/docx-contract/publish-locked-contracts-to-db.mjs --sql");
-    return;
+    return { created: 0, skipped: 0, failed: 0, preflightFailed: false };
   }
 
   let PrismaClient;
   try {
+    // Try .prisma/client first (generated via `prisma generate`)
     ({ PrismaClient } = await import(
-      "../apps/api/node_modules/.prisma/client/index.js"
+      pathToFileURL(path.join(ROOT, "apps/api/node_modules/.prisma/client/index.js")).href
     ));
   } catch {
     try {
-      const { PrismaClient: PC } = await import("@prisma/client");
-      PrismaClient = PC;
+      // Fallback to @prisma/client (installed but .prisma not yet generated)
+      ({ PrismaClient } = await import(
+        pathToFileURL(path.join(ROOT, "apps/api/node_modules/@prisma/client/index.js")).href
+      ));
     } catch {
       console.error(
-        "Could not import PrismaClient. Run 'pnpm install' in apps/api first.",
+        "Could not import PrismaClient. Run 'cd apps/api && pnpm prisma generate && pnpm install' first.",
       );
       process.exit(1);
     }
@@ -298,6 +321,11 @@ async function publishToDb(toPublish, opts) {
   console.log("Publishing to database...\n");
   console.log(`Official ID: ${officialId}${agencyId ? `, Agency ID: ${agencyId}` : " (global scope)"}`);
 
+  // Preflight: verify ALL templates exist before touching any data
+  console.log("[preflight] Verifying all templates exist in DB...");
+  await preflightTemplates(toPublish, prisma);
+  console.log("[preflight] All templates found. Proceeding to transaction.\n");
+
   let created = 0;
   let skipped = 0;
   let failed = 0;
@@ -305,14 +333,15 @@ async function publishToDb(toPublish, opts) {
 
   await prisma.$transaction(async (tx) => {
     for (const p of toPublish) {
-      // Find template by sourceId
+      // Find template by sourceId (preflight guarantees this exists)
       const template = await tx.templates.findFirst({
         where: { sourceId: p.sourceId },
       });
       if (!template) {
-        failures.push(`${p.templateCode}: template not found for sourceId="${p.sourceId}"`);
-        failed++;
-        continue;
+        throw new Error(
+          `Template not found for sourceId="${p.sourceId}" (${p.templateCode}). ` +
+          `Preflight should have caught this. Rolling back transaction.`,
+        );
       }
 
       // Check idempotency: skip if latest published version already has this contractHash
@@ -380,20 +409,31 @@ async function publishToDb(toPublish, opts) {
       console.log(`  [OK] ${p.templateCode} v${nextVersion}`);
       created++;
     }
-  });
+  }); // transaction auto-commits on success, rolls back on throw
 
   await prisma.$disconnect();
 
   console.log(`\nCreated: ${created} | Skipped (already published): ${skipped} | Failed: ${failed}`);
 
-  if (expectExactly !== undefined && created > 0 && created < expectExactly) {
-    console.error(`\nWARNING: Expected to create ${expectExactly} records but only created ${created}.`);
-    console.error("Check 'Skipped' count above — some forms may already be published.");
+  const total = created + skipped;
+  if (total !== toPublish.length) {
+    console.error(
+      `\nASSERTION FAILED: created(${created}) + skipped(${skipped}) = ${total} ` +
+      `but expected ${toPublish.length}. Something went wrong.`,
+    );
+    process.exit(1);
   }
 
-  if (failures.length) {
-    console.error("\nFailures:");
-    for (const f of failures) console.error(`  - ${f}`);
+  if (expectExactly !== undefined && created > 0 && created < expectExactly) {
+    console.error(
+      `\nASSERTION FAILED: created ${created} < expected ${expectExactly}. ` +
+      `Some forms may already be published or blocked.`,
+    );
+    process.exit(1);
+  }
+
+  if (failed > 0) {
+    console.error(`\nASSERTION FAILED: ${failed} record(s) failed.`);
     process.exit(1);
   }
 
@@ -438,6 +478,13 @@ async function main() {
     return;
   }
 
+  // OFFICIAL_ID is required for ALL modes including --sql (it appears in the generated output)
+  if (!officialId) {
+    console.error("OFFICIAL_ID env required. Set it via environment variable or .env:");
+    console.error("  $env:OFFICIAL_ID=\"1\"; node scripts/.../publish-locked-contracts-to-db.mjs");
+    process.exit(1);
+  }
+
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
 
   if (outputSql) {
@@ -458,12 +505,6 @@ async function main() {
       console.log(`      template_hash: ${p.templateHash}`);
     }
     return;
-  }
-
-  if (!officialId) {
-    console.error("OFFICIAL_ID env required. Set it via environment variable or .env:");
-    console.error("  $env:OFFICIAL_ID=\"1\"; node scripts/.../publish-locked-contracts-to-db.mjs");
-    process.exit(1);
   }
 
   const result = await publishToDb(toPublish, {
