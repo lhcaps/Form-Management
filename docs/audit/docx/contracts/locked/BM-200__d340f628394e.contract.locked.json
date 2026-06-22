@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-200/BM-200_normalized.docx",
-    "sha256": "161e42d802bdc9766d5880d1e2c74a1bdf9a44b6d2f0518078deb6ec0e4fe51b",
+    "sha256": "5cbd7864b2aa605edabdb0a9fb267d7c3c801e0fd42d4409cc861ca8bb86b391",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,25 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: renamed from {{document.field}}. Document serial number in header",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.828Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +83,35 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: Document serial number in header",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.828Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -130,7 +172,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.030Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03c-2 remediation)",
+  "reviewedAt": "2026-06-22T19:03:30.828Z",
   "reviewKind": "human"
 }

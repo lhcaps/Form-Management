@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T18:09:55.693Z
+Generated: 2026-06-22T19:11:43.321Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 54** (requires DOCX edit, non-blocking)
+- **Remediation: 35** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -86,44 +86,6 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-194] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-195] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-196] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-197] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-198] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-199] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - decision.field, document.field, recipients.field
-- ⚠️ [BM-200] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-201] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-202] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-203] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-204] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-205] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-206] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - recipients.field
-- ⚠️ [BM-207] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-208] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-209] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-210] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - recipients.field
-- ⚠️ [BM-211] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-212] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 
 ## Warnings (metadata completeness)
 
@@ -444,23 +406,23 @@ _but does not prevent runtime rendering._
 | BM-191 | VERIFIED | 18 | 18 | 18 | 0 | 0 | 0 | 0 |
 | BM-192 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-193 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
-| BM-194 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-195 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-196 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-197 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-198 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-199 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-200 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-201 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-202 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-203 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-204 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-205 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-206 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-207 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-208 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-209 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-210 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-211 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-212 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-194 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-195 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-196 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-197 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
+| BM-198 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-199 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-200 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-201 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-202 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-203 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
+| BM-204 | VERIFIED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-205 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-206 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-207 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-208 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-209 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
+| BM-210 | VERIFIED | 12 | 12 | 12 | 0 | 0 | 0 | 0 |
+| BM-211 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
+| BM-212 | VERIFIED | 25 | 25 | 25 | 0 | 0 | 0 | 0 |
 | BM-213 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
