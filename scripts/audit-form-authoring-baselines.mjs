@@ -10,6 +10,8 @@ import { createRequire } from "node:module";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { evaluateFormArtifact } from "./docx-contract/lib/form-corpus-quality.mjs";
+
 const THIS_FILE = fileURLToPath(import.meta.url);
 const DEFAULT_REPO_ROOT = resolve(dirname(THIS_FILE), "..");
 const CONTRACT_RE =
@@ -64,16 +66,25 @@ export function stageCodeFor(templateCode) {
   return ranges.find(([, start, end]) => number >= start && number <= end)?.[0] ?? null;
 }
 
+export function gradeFromQualityState(qualityState) {
+  if (qualityState === "VERIFIED") return "LOCKED_VERIFIED";
+  if (qualityState === "PACKAGE_REPAIR_REQUIRED") return "GENERIC_FALLBACK";
+  return "EXTRACTED_NEEDS_REVIEW";
+}
+
 export function collectFilesystemRows(repoRoot = DEFAULT_REPO_ROOT) {
   const contractsByCode = loadContracts(repoRoot);
   const codes = canonicalCodes();
   return codes.map((code) => {
     const contracts = contractsByCode.get(code) ?? [];
     const canonical = selectCanonicalContract(contracts);
-    const alternates = contracts
-      .filter((entry) => entry.filePath !== canonical?.filePath)
-      .map((entry) => entry.sourceId)
-      .sort();
+    const alternates = [
+      ...new Set(
+        contracts
+          .filter((entry) => entry.sourceId !== canonical?.sourceId)
+          .map((entry) => entry.sourceId),
+      ),
+    ].sort();
     const normalizedPath = join(
       repoRoot,
       "storage",
@@ -83,21 +94,37 @@ export function collectFilesystemRows(repoRoot = DEFAULT_REPO_ROOT) {
       `${code}_normalized.docx`,
     );
     const rendererKind = inspectLegacyRenderer(repoRoot, code);
+    const normalizedBuffer = existsSync(normalizedPath)
+      ? readFileSync(normalizedPath)
+      : null;
+    const quality =
+      canonical && normalizedBuffer
+        ? evaluateFormArtifact({
+            contract: canonical.raw,
+            normalizedDocxBuffer: normalizedBuffer,
+          })
+        : null;
+    const qualityIssues = quality?.issues ?? [];
+    const blockingQualityIssues = qualityIssues.filter(
+      (entry) => entry.code !== "HUMAN_REVIEW_NOT_APPROVED",
+    );
+    const qualityWarnings = qualityIssues.filter(
+      (entry) => entry.code === "HUMAN_REVIEW_NOT_APPROVED",
+    );
 
     return {
       code,
       stageCode: stageCodeFor(code),
       normalizedPath,
       normalizedExists: existsSync(normalizedPath),
-      templateHash: existsSync(normalizedPath)
-        ? sha256(readFileSync(normalizedPath))
-        : null,
+      templateHash: normalizedBuffer ? sha256(normalizedBuffer) : null,
       contract: canonical,
       alternateSourceIds: alternates,
+      qualityState:
+        quality?.state ??
+        (normalizedBuffer ? "CONTRACT_REPAIR_REQUIRED" : "PACKAGE_REPAIR_REQUIRED"),
       grade: canonical
-        ? canonical.status === "locked"
-          ? "LOCKED_VERIFIED"
-          : "EXTRACTED_NEEDS_REVIEW"
+        ? gradeFromQualityState(quality?.state)
         : "GENERIC_FALLBACK",
       fieldCount: canonical?.canonicalFields.length ?? 0,
       bindingCount: canonical?.renderBindings.length ?? 0,
@@ -106,8 +133,8 @@ export function collectFilesystemRows(repoRoot = DEFAULT_REPO_ROOT) {
         (slot) => slot.reviewRequired,
       ).length,
       rendererKind,
-      issues: [],
-      warnings: [],
+      issues: blockingQualityIssues.map((entry) => entry.code),
+      warnings: qualityWarnings.map((entry) => entry.code),
     };
   });
 }
@@ -289,6 +316,7 @@ function loadContracts(repoRoot) {
       docxSlots: json.docxSlots ?? [],
       canonicalFields: json.canonicalFields ?? [],
       renderBindings: json.renderBindings ?? [],
+      raw: json,
     };
     const current = byCode.get(entry.templateCode) ?? [];
     current.push(entry);
@@ -371,6 +399,7 @@ function outputRows(rows, repoRoot, selection) {
     "BM",
     "DOCX",
     "Base grade",
+    "Quality state",
     "Fields",
     "Bindings",
     "Unknown",
@@ -387,6 +416,7 @@ function outputRows(rows, repoRoot, selection) {
     row.code,
     row.normalizedExists ? "YES" : "NO",
     row.grade,
+    row.qualityState,
     row.fieldCount,
     row.bindingCount,
     row.unknownCount,
@@ -422,6 +452,11 @@ function outputRows(rows, repoRoot, selection) {
     `- LOCKED_VERIFIED: ${rows.filter((row) => row.grade === "LOCKED_VERIFIED").length}`,
     `- EXTRACTED_NEEDS_REVIEW: ${rows.filter((row) => row.grade === "EXTRACTED_NEEDS_REVIEW").length}`,
     `- GENERIC_FALLBACK: ${rows.filter((row) => row.grade === "GENERIC_FALLBACK").length}`,
+    `- VERIFIED quality state: ${rows.filter((row) => row.qualityState === "VERIFIED").length}`,
+    `- Automated review pending: ${rows.filter((row) => row.qualityState === "AUTOMATED_REVIEW_PENDING").length}`,
+    `- Semantic remediation required: ${rows.filter((row) => row.qualityState === "SEMANTIC_REMEDIATION_REQUIRED").length}`,
+    `- Contract repair required: ${rows.filter((row) => row.qualityState === "CONTRACT_REPAIR_REQUIRED").length}`,
+    `- Package repair required: ${rows.filter((row) => row.qualityState === "PACKAGE_REPAIR_REQUIRED").length}`,
     `- Compile/refinement warnings: ${rows.filter((row) => row.warnings.length > 0).length}`,
     "",
     "This report proves authoring coverage and provenance. It does not certify legal or semantic correctness.",

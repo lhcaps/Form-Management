@@ -5,6 +5,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { evaluateFormArtifact } from "./lib/form-corpus-quality.mjs";
+
 const ROOT = process.cwd();
 const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
 const REPORTS_DIR = path.join(ROOT, "docs", "audit", "docx", "reports");
@@ -80,42 +82,40 @@ const main = () => {
     check(`[${bm}] renderBindings present`, Array.isArray(contract.renderBindings),
       typeof contract.renderBindings);
 
-    // Lock criteria checks
     const unknownSource = (contract.canonicalFields ?? []).filter((f) => f.source === "unknown");
-    check(`[${bm}] No source=unknown`, unknownSource.length === 0,
-      unknownSource.length > 0 ? unknownSource.map((f) => f.path).join(", ") : null);
-
     const reviewRequiredFields = (contract.canonicalFields ?? []).filter((f) => f.reviewRequired === true);
-    check(`[${bm}] No reviewRequired=true on canonicalFields`, reviewRequiredFields.length === 0,
-      reviewRequiredFields.length > 0 ? reviewRequiredFields.map((f) => f.path).join(", ") : null);
-
     const reviewRequiredSlots = (contract.docxSlots ?? []).filter((s) => s.reviewRequired === true);
-    check(`[${bm}] No reviewRequired=true on docxSlots`, reviewRequiredSlots.length === 0,
-      reviewRequiredSlots.length > 0 ? reviewRequiredSlots.map((s) => s.slotId).join(", ") : null);
-
     const reviewRequiredBindings = (contract.renderBindings ?? []).filter((b) => b.reviewRequired === true);
-    check(`[${bm}] No reviewRequired=true on renderBindings`, reviewRequiredBindings.length === 0,
-      reviewRequiredBindings.length > 0 ? reviewRequiredBindings.map((b) => b.slotId).join(", ") : null);
-
-    const genericSlots = (contract.docxSlots ?? []).filter((s) => /^[a-z]+\.field\d+$/i.test(s.slotId));
-    check(`[${bm}] No generic .field# slotIds`, genericSlots.length === 0,
-      genericSlots.length > 0 ? genericSlots.map((s) => s.slotId).join(", ") : null);
-
-    const genericFields = (contract.canonicalFields ?? []).filter((f) => /\.field\d+$/.test(f.path));
-    check(`[${bm}] No generic .field# canonicalFields`, genericFields.length === 0,
-      genericFields.length > 0 ? genericFields.map((f) => f.path).join(", ") : null);
-
     const unresolved = (contract.unresolvedQuestions ?? []).filter((q) => q && q.trim().length > 0);
-    check(`[${bm}] No unresolvedQuestions`, unresolved.length === 0,
-      unresolved.length > 0 ? unresolved.join("; ") : null);
+    const genericFields = (contract.canonicalFields ?? []).filter((field) =>
+      /(^|\.)field(?:\d+)?(?:_|$)/iu.test(field.path ?? ""),
+    );
 
-    // Review metadata checks
-    check(`[${bm}] reviewedBy present`, Boolean(contract.reviewedBy),
-      contract.reviewedBy ?? "(missing)");
-    check(`[${bm}] reviewedAt present`, Boolean(contract.reviewedAt),
-      contract.reviewedAt ?? "(missing)");
-    check(`[${bm}] reviewedAt is ISO date`, /^\d{4}-\d{2}-\d{2}T/.test(contract.reviewedAt ?? ""),
-      contract.reviewedAt ?? "(missing)");
+    const normalizedPath = contract.extractionSource?.relativePath
+      ? path.join(ROOT, contract.extractionSource.relativePath)
+      : null;
+    let qualityState = "UNKNOWN";
+    if (!normalizedPath || !fs.existsSync(normalizedPath)) {
+      FAIL.push({
+        label: `[${bm}] NORMALIZED_DOCX_NOT_FOUND`,
+        detail: normalizedPath ?? "(missing extractionSource.relativePath)",
+      });
+    } else {
+      const quality = evaluateFormArtifact({
+        contract,
+        normalizedDocxBuffer: fs.readFileSync(normalizedPath),
+      });
+      for (const qualityIssue of quality.issues) {
+        FAIL.push({
+          label: `[${bm}] ${qualityIssue.code}`,
+          detail:
+            qualityIssue.details.length > 0
+              ? qualityIssue.details.join(", ")
+              : null,
+        });
+      }
+      qualityState = quality.state;
+    }
 
     // Taxonomy checks
     for (const field of contract.canonicalFields ?? []) {
@@ -134,14 +134,7 @@ const main = () => {
       }
     }
 
-    // SlotId uniqueness
-    const slotIds = new Set();
-    for (const s of contract.docxSlots ?? []) {
-      if (slotIds.has(s.slotId)) {
-        FAIL.push({ label: `[${bm}] Duplicate slotId: ${s.slotId}`, detail: null });
-      }
-      slotIds.add(s.slotId);
-    }
+    const slotIds = new Set((contract.docxSlots ?? []).map((slot) => slot.slotId));
 
     // RenderBinding.slotId must exist in docxSlots
     for (const b of contract.renderBindings ?? []) {
@@ -210,6 +203,7 @@ const main = () => {
       reviewRequired: reviewRequiredFields.length + reviewRequiredSlots.length + reviewRequiredBindings.length,
       genericFields: genericFields.length,
       unresolved: unresolved.length,
+      qualityState,
     });
   }
 
@@ -251,10 +245,10 @@ const main = () => {
 
   md.push("## Per-file summary");
   md.push("");
-  md.push("| File | BM | Slots | Fields | Bindings | Unknown src | reviewRequired | Generic | Unresolved |");
-  md.push("|---|---|---|---:|---:|---:|---:|---:|---:|");
+  md.push("| File | BM | Quality | Slots | Fields | Bindings | Unknown src | reviewRequired | Generic | Unresolved |");
+  md.push("|---|---|---|---:|---:|---:|---:|---:|---:|---:|");
   for (const r of results) {
-    md.push(`| ${r.file} | ${r.templateCode ?? "?"} | ${r.slots} | ${r.fields} | ${r.bindings} | ${r.unknownSources} | ${r.reviewRequired} | ${r.genericFields} | ${r.unresolved} |`);
+    md.push(`| ${r.file} | ${r.templateCode ?? "?"} | ${r.qualityState} | ${r.slots} | ${r.fields} | ${r.bindings} | ${r.unknownSources} | ${r.reviewRequired} | ${r.genericFields} | ${r.unresolved} |`);
   }
 
   fs.writeFileSync(path.join(REPORTS_DIR, "LOCKED-CONTRACTS-SUMMARY.md"), md.join("\n"), "utf8");

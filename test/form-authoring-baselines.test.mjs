@@ -5,6 +5,7 @@ import {
   actualGenericRendererCodes,
   canonicalCodes,
   collectFilesystemRows,
+  gradeFromQualityState,
   generatedRendererManifestCodes,
   parseSelectedCodes,
   selectCanonicalContract,
@@ -31,6 +32,22 @@ test("all 213 authoring baselines have a normalized DOCX and V1 contract", () =>
   assert.deepEqual(
     rows.filter((row) => !row.contract).map((row) => row.code),
     [],
+  );
+});
+
+test("authoring grades require artifact quality instead of trusting locked status", () => {
+  assert.equal(gradeFromQualityState("VERIFIED"), "LOCKED_VERIFIED");
+  assert.equal(
+    gradeFromQualityState("AUTOMATED_REVIEW_PENDING"),
+    "EXTRACTED_NEEDS_REVIEW",
+  );
+  assert.equal(
+    gradeFromQualityState("SEMANTIC_REMEDIATION_REQUIRED"),
+    "EXTRACTED_NEEDS_REVIEW",
+  );
+  assert.equal(
+    gradeFromQualityState("PACKAGE_REPAIR_REQUIRED"),
+    "GENERIC_FALLBACK",
   );
 });
 
