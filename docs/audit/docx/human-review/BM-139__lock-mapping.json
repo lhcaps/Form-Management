@@ -33,33 +33,6 @@
             "blockId": "P0022"
           }
         },
-        "document.ngayBan": {
-          "canonicalPath": "document.ngayBan",
-          "source": "manual",
-          "transform": "identity",
-          "reviewEvidence": {
-            "context": "[Auto] ",
-            "blockId": ""
-          }
-        },
-        "agency.dongDia": {
-          "canonicalPath": "agency.dongDia",
-          "source": "agencyConfig",
-          "transform": "identity",
-          "reviewEvidence": {
-            "context": "[Auto] ",
-            "blockId": ""
-          }
-        },
-        "document.chuThe": {
-          "canonicalPath": "document.chuThe",
-          "source": "manual",
-          "transform": "identity",
-          "reviewEvidence": {
-            "context": "[Auto] ",
-            "blockId": ""
-          }
-        },
         "agency.field": {
           "canonicalPath": "agency.field",
           "source": "manual",
@@ -69,6 +42,39 @@
             "docxAnchor": "",
             "blockId": "P0024",
             "reviewerNote": "Le Huy — slotId kept matching DOCX placeholder; canonicalField semantic name deferred."
+          }
+        },
+        "recipients.localityName": {
+          "canonicalPath": "recipients.localityName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03B: renamed {{agency.dongDia}} → {{recipients.localityName}}. Asks recipient agency for their locality (district/province) when responding to the recommendation document",
+            "docxAnchor": "wave-03b-bm139-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:39:02.255Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "person.personFullName": {
+          "canonicalPath": "person.personFullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03B: renamed {{document.chuThe}} → {{person.personFullName}}. Signatory full name field in closing block — requires full name of signing person",
+            "docxAnchor": "wave-03b-bm139-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:39:02.255Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.issueDate": {
+          "canonicalPath": "document.issueDate",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03B: renamed {{document.ngayBan}} → {{document.issueDate}}. Document issuance date — placeholder sits between section 1.3 (reasoning) and section 2 (instructions) as the document date",
+            "docxAnchor": "wave-03b-bm139-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:39:02.255Z",
+            "reviewedBy": "Le Huy"
           }
         }
       }

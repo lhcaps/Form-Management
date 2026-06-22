@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T17:14:16.292Z
+Generated: 2026-06-22T17:42:03.120Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 62** (requires DOCX edit, non-blocking)
+- **Remediation: 61** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -80,8 +80,6 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-139] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.dongDia, document.chuThe, document.ngayBan
 - ⚠️ [BM-184] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - decision.field, document.field
 - ⚠️ [BM-185] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
@@ -405,7 +403,7 @@ _but does not prevent runtime rendering._
 | BM-136 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-137 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
 | BM-138 | VERIFIED | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
-| BM-139 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-139 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
 | BM-140 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-141 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-142 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |

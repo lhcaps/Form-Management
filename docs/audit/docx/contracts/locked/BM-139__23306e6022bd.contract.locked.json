@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-139/BM-139_normalized.docx",
-    "sha256": "3578741610760ce1e1051bafbc4c875b153a5719e18efdee3e2846b15a5f96bd",
+    "sha256": "5fbae3793905427ec2cbf3277bf13296760523686c07f7f5757f428c5943b5eb",
     "format": "docx"
   },
   "status": "locked",
@@ -104,6 +104,63 @@
         "context": "[Auto] ....",
         "blockId": "P0022"
       }
+    },
+    {
+      "slotId": "recipients.localityName",
+      "label": "Địa danh / Quận huyện của cơ quan nhận",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: renamed {{agency.dongDia}} → {{recipients.localityName}}. Asks recipient agency for their locality (district/province) when responding to the recommendation document",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed legacy placeholder",
+        "textAfter": "",
+        "rawPattern": "{{recipients.localityName}}"
+      }
+    },
+    {
+      "slotId": "person.personFullName",
+      "label": "Họ và tên người ký",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: renamed {{document.chuThe}} → {{person.personFullName}}. Signatory full name field in closing block — requires full name of signing person",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed legacy placeholder",
+        "textAfter": "",
+        "rawPattern": "{{person.personFullName}}"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: renamed {{document.ngayBan}} → {{document.issueDate}}. Document issuance date — placeholder sits between section 1.3 (reasoning) and section 2 (instructions) as the document date",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed legacy placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -157,6 +214,54 @@
         "context": "[Auto] ....",
         "blockId": "P0022"
       }
+    },
+    {
+      "path": "recipients.localityName",
+      "type": "string",
+      "label": "Địa danh / Quận huyện của cơ quan nhận",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: Asks recipient agency for their locality (district/province) when responding to the recommendation document",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "person.personFullName",
+      "type": "string",
+      "label": "Họ và tên người ký",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: Signatory full name field in closing block — requires full name of signing person",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03B: Document issuance date — placeholder sits between section 1.3 (reasoning) and section 2 (instructions) as the document date",
+        "docxAnchor": "wave-03b-bm139-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:39:02.254Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
@@ -177,6 +282,27 @@
     {
       "slotId": "agency.diaDanh",
       "from": "agency.diaDanh",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "recipients.localityName",
+      "from": "recipients.localityName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.personFullName",
+      "from": "person.personFullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -225,7 +351,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.998Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03b bm139 remediation)",
+  "reviewedAt": "2026-06-22T17:39:02.254Z",
   "reviewKind": "human"
 }
