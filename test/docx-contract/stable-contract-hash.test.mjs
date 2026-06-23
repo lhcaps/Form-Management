@@ -263,4 +263,104 @@ describe("stableContractHash", () => {
     const changed = makeMinimalContract({ schemaVersion: "2.0" });
     assert.notEqual(stableContractHash(base), stableContractHash(changed));
   });
+
+  it("changing evidence only does not change hash", () => {
+    const base = makeMinimalContract();
+    const changed = makeMinimalContract({
+      docxSlots: [
+        {
+          ...base.docxSlots[0],
+          evidence: {
+            textBefore: "CHANGED TEXT",
+            textAfter: "CHANGED TEXT",
+            rawPattern: "{{document.CHANGED}}",
+            blockId: "P999",
+            generatedAt: "2099-01-01T00:00:00.000Z",
+          },
+        },
+      ],
+    });
+    assert.equal(
+      stableContractHash(base),
+      stableContractHash(changed),
+      "changing evidence fields should not affect hash",
+    );
+  });
+
+  it("changing reviewEvidence only does not change hash", () => {
+    const base = makeMinimalContract();
+    const changed = makeMinimalContract({
+      docxSlots: [
+        {
+          ...base.docxSlots[0],
+          reviewEvidence: {
+            textBefore: "CHANGED REVIEW",
+            textAfter: "CHANGED REVIEW",
+            rawPattern: "{{document.REVIEW}}",
+            blockId: "P999",
+          },
+        },
+      ],
+    });
+    assert.equal(
+      stableContractHash(base),
+      stableContractHash(changed),
+      "changing reviewEvidence fields should not affect hash",
+    );
+  });
+
+  it("changing renderBindings.transform produces different hash", () => {
+    const base = makeMinimalContract();
+    const changed = makeMinimalContract({
+      renderBindings: [
+        {
+          slotId: "document.issuePlaceDateLine",
+          from: "document.issuePlaceDateLine",
+          required: true,
+          transform: "uppercase",
+        },
+      ],
+    });
+    assert.notEqual(
+      stableContractHash(base),
+      stableContractHash(changed),
+      "changing renderBindings.transform should affect hash",
+    );
+  });
+
+  it("adding evidence to a slot that has none does not change hash", () => {
+    const withoutEvidence = {
+      ...makeMinimalContract(),
+      docxSlots: [
+        {
+          slotId: "document.issuePlaceDateLine",
+          location: { partName: "word/document.xml", blockId: null, tableCellId: null },
+          context: "{{document.issuePlaceDateLine}}",
+          label: "issuePlaceDateLine",
+          slotType: "datePart",
+          required: true,
+          confidence: 0.9,
+        },
+      ],
+    };
+    const withEvidence = {
+      ...withoutEvidence,
+      docxSlots: [
+        {
+          ...withoutEvidence.docxSlots[0],
+          evidence: {
+            textBefore: "SOME TEXT",
+            textAfter: "MORE TEXT",
+            rawPattern: "{{document.issuePlaceDateLine}}",
+            blockId: "P001",
+          },
+        },
+      ],
+    };
+    assert.equal(
+      stableContractHash(withEvidence),
+      stableContractHash(withoutEvidence),
+      "evidence field presence should not affect hash",
+    );
+  });
 });

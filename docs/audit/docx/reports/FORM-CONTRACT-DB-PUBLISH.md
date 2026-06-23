@@ -1,6 +1,6 @@
 # Form Contract DB Publish Report
 
-Generated: 2026-06-22 22:45:27
+Generated: 2026-06-23 07:39:55
 Hash mode: stable-semantic-v1
 Total locked contracts: 213
 Ready to publish: 213
@@ -67,7 +67,7 @@ _No forms skipped._
 | BM-048 | c6bdad19ab32ad11... | c7f00ae0d19322b6... | yes |
 | BM-049 | 0dc5e3de3847c13c... | 4d8b42b216a922ee... | yes |
 | BM-050 | 1d3a231dc0e9519d... | 1aba6730aabc9a43... | yes |
-| BM-051 | 111469b3d598e6fe... | dc2945a4b17dcdcb... | yes |
+| BM-051 | d1ab286cecc7fff2... | c7db2e8aa09b0e62... | yes |
 | BM-052 | c7f1f6ba48f9bc6b... | cd09dfa3458d4127... | yes |
 | BM-053 | 939ae695b0b14bc7... | 8ed7c44137fd9498... | yes |
 | BM-054 | 610084e878225089... | 8994733f834cd27b... | yes |
@@ -78,8 +78,8 @@ _No forms skipped._
 | BM-059 | 52f3c6a6254097da... | 6044cdbf07c608af... | yes |
 | BM-060 | b380f17baf1fffee... | d42a2a8d0349afe2... | yes |
 | BM-061 | 476f0b9116f204d6... | e6a2def0d7ef6f16... | yes |
-| BM-062 | d05434a0ef264678... | 750ff74fd3a90110... | yes |
-| BM-063 | 048dc6d7a1272455... | 6db60048944a4da8... | yes |
+| BM-062 | 6f6eaf25474509dd... | cc6582c0607bfbba... | yes |
+| BM-063 | d684f067f2faf873... | 73ee77bc4e87d757... | yes |
 | BM-064 | ba276f28252e8fbf... | c84d7b06c8d98af7... | yes |
 | BM-065 | 1b976ae890f4f100... | 60b2fc4b2a93acd8... | yes |
 | BM-066 | f091035ecce2a939... | 418639fbc996996b... | yes |

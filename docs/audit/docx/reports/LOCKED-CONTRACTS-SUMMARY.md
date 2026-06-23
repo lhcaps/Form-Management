@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T22:47:43.672Z
+Generated: 2026-06-23T07:33:42.098Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 35** (requires DOCX edit, non-blocking)
+- **Remediation: 31** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -38,10 +38,6 @@ _placeholders before these slots can be fully verified._
   - agency.parentNameUpper
 - ⚠️ [BM-044] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.parentNameUpper
-- ⚠️ [BM-051] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-051] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
 - ⚠️ [BM-052] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-052] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
@@ -62,14 +58,10 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode
 - ⚠️ [BM-061] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
-- ⚠️ [BM-062] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-062] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-063] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
+  - document.fullDocumentCode
 - ⚠️ [BM-063] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
+  - document.fullDocumentCode
 - ⚠️ [BM-064] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
 - ⚠️ [BM-064] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
