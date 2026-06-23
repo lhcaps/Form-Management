@@ -1,0 +1,185 @@
+{
+  "wave": "04E-2",
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-23T10:30:00.000+07:00",
+  "globalRules": [
+    "De-duplicate audit rows by (BM, placeholder). Most rows appear twice because the audit emits both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER for the same field.",
+    "Do not blindly insert near generic anchors such as ..., (none), or misleading anchors like date lines. Open the source template and place the placeholder at the official numbered blank.",
+    "If a compound line already renders the value, do not add the atomic child field as another visible placeholder.",
+    "If the template already contains a suffixed variant such as document.fullDocumentCode4, document.fullDocumentCode6, or document.fullDocumentCode8, prefer canonical alias/rename/refactor over rendering duplicate placeholders.",
+    "After edits: run structure extraction, normalization, locked verification, and visual render QA."
+  ],
+  "decisions": [
+    {
+      "templateCode": "BM-021",
+      "field": "agency.nameUpper",
+      "decision": "APPROVE_ADD",
+      "placement": "Top-left agency block, second agency line [2] Ghi tên Viện kiểm sát ban hành, under parent VKS. Do not place near date line.",
+      "reason": "Official form has [2] Ghi tên Viện kiểm sát ban hành; missing rendered issuing agency. Existing slot/binding confirmed in locked contract.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-031",
+      "field": "agency.bodyName",
+      "decision": "METADATA_ONLY_ALIAS",
+      "placement": "Do not add new visible placeholder. Alias to agency.name if needed.",
+      "reason": "Source form only has parent agency [1] and issuing agency [2]; no third agency-body blank exists in official template.",
+      "sensitivity": "normal",
+      "allowedActions": ["ALIAS", "MARK_METADATA_ONLY"]
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "agency.parentNameUpper",
+      "decision": "APPROVE_ADD",
+      "placement": "Top-left first agency line [1] VIỆN KIỂM SÁT .... Anchor: 'VIỆN KIỂM SÁT' (first occurrence in document body).",
+      "reason": "Official form requires parent VKS to appear on first agency line. Existing slot/binding confirmed.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "document.issueDate",
+      "decision": "METADATA_ONLY",
+      "placement": "Do not add near Nhận thấy. Keep covered by document.issuePlaceAndDateLine.",
+      "reason": "Issue date is already part of compound place-date line (document.issuePlaceAndDateLine). Adding separately would duplicate rendered content.",
+      "sensitivity": "normal",
+      "allowedActions": ["MARK_METADATA_ONLY"]
+    },
+    {
+      "templateCode": "BM-044",
+      "field": "agency.parentNameUpper",
+      "decision": "APPROVE_ADD",
+      "placement": "Top-left first agency line [1] VIỆN KIỂM SÁT .... Anchor: 'VIỆN KIỂM SÁT' (first occurrence in document body).",
+      "reason": "Official form requires parent VKS to appear on first agency line. Existing slot/binding confirmed.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode",
+      "decision": "METADATA_ONLY_ALIAS",
+      "placement": "Do not render separately if decision.decisionLine2 already renders the cited deposit decision.",
+      "reason": "Cited deposit decision is already a compound decision field rendered via decision.decisionLine2. Adding atomic document.fullDocumentCode separately would duplicate the citation.",
+      "sensitivity": "normal",
+      "allowedActions": ["MARK_METADATA_ONLY", "ALIAS"]
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "decision": "REMOVE_OR_METADATA_ONLY",
+      "placement": "Do not add to DOCX. Official form has one cited deposit decision, not a second full document code.",
+      "reason": "Official form has one cited decision, not two. No second decision citation exists in the template.",
+      "sensitivity": "normal",
+      "allowedActions": ["MARK_METADATA_ONLY", "REMOVE_PENDING_REVIEW"]
+    },
+    {
+      "templateCode": "BM-056",
+      "field": "person.religion",
+      "decision": "APPROVE_ADD_SENSITIVE",
+      "placement": "Identity block after Dân tộc: and before Nghề nghiệp:. Add sensitive-data metadata/policy guard.",
+      "reason": "Official form visibly contains Tôn giáo:; contract has the field but template lacks placeholder. Religion is sensitive personal data under Vietnamese PDPD. Legal approval confirmed via APPROVE_ADD_SENSITIVE.",
+      "sensitivity": "sensitive",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-059",
+      "field": "recipients.personLine",
+      "decision": "APPROVE_ADD",
+      "placement": "Nơi nhận block, bullet '- 8…;'. Official form sends to the detained person/bị can.",
+      "reason": "Official form sends to the person being detained. Existing slot/binding confirmed.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-060",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_PREFER_SEMANTIC_RENAME",
+      "placement": "Add to the missing cited prosecution/bị can decision basis line. Prefer caseDecision.legalBasisLine or accusedDecision.legalBasisLine if contract supports it.",
+      "reason": "Official form contains dynamic cited decisions before Xét thấy. If caseDecision.legalBasisLine exists in contract, use it; otherwise use canonical document.fullDocumentCode.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER", "ALIAS"]
+    },
+    {
+      "templateCode": "BM-061",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_PREFER_SEMANTIC_RENAME",
+      "placement": "Legal basis line Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của[8]….",
+      "reason": "Official form contains a dynamic cited case decision. If caseDecision.legalBasisLine exists, use it; otherwise add canonical document.fullDocumentCode.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER", "ALIAS"]
+    },
+    {
+      "templateCode": "BM-063",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "placement": "Do not add duplicate. Replace/alias existing document.fullDocumentCode8 to canonical if needed.",
+      "reason": "The lệnh kê biên reference already appears through document.fullDocumentCode8. Adding canonical document.fullDocumentCode would duplicate the same reference.",
+      "sensitivity": "normal",
+      "allowedActions": ["ALIAS"]
+    },
+    {
+      "templateCode": "BM-064",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD",
+      "placement": "In 'Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của[7]…' and repeat consistently in Article 1 if that reference is templated.",
+      "reason": "Official form cites the original seizure order. Existing slot/binding confirmed. Anchor confirmed in source template.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "decision.decisionLine",
+      "decision": "METADATA_ONLY_DO_NOT_RENDER",
+      "placement": "Do not replace the static phrase unless legal explicitly wants a numbered decision citation.",
+      "reason": "Official text is a static description, not a visible numbered blank. The reviewer decided not to introduce dynamic decision citation unless explicitly requested.",
+      "sensitivity": "normal",
+      "allowedActions": ["MARK_METADATA_ONLY"]
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "placement": "Do not add duplicate. Alias existing document.fullDocumentCode8 if it is the lệnh kê biên reference.",
+      "reason": "Source form already has the lệnh kê biên reference through document.fullDocumentCode8. No need to add canonical document.fullDocumentCode separately.",
+      "sensitivity": "normal",
+      "allowedActions": ["ALIAS"]
+    },
+    {
+      "templateCode": "BM-066",
+      "field": "decision.decisionLine",
+      "decision": "APPROVE_ADD",
+      "placement": "First dynamic cited-decision basis line, usually the case decision line.",
+      "reason": "Source form has dynamic case/prosecution decision references. Existing slot/binding confirmed.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER"]
+    },
+    {
+      "templateCode": "BM-066",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_OR_ALIAS",
+      "placement": "Add only if not already covered by document.fullDocumentCode4; otherwise canonicalize/alias.",
+      "reason": "Source form has at least two cited decision/order references. If document.fullDocumentCode4 already covers the first citation, alias canonical document.fullDocumentCode to it; otherwise add.",
+      "sensitivity": "normal",
+      "allowedActions": ["ADD_PLACEHOLDER", "ALIAS"]
+    },
+    {
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "placement": "Use one canonical field for the lệnh phong tỏa account reference; do not duplicate with document.fullDocumentCode6.",
+      "reason": "Existing suffixed field document.fullDocumentCode6 already renders the same lệnh phong tỏa reference. Adding canonical document.fullDocumentCode separately would duplicate the same order reference.",
+      "sensitivity": "normal",
+      "allowedActions": ["ALIAS"]
+    },
+    {
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "decision": "REMOVE_OR_REPEAT_CANONICAL",
+      "placement": "Do not introduce a second semantic document unless the contract proves there are two different documents. If the same lệnh is repeated, reuse document.fullDocumentCode.",
+      "reason": "Official form repeats the same lệnh phong tỏa, not a second independent document. Only one lệnh phong tỏa order exists in this form.",
+      "sensitivity": "normal",
+      "allowedActions": ["REMOVE_PENDING_REVIEW", "MARK_METADATA_ONLY"]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Field Alias Policy (Active)",
+  "description": "Active canonical-to-alias mappings. Canonical fields are satisfied by existing suffixed DOCX slots. Orphaned canonical mustaches should be removed (Phase F-2B).",
+  "policyVersion": "1.0.0",
+  "phase": "F-2A",
+  "effectiveFrom": "2026-06-23T13:00:00.000+07:00",
+  "sourceReport": "field-alias-policy.proposed.json",
+  "classification": "active",
+  "status": "active",
+  "owner": "backend-contract-system",
+  "policy": {
+    "description": "A canonical field has no DOCX slot but its data is already rendered via a differently-named suffixed slot. Aliasing redirects the canonical binding to the suffixed slot.",
+    "constraints": [
+      "Suffixed slot must have a verified DOCX placeholder in the locked contract.",
+      "Both fields must have the same semantic type.",
+      "Alias is read-only: no new slots or bindings are created.",
+      "Do not alias if the field is also in the remove-pending set."
+    ],
+    "auditSuppression": {
+      "description": "Suppress CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER for canonical fields listed here when the alias policy is active.",
+      "suppressedIssueCodes": [
+        "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+        "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+      ],
+      "condition": "canonical field exists in alias map AND suffixed slot has verified DOCX placeholder"
+    }
+  },
+  "aliases": [
+    {
+      "templateCode": "BM-063",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": ["document.fullDocumentCode8"],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode8",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode8}}",
+      "orphanedCanonicalSlotId": "document.fullDocumentCode",
+      "orphanedCanonicalPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode8 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases to document.fullDocumentCode8 slot for DOCX rendering.",
+      "auditBehavior": "Suppress SLOT/BINDING_WITHOUT_PLACEHOLDER for document.fullDocumentCode. Emit FIELD_SATISFIED_BY_ALIAS instead.",
+      "risk": "low",
+      "reason": "Lệnh kê biên tài sản reference already rendered via {{document.fullDocumentCode8}}. Canonical has no DOCX slot.",
+      "reviewerDecision": "ALIAS_CANONICALIZE (wave-04e-decisions.json, BM-063)"
+    },
+    {
+      "templateCode": "BM-065",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": ["document.fullDocumentCode8"],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode8",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode8}}",
+      "orphanedCanonicalSlotId": "document.fullDocumentCode",
+      "orphanedCanonicalPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode8 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases to document.fullDocumentCode8 slot for DOCX rendering.",
+      "auditBehavior": "Suppress SLOT/BINDING_WITHOUT_PLACEHOLDER for document.fullDocumentCode. Emit FIELD_SATISFIED_BY_ALIAS instead.",
+      "risk": "low",
+      "reason": "Same pattern as BM-063. Lệnh kê biên reference rendered via {{document.fullDocumentCode8}}. Canonical has no DOCX slot.",
+      "reviewerDecision": "ALIAS_CANONICALIZE (wave-04e-decisions.json, BM-065)"
+    },
+    {
+      "templateCode": "BM-067",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": ["document.fullDocumentCode6"],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode6",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode6}}",
+      "orphanedCanonicalSlotId": "document.fullDocumentCode",
+      "orphanedCanonicalPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode6 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases to document.fullDocumentCode6 slot for DOCX rendering. CRITICAL: do NOT alias to fullDocumentCode2 (remove-pending).",
+      "auditBehavior": "Suppress SLOT/BINDING_WITHOUT_PLACEHOLDER for document.fullDocumentCode. Emit FIELD_SATISFIED_BY_ALIAS instead.",
+      "risk": "medium",
+      "reason": "Lệnh phong tỏa reference rendered via {{document.fullDocumentCode6}}. Canonical has no DOCX slot. Note: fullDocumentCode2 in BM-067 is REMOVE_PENDING — do not confuse it with fullDocumentCode6.",
+      "reviewerDecision": "ALIAS_CANONICALIZE (wave-04e-decisions.json, BM-067)"
+    },
+    {
+      "templateCode": "BM-052",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": [],
+      "direction": "conflict_pending_remove_decision",
+      "orphanedCanonicalSlotId": "document.fullDocumentCode",
+      "orphanedCanonicalPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "conflict": {
+        "description": "BM-052 fullDocumentCode is a candidate for aliasing to fullDocumentCode2. However, fullDocumentCode2 is also in the remove-pending set (RAR-001/RAR-004). These conflict: aliasing to fullDocumentCode2 would create a dependency that removal would break.",
+        "pendingField": "document.fullDocumentCode2",
+        "pendingRequests": ["RAR-001", "RAR-004"],
+        "auditBehavior": "Do not suppress. Do not alias. Do not remove. Keep as governance-pending until remove decision is recorded.",
+        "resolutionRequired": "Form-author must decide on RAR-001/RAR-004 before this alias can be activated. If APPROVE_REMOVE: remove fullDocumentCode2 first, then alias fullDocumentCode to fullDocumentCode6 (or another existing slot). If REJECT_REMOVE: activate alias to fullDocumentCode2."
+      },
+      "risk": "high",
+      "reason": "Conflict between alias candidate and remove-pending request for the same template. Requires explicit sequencing decision.",
+      "reviewerDecision": "METADATA_ONLY_ALIAS (wave-04e-decisions.json, BM-052, document.fullDocumentCode field)"
+    }
+  ],
+  "note": "BM-063, BM-065, BM-067 aliases are active and should be applied in Phase F-2B (alias implementation + orphaned mustache removal). BM-052 alias is CONFLICT_PENDING — do not implement until remove decision is recorded."
+}

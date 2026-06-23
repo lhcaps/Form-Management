@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metadata-only Policy — Phase F",
+  "description": "Fields with approved metadata-only status: slot/binding exists but no separate DOCX placeholder is needed because the value is already rendered by a compound parent field.",
+  "version": "1.0.0",
+  "phase": "F-1",
+  "generatedAt": "2026-06-23T12:56:26.116Z",
+  "classification": "proposed",
+  "status": "pending_implementation",
+  "owner": "backend-contract-system",
+  "policy": {
+    "description": "A metadata-only field has a slot and binding but no DOCX placeholder. The value is rendered by a compound field. No DOCX change needed. Audit suppressions apply when this policy is active.",
+    "constraints": [
+      "Compound rendering field must have a verified DOCX placeholder.",
+      "No DOCX structural changes.",
+      "Slot and binding remain functional for programmatic access.",
+      "Must not add a visible placeholder — that would duplicate rendered content."
+    ],
+    "auditSuppression": {
+      "description": "Suppress CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER when metadata-only policy is active.",
+      "suppressedIssueCodes": [
+        "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+        "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+      ]
+    }
+  },
+  "fields": [
+    {
+      "templateCode": "BM-031",
+      "field": "agency.bodyName",
+      "classification": "METADATA_ONLY_ALIAS",
+      "renderedBy": "compound agency header (parent + issuing agency lines)",
+      "risk": "medium",
+      "reason": "Reviewer decision 'METADATA_ONLY_ALIAS' approved metadata-only status. The slot/binding exists but no visible DOCX placeholder is needed. Adding a visible placeholder would duplicate compound fields or introduce noise.",
+      "reviewerDecision": "METADATA_ONLY_ALIAS",
+      "governanceAction": "METADATA_ONLY_APPROVED"
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "document.issueDate",
+      "classification": "METADATA_ONLY",
+      "renderedBy": "document.issuePlaceDateLine compound ({issuePlace, issueDate})",
+      "risk": "low",
+      "reason": "Reviewer decision 'METADATA_ONLY' approved metadata-only status. The slot/binding exists but no visible DOCX placeholder is needed. Adding a visible placeholder would duplicate compound fields or introduce noise.",
+      "reviewerDecision": "METADATA_ONLY",
+      "governanceAction": "METADATA_ONLY_APPROVED"
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode",
+      "classification": "METADATA_ONLY_ALIAS",
+      "renderedBy": "decision.decisionLine2 + document.fullDocumentCode2 slot",
+      "risk": "low",
+      "reason": "Reviewer decision 'METADATA_ONLY_ALIAS' approved metadata-only status. The slot/binding exists but no visible DOCX placeholder is needed. Adding a visible placeholder would duplicate compound fields or introduce noise.",
+      "reviewerDecision": "METADATA_ONLY_ALIAS",
+      "governanceAction": "METADATA_ONLY_APPROVED"
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "decision.decisionLine",
+      "classification": "METADATA_ONLY_DO_NOT_RENDER",
+      "renderedBy": "static text (official form has no dynamic decision citation)",
+      "risk": "low",
+      "reason": "Reviewer decision 'METADATA_ONLY_DO_NOT_RENDER' approved metadata-only status. The slot/binding exists but no visible DOCX placeholder is needed. Adding a visible placeholder would duplicate compound fields or introduce noise.",
+      "reviewerDecision": "METADATA_ONLY_DO_NOT_RENDER",
+      "governanceAction": "METADATA_ONLY_APPROVED"
+    }
+  ],
+  "phaseF2Deliverables": [
+    "Implement read-only metadata-only policy loader.",
+    "Register suppressions in audit check engine.",
+    "No DOCX changes.",
+    "No locked contract changes.",
+    "No DB publish needed.",
+    "Verification: metadata-only fields do not appear as blocking."
+  ]
+}

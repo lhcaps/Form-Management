@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Metadata-only Policy (Active)",
+  "description": "Fields with approved metadata-only status: slot/binding exists but no separate DOCX placeholder is needed because the value is already rendered by a compound parent field.",
+  "policyVersion": "1.0.0",
+  "phase": "F-2A",
+  "effectiveFrom": "2026-06-23T13:00:00.000+07:00",
+  "sourceReport": "metadata-only-policy.proposed.json",
+  "classification": "active",
+  "status": "active",
+  "owner": "backend-contract-system",
+  "policy": {
+    "description": "A metadata-only field has a slot and binding but no DOCX placeholder. The field's value is rendered by a compound parent field. No DOCX change needed.",
+    "constraints": [
+      "Compound rendering field must have a verified DOCX placeholder in the locked contract.",
+      "No DOCX structural changes.",
+      "Slot and binding remain functional for programmatic access.",
+      "Must not add a visible placeholder for a metadata-only field."
+    ],
+    "auditSuppression": {
+      "description": "Suppress CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER for metadata-only fields. These checks will remain as informational notes (ACCEPTED_METADATA_ONLY_FIELD), not remediation.",
+      "suppressedIssueCodes": [
+        "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+        "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+      ],
+      "condition": "field exists in metadataOnlyPolicy AND renderedBy compound field has DOCX placeholder verified in locked contract",
+      "emittedInstead": "ACCEPTED_METADATA_ONLY_FIELD"
+    }
+  },
+  "fields": [
+    {
+      "templateCode": "BM-031",
+      "field": "agency.bodyName",
+      "classification": "metadata_only_alias",
+      "slotId": "agency.bodyName",
+      "placeholder": null,
+      "renderedBy": "compound agency header (parent + issuing agency lines)",
+      "runtimeBehavior": "Agency body name is inferred from the issuing agency context. Slot exists for programmatic access but no visible placeholder is needed.",
+      "auditBehavior": "Suppress SLOT_WITHOUT_PLACEHOLDER and BINDING_WITHOUT_PLACEHOLDER. Emit ACCEPTED_METADATA_ONLY_FIELD instead.",
+      "risk": "low",
+      "reason": "Source form only has parent [1] and issuing [2] agency. No third agency-body blank exists. Adding a visible placeholder would introduce noise.",
+      "reviewerDecision": "METADATA_ONLY_ALIAS (wave-04e-decisions.json, BM-031)"
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "document.issueDate",
+      "classification": "metadata_only",
+      "slotId": "document.issueDate",
+      "placeholder": null,
+      "renderedBy": "document.issuePlaceDateLine compound: {issuePlace, issueDate}",
+      "runtimeBehavior": "Atomic issueDate is part of compound place-date line. Filling document.issueDate populates the date portion of the compound line.",
+      "auditBehavior": "Suppress SLOT_WITHOUT_PLACEHOLDER and BINDING_WITHOUT_PLACEHOLDER. Emit ACCEPTED_METADATA_ONLY_FIELD instead.",
+      "risk": "low",
+      "reason": "Issue date is already part of compound place-date line (document.issuePlaceDateLine). Adding atomic date separately would duplicate the date display.",
+      "reviewerDecision": "METADATA_ONLY (wave-04e-decisions.json, BM-036)"
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode",
+      "classification": "metadata_only_alias",
+      "slotId": "document.fullDocumentCode",
+      "placeholder": null,
+      "renderedBy": "decision.decisionLine2 compound + document.fullDocumentCode2 slot",
+      "runtimeBehavior": "Cited deposit decision rendered via decision.decisionLine2 which references document.fullDocumentCode2. Canonical document.fullDocumentCode is aliased to fullDocumentCode2.",
+      "auditBehavior": "NOTE: BM-052 document.fullDocumentCode is CONFLICT_PENDING (see field-alias-policy.json). Alias and metadata-only suppression are both held pending form-author decision on RAR-001/RAR-004.",
+      "risk": "low",
+      "reason": "Cited deposit decision already rendered via decision.decisionLine2. Adding atomic document.fullDocumentCode separately would duplicate the citation.",
+      "reviewerDecision": "METADATA_ONLY_ALIAS (wave-04e-decisions.json, BM-052, document.fullDocumentCode field)",
+      "conflictNote": "See field-alias-policy.json CONFLICT_PENDING entry for BM-052"
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "decision.decisionLine",
+      "classification": "metadata_only_do_not_render",
+      "slotId": "decision.decisionLine",
+      "placeholder": null,
+      "renderedBy": "static text (official form has no dynamic decision citation)",
+      "runtimeBehavior": "The decision line is a static description in the official form, not a dynamic numbered blank.",
+      "auditBehavior": "Suppress SLOT_WITHOUT_PLACEHOLDER and BINDING_WITHOUT_PLACEHOLDER. Emit ACCEPTED_METADATA_ONLY_FIELD instead.",
+      "risk": "low",
+      "reason": "Official text is a static description, not a visible numbered blank. Reviewer decided against introducing dynamic decision citation unless explicitly requested.",
+      "reviewerDecision": "METADATA_ONLY_DO_NOT_RENDER (wave-04e-decisions.json, BM-065, decision.decisionLine field)"
+    }
+  ],
+  "note": "All entries suppress CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER. BM-052 document.fullDocumentCode suppression is deferred due to CONFLICT_PENDING status."
+}

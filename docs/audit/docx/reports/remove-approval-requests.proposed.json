@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Remove Approval Requests — Phase F",
+  "description": "Slots and bindings flagged for potential removal but awaiting explicit destructive approval. No removal until APPROVE_REMOVE is granted.",
+  "version": "1.0.0",
+  "phase": "F-1",
+  "generatedAt": "2026-06-23T12:56:26.116Z",
+  "classification": "proposed",
+  "status": "pending_explicit_approval",
+  "owner": "form-author",
+  "policy": {
+    "description": "No slot or binding may be deleted without APPROVE_REMOVE. Prefer aliasing over removal when the same data is rendered elsewhere.",
+    "constraints": [
+      "No deletion without APPROVE_REMOVE from form-author.",
+      "Verify no downstream dependencies before approving.",
+      "Prefer aliasing over removal.",
+      "After removal: update locked contract, republish DB, pass stable hash tests."
+    ],
+    "noActionRules": [
+      "Do not remove based on REMOVE_OR_* decisions alone.",
+      "Do not remove while any remediation check is blocking.",
+      "Do not remove slots with runtime data unless migration plan exists."
+    ]
+  },
+  "removalRequests": [
+    {
+      "id": "RAR-001",
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "reviewerDecision": "REMOVE_OR_METADATA_ONLY",
+      "recommendedAction": "remove_slot_and_binding",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "reason": "Reviewer decision 'REMOVE_OR_METADATA_ONLY' considers removal of this slot/binding. However, explicit destructive approval has not been granted. Removing slots/bindings without explicit reviewer sign-off could break data binding.",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    },
+    {
+      "id": "RAR-002",
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "reviewerDecision": "REMOVE_OR_REPEAT_CANONICAL",
+      "recommendedAction": "remove_slot_and_binding",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "reason": "Reviewer decision 'REMOVE_OR_REPEAT_CANONICAL' considers removal of this slot/binding. However, explicit destructive approval has not been granted. Removing slots/bindings without explicit reviewer sign-off could break data binding.",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    }
+  ],
+  "summary": {
+    "totalRequests": 2,
+    "uniqueFields": [
+      {
+        "templateCode": "BM-052",
+        "field": "document.fullDocumentCode2",
+        "requests": 1
+      },
+      {
+        "templateCode": "BM-067",
+        "field": "document.fullDocumentCode2",
+        "requests": 1
+      }
+    ],
+    "approvalRequired": "form-author",
+    "status": "All pending — no removal until APPROVE_REMOVE is granted"
+  },
+  "phaseF2Deliverables": [
+    "Form-author reviews RAR-001 through RAR-004.",
+    "Form-author records APPROVE_REMOVE, REJECT_REMOVE, or DEFER.",
+    "If APPROVE_REMOVE: execute removal in Phase F-2 or later.",
+    "If REJECT_REMOVE: reclassify as METADATA_ONLY_APPROVED.",
+    "No DOCX, slot, or binding changes in Phase F-1."
+  ]
+}

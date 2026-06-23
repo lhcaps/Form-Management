@@ -124,9 +124,97 @@ export function isGenericContractPath(value) {
 }
 
 /**
- * Evaluates one V1 contract together with the normalized DOCX it references.
+ * Returns true if CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER should be suppressed
+ * for a given slotId in a given contract, per the active audit policies.
+ *
+ * The suppression logic:
+ * - Remove-pending slots: never suppressed.
+ * - Metadata-only slots: always suppressed (field has no DOCX placeholder by design).
+ * - Alias-orphaned canonical slots: suppressed when the alias target is rendered.
+ *   An orphaned canonical slot has no DOCX placeholder, but an active alias maps
+ *   it to a different slot (the alias target) that IS rendered. Since the alias
+ *   target renders the same data, the canonical slot's missing placeholder is fine.
  */
-export function evaluateFormArtifact({ contract, normalizedDocxBuffer }) {
+export function isSlotPolicySuppressed(policies, templateCode, slotId) {
+  if (!policies) return false;
+
+  const _isRemove = policies.isRemovePending;
+  const _isMeta = policies.isMetadataOnlyField;
+  const _getAlias = policies.getAliasForField;
+  const _isAliasActive = policies.isAliasActive;
+  const _isConflictPending = policies.isConflictPending;
+
+  // Remove-pending slots are never suppressed.
+  if (_isRemove && _isRemove(templateCode, slotId)) return false;
+
+  // Alias-orphaned canonical slots: suppress only if alias is active.
+  // Skip if conflict-pending (those emit remediation issues).
+  if (_getAlias && _isConflictPending && _isAliasActive) {
+    const alias = _getAlias(templateCode, slotId);
+    if (alias) {
+      if (_isConflictPending(alias)) return false; // conflict: emit remediation
+      if (_isAliasActive(templateCode, slotId)) return true; // active: suppress
+    }
+  }
+
+  // Metadata-only slots: always suppressed, unless they also have a conflict-pending alias.
+  // A conflict-pending field should emit remediation, not be silently suppressed.
+  if (_isMeta && _isMeta(templateCode, slotId)) {
+    if (_isConflictPending && _getAlias) {
+      const alias = _getAlias(templateCode, slotId);
+      if (alias && _isConflictPending(alias)) return false; // conflict: emit remediation
+    }
+    return true; // normal metadata-only: suppress
+  }
+
+  return false;
+}
+
+/**
+ * Returns informational note codes for suppressed slot/binding items.
+ * Returns null if the item is not suppressed.
+ *
+ * @param {object|null} policies
+ * @param {string} templateCode
+ * @param {string} slotId - the slotId being checked
+ * @param {string|null} [fieldPath] - optional canonical field path (same as slotId for non-alias)
+ */
+export function getSuppressionNote(policies, templateCode, slotId, fieldPath) {
+  if (!policies) return null;
+
+  const _isMeta = policies.isMetadataOnlyField;
+  const _isRemove = policies.isRemovePending;
+  const _isAliasActive = policies.isAliasActive;
+
+  const effectiveField = fieldPath ?? slotId;
+
+  // Metadata-only fields: suppressed.
+  if (_isMeta && _isMeta(templateCode, effectiveField)) return "ACCEPTED_METADATA_ONLY_FIELD";
+
+  // Remove-pending: not suppressed (kept as remediation).
+  if (_isRemove && _isRemove(templateCode, effectiveField)) return null;
+
+  // Alias-orphaned canonical: suppressed when alias is active.
+  // slotId is the orphaned canonical field; isAliasActive checks that the alias
+  // direction is "canonical_aliases_to_suffixed_slot" and neither side is remove-pending.
+  if (_isAliasActive && _isAliasActive(templateCode, effectiveField)) {
+    return "FIELD_SATISFIED_BY_ALIAS";
+  }
+
+  return null;
+}
+
+/**
+ * Evaluates one V1 contract together with the normalized DOCX it references.
+ *
+ * @param {object} opts
+ * @param {object} opts.contract
+ * @param {Buffer} opts.normalizedDocxBuffer
+ * @param {object|null} [opts.policies] - Optional result of loadAuditPolicies().
+ *   When provided, alias and metadata-only policies suppress certain remediation
+ *   issues and emit informational notes instead.
+ */
+export function evaluateFormArtifact({ contract, normalizedDocxBuffer, policies = null }) {
   const issues = [];
   const packageInspection = inspectPackage(normalizedDocxBuffer);
   issues.push(...packageInspection.issues);
@@ -165,18 +253,50 @@ export function evaluateFormArtifact({ contract, normalizedDocxBuffer }) {
       (slotId) => !templateSet.has(slotId),
     );
     if (slotWithoutTemplate.length > 0) {
-      issues.push(
-        issue("CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER", slotWithoutTemplate),
-      );
+      const suppressed = [];
+      const remaining = [];
+      for (const slotId of slotWithoutTemplate) {
+        if (isSlotPolicySuppressed(policies, contract.templateCode, slotId)) {
+          suppressed.push(slotId);
+        } else {
+          remaining.push(slotId);
+        }
+      }
+      if (remaining.length > 0) {
+        issues.push(
+          issue("CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER", remaining),
+        );
+      }
+      // suppressed slots: emit informational note instead of remediation issue
+      for (const slotId of suppressed) {
+        const note = getSuppressionNote(policies, contract.templateCode, slotId, slotId);
+        issues.push(issue(note ?? "ACCEPTED_METADATA_ONLY_FIELD", [slotId]));
+      }
     }
 
     const bindingWithoutTemplate = bindingSlotIds.filter(
       (slotId) => !templateSet.has(slotId),
     );
     if (bindingWithoutTemplate.length > 0) {
-      issues.push(
-        issue("BINDING_WITHOUT_TEMPLATE_PLACEHOLDER", bindingWithoutTemplate),
-      );
+      const suppressed = [];
+      const remaining = [];
+      for (const slotId of bindingWithoutTemplate) {
+        if (isSlotPolicySuppressed(policies, contract.templateCode, slotId)) {
+          suppressed.push(slotId);
+        } else {
+          remaining.push(slotId);
+        }
+      }
+      if (remaining.length > 0) {
+        issues.push(
+          issue("BINDING_WITHOUT_TEMPLATE_PLACEHOLDER", remaining),
+        );
+      }
+      // suppressed bindings: emit informational note instead of remediation issue
+      for (const slotId of suppressed) {
+        const note = getSuppressionNote(policies, contract.templateCode, slotId, slotId);
+        issues.push(issue(note ?? "ACCEPTED_METADATA_ONLY_FIELD", [slotId]));
+      }
     }
 
     const slotWithoutBinding = slotIds.filter(

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Field Alias Policy — Phase F",
+  "description": "Canonical-to-alias mapping for fields whose data is already rendered via a differently-named slot. No DOCX structural change beyond removing orphaned canonical mustaches.",
+  "version": "1.0.0",
+  "phase": "F-1",
+  "generatedAt": "2026-06-23T12:56:26.116Z",
+  "classification": "proposed",
+  "status": "pending_implementation",
+  "owner": "backend-contract-system",
+  "policy": {
+    "description": "A canonical field has a slot but no DOCX placeholder. A suffixed variant (e.g., document.fullDocumentCode8) already renders the same data. Aliasing redirects the canonical slot binding to the suffixed slot, then removes the orphaned canonical mustache from DOCX.",
+    "constraints": [
+      "Suffixed slot must have a verified DOCX placeholder in the locked contract.",
+      "Both fields must have the same semantic type.",
+      "No new slots or bindings are created — only re-mapped.",
+      "Must not alias fields with different semantic meanings."
+    ],
+    "auditSuppression": {
+      "description": "Suppress CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER when alias policy is active.",
+      "suppressedIssueCodes": [
+        "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+        "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+      ]
+    }
+  },
+  "aliases": [
+    {
+      "templateCode": "BM-063",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": [
+        "document.fullDocumentCode8"
+      ],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode8",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode8}}",
+      "orphanedCanonicalSlotPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode8 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases it to document.fullDocumentCode8. Orphaned {{document.fullDocumentCode}} mustache is removed from DOCX.",
+      "auditBehavior": "Suppress CONFLICTING_SLOT_PLACEHOLDER for document.fullDocumentCode when alias policy is active and suffixed slot has verified DOCX placeholder.",
+      "risk": "low",
+      "reason": "Reviewer decision 'ALIAS_CANONICALIZE' requires aliasing an existing suffixed placeholder (e.g. document.fullDocumentCode4/6/8) to the canonical field name. No alias mechanism is currently implemented. Adding a second visible placeholder would duplicate rendered content (global rule 4: do not add duplicate visible placeholders).",
+      "reviewerDecision": "ALIAS_CANONICALIZE",
+      "governanceAction": "ALIAS_MECHANISM_REQUIRED"
+    },
+    {
+      "templateCode": "BM-065",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": [
+        "document.fullDocumentCode8"
+      ],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode8",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode8}}",
+      "orphanedCanonicalSlotPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode8 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases it to document.fullDocumentCode8. Orphaned {{document.fullDocumentCode}} mustache is removed from DOCX.",
+      "auditBehavior": "Suppress CONFLICTING_SLOT_PLACEHOLDER for document.fullDocumentCode when alias policy is active and suffixed slot has verified DOCX placeholder.",
+      "risk": "low",
+      "reason": "Reviewer decision 'ALIAS_CANONICALIZE' requires aliasing an existing suffixed placeholder (e.g. document.fullDocumentCode4/6/8) to the canonical field name. No alias mechanism is currently implemented. Adding a second visible placeholder would duplicate rendered content (global rule 4: do not add duplicate visible placeholders).",
+      "reviewerDecision": "ALIAS_CANONICALIZE",
+      "governanceAction": "ALIAS_MECHANISM_REQUIRED"
+    },
+    {
+      "templateCode": "BM-067",
+      "canonicalField": "document.fullDocumentCode",
+      "aliases": [
+        "document.fullDocumentCode6"
+      ],
+      "direction": "canonical_aliases_to_suffixed_slot",
+      "suffixedSlotId": "document.fullDocumentCode6",
+      "suffixedSlotPlaceholder": "{{document.fullDocumentCode6}}",
+      "orphanedCanonicalSlotPlaceholder": "{{document.fullDocumentCode}}",
+      "dataPath": "document.fullDocumentCode",
+      "renderedBy": "document.fullDocumentCode6 DOCX slot",
+      "runtimeBehavior": "Form fills document.fullDocumentCode. Render binding aliases it to document.fullDocumentCode6. Orphaned {{document.fullDocumentCode}} mustache is removed from DOCX.",
+      "auditBehavior": "Suppress CONFLICTING_SLOT_PLACEHOLDER for document.fullDocumentCode when alias policy is active and suffixed slot has verified DOCX placeholder.",
+      "risk": "low",
+      "reason": "Reviewer decision 'ALIAS_CANONICALIZE' requires aliasing an existing suffixed placeholder (e.g. document.fullDocumentCode4/6/8) to the canonical field name. No alias mechanism is currently implemented. Adding a second visible placeholder would duplicate rendered content (global rule 4: do not add duplicate visible placeholders).",
+      "reviewerDecision": "ALIAS_CANONICALIZE",
+      "governanceAction": "ALIAS_MECHANISM_REQUIRED"
+    }
+  ],
+  "phaseF2Deliverables": [
+    "Implement read-only alias policy loader.",
+    "Update renderBindings for canonical→suffixed mapping.",
+    "Remove orphaned {{canonical}} mustaches from DOCX.",
+    "Update extractionSource.sha256 in locked contracts.",
+    "Republish locked contracts and runtime DB.",
+    "Run stable hash tests, gate, runtime readiness."
+  ]
+}

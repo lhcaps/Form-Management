@@ -1,0 +1,197 @@
+{
+  "wave": "04E-2",
+  "mode": "apply",
+  "generated": "2026-06-23T11:21:00.813Z",
+  "actions": [
+    {
+      "templateCode": "BM-021",
+      "field": "agency.nameUpper",
+      "decision": "APPROVE_ADD",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{agency.nameUpper}}",
+      "anchor": "Viện kiểm sát</w:t></w:r><w:r><w:rPr><w:vertAlign w:val=\"superscript\"/>",
+      "reason": "Điều 2 Viện kiểm sát ban hành — second agency line [2] with superscript subscript",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "agency.parentNameUpper",
+      "decision": "APPROVE_ADD",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{agency.parentNameUpper}}",
+      "anchor": "VIỆN KIỂM SÁT",
+      "reason": "Top-left first agency line [1] VIỆN KIỂM SÁT",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-044",
+      "field": "agency.parentNameUpper",
+      "decision": "APPROVE_ADD",
+      "action": "FIX_MALFORMED",
+      "placeholder": "{{agency.parentNameUpper}}",
+      "anchor": "malformed",
+      "reason": "Fixed malformed mustache closing brace. Official form requires parent VKS to appear on first agency line. Existing slot/binding confirmed.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-056",
+      "field": "person.religion",
+      "decision": "APPROVE_ADD_SENSITIVE",
+      "action": "FIX_MALFORMED",
+      "placeholder": "{{person.religion}}",
+      "anchor": "malformed",
+      "reason": "Fixed malformed mustache closing brace. Official form visibly contains Tôn giáo:; contract has the field but template lacks placeholder. Religion is sensitive personal data under Vietnamese PDPD. Legal approval confirmed via APPROVE_ADD_SENSITIVE.",
+      "sensitive": true
+    },
+    {
+      "templateCode": "BM-059",
+      "field": "recipients.personLine",
+      "decision": "APPROVE_ADD",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{recipients.personLine}}",
+      "anchor": "Nơi nhận:",
+      "reason": "Nơi nhận block bullet - 8…",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-060",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_PREFER_SEMANTIC_RENAME",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Quyết định khởi tố vụ án hình sự ",
+      "reason": "Legal basis cited prosecution/bị can decision",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-061",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_PREFER_SEMANTIC_RENAME",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Quyết định khởi tố vụ án hình sự ",
+      "reason": "Legal basis cited prosecution/bị can decision",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-063",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Lệnh kê biên tài sản ",
+      "reason": "Reviewer decision: ALIAS_CANONICALIZE. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-064",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Lệnh kê biên tài sản số",
+      "reason": "Cited seizure order reference",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-066",
+      "field": "decision.decisionLine",
+      "decision": "APPROVE_ADD",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{decision.decisionLine}}",
+      "anchor": "Quyết định khởi tố vụ án hình sự ",
+      "reason": "First dynamic cited-decision basis line",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-066",
+      "field": "document.fullDocumentCode",
+      "decision": "APPROVE_ADD_OR_ALIAS",
+      "action": "ADD_PLACEHOLDER",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Quyết định khởi tố vụ án hình sự ",
+      "reason": "Document full code for cited prosecution decision",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "Lệnh phong tỏa tài khoản ",
+      "reason": "Reviewer decision: ALIAS_CANONICALIZE. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-031",
+      "field": "agency.bodyName",
+      "decision": "METADATA_ONLY_ALIAS",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{agency.bodyName}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: METADATA_ONLY_ALIAS. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-036",
+      "field": "document.issueDate",
+      "decision": "METADATA_ONLY",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.issueDate}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: METADATA_ONLY. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode",
+      "decision": "METADATA_ONLY_ALIAS",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: METADATA_ONLY_ALIAS. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "decision": "REMOVE_OR_METADATA_ONLY",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: REMOVE_OR_METADATA_ONLY. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "decision.decisionLine",
+      "decision": "METADATA_ONLY_DO_NOT_RENDER",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{decision.decisionLine}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: METADATA_ONLY_DO_NOT_RENDER. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-065",
+      "field": "document.fullDocumentCode",
+      "decision": "ALIAS_CANONICALIZE",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: ALIAS_CANONICALIZE. No DOCX change.",
+      "sensitive": false
+    },
+    {
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "decision": "REMOVE_OR_REPEAT_CANONICAL",
+      "action": "METADATA_ONLY",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "anchor": "N/A",
+      "reason": "Reviewer decision: REMOVE_OR_REPEAT_CANONICAL. No DOCX change.",
+      "sensitive": false
+    }
+  ]
+}
