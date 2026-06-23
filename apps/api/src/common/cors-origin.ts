@@ -38,6 +38,14 @@ export function resolveCorsPolicy(
     }
   }
 
+  // In production, WEB_ORIGIN (if set) is the canonical frontend URL and must be allowed.
+  // Fallback to localhost origins if nothing else is configured.
+  if (origins.size === 0) {
+    for (const origin of DEVELOPMENT_LOOPBACK_ORIGINS) {
+      origins.add(origin);
+    }
+  }
+
   return {
     allowAll: false,
     origins: [...origins],

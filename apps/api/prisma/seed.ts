@@ -145,60 +145,57 @@ async function seedOfficials(agencyId: bigint): Promise<bigint> {
   return created.id;
 }
 
-async function seedLegacyOfficialsUnused(agencyId: bigint): Promise<void> {
-  const adminName = process.env.SEED_ADMIN_FULL_NAME?.trim();
-  const adminUsername = (
-    process.env.SEED_ADMIN_USERNAME?.trim() || 'admin'
-  ).toLowerCase();
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD?.trim();
-  if (!adminName) {
-    console.log('[seed] officials: bỏ qua (chưa cấu hình SEED_ADMIN_FULL_NAME trong .env).');
-    return;
-  }
+async function seedLegacyOfficialsUnused(_agencyId: bigint): Promise<void> {
+  // Legacy — kept for reference only; do not call.
+  // (Was removed as seedOfficials() now handles this via getSeedAdminConfig().)
+}
 
-  if (!adminPassword) {
-    console.log('[seed] officials: bo qua admin credential (chua cau hinh SEED_ADMIN_PASSWORD).');
-    return;
-  }
+// ============================================================================
+// 2b. TEST ACCOUNT (staging — limited permissions, not admin)
+// ============================================================================
 
-  const passwordHash = hashPassword(adminPassword);
+const TEST_OFFICIAL_USERNAME = 'tester';
+const TEST_OFFICIAL_PASSWORD = 'tester123';
+const TEST_OFFICIAL_FULL_NAME = 'Tai khoan Test';
+const TEST_OFFICIAL_POSITION = 'Nhan vien kiem thu';
+
+async function seedTestAccount(agencyId: bigint): Promise<void> {
+  const passwordHash = hashPassword(TEST_OFFICIAL_PASSWORD);
 
   const existing = await prisma.officials.findFirst({
-    where: {
-      OR: [{ username: adminUsername }, { full_name: adminName }],
-    },
+    where: { username: TEST_OFFICIAL_USERNAME },
   });
+
   if (existing) {
     await prisma.officials.update({
       where: { id: existing.id },
       data: {
-        full_name: adminName,
-        username: adminUsername,
+        full_name: TEST_OFFICIAL_FULL_NAME,
+        username: TEST_OFFICIAL_USERNAME,
         password_hash: passwordHash,
-        position_title:
-          process.env.SEED_ADMIN_POSITION?.trim() || existing.position_title,
+        position_title: TEST_OFFICIAL_POSITION,
         agency_id: agencyId,
-        role: 'ADMIN',
+        role: 'OFFICIAL',
         is_active: true,
       },
     });
-    console.log(`[seed] officials: '${adminName}' đã có (id=${existing.id}), bỏ qua.`);
+    console.log(`[seed] officials: tester account ready (id=${existing.id}).`);
     return;
   }
 
-  await prisma.officials.create({
+  const created = await prisma.officials.create({
     data: {
-      full_name: adminName,
-      username: adminUsername,
+      full_name: TEST_OFFICIAL_FULL_NAME,
+      username: TEST_OFFICIAL_USERNAME,
       password_hash: passwordHash,
-      position_title: process.env.SEED_ADMIN_POSITION?.trim() || 'Kiểm sát viên',
+      position_title: TEST_OFFICIAL_POSITION,
       rank_title: null,
       agency_id: agencyId,
-      role: 'ADMIN',
+      role: 'OFFICIAL',
       is_active: true,
     },
   });
-  console.log(`[seed] officials: tạo admin '${adminName}' tại agency id=${agencyId}.`);
+  console.log(`[seed] officials: created tester account 'tester' (id=${created.id}).`);
 }
 
 // ============================================================================
@@ -561,13 +558,14 @@ async function main(): Promise<void> {
 
   const agencyId = await seedAgencies();
   const adminOfficialId = await seedOfficials(agencyId);
+  await seedTestAccount(agencyId);
   await seedWards();
   await seedOffenses();
   const groupIds = await seedTemplateGroups();
   await seedTemplates(groupIds, adminOfficialId);
   await seedStorageSettings();
 
-  console.log('[seed] Done. Login with username SEED_ADMIN_USERNAME (default: admin).');
+  console.log('[seed] Done. Login: admin / SEED_ADMIN_USERNAME (default: admin) or tester / tester123.');
 }
 
 main()

@@ -13,6 +13,7 @@ RUN npm install -g pnpm@10.33.2
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/package.json ./apps/web/package.json
+COPY packages/form-contracts/package.json ./packages/form-contracts/package.json
 
 RUN pnpm install --frozen-lockfile
 
@@ -32,9 +33,14 @@ RUN npm install -g pnpm@10.33.2
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/packages/form-contracts/node_modules ./packages/form-contracts/node_modules
 
 COPY . .
 
+# Build workspace packages that the API depends on
+RUN pnpm --filter @qllaw/form-contracts build
+
+# Generate Prisma client and build API
 RUN pnpm --filter api exec prisma generate
 RUN pnpm --filter api build
 
@@ -46,7 +52,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV TZ=Asia/Ho_Chi_Minh
 ENV PORT=3001
-ENV STORAGE_ROOT_PATH=/app/storage
+ENV STORAGE_ROOT=/app/storage
+ENV GENERATED_FILES_ROOT=/app/storage/generated
+ENV NORMALIZED_DOCX_ROOT=/app/storage/templates/normalized-docx
 ENV LIBREOFFICE_PATH=/usr/bin/libreoffice
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -64,28 +72,23 @@ RUN npm install -g pnpm@10.33.2
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/package.json ./apps/web/package.json
+COPY packages/form-contracts/package.json ./packages/form-contracts/package.json
 
-# Quan trọng:
-# Copy node_modules từ builder, không copy từ deps.
-# Vì prisma generate chạy ở builder và tạo .prisma/client trong node_modules.
+# node_modules from builder includes Prisma client and @qllaw/form-contracts dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
+COPY --from=builder /app/packages/form-contracts/node_modules ./packages/form-contracts/node_modules
 
+# Built artifacts
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/prisma ./apps/api/prisma
-COPY --from=builder /app/apps/api/scripts ./apps/api/scripts
+COPY --from=builder /app/packages/form-contracts/dist ./packages/form-contracts/dist
 
-# Smoke test: nếu Prisma client chưa được generate thì build fail ngay tại đây,
-# không để tới runtime mới crash.
-WORKDIR /app/apps/api
-CMD ["node", "dist/src/main.js"]
-# Linux Docker không có powershell.exe / Word COM.
-# Backend vẫn gọi powershell.exe, nên wrapper này bắt lệnh đó và convert DOCX -> PDF bằng LibreOffice.
+# LibreOffice PDF wrapper (converts DOCX -> PDF without Word)
 RUN cat > /usr/local/bin/powershell.exe <<'SH'
 #!/bin/sh
 set -eu
 
-echo "[quanlyvks-pdf-wrapper] powershell.exe invoked" >&2
 echo "[quanlyvks-pdf-wrapper] args: $*" >&2
 
 INPUT=""
@@ -134,10 +137,6 @@ fi
 
 mkdir -p "$OUTDIR"
 
-echo "[quanlyvks-pdf-wrapper] INPUT=$INPUT" >&2
-echo "[quanlyvks-pdf-wrapper] OUTPUT=$OUTPUT" >&2
-echo "[quanlyvks-pdf-wrapper] OUTDIR=$OUTDIR" >&2
-
 libreoffice \
   --headless \
   --nologo \
@@ -149,25 +148,21 @@ libreoffice \
 CREATED="$OUTDIR/$(basename "$INPUT" .docx).pdf"
 
 if [ ! -f "$CREATED" ]; then
-  echo "[quanlyvks-pdf-wrapper] ERROR: LibreOffice did not create PDF: $CREATED" >&2
+  echo "[quanlyvks-pdf-wrapper] ERROR: LibreOffice did not create PDF" >&2
   exit 3
 fi
 
 if [ -n "$OUTPUT" ] && [ "$CREATED" != "$OUTPUT" ]; then
   mv -f "$CREATED" "$OUTPUT"
-  CREATED="$OUTPUT"
 fi
 
-echo "[quanlyvks-pdf-wrapper] PDF created: $CREATED" >&2
+echo "[quanlyvks-pdf-wrapper] PDF created: ${OUTPUT:-$CREATED}" >&2
 exit 0
 SH
 
 RUN chmod +x /usr/local/bin/powershell.exe
 
 EXPOSE 3001
-WORKDIR /app
-CMD ["node", "apps/api/dist/src/main.js"]
 
-
-
-
+WORKDIR /app/apps/api
+CMD ["node", "dist/src/main.js"]

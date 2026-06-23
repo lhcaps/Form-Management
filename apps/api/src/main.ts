@@ -40,11 +40,14 @@ async function bootstrap(): Promise<void> {
     ],
   });
 
-  if (!config.isProduction) {
+  if (!config.isProduction && !config.tunnelTestMode) {
     logger.log(
-      `Allowed CORS origins: ${
-        corsPolicy.allowAll ? '*' : corsPolicy.origins.join(', ')
-      }`,
+      `Allowed CORS origins: ${corsPolicy.allowAll ? '*' : corsPolicy.origins.join(', ')}`,
+    );
+  } else if (config.tunnelTestMode) {
+    logger.log(
+      `[TUNNEL_TEST] Allowed CORS origins: ${corsPolicy.origins.join(', ')} | ` +
+        `Cookie: Secure=${config.effectiveAuthCookieSecure}, SameSite=${config.effectiveAuthCookieSameSite}`,
     );
   }
 
@@ -76,10 +79,10 @@ async function bootstrap(): Promise<void> {
   }
 
   const port = config.apiPort;
-  await app.listen(port);
+  const serverUrl = await app.listen(port);
 
   logger.log(
-    `QUANLYVKS API is running on http://localhost:${port}/${globalPrefix}`,
+    `QUANLYVKS API is running on ${serverUrl}/${globalPrefix}`,
   );
 }
 

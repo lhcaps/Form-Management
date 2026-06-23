@@ -190,9 +190,9 @@ export class AuthService {
     const domain = this.config.authCookieDomain;
     return {
       name: this.config.authSessionCookieName,
-      secure: this.config.authCookieSecure,
+      secure: this.config.effectiveAuthCookieSecure,
       httpOnly: true,
-      sameSite: this.config.authCookieSameSite,
+      sameSite: this.config.effectiveAuthCookieSameSite,
       maxAge: this.config.authSessionTtlMs,
       path: '/',
       ...(domain ? { domain } : {}),

@@ -313,3 +313,31 @@ export async function cleanupGeneratedDocumentFiles(
     },
   );
 }
+
+export type DocumentHistoryEvent = {
+  type: "CREATED" | "REVIEW" | "FILE" | "AUDIT";
+  title: string;
+  description: string;
+  actor: string | null;
+  timestamp: string | null;
+};
+
+export type DocumentHistoryResponse = {
+  documentId: string;
+  documentTitle: string;
+  documentCode: string | null;
+  reviewStatus: string;
+  templateCode: string | null;
+  templateName: string | null;
+  generatedByName: string | null;
+  generatedAt: string | null;
+  events: DocumentHistoryEvent[];
+};
+
+export async function getDocumentHistory(
+  documentId: string | number,
+): Promise<DocumentHistoryResponse> {
+  return readApi<DocumentHistoryResponse>(
+    `/documents/generated/${documentId}/history`,
+  );
+}

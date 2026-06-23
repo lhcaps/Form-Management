@@ -295,6 +295,100 @@ export class DocumentReviewsService {
     };
   }
 
+  async getDocumentHistory(documentIdRaw: string) {
+    const documentId = parseBigIntId(documentIdRaw, 'documentId');
+
+    const document = await this.prisma.generated_documents.findUnique({
+      where: { id: documentId },
+    });
+
+    if (!document) {
+      throw new NotFoundException('Không tìm thấy biểu mẫu đã tạo.');
+    }
+
+    const [template, reviews, files, auditLogs] = await Promise.all([
+      this.prisma.templates.findUnique({
+        where: { id: document.template_id },
+      }),
+      this.prisma.document_reviews.findMany({
+        where: { generated_document_id: documentId },
+        orderBy: { reviewed_at: 'desc' },
+      }),
+      this.prisma.generated_document_files.findMany({
+        where: { generated_document_id: documentId },
+        orderBy: { created_at: 'desc' },
+      }),
+      this.prisma.audit_logs.findMany({
+        where: {
+          entity_type: 'generated_document',
+          entity_id: documentId,
+        },
+        orderBy: { created_at: 'desc' },
+      }),
+    ]);
+
+    const events = [
+      {
+        type: 'CREATED' as const,
+        title: 'Tạo biểu mẫu',
+        description: `Tạo biểu mẫu "${document.document_title}" từ mẫu ${template?.template_code ?? '?'}.`,
+        actor: document.generated_by_name,
+        timestamp: document.generated_at,
+      },
+      ...reviews.map((r) => ({
+        type: 'REVIEW' as const,
+        title:
+          r.review_action === 'APPROVE'
+            ? 'Duyệt biểu mẫu'
+            : r.review_action === 'REQUEST_REVISION'
+              ? 'Yêu cầu sửa lại'
+              : r.review_action === 'MARK_WAITING_REVIEW'
+                ? 'Đánh dấu chờ duyệt'
+                : r.review_action === 'CANCEL'
+                  ? 'Hủy biểu mẫu'
+                  : r.review_action === 'FINAL_EXPORT'
+                    ? 'Xuất chính thức'
+                    : `Hành động: ${r.review_action}`,
+        description: r.review_note ?? `Chuyển trạng thái từ ${r.old_status ?? '?'} → ${r.new_status}.`,
+        actor: r.reviewer_name,
+        timestamp: r.reviewed_at,
+      })),
+      ...files.map((f) => ({
+        type: 'FILE' as const,
+        title: f.file_format === 'DOCX' ? 'Tạo DOCX' : f.file_format === 'PDF' ? 'Tạo PDF' : 'Tạo tệp',
+        description: `${f.file_format} — ${f.file_name}`,
+        actor: null,
+        timestamp: f.created_at,
+      })),
+      ...auditLogs.map((log) => ({
+        type: 'AUDIT' as const,
+        title: log.action,
+        description: '',
+        actor: log.actor_name,
+        timestamp: log.created_at,
+      })),
+    ];
+
+    const sorted = events
+      .filter((e) => e.timestamp !== null)
+      .sort(
+        (a, b) =>
+          new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime(),
+      );
+
+    return {
+      documentId: toPublicId(documentId),
+      documentTitle: document.document_title,
+      documentCode: document.document_code,
+      reviewStatus: document.review_status,
+      templateCode: template?.template_code ?? null,
+      templateName: template?.template_name ?? null,
+      generatedByName: document.generated_by_name,
+      generatedAt: document.generated_at,
+      events: sorted,
+    };
+  }
+
   async reviewGeneratedDocument(
     documentIdRaw: string,
     dto: ReviewGeneratedDocumentDto,

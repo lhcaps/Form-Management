@@ -76,6 +76,18 @@ export class DocumentReviewsController {
     return this.documentReviewsService.findGeneratedDocument(documentId);
   }
 
+  @Get('generated/:documentId/history')
+  @ApiOperation({
+    summary: 'Lấy lịch sử xử lý biểu mẫu đã tạo',
+  })
+  @ApiParam({
+    name: 'documentId',
+    description: 'ID biểu mẫu đã tạo.',
+  })
+  getDocumentHistory(@Param('documentId') documentId: string) {
+    return this.documentReviewsService.getDocumentHistory(documentId);
+  }
+
   @Post('generated/:documentId/review')
   @ApiOperation({
     summary: 'Duyệt/yêu cầu sửa/hủy biểu mẫu đã tạo',

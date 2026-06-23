@@ -17,7 +17,7 @@ services:
       - --default-time-zone=+07:00
       - --max_allowed_packet=256M
     ports:
-      - "${MYSQL_HOST_PORT}:3306"
+      - "${MYSQL_HOST_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -39,16 +39,20 @@ services:
       PORT: 3001
       TZ: Asia/Ho_Chi_Minh
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?connection_limit=10
-      STORAGE_ROOT_PATH: /app/storage
+      STORAGE_ROOT: /app/storage
+      GENERATED_FILES_ROOT: /app/storage/generated
+      NORMALIZED_DOCX_ROOT: /app/storage/templates/normalized-docx
       LIBREOFFICE_PATH: /usr/bin/libreoffice
-    command: >
-      sh -lc "fc-cache -f >/tmp/fontcache.log 2>&1 || true; node apps/api/dist/src/main.js"
+      # Cookie settings for cross-origin session auth with Vercel frontend
+      AUTH_COOKIE_SECURE: "true"
+      AUTH_COOKIE_SAMESITE: "none"
+      WEB_ORIGIN: ${WEB_ORIGIN}
+      API_CORS_ORIGIN: ${WEB_ORIGIN}
     ports:
-      - "${API_PORT}:3001"
+      - "${API_PORT:-3001}:3001"
     volumes:
       - ./storage:/app/storage
       - ./logs:/app/logs
-      - C:/Windows/Fonts:/usr/share/fonts/truetype/windows:ro
     depends_on:
       mysql:
         condition: service_healthy
@@ -70,11 +74,9 @@ services:
       TZ: Asia/Ho_Chi_Minh
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
     ports:
-      - "${WEB_PORT}:3000"
+      - "${WEB_PORT:-3000}:3000"
     depends_on:
       - api
 
 volumes:
   mysql_data:
-
-

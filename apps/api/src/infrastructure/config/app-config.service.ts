@@ -31,6 +31,14 @@ export class AppConfigService {
     return this.environment === 'production';
   }
 
+  /** Enables cross-origin cookie (SameSite=None, Secure) without full production mode.
+   *  Used when the API is exposed via Cloudflare Tunnel to a Vercel frontend.
+   *  Skips production safety checks (default admin password, etc.) while still
+   *  setting cookies correctly for the browser. */
+  get tunnelTestMode(): boolean {
+    return this.readBoolean('TUNNEL_TEST', false);
+  }
+
   get apiPort(): number {
     const raw = this.read('API_PORT') ?? '3001';
     const port = Number(raw);
@@ -59,9 +67,13 @@ export class AppConfigService {
 
   get corsPolicy(): CorsOriginPolicy {
     return resolveCorsPolicy(
-      this.read('API_CORS_ORIGIN') ?? 'http://localhost:3000',
+      this.read('API_CORS_ORIGIN') ?? this.webOrigin ?? 'http://localhost:3000',
       this.environment,
     );
+  }
+
+  private get webOrigin(): string | undefined {
+    return this.read('WEB_ORIGIN');
   }
 
   get repoRootOverride(): string | undefined {
@@ -156,7 +168,9 @@ export class AppConfigService {
   }
 
   assertProductionSafety(): void {
-    if (!this.isProduction) return;
+    // tunnelTestMode skips safety checks so local dev can use cross-origin cookies
+    // without needing to change SEED_ADMIN_PASSWORD or fully committing to production.
+    if (!this.isProduction && !this.tunnelTestMode) return;
 
     if (!this.authCookieSecure) {
       throw new ConfigurationError(
@@ -165,7 +179,7 @@ export class AppConfigService {
       );
     }
 
-    if ((this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
+    if (!this.tunnelTestMode && (this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
       throw new ConfigurationError(
         'DEFAULT_PRODUCTION_ADMIN_PASSWORD',
         'SEED_ADMIN_PASSWORD must be changed before production.',
@@ -178,6 +192,22 @@ export class AppConfigService {
         'API_CORS_ORIGIN="*" is forbidden in production.',
       );
     }
+  }
+
+  /** Effective cookie Secure flag.
+   *  Defaults to true when tunnelTestMode is active, so cross-origin cookies work
+   *  without needing to set AUTH_COOKIE_SECURE explicitly. */
+  get effectiveAuthCookieSecure(): boolean {
+    if (this.tunnelTestMode) return true;
+    return this.authCookieSecure;
+  }
+
+  /** Effective cookie SameSite value.
+   *  Defaults to "none" when tunnelTestMode is active for cross-origin browser
+   *  compatibility with Cloudflare Tunnel URLs. Falls back to configured value. */
+  get effectiveAuthCookieSameSite(): AuthCookieSameSite {
+    if (this.tunnelTestMode) return 'none';
+    return this.authCookieSameSite;
   }
 
   private read(key: string): string | undefined {
