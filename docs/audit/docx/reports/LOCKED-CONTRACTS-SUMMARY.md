@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-23T08:22:19.648Z
+Generated: 2026-06-23T11:25:43.019Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,7 +8,7 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 31** (requires DOCX edit, non-blocking)
+- **Remediation: 15** (requires DOCX edit, non-blocking)
 - **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
@@ -22,57 +22,25 @@ _placeholders before these slots can be fully verified._
   - sourceTransfer.attachedItemsDescription
 - ⚠️ [BM-003] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - official.issuerTitle, sourceAssignment.article1Line, sourceAssignment.article2Line, sourceAssignment.article3Line
-- ⚠️ [BM-021] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.nameUpper
-- ⚠️ [BM-021] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.nameUpper
 - ⚠️ [BM-031] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.bodyName
 - ⚠️ [BM-031] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.bodyName
 - ⚠️ [BM-036] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.parentNameUpper, document.issueDate
+  - document.issueDate
 - ⚠️ [BM-036] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.parentNameUpper, document.issueDate
-- ⚠️ [BM-044] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.parentNameUpper
-- ⚠️ [BM-044] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.parentNameUpper
+  - document.issueDate
 - ⚠️ [BM-052] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-052] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-056] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - person.religion
-- ⚠️ [BM-056] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - person.religion
-- ⚠️ [BM-059] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - recipients.personLine
-- ⚠️ [BM-059] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - recipients.personLine
-- ⚠️ [BM-060] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-060] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-061] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-061] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
 - ⚠️ [BM-063] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
 - ⚠️ [BM-063] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
-- ⚠️ [BM-064] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-064] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
 - ⚠️ [BM-065] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-065] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-066] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-066] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-067] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
@@ -225,7 +193,7 @@ _but does not prevent runtime rendering._
 | BM-018 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-019 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-020 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
-| BM-021 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
+| BM-021 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-022 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-023 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-024 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
@@ -248,7 +216,7 @@ _but does not prevent runtime rendering._
 | BM-041 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-042 | VERIFIED | 23 | 23 | 23 | 0 | 0 | 0 | 0 |
 | BM-043 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
-| BM-044 | CONTRACT_REPAIR_REQUIRED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
+| BM-044 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
 | BM-045 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
 | BM-046 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
 | BM-047 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
@@ -260,10 +228,10 @@ _but does not prevent runtime rendering._
 | BM-053 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-054 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-055 | VERIFIED | 33 | 33 | 33 | 0 | 0 | 0 | 0 |
-| BM-056 | CONTRACT_REPAIR_REQUIRED | 29 | 29 | 29 | 0 | 0 | 0 | 0 |
+| BM-056 | VERIFIED | 29 | 29 | 29 | 0 | 0 | 0 | 0 |
 | BM-057 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-058 | VERIFIED | 36 | 36 | 36 | 0 | 0 | 0 | 0 |
-| BM-059 | CONTRACT_REPAIR_REQUIRED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
+| BM-059 | VERIFIED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
 | BM-060 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
 | BM-061 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 1 | 6 | 0 | 0 |
 | BM-062 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |

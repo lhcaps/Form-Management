@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Reviewer Decision Record",
+  "description": "Schema for encoding reviewer decisions about template placeholders across remediation waves.",
+  "type": "object",
+  "required": ["wave", "reviewedBy", "reviewedAt", "globalRules", "decisions"],
+  "additionalProperties": false,
+  "properties": {
+    "wave": {
+      "type": "string",
+      "description": "Wave identifier, e.g. '04E-2'"
+    },
+    "reviewedBy": {
+      "type": "string",
+      "description": "Name of the reviewer who made these decisions"
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO datetime of the review"
+    },
+    "globalRules": {
+      "type": "array",
+      "description": "Global rules that apply to all decisions in this wave",
+      "items": { "type": "string" }
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Per-field reviewer decisions",
+      "items": {
+        "type": "object",
+        "required": [
+          "templateCode",
+          "field",
+          "decision",
+          "placement",
+          "reason",
+          "sensitivity",
+          "allowedActions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "templateCode": {
+            "type": "string",
+            "description": "Form template code, e.g. 'BM-021'",
+            "pattern": "^BM-\\d{3}$"
+          },
+          "field": {
+            "type": "string",
+            "description": "Canonical field path, e.g. 'agency.nameUpper'"
+          },
+          "decision": {
+            "type": "string",
+            "description": "Reviewer decision enum",
+            "enum": [
+              "APPROVE_ADD",
+              "APPROVE_ADD_SENSITIVE",
+              "APPROVE_ADD_PREFER_SEMANTIC_RENAME",
+              "APPROVE_ADD_OR_ALIAS",
+              "METADATA_ONLY",
+              "METADATA_ONLY_ALIAS",
+              "METADATA_ONLY_DO_NOT_RENDER",
+              "ALIAS_CANONICALIZE",
+              "REMOVE_OR_METADATA_ONLY",
+              "REMOVE_OR_REPEAT_CANONICAL"
+            ]
+          },
+          "placement": {
+            "type": "string",
+            "description": "Where and how to place the placeholder in the DOCX"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this decision was made"
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": ["normal", "sensitive"],
+            "description": "Whether the field contains sensitive personal data"
+          },
+          "allowedActions": {
+            "type": "array",
+            "description": "Actions the automation may take",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ADD_PLACEHOLDER",
+                "MARK_METADATA_ONLY",
+                "ALIAS",
+                "REMOVE_PENDING_REVIEW"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
