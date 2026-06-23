@@ -2,12 +2,17 @@
 /**
  * Phase D - Gate: 213/213 corpus readiness check.
  *
- * Exits 0 only when ALL 213 forms are locked, human-reviewed, and have
- * zero generic paths in their docxSlots/canonicalFields/renderBindings.
+ * Exits 0 only when ALL of the following are true:
+ *   - Exactly 213 locked files exist
+ *   - All 213 are human-reviewed
+ *   - Zero generic paths (docxSlots, canonicalFields, renderBindings)
+ *   - Zero blocking verify issues
+ *   - Zero remediation verify issues
+ *   - No locked contract has canonicalFields with source="unknown"
+ *   - No locked contract has reviewRequired=true on fields without a
+ *     CONSTANT/DEFAULT/SYSTEM/COMPUTED dataSource (those are auto-resolved)
  *
- * For forms blocked by generic DOCX placeholders (e.g. {{document.field}} in
- * the DOCX source that need renaming), the gate will report them but can
- * be run with --allow-blocked to skip the locked-count check.
+ * Run with --help-remediation to see remediation details without blocking.
  *
  * Exit codes:
  *   0 = all gates pass
@@ -22,17 +27,17 @@ const path = require("node:path");
 const LOCKED_DIR = path.join(__dirname, "..", "..", "docs", "audit", "docx", "contracts", "locked");
 const REPORTS_DIR = path.join(__dirname, "..", "..", "docs", "audit", "docx", "reports");
 
-// Matches: document.field, recipients.field, decision.field
-// Also matches: document.field2, recipients.field1, document.field_legacy
-// Does NOT match: document.documentCode, document.fieldName, pending_review/document.field
+// Matches generic placeholder paths: document.field, field1, field_legacy
+// Does NOT match: document.documentCode, document.fullName, fieldName
 const GENERIC_RE = new RegExp(String.raw`(^|\.)field(?:\d+)?(?:_|$)`, "iu");
 
-function isGenericContractPath(value) {
+const allowRemediation = process.argv.includes("--allow-remediation");
+const showRemediation = process.argv.includes("--help-remediation");
+
+function isGenericPath(value) {
   if (typeof value !== "string" || !value.trim()) return false;
   return GENERIC_RE.test(value);
 }
-
-const allowBlocked = process.argv.includes("--allow-blocked");
 
 const lockedFiles = (fs.readdirSync(LOCKED_DIR) ?? [])
   .filter((f) => f.endsWith(".contract.locked.json") && !f.startsWith("_"))
@@ -43,20 +48,10 @@ const totalExpected = 213;
 
 if (totalLocked !== totalExpected) {
   const gap = totalExpected - totalLocked;
-  if (!allowBlocked) {
-    console.error(
-      `\n[GATE FAILED] Locked count: ${totalLocked}/${totalExpected} (gap: ${gap})`,
-    );
-    console.error(
-      `  Run with --allow-blocked to allow ${gap} forms still blocked by generic DOCX placeholders.`,
-    );
-    process.exit(1);
-  } else {
-    console.log(
-      `\n[GATE INFO] Locked count: ${totalLocked}/${totalExpected} (gap: ${gap})`,
-    );
-    console.log(`  Proceeding with --allow-blocked flag.`);
-  }
+  console.error(
+    `\n[GATE FAILED] Locked count: ${totalLocked}/${totalExpected} (gap: ${gap})`,
+  );
+  process.exit(1);
 }
 
 const issues = [];
@@ -65,25 +60,28 @@ let genericSlots = 0;
 let genericFields = 0;
 let genericBindings = 0;
 
+const lockedContracts = [];
+
 for (const file of lockedFiles) {
   const c = JSON.parse(fs.readFileSync(path.join(LOCKED_DIR, file), "utf8"));
+  lockedContracts.push(c);
 
   if (c.productMetadata?.reviewKind === "human") {
     humanReviewed++;
   }
 
   genericSlots += (c.docxSlots ?? []).filter((s) =>
-    isGenericContractPath(s.slotId)
+    isGenericPath(s.slotId)
   ).length;
 
   genericFields += (c.canonicalFields ?? []).filter((f) =>
-    isGenericContractPath(f.path)
+    isGenericPath(f.path)
   ).length;
 
   genericBindings += (c.renderBindings ?? []).filter(
     (b) =>
-      isGenericContractPath(b.slotId) ||
-      isGenericContractPath(b.from),
+      isGenericPath(b.slotId) ||
+      isGenericPath(b.from),
   ).length;
 }
 
@@ -129,6 +127,35 @@ if (fs.existsSync(reportPath)) {
   issues.push(`verify report not found`);
 }
 
+// --- NEW checks for reviewRequired and source:unknown ---
+
+// Fields with these dataSources are auto-resolved by the runtime;
+// reviewRequired=true on them is acceptable.
+const AUTO_RESOLVED_KINDS = new Set(["CONSTANT", "DEFAULT", "SYSTEM", "COMPUTED"]);
+
+const unknownSourceFields = [];
+const unresolvedReviewRequiredFields = [];
+
+for (const c of lockedContracts) {
+  const code = c.templateCode ?? "unknown";
+
+  for (const field of c.canonicalFields ?? []) {
+    if (field.source === "unknown") {
+      unknownSourceFields.push(`${code}: ${field.path}`);
+    }
+
+    // reviewRequired=true is acceptable only if the field has an auto-resolved dataSource
+    if (field.reviewRequired === true) {
+      const isAutoResolved = AUTO_RESOLVED_KINDS.has(field.source ?? "");
+      if (!isAutoResolved) {
+        unresolvedReviewRequiredFields.push(`${code}: ${field.path} (source=${field.source ?? "unknown"})`);
+      }
+    }
+  }
+}
+
+// --- Build issue list ---
+
 if (humanReviewed < totalLocked) {
   issues.push(`human-reviewed: ${humanReviewed}/${totalLocked}`);
 }
@@ -145,16 +172,56 @@ if (blockingCount !== null && blockingCount > 0) {
   issues.push(`blocking verify issues: ${blockingCount}`);
 }
 
+// NEW: remediation is now a hard failure (not just informational)
+if (remediationCount !== null && remediationCount > 0) {
+  if (allowRemediation) {
+    console.log(`  [INFO] ${remediationCount} remediation items present (--allow-remediation passed — non-blocking)`);
+  } else {
+    issues.push(`remediation verify issues: ${remediationCount} (pass --allow-remediation to acknowledge)`);
+  }
+}
+
+if (unknownSourceFields.length > 0) {
+  issues.push(`source=unknown fields in locked contracts: ${unknownSourceFields.length}`);
+  if (showRemediation) {
+    console.log(`\n  source=unknown fields:`);
+    for (const f of unknownSourceFields.slice(0, 20)) {
+      console.log(`    - ${f}`);
+    }
+    if (unknownSourceFields.length > 20) {
+      console.log(`    ... and ${unknownSourceFields.length - 20} more`);
+    }
+  }
+}
+
+if (unresolvedReviewRequiredFields.length > 0) {
+  issues.push(`unresolved reviewRequired=true fields: ${unresolvedReviewRequiredFields.length}`);
+  if (showRemediation) {
+    console.log(`\n  Unresolved reviewRequired fields (source not in ${[...AUTO_RESOLVED_KINDS].join(", ")}):`);
+    for (const f of unresolvedReviewRequiredFields.slice(0, 20)) {
+      console.log(`    - ${f}`);
+    }
+    if (unresolvedReviewRequiredFields.length > 20) {
+      console.log(`    ... and ${unresolvedReviewRequiredFields.length - 20} more`);
+    }
+  }
+}
+
+// --- Exit ---
+
 if (issues.length > 0) {
   console.error(`\n[GATE FAILED]`);
   for (const issue of issues) {
     console.error(`  - ${issue}`);
   }
+  if (!allowRemediation && remediationCount > 0) {
+    console.error(`\n  To acknowledge remediation items (DOCX edits still needed), run:`);
+    console.error(`    node scripts/docx-contract/gate-forms-213.cjs --allow-remediation`);
+    console.error(`  NOTE: This should only be used after governance acceptance of the DOCX work.`);
+  }
   process.exit(1);
 }
 
-const passed = allowBlocked
-  ? `213/213 forms locked (${totalLocked}/${totalExpected} human-reviewed, 0 generic paths, ${totalExpected - totalLocked} pending DOCX normalization)`
-  : `213/213 forms locked and human-reviewed, 0 generic paths.`;
+const passed = `213/213 forms locked, human-reviewed, zero generic paths.`;
 console.log(`\n[GATE PASSED] ${passed}`);
 process.exit(0);

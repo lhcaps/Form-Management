@@ -18,7 +18,7 @@
  *
  * Usage:
  *   pnpm publish:forms:db --dry-run
- *   pnpm publish:forms:db --sql              # generate SQL only
+ *   pnpm publish:forms:db --plan             # generate human-readable plan only
  *   pnpm publish:forms:db                     # real DB publish
  *
  * Exit codes:
@@ -31,6 +31,8 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { stableContractHash } from "./lib/stable-contract-hash.mjs";
+import { adaptV1Contract } from "../../packages/form-contracts/src/v1-adapter.ts";
+import { compileContract } from "../../packages/form-contracts/src/compiler.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -111,6 +113,7 @@ function parseLockedContracts() {
 function buildPublishPlan(contracts) {
   const toPublish = [];
   const skipped = [];
+  const compileErrors = [];
 
   for (const contract of contracts) {
     if (contract.reviewKind !== "human") {
@@ -130,6 +133,34 @@ function buildPublishPlan(contracts) {
 
     const contractHash = stableContractHash(contract.draftJson);
     const dbTemplateCode = contract.sourceId.replace(/__.*$/, "");
+
+    // Compile V1 → V2 before storing in DB. Runtime reads compiled_json as
+    // CompiledFormContract (schemaVersion "2.0", uiSchema.sections, renderPlan.bindings).
+    // Storing the raw V1 draft would cause ContractV2Renderer to crash at runtime.
+    const adapted = adaptV1Contract({
+      schemaVersion: "1.0",
+      sourceId: contract.sourceId,
+      templateCode: contract.templateCode,
+      templateTitle: contract.templateTitle,
+      documentKind: "form",
+      status: "locked",
+      extractionSource: {
+        sha256: contract.extractionSha256 ?? sha256HexString(contract.templateCode),
+        relativePath: contract.normalizedDocxPath ?? null,
+      },
+      docxSlots: contract.draftJson.docxSlots,
+      canonicalFields: contract.draftJson.canonicalFields,
+      renderBindings: contract.draftJson.renderBindings,
+    });
+    const compileResult = compileContract(adapted);
+    if (!compileResult.ok || !compileResult.artifact) {
+      compileErrors.push({
+        templateCode: contract.templateCode,
+        issues: compileResult.issues,
+      });
+      continue;
+    }
+
     toPublish.push({
       templateCode: contract.templateCode,
       dbTemplateCode,
@@ -141,82 +172,53 @@ function buildPublishPlan(contracts) {
         ? path.join(ROOT, contract.normalizedDocxPath)
         : null,
       draftJson: contract.draftJson,
+      compiledArtifact: compileResult.artifact,
       lockedAt: contract.lockedAt,
       reviewedBy: contract.reviewedBy,
       reviewedAt: contract.reviewedAt,
     });
   }
 
-  return { toPublish, skipped };
+  return { toPublish, skipped, compileErrors };
 }
 
-function generateSql(toPublish, opts) {
+function generatePlan(toPublish, opts) {
   if (!toPublish.length) {
-    return "-- No contracts to publish.\n";
+    return "No contracts to publish.\n";
   }
 
   const { officialId, agencyId, now } = opts;
   const lines = [
-    `-- Phase D publish: ${toPublish.length} locked contracts`,
-    `-- Generated: ${now}`,
-    `-- Official ID: ${officialId}`,
-    agencyId ? `-- Agency ID: ${agencyId}` : `-- Agency ID: (none — global scope)`,
+    `# Phase D publish plan — ${toPublish.length} locked contracts`,
+    `# Generated: ${now}`,
+    `# Official ID: ${officialId}`,
+    agencyId ? `# Agency ID: ${agencyId}` : `# Agency ID: (none — global scope)`,
     ``,
-    `BEGIN;`,
+    `# For each form below, the script will:`,
+    `#   1. Find the template by template_code in the DB`,
+    `#   2. Check idempotency: skip if latest PUBLISHED version has the same contractHash`,
+    `#   3. Upsert form_contract_versions with:`,
+    `#      - status: PUBLISHED`,
+    `#      - draft_json: V1 locked contract (raw)`,
+    `#      - compiled_json: CompiledFormContract (V2, schemaVersion "2.0")`,
+    `#      - contract_hash: stable-semantic-v1 hash of the V1 contract`,
+    `#      - template_hash: SHA256 of the normalized DOCX`,
     ``,
   ];
 
   for (const p of toPublish) {
-    const docxPath = p.normalizedDocxPath
-      ? `'${p.normalizedDocxPath.replace(/\\/g, "\\\\").replace(/'/g, "''")}'`
-      : "NULL";
-
-    lines.push(`-- ${p.templateCode}: ${p.templateTitle}`);
-    lines.push(`--   contract_hash: ${p.contractHash}`);
-    lines.push(`--   template_hash: ${p.templateHash}`);
+    lines.push(`## ${p.templateCode}: ${p.templateTitle}`);
+    lines.push(`- contract_hash: ${p.contractHash}`);
+    lines.push(`- template_hash: ${p.templateHash.slice(0, 16)}...`);
     if (p.normalizedDocxPath) {
-      lines.push(`--   normalized_docx: ${p.normalizedDocxPath}`);
+      lines.push(`- normalized_docx: ${p.normalizedDocxPath}`);
     }
-    lines.push(
-      `--   reviewed_by: ${p.reviewedBy} @ ${p.reviewedAt}`,
-    );
-    lines.push(
-      `--   Check: SELECT id FROM form_contract_versions WHERE template_id IN (SELECT id FROM templates WHERE template_code = '${p.dbTemplateCode}') AND scope_key = '${p.templateCode}' AND contract_hash = '${p.contractHash}' AND status = 'PUBLISHED';`,
-    );
-    lines.push(
-      `--   If found: this version already published, skipping.`,
-    );
+    lines.push(`- reviewed_by: ${p.reviewedBy} @ ${p.reviewedAt}`);
     lines.push(``);
   }
 
-  const first = toPublish[0];
-  const docxPathExample = first.normalizedDocxPath
-    ? `'${first.normalizedDocxPath.replace(/\\/g, "\\\\").replace(/'/g, "''")}'`
-    : "NULL";
-
-  lines.push(`-- Upsert pattern (replace <template_id> placeholders after reviewing above):`);
-  lines.push(`-- INSERT INTO form_contract_versions`);
-  lines.push(`--   (template_id, agency_id, scope_key, version_no, status,`);
-  lines.push(`--    revision, base_contract_hash, contract_hash, template_hash,`);
-  lines.push(`--    normalized_docx_path, draft_json, compiled_json,`);
-  lines.push(`--    created_by_official_id, approved_by_official_id, published_by_official_id,`);
-  lines.push(`--    submitted_at, approved_at, published_at, created_at)`);
-  lines.push(`-- SELECT <template_id>, ${agencyId ?? "NULL"}, '${first.templateCode}', 1, 'PUBLISHED',`);
-  lines.push(`--   0, NULL, '${first.contractHash}', '${first.templateHash}',`);
-  lines.push(`--   ${docxPathExample},`);
-  lines.push(`--   '${JSON.stringify(first.draftJson).replace(/'/g, "''")}'::jsonb,`);
-  lines.push(`--   '${JSON.stringify(first.draftJson).replace(/'/g, "''")}'::jsonb,`);
-  lines.push(`--   ${officialId}n, ${officialId}n, ${officialId}n,`);
-  lines.push(`--   '${first.lockedAt.slice(0, 19).replace("T", " ")}',`);
-  lines.push(`--   '${first.lockedAt.slice(0, 19).replace("T", " ")}',`);
-  lines.push(`--   '${now}',`);
-  lines.push(`--   '${now}'`);
-  lines.push(`-- WHERE NOT EXISTS (`);
-  lines.push(`--   SELECT 1 FROM form_contract_versions`);
-  lines.push(`--   WHERE template_id = <template_id> AND scope_key = '${first.templateCode}' AND contract_hash = '${first.contractHash}' AND status = 'PUBLISHED'`);
-  lines.push(`-- );`);
-  lines.push(``);
-  lines.push(`COMMIT;`);
+  lines.push(`# Total: ${toPublish.length} form(s) to publish`);
+  lines.push(`# This is a HUMAN-READABLE PLAN. Run without --plan to execute actual DB writes.`);
 
   return lines.join("\n");
 }
@@ -386,7 +388,7 @@ async function publishToDb(toPublish, opts) {
           template_hash: p.templateHash,
           normalized_docx_path: p.normalizedDocxPath,
           draft_json: p.draftJson,
-          compiled_json: p.draftJson,
+          compiled_json: p.compiledArtifact,
           created_by_official_id: BigInt(officialId),
           approved_by_official_id: BigInt(officialId),
           published_by_official_id: BigInt(officialId),
@@ -444,7 +446,7 @@ async function publishToDb(toPublish, opts) {
 
 async function main() {
   const dryRun = process.argv.includes("--dry-run");
-  const outputSql = process.argv.includes("--sql");
+  const outputPlan = process.argv.includes("--plan");
   const envVars = parseEnv();
 
   // Required: OFFICIAL_ID
@@ -470,7 +472,21 @@ async function main() {
   }
 
   console.log(`Locked contracts found: ${contracts.length}`);
-  const { toPublish, skipped } = buildPublishPlan(contracts);
+  const { toPublish, skipped, compileErrors } = buildPublishPlan(contracts);
+
+  if (compileErrors.length) {
+    console.error(`\nCompile errors for ${compileErrors.length} form(s):`);
+    for (const err of compileErrors) {
+      console.error(`  - ${err.templateCode}:`);
+      for (const issue of err.issues) {
+        console.error(`      [${issue.severity}] ${issue.path}: ${issue.message}`);
+      }
+    }
+    console.error(
+      `\nThese forms cannot be published. Fix the contract issues above before retrying.`,
+    );
+    process.exit(1);
+  }
 
   console.log(`  Ready to publish: ${toPublish.length}`);
   console.log(`  Skipped (generic/non-human): ${skipped.length}`);
@@ -481,7 +497,7 @@ async function main() {
     return;
   }
 
-  // OFFICIAL_ID is required for ALL modes including --sql (it appears in the generated output)
+  // OFFICIAL_ID is required for ALL modes including --plan (it appears in the generated output)
   if (!officialId) {
     console.error("OFFICIAL_ID env required. Set it via environment variable or .env:");
     console.error("  $env:OFFICIAL_ID=\"1\"; node scripts/.../publish-locked-contracts-to-db.mjs");
@@ -490,11 +506,11 @@ async function main() {
 
   const now = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-  if (outputSql) {
-    const sql = generateSql(toPublish, { officialId, agencyId, now });
-    const outPath = path.join(__dirname, "phase-d-publish.sql");
+  if (outputPlan) {
+    const sql = generatePlan(toPublish, { officialId, agencyId, now });
+    const outPath = path.join(__dirname, "phase-d-publish-plan.txt");
     fs.writeFileSync(outPath, sql, "utf8");
-    console.log(`SQL written: ${outPath}`);
+    console.log(`Plan written: ${outPath}`);
     const reportPath = writePublishReport(toPublish, skipped, { officialId, agencyId, now });
     console.log(`Report written: ${reportPath}`);
     return;
