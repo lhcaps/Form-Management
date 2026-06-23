@@ -172,7 +172,7 @@ export class AppConfigService {
     // without needing to change SEED_ADMIN_PASSWORD or fully committing to production.
     if (!this.isProduction && !this.tunnelTestMode) return;
 
-    if (!this.authCookieSecure) {
+    if (!this.effectiveAuthCookieSecure) {
       throw new ConfigurationError(
         'INSECURE_PRODUCTION_COOKIE',
         'AUTH_COOKIE_SECURE must be "true" in production.',
@@ -186,7 +186,7 @@ export class AppConfigService {
       );
     }
 
-    if (this.corsPolicy.allowAll) {
+    if (!this.tunnelTestMode && this.corsPolicy.allowAll) {
       throw new ConfigurationError(
         'PRODUCTION_CORS_WILDCARD',
         'API_CORS_ORIGIN="*" is forbidden in production.',
