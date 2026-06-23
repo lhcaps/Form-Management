@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Final Governance Backlog",
+  "description": "All unresolved governance items remaining after automated remediation is complete.",
+  "generatedAt": "2026-06-23T14:50:00.000+07:00",
+  "phase": "F-3",
+  "classification": "governance-backlog",
+  "totalItems": 7,
+  "items": [
+    {
+      "id": "RAR-001",
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "classification": "REMOVE_PENDING_EXPLICIT_APPROVAL",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "risk": "medium",
+      "reason": "Official form has one cited deposit decision. Removing this slot would free it from the contract if approved. However, document.fullDocumentCode2 is also the alias target for the BM-052 canonical alias. Removing it would break the alias — must resolve alias first.",
+      "conflictNote": "This slot is the alias target for BM-052 document.fullDocumentCode canonical alias. Must resolve alias before removing this slot.",
+      "preRemovalChecklist": [
+        "Resolve BM-052 canonical alias (document.fullDocumentCode -> ?) before removing this slot",
+        "Verify no runtime DB data exists in document.fullDocumentCode2 field",
+        "Update or remove renderBinding for document.fullDocumentCode2",
+        "Update DOCX if {{document.fullDocumentCode2}} mustache exists",
+        "Update extractionSource.sha256 in locked contract",
+        "Republish runtime DB"
+      ],
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    },
+    {
+      "id": "RAR-002",
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "classification": "REMOVE_PENDING_EXPLICIT_APPROVAL",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "risk": "low",
+      "reason": "Official form repeats the same lệnh phong tỏa. No compound binding depends on this slot. Safe to remove if approved.",
+      "conflictNote": null,
+      "preRemovalChecklist": [
+        "Verify no runtime DB data exists in document.fullDocumentCode2 field for BM-067",
+        "Update or remove renderBinding for document.fullDocumentCode2",
+        "Check DOCX for {{document.fullDocumentCode2}} placeholder — remove if found",
+        "Update extractionSource.sha256 in locked contract",
+        "Republish runtime DB"
+      ],
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    },
+    {
+      "id": "RAR-003",
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "classification": "REMOVE_PENDING_EXPLICIT_APPROVAL",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "note": "Duplicate of RAR-002 (BINDING_WITHOUT_TEMPLATE_PLACEHOLDER entry). Single slot removal resolves both RAR-002 and RAR-003.",
+      "sameSlotAs": "RAR-002"
+    },
+    {
+      "id": "RAR-004",
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "classification": "REMOVE_PENDING_EXPLICIT_APPROVAL",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "note": "Duplicate of RAR-001 (BINDING_WITHOUT_TEMPLATE_PLACEHOLDER entry). Single slot removal resolves both RAR-001 and RAR-004.",
+      "sameSlotAs": "RAR-001"
+    },
+    {
+      "id": "CPG-001",
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode",
+      "classification": "CONFLICT_PENDING_REMOVE_DECISION",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "ALIAS_CONFLICT_RESOLUTION_REQUIRED",
+      "risk": "high",
+      "reason": "document.fullDocumentCode in BM-052 is in both the alias policy (maps to fullDocumentCode2) and the remove-pending set (fullDocumentCode2 is remove-pending). These policies conflict. Form-author must resolve: if fullDocumentCode2 is removed, the alias cannot point to it. If fullDocumentCode2 is kept, the alias can be activated.",
+      "conflictWith": ["RAR-001", "RAR-004"],
+      "resolutionOptions": [
+        "Option A: REJECT_REMOVE for RAR-001/RAR-004. Keep fullDocumentCode2. Activate BM-052 alias: document.fullDocumentCode -> document.fullDocumentCode2.",
+        "Option B: APPROVE_REMOVE for RAR-001/RAR-004. Remove fullDocumentCode2. Redirect BM-052 alias: document.fullDocumentCode -> document.fullDocumentCode6 (same pattern as BM-067) or another existing slot.",
+        "Option C: DEFER. Keep both pending until a future form-author review."
+      ],
+      "auditBehavior": "Not suppressed. Remains as CONFLICT_PENDING remediation item."
+    },
+    {
+      "id": "ANA-001",
+      "templateCode": "BM-001",
+      "field": "11 orphaned mustaches",
+      "classification": "ACCEPTED_NO_ACTION_SET",
+      "status": "accepted",
+      "governanceAction": "ACCEPTED_NO_ACTION_SET",
+      "risk": "low",
+      "reason": "BM-001 is in the accepted no-action set per Wave 04E decisions. Orphaned mustaches in BM-001/002/003 remain no-action under current policy."
+    },
+    {
+      "id": "ANA-002",
+      "templateCode": "BM-002",
+      "field": "sourceTransfer.attachedItemsDescription",
+      "classification": "ACCEPTED_NO_ACTION_SET",
+      "status": "accepted",
+      "governanceAction": "ACCEPTED_NO_ACTION_SET",
+      "risk": "low",
+      "reason": "BM-002 is in the accepted no-action set per Wave 04E decisions."
+    },
+    {
+      "id": "ANA-003",
+      "templateCode": "BM-003",
+      "field": "4 orphaned mustaches (official.issuerTitle, article1Line, article2Line, article3Line)",
+      "classification": "ACCEPTED_NO_ACTION_SET",
+      "status": "accepted",
+      "governanceAction": "ACCEPTED_NO_ACTION_SET",
+      "risk": "low",
+      "reason": "BM-003 is in the accepted no-action set per Wave 04E decisions."
+    }
+  ],
+  "summary": {
+    "totalItems": 7,
+    "uniqueSlots": 3,
+    "byClassification": {
+      "REMOVE_PENDING_EXPLICIT_APPROVAL": 4,
+      "CONFLICT_PENDING_REMOVE_DECISION": 1,
+      "ACCEPTED_NO_ACTION_SET": 2
+    },
+    "pendingApproval": 2,
+    "acceptedNoAction": 2,
+    "conflictResolutionRequired": 1
+  }
+}
