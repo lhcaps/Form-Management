@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-23T11:25:43.019Z
+Generated: 2026-06-23T13:31:25.818Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,8 +8,8 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 15** (requires DOCX edit, non-blocking)
-- **Warning: 58** (metadata completeness, non-blocking)
+- **Remediation: 7** (requires DOCX edit, non-blocking)
+- **Warning: 70** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
 
@@ -22,30 +22,44 @@ _placeholders before these slots can be fully verified._
   - sourceTransfer.attachedItemsDescription
 - ⚠️ [BM-003] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
   - official.issuerTitle, sourceAssignment.article1Line, sourceAssignment.article2Line, sourceAssignment.article3Line
-- ⚠️ [BM-031] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.bodyName
-- ⚠️ [BM-031] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - agency.bodyName
-- ⚠️ [BM-036] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-036] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
 - ⚠️ [BM-052] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-052] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-063] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-063] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-065] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-065] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-067] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.fullDocumentCode2
+  - document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.fullDocumentCode2
+  - document.fullDocumentCode2
+
+## Notes (Audit Policy Suppressions)
+
+_Items previously flagged as remediation but now accepted per active audit policies (Phase F)._
+_No DOCX changes required._
+
+- ℹ️ [BM-031] ACCEPTED_METADATA_ONLY_FIELD
+  - agency.bodyName
+- ℹ️ [BM-031] ACCEPTED_METADATA_ONLY_FIELD
+  - agency.bodyName
+- ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
+  - document.issueDate
+- ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
+  - document.issueDate
+- ℹ️ [BM-063] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
+- ℹ️ [BM-063] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
+- ℹ️ [BM-065] ACCEPTED_METADATA_ONLY_FIELD
+  - decision.decisionLine
+- ℹ️ [BM-065] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
+- ℹ️ [BM-065] ACCEPTED_METADATA_ONLY_FIELD
+  - decision.decisionLine
+- ℹ️ [BM-065] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
+- ℹ️ [BM-067] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
+- ℹ️ [BM-067] FIELD_SATISFIED_BY_ALIAS
+  - document.fullDocumentCode
 
 ## Warnings (metadata completeness)
 

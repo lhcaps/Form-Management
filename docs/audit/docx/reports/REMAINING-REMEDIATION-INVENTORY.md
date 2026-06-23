@@ -1,23 +1,23 @@
 # Remaining Remediation Inventory (Wave 04A)
 
-Generated: 2026-06-23T11:26:37.743Z
+Generated: 2026-06-23T13:33:05.065Z
 
 ## Summary
 
 | Issue Type | Count |
 |---|---|
 | TEMPLATE_PLACEHOLDER_WITHOUT_SLOT | 16 |
-| CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER | 9 |
-| BINDING_WITHOUT_TEMPLATE_PLACEHOLDER | 9 |
+| CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER | 3 |
+| BINDING_WITHOUT_TEMPLATE_PLACEHOLDER | 3 |
 | Other | 0 |
-| **Total** | **34** |
+| **Total** | **22** |
 
 ## Risk Breakdown
 
 | Risk | Count |
 |---|---|
-| Low | 16 |
-| Medium | 18 |
+| Low | 6 |
+| Medium | 16 |
 | High | 0 |
 
 ## TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
@@ -94,18 +94,6 @@ Generated: 2026-06-23T11:26:37.743Z
 
 ## CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
 
-### BM-031
-
-- `agency.bodyName` — MEDIUM risk · `add-placeholder`
-  - Reason: DOCX template needs add-placeholder: agency.bodyName
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: agency.bodyName
-
-### BM-036
-
-- `document.issueDate` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.issueDate
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: document.issueDate
-
 ### BM-052
 
 - `document.fullDocumentCode` — LOW risk · `rename-placeholder`
@@ -116,27 +104,7 @@ Generated: 2026-06-23T11:26:37.743Z
   - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode2
   - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode2
 
-### BM-063
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
-
-### BM-065
-
-- `decision.decisionLine` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: decision.decisionLine
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: decision.decisionLine
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
-
 ### BM-067
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
 
 - `document.fullDocumentCode2` — LOW risk · `rename-placeholder`
   - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode2
@@ -144,18 +112,6 @@ Generated: 2026-06-23T11:26:37.743Z
 
 ## BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
 
-### BM-031
-
-- `agency.bodyName` — MEDIUM risk · `add-placeholder`
-  - Reason: DOCX template needs add-placeholder: agency.bodyName
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: agency.bodyName
-
-### BM-036
-
-- `document.issueDate` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.issueDate
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: document.issueDate
-
 ### BM-052
 
 - `document.fullDocumentCode` — LOW risk · `rename-placeholder`
@@ -166,27 +122,7 @@ Generated: 2026-06-23T11:26:37.743Z
   - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode2
   - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode2
 
-### BM-063
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
-
-### BM-065
-
-- `decision.decisionLine` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: decision.decisionLine
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: decision.decisionLine
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
-
 ### BM-067
-
-- `document.fullDocumentCode` — LOW risk · `rename-placeholder`
-  - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode
-  - Evidence: BINDING_WITHOUT_TEMPLATE_PLACEHOLDER: document.fullDocumentCode
 
 - `document.fullDocumentCode2` — LOW risk · `rename-placeholder`
   - Reason: DOCX template needs rename-placeholder: document.fullDocumentCode2
@@ -194,26 +130,13 @@ Generated: 2026-06-23T11:26:37.743Z
 
 ## Recommended Wave 04B (lowest risk first)
 
-### BM-036
-  - `document.issueDate` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `document.issueDate` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
 ### BM-052
   - `document.fullDocumentCode` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
   - `document.fullDocumentCode2` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
   - `document.fullDocumentCode` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
   - `document.fullDocumentCode2` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
-### BM-063
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
-### BM-065
-  - `decision.decisionLine` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `decision.decisionLine` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
 ### BM-067
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
   - `document.fullDocumentCode2` — low risk · `rename-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `document.fullDocumentCode` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
   - `document.fullDocumentCode2` — low risk · `rename-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)
 ### BM-001
   - `crimeReport.attachedItemsDescription` — medium risk · `add-placeholder` (`TEMPLATE_PLACEHOLDER_WITHOUT_SLOT`)
@@ -234,6 +157,3 @@ Generated: 2026-06-23T11:26:37.743Z
   - `sourceAssignment.article1Line` — medium risk · `add-placeholder` (`TEMPLATE_PLACEHOLDER_WITHOUT_SLOT`)
   - `sourceAssignment.article2Line` — medium risk · `add-placeholder` (`TEMPLATE_PLACEHOLDER_WITHOUT_SLOT`)
   - `sourceAssignment.article3Line` — medium risk · `add-placeholder` (`TEMPLATE_PLACEHOLDER_WITHOUT_SLOT`)
-### BM-031
-  - `agency.bodyName` — medium risk · `add-placeholder` (`CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER`)
-  - `agency.bodyName` — medium risk · `add-placeholder` (`BINDING_WITHOUT_TEMPLATE_PLACEHOLDER`)

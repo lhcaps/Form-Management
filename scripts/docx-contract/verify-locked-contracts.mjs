@@ -16,6 +16,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { evaluateFormArtifact } from "./lib/form-corpus-quality.mjs";
+import { loadAuditPolicies, createPolicyContext } from "./lib/audit-policy-loader.mjs";
 
 const ROOT = process.cwd();
 const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
@@ -28,6 +29,14 @@ const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
 /** Classifies an issue code into severity tier. */
 function issueTier(code) {
+  // Informational notes — accepted policy states (Phase F audit policy)
+  if (
+    code === "ACCEPTED_METADATA_ONLY_FIELD" ||
+    code === "FIELD_SATISFIED_BY_ALIAS"
+  ) {
+    return "note";
+  }
+
   // Structural correctness — must be fixed before production
   if (
     code === "NORMALIZED_DOCX_NOT_FOUND" ||
@@ -86,7 +95,8 @@ function check(label, condition, detail) {
 function record(label, detail, tier) {
   if (tier === "blocking") BLOCKING.push({ label, detail });
   else if (tier === "remediation") REMEDIATION.push({ label, detail });
-  else WARNING.push({ label, detail });
+  else if (tier === "note") WARNING.push({ label, detail });
+  else WARNING.push({ label, detail: detail ?? null });
 }
 
 function warn(label, detail) {
@@ -95,6 +105,9 @@ function warn(label, detail) {
 
 const main = () => {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
+
+  // Load Phase F audit policies (tolerates missing files gracefully)
+  const policies = createPolicyContext(ROOT);
 
   const namespaces = new Set(Object.keys(loadJson(FIELD_TAXONOMY).namespaces));
   const allowedSources = new Set(loadJson(SOURCE_TAXONOMY).allowed.map((s) => s.value));
@@ -183,6 +196,7 @@ const main = () => {
       const quality = evaluateFormArtifact({
         contract,
         normalizedDocxBuffer: fs.readFileSync(normalizedPath),
+        policies,
       });
 
       // HUMAN_REVIEW_NOT_APPROVED → warning (non-blocking)
@@ -318,12 +332,32 @@ const main = () => {
   }
 
   if (WARNING.length > 0) {
+    md.push("## Notes (Audit Policy Suppressions)");
+    md.push("");
+    md.push("_Items previously flagged as remediation but now accepted per active audit policies (Phase F)._");
+    md.push("_No DOCX changes required._");
+    md.push("");
+    const policyNotes = WARNING.filter(
+      (w) =>
+        w.label.includes("ACCEPTED_METADATA_ONLY_FIELD") ||
+        w.label.includes("FIELD_SATISFIED_BY_ALIAS"),
+    );
+    const trueWarnings = WARNING.filter(
+      (w) =>
+        !w.label.includes("ACCEPTED_METADATA_ONLY_FIELD") &&
+        !w.label.includes("FIELD_SATISFIED_BY_ALIAS"),
+    );
+    for (const w of policyNotes) {
+      md.push("- \u2139\ufe0f " + w.label);
+      if (w.detail) md.push("  - " + w.detail);
+    }
+    md.push("");
     md.push("## Warnings (metadata completeness)");
     md.push("");
     md.push("_These are non-blocking. They indicate metadata that needs human review_");
     md.push("_but does not prevent runtime rendering._");
     md.push("");
-    for (const w of WARNING) {
+    for (const w of trueWarnings) {
       md.push("- \u2139\ufe0f " + w.label);
       if (w.detail) md.push("  - " + w.detail);
     }

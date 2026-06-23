@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Remove Approval Requests (Active)",
+  "description": "Slots and bindings flagged for potential removal but awaiting explicit destructive approval. No removal until APPROVE_REMOVE is granted by form-author.",
+  "policyVersion": "1.0.0",
+  "phase": "F-2A",
+  "effectiveFrom": "2026-06-23T13:00:00.000+07:00",
+  "sourceReport": "remove-approval-requests.proposed.json",
+  "classification": "active",
+  "status": "pending_explicit_approval",
+  "owner": "form-author",
+  "policy": {
+    "description": "No slot or binding may be deleted without APPROVE_REMOVE from form-author. Prefer aliasing over removal when the same data is rendered elsewhere.",
+    "constraints": [
+      "No deletion without APPROVE_REMOVE from form-author.",
+      "Verify no downstream dependencies before approving.",
+      "Prefer aliasing over removal.",
+      "After removal: update locked contract, republish DB, pass stable hash tests."
+    ],
+    "noActionRules": [
+      "Do not remove based on REMOVE_OR_* decisions alone.",
+      "Do not remove while any remediation check is blocking.",
+      "Do not remove slots with runtime data unless migration plan exists."
+    ]
+  },
+  "removalRequests": [
+    {
+      "id": "RAR-001",
+      "templateCode": "BM-052",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "reviewerDecision": "REMOVE_OR_METADATA_ONLY",
+      "recommendedAction": "remove_slot_and_binding",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "auditBehavior": "Do not suppress. Keep as REMOVE_PENDING_EXPLICIT_APPROVAL remediation item until APPROVE_REMOVE is recorded.",
+      "conflict": {
+        "description": "document.fullDocumentCode2 is the alias target for BM-052 document.fullDocumentCode canonical alias. Removing it would break the alias.",
+        "conflictingPolicy": "field-alias-policy.json — BM-052 alias entry",
+        "resolution": "Form-author must decide on this request BEFORE Phase F-2B alias implementation for BM-052. If APPROVE_REMOVE: do not implement BM-052 alias. If REJECT_REMOVE: implement BM-052 alias (pending alias policy)."
+      },
+      "reason": "Official form has one cited deposit decision, not a second full document code. The canonical document.fullDocumentCode already aliases to document.fullDocumentCode2. Removing fullDocumentCode2 may be redundant.",
+      "impactAssessment": {
+        "dataLoss": "If document.fullDocumentCode2 is removed and any form instance has data in that field, the data becomes inaccessible.",
+        "renderingImpact": "decision.decisionLine2 compound line may reference document.fullDocumentCode2 — removing the slot could break the compound line rendering.",
+        "bindingImpact": "The renderBinding from document.fullDocumentCode2 to slotId document.fullDocumentCode2 must be removed or updated.",
+        "aliasConflict": "BM-052 alias maps document.fullDocumentCode -> document.fullDocumentCode2. If fullDocumentCode2 is removed, the alias becomes invalid."
+      },
+      "preRemovalChecklist": [
+        "Verify decision.decisionLine2 does not depend on document.fullDocumentCode2",
+        "Verify no runtime DB data exists in document.fullDocumentCode2 field for BM-052",
+        "Update or remove renderBinding for document.fullDocumentCode2",
+        "If alias document.fullDocumentCode->fullDocumentCode2 is planned, remove or redirect alias before removing target slot",
+        "Update locked contract extractionSource.sha256",
+        "Republish runtime DB"
+      ],
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    },
+    {
+      "id": "RAR-002",
+      "templateCode": "BM-067",
+      "field": "document.fullDocumentCode2",
+      "slotId": "document.fullDocumentCode2",
+      "placeholder": "{{document.fullDocumentCode2}}",
+      "reviewerDecision": "REMOVE_OR_REPEAT_CANONICAL",
+      "recommendedAction": "remove_slot_and_binding",
+      "status": "pending_explicit_approval",
+      "requiredApproval": "form-author",
+      "governanceAction": "EXPLICIT_DESTRUCTIVE_APPROVAL_REQUIRED",
+      "auditBehavior": "Do not suppress. Keep as REMOVE_PENDING_EXPLICIT_APPROVAL remediation item until APPROVE_REMOVE is recorded.",
+      "conflict": null,
+      "reason": "Official form repeats the same lệnh phong tỏa, not a second independent document. Only one lệnh phong tỏa order exists in this form. The document.fullDocumentCode6 slot already renders the canonical lệnh phong tỏa reference.",
+      "impactAssessment": {
+        "dataLoss": "If document.fullDocumentCode2 is removed and any form instance has data in that field, the data becomes inaccessible.",
+        "renderingImpact": "No compound line depends on document.fullDocumentCode2 in BM-067. Removing this slot should not affect rendering if document.fullDocumentCode6 already renders the lệnh phong tỏa.",
+        "bindingImpact": "The renderBinding from document.fullDocumentCode2 to slotId document.fullDocumentCode2 must be removed or updated.",
+        "aliasConflict": "BM-067 alias maps document.fullDocumentCode -> document.fullDocumentCode6. fullDocumentCode2 is independent of this alias."
+      },
+      "preRemovalChecklist": [
+        "Verify no runtime DB data exists in document.fullDocumentCode2 field for BM-067",
+        "Update or remove renderBinding for document.fullDocumentCode2",
+        "Check DOCX for {{document.fullDocumentCode2}} placeholder — if found, remove it",
+        "Update locked contract extractionSource.sha256",
+        "Republish runtime DB"
+      ],
+      "approvalDecision": null,
+      "approvedBy": null,
+      "approvedAt": null,
+      "note": null
+    }
+  ],
+  "note": "RAR-001 and RAR-002 each correspond to 2 audit entries (CONTRACT_SLOT + BINDING). Total 4 audit entries in remediation inventory. RAR-003 and RAR-004 are duplicate entries for the same field/slot combination and are consolidated here."
+}
