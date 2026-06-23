@@ -1,21 +1,27 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-22T14:02:27.095Z
-Locked directory: d:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
+Generated: 2026-06-23T08:22:19.648Z
+Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
 ## Summary
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 93** (requires DOCX edit, non-blocking)
-- **Warning: 40** (metadata completeness, non-blocking)
+- **Remediation: 31** (requires DOCX edit, non-blocking)
+- **Warning: 58** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
 
 _These are non-blocking. The DOCX template needs editing to add/rename mustache_
 _placeholders before these slots can be fully verified._
 
+- ⚠️ [BM-001] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - crimeReport.attachedItemsDescription, crimeReport.content, reception.endedAtDay, reception.endedAtMonth, reception.endedAtTimeText, reception.endedAtYear, reception.locationName, reception.startedAtDay, reception.startedAtMonth, reception.startedAtTimeText, reception.startedAtYear
+- ⚠️ [BM-002] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - sourceTransfer.attachedItemsDescription
+- ⚠️ [BM-003] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - official.issuerTitle, sourceAssignment.article1Line, sourceAssignment.article2Line, sourceAssignment.article3Line
 - ⚠️ [BM-021] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.nameUpper
 - ⚠️ [BM-021] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
@@ -32,14 +38,6 @@ _placeholders before these slots can be fully verified._
   - agency.parentNameUpper
 - ⚠️ [BM-044] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - agency.parentNameUpper
-- ⚠️ [BM-051] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-051] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-051] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode
-- ⚠️ [BM-052] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-052] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-052] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
@@ -52,156 +50,34 @@ _placeholders before these slots can be fully verified._
   - recipients.personLine
 - ⚠️ [BM-059] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - recipients.personLine
-- ⚠️ [BM-060] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
 - ⚠️ [BM-060] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
 - ⚠️ [BM-060] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
-- ⚠️ [BM-061] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - recipients.field
 - ⚠️ [BM-061] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
 - ⚠️ [BM-061] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
-- ⚠️ [BM-062] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-062] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-062] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-063] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-063] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
+  - document.fullDocumentCode
 - ⚠️ [BM-063] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
-- ⚠️ [BM-064] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
+  - document.fullDocumentCode
 - ⚠️ [BM-064] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
 - ⚠️ [BM-064] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode
-- ⚠️ [BM-065] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-065] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-065] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-066] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-066] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
 - ⚠️ [BM-066] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - decision.decisionLine, document.fullDocumentCode
-- ⚠️ [BM-067] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 - ⚠️ [BM-067] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-068] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-069] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-073] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-075] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-077] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-080] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-082] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-139] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.dongDia, document.chuThe, document.ngayBan
-- ⚠️ [BM-162] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-163] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-164] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-165] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-174] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-175] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-176] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-177] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-178] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-179] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-180] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-181] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-182] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-183] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-184] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - decision.field, document.field
-- ⚠️ [BM-185] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-186] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-187] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-188] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-189] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-190] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-191] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-192] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-193] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-194] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-195] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-196] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-197] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-198] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-199] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - decision.field, document.field, recipients.field
-- ⚠️ [BM-200] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-201] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-202] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-203] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-204] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field
-- ⚠️ [BM-205] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-206] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - recipients.field
-- ⚠️ [BM-207] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-208] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-209] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-210] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - recipients.field
-- ⚠️ [BM-211] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
-- ⚠️ [BM-212] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.field, recipients.field
 
 ## Warnings (metadata completeness)
 
@@ -211,91 +87,127 @@ _but does not prevent runtime rendering._
 - ℹ️ [BM-051] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown
 - ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
+  - document.fullDocumentCode, decision.decisionLine3, document.fullDocumentCode, decision.decisionLine3
 - ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
+  - decision.decisionLine3, document.fullDocumentCode
 - ℹ️ [BM-051] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode
 - ℹ️ [BM-052] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown, document.fullDocumentCode2:unknown
 - ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode, document.fullDocumentCode2
+  - document.fullDocumentCode, document.fullDocumentCode2, decision.decisionLine2, recipients.personLine6, document.fullDocumentCode, document.fullDocumentCode2, decision.decisionLine2, recipients.personLine6
 - ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2
+  - decision.decisionLine2, document.fullDocumentCode, document.fullDocumentCode2, recipients.personLine6
 - ℹ️ [BM-052] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode, document.fullDocumentCode2
 - ℹ️ [BM-060] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown
 - ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
+  - document.fullDocumentCode, decision.decisionLine10, document.fullDocumentCode, decision.decisionLine10
 - ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
+  - decision.decisionLine10, document.fullDocumentCode
 - ℹ️ [BM-060] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode
 - ℹ️ [BM-061] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown
 - ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
+  - document.fullDocumentCode, recipients.personLine3, document.fullDocumentCode, recipients.personLine3
 - ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
+  - document.fullDocumentCode, recipients.personLine3
 - ℹ️ [BM-061] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode
 - ℹ️ [BM-062] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, document.fullDocumentCode, decision.decisionLine11, recipients.personLine5, decision.decisionLine, document.fullDocumentCode, decision.decisionLine11, recipients.personLine5
 - ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, decision.decisionLine11, document.fullDocumentCode, recipients.personLine5
 - ℹ️ [BM-062] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine, document.fullDocumentCode
 - ℹ️ [BM-063] UNKNOWN_FIELD_SOURCE
   - document.issuePlaceAndDateLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
-  - document.issuePlaceAndDateLine, document.fullDocumentCode, document.issuePlaceAndDateLine, document.fullDocumentCode
+  - document.issuePlaceAndDateLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine5, document.issuePlaceAndDateLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine5
 - ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
+  - document.fullDocumentCode, document.fullDocumentCode8, document.issuePlaceAndDateLine, recipients.personLine5
 - ℹ️ [BM-063] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode, document.issuePlaceAndDateLine
 - ℹ️ [BM-064] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown
 - ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
+  - document.fullDocumentCode, document.issueDate4, document.fullDocumentCode, document.issueDate4
 - ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
+  - document.fullDocumentCode, document.issueDate4
 - ℹ️ [BM-064] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode
 - ℹ️ [BM-065] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
 - ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
 - ℹ️ [BM-065] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine, document.fullDocumentCode
 - ℹ️ [BM-066] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
 - ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode
+  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
 - ℹ️ [BM-066] UNKNOWN_FIELD_SOURCE
   - decision.decisionLine, document.fullDocumentCode
 - ℹ️ [BM-067] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode:unknown, document.fullDocumentCode2:unknown
 - ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode, document.fullDocumentCode2
+  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3, document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
 - ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2
+  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
 - ℹ️ [BM-067] UNKNOWN_FIELD_SOURCE
   - document.fullDocumentCode, document.fullDocumentCode2
+- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province
+- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, person.idNumber2, person.occupation, person.occupation2, person.permanentAddress, person.permanentAddress2, person.permanentAddress3, person.province, person.temporaryAddress
+- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine
+- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
+  - decision.decisionLine, document.fullDocumentCode, document.issueDate, document.reasonLine, document.reasonLine2, document.summaryLine, person.currentAddress, person.currentAddress2, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
+- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
+- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
+- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress, document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress
+- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, person.currentAddress, person.dateOfBirth, person.personFullName
+- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.fullDocumentCode
+- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode
+- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine, document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine
+- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, legalBasis.legalBasisLine, person.currentAddress, person.dateOfBirth, person.personFullName
+- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.fullDocumentCode
+- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode
+- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber
+- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
+- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
+  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber
+- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
+  - case.caseNumber, document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName, person.province, person.ward
 
 ## Per-file Summary
 
 | BM | Quality | Slots | Fields | Bindings | UnknownSrc | reviewReq | Generic | Unresolved |
 |---|---|---|---|---|---|---|---|---|---|
-| BM-001 | VERIFIED | 39 | 39 | 39 | 0 | 0 | 0 | 0 |
-| BM-002 | VERIFIED | 30 | 30 | 30 | 0 | 0 | 0 | 0 |
-| BM-003 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
+| BM-001 | CONTRACT_REPAIR_REQUIRED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
+| BM-002 | CONTRACT_REPAIR_REQUIRED | 29 | 29 | 29 | 0 | 0 | 0 | 0 |
+| BM-003 | CONTRACT_REPAIR_REQUIRED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
 | BM-004 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-005 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
 | BM-006 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
@@ -343,8 +255,8 @@ _but does not prevent runtime rendering._
 | BM-048 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-049 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-050 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-051 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 1 | 3 | 0 | 0 |
-| BM-052 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
+| BM-051 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
+| BM-052 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
 | BM-053 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-054 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-055 | VERIFIED | 33 | 33 | 33 | 0 | 0 | 0 | 0 |
@@ -352,29 +264,29 @@ _but does not prevent runtime rendering._
 | BM-057 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-058 | VERIFIED | 36 | 36 | 36 | 0 | 0 | 0 | 0 |
 | BM-059 | CONTRACT_REPAIR_REQUIRED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
-| BM-060 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 1 | 3 | 0 | 0 |
-| BM-061 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 3 | 0 | 0 |
-| BM-062 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
-| BM-063 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
-| BM-064 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 1 | 3 | 0 | 0 |
-| BM-065 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
-| BM-066 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
-| BM-067 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 2 | 6 | 0 | 0 |
-| BM-068 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-069 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-060 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
+| BM-061 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 1 | 6 | 0 | 0 |
+| BM-062 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-063 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-064 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
+| BM-065 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-066 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-067 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-068 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
+| BM-069 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
 | BM-070 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-071 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-072 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-073 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-073 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
 | BM-074 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
-| BM-075 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-075 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
 | BM-076 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-077 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-077 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
 | BM-078 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-079 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-080 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-080 | CONTRACT_REPAIR_REQUIRED | 7 | 7 | 7 | 0 | 18 | 0 | 0 |
 | BM-081 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-082 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-082 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
 | BM-083 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-084 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-085 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
@@ -431,7 +343,7 @@ _but does not prevent runtime rendering._
 | BM-136 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-137 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
 | BM-138 | VERIFIED | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
-| BM-139 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-139 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
 | BM-140 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-141 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-142 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
@@ -454,10 +366,10 @@ _but does not prevent runtime rendering._
 | BM-159 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
 | BM-160 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-161 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
-| BM-162 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-163 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-164 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-165 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-162 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 21 | 0 | 0 |
+| BM-163 | CONTRACT_REPAIR_REQUIRED | 11 | 11 | 11 | 0 | 30 | 0 | 0 |
+| BM-164 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
+| BM-165 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-166 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-167 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-168 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
@@ -466,43 +378,43 @@ _but does not prevent runtime rendering._
 | BM-171 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-172 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-173 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
-| BM-174 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-175 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-176 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-177 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-178 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-179 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-180 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-181 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-182 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-183 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-184 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-185 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-186 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-187 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-188 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-189 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-190 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-191 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-192 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-193 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-194 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-195 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-196 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-197 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-198 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-199 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-200 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-201 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-202 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-203 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-204 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-205 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-206 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-207 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-208 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-209 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-210 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-211 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
-| BM-212 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-174 | VERIFIED | 11 | 11 | 11 | 0 | 0 | 0 | 0 |
+| BM-175 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-176 | VERIFIED | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
+| BM-177 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-178 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-179 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
+| BM-180 | VERIFIED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-181 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-182 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-183 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
+| BM-184 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
+| BM-185 | VERIFIED | 6 | 6 | 6 | 0 | 0 | 0 | 0 |
+| BM-186 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-187 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-188 | VERIFIED | 18 | 18 | 18 | 0 | 0 | 0 | 0 |
+| BM-189 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-190 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
+| BM-191 | VERIFIED | 18 | 18 | 18 | 0 | 0 | 0 | 0 |
+| BM-192 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-193 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-194 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-195 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-196 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-197 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
+| BM-198 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-199 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-200 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
+| BM-201 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
+| BM-202 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-203 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
+| BM-204 | VERIFIED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-205 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-206 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-207 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-208 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
+| BM-209 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
+| BM-210 | VERIFIED | 12 | 12 | 12 | 0 | 0 | 0 | 0 |
+| BM-211 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
+| BM-212 | VERIFIED | 25 | 25 | 25 | 0 | 0 | 0 | 0 |
 | BM-213 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |

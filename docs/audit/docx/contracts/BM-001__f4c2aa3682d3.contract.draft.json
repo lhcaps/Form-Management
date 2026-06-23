@@ -15,7 +15,7 @@
   },
   "extractionSource": {
     "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-001/BM-001_normalized.docx",
+    "relativePath": "storage\\templates\\normalized-docx\\BM-001\\BM-001_normalized.docx",
     "sha256": "e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77",
     "format": "docx"
   },
@@ -25,14 +25,14 @@
       "slotId": "document.issuePlaceDateLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0010",
+        "blockId": null,
         "tableCellId": null
       },
       "context": "{{document.issuePlaceDateLine}}",
-      "label": "Dia danh, ngay ban hanh",
-      "slotType": "text",
+      "label": "issuePlaceDateLine",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -41,115 +41,20 @@
       "reviewRequired": true
     },
     {
-      "slotId": "reception.startedAtTimeText",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
-        "tableCellId": null
-      },
-      "context": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-      "label": "Thoi diem bat dau tiep nhan (gio)",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Hồi",
-        "textAfter": ", ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.lo",
-        "rawPattern": "{{reception.startedAtTimeText}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtDay",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
-        "tableCellId": null
-      },
-      "context": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-      "label": "Ngay bat dau tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Hồi {{reception.startedAtTimeText}}, ngày",
-        "textAfter": "tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-        "rawPattern": "{{reception.startedAtDay}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtMonth",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
-        "tableCellId": null
-      },
-      "context": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-      "label": "Thang bat dau tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng",
-        "textAfter": "năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-        "rawPattern": "{{reception.startedAtMonth}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtYear",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
-        "tableCellId": null
-      },
-      "context": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-      "label": "Nam bat dau tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm",
-        "textAfter": ", tại {{reception.locationName}}",
-        "rawPattern": "{{reception.startedAtYear}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.locationName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
-        "tableCellId": null
-      },
-      "context": "Hồi {{reception.startedAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại {{reception.locationName}}",
-      "label": "Dia diem tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "edAtTimeText}}, ngày {{reception.startedAtDay}} tháng {{reception.startedAtMonth}} năm {{reception.startedAtYear}}, tại",
-        "textAfter": "",
-        "rawPattern": "{{reception.locationName}}"
-      },
-      "reviewRequired": true
-    },
-    {
       "slotId": "receiver.fullName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0016",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Tôi: {{receiver.fullName}};chức danh: {{receiver.positionTitle}}",
-      "label": "Ho ten nguoi tiep nhan",
+      "context": "{{receiver.fullName}}",
+      "label": "fullName",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Tôi:",
-        "textAfter": ";chức danh: {{receiver.positionTitle}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{receiver.fullName}}"
       },
       "reviewRequired": true
@@ -158,16 +63,16 @@
       "slotId": "receiver.positionTitle",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0016",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Tôi: {{receiver.fullName}};chức danh: {{receiver.positionTitle}}",
-      "label": "Chuc danh nguoi tiep nhan",
+      "context": "{{receiver.positionTitle}}",
+      "label": "positionTitle",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Tôi: {{receiver.fullName}};chức danh:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{receiver.positionTitle}}"
       },
@@ -177,16 +82,16 @@
       "slotId": "receiver.departmentName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0017",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Đơn vị công tác {{receiver.departmentName}}",
-      "label": "Don vi cong tac",
+      "context": "{{receiver.departmentName}}",
+      "label": "departmentName",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Đơn vị công tác",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{receiver.departmentName}}"
       },
@@ -196,17 +101,17 @@
       "slotId": "informant.fullName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0019",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Họ tên: {{informant.fullName}} Giới tính: {{informant.genderLabel}}",
-      "label": "Ho ten nguoi cung cap",
+      "context": "{{informant.fullName}}",
+      "label": "fullName",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Họ tên:",
-        "textAfter": "Giới tính: {{informant.genderLabel}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.fullName}}"
       },
       "reviewRequired": true
@@ -215,16 +120,16 @@
       "slotId": "informant.genderLabel",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0019",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Họ tên: {{informant.fullName}} Giới tính: {{informant.genderLabel}}",
-      "label": "Gioi tinh",
+      "context": "{{informant.genderLabel}}",
+      "label": "genderLabel",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Họ tên: {{informant.fullName}} Giới tính:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.genderLabel}}"
       },
@@ -234,16 +139,16 @@
       "slotId": "informant.otherName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0020",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Tên gọi khác: {{informant.otherName}}",
-      "label": "Ten goi khac",
+      "context": "{{informant.otherName}}",
+      "label": "otherName",
       "slotType": "text",
-      "required": false,
-      "confidence": 1,
+      "required": true,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Tên gọi khác:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.otherName}}"
       },
@@ -253,17 +158,17 @@
       "slotId": "informant.birthDay",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0021",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
-      "label": "Ngay sinh",
-      "slotType": "text",
+      "context": "{{informant.birthDay}}",
+      "label": "birthDay",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Sinh ngày",
-        "textAfter": "tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.birthDay}}"
       },
       "reviewRequired": true
@@ -272,17 +177,17 @@
       "slotId": "informant.birthMonth",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0021",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
-      "label": "Thang sinh",
-      "slotType": "text",
+      "context": "{{informant.birthMonth}}",
+      "label": "birthMonth",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Sinh ngày {{informant.birthDay}} tháng",
-        "textAfter": "năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.birthMonth}}"
       },
       "reviewRequired": true
@@ -291,17 +196,17 @@
       "slotId": "informant.birthYear",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0021",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
-      "label": "Nam sinh",
-      "slotType": "text",
+      "context": "{{informant.birthYear}}",
+      "label": "birthYear",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm",
-        "textAfter": "tại: {{informant.placeOfBirth}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.birthYear}}"
       },
       "reviewRequired": true
@@ -310,16 +215,16 @@
       "slotId": "informant.placeOfBirth",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0021",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại: {{informant.placeOfBirth}}",
-      "label": "Noi sinh",
+      "context": "{{informant.placeOfBirth}}",
+      "label": "placeOfBirth",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Sinh ngày {{informant.birthDay}} tháng {{informant.birthMonth}} năm {{informant.birthYear}} tại:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.placeOfBirth}}"
       },
@@ -329,17 +234,17 @@
       "slotId": "informant.nationality",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0022",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Quốc tịch: {{informant.nationality}}; Dân tộc: {{informant.ethnicity}}; Tôn giáo: {{informant.religion}}",
-      "label": "Quoc tich",
+      "context": "{{informant.nationality}}",
+      "label": "nationality",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Quốc tịch:",
-        "textAfter": "; Dân tộc: {{informant.ethnicity}}; Tôn giáo: {{informant.religion}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.nationality}}"
       },
       "reviewRequired": true
@@ -348,17 +253,17 @@
       "slotId": "informant.ethnicity",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0022",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Quốc tịch: {{informant.nationality}}; Dân tộc: {{informant.ethnicity}}; Tôn giáo: {{informant.religion}}",
-      "label": "Dan toc",
+      "context": "{{informant.ethnicity}}",
+      "label": "ethnicity",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Quốc tịch: {{informant.nationality}}; Dân tộc:",
-        "textAfter": "; Tôn giáo: {{informant.religion}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.ethnicity}}"
       },
       "reviewRequired": true
@@ -367,16 +272,16 @@
       "slotId": "informant.religion",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0022",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Quốc tịch: {{informant.nationality}}; Dân tộc: {{informant.ethnicity}}; Tôn giáo: {{informant.religion}}",
-      "label": "Ton giao",
+      "context": "{{informant.religion}}",
+      "label": "religion",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Quốc tịch: {{informant.nationality}}; Dân tộc: {{informant.ethnicity}}; Tôn giáo:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.religion}}"
       },
@@ -386,16 +291,16 @@
       "slotId": "informant.occupation",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0023",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Nghề nghiệp: {{informant.occupation}}",
-      "label": "Nghe nghiep",
+      "context": "{{informant.occupation}}",
+      "label": "occupation",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Nghề nghiệp:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.occupation}}"
       },
@@ -405,16 +310,16 @@
       "slotId": "informant.identityNo",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0024",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{informant.identityNo}}",
-      "label": "So CMND/CCCD/HC",
+      "context": "{{informant.identityNo}}",
+      "label": "identityNo",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.identityNo}}"
       },
@@ -424,17 +329,17 @@
       "slotId": "informant.identityIssuedDay",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0025",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Cấp ngày {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
-      "label": "Ngay cap CMND",
-      "slotType": "text",
+      "context": "{{informant.identityIssuedDay}}",
+      "label": "identityIssuedDay",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Cấp ngày",
-        "textAfter": "tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.identityIssuedDay}}"
       },
       "reviewRequired": true
@@ -443,17 +348,17 @@
       "slotId": "informant.identityIssuedMonth",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0025",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Cấp ngày {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
-      "label": "Thang cap",
-      "slotType": "text",
+      "context": "{{informant.identityIssuedMonth}}",
+      "label": "identityIssuedMonth",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Cấp ngày {{informant.identityIssuedDay}} tháng",
-        "textAfter": "năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.identityIssuedMonth}}"
       },
       "reviewRequired": true
@@ -462,17 +367,17 @@
       "slotId": "informant.identityIssuedYear",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0025",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Cấp ngày {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
-      "label": "Nam cap",
-      "slotType": "text",
+      "context": "{{informant.identityIssuedYear}}",
+      "label": "identityIssuedYear",
+      "slotType": "datePart",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Cấp ngày {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm",
-        "textAfter": "Nơi cấp: {{informant.identityIssuedPlace}}",
+        "textBefore": "",
+        "textAfter": "",
         "rawPattern": "{{informant.identityIssuedYear}}"
       },
       "reviewRequired": true
@@ -481,16 +386,16 @@
       "slotId": "informant.identityIssuedPlace",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0025",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Cấp ngày {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp: {{informant.identityIssuedPlace}}",
-      "label": "Noi cap",
+      "context": "{{informant.identityIssuedPlace}}",
+      "label": "identityIssuedPlace",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "y {{informant.identityIssuedDay}} tháng {{informant.identityIssuedMonth}} năm {{informant.identityIssuedYear}} Nơi cấp:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.identityIssuedPlace}}"
       },
@@ -500,16 +405,16 @@
       "slotId": "informant.permanentAddress",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0026",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Nơi thường trú: {{informant.permanentAddress}}",
-      "label": "Noi thuong tru",
+      "context": "{{informant.permanentAddress}}",
+      "label": "permanentAddress",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Nơi thường trú:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.permanentAddress}}"
       },
@@ -519,16 +424,16 @@
       "slotId": "informant.temporaryAddress",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0027",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Nơi tạm trú: {{informant.temporaryAddress}}",
-      "label": "Noi tam tru",
+      "context": "{{informant.temporaryAddress}}",
+      "label": "temporaryAddress",
       "slotType": "text",
-      "required": false,
-      "confidence": 1,
+      "required": true,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Nơi tạm trú:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.temporaryAddress}}"
       },
@@ -538,16 +443,16 @@
       "slotId": "informant.currentAddress",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0028",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Nơi ở hiện tại: {{informant.currentAddress}}",
-      "label": "Noi o hien tai",
+      "context": "{{informant.currentAddress}}",
+      "label": "currentAddress",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Nơi ở hiện tại:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.currentAddress}}"
       },
@@ -557,16 +462,16 @@
       "slotId": "informant.phone",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0029",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Số điện thoại: {{informant.phone}}",
-      "label": "So dien thoai",
+      "context": "{{informant.phone}}",
+      "label": "phone",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Số điện thoại:",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.phone}}"
       },
@@ -576,132 +481,18 @@
       "slotId": "informant.representedOrganization",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0030",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "Là người đại diện của cơ quan, tổ chức (nếu có): {{informant.representedOrganization}}",
-      "label": "Co quan/To chuc dai dien",
+      "context": "{{informant.representedOrganization}}",
+      "label": "representedOrganization",
       "slotType": "text",
-      "required": false,
-      "confidence": 1,
+      "required": true,
+      "confidence": 0.9,
       "evidence": {
-        "textBefore": "Là người đại diện của cơ quan, tổ chức (nếu có):",
+        "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{informant.representedOrganization}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "crimeReport.content",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0031",
-        "tableCellId": null
-      },
-      "context": "I. NỘI DUNG NGUỒN TIN VỀ TỘI PHẠM: {{crimeReport.content}}",
-      "label": "Noi dung nguon tin ve toi pham",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "I. NỘI DUNG NGUỒN TIN VỀ TỘI PHẠM:",
-        "textAfter": "",
-        "rawPattern": "{{crimeReport.content}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "crimeReport.attachedItemsDescription",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0032",
-        "tableCellId": null
-      },
-      "context": "II. CÁC TÀI LIỆU, ĐỒ VẬT GIAO NỘP KÈM THEO (nếu có): {{crimeReport.attachedItemsDescription}}",
-      "label": "Tai lieu/dam cuoi kem theo",
-      "slotType": "multilineText",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "II. CÁC TÀI LIỆU, ĐỒ VẬT GIAO NỘP KÈM THEO (nếu có):",
-        "textAfter": "",
-        "rawPattern": "{{crimeReport.attachedItemsDescription}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtTimeText",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-      "label": "Thoi diem ket thuc tiep nhan (gio)",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi",
-        "textAfter": "ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-        "rawPattern": "{{reception.endedAtTimeText}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtDay",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-      "label": "Ngay ket thuc tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày",
-        "textAfter": "tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-        "rawPattern": "{{reception.endedAtDay}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtMonth",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-      "label": "Thang ket thuc tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng",
-        "textAfter": "năm {{reception.endedAtYear}}.",
-        "rawPattern": "{{reception.endedAtMonth}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtYear",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "Việc tiếp nhận nguồn tin về tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm {{reception.endedAtYear}}.",
-      "label": "Nam ket thuc tiep nhan",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "tội phạm kết thúc hồi {{reception.endedAtTimeText}} ngày {{reception.endedAtDay}} tháng {{reception.endedAtMonth}} năm",
-        "textAfter": ".",
-        "rawPattern": "{{reception.endedAtYear}}"
       },
       "reviewRequired": true
     },
@@ -709,14 +500,14 @@
       "slotId": "informant.signerName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0041",
+        "blockId": null,
         "tableCellId": null
       },
       "context": "{{informant.signerName}}",
-      "label": "Nguoi cung cap ky",
+      "label": "signerName",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -728,14 +519,14 @@
       "slotId": "receiver.signerName",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0047",
+        "blockId": null,
         "tableCellId": null
       },
       "context": "{{receiver.signerName}}",
-      "label": "Nguoi tiep nhan ky",
+      "label": "signerName",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -747,14 +538,14 @@
       "slotId": "recipients.archiveLine",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0048",
+        "blockId": null,
         "tableCellId": null
       },
       "context": "{{recipients.archiveLine}}",
-      "label": "Luu ho so",
+      "label": "archiveLine",
       "slotType": "text",
       "required": true,
-      "confidence": 1,
+      "confidence": 0.9,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
@@ -767,401 +558,281 @@
     {
       "path": "document.issuePlaceDateLine",
       "type": "string",
-      "label": "Dia danh, ngay ban hanh",
+      "label": "issuePlaceDateLine",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Tieu de van ban",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.startedAtTimeText",
-      "type": "string",
-      "label": "Thoi diem bat dau tiep nhan (gio)",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.startedAtDay",
-      "type": "string",
-      "label": "Ngay bat dau tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.startedAtMonth",
-      "type": "string",
-      "label": "Thang bat dau tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.startedAtYear",
-      "type": "string",
-      "label": "Nam bat dau tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.locationName",
-      "type": "string",
-      "label": "Dia diem tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
+      "section": "document",
       "reviewRequired": true
     },
     {
       "path": "receiver.fullName",
       "type": "string",
-      "label": "Ho ten nguoi tiep nhan",
+      "label": "fullName",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi tiep nhan",
+      "section": "receiver",
       "reviewRequired": true
     },
     {
       "path": "receiver.positionTitle",
       "type": "string",
-      "label": "Chuc danh nguoi tiep nhan",
+      "label": "positionTitle",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi tiep nhan",
+      "section": "receiver",
       "reviewRequired": true
     },
     {
       "path": "receiver.departmentName",
       "type": "string",
-      "label": "Don vi cong tac",
+      "label": "departmentName",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi tiep nhan",
+      "section": "receiver",
       "reviewRequired": true
     },
     {
       "path": "informant.fullName",
       "type": "string",
-      "label": "Ho ten nguoi cung cap",
+      "label": "fullName",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.genderLabel",
       "type": "string",
-      "label": "Gioi tinh",
+      "label": "genderLabel",
       "source": "unknown",
       "required": true,
-      "uiComponent": "select",
-      "section": "Nguoi cung cap thong tin",
-      "reviewRequired": true,
-      "options": [
-        {
-          "value": "Nam",
-          "label": "Nam"
-        },
-        {
-          "value": "Nu",
-          "label": "Nu"
-        }
-      ]
+      "uiComponent": "text",
+      "section": "informant",
+      "reviewRequired": true
     },
     {
       "path": "informant.otherName",
       "type": "string",
-      "label": "Ten goi khac",
+      "label": "otherName",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.birthDay",
       "type": "string",
-      "label": "Ngay sinh",
+      "label": "birthDay",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.birthMonth",
       "type": "string",
-      "label": "Thang sinh",
+      "label": "birthMonth",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.birthYear",
       "type": "string",
-      "label": "Nam sinh",
+      "label": "birthYear",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.placeOfBirth",
       "type": "string",
-      "label": "Noi sinh",
+      "label": "placeOfBirth",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.nationality",
       "type": "string",
-      "label": "Quoc tich",
+      "label": "nationality",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.ethnicity",
       "type": "string",
-      "label": "Dan toc",
+      "label": "ethnicity",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.religion",
       "type": "string",
-      "label": "Ton giao",
+      "label": "religion",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.occupation",
       "type": "string",
-      "label": "Nghe nghiep",
+      "label": "occupation",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.identityNo",
       "type": "string",
-      "label": "So CMND/CCCD/HC",
+      "label": "identityNo",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.identityIssuedDay",
       "type": "string",
-      "label": "Ngay cap CMND",
+      "label": "identityIssuedDay",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.identityIssuedMonth",
       "type": "string",
-      "label": "Thang cap",
+      "label": "identityIssuedMonth",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.identityIssuedYear",
       "type": "string",
-      "label": "Nam cap",
+      "label": "identityIssuedYear",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.identityIssuedPlace",
       "type": "string",
-      "label": "Noi cap",
+      "label": "identityIssuedPlace",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.permanentAddress",
       "type": "string",
-      "label": "Noi thuong tru",
+      "label": "permanentAddress",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.temporaryAddress",
       "type": "string",
-      "label": "Noi tam tru",
+      "label": "temporaryAddress",
       "source": "unknown",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.currentAddress",
       "type": "string",
-      "label": "Noi o hien tai",
+      "label": "currentAddress",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.phone",
       "type": "string",
-      "label": "So dien thoai",
+      "label": "phone",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.representedOrganization",
       "type": "string",
-      "label": "Co quan/To chuc dai dien",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "text",
-      "section": "Nguoi cung cap thong tin",
-      "reviewRequired": true
-    },
-    {
-      "path": "crimeReport.content",
-      "type": "string",
-      "label": "Noi dung nguon tin ve toi pham",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Noi dung nguon tin",
-      "reviewRequired": true
-    },
-    {
-      "path": "crimeReport.attachedItemsDescription",
-      "type": "string",
-      "label": "Tai lieu/dam cuoi kem theo",
-      "source": "unknown",
-      "required": false,
-      "uiComponent": "textarea",
-      "section": "Noi dung nguon tin",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.endedAtTimeText",
-      "type": "string",
-      "label": "Thoi diem ket thuc tiep nhan (gio)",
+      "label": "representedOrganization",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.endedAtDay",
-      "type": "string",
-      "label": "Ngay ket thuc tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.endedAtMonth",
-      "type": "string",
-      "label": "Thang ket thuc tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
-      "reviewRequired": true
-    },
-    {
-      "path": "reception.endedAtYear",
-      "type": "string",
-      "label": "Nam ket thuc tiep nhan",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Thong tin tiep nhan",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "informant.signerName",
       "type": "string",
-      "label": "Nguoi cung cap ky",
+      "label": "signerName",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Chu ky",
+      "section": "informant",
       "reviewRequired": true
     },
     {
       "path": "receiver.signerName",
       "type": "string",
-      "label": "Nguoi tiep nhan ky",
+      "label": "signerName",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Chu ky",
+      "section": "receiver",
       "reviewRequired": true
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
-      "label": "Luu ho so",
+      "label": "archiveLine",
       "source": "unknown",
       "required": true,
       "uiComponent": "text",
-      "section": "Noi nhan",
+      "section": "recipients",
       "reviewRequired": true
     }
   ],
@@ -1169,41 +840,6 @@
     {
       "slotId": "document.issuePlaceDateLine",
       "from": "document.issuePlaceDateLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtTimeText",
-      "from": "reception.startedAtTimeText",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtDay",
-      "from": "reception.startedAtDay",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtMonth",
-      "from": "reception.startedAtMonth",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.startedAtYear",
-      "from": "reception.startedAtYear",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.locationName",
-      "from": "reception.locationName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -1377,48 +1013,6 @@
       "reviewRequired": true
     },
     {
-      "slotId": "crimeReport.content",
-      "from": "crimeReport.content",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "crimeReport.attachedItemsDescription",
-      "from": "crimeReport.attachedItemsDescription",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtTimeText",
-      "from": "reception.endedAtTimeText",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtDay",
-      "from": "reception.endedAtDay",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtMonth",
-      "from": "reception.endedAtMonth",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "reception.endedAtYear",
-      "from": "reception.endedAtYear",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
       "slotId": "informant.signerName",
       "from": "informant.signerName",
       "transform": "identity",
@@ -1487,9 +1081,7 @@
     }
   ],
   "unresolvedQuestions": [],
-  "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
-  ],
+  "warnings": [],
   "productMetadata": {
     "stage": {
       "code": "01",
@@ -1513,172 +1105,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "reception",
-      "receiver",
-      "informant",
-      "crimeReport",
-      "recipients"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.issuePlaceDateLine",
-        "control": "text"
-      },
-      {
-        "path": "reception.startedAtTimeText",
-        "control": "text"
-      },
-      {
-        "path": "reception.startedAtDay",
-        "control": "text"
-      },
-      {
-        "path": "reception.startedAtMonth",
-        "control": "text"
-      },
-      {
-        "path": "reception.startedAtYear",
-        "control": "text"
-      },
-      {
-        "path": "reception.locationName",
-        "control": "text"
-      },
-      {
-        "path": "receiver.fullName",
-        "control": "text"
-      },
-      {
-        "path": "receiver.positionTitle",
-        "control": "text"
-      },
-      {
-        "path": "receiver.departmentName",
-        "control": "text"
-      },
-      {
-        "path": "informant.fullName",
-        "control": "text"
-      },
-      {
-        "path": "informant.genderLabel",
-        "control": "select"
-      },
-      {
-        "path": "informant.otherName",
-        "control": "text"
-      },
-      {
-        "path": "informant.birthDay",
-        "control": "text"
-      },
-      {
-        "path": "informant.birthMonth",
-        "control": "text"
-      },
-      {
-        "path": "informant.birthYear",
-        "control": "text"
-      },
-      {
-        "path": "informant.placeOfBirth",
-        "control": "text"
-      },
-      {
-        "path": "informant.nationality",
-        "control": "text"
-      },
-      {
-        "path": "informant.ethnicity",
-        "control": "text"
-      },
-      {
-        "path": "informant.religion",
-        "control": "text"
-      },
-      {
-        "path": "informant.occupation",
-        "control": "text"
-      },
-      {
-        "path": "informant.identityNo",
-        "control": "text"
-      },
-      {
-        "path": "informant.identityIssuedDay",
-        "control": "text"
-      },
-      {
-        "path": "informant.identityIssuedMonth",
-        "control": "text"
-      },
-      {
-        "path": "informant.identityIssuedYear",
-        "control": "text"
-      },
-      {
-        "path": "informant.identityIssuedPlace",
-        "control": "text"
-      },
-      {
-        "path": "informant.permanentAddress",
-        "control": "text"
-      },
-      {
-        "path": "informant.temporaryAddress",
-        "control": "text"
-      },
-      {
-        "path": "informant.currentAddress",
-        "control": "text"
-      },
-      {
-        "path": "informant.phone",
-        "control": "text"
-      },
-      {
-        "path": "informant.representedOrganization",
-        "control": "text"
-      },
-      {
-        "path": "crimeReport.content",
-        "control": "textarea"
-      },
-      {
-        "path": "crimeReport.attachedItemsDescription",
-        "control": "textarea"
-      },
-      {
-        "path": "reception.endedAtTimeText",
-        "control": "text"
-      },
-      {
-        "path": "reception.endedAtDay",
-        "control": "text"
-      },
-      {
-        "path": "reception.endedAtMonth",
-        "control": "text"
-      },
-      {
-        "path": "reception.endedAtYear",
-        "control": "text"
-      },
-      {
-        "path": "informant.signerName",
-        "control": "text"
-      },
-      {
-        "path": "receiver.signerName",
-        "control": "text"
-      },
-      {
-        "path": "recipients.archiveLine",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -1690,5 +1118,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.922Z"
+  "generatedAt": "2026-06-23T07:24:45.461Z"
 }

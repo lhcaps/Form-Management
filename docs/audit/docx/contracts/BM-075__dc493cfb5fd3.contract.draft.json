@@ -14,223 +14,241 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-075/BM-075_normalized.docx",
-    "sha256": "1773c98f41e380d58a12861581a9c5c63ddf319fcb38647a57e5ea094c531ddf",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/75-Đề nghị thay đổi người phiên dịch, người dịch thuật.doc",
+    "sha256": "dc493cfb5fd3910ff6c4f5ed8ddb5f3cab9047359de74a62fe017c2494591cf6",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.name",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0015",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
-      "label": "Tên cơ quan",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT …",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "agency.name",
+      "slotId": "agency.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0027",
+        "partName": "WordDocument",
+        "blockId": "P0013",
         "tableCellId": null
       },
-      "context": "VIỆN KIỂM SÁT2{{document.field2}}",
-      "label": "Tên cơ quan",
+      "context": "VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "agency",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VIỆN KIỂM SÁT2",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field2}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
+      "slotId": "document.field3",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
+        "partName": "WordDocument",
+        "blockId": "P0016",
         "tableCellId": null
       },
-      "context": "Xét thấy{{document.field3}}",
-      "label": "Ô trống",
+      "context": "..................................................................................................................,",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Xét thấy",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field3}}"
+        "rawPattern": ".................................................................................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
+      "slotId": "decision.field4",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
+        "partName": "WordDocument",
+        "blockId": "P0019",
         "tableCellId": null
       },
-      "context": "Cơ quan, người có thẩm quyền{{agency.field4}}… là người phiên dịch cho…/người dịch thuật tài liệu{{agency.field5}}… bằng người phiên dịch/người dịch thuật khác./.",
-      "label": "Ô trống",
+      "context": "... ra Quyết định thay đổi ông/bà",
+      "label": "Ô trống dạng \"...\" (decision)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "decision",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Cơ quan, người có thẩm quyền",
-        "textAfter": "… là người phiên dịch cho…/người dịch thuật tài liệu{{agency.field5}}… bằng người phiên dịch/người dịch thuật khác./.",
-        "rawPattern": "{{agency.field4}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.field",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "Cơ quan, người có thẩm quyền{{agency.field4}}… là người phiên dịch cho…/người dịch thuật tài liệu{{agency.field5}}… bằng người phiên dịch/người dịch thuật khác./.",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Cơ quan, người có thẩm quyền{{agency.field4}}… là người phiên dịch cho…/người dịch thuật tài liệu",
-        "textAfter": "… bằng người phiên dịch/người dịch thuật khác./.",
-        "rawPattern": "{{agency.field5}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.field",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0037",
-        "tableCellId": null
-      },
-      "context": "- 6{{document.field6}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "- 6",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field6}}"
+        "rawPattern": "..."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "case.field5",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0022",
+        "tableCellId": null
+      },
+      "context": "... trong vụ việc/vụ án",
+      "label": "Ô trống dạng \"...\" (case)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "case",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.field6",
+      "location": {
+        "partName": "WordDocument",
+        "blockId": "P0025",
+        "tableCellId": null
+      },
+      "context": "- 6...;",
+      "label": "Ô trống dạng \"...\" (document)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.name",
+      "path": "document.field1",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "agency.name",
+      "path": "agency.field2",
       "type": "string",
-      "label": "Tên cơ quan",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "document.field",
+      "path": "document.field3",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "document.field",
+      "path": "decision.field4",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (decision)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "decision",
       "reviewRequired": true
     },
     {
-      "path": "document.field",
+      "path": "case.field5",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (case)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "case",
       "reviewRequired": true
     },
     {
-      "path": "document.field",
+      "path": "document.field6",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "document",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.name",
-      "from": "agency.name",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.name",
-      "from": "agency.name",
+      "slotId": "agency.field2",
+      "from": "agency.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
+      "slotId": "document.field3",
+      "from": "document.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
+      "slotId": "decision.field4",
+      "from": "decision.field4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
+      "slotId": "case.field5",
+      "from": "case.field5",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.field",
-      "from": "document.field",
+      "slotId": "document.field6",
+      "from": "document.field6",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -239,7 +257,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 104 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -264,36 +282,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
-        "control": "text"
-      },
-      {
-        "path": "agency.field4",
-        "control": "text"
-      },
-      {
-        "path": "agency.field5",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -305,5 +295,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.965Z"
+  "generatedAt": "2026-06-23T07:24:46.094Z"
 }

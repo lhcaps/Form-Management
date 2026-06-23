@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-060/BM-060_normalized.docx",
-    "sha256": "b969aea53abd9b8e2108037f5996d323d81494e90f2fe8e6b3820634c0a201cc",
+    "sha256": "d42a2a8d0349afe28f787c71583d054a7b5c815ad7faab8a74efe9ea68c03dc2",
     "format": "docx"
   },
   "status": "locked",
@@ -36,13 +36,13 @@
       "evidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "{{agency.name}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}",
+        "rawPattern": "{{agency.name}}",
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0017"
       }
@@ -65,6 +65,25 @@
         "rawPattern": "{{document.field2}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "decision.decisionLine10",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+        "textAfter": "",
+        "rawPattern": "{{decision.decisionLine10}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -78,7 +97,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0017"
@@ -89,6 +108,15 @@
       "type": "string",
       "label": "Ô trống",
       "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "decision.decisionLine10",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": true
@@ -105,6 +133,13 @@
     {
       "slotId": "document.fullDocumentCode",
       "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "decision.decisionLine10",
+      "from": "decision.decisionLine10",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -126,7 +161,7 @@
     "reviewRequired": false,
     "reviewKind": "human",
     "reviewedBy": "Le Huy",
-    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -201,7 +236,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.957Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-22T15:33:55.517Z",
   "reviewKind": "human"
 }

@@ -1,0 +1,30 @@
+[
+  {
+    "templateCode": "BM-139",
+    "changes": [
+      {
+        "oldPlaceholder": "agency.dongDia",
+        "newPlaceholder": "recipients.localityName",
+        "reason": "Asks recipient agency for their locality (district/province) when responding to the recommendation document",
+        "evidence": "In body text: 'Trả lời bằng văn bản cho Viện kiểm sát 2… về kết quả… nhận được Kiến nghị. {{recipients.localityName}}'",
+        "file": "storage/templates/normalized-docx/BM-139/BM-139_normalized.docx"
+      },
+      {
+        "oldPlaceholder": "document.chuThe",
+        "newPlaceholder": "person.personFullName",
+        "reason": "Signatory full name field in closing block — requires full name of signing person",
+        "evidence": "In signature block: '6 {{person.personFullName}} ( Ký, ghi rõ họ tên, đóng dấu )'",
+        "file": "storage/templates/normalized-docx/BM-139/BM-139_normalized.docx"
+      },
+      {
+        "oldPlaceholder": "document.ngayBan",
+        "newPlaceholder": "document.issueDate",
+        "reason": "Document issuance date — placeholder sits between section 1.3 (reasoning) and section 2 (instructions) as the document date",
+        "evidence": "Between sections: '{{agency.diaDanh}} 1.3… {{document.issueDate}} 2. Để bảo đảm…'",
+        "file": "storage/templates/normalized-docx/BM-139/BM-139_normalized.docx"
+      }
+    ],
+    "docxOldHash": "3578741610760ce1e1051bafbc4c875b153a5719e18efdee3e2846b15a5f96bd",
+    "docxNewHash": "5fbae3793905427ec2cbf3277bf13296760523686c07f7f5757f428c5943b5eb"
+  }
+]

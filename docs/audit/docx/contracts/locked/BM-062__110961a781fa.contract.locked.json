@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-062/BM-062_normalized.docx",
-    "sha256": "b4b237215df25dd5cbf062277094eb2979fda427a3a8410b7257716cd5d0f5e9",
+    "sha256": "cc6582c0607bfbbaae3c94b85072a5abab1e0d8f8235a7f61457240705c2c86c",
     "format": "docx"
   },
   "status": "locked",
@@ -36,13 +36,13 @@
       "evidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "{{agency.name}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}",
+        "rawPattern": "{{agency.name}}",
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0020"
       }
@@ -110,6 +110,44 @@
         "rawPattern": "{{document.field6}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "decision.decisionLine11",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "si=\"Times New Roman\"/> {{decision.decisionLine11}}} <w:szCs w:va",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "si=\"Times New Roman\"/> {{decision.decisionLine11}}} <w:szCs w:va",
+        "textAfter": "",
+        "rawPattern": "{{decision.decisionLine11}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine5",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"left\" w:pos=\"9356\" w:leader=\"dot\"/",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> {{recipients.personLine5}}} <w:tab w:val=\"left\" w:pos=\"9356\" w:leader=\"dot\"/",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine5}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -123,7 +161,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0020"
@@ -148,7 +186,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] Họ tên:12",
         "blockId": "P0029"
@@ -159,6 +197,24 @@
       "type": "string",
       "label": "Ô trống",
       "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "decision.decisionLine11",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.personLine5",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": true
@@ -192,6 +248,20 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
+    },
+    {
+      "slotId": "decision.decisionLine11",
+      "from": "decision.decisionLine11",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine5",
+      "from": "recipients.personLine5",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -210,7 +280,7 @@
     "reviewRequired": false,
     "reviewKind": "human",
     "reviewedBy": "Le Huy",
-    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -318,7 +388,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.958Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-22T15:33:55.519Z",
   "reviewKind": "human"
 }

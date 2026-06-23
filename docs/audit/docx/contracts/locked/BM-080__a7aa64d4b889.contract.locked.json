@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-080/BM-080_normalized.docx",
-    "sha256": "09dcf96b9cdb0a61d385b363b2cb0ecb67a73317e7c63406da726c60591bcf21",
+    "sha256": "0ce387630c6198ab1a1c17b82d16ac589d9b741d1249209bf575dfa01e3cdd0c",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,120 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0024"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> {{document.field1}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> {{document.field1}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> {{document.field2}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> {{document.field2}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+        "textAfter": "",
+        "rawPattern": "{{document.field2}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.personFullName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\"",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\"",
+        "textAfter": "",
+        "rawPattern": "{{person.personFullName}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:",
+        "textAfter": "",
+        "rawPattern": "{{person.dateOfBirth}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.currentAddress",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w",
+        "textAfter": "",
+        "rawPattern": "{{person.currentAddress}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h",
+        "textAfter": "",
+        "rawPattern": "{{legalBasis.legalBasisLine}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -64,6 +178,60 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0024"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "person.personFullName",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "person.dateOfBirth",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "person.currentAddress",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "legalBasis.legalBasisLine",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
     }
   ],
   "renderBindings": [
@@ -73,6 +241,48 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.personFullName",
+      "from": "person.personFullName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "from": "person.dateOfBirth",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "person.currentAddress",
+      "from": "person.currentAddress",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "legalBasis.legalBasisLine",
+      "from": "legalBasis.legalBasisLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -156,7 +366,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.968Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-02 dedup)",
+  "reviewedAt": "2026-06-22T16:26:14.932Z",
   "reviewKind": "human"
 }

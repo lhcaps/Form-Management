@@ -14,697 +14,127 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-071/BM-071_normalized.docx",
-    "sha256": "bb31e78d732e90ad80a409cb058982e9b8d59b57bfbf2d2595db19bdeda01edc",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/03. NGUOI CO THAM QUYEN NGUOI THAM GIA TO TUNG/71-QĐ phân công KSV, KTV THQCT, KS việc giải quyết VAHS.doc",
+    "sha256": "cacf3f480888d48d28c342055a5187f311f87cf3f8f7023f0905e12cf6886624",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.parentName",
+      "slotId": "document.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0008",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "{{agency.parentName}}{{agency.name}}",
-      "label": "Cơ quan cấp trên",
+      "context": ".................................................",
+      "label": "Ô trống dạng \"...\" (document)",
       "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "{{agency.name}}",
-        "rawPattern": "{{agency.parentName}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "agency.name",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0008",
-        "tableCellId": null
-      },
-      "context": "{{agency.parentName}}{{agency.name}}",
-      "label": "Viện kiểm sát ban hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "{{agency.parentName}}",
-        "textAfter": "",
-        "rawPattern": "{{agency.name}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.documentCode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0012",
-        "tableCellId": null
-      },
-      "context": "Số: {{document.documentCode}}",
-      "label": "Số quyết định",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Số:",
-        "textAfter": "",
-        "rawPattern": "{{document.documentCode}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceAndDateLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0014",
-        "tableCellId": null
-      },
-      "context": "{{document.issuePlaceAndDateLine}}",
-      "label": "Địa danh, ngày ban hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.issuePlaceAndDateLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedRoleText",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0017",
-        "tableCellId": null
-      },
-      "context": "Phân công {{assignment.assignedRoleText}} thực hành quyền công tố, kiểm sát việc giải quyết vụ án hình sự",
-      "label": "Vai trò được phân công",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Phân công",
-        "textAfter": "thực hành quyền công tố, kiểm sát việc giải quyết vụ án hình sự",
-        "rawPattern": "{{assignment.assignedRoleText}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "official.issuerTitle",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0019",
-        "tableCellId": null
-      },
-      "context": "{{official.issuerTitle}}",
-      "label": "Chủ thể ban hành",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{official.issuerTitle}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.staffAssignmentProcedureArticlesLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0020",
-        "tableCellId": null
-      },
-      "context": "{{legalBasis.staffAssignmentProcedureArticlesLine}}",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{legalBasis.staffAssignmentProcedureArticlesLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "caseDecision.caseProsecutionDecisionLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0021",
-        "tableCellId": null
-      },
-      "context": "Căn cứ {{caseDecision.caseProsecutionDecisionLine}};",
-      "label": "Căn cứ quyết định truy tố",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Căn cứ",
-        "textAfter": ";",
-        "rawPattern": "{{caseDecision.caseProsecutionDecisionLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0023",
-        "tableCellId": null
-      },
-      "context": "Điều 1. Phân công ông/bà {{assignment.assignedOfficerName}}; {{assignment.assignedOfficerTitle}} của {{assignment.assignedOfficerAgencyName}} thực hành quyền công tố, kiểm sát việc giải quyết vụ án theo {{caseDecision.caseProsecutionDecisionLine}}.",
-      "label": "Họ tên Kiểm sát viên được phân công",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Điều 1. Phân công ông/bà",
-        "textAfter": "; {{assignment.assignedOfficerTitle}} của {{assignment.assignedOfficerAgencyName}} thực hành quyền công tố, kiểm sát việ",
-        "rawPattern": "{{assignment.assignedOfficerName}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerTitle",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0023",
-        "tableCellId": null
-      },
-      "context": "Điều 1. Phân công ông/bà {{assignment.assignedOfficerName}}; {{assignment.assignedOfficerTitle}} của {{assignment.assignedOfficerAgencyName}} thực hành quyền công tố, kiểm sát việc giải quyết vụ án theo {{caseDecision.caseProsecutionDecisionLine}}.",
-      "label": "Chức vụ Kiểm sát viên",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Điều 1. Phân công ông/bà {{assignment.assignedOfficerName}};",
-        "textAfter": "của {{assignment.assignedOfficerAgencyName}} thực hành quyền công tố, kiểm sát việc giải quyết vụ án theo {{caseDecisio",
-        "rawPattern": "{{assignment.assignedOfficerTitle}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerAgencyName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0023",
-        "tableCellId": null
-      },
-      "context": "Điều 1. Phân công ông/bà {{assignment.assignedOfficerName}}; {{assignment.assignedOfficerTitle}} của {{assignment.assignedOfficerAgencyName}} thực hành quyền công tố, kiểm sát việc giải quyết vụ án theo {{caseDecision.caseProsecutionDecisionLine}}.",
-      "label": "Đơn vị của Kiểm sát viên",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Điều 1. Phân công ông/bà {{assignment.assignedOfficerName}}; {{assignment.assignedOfficerTitle}} của",
-        "textAfter": "thực hành quyền công tố, kiểm sát việc giải quyết vụ án theo {{caseDecision.caseProsecutionDecisionLine}}.",
-        "rawPattern": "{{assignment.assignedOfficerAgencyName}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.additionalAssignedOfficersLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0024",
-        "tableCellId": null
-      },
-      "context": "{{assignment.additionalAssignedOfficersLine}}",
-      "label": "Phân công bổ sung",
-      "slotType": "multilineText",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "document",
+      "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{assignment.additionalAssignedOfficersLine}}"
+        "rawPattern": "................................................."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "assignment.responsibilityLine",
+      "slotId": "agency.field2",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0025",
+        "partName": "WordDocument",
+        "blockId": "P0015",
         "tableCellId": null
       },
-      "context": "Điều 2. Ông/Bà có tên nêu tại Điều 1 Quyết định này {{assignment.responsibilityLine}}./.",
-      "label": "Nhiệm vụ được phân công",
-      "slotType": "multilineText",
-      "required": true,
-      "confidence": 1,
+      "context": "VIỆN TRƯỞNG VIỆN KIỂM SÁT2...",
+      "label": "Ô trống dạng \"...\" (agency)",
+      "slotType": "text",
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "agency",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "Điều 2. Ông/Bà có tên nêu tại Điều 1 Quyết định này",
-        "textAfter": "./.",
-        "rawPattern": "{{assignment.responsibilityLine}}"
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "..."
       },
       "reviewRequired": true
     },
     {
-      "slotId": "recipients.investigationAuthorityLine",
+      "slotId": "receiver.field3",
       "location": {
-        "partName": "word/document.xml",
+        "partName": "WordDocument",
         "blockId": "P0028",
         "tableCellId": null
       },
-      "context": "{{recipients.investigationAuthorityLine}}{{recipients.assignedPersonLine}}{{recipients.archiveLine}}",
-      "label": "Nơi nhận - Cơ quan điều tra",
+      "context": "...; chức danh5",
+      "label": "Ô trống dạng \"...\" (receiver)",
       "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "{{recipients.assignedPersonLine}}{{recipients.archiveLine}}",
-        "rawPattern": "{{recipients.investigationAuthorityLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.assignedPersonLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0028",
-        "tableCellId": null
-      },
-      "context": "{{recipients.investigationAuthorityLine}}{{recipients.assignedPersonLine}}{{recipients.archiveLine}}",
-      "label": "Nơi nhận - Người được phân công",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "{{recipients.investigationAuthorityLine}}",
-        "textAfter": "{{recipients.archiveLine}}",
-        "rawPattern": "{{recipients.assignedPersonLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.archiveLine",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0028",
-        "tableCellId": null
-      },
-      "context": "{{recipients.investigationAuthorityLine}}{{recipients.assignedPersonLine}}{{recipients.archiveLine}}",
-      "label": "Lưu hồ sơ",
-      "slotType": "text",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "{{recipients.investigationAuthorityLine}}{{recipients.assignedPersonLine}}",
-        "textAfter": "",
-        "rawPattern": "{{recipients.archiveLine}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signMode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
-        "tableCellId": null
-      },
-      "context": "{{signature.signMode}}{{signature.positionTitle}}",
-      "label": "Chế độ ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "{{signature.positionTitle}}",
-        "rawPattern": "{{signature.signMode}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.positionTitle",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
-        "tableCellId": null
-      },
-      "context": "{{signature.signMode}}{{signature.positionTitle}}",
-      "label": "Chức vụ người ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "{{signature.signMode}}",
-        "textAfter": "",
-        "rawPattern": "{{signature.positionTitle}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signerName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0034",
-        "tableCellId": null
-      },
-      "context": "{{signature.signerName}}",
-      "label": "Người ký",
-      "slotType": "signature",
-      "required": true,
-      "confidence": 1,
+      "required": false,
+      "confidence": 0.4,
+      "suggestedNamespace": "receiver",
+      "suggestedBy": "heuristic",
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{signature.signerName}}"
+        "rawPattern": "..."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.parentName",
+      "path": "document.field1",
       "type": "string",
-      "label": "Cơ quan cấp trên",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "agency.name",
-      "type": "string",
-      "label": "Viện kiểm sát ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.documentCode",
-      "type": "string",
-      "label": "Số quyết định",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issuePlaceAndDateLine",
-      "type": "string",
-      "label": "Địa danh, ngày ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.assignedRoleText",
-      "type": "string",
-      "label": "Vai trò được phân công",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "official.issuerTitle",
-      "type": "string",
-      "label": "Chủ thể ban hành",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Cơ quan và văn bản",
-      "reviewRequired": true
-    },
-    {
-      "path": "legalBasis.staffAssignmentProcedureArticlesLine",
-      "type": "string",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "caseDecision.caseProsecutionDecisionLine",
-      "type": "string",
-      "label": "Căn cứ quyết định truy tố",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Căn cứ pháp lý",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.assignedOfficerName",
-      "type": "string",
-      "label": "Họ tên Kiểm sát viên được phân công",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.assignedOfficerTitle",
-      "type": "string",
-      "label": "Chức vụ Kiểm sát viên",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.assignedOfficerAgencyName",
-      "type": "string",
-      "label": "Đơn vị của Kiểm sát viên",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.additionalAssignedOfficersLine",
-      "type": "string",
-      "label": "Phân công bổ sung",
+      "label": "Trường cần điền (document)",
       "source": "unknown",
       "required": false,
-      "uiComponent": "textarea",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "assignment.responsibilityLine",
-      "type": "string",
-      "label": "Nhiệm vụ được phân công",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "textarea",
-      "section": "Nội dung quyết định",
-      "reviewRequired": true
-    },
-    {
-      "path": "recipients.investigationAuthorityLine",
-      "type": "string",
-      "label": "Nơi nhận - Cơ quan điều tra",
-      "source": "unknown",
-      "required": true,
       "uiComponent": "text",
-      "section": "Nơi nhận",
+      "section": "document",
       "reviewRequired": true
     },
     {
-      "path": "recipients.assignedPersonLine",
+      "path": "agency.field2",
       "type": "string",
-      "label": "Nơi nhận - Người được phân công",
+      "label": "Trường cần điền (agency)",
       "source": "unknown",
-      "required": true,
+      "required": false,
       "uiComponent": "text",
-      "section": "Nơi nhận",
+      "section": "agency",
       "reviewRequired": true
     },
     {
-      "path": "recipients.archiveLine",
+      "path": "receiver.field3",
       "type": "string",
-      "label": "Lưu hồ sơ",
+      "label": "Trường cần điền (receiver)",
       "source": "unknown",
-      "required": true,
+      "required": false,
       "uiComponent": "text",
-      "section": "Nơi nhận",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.signMode",
-      "type": "string",
-      "label": "Chế độ ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.positionTitle",
-      "type": "string",
-      "label": "Chức vụ người ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
-      "reviewRequired": true
-    },
-    {
-      "path": "signature.signerName",
-      "type": "string",
-      "label": "Người ký",
-      "source": "unknown",
-      "required": true,
-      "uiComponent": "text",
-      "section": "Chữ ký",
+      "section": "receiver",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentName",
-      "from": "agency.parentName",
+      "slotId": "document.field1",
+      "from": "document.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "agency.name",
-      "from": "agency.name",
+      "slotId": "agency.field2",
+      "from": "agency.field2",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     },
     {
-      "slotId": "document.documentCode",
-      "from": "document.documentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issuePlaceAndDateLine",
-      "from": "document.issuePlaceAndDateLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedRoleText",
-      "from": "assignment.assignedRoleText",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "official.issuerTitle",
-      "from": "official.issuerTitle",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "legalBasis.staffAssignmentProcedureArticlesLine",
-      "from": "legalBasis.staffAssignmentProcedureArticlesLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "caseDecision.caseProsecutionDecisionLine",
-      "from": "caseDecision.caseProsecutionDecisionLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerName",
-      "from": "assignment.assignedOfficerName",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerTitle",
-      "from": "assignment.assignedOfficerTitle",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.assignedOfficerAgencyName",
-      "from": "assignment.assignedOfficerAgencyName",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.additionalAssignedOfficersLine",
-      "from": "assignment.additionalAssignedOfficersLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "assignment.responsibilityLine",
-      "from": "assignment.responsibilityLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.investigationAuthorityLine",
-      "from": "recipients.investigationAuthorityLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.assignedPersonLine",
-      "from": "recipients.assignedPersonLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.archiveLine",
-      "from": "recipients.archiveLine",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signMode",
-      "from": "signature.signMode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.positionTitle",
-      "from": "signature.positionTitle",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "signature.signerName",
-      "from": "signature.signerName",
+      "slotId": "receiver.field3",
+      "from": "receiver.field3",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
@@ -713,7 +143,7 @@
   "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse error: Unknown Clxt tag 66 at 0"
   ],
   "productMetadata": {
     "stage": {
@@ -738,94 +168,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "agency",
-      "document",
-      "assignment",
-      "official",
-      "legalBasis",
-      "caseDecision",
-      "recipients",
-      "signature"
-    ],
-    "suggestedControls": [
-      {
-        "path": "agency.parentName",
-        "control": "text"
-      },
-      {
-        "path": "agency.name",
-        "control": "text"
-      },
-      {
-        "path": "document.documentCode",
-        "control": "text"
-      },
-      {
-        "path": "document.issuePlaceAndDateLine",
-        "control": "text"
-      },
-      {
-        "path": "assignment.assignedRoleText",
-        "control": "text"
-      },
-      {
-        "path": "official.issuerTitle",
-        "control": "text"
-      },
-      {
-        "path": "legalBasis.staffAssignmentProcedureArticlesLine",
-        "control": "textarea"
-      },
-      {
-        "path": "caseDecision.caseProsecutionDecisionLine",
-        "control": "textarea"
-      },
-      {
-        "path": "assignment.assignedOfficerName",
-        "control": "text"
-      },
-      {
-        "path": "assignment.assignedOfficerTitle",
-        "control": "text"
-      },
-      {
-        "path": "assignment.assignedOfficerAgencyName",
-        "control": "text"
-      },
-      {
-        "path": "assignment.additionalAssignedOfficersLine",
-        "control": "textarea"
-      },
-      {
-        "path": "assignment.responsibilityLine",
-        "control": "textarea"
-      },
-      {
-        "path": "recipients.investigationAuthorityLine",
-        "control": "text"
-      },
-      {
-        "path": "recipients.assignedPersonLine",
-        "control": "text"
-      },
-      {
-        "path": "recipients.archiveLine",
-        "control": "text"
-      },
-      {
-        "path": "signature.signMode",
-        "control": "text"
-      },
-      {
-        "path": "signature.positionTitle",
-        "control": "text"
-      },
-      {
-        "path": "signature.signerName",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -837,5 +181,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:36.963Z"
+  "generatedAt": "2026-06-23T07:24:46.065Z"
 }

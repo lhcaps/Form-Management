@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-061/BM-061_normalized.docx",
-    "sha256": "001e202abcd4fa10c087c978971f4516799b394685069b26d2bc2ad2d1d6fae8",
+    "sha256": "e6a2def0d7ef6f16c1571c117817b427e5c2e64b801cff9aa1bc809576020f68",
     "format": "docx"
   },
   "status": "locked",
@@ -36,13 +36,13 @@
       "evidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": "{{agency.name}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "VIỆN KIỂM SÁT …",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}",
+        "rawPattern": "{{agency.name}}",
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
       }
@@ -91,6 +91,25 @@
         "rawPattern": "{{document.field3}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> {{recipients.personLine3}}} <w:tab w:val=\"left\" w:pos=\"9893\"",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> {{recipients.personLine3}}} <w:tab w:val=\"left\" w:pos=\"9893\"",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine3}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -104,7 +123,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
@@ -120,7 +139,7 @@
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
       "reviewEvidence": {
         "context": "[Auto-generated] Họ tên:9",
         "blockId": "P0035"
@@ -131,6 +150,15 @@
       "type": "string",
       "label": "Ô trống",
       "source": "unknown",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
+    },
+    {
+      "path": "recipients.personLine3",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": true
@@ -157,6 +185,13 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "from": "recipients.personLine3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -175,7 +210,7 @@
     "reviewRequired": false,
     "reviewKind": "human",
     "reviewedBy": "Le Huy",
-    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
   },
   "renderFormatHints": {
     "fontFamily": "Times New Roman",
@@ -226,7 +261,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.957Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-22T15:33:55.518Z",
   "reviewKind": "human"
 }

@@ -14,58 +14,62 @@
     "format": "doc"
   },
   "extractionSource": {
-    "kind": "normalized-docx",
-    "relativePath": "storage/templates/normalized-docx/BM-157/BM-157_normalized.docx",
-    "sha256": "3e16234507694f830aa90c2fc0bdbd31c05672b65b5788eff36f3015d0dcc946",
-    "format": "docx"
+    "kind": "original",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/05. GIAI DOAN TRUY TO/157. Bản kê vật chứng kèm theo Cáo trạng.doc",
+    "sha256": "a5c6971a69d2bdea2dca8e892c498b0afe6c02bf585148af85ca05460700c287",
+    "format": "doc"
   },
   "status": "draft",
   "docxSlots": [
     {
-      "slotId": "agency.vienKiem",
+      "slotId": "case.field1",
       "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0011",
+        "partName": "WordDocument",
+        "blockId": "P0002",
         "tableCellId": null
       },
-      "context": "VỤ ÁN:{{document.field1}}",
-      "label": "Ô trống",
+      "context": "VỤ ÁN:..........................................................................",
+      "label": "Ô trống dạng \"...\" (case)",
       "slotType": "text",
       "required": false,
-      "confidence": 1,
+      "confidence": 0.4,
+      "suggestedNamespace": "case",
+      "suggestedBy": "heuristic",
       "evidence": {
-        "textBefore": "VỤ ÁN:",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field1}}"
+        "rawPattern": ".........................................................................."
       },
       "reviewRequired": true
     }
   ],
   "canonicalFields": [
     {
-      "path": "agency.vienKiem",
+      "path": "case.field1",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Trường cần điền (case)",
       "source": "unknown",
       "required": false,
       "uiComponent": "text",
+      "section": "case",
       "reviewRequired": true
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.vienKiem",
-      "from": "agency.vienKiem",
+      "slotId": "case.field1",
+      "from": "case.field1",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
-  "unresolvedQuestions": [],
+  "unresolvedQuestions": [
+    "17 paragraph có nội dung đặc thù cần reviewer xem xét: P0001=\"BẢN KÊ VẬT CHỨNG KÈM THEO BẢN CÁO TRẠNG\"; P0003=\"TÊN VẬT CHỨNG\"; P0004=\"SỐ LƯỢNG\"; P0005=\"ĐẶC ĐIỂM\"; P0006=\"GHI CHÚ\""
+  ],
   "warnings": [
-    "Clx parse fail (fcClx/lcbClx không hợp lệ)",
-    "Refined from normalized DOCX semantic placeholders; human semantic/legal review is still required."
+    "Clx parse fail (fcClx/lcbClx không hợp lệ)"
   ],
   "productMetadata": {
     "stage": {
@@ -90,15 +94,8 @@
     "reviewRequired": true
   },
   "formInputHints": {
-    "primaryEntities": [
-      "document"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      }
-    ],
+    "primaryEntities": [],
+    "suggestedControls": [],
     "previewRequired": true,
     "reviewRequired": true
   },
@@ -110,5 +107,5 @@
     ],
     "reviewRequired": true
   },
-  "generatedAt": "2026-06-19T07:36:37.007Z"
+  "generatedAt": "2026-06-23T07:24:46.705Z"
 }

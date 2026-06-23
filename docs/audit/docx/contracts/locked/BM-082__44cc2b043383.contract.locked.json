@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-082/BM-082_normalized.docx",
-    "sha256": "47d809d3d5a8b43e1ff93566833f92848ea4a7531b454fdde4e06cf447a203a8",
+    "sha256": "2fe73601f1b2f0ddc5be323dc371a1578aacc766a2aa2c75523baa8cce2c10db",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,25 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT2",
         "blockId": "P0027"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New R",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -64,6 +83,15 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT2",
         "blockId": "P0027"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": true
     }
   ],
   "renderBindings": [
@@ -73,6 +101,13 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],
@@ -134,7 +169,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.969Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-02 dedup)",
+  "reviewedAt": "2026-06-22T16:26:14.932Z",
   "reviewKind": "human"
 }

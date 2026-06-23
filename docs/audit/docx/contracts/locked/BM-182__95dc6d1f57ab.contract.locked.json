@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-182/BM-182_normalized.docx",
-    "sha256": "d1af166f62a78d97a9eea8bf66cf2d87f4e8641d32a5348449e80647a2d6c11c",
+    "sha256": "d43107aeb244cfbd6926110d1c168f225f5d7d3bf0c2b872be448e59184bf2a4",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,44 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0022"
       }
+    },
+    {
+      "slotId": "document.issueDate",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Date of decision being revoked",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.006Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: renamed from {{document.field}}. Decision serial number",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.006Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +102,58 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0022"
       }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Date of decision being revoked",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.006Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03A: Decision serial number",
+        "docxAnchor": "wave-03a-remediation.mjs",
+        "reviewedAt": "2026-06-22T17:04:18.006Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -137,7 +221,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.020Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03a remediation)",
+  "reviewedAt": "2026-06-22T17:04:18.006Z",
   "reviewKind": "human"
 }

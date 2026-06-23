@@ -15,16 +15,92 @@
             "blockId": "P0022"
           }
         },
-        "document.field": {
-          "canonicalPath": "document.field",
+        "person.dateOfBirth": {
+          "canonicalPath": "person.dateOfBirth",
           "source": "manual",
           "transform": "identity",
           "reviewEvidence": {
-            "context": "[Auto-generated] {{document.field10}}",
-            "blockId": "P0028",
-            "reason": "Phase D revert: DOCX placeholder \"document.field\" not yet renamed; keeping original slotId. Semantic mapping deferred until DOCX re-normalization.",
-            "docxAnchor": "Trên cơ sở kết quả điều tra và Quyết định đề nghị truy tố số … ngày … tháng … năm … của…, xác định được như sau:",
-            "reviewerNote": "Le Huy — slotId kept matching DOCX placeholder; canonicalField semantic name deferred."
+            "reason": "Wave 03A: renamed {{document.field}} → {{person.dateOfBirth}}. Defendant date of birth",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "person.personFullName": {
+          "canonicalPath": "person.personFullName",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{person.personFullName}}. Defendant full name",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.contentLine": {
+          "canonicalPath": "document.contentLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.contentLine}}. Charge / prosecution content",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "legalBasis.legalBasisLine2": {
+          "canonicalPath": "legalBasis.legalBasisLine2",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{legalBasis.legalBasisLine2}}. Additional legal basis (hint: field4=legalBasis.*)",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "legalBasis.legalBasisLine": {
+          "canonicalPath": "legalBasis.legalBasisLine",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{legalBasis.legalBasisLine}}. Legal basis citation (hint: field3=legalBasis.*)",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.issueDate": {
+          "canonicalPath": "document.issueDate",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.issueDate}}. Decision date",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "document.fullDocumentCode": {
+          "canonicalPath": "document.fullDocumentCode",
+          "source": "manual",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A: renamed {{document.field}} → {{document.fullDocumentCode}}. Decision serial number",
+            "docxAnchor": "wave-03a-remediation.mjs",
+            "reviewedAt": "2026-06-22T17:04:18.022Z",
+            "reviewedBy": "Le Huy"
+          }
+        },
+        "legalBasis.statuteReference": {
+          "canonicalPath": "legalBasis.statuteReference",
+          "source": "agencyConfig",
+          "transform": "identity",
+          "reviewEvidence": {
+            "reason": "Wave 03A fix: renamed from legalBasis.field6",
+            "docxAnchor": "wave-03a-fix",
+            "reviewedAt": "2026-06-22T17:05:53.306Z",
+            "reviewedBy": "Le Huy"
           }
         }
       }

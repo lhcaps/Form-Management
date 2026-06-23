@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-198/BM-198_normalized.docx",
-    "sha256": "4f1bb0c2645ea2d7e549c9a47761f9af1690eb6bb19716d768517a3aca0008d5",
+    "sha256": "8826487a29994ab0b7daad6531c8c21f6d58d4ed94f8a646511471c208a008bf",
     "format": "docx"
   },
   "status": "locked",
@@ -46,6 +46,44 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0028"
       }
+    },
+    {
+      "slotId": "document.issueDate",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: renamed from {{document.field}}. Decision issuance date (form field 2)",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.812Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: renamed from {{document.field}}. Decision serial number in header (form field 1)",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.812Z",
+        "reviewedBy": "Le Huy"
+      },
+      "evidence": {
+        "textBefore": "renamed generic placeholder",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +102,58 @@
         "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
         "blockId": "P0028"
       }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: Decision issuance date (form field 2)",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.812Z",
+        "reviewedBy": "Le Huy"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "transform": "identity",
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "reason": "Wave 03C-2: Decision serial number in header (form field 1)",
+        "docxAnchor": "wave-03c-2-remediation.mjs",
+        "reviewedAt": "2026-06-22T19:03:30.812Z",
+        "reviewedBy": "Le Huy"
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -137,7 +221,7 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.029Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+  "reviewedBy": "Le Huy (wave-03c-2 remediation)",
+  "reviewedAt": "2026-06-22T19:03:30.812Z",
   "reviewKind": "human"
 }

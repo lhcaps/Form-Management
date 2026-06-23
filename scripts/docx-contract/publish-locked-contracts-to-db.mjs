@@ -30,6 +30,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { stableContractHash } from "./lib/stable-contract-hash.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -127,7 +128,7 @@ function buildPublishPlan(contracts) {
       continue;
     }
 
-    const contractHash = sha256HexString(JSON.stringify(contract.draftJson));
+    const contractHash = stableContractHash(contract.draftJson);
     const dbTemplateCode = contract.sourceId.replace(/__.*$/, "");
     toPublish.push({
       templateCode: contract.templateCode,
@@ -226,6 +227,7 @@ function writePublishReport(toPublish, skipped, opts) {
     "# Form Contract DB Publish Report",
     "",
     `Generated: ${now}`,
+    `Hash mode: stable-semantic-v1`,
     `Total locked contracts: ${toPublish.length + skipped.length}`,
     `Ready to publish: ${toPublish.length}`,
     `Skipped: ${skipped.length}`,
@@ -456,6 +458,7 @@ async function main() {
   );
 
   console.log("\n=== Phase D: Publish Locked Contracts to DB ===\n");
+  console.log("Hash mode: stable-semantic-v1\n");
   if (dryRun) console.log("[DRY RUN] No DB writes will occur.\n");
 
   const { contracts, errors } = parseLockedContracts();
@@ -504,6 +507,10 @@ async function main() {
       console.log(`      contract_hash: ${p.contractHash}`);
       console.log(`      template_hash: ${p.templateHash}`);
     }
+    console.log();
+    console.log(`Would create: ${toPublish.length}`);
+    console.log(`Would skip: ${skipped.length}`);
+    console.log(`Already published: ${skipped.filter((s) => s.reason?.includes("already published")).length}`);
     return;
   }
 
