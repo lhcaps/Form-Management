@@ -47,7 +47,8 @@ const GENERIC_PATTERN = /^\w+\.field\d+$/i;
 function countGenericFields(compiledJson: unknown): number {
   if (!compiledJson || typeof compiledJson !== 'object') return 0;
   const c = compiledJson as Record<string, unknown>;
-  const fields = c['source'] as Array<{ key?: string }> | undefined;
+  const source = c['source'] as Record<string, unknown> | undefined;
+  const fields = source?.['fields'] as Array<{ key?: string }> | undefined;
   if (!Array.isArray(fields)) return 0;
   return fields.filter((f) => f.key && GENERIC_PATTERN.test(f.key)).length;
 }

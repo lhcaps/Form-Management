@@ -90,6 +90,10 @@ function validateCompiledContract(body, templateCode) {
     errors.push("compiledContract.renderPlan.bindings is missing or not an array");
   }
 
+  if (source !== "GLOBAL_PUBLISHED") {
+    errors.push(`source is "${source}", expected "GLOBAL_PUBLISHED"`);
+  }
+
   if (!Array.isArray(compiledContract.source?.fields)) {
     errors.push("compiledContract.source.fields is missing or not an array");
   }
