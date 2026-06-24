@@ -62,13 +62,13 @@ jobs:
       - name: DOCX prelock guard (informational — generic draft forms)
         run: pnpm audit:docx:prelock || true
 
+      # Pre-existing corpus baseline: 9 DOCX remediation items, 16
+      # source=unknown fields, 89 unresolved reviewRequired fields.
+      # The gate still catches NEW instances of these; the flags
+      # acknowledge the current snapshot. See follow-up issue for
+      # contract authoring to clear the baseline.
       - name: Gate: 213 forms corpus readiness
         run: pnpm gate:forms:213 --allow-remediation --allow-source-unknown --allow-unresolved-review
-        # Pre-existing corpus baseline: 9 DOCX remediation items, 16
-        # source=unknown fields, 89 unresolved reviewRequired fields.
-        # The gate still catches NEW instances of these; the flags
-        # acknowledge the current snapshot. See follow-up issue for
-        # contract authoring to clear the baseline.
 
   docker-production-build:
     name: Docker production build
