@@ -323,7 +323,10 @@ export interface ReadApiOptions extends Omit<RequestInit, "headers" | "credentia
 /**
  * Fetch JSON với credentials: 'include' (để gửi session cookie).
  * - Tự unwrap data.
- * - Tự throw Error(message) với message từ server khi response không ok.
+ * - Throw ApiError(status, parsedErrorBody) khi response không ok.
+ * - Body stream chỉ consume một lần; nếu backend không trả JSON thì parseErrorBody
+ *   sẽ fallback về null và ApiError vẫn giữ HTTP status để caller biết phản hồi
+ *   thuộc loại nào.
  */
 export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promise<T> {
   const { body, headers, cache, noStore, ...rest } = init;
@@ -349,6 +352,9 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
     body: body ?? undefined,
   });
 
+  // Đọc body đúng một lần; response body stream không thể read lại lần hai
+  // (lần hai sẽ trả về chuỗi rỗng / throw). Parse cùng lúc cho cả nhánh OK
+  // và nhánh !ok.
   const text = await response.text();
   let json: unknown = null;
   if (text.trim().length > 0) {
@@ -360,10 +366,10 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
   }
 
   if (!response.ok) {
-    const text = await response.text();
-    const body = parseErrorBody(text);
-    throw new ApiError(response.status, body);
+    const errorBody = parseErrorBody(text);
+    throw new ApiError(response.status, errorBody);
   }
+
   return unwrapApiData<T>(json);
 }
 

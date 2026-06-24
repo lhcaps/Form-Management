@@ -80,23 +80,25 @@ export default function TemplatesPage() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>("ALL");
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState<unknown>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   async function loadQueue() {
     setIsLoading(true);
-    setErrorMessage("");
+    setError(null);
 
     try {
       const data = await fetchReviewQueue();
       setItems(Array.isArray(data.items) ? data.items : []);
       setSummary(data.summary ?? {});
     } catch (err) {
-      if (err instanceof ApiError) {
-        setErrorMessage(err.message);
-      } else {
-        setErrorMessage("Không tải được danh sách biểu mẫu cần duyệt.");
-      }
+      setError(
+        err instanceof ApiError
+          ? err
+          : err instanceof Error
+            ? err
+            : new Error("Không tải được danh sách biểu mẫu cần duyệt."),
+      );
     } finally {
       setIsLoading(false);
     }
@@ -113,17 +115,19 @@ export default function TemplatesPage() {
         : defaultNote;
 
     setUpdatingId(documentId);
-    setErrorMessage("");
+    setError(null);
 
     try {
       await updateReviewStatus(documentId, nextStatus, reviewNote);
       await loadQueue();
     } catch (err) {
-      if (err instanceof ApiError) {
-        setErrorMessage(err.message);
-      } else {
-        setErrorMessage("Không cập nhật được trạng thái duyệt.");
-      }
+      setError(
+        err instanceof ApiError
+          ? err
+          : err instanceof Error
+            ? err
+            : new Error("Không cập nhật được trạng thái duyệt."),
+      );
     } finally {
       setUpdatingId(null);
     }
@@ -263,9 +267,7 @@ export default function TemplatesPage() {
           </div>
         </section>
 
-        {errorMessage ? (
-          <ErrorBanner error={errorMessage} />
-        ) : null}
+        {error ? <ErrorBanner error={error} /> : null}
 
         {isLoading ? (
           <section className="rounded-3xl border border-slate-200 bg-white p-8 text-sm text-slate-600 shadow-sm">

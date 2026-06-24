@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { canOpenFormStudio } from "@/lib/permissions";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
 
 // ─── Icon helpers ────────────────────────────────────────────────────────────
@@ -263,11 +263,18 @@ export function Sidebar() {
 
 // ─── Mobile Sheet Navigation ─────────────────────────────────────────────────
 
-interface MobileNavProps {
-  children: ReactNode;
-}
-
-export function MobileNav({ children }: MobileNavProps) {
+/**
+ * MobileNav renders both the hamburger button and the Sheet it controls.
+ *
+ * Why not "children = trigger"? Earlier the parent passed a <button> as
+ * `children`, and we wrapped it in a <div role="button"> to forward clicks.
+ * That produces nested interactive elements (a real <button> inside a div
+ * that pretends to be a button), which is invalid for assistive tech.
+ *
+ * The correct Radix/shadcn pattern is: render the trigger yourself, then
+ * let Sheet's own controlled open state + built-in a11y wire everything.
+ */
+export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
@@ -280,92 +287,107 @@ export function MobileNav({ children }: MobileNavProps) {
     : BASE_MENU_ITEMS;
 
   return (
-    <>
-      {/* Trigger — rendered by parent (e.g. Topbar hamburger) */}
-      <div onClick={() => setOpen(true)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setOpen(true); }}
-        role="button"
-        tabIndex={0}
+    <Sheet open={open} onOpenChange={setOpen}>
+      <button
+        type="button"
         aria-label="Mở menu điều hướng"
-        className="cursor-pointer"
+        onClick={() => setOpen(true)}
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 lg:hidden"
       >
-        {children}
-      </div>
+        <svg
+          viewBox="0 0 24 24"
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          aria-hidden="true"
+        >
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+      </button>
 
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="flex flex-col p-0">
-          {/* Branding */}
-          <div className="border-b border-slate-200">
-            {QUANLYVKS_LOGO}
+      <SheetContent side="left" className="flex flex-col p-0">
+        {/* Accessible title + description (visually hidden — branding already shows context). */}
+        <SheetTitle className="sr-only">Menu điều hướng</SheetTitle>
+        <SheetDescription className="sr-only">
+          Điều hướng chính của hệ thống QUANLYVKS
+        </SheetDescription>
+
+        {/* Branding */}
+        <div className="border-b border-slate-200">
+          {QUANLYVKS_LOGO}
+        </div>
+
+        {/* User block */}
+        <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
+            {initials}
           </div>
-
-          {/* User block */}
-          <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
-              {initials}
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-[13px] font-black text-slate-950">
+              {displayName}
             </div>
-            <div className="min-w-0 flex-1">
-              <div className="truncate text-[13px] font-black text-slate-950">
-                {displayName}
+            {subtitle ? (
+              <div className="truncate text-[12px] font-medium text-slate-500">
+                {subtitle}
               </div>
-              {subtitle ? (
-                <div className="truncate text-[12px] font-medium text-slate-500">
-                  {subtitle}
-                </div>
-              ) : null}
-            </div>
+            ) : null}
           </div>
+        </div>
 
-          {/* Nav */}
-          <nav className="flex-1 overflow-y-auto px-3 py-2">
-            <div className="mb-2 px-4 pb-2 text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">
-              Nghiệp vụ
-            </div>
-            {visibleMenuItems.map((item) => {
-              const active = isActivePath(pathname, item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
-                  className={[
-                    "mb-1 flex min-h-[48px] items-center gap-3 rounded-xl px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-colors",
-                    active
-                      ? "bg-blue-50 font-black text-blue-800"
-                      : "text-slate-700 hover:bg-slate-50",
-                  ].join(" ")}
-                >
-                  <IconShell>{item.icon}</IconShell>
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Logout */}
-          <div className="border-t border-slate-200 p-4">
-            <button
-              type="button"
-              aria-label="Đăng xuất"
-              title="Đăng xuất"
-              onClick={() => {
-                setOpen(false);
-                void logout();
-              }}
-              className="flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-[15px] font-bold text-slate-600 transition-colors hover:bg-red-50 hover:text-red-600"
-            >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <SvgIcon>
-                  <path d="M10 17l5-5-5-5" />
-                  <path d="M15 12H4" />
-                  <path d="M12 20h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-6" />
-                </SvgIcon>
-              </span>
-              Đăng xuất
-            </button>
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-3 py-2">
+          <div className="mb-2 px-4 pb-2 text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">
+            Nghiệp vụ
           </div>
-        </SheetContent>
-      </Sheet>
-    </>
+          {visibleMenuItems.map((item) => {
+            const active = isActivePath(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={[
+                  "mb-1 flex min-h-[48px] items-center gap-3 rounded-xl px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-colors",
+                  active
+                    ? "bg-blue-50 font-black text-blue-800"
+                    : "text-slate-700 hover:bg-slate-50",
+                ].join(" ")}
+              >
+                <IconShell>{item.icon}</IconShell>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Logout */}
+        <div className="border-t border-slate-200 p-4">
+          <button
+            type="button"
+            aria-label="Đăng xuất"
+            title="Đăng xuất"
+            onClick={() => {
+              setOpen(false);
+              void logout();
+            }}
+            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-[15px] font-bold text-slate-600 transition-colors hover:bg-red-50 hover:text-red-600"
+          >
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-slate-100 text-slate-600">
+              <SvgIcon>
+                <path d="M10 17l5-5-5-5" />
+                <path d="M15 12H4" />
+                <path d="M12 20h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-6" />
+              </SvgIcon>
+            </span>
+            Đăng xuất
+          </button>
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 }
