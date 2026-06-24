@@ -16,8 +16,8 @@ describe('real DOCX contract repository', () => {
     expect(contracts).toHaveLength(213);
     expect(status).toMatchObject({
       ready: true,
-      lockedCount: 3,
-      draftCount: 210,
+      lockedCount: 213,
+      draftCount: 0,
       invalidFiles: [],
     });
     expect(bm001).toMatchObject({
