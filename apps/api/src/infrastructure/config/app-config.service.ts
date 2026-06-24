@@ -179,7 +179,10 @@ export class AppConfigService {
       );
     }
 
-    if (!this.tunnelTestMode && (this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
+    if (
+      !this.tunnelTestMode &&
+      (this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123'
+    ) {
       throw new ConfigurationError(
         'DEFAULT_PRODUCTION_ADMIN_PASSWORD',
         'SEED_ADMIN_PASSWORD must be changed before production.',

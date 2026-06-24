@@ -349,13 +349,20 @@ export class DocumentReviewsService {
                   : r.review_action === 'FINAL_EXPORT'
                     ? 'Xuất chính thức'
                     : `Hành động: ${r.review_action}`,
-        description: r.review_note ?? `Chuyển trạng thái từ ${r.old_status ?? '?'} → ${r.new_status}.`,
+        description:
+          r.review_note ??
+          `Chuyển trạng thái từ ${r.old_status ?? '?'} → ${r.new_status}.`,
         actor: r.reviewer_name,
         timestamp: r.reviewed_at,
       })),
       ...files.map((f) => ({
         type: 'FILE' as const,
-        title: f.file_format === 'DOCX' ? 'Tạo DOCX' : f.file_format === 'PDF' ? 'Tạo PDF' : 'Tạo tệp',
+        title:
+          f.file_format === 'DOCX'
+            ? 'Tạo DOCX'
+            : f.file_format === 'PDF'
+              ? 'Tạo PDF'
+              : 'Tạo tệp',
         description: `${f.file_format} — ${f.file_name}`,
         actor: null,
         timestamp: f.created_at,
