@@ -54,6 +54,13 @@ const VALID_TRANSFORMS = new Set([
   'uppercase',
   'lowercase',
   'trim',
+  // `date.issuePlaceDateLine` is a legacy transform name used by some
+  // locked contracts. The renderer pre-computes the issue-place-and-date
+  // string into `document.issuePlaceDateLine` formData (see
+  // document-renderer.service.ts ~line 6338), so this transform is
+  // effectively an identity pass-through. Aliased here so legacy
+  // contracts do not throw "Unknown transform" during render-plan build.
+  'date.issuePlaceDateLine',
 ]);
 
 @Injectable()
@@ -209,6 +216,9 @@ export class ContractRenderPlanBuilder {
       case 'identity':
         return value;
       case 'derived':
+        return value;
+      case 'date.issuePlaceDateLine':
+        // Alias for identity — see VALID_TRANSFORMS comment.
         return value;
       case 'uppercase':
         return typeof value === 'string' ? value.toUpperCase() : value;

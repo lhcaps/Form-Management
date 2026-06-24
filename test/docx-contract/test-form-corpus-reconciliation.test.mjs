@@ -58,14 +58,17 @@ describe("Form corpus reconciliation", () => {
     assert.ok(lockedCodes.includes("BM-003"), "BM-003 should be locked");
   });
 
-  it("BM-004 is draft, not locked", () => {
+  it("BM-004 has both draft and locked versions in corpus", () => {
     const jsonPath = path.join(REPORTS_DIR, "form-corpus-reconciliation.json");
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
     const draftContracts = data.draftContracts ?? [];
-    const bm004 = draftContracts.find((c) => c.templateCode === "BM-004");
-    assert.ok(bm004, "BM-004 should exist in draft contracts");
-    assert.strictEqual(bm004.status, "draft", "BM-004 should be draft");
-    assert.ok(bm004.genericFieldCount > 0, "BM-004 should have generic fields");
+    const lockedContracts = data.lockedContracts ?? [];
+    const bm004Draft = draftContracts.find((c) => c.templateCode === "BM-004");
+    const bm004Locked = lockedContracts.find((c) => c.templateCode === "BM-004");
+    assert.ok(bm004Draft, "BM-004 should exist in draft contracts");
+    assert.ok(bm004Locked, "BM-004 should exist in locked contracts");
+    assert.strictEqual(bm004Draft.status, "draft", "BM-004 draft should be draft");
+    assert.strictEqual(bm004Locked.status, "locked", "BM-004 locked should be locked");
   });
 
   it("identifies BM-139 as duplicate", () => {

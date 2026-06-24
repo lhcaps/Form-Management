@@ -24,6 +24,11 @@ export function renderDocxTemplate(
     delimiters: { start: '{{', end: '}}' },
     linebreaks: true,
     paragraphLoop: true,
+    // Placeholders without a corresponding binding should resolve to an
+    // empty string rather than the literal "undefined" (docxtemplater's
+    // default). This is what the contract-render-engine spec asserts
+    // (see docxtemplater-contract-render-engine.spec.ts:84).
+    nullGetter: () => '',
   });
   const data: Record<string, unknown> = {};
 
