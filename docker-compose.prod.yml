@@ -39,6 +39,8 @@ services:
       PORT: 3001
       TZ: Asia/Ho_Chi_Minh
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?connection_limit=10
+      DB_HOST: mysql
+      DB_PORT: "3306"
       STORAGE_ROOT: /app/storage
       GENERATED_FILES_ROOT: /app/storage/generated
       NORMALIZED_DOCX_ROOT: /app/storage/templates/normalized-docx
@@ -48,6 +50,8 @@ services:
       AUTH_COOKIE_SAMESITE: "none"
       WEB_ORIGIN: ${WEB_ORIGIN}
       API_CORS_ORIGIN: ${WEB_ORIGIN}
+      # Set SEED_DATA=true on first deploy only; leave false for subsequent restarts
+      SEED_DATA: "false"
     ports:
       - "${API_PORT:-3001}:3001"
     volumes:

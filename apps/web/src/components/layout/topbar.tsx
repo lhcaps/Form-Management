@@ -2,82 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import type { CSSProperties, KeyboardEvent } from "react";
-
-const styles: Record<string, CSSProperties> = {
-  topbar: {
-    height: 64,
-    background: "#FFFFFF",
-    borderBottom: "1px solid #E2E8F0",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 28px",
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
-  },
-  searchWrap: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-  search: {
-    width: 440,
-    height: 38,
-    border: "1px solid #CBD5E1",
-    borderRadius: 12,
-    padding: "0 14px",
-    fontSize: 14,
-    outline: "none",
-    color: "#0F172A",
-    background: "#F8FAFC",
-  },
-  actions: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-  primaryButton: {
-    height: 40,
-    border: 0,
-    borderRadius: 12,
-    background: "#173E86",
-    color: "#FFFFFF",
-    padding: "0 16px",
-    fontSize: 14,
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-  dropdownWrap: {
-    position: "relative",
-  },
-  dropdown: {
-    position: "absolute",
-    top: "calc(100% + 6px)",
-    right: 0,
-    minWidth: 220,
-    background: "#FFFFFF",
-    border: "1px solid #E2E8F0",
-    borderRadius: 12,
-    boxShadow: "0 12px 32px rgba(15,23,42,0.12)",
-    padding: 6,
-    zIndex: 20,
-  },
-  dropdownItem: {
-    display: "block",
-    width: "100%",
-    textAlign: "left",
-    padding: "10px 12px",
-    borderRadius: 8,
-    border: 0,
-    background: "transparent",
-    color: "#0F172A",
-    fontSize: 14,
-    fontWeight: 600,
-    cursor: "pointer",
-  },
-};
+import type { KeyboardEvent } from "react";
+import { MobileNav } from "./nav-items";
 
 const QUICK_CREATE_OPTIONS = [
   { label: "Tạo hồ sơ vụ án", href: "/cases" },
@@ -115,39 +41,60 @@ export function Topbar() {
   }
 
   return (
-    <header style={styles.topbar}>
-      <div style={styles.searchWrap}>
-        <input
-          style={styles.search}
-          placeholder="Tìm hồ sơ, biểu mẫu, bị can..."
-          onKeyDown={onSearchKeyDown}
-          aria-label="Tìm kiếm nhanh"
-        />
-      </div>
-
-      <div style={styles.actions}>
-        <div ref={wrapRef} style={styles.dropdownWrap}>
+    <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-6">
+      {/* Mobile: hamburger | Desktop: search */}
+      <div className="flex items-center gap-3">
+        <MobileNav>
+          {/* Hamburger icon — only visible on mobile */}
           <button
             type="button"
-            style={styles.primaryButton}
+            aria-label="Mở menu điều hướng"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 lg:hidden"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <line x1="4" y1="6" x2="20" y2="6" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="18" x2="20" y2="18" />
+            </svg>
+          </button>
+        </MobileNav>
+
+        {/* Search — hidden on small mobile, visible on tablet+ */}
+        <div className="hidden sm:block">
+          <input
+            onKeyDown={onSearchKeyDown}
+            placeholder="Tìm hồ sơ, biểu mẫu, bị can..."
+            aria-label="Tìm kiếm nhanh"
+            className="h-9 w-44 rounded-xl border border-slate-200 bg-slate-50 px-3.5 text-sm text-slate-900 outline-none transition focus:border-blue-300 focus:bg-white lg:w-64 xl:w-80"
+          />
+        </div>
+      </div>
+
+      {/* Right actions */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        <div ref={wrapRef} className="relative">
+          <button
+            type="button"
             onClick={() => setCreateOpen((open) => !open)}
             aria-haspopup="menu"
             aria-expanded={createOpen}
+            className="flex h-9 items-center gap-1.5 rounded-xl bg-[#173E86] px-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#0f2d5e] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            ＋ Tạo mới
+            <span aria-hidden="true">＋</span>
+            <span className="hidden sm:inline">Tạo mới</span>
           </button>
           {createOpen ? (
-            <div role="menu" style={styles.dropdown}>
+            <div role="menu" className="absolute right-0 top-full z-20 mt-1.5 min-w-56 rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl">
               {QUICK_CREATE_OPTIONS.map((option) => (
                 <button
                   key={option.href}
                   type="button"
                   role="menuitem"
-                  style={styles.dropdownItem}
                   onClick={() => {
                     setCreateOpen(false);
                     router.push(option.href);
                   }}
+                  className="block w-full px-4 py-2.5 text-left text-sm font-semibold text-slate-900 transition hover:bg-slate-50"
                 >
                   {option.label}
                 </button>

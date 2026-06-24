@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { readApi } from "@/lib/api-client";
+import { ErrorBanner } from "@/components/common/error-banner";
 
 type CaseItem = {
   id: string;
@@ -90,7 +91,7 @@ function CasesPageContent() {
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<unknown>("");
   const [draft, setDraft] = useState({
     caseCode: "",
     caseTitle: "",
@@ -115,7 +116,7 @@ function CasesPageContent() {
       setCases(data.items);
       setPagination(data.pagination);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Không tải được hồ sơ.");
+      setError(err);
     } finally {
       setIsLoading(false);
     }
@@ -170,14 +171,14 @@ function CasesPageContent() {
       });
       await loadCases();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Không tạo được hồ sơ.");
+      setError(err);
     } finally {
       setIsCreating(false);
     }
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-6">
+    <div className="min-h-screen bg-slate-50 px-6 py-6">
       <div className="mx-auto max-w-7xl space-y-5">
         <section className="border-b border-slate-200 pb-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -194,9 +195,7 @@ function CasesPageContent() {
         </section>
 
         {error ? (
-          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
-          </div>
+          <ErrorBanner error={error} />
         ) : null}
 
         <section className="grid gap-4 xl:grid-cols-[1fr_360px]">
@@ -382,6 +381,6 @@ function CasesPageContent() {
           </form>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

@@ -65,6 +65,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fontconfig \
     fonts-dejavu \
     fonts-liberation \
+    default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g pnpm@10.33.2
@@ -164,5 +165,9 @@ RUN chmod +x /usr/local/bin/powershell.exe
 
 EXPOSE 3001
 
+# Copy and set up entrypoint
+COPY docker/api-entrypoint.sh /usr/local/bin/api-entrypoint.sh
+RUN chmod +x /usr/local/bin/api-entrypoint.sh
+
 WORKDIR /app/apps/api
-CMD ["node", "dist/src/main.js"]
+ENTRYPOINT ["/usr/local/bin/api-entrypoint.sh"]

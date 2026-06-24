@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { readApi } from "@/lib/api-client";
+import { readApi, ApiError } from "@/lib/api-client";
+import { ErrorBanner } from "@/components/common/error-banner";
+import { LoadingState } from "@/components/common/loading-state";
 
 type CaseItem = {
   id: string;
@@ -71,7 +73,7 @@ function formatDateTime(value: string | null | undefined) {
 export default function HomePage() {
   const [casesData, setCasesData] = useState<CasesResponse | null>(null);
   const [reviewData, setReviewData] = useState<ReviewQueueResponse | null>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<unknown>("");
   const [loading, setLoading] = useState(true);
 
   async function loadDashboard() {
@@ -85,7 +87,13 @@ export default function HomePage() {
       setCasesData(casesResponse);
       setReviewData(reviewResponse);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Không tải được dữ liệu tổng quan.");
+      setError(
+        err instanceof ApiError
+          ? err
+          : err instanceof Error
+            ? err
+            : new Error("Không tải được dữ liệu tổng quan."),
+      );
     } finally {
       setLoading(false);
     }
@@ -106,7 +114,10 @@ export default function HomePage() {
       },
       {
         label: "Đang xử lý",
-        value: String(caseItems.filter((item) => item.currentStatus === "IN_PROGRESS").length),
+        value: String(
+          caseItems.filter((item) => item.currentStatus === "IN_PROGRESS")
+            .length,
+        ),
         tone: "bg-indigo-50 text-indigo-700",
       },
       {
@@ -123,30 +134,37 @@ export default function HomePage() {
   }, [casesData, reviewData]);
 
   const recentActivities = useMemo(() => {
-    const caseActivities = (casesData?.items ?? []).slice(0, 4).map((item) => ({
-      title: item.caseTitle,
-      meta: `${item.caseCode} · ${item.currentStage} · ${formatDateTime(item.updatedAt)}`,
-      href: "/cases",
-    }));
+    const caseActivities = (casesData?.items ?? [])
+      .slice(0, 4)
+      .map((item) => ({
+        title: item.caseTitle,
+        meta: `${item.caseCode} · ${item.currentStage} · ${formatDateTime(item.updatedAt)}`,
+        href: "/cases",
+      }));
 
-    const reviewActivities = (reviewData?.items ?? []).slice(0, 4).map((item) => ({
-      title: item.documentTitle,
-      meta: `${item.caseCode} · ${item.reviewStatus} · ${formatDateTime(item.generatedAt)}`,
-      href: "/templates",
-    }));
+    const reviewActivities = (reviewData?.items ?? [])
+      .slice(0, 4)
+      .map((item) => ({
+        title: item.documentTitle,
+        meta: `${item.caseCode} · ${item.reviewStatus} · ${formatDateTime(item.generatedAt)}`,
+        href: "/templates",
+      }));
 
     return [...caseActivities, ...reviewActivities].slice(0, 6);
   }, [casesData, reviewData]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-6">
+    <div className="min-h-screen bg-slate-50 px-6 py-6">
       <div className="mx-auto max-w-7xl space-y-5">
         <section className="border-b border-slate-200 pb-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="text-2xl font-black text-slate-950">Tổng quan nghiệp vụ</h1>
+              <h1 className="text-2xl font-black text-slate-950">
+                Tổng quan nghiệp vụ
+              </h1>
               <p className="mt-1 text-sm text-slate-600">
-                Dữ liệu được lấy trực tiếp từ hồ sơ và hàng đợi duyệt biểu mẫu.
+                Dữ liệu được lấy trực tiếp từ hồ sơ và hàng đợi duyệt
+                biểu mẫu.
               </p>
             </div>
             <button
@@ -159,19 +177,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {error ? (
-          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
-          </div>
-        ) : null}
+        {error ? <ErrorBanner error={error} /> : null}
 
         <section className="grid gap-4 md:grid-cols-4">
           {kpis.map((item) => (
-            <article key={item.label} className="rounded-lg border border-slate-200 bg-white p-4">
-              <div className={`inline-flex rounded-full px-2.5 py-1 text-xs font-black ${item.tone}`}>
+            <article
+              key={item.label}
+              className="rounded-lg border border-slate-200 bg-white p-4"
+            >
+              <div
+                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-black ${item.tone}`}
+              >
                 {item.label}
               </div>
-              <div className="mt-4 text-3xl font-black text-slate-950">{item.value}</div>
+              <div className="mt-4 text-3xl font-black text-slate-950">
+                {item.value}
+              </div>
             </article>
           ))}
         </section>
@@ -179,7 +200,9 @@ export default function HomePage() {
         <section className="grid gap-5 xl:grid-cols-[1.3fr_1fr]">
           <div className="rounded-lg border border-slate-200 bg-white p-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-black text-slate-950">Phân hệ nghiệp vụ</h2>
+              <h2 className="text-base font-black text-slate-950">
+                Phân hệ nghiệp vụ
+              </h2>
             </div>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {modules.map((item) => (
@@ -188,33 +211,48 @@ export default function HomePage() {
                   href={item.href}
                   className="rounded-lg border border-slate-200 p-4 transition hover:border-blue-200 hover:bg-blue-50"
                 >
-                  <h3 className="text-sm font-black text-slate-950">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.desc}</p>
+                  <h3 className="text-sm font-black text-slate-950">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    {item.desc}
+                  </p>
                 </Link>
               ))}
             </div>
           </div>
 
           <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <h2 className="text-base font-black text-slate-950">Hoạt động gần đây</h2>
-            <div className="mt-4 divide-y divide-slate-100">
-              {loading ? (
-                <div className="py-8 text-center text-sm text-slate-500">Đang tải dữ liệu...</div>
-              ) : null}
-              {!loading && recentActivities.length === 0 ? (
-                <div className="py-8 text-center text-sm text-slate-500">Chưa có hoạt động.</div>
-              ) : null}
-              {!loading &&
-                recentActivities.map((item) => (
-                  <Link key={`${item.href}-${item.title}-${item.meta}`} href={item.href} className="block py-3">
-                    <div className="text-sm font-bold text-slate-900">{item.title}</div>
+            <h2 className="text-base font-black text-slate-950">
+              Hoạt động gần đây
+            </h2>
+            {loading ? (
+              <div className="mt-4">
+                <LoadingState variant="list" count={3} />
+              </div>
+            ) : recentActivities.length === 0 ? (
+              <p className="mt-4 py-8 text-center text-sm text-slate-500">
+                Chưa có hoạt động.
+              </p>
+            ) : (
+              <div className="mt-4 divide-y divide-slate-100">
+                {recentActivities.map((item) => (
+                  <Link
+                    key={`${item.href}-${item.title}-${item.meta}`}
+                    href={item.href}
+                    className="block py-3"
+                  >
+                    <div className="text-sm font-bold text-slate-900">
+                      {item.title}
+                    </div>
                     <div className="mt-1 text-xs text-slate-500">{item.meta}</div>
                   </Link>
                 ))}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

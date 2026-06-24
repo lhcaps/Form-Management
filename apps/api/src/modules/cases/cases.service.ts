@@ -24,6 +24,12 @@ type CaseReportSummaryQuery = {
   anchorDate?: string;
 };
 
+type AuthenticatedUser = {
+  id: string;
+  role: string;
+  agencyId: string | null;
+} | null;
+
 function toPublicId(value: bigint | number | null | undefined): string | null {
   if (value === null || value === undefined) return null;
   return String(value);
@@ -105,15 +111,28 @@ function normalizePerson(item: any) {
 export class CasesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(query: FindCasesQuery) {
+  async findAll(query: FindCasesQuery, user?: AuthenticatedUser) {
     const page = Math.max(1, Number(query.page || 1));
     const pageSize = Math.min(100, Math.max(1, Number(query.pageSize || 20)));
+
+    // Never show all cases to an unauthenticated request.
+    // ADMIN role sees all; OFFICIAL sees only their agency's cases.
+    // If user is null (no session) we return an empty page.
+    const showAll = user?.role === 'ADMIN';
+    const scopeToAgency =
+      !showAll && user?.agencyId ? BigInt(user.agencyId) : null;
 
     const andConditions: any[] = [
       {
         is_deleted: false,
       },
     ];
+
+    if (scopeToAgency !== null) {
+      andConditions.push({
+        agency_id: scopeToAgency,
+      });
+    }
 
     if (query.stage) {
       andConditions.push({

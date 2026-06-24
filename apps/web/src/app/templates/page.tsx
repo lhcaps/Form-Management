@@ -1,61 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
-
-type ReviewStatus =
-  | "DRAFT"
-  | "GENERATED"
-  | "WAITING_REVIEW"
-  | "APPROVED"
-  | "NEEDS_REVISION"
-  | "FINAL_EXPORTED"
-  | "CANCELLED";
-
-type ReviewQueueFile = {
-  id: string;
-  fileFormat: "DOCX" | "PDF";
-  fileName: string;
-  fileSizeBytes: string;
-  isFinal: boolean;
-  createdAt: string | null;
-};
-
-type ReviewQueueItem = {
-  id: string;
-  caseCode: string;
-  caseTitle: string;
-  templateCode: string;
-  templateName: string;
-  documentCode: string;
-  documentTitle: string;
-  targetScope: string;
-  targetPersonName: string;
-  reviewStatus: ReviewStatus;
-  reviewStatusLabel: string;
-  generatedByName: string;
-  approvedByName: string;
-  generatedAt: string | null;
-  approvedAt: string | null;
-  note: string;
-  latestDocxFile: ReviewQueueFile | null;
-  latestPdfFile: ReviewQueueFile | null;
-  hasDocx: boolean;
-  hasPdf: boolean;
-  lastReview: {
-    action: string;
-    reviewerName: string;
-    reviewNote: string;
-    reviewedAt: string | null;
-  } | null;
-};
-
-type ReviewQueueResponse = {
-  items: ReviewQueueItem[];
-  summary: Record<string, number>;
-};
+import {
+  fetchReviewQueue,
+  updateReviewStatus,
+  type ReviewQueueItem,
+  type ReviewStatus,
+  type ReviewQueueSummary,
+} from "@/lib/documents-review-api";
+import { ApiError } from "@/lib/api-client";
+import { ErrorBanner } from "@/components/common/error-banner";
 
 type FilterKey = "ALL" | ReviewStatus;
 
@@ -120,13 +74,9 @@ function formatSize(value: string) {
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function downloadUrl(documentId: string, fileId: string) {
-  return `${API_BASE_URL}/documents/generated/${documentId}/files/${fileId}/download`;
-}
-
 export default function TemplatesPage() {
   const [items, setItems] = useState<ReviewQueueItem[]>([]);
-  const [summary, setSummary] = useState<Record<string, number>>({});
+  const [summary, setSummary] = useState<ReviewQueueSummary>({});
   const [activeFilter, setActiveFilter] = useState<FilterKey>("ALL");
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -138,36 +88,21 @@ export default function TemplatesPage() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/document-review-queue`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(body || `Không tải được danh sách duyệt. HTTP ${response.status}`);
-      }
-
-      const data = (await response.json()) as ReviewQueueResponse;
-
+      const data = await fetchReviewQueue();
       setItems(Array.isArray(data.items) ? data.items : []);
       setSummary(data.summary ?? {});
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Không tải được danh sách biểu mẫu cần duyệt.",
-      );
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Không tải được danh sách biểu mẫu cần duyệt.");
+      }
     } finally {
       setIsLoading(false);
     }
   }
 
-  async function updateReviewStatus(
+  async function handleUpdateReviewStatus(
     documentId: string,
     nextStatus: ReviewStatus,
     defaultNote: string,
@@ -181,34 +116,14 @@ export default function TemplatesPage() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/document-review-queue/${documentId}/status`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify({
-            nextStatus,
-            reviewNote,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(body || `Không cập nhật được trạng thái. HTTP ${response.status}`);
-      }
-
+      await updateReviewStatus(documentId, nextStatus, reviewNote);
       await loadQueue();
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Không cập nhật được trạng thái duyệt.",
-      );
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setErrorMessage(err.message);
+      } else {
+        setErrorMessage("Không cập nhật được trạng thái duyệt.");
+      }
     } finally {
       setUpdatingId(null);
     }
@@ -245,7 +160,7 @@ export default function TemplatesPage() {
   }, [activeFilter, items, keyword]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-8">
+    <div className="min-h-screen bg-slate-50 px-6 py-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -349,9 +264,7 @@ export default function TemplatesPage() {
         </section>
 
         {errorMessage ? (
-          <section className="rounded-3xl border border-red-200 bg-red-50 p-5 text-sm font-semibold text-red-700">
-            {errorMessage}
-          </section>
+          <ErrorBanner error={errorMessage} />
         ) : null}
 
         {isLoading ? (
@@ -427,7 +340,7 @@ export default function TemplatesPage() {
                     <button
                       type="button"
                       onClick={() =>
-                        void updateReviewStatus(
+                        void handleUpdateReviewStatus(
                           item.id,
                           "APPROVED",
                           "Đã kiểm tra nội dung và phê duyệt biểu mẫu.",
@@ -444,7 +357,7 @@ export default function TemplatesPage() {
                     <button
                       type="button"
                       onClick={() =>
-                        void updateReviewStatus(
+                        void handleUpdateReviewStatus(
                           item.id,
                           "NEEDS_REVISION",
                           "Cần kiểm tra và chỉnh sửa lại biểu mẫu.",
@@ -461,7 +374,7 @@ export default function TemplatesPage() {
                     <button
                       type="button"
                       onClick={() =>
-                        void updateReviewStatus(
+                        void handleUpdateReviewStatus(
                           item.id,
                           "CANCELLED",
                           "Hủy biểu mẫu khỏi luồng phê duyệt.",
@@ -481,6 +394,6 @@ export default function TemplatesPage() {
           ))}
         </section>
       </div>
-    </main>
+    </div>
   );
 }

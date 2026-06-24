@@ -201,6 +201,63 @@ export function isJsonObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+// =========================================================================
+// ApiError
+// =========================================================================
+
+export type ApiErrorBody = {
+  statusCode: number;
+  code: string;
+  message: string;
+  requestId: string;
+  timestamp: string;
+  path: string;
+};
+
+/**
+ * Structured API error.
+ * - .message → user-facing message (from backend)
+ * - .status  → HTTP status code
+ * - .code    → semantic error code (from backend)
+ * - .requestId → traceable request ID
+ */
+export class ApiError extends Error {
+  readonly status: number;
+  readonly body: ApiErrorBody | null;
+
+  constructor(status: number, body: ApiErrorBody | null) {
+    super(body?.message ?? `HTTP ${status}`);
+    this.name = "ApiError";
+    this.status = status;
+    this.body = body;
+  }
+
+  get requestId(): string | null {
+    return this.body?.requestId ?? null;
+  }
+
+  get code(): string | null {
+    return this.body?.code ?? null;
+  }
+}
+
+function parseErrorBody(text: string): ApiErrorBody | null {
+  if (!text.trim()) return null;
+  try {
+    const json = JSON.parse(text);
+    if (
+      isJsonObject(json) &&
+      typeof json.statusCode === "number" &&
+      typeof json.message === "string"
+    ) {
+      return json as ApiErrorBody;
+    }
+  } catch {
+    // not JSON
+  }
+  return null;
+}
+
 /**
  * Unwrap response: nếu có field `data` hoặc `result` ở top level thì lấy.
  * Nếu không, trả về raw response.
@@ -217,6 +274,10 @@ export function unwrapApiData<T>(json: unknown): T {
   return json as T;
 }
 
+/**
+ * Extract a human-readable message from a raw JSON error body.
+ * Used for backward compatibility — prefer catching `ApiError` in new code.
+ */
 export function extractApiError(json: unknown, fallback: string): string {
   if (!isJsonObject(json)) return fallback;
   const { message } = json;
@@ -299,9 +360,9 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
   }
 
   if (!response.ok) {
-    throw new Error(
-      `${extractApiError(json, "Không gọi được API.")} [HTTP ${response.status}]`,
-    );
+    const text = await response.text();
+    const body = parseErrorBody(text);
+    throw new ApiError(response.status, body);
   }
   return unwrapApiData<T>(json);
 }

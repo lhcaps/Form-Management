@@ -1,4 +1,7 @@
-import { absoluteApiUrl } from "./api-client";
+import { readApi } from "./api-client";
+import type { DbTemplate } from "./documents-api";
+
+export { type DbTemplate } from "./documents-api";
 
 export type TemplateSummary = {
   id: string;
@@ -11,15 +14,9 @@ export type TemplateSummary = {
 };
 
 export async function fetchMyTemplates(): Promise<TemplateSummary[]> {
-  const response = await fetch(absoluteApiUrl("/templates/mine"), {
-    credentials: "include",
-    cache: "no-store",
-    headers: {
-      Accept: "application/json",
-    },
-  });
+  return readApi<TemplateSummary[]>("/templates/mine", { noStore: true });
+}
 
-  if (!response.ok) return [];
-
-  return (await response.json()) as TemplateSummary[];
+export async function fetchDbTemplates(): Promise<DbTemplate[]> {
+  return readApi<DbTemplate[]>("/templates", { noStore: true });
 }

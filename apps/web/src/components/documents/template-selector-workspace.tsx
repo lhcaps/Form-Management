@@ -69,61 +69,15 @@ import {
   runtimeBadge as describeRuntimeBadge,
   type FormRuntimeSource,
 } from "@/lib/form-platform-catalog";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import {
+  fetchDbTemplates as _fetchDbTemplates,
+  type DbTemplate,
+} from "@/lib/templates-api";
+import { createDocumentBatch } from "@/lib/documents-api";
+import { readApi, ApiError } from "@/lib/api-client";
+import { ErrorBanner } from "@/components/common/error-banner";
 
 const GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE: Record<string, string> = {};
-
-type DbTemplate = {
-  id: string;
-  templateCode: string;
-  templateNo: string | null;
-  templateName: string;
-  renderScope: string;
-  outputStrategy: string;
-  stageCode: string | null;
-  requiresReview: boolean;
-  group: {
-    id: string;
-    groupCode: string;
-    groupName: string;
-    groupOrder: number;
-  } | null;
-};
-
-type DbTemplatesResponse = DbTemplate[];
-
-type CaseListResponse = {
-  items: Array<{
-    id: string;
-    caseCode: string;
-    caseTitle: string;
-    currentStage: string | null;
-    currentStatus: string | null;
-  }>;
-};
-
-type GeneratedDocumentSummary = {
-  id: string;
-  templateCode: string | null;
-  templateNo: string | null;
-  templateName: string | null;
-  documentCode: string | null;
-  documentTitle: string;
-  targetScope: string;
-  targetPersonId: string | null;
-  reviewStatus: string;
-};
-
-type SingleCreateResult = {
-  id: string;
-  batchCode: string;
-  totalDocuments: number;
-  successDocuments: number;
-  failedDocuments: number;
-  documents: GeneratedDocumentSummary[];
-};
 
 type SuggestInput = {
   quickText: string;
@@ -500,12 +454,20 @@ export function TemplateSelectorWorkspace() {
   const [openingTemplateCode, setOpeningTemplateCode] = useState<string | null>(
     null,
   );
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState<unknown>("");
   const [showFullCatalog, setShowFullCatalog] = useState(true);
 
   const [currentCaseId, setCurrentCaseId] = useState<string | null>(null);
   const [casePickerOpen, setCasePickerOpen] = useState(false);
-  const [caseOptions, setCaseOptions] = useState<CaseListResponse["items"]>([]);
+  const [caseOptions, setCaseOptions] = useState<
+    Array<{
+      id: string;
+      caseCode: string;
+      caseTitle: string;
+      currentStage: string | null;
+      currentStatus: string | null;
+    }>
+  >([]);
   const [casePickerLoading, setCasePickerLoading] = useState(false);
   const [casePickerError, setCasePickerError] = useState("");
   const [pendingTemplate, setPendingTemplate] = useState<Candidate | null>(
@@ -525,33 +487,13 @@ export function TemplateSelectorWorkspace() {
 
   async function loadDbTemplates() {
     setIsLoading(true);
-    setErrorMessage("");
+    setError("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/templates`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(
-          body || `Không tải được danh sách biểu mẫu. HTTP ${response.status}`,
-        );
-      }
-
-      const data = (await response.json()) as DbTemplatesResponse;
+      const data = await _fetchDbTemplates();
       setDbTemplates(data);
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Không tải được danh sách biểu mẫu.",
-      );
+    } catch (err) {
+      setError(err instanceof ApiError ? err : err instanceof Error ? err : new Error("Không tải được danh sách biểu mẫu."));
     } finally {
       setIsLoading(false);
     }
@@ -718,30 +660,14 @@ export function TemplateSelectorWorkspace() {
     setCasePickerOpen(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/cases?pageSize=100`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-        },
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        const body = await response.text();
-        throw new Error(
-          body || `Không tải được danh sách hồ sơ. HTTP ${response.status}`,
-        );
-      }
-
-      const data = (await response.json()) as CaseListResponse;
+      const data = await readApi<{ items: Array<{ id: string; caseCode: string; caseTitle: string; currentStage: string | null; currentStatus: string | null }> }>("/cases?pageSize=100", { noStore: true });
       setCaseOptions(data.items);
-    } catch (error) {
-      setCasePickerError(
-        error instanceof Error
-          ? error.message
-          : "Không tải được danh sách hồ sơ.",
-      );
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setCasePickerError(err.message);
+      } else {
+        setCasePickerError("Không tải được danh sách hồ sơ.");
+      }
     } finally {
       setCasePickerLoading(false);
     }
@@ -753,44 +679,23 @@ export function TemplateSelectorWorkspace() {
   }
 
   async function createBatchForCase(caseId: string, item: Candidate) {
-    const response = await fetch(
-      `${API_BASE_URL}/documents/cases/${caseId}/batches`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify({
-          templateIds: item.dbTemplateId ? [item.dbTemplateId] : [],
-          targetPersonIds: [],
-          formats: ["DOCX", "PDF"],
-          note: `Tạo document đơn từ màn hình chọn biểu mẫu. Template: ${item.code}. Hồ sơ: ${caseId}. Dữ liệu đầu vào: ${[
-            input.offenseName,
-            input.legalArticle,
-            input.personName,
-            input.processNeed,
-            input.quickText,
-          ]
-            .filter(Boolean)
-            .join(" | ")}`,
-        }),
-      },
-    );
+    const result = await createDocumentBatch(caseId, item.dbTemplateId ?? "", {
+      targetPersonIds: [],
+      formats: ["DOCX", "PDF"],
+      note: `Tạo document đơn từ màn hình chọn biểu mẫu. Template: ${item.code}. Hồ sơ: ${caseId}. Dữ liệu đầu vào: ${[
+        input.offenseName,
+        input.legalArticle,
+        input.personName,
+        input.processNeed,
+        input.quickText,
+      ]
+        .filter(Boolean)
+        .join(" | ")}`,
+    });
 
-    if (!response.ok) {
-      const body = await response.text();
-      throw new Error(
-        body ||
-          `Không tạo được document cho ${item.code}. HTTP ${response.status}`,
-      );
-    }
-
-    const data = (await response.json()) as SingleCreateResult;
     const generatedDocument =
-      data.documents.find((document) => document.templateCode === item.code) ??
-      data.documents[0];
+      result.documents.find((document) => document.templateCode === item.code) ??
+      result.documents[0];
 
     if (!generatedDocument?.id) {
       throw new Error(`Backend không trả về document id cho ${item.code}.`);
@@ -800,7 +705,7 @@ export function TemplateSelectorWorkspace() {
   }
 
   async function openTemplate(item: Candidate) {
-    setErrorMessage("");
+    setError("");
 
     const directDocumentId = GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code];
 
@@ -810,7 +715,7 @@ export function TemplateSelectorWorkspace() {
     }
 
     if (!item.canCreate || !item.dbTemplateId) {
-      setErrorMessage(
+      setError(
         `${item.code} chưa có DB template để mở trực tiếp. Cần seed/mapping biểu mẫu này vào DB trước.`,
       );
       return;
@@ -826,12 +731,8 @@ export function TemplateSelectorWorkspace() {
 
     try {
       await createBatchForCase(currentCaseId, item);
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : `Không mở được biểu mẫu ${item.code}.`,
-      );
+    } catch (err) {
+      setError(err instanceof ApiError ? err : err instanceof Error ? err : new Error(`Không mở được biểu mẫu ${item.code}.`));
     } finally {
       setOpeningTemplateCode(null);
     }
@@ -846,12 +747,8 @@ export function TemplateSelectorWorkspace() {
     try {
       await createBatchForCase(caseId, pendingTemplate);
       setCurrentCaseId(caseId);
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : `Không mở được biểu mẫu ${pendingTemplate.code}.`,
-      );
+    } catch (err) {
+      setError(err instanceof ApiError ? err : err instanceof Error ? err : new Error(`Không mở được biểu mẫu ${pendingTemplate.code}.`));
     } finally {
       setOpeningTemplateCode(null);
       setPendingTemplate(null);
@@ -1236,10 +1133,8 @@ export function TemplateSelectorWorkspace() {
           ) : null}
         </section>
 
-        {errorMessage ? (
-          <section className="rounded-3xl border border-red-200 bg-red-50 p-5 text-sm font-semibold text-red-700">
-            {errorMessage}
-          </section>
+        {error ? (
+          <ErrorBanner error={error} />
         ) : null}
       </div>
 

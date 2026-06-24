@@ -5,7 +5,8 @@
  * Không có hardcode fallback trong production — nếu chưa đăng nhập, trả về ''.
  */
 
-import { absoluteApiUrl } from "./api-client";
+import { absoluteApiUrl, readApi } from "./api-client";
+import { ApiError } from "./api-client";
 
 export type UserRole = "ADMIN" | "OFFICIAL" | "VIEWER";
 export type FormPermission =
@@ -30,71 +31,43 @@ export interface AuthUser {
 }
 
 export async function login(username: string, password: string): Promise<AuthUser> {
-  let res: Response;
   try {
-    res = await fetch(absoluteApiUrl("/auth/login"), {
+    const result = await readApi<{ user: AuthUser }>("/auth/login", {
       method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: username.trim(), password }),
     });
-  } catch {
+    return result.user;
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
     throw new Error(
       "Không kết nối được API đăng nhập. Kiểm tra server API ở cổng 3001 rồi thử lại.",
     );
   }
-  if (!res.ok) {
-    const text = await res.text();
-    let msg = "Đăng nhập thất bại.";
-    try {
-      const json = JSON.parse(text) as { message?: string };
-      if (typeof json.message === "string") msg = json.message;
-    } catch {
-      // ignore
-    }
-    throw new Error(`${msg} [HTTP ${res.status}]`);
-  }
-  const data = (await res.json()) as { user: AuthUser };
-  return data.user;
 }
 
 export async function logout(): Promise<void> {
-  await fetch(absoluteApiUrl("/auth/logout"), {
-    method: "POST",
-    credentials: "include",
-  });
+  await readApi<void>("/auth/logout", { method: "POST" });
 }
 
 export async function fetchMe(): Promise<AuthUser | null> {
-  let res: Response;
   try {
-    res = await fetch(absoluteApiUrl("/auth/me"), {
-      credentials: "include",
-      cache: "no-store",
-    });
-  } catch {
+    return await readApi<AuthUser>("/auth/me", { noStore: true });
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) return null;
     return null;
   }
-  if (res.status === 401) return null;
-  if (!res.ok) return null;
-  const data = (await res.json()) as AuthUser | null;
-  return data ?? null;
 }
 
 export async function fetchOfficials(): Promise<
   Array<{ id: string; fullName: string; positionTitle: string | null; agencyName: string | null }>
 > {
-  const res = await fetch(absoluteApiUrl("/auth/users"), {
-    credentials: "include",
-    cache: "no-store",
-  });
-  if (!res.ok) return [];
-  return (await res.json()) as Array<{
-    id: string;
-    fullName: string;
-    positionTitle: string | null;
-    agencyName: string | null;
-  }>;
+  try {
+    return await readApi<
+      Array<{ id: string; fullName: string; positionTitle: string | null; agencyName: string | null }>
+    >("/auth/users", { noStore: true });
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchCurrentAgency(): Promise<{
@@ -103,15 +76,14 @@ export async function fetchCurrentAgency(): Promise<{
   code: string | null;
   parentName: string | null;
 } | null> {
-  const res = await fetch(absoluteApiUrl("/auth/agency"), {
-    credentials: "include",
-    cache: "no-store",
-  });
-  if (!res.ok) return null;
-  return (await res.json()) as {
-    id: string;
-    name: string;
-    code: string | null;
-    parentName: string | null;
-  } | null;
+  try {
+    return await readApi<{
+      id: string;
+      name: string;
+      code: string | null;
+      parentName: string | null;
+    }>("/auth/agency", { noStore: true });
+  } catch {
+    return null;
+  }
 }

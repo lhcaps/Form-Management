@@ -81,9 +81,7 @@ async function bootstrap(): Promise<void> {
   const port = config.apiPort;
   const serverUrl = await app.listen(port);
 
-  logger.log(
-    `QUANLYVKS API is running on ${serverUrl}/${globalPrefix}`,
-  );
+  logger.log(`QUANLYVKS API is running on ${serverUrl}/${globalPrefix}`);
 }
 
 void bootstrap();

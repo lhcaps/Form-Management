@@ -20,7 +20,18 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        const body = res.body as Record<string, unknown>;
+        if (typeof body.status !== 'string') {
+          throw new Error('Expected body.status to be a string');
+        }
+        if (typeof body.name !== 'string') {
+          throw new Error('Expected body.name to be a string');
+        }
+        if (typeof body.version !== 'string') {
+          throw new Error('Expected body.version to be a string');
+        }
+      });
   });
 
   afterEach(async () => {

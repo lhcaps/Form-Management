@@ -60,14 +60,18 @@ export class CasesController {
     @Query('status') status?: string,
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
+    @CurrentUserDecorator() user?: CurrentUser,
   ) {
-    return this.casesService.findAll({
-      q,
-      stage,
-      status,
-      page: page ? Number(page) : undefined,
-      pageSize: pageSize ? Number(pageSize) : undefined,
-    });
+    return this.casesService.findAll(
+      {
+        q,
+        stage,
+        status,
+        page: page ? Number(page) : undefined,
+        pageSize: pageSize ? Number(pageSize) : undefined,
+      },
+      user,
+    );
   }
 
   @Get('reports/summary')

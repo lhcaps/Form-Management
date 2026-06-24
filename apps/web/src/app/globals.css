@@ -1,77 +1,345 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   SHADCN ANIMATIONS (required by tailwindcss-animate)
+   ============================================================ */
+@layer base {
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
 
-  /* QUANLYVKS UI scale */
-  --qvks-font-size-base: 16px;
-  --qvks-font-size-label: 15px;
-  --qvks-font-size-input: 16px;
-  --qvks-input-height: 46px;
-  --qvks-button-height: 42px;
-  --qvks-card-radius: 18px;
-}
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  @keyframes enter {
+    from { opacity: var(--radix-enter-opacity); transform: translate3d(var(--radix-enter-translate-x, 0), var(--radix-enter-translate-y, 0), 0) scale(var(--radix-enter-scale, 1)); }
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes exit {
+    to { opacity: var(--radix-exit-opacity); transform: translate3d(var(--radix-exit-translate-x, 0), var(--radix-exit-translate-y, 0), 0) scale(var(--radix-exit-scale, 1)); }
+  }
+
+  @keyframes in {
+    from { opacity: 0; }
+  }
+
+  @keyframes out {
+    to { opacity: 0; }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+
+  @keyframes fade-out {
+    to { opacity: 0; }
+  }
+
+  @keyframes zoom-in-95 {
+    from { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.95); }
+  }
+
+  @keyframes zoom-out-95 {
+    to { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(0.95); }
+  }
+
+  @keyframes slide-in-from-top {
+    from { transform: translate3d(var(--radix-scroll-area-scroll-area-scrollbar-x-translate, 0), -100%, 0); }
+  }
+
+  @keyframes slide-in-from-bottom {
+    from { transform: translate3d(var(--radix-scroll-area-scroll-area-scrollbar-y-translate, 0), 100%, 0); }
+  }
+
+  @keyframes slide-out-to-top {
+    to { transform: translate3d(var(--radix-scroll-area-scroll-area-scrollbar-x-translate, 0), -100%, 0); }
+  }
+
+  @keyframes slide-out-to-bottom {
+    to { transform: translate3d(var(--radix-scroll-area-scroll-area-scrollbar-y-translate, 0), 100%, 0); }
+  }
+
+  @keyframes progress {
+    from { transform: translate3d(-100%, 0, 0); }
+  }
+
+  @keyframes skeleton {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Shadcn animation utilities */
+  .animate-accordion-down { animation: accordion-down 0.2s ease-out; }
+  .animate-accordion-up { animation: accordion-up 0.2s ease-out; }
+  .animate-enter { animation: enter 0.2s ease-out; }
+  .animate-exit { animation: exit 0.15s ease-in; }
+  .animate-in { animation: in 0.2s ease-out; }
+  .animate-out { animation: out 0.15s ease-in; }
+  .animate-fade-in { animation: fade-in 0.2s ease-out; }
+  .animate-fade-out { animation: fade-out 0.15s ease-in; }
+  .animate-zoom-in-95 { animation: zoom-in-95 0.2s ease-out; }
+  .animate-zoom-out-95 { animation: zoom-out-95 0.15s ease-in; }
+  .animate-slide-in-from-top { animation: slide-in-from-top 0.3s ease-out; }
+  .animate-slide-in-from-bottom { animation: slide-in-from-bottom 0.3s ease-out; }
+  .animate-slide-out-to-top { animation: slide-out-to-top 0.3s ease-out; }
+  .animate-slide-out-to-bottom { animation: slide-out-to-bottom 0.3s ease-out; }
+  .animate-progress { animation: progress 2s ease-in-out infinite; }
+  .animate-skeleton {
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%) 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+    background-size: 200% 100%;
   }
 }
 
-* {
-  box-sizing: border-box;
+/* ============================================================
+   SHADCN CSS VARIABLES — QUANLYVKS LEGAL/ADMIN THEME
+   Slate/zinc base — deep navy primary — no decorative noise.
+   ============================================================ */
+@layer base {
+  :root {
+    /* --- Shadcn tokens exposed as CSS variables --- */
+    --radius: 0.5rem;
+
+    /* Background / foreground */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Primary — deep navy, legal/government feel */
+    --primary: 222 70% 26%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* Muted */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    /* Accent */
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Success */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Border / input / ring */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    /* Chart colors */
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* Sidebar (used by shadcn sheet) */
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 222 70% 26%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 222.2 84% 4.9%;
+
+    /* --- QUANLYVKS Senior-friendly overrides --- */
+    --qvks-font-size-base: 16px;
+    --qvks-font-size-label: 15px;
+    --qvks-font-size-input: 16px;
+    --qvks-input-height: 46px;
+    --qvks-button-height: 42px;
+    --qvks-card-radius: 18px;
+  }
+
+  /* Dark mode — dark slate theme, matches shadcn dark defaults */
+  .dark {
+    :root {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+
+      --popover: 222.2 84% 4.9%;
+      --popover-foreground: 210 40% 98%;
+
+      --primary: 210 40% 98%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+
+      --secondary: 217.2 32.6% 17.5%;
+      --secondary-foreground: 210 40% 98%;
+
+      --muted: 217.2 32.6% 17.5%;
+      --muted-foreground: 215 20.2% 65.1%;
+
+      --accent: 217.2 32.6% 17.5%;
+      --accent-foreground: 210 40% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 40% 98%;
+
+      --success: 142 71% 45%;
+      --success-foreground: 0 0% 100%;
+
+      --warning: 38 92% 50%;
+      --warning-foreground: 0 0% 100%;
+
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+      --ring: 212.7 26.8% 83.9%;
+
+      --sidebar: 222.2 84% 4.9%;
+      --sidebar-foreground: 210 40% 98%;
+      --sidebar-primary: 210 40% 98%;
+      --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+      --sidebar-accent: 217.2 32.6% 17.5%;
+      --sidebar-accent-foreground: 210 40% 98%;
+      --sidebar-border: 217.2 32.6% 17.5%;
+      --sidebar-ring: 212.7 26.8% 83.9%;
+
+      --qvks-font-size-base: 16px;
+      --qvks-font-size-label: 15px;
+      --qvks-font-size-input: 16px;
+      --qvks-input-height: 46px;
+      --qvks-button-height: 42px;
+      --qvks-card-radius: 18px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+
+      --popover: 222.2 84% 4.9%;
+      --popover-foreground: 210 40% 98%;
+
+      --primary: 210 40% 98%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+
+      --secondary: 217.2 32.6% 17.5%;
+      --secondary-foreground: 210 40% 98%;
+
+      --muted: 217.2 32.6% 17.5%;
+      --muted-foreground: 215 20.2% 65.1%;
+
+      --accent: 217.2 32.6% 17.5%;
+      --accent-foreground: 210 40% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 40% 98%;
+
+      --success: 142 71% 45%;
+      --success-foreground: 0 0% 100%;
+
+      --warning: 38 92% 50%;
+      --warning-foreground: 0 0% 100%;
+
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+      --ring: 212.7 26.8% 83.9%;
+
+      --sidebar: 222.2 84% 4.9%;
+      --sidebar-foreground: 210 40% 98%;
+      --sidebar-primary: 210 40% 98%;
+      --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+      --sidebar-accent: 217.2 32.6% 17.5%;
+      --sidebar-accent-foreground: 210 40% 98%;
+      --sidebar-border: 217.2 32.6% 17.5%;
+      --sidebar-ring: 212.7 26.8% 83.9%;
+
+      --qvks-font-size-base: 16px;
+      --qvks-font-size-label: 15px;
+      --qvks-font-size-input: 16px;
+      --qvks-input-height: 46px;
+      --qvks-button-height: 42px;
+      --qvks-card-radius: 18px;
+    }
+  }
 }
 
-html {
-  font-size: 16px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ============================================================
+   TAILWIND V4 THEME TOKENS
+   Map CSS variables to Tailwind utility classes.
+   ============================================================ */
+@theme inline {
+  /* Color aliases */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* =========================================================
-   QUANLYVKS - Senior friendly base UI
-   Áp dụng nhẹ toàn hệ thống để khách lớn tuổi dễ nhìn hơn.
-   ========================================================= */
-
-button,
-input,
-select,
-textarea {
-  font-family: inherit;
-}
-
-input,
-select,
-textarea {
-  font-size: var(--qvks-font-size-input);
-}
-
-button {
-  font-size: 15px;
-}
-
-/* =========================================================
+/* ============================================================
    QUANLYVKS - Generated document workspace
    Dùng chung cho tất cả màn hình biểu mẫu BM-xxx.
    Gắn class qvks-document-workspace ở wrapper cha.
-   ========================================================= */
-
+   ============================================================ */
 .qvks-document-workspace {
   width: 100%;
   max-width: 1500px;
@@ -175,6 +443,7 @@ button {
     font-size: 20px;
   }
 }
+
 /* ============================================================
    QUANLYVKS - Bigger date/select controls for legal form inputs
    Safe UI-only patch. Does not change saved data.
@@ -193,16 +462,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
-/* =========================================================
+/* ============================================================
    QUANLYVKS - ẨN NÚT "ĐIỀN DỮ LIỆU MẪU" trong form nghiệp vụ
    Lý do: nút này chứa data giả (, , , ...)
    nên user có thể vô tình submit dữ liệu demo thay vì dữ liệu thật.
-
-   CSS selector match:
-   - button có data-qvks-action="fill-sample"
-   - button có title chứa "mẫu" (defensive)
-   - button chứa text bắt đầu bằng "Điền" + "mẫu" (CSS :has pseudo - không phổ biến)
-   ========================================================= */
+   ============================================================ */
 button[data-qvks-action="fill-sample"],
 button[title="Điền dữ liệu mẫu"],
 button[title="Điền thông tin mẫu"] {

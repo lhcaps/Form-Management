@@ -15,6 +15,7 @@ import { FormsContractsModule } from './modules/forms-contracts/forms-contracts.
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { HealthModule } from './modules/health/health.module';
 import { FormStudioModule } from './modules/form-studio/form-studio.module';
+import { CsrfCookieGuard } from './common/csrf-cookie.guard';
 
 @Module({
   imports: [
@@ -43,6 +44,12 @@ import { FormStudioModule } from './modules/form-studio/form-studio.module';
     HealthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+    // CSRF guard active only when SameSite=None (cross-origin cookie auth).
+    // Safe-ignores OPTIONS, GET, and same-site requests.
+    { provide: APP_GUARD, useClass: CsrfCookieGuard },
+  ],
 })
 export class AppModule {}
