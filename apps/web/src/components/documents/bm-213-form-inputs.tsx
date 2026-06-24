@@ -385,7 +385,7 @@ export function Bm213FormInputsPanel({ documentId, onSaved }: Props) {
           "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
       },
       person: {
-        fullName: "Nguyễn Văn An",
+        fullName: "Lê Hoàng Nam",
         genderLabel: "Nam",
         otherName: "",
         dateOfBirthText: "15 tháng 8 năm 2010",
