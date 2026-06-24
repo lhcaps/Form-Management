@@ -28,47 +28,32 @@ describe("Form runtime readiness", () => {
     assert.strictEqual(data.counts.total, 213, "should have 213 total forms");
   });
 
-  it("only 3 forms are locked", () => {
+  it("all 213 forms are locked", () => {
     const jsonPath = path.join(REPORTS_DIR, "form-runtime-readiness.json");
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    assert.strictEqual(data.counts.locked, 3, "should have exactly 3 locked forms");
-    assert.strictEqual(data.counts.runtimeEligible, 3, "runtimeEligible should be 3");
+    assert.strictEqual(data.counts.locked, 213, "should have 213 locked forms");
+    assert.strictEqual(data.counts.runtimeEligible, 213, "runtimeEligible should be 213");
   });
 
-  it("remaining 210 forms are draft", () => {
+  it("no forms are draft", () => {
     const jsonPath = path.join(REPORTS_DIR, "form-runtime-readiness.json");
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    assert.strictEqual(data.counts.draft, 210, "should have 210 draft forms");
-    assert.strictEqual(data.counts.blockedForms, 210, "blocked forms should be 210");
+    assert.strictEqual(data.counts.draft, 0, "should have 0 draft forms");
+    assert.strictEqual(data.counts.blockedForms, 0, "blocked forms should be 0");
   });
 
-  it("has top 20 by generic field count", () => {
+  it("top 20 by generic field count is an array (empty when all forms locked)", () => {
     const jsonPath = path.join(REPORTS_DIR, "form-runtime-readiness.json");
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    assert.ok(Array.isArray(data.top20ByGenericFields));
-    assert.strictEqual(data.top20ByGenericFields.length, 20, "should have top 20");
-    // Verify sorted descending
-    for (let i = 1; i < data.top20ByGenericFields.length; i++) {
-      assert.ok(
-        data.top20ByGenericFields[i - 1].genericFieldCount >=
-          data.top20ByGenericFields[i].genericFieldCount,
-        "should be sorted by genericFieldCount descending",
-      );
-    }
+    assert.ok(Array.isArray(data.top20ByGenericFields), "should be an array");
+    assert.ok(data.top20ByGenericFields.length === 0, "empty when all 213 forms are locked with 0 generic fields");
   });
 
-  it("has recommended easy batch", () => {
+  it("easy batch is empty when no draft forms remain", () => {
     const jsonPath = path.join(REPORTS_DIR, "form-runtime-readiness.json");
     const data = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    assert.ok(Array.isArray(data.easyBatch));
-    assert.ok(data.easyBatch.length > 0, "should have at least some easy forms");
-    // Easy batch should be sorted ascending by generic count
-    for (let i = 1; i < data.easyBatch.length; i++) {
-      assert.ok(
-        data.easyBatch[i - 1].genericFieldCount <= data.easyBatch[i].genericFieldCount,
-        "easy batch should be sorted ascending",
-      );
-    }
+    assert.ok(Array.isArray(data.easyBatch), "should be an array");
+    assert.ok(data.easyBatch.length === 0, "no draft forms means no easy batch");
   });
 
   it("groups forms by stage", () => {

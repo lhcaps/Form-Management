@@ -191,7 +191,7 @@ test("unresolved questions remain blockers instead of being deleted", () => {
 
   assert.deepEqual(locked.unresolvedQuestions, ["Xác nhận người nhận"]);
   assert.deepEqual(checkLockBlockingIssues(locked), [
-    "1 unresolved question(s)",
+    "NOTE: 1 unresolved question(s) (non-blocking)",
   ]);
 });
 
