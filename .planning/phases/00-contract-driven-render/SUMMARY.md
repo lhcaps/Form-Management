@@ -548,3 +548,123 @@ This is a roadmap signal, not a defect. B2 ships with the 28 brief-mandated entr
 B3 — `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 §B3 (and the B2 brief's scope correction). Stop after B2.
 
 
+## Task B3. `GET /documents/generated/:id/form-schema` endpoint + minimal UI wiring
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Files changed
+
+- `packages/form-contracts/src/section-titles.ts` — added two high-frequency section keys surfaced by the B2 corpus scan: `official: "Thông tin người có thẩm quyền"`, `person: "Thông tin cá nhân"`. Fallback behavior unchanged.
+- `packages/form-contracts/test/section-titles.test.ts` — extended the "known keys" test to assert the two new Vietnamese titles.
+- `apps/api/src/modules/form-studio/application/document-form-schema.service.ts` *(new)* — read-only `getFormSchema(documentId, user)` that resolves the active compiled contract, runs `deriveFormInputSchema`, and assembles `values` / `resolvedValues` / `validation.missingRequiredFields`. Includes a small V2→V1 mapper for the compiled contract shape that `deriveFormInputSchema` consumes.
+- `apps/api/src/modules/form-studio/application/document-form-schema.service.spec.ts` *(new)* — 10 unit tests covering: locked response shape, `formInputs` round-trip, `REQUIRED` errors for missing editable required fields, no-required for readonly (`casePayload`/`computed`) fields, missing-snapshot tolerance, 404 `GENERATED_DOCUMENT_NOT_FOUND`, 403 `AGENCY_SCOPE_FORBIDDEN`, ADMIN bypass, resolvedValues for visible fields, Vietnamese title propagation.
+- `apps/api/src/modules/form-studio/document-form-schema.controller.ts` *(new)* — `@Controller('documents/generated')` + `@Get(':documentId/form-schema')` endpoint, sibling to the existing A2 `ContractFormInputsController` (same namespace, same Nest module).
+- `apps/api/src/modules/form-studio/form-studio.module.ts` — registered `DocumentFormSchemaService` as a provider and `DocumentFormSchemaController` as a controller.
+- `apps/web/src/lib/form-schema-client.ts` *(new)* — typed client (`FormSchemaResponse`, `fetchFormSchema`) plus pure helpers `getValueByPath`, `setValueByPath`, `partitionSchemaFields`. Types are sourced from `@qllaw/form-contracts` so the web and api share one source of truth.
+- `apps/web/src/lib/form-schema-client.test.ts` *(new)* — 13 unit tests for the helpers and the response unwrap.
+- `apps/web/src/components/documents/generic-template-form-inputs.tsx` — minimal dynamic-schema wiring: on load the panel fetches `GET /documents/generated/:id/form-schema` in parallel with the existing render-payload fetch. When the schema is non-empty, sections/fields are driven by `schema.sections`. Editable fields bind to `values[field.path]`, readonly visible fields render a `ReadonlyPreview` from `resolvedValues[field.path]`. The legacy 3-`SectionCard` view is kept as the fallback when the endpoint fails, the schema is empty, or there are no visible editable fields. The existing save payload shape and deep-merge semantics are unchanged — when the panel is in dynamic mode it just sends `dynamicValues` (built by `setValueByPath` from the editable field paths) under `formInputs` / `payloadOverrides` / `renderPayloadOverrides`. The "Lấy từ vụ án" button is disabled in dynamic mode to avoid confusing the user (the legacy `applyCasePayloadToGenericForm` only knows the legacy 6-section shape).
+
+### Endpoint
+
+```
+GET /documents/generated/:documentId/form-schema
+```
+
+Lives in `FormStudioModule` next to the existing A2 save endpoint (`PUT /documents/generated/:documentId/contract-form-inputs`) — the brief's preferred location was `apps/api/src/modules/documents/document-form-schema.controller.ts`, but the existing namespace convention puts the `documents/generated/*` routes in `FormStudioModule` and `RuntimeFormContractService` is already exported from that module, so wiring the new endpoint there avoids cross-module service exports. Documented here as a deliberate deviation from the preferred path to follow the existing module pattern.
+
+Response shape (locked by `DocumentFormSchemaResponse`):
+
+```ts
+{
+  generatedDocumentId: string,
+  templateCode: string,
+  sourceId: string | null,            // compiledContract.source.templateCode
+  contractVersionHash: string | null,  // resolved.contractHash
+  schema: FormInputSchema,             // deriveFormInputSchema(...)
+  values: Record<string, unknown>,     // editable fields only, read from formInputs
+  resolvedValues: Record<string, unknown>, // all visible fields present in formInputs
+  validation: {
+    missingRequiredFields: FormValidationError[], // REQUIRED for editable + required + empty
+  }
+}
+```
+
+### Contract lookup strategy
+
+`getFormSchema` delegates to `RuntimeFormContractService.resolve(templateCode, agencyId)` — the same path that `ContractFormInputsService.save` uses. This means:
+
+- DB-first published contract (AGENCY_PUBLISHED / GLOBAL_PUBLISHED) is preferred.
+- Locked V1 file fallback is only used when the DB has no published version.
+- The schema is always derived against the same contract the save endpoint will validate against. Schema drift (a published version that changed since last save) is not surfaced here; A2's `STALE_CONTRACT_HASH` on the save endpoint is the source of truth for that. Surfacing the drift on this GET is a future enhancement (J1/C1 territory).
+
+The V2 compiled contract is mapped to a V1-shaped object before `deriveFormInputSchema`:
+
+- `canonicalFields[].{ path, type, label, source, required, uiComponent }` — `uiComponent` is reverse-mapped from V2 `control` (DATE/PARTIAL_DATE/TIME → "date", NUMBER → "number", TEXTAREA → "textarea", SELECT → "select", CHECKBOX → "checkbox", others → "text"); `source` is reverse-mapped from V2 `dataSource.kind` (MANUAL → "manual", CASE → "casePayload", AGENCY → "agencyConfig", OFFICIAL → "officialConfig", SYSTEM → "systemDate", COMPUTED → "computed").
+- `docxSlots[].{ slotId, slotType, required, reviewRequired }` — derived from `renderBindings[].target.slotId` so date-typed fields still get `slotType: "datePart"` (B1's `mapInputType` honors that). V2 has no first-class `docxSlots`, so this is a best-effort synthetic list.
+- `renderBindings[].{ slotId, from, transform, fallback, reviewRequired }` — narrowed to `target.kind === 'SLOT'` and `source.kind === 'FIELD'` bindings.
+- `rejectedCandidates: []` — V2 has no equivalent; B1's blacklist is no-op today, which is the same behavior as the corpus.
+
+`rejectedCandidates` and `formInputHints.suggestedControls` are intentionally empty in the V2→V1 shape. B1 is defensive about missing arrays, so this is safe.
+
+### `values` / `resolvedValues` semantics
+
+- `values` is built by walking `schema.sections[*].fields[*]` and, for every **editable** field, copying the value at `formInputs[path]` (defaulting to `undefined`). Readonly fields (`casePayload`, `agencyConfig`, `officialConfig`, `systemDate`, `computed`) are **not** in `values` because the B3 brief explicitly forbids requiring them. Hidden fields (`visible === false`, e.g. computed) are excluded entirely.
+- `resolvedValues` carries the same `formInputs` lookup but for **every visible** field (editable or readonly). It does not invent case/agency/system values that aren't in the snapshot — only what is already persisted. Future work (post-J1) can layer case/agency lookups on top.
+- Missing `formInputs` snapshot is treated as `{}` (B3 brief: "If missing, treat as {}"). This means the first read after `createBatch` returns an empty `values` and a fully populated `validation.missingRequiredFields` for any required editable field.
+
+### Validation
+
+- `validation.missingRequiredFields` is built by walking every **editable** field where `field.required === true` and the formInputs lookup is empty (`undefined`, `null`, `''`, or empty array). Each entry is a `FormValidationError` (the locked 7-key shape from A2) with `code: "REQUIRED"` and a Vietnamese message. `section` is the first dot-segment of the path, `sectionTitle` is the schema-derived section title, `label` is `field.label` or the path tail as a fallback.
+- Readonly fields are never added to `missingRequiredFields`. Verified by the "does not require readonly fields" test.
+- `CONTRACT_DRIFT` is **not** auto-emitted in B3 (consistent with the A2 design notes — drift only surfaces when `contractLookupStatus !== 'FOUND'`, and that path is not yet wired in `RuntimeFormContractService`).
+
+### UI behavior
+
+- `useDynamic = schema !== null && editable.length > 0`. The legacy 3-`SectionCard` block is kept inside a `{!useDynamic ? <legacy /> : null}` wrapper so the panel can flip back if the schema is empty or the endpoint fails. There is no flicker because the legacy view is rendered as a placeholder until the schema fetch resolves.
+- Sections iterate over `schema.sections` (preserves the locked V1 first-occurrence order — same as B1). Each `SectionCard` shows editable fields via the existing `Field` component (with the existing `text`/`date`/`textarea` mapping from `FormInputField.inputType`) and readonly fields via a new `ReadonlyPreview` component (visually distinct: slate background, no focus ring).
+- Required editable fields get a `*` suffix on the label; readonly fields have no `*`.
+- `validation.missingRequiredFields` from the GET response is fed into the existing `structuredErrors` state (re-using the A3 `StructuredValidationErrorList`). On save, the A2 backend response overrides it with the canonical A2 `errors[]` (still using the same state), so there is no UI duplication.
+- The "Lấy từ vụ án" button is disabled in dynamic mode because the legacy `applyCasePayloadToGenericForm` operates on the hard-coded 6-section shape, which is not present in dynamic mode. Tooltip explains why. Re-enabling it for dynamic mode belongs to a future B3.x / Phase F.
+
+### Fallback behavior
+
+- Endpoint returns 404 / 5xx / network error → `fetchFormSchema` throws → `reload()` catches silently → `schema` stays at its previous value (or `null` on first load) → the legacy 3-`SectionCard` block renders.
+- Endpoint returns a schema with `sections.length === 0` → `setSchema(null)` → legacy view.
+- Endpoint returns a schema with no visible editable fields → `useDynamic === false` → legacy view. This guarantees the dynamic view never produces an empty form for an existing user.
+
+### Commands run
+
+| Command | Exit | Result |
+|---|---|---|
+| `pnpm --filter @qllaw/form-contracts build` | 0 | rebuilt `dist/` so api/web see the new B1/B2 types from `@qllaw/form-contracts` (`FormInputSchema`, `deriveFormInputSchema`, `getSectionTitle`). |
+| `pnpm test:api -- --testPathPatterns=document-form-schema` | 0 | 10/10 B3 service tests pass. |
+| `pnpm test:api -- --testPathPatterns=form-studio` | 0 | 34/34 form-studio tests pass (regression: A2 / A1 untouched). |
+| `pnpm test:api -- --testPathPatterns=documents` | 0 | 103/103 documents tests pass (regression: A1 untouched). |
+| `pnpm --filter form-contracts test` | 0 | 35/35 tests pass (B1+B2 regression, plus the new `official`/`person` assertions in `section-titles.test.ts`). |
+| `pnpm test:web-unit` | 0 | 59/59 tests pass (46 pre-existing + 13 new for `form-schema-client`). |
+| `pnpm typecheck` (form-contracts + api + web) | 0 | clean across all three packages. |
+| `pnpm --filter api exec eslint src/modules/form-studio/application/document-form-schema.service.ts src/modules/form-studio/document-form-schema.controller.ts src/modules/form-studio/form-studio.module.ts` | 0 | 0 errors (test file is project-level ignored per `apps/api/eslint.config.mjs:17`). |
+| `pnpm --filter web exec eslint src/components/documents/generic-template-form-inputs.tsx src/lib/form-schema-client.ts` | 0 | 0 errors. |
+
+### Backward compatibility
+
+- `documents.service.ts::createBatch` is untouched. The new endpoint is read-only — no `render_payload_snapshot` mutation.
+- The save endpoint's deep-merge semantics are unchanged. The dynamic-mode save payload is `{ formInputs: dynamicValues, payloadOverrides: dynamicValues, renderPayloadOverrides: dynamicValues }` — the same envelope the legacy panel sends, just sourced from `dynamicValues` instead of the legacy `form` state. The backend's deep-merge treats `formInputs` as the authoritative object, so unknown-section preservation (A1 invariant) is intact.
+- `document-renderer.service.ts` is not modified. The endpoint does not participate in rendering — it only produces the schema + values needed by the FE.
+- No locked contracts modified. No Prisma schema change. No new dependency.
+- The legacy 6-section view is preserved verbatim behind `{!useDynamic ? ... : null}`. Custom BM-specific components that wrap or replace this panel are unaffected (the wiring is in the panel itself, not in a parent).
+
+### Risks / Open
+
+- **Open**: The dynamic view's `Field` mapping only supports `text` and `date` (textarea is also wired). Future BM-specific controls (SELECT, CHECKBOX, RADIO) are not rendered dynamically yet — they fall back to a plain text input via the B1 `inputType: "text"` default. This is acceptable for B3 because the brief explicitly says "Do NOT implement full custom component replacement" — it's a Phase F / H concern.
+- **Open**: The `official` and `person` Vietnamese titles were chosen as best-effort translations. The B3 brief said to use them unless the corpus suggested better; the corpus does not contain canonical Vietnamese labels for these section keys, so the B3 brief's defaults stand. If a domain expert later disagrees, `section-titles.ts` is the single point to update.
+- **Open**: `resolvedValues` is intentionally minimal — it only carries whatever the user has already saved in `formInputs`. A future enhancement (post-J1) can layer case/agency/system lookups here so the FE previews are richer than the user's own edits. B3's brief explicitly does not require that.
+- **Risk**: The V2→V1 mapper synthesizes `docxSlots` from `renderBindings`. If a future B2.x contract has `renderBindings` that target TABLE (which V2 supports but V1 doesn't), the mapper silently drops them. This is consistent with the existing B1 corpus (no rejected / no TABLE bindings) and is a no-op for the current 213 contracts.
+- **Risk**: The dynamic `Field` rendering does not yet support per-field `width` (V2's `width: 3|4|6|8|9|12`). All fields render full-width inside the 2-col grid. Phase F is the right place to add width-aware rendering.
+
+### Next step
+
+Per PLAN.md v2.3 sequencing, the next task is either **B4** (deeper dynamic-schema features such as width-aware rendering, control-type-specific components, or section-level conditional rules) or **E1** (post-render shadow + semantic diff against the locked contract) depending on whether the next focus is form-schema expressiveness or render-time validation. The PLAN.md should be consulted for the exact ordering. Stop after B3 per the brief.
+
+
+

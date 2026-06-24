@@ -46,6 +46,9 @@ export const SECTION_TITLES: Record<string, string> = {
   prosecutionExtension: "Gia hạn truy tố",
   prosecutionTransfer: "Chuyển truy tố",
   approval: "Phê duyệt",
+  // B3 pre-step: high-frequency keys surfaced by the B2 corpus scan.
+  official: "Thông tin người có thẩm quyền",
+  person: "Thông tin cá nhân",
 };
 
 /**

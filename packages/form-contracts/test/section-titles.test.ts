@@ -64,6 +64,9 @@ const MINIMUM_SECTION_TITLES: Record<string, string> = {
   prosecutionExtension: "Gia hạn truy tố",
   prosecutionTransfer: "Chuyển truy tố",
   approval: "Phê duyệt",
+  // B3 pre-step: high-frequency keys surfaced by the B2 corpus scan.
+  official: "Thông tin người có thẩm quyền",
+  person: "Thông tin cá nhân",
 };
 
 function loadLockedContract(templateCode: string): Record<string, unknown> {
@@ -92,6 +95,12 @@ test("getSectionTitle returns the Vietnamese title for known keys", () => {
   assert.equal(getSectionTitle("informant"), "Người cung cấp tin");
   assert.equal(getSectionTitle("caseRecovery"), "Khôi phục vụ án");
   assert.equal(getSectionTitle("indictment"), "Cáo trạng");
+  // B3 pre-step: high-frequency keys from the B2 corpus scan.
+  assert.equal(
+    getSectionTitle("official"),
+    "Thông tin người có thẩm quyền",
+  );
+  assert.equal(getSectionTitle("person"), "Thông tin cá nhân");
 });
 
 test("getSectionTitle falls back to humanizeSectionKey for unknown keys", () => {

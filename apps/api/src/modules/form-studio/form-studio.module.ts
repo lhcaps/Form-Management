@@ -9,8 +9,10 @@ import { FormPreviewService } from './application/form-preview.service';
 import { FormStudioService } from './application/form-studio.service';
 import { RuntimeFormContractService } from './application/runtime-form-contract.service';
 import { ContractFormInputsService } from './application/contract-form-inputs.service';
+import { DocumentFormSchemaService } from './application/document-form-schema.service';
 import { FormReviewQueryService } from './application/form-review-query.service';
 import { ContractFormInputsController } from './contract-form-inputs.controller';
+import { DocumentFormSchemaController } from './document-form-schema.controller';
 import { FormPermissionsController } from './form-permissions.controller';
 import {
   AdminFormDraftsController,
@@ -35,6 +37,7 @@ import { PrismaFormContractVersionRepository } from './infrastructure/prisma-for
     FormPlatformCatalogController,
     FormPermissionsController,
     ContractFormInputsController,
+    DocumentFormSchemaController,
   ],
   providers: [
     FormStudioService,
@@ -44,6 +47,7 @@ import { PrismaFormContractVersionRepository } from './infrastructure/prisma-for
     FormPlatformCatalogService,
     FormPreviewService,
     ContractFormInputsService,
+    DocumentFormSchemaService,
     FormReviewQueryService,
     {
       provide: FormContractVersionRepository,

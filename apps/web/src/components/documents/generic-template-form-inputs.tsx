@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { FormInputSchema } from "@qllaw/form-contracts";
 
 import { absoluteApiUrl, extractApiError, isJsonObject } from "@/lib/api-client";
 import {
@@ -8,6 +9,13 @@ import {
   type GenericCaseFormInputs,
 } from "@/lib/bm-auto-populate/generic-case-defaults";
 import { useCasePayload } from "@/lib/case-payload-context";
+import {
+  fetchFormSchema,
+  getValueByPath,
+  partitionSchemaFields,
+  setValueByPath,
+  type FormSchemaResponse,
+} from "@/lib/form-schema-client";
 import {
   extractStructuredValidationErrors,
   type FormValidationError,
@@ -282,11 +290,41 @@ function Field({
   );
 }
 
+function ReadonlyPreview({
+  label,
+  value,
+  className = "",
+}: {
+  label: string;
+  value: string;
+  className?: string;
+}) {
+  return (
+    <div className={`grid gap-1.5 ${className}`}>
+      <span className="text-sm font-semibold text-slate-500">{label}</span>
+      <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700">
+        {value ? value : "—"}
+      </div>
+    </div>
+  );
+}
+
 export function GenericTemplateFormInputsPanel({
   documentId,
   onSaved,
 }: GenericTemplateFormInputsPanelProps) {
   const [form, setForm] = useState<GenericTemplateFormInputs>(EMPTY_FORM);
+  // B3: schema-driven dynamic form state. `schema === null` means we
+  // either haven't loaded yet, the endpoint failed, or it returned an
+  // empty schema — in all those cases the panel falls back to the
+  // legacy 6-section hard-coded view below.
+  const [schema, setSchema] = useState<FormInputSchema | null>(null);
+  const [dynamicValues, setDynamicValues] = useState<Record<string, unknown>>(
+    {},
+  );
+  const [resolvedValues, setResolvedValues] = useState<Record<string, unknown>>(
+    {},
+  );
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -295,6 +333,11 @@ export function GenericTemplateFormInputsPanel({
   >([]);
   const isDirtyRef = useRef(false);
   const casePayload = useCasePayload();
+
+  const { editable, readonly } = schema
+    ? partitionSchemaFields(schema)
+    : { editable: [], readonly: [] };
+  const useDynamic = schema !== null && editable.length > 0;
 
   function patch(sectionKey: keyof GenericTemplateFormInputs, field: string, value: string) {
     isDirtyRef.current = true;
@@ -305,6 +348,11 @@ export function GenericTemplateFormInputsPanel({
         [field]: value,
       },
     }));
+  }
+
+  function patchDynamic(path: string, value: string) {
+    isDirtyRef.current = true;
+    setDynamicValues((current) => setValueByPath(current, path, value));
   }
 
   async function reload(options: { force?: boolean } = {}) {
@@ -323,11 +371,40 @@ export function GenericTemplateFormInputsPanel({
         const nextForm = normalizePayload((await response.json()) as Record<string, unknown>);
         if (options.force || !isDirtyRef.current) {
           setForm(nextForm);
-          isDirtyRef.current = false;
         }
       }
     } catch {
       // The form remains editable with its default values if payload loading fails.
+    }
+
+    // B3: fetch the schema in parallel. A failure or empty schema
+    // silently leaves `schema` at its current value, so the panel
+    // continues rendering whatever the user was seeing (legacy 6-section
+    // view if this is the first load and the endpoint is unavailable).
+    try {
+      const schemaResponse: FormSchemaResponse = await fetchFormSchema(documentId);
+      if (schemaResponse.schema.sections.length > 0) {
+        if (options.force || !isDirtyRef.current) {
+          setSchema(schemaResponse.schema);
+          setDynamicValues(schemaResponse.values ?? {});
+          setResolvedValues(schemaResponse.resolvedValues ?? {});
+          // Reuse the A3 structured error list for any server-side
+          // missing-required fields. These are advisory at this
+          // stage (the user hasn't pressed save yet) and are
+          // overwritten on save by the A2 backend response.
+          setStructuredErrors(
+            schemaResponse.validation.missingRequiredFields ?? [],
+          );
+        }
+      } else {
+        setSchema(null);
+      }
+    } catch {
+      // Endpoint unavailable or returned an error. Do not surface
+      // this to the user; the legacy 6-section view is still usable.
+    }
+    if (!isDirtyRef.current) {
+      isDirtyRef.current = false;
     }
   }
 
@@ -338,7 +415,13 @@ export function GenericTemplateFormInputsPanel({
     setMessage(null);
 
     try {
-      const formToSave = form;
+      // B3: when the schema is loaded we save the dynamic nested
+      // value (built by setValueByPath from the editable field paths)
+      // instead of the legacy 6-section form. The save endpoint's
+      // deep-merge semantics are unchanged — only the source of
+      // truth on the client changes.
+      const dynamic = useDynamic;
+      const formToSave = dynamic ? dynamicValues : form;
       const response = await fetch(
         absoluteApiUrl(`/documents/generated/${documentId}/form-inputs`),
         {
@@ -346,7 +429,7 @@ export function GenericTemplateFormInputsPanel({
           credentials: "include",
           headers: { "Content-Type": "application/json; charset=utf-8" },
           body: JSON.stringify({
-            ...formToSave,
+            ...(dynamic ? {} : (formToSave as object)),
             formInputs: formToSave,
             payloadOverrides: formToSave,
             renderPayloadOverrides: formToSave,
@@ -374,7 +457,16 @@ export function GenericTemplateFormInputsPanel({
       }
 
       const responsePayload = (await response.json().catch(() => null)) as Record<string, unknown> | null;
-      setForm(responsePayload ? normalizePayload(responsePayload) : formToSave);
+      if (dynamic) {
+        if (responsePayload && isJsonObject(responsePayload["formInputs"])) {
+          setDynamicValues(
+            responsePayload["formInputs"] as Record<string, unknown>,
+          );
+        }
+      } else {
+        const legacyForm = formToSave as GenericTemplateFormInputs;
+        setForm(responsePayload ? normalizePayload(responsePayload) : legacyForm);
+      }
       isDirtyRef.current = false;
       setMessage("Đã lưu dữ liệu biểu mẫu.");
       onSaved?.();
@@ -427,7 +519,12 @@ export function GenericTemplateFormInputsPanel({
             type="button"
             className="rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
             onClick={handleApplyCasePayload}
-            disabled={!casePayload}
+            disabled={!casePayload || useDynamic}
+            title={
+              useDynamic
+                ? "Đang dùng schema động — hãy điền trực tiếp."
+                : undefined
+            }
           >
             Lấy từ vụ án
           </button>
@@ -461,6 +558,57 @@ export function GenericTemplateFormInputsPanel({
           {error}
         </div>
       ) : null}
+
+      {useDynamic && schema
+        ? schema.sections.map((section) => {
+            const sectionEditable = section.fields.filter(
+              (f) => f.visible && f.editable,
+            );
+            const sectionReadonly = section.fields.filter(
+              (f) => f.visible && !f.editable,
+            );
+            if (
+              sectionEditable.length === 0 &&
+              sectionReadonly.length === 0
+            ) {
+              return null;
+            }
+            return (
+              <SectionCard
+                key={section.key}
+                title={section.title}
+              >
+                {sectionEditable.map((field) => (
+                  <Field
+                    key={field.path}
+                    label={
+                      field.required
+                        ? `${field.label} *`
+                        : field.label
+                    }
+                    type={field.inputType === "date" ? "date" : "text"}
+                    multiline={field.inputType === "textarea"}
+                    value={text(getValueByPath(dynamicValues, field.path))}
+                    onChange={(value) => patchDynamic(field.path, value)}
+                  />
+                ))}
+                {sectionReadonly.map((field) => (
+                  <ReadonlyPreview
+                    key={field.path}
+                    label={field.label}
+                    value={text(
+                      getValueByPath(resolvedValues, field.path) ??
+                        getValueByPath(dynamicValues, field.path),
+                    )}
+                  />
+                ))}
+              </SectionCard>
+            );
+          })
+        : null}
+
+      {!useDynamic ? (
+        <>
 
       <SectionCard title="1. Cơ quan và văn bản">
         <Field
@@ -574,6 +722,8 @@ export function GenericTemplateFormInputsPanel({
           className="md:col-span-2"
         />
       </SectionCard>
+        </>
+      ) : null}
     </div>
   );
 }
