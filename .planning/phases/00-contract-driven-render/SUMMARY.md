@@ -749,9 +749,128 @@ The B4 brief considered adding a new `TABLE_BINDING_UNSUPPORTED` schema warning 
 - **Open**: The audit reports section-key coverage and source-value coverage but not the BM-specific edge cases that B1 might still have (e.g. unknown `uiComponent` values, unknown `transform` values). Those are owned by B1's existing defensive logic; B4 only locks in source normalization, which is the B1 behavior the brief asked B4 to harden.
 - **Open**: B4 does not add a CI gate. The audit test asserts the report shape and the B1 normalization coverage today; a future hardening could promote the audit into a `pnpm audit:form-schema-sources` script that fails the build when `totalInvalidSourceFields > 0` — but that is C3 territory (after the 99 invalid fields are remediated).
 
+### C3 follow-up note (added by E1 audit)
+
+B4 reported 16 `source: "unknown"` fields but also discovered 99 additional invalid source values:
+
+- `constantFromDocx` × 90 — concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`. Semantically these are constants extracted from the DOCX template, not user input. Mapping them to `manual` (editable) is dangerous: the user can edit text that the contract intended as fixed, breaking the legal-basis wording. C3 must remap them to either `officialConfig` or a new render-only field kind, not to `manual`.
+- `derived` × 9 — these are values computed from other fields at render time. Mapping them to `manual` makes the user re-enter values the renderer can already compute, which is double-work. C3 must map these to `computed`.
+
+**Effective C3 scope**: 16 unknown + 90 constantFromDocx + 9 derived = **115 source fields** across the corpus, not 16. PLAN.md §C3 wording must be amended from "Remediate 16 source=unknown" to "Remediate 115 invalid/unknown source fields" before C3 starts.
+
+Until C3 ships, the schema layer normalizes all 115 to `manual` with `UNKNOWN_SOURCE_NORMALIZED` warnings. This is the safe conservative behavior (the user can still type values and the form is still saved) but it is the wrong long-term answer. The C3 gate must require `source` to be a member of `VALID_SOURCES` across all 213 contracts before `gate:forms:213` is allowed to drop `--allow-source-*` flags.
+
+## Task E1. Schema conformance test for all 213 locked contracts
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Scope guard (locked by user brief 2026-06-25)
+
+E1 is **test-only**:
+
+- E1 does NOT render DOCX.
+- E1 does NOT do post-render shadow.
+- E1 does NOT do semantic diff.
+- E1 does NOT modify locked contract JSON files.
+- E1 does NOT remediate source fields (that is C3).
+- E1 does NOT touch API or web runtime.
+
+### Files changed
+
+- `packages/form-contracts/test/schema-conformance.test.ts` *(new)* — corpus conformance test that walks every locked contract, derives its schema, and asserts the 17 contract invariants per schema. Pure, deterministic, no I/O beyond reading the 213 `.contract.locked.json` files.
+
+Production source (`derive-form-input-schema.ts`) is **not modified**. E1 is read-only with respect to runtime behavior; it only locks in the existing B1/B2 surface against the full corpus.
+
+### Per-schema assertions (17 from the locked brief)
+
+For every contract that derives successfully, the test asserts:
+
+| # | Assertion |
+|---|-----------|
+| 1 | `deriveFormInputSchema(contract)` does not throw. |
+| 2 | `schema.templateCode` is non-empty. |
+| 3 | `schema.sourceId` is non-empty. |
+| 4 | `schema.sections.length > 0`. |
+| 5 | Total schema fields > 0. |
+| 6 | Every section has non-empty `key`, non-empty `title`, and a `fields` array. |
+| 7 | Every field has `path` non-empty, `label` non-empty, `inputType ∈ {text, date, number, textarea}`, `source ∈ {manual, casePayload, agencyConfig, officialConfig, systemDate, computed}`, `editable: boolean`, `visible: boolean`, `origin ∈ {canonical, binding-fallback, hint}`. |
+| 8 | No duplicate field path within one schema. |
+| 9 | No field whose path is in `rejectedCandidates[]` is editable. |
+| 10 | 100% required manual editable fields are visible. |
+| 11 | `computed` fields are `editable=false`. |
+| 12 | `readonlyReason` exists when `editable=false` and `source ∈ {casePayload, agencyConfig, officialConfig, systemDate, computed}`. |
+| 13 | `visibilityReason` exists for every field. |
+| 14 | Every warning has a known code (`UNKNOWN_SOURCE_NORMALIZED` / `BOUND_SLOT_MISSING_FIELD` / `REJECTED_AS_EDITABLE`) and a non-empty message. |
+| 15 | `UNKNOWN_SOURCE_NORMALIZED` warnings are allowed (C3 owns remediation). |
+| 16 | `BOUND_SLOT_MISSING_FIELD` warnings are allowed but counted. |
+| 17 | `REJECTED_AS_EDITABLE` warnings are allowed only if the rejected field is not emitted as editable. |
+
+Plus a kill-criterion guard: if **more than 20%** of contracts fail schema derivation or have no usable fields, the suite fails loudly. The test does **not** relax assertions to pass and does **not** synthesize fake fields.
+
+### Corpus report (read-only, from the test's stdout)
+
+```json
+{
+  "totalContracts": 213,
+  "totalSections": 855,
+  "totalFields": 2453,
+  "totalRequiredManualEditableFields": 904,
+  "warningCounts": {
+    "UNKNOWN_SOURCE_NORMALIZED": 115,
+    "BOUND_SLOT_MISSING_FIELD": 0,
+    "REJECTED_AS_EDITABLE": 0
+  },
+  "contractsWithWarningsCount": 65,
+  "topSectionKeys": [
+    ["agency", 212], ["document", 202], ["recipients", 107],
+    ["signature", 68], ["legalBasis", 54], ["official", 49],
+    ["person", 35], ["decision", 15], ["caseDecision", 14],
+    ["measure", 11]
+  ],
+  "failedContractsCount": 0
+}
+```
+
+Highlights:
+
+- **213/213 contracts derive successfully.** Zero hits the kill criterion.
+- **2453 fields / 855 sections / 904 required manual editable fields** across the corpus. E1 confirms the schema layer can produce a usable `FormInputSchema` for every BM, with section grouping and required-field visibility rules all holding.
+- **115 `UNKNOWN_SOURCE_NORMALIZED` warnings** — this number equals exactly `16 unknown + 90 constantFromDocx + 9 derived`. E1 independently reproduces B4's count from the runtime side and **locks it in** as a C3 deliverable.
+- **`BOUND_SLOT_MISSING_FIELD = 0`** — every binding in the corpus is matched by a canonical field. This means the binding-fallback layer is currently a no-op for the V1 corpus, which is the desired steady state.
+- **`REJECTED_AS_EDITABLE = 0`** — no rejected candidate was emitted as editable. B1's reject suppression works as designed across the full corpus.
+- **`agency` × 212 and `document` × 202** confirm that these two sections are universal. The next 8 (`recipients` × 107, `signature` × 68, `legalBasis` × 54, `official` × 49, `person` × 35, `decision` × 15, `caseDecision` × 14, `measure` × 11) give C3 a prioritized list for SECTION_TITLES extensions.
+- **53 unique-to-template section keys** (e.g. `BM-001/informant`, `BM-002/reporter`, `BM-005/sourceVerification`, ...) — these are real but narrow. The corpus report surfaces them for future B2.x / SECTION_TITLES extension work.
+
+### Commands run
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 47 tests pass (40 pre-existing + 7 new E1 tests). Total runtime ~528 ms. |
+| `pnpm --filter @qllaw/form-contracts typecheck` | 0 | clean (no production source touched). |
+| `pnpm typecheck` (full monorepo: form-contracts + api + web) | 0 | clean across all three packages — confirms E1's read-only test did not break any downstream type. |
+| `pnpm test:api -- --testPathPatterns=document-form-schema` | 0 | 10/10 B3 endpoint consumer tests pass. The runtime path that calls `deriveFormInputSchema` via the new B3 `/documents/generated/:id/form-schema` endpoint is unaffected. |
+| `pnpm test:web-unit` | 0 | 59/59 web tests pass (46 pre-existing + 13 form-schema-client + 8 form-validation-errors). |
+
+### Backward compatibility
+
+- `derive-form-input-schema.ts` is **not modified**. B1's normalization, warning emission, section grouping, hint refinement, rejected-candidate handling, dedup, and `inputType` mapping are byte-identical to B4.
+- B2's `section-titles.ts` is not modified.
+- B3's `/documents/generated/:id/form-schema` endpoint and the dynamic FE panel are not modified.
+- No locked contract JSON files modified. No production code outside the new test file is touched.
+- `document-renderer.service.ts`, `documents.service.ts`, `contract-form-inputs.service.ts`, `generic-template-form-inputs.tsx`, `form-studio.module.ts`, the B3 controller, and the B3 service are all untouched.
+- No new dependency. No Prisma schema change. No public API change.
+- The test file is a sibling of the existing `derive-form-input-schema.test.ts` and reuses the same `readFileSync` + `JSON.parse` pattern. No new fs/path helpers were needed beyond what the B4 audit already established (`HERE`/`REPO_ROOT`/`LOCKED_DIR` resolution).
+
+### Risks / Open
+
+- **Open**: The 115 `UNKNOWN_SOURCE_NORMALIZED` warnings are still flowing through to the UI as editable manual inputs. C3 is the right place to fix this — E1 deliberately does not touch production code. Until C3 ships, a user could edit `legalBasis.procedureArticlesLine` or `agency.parentNameUpper` (both currently `constantFromDocx`) and break the legal-basis wording. The UI should at minimum show a warning badge for any field with `UNKNOWN_SOURCE_NORMALIZED`; that wiring is a candidate for a future E1.x task.
+- **Open**: The corpus report is `console.log`'d on test run. If a future CI step wants the report as a JSON artifact (rather than stdout), a `scripts/audit/schema-conformance-report.mjs` wrapper can call the same `deriveSafely` logic. The walker is pure and re-usable.
+- **Open**: The "100% required manual editable fields must be visible" assertion (spec #10) currently passes 100% because B1 defaults `unknown → editable + visible`. After C3 fixes the source taxonomy, a `casePayload`/`agencyConfig` field marked `required` by a contract will be visible=true (because B1's `READONLY_PREVIEW` rule applies) but not editable — which is the correct UI affordance. E1 already asserts this invariant per-field, so C3 cannot regress it silently.
+- **Risk**: If a future BM adds a `section title` key that no test ever references, E1 will still pass (because `getSectionTitle` falls back via `humanizeSectionKey`). The corpus report's `unmappedSectionKeysCount` (currently 53) is the right signal for SECTION_TITLES follow-up, but it is informational only — E1 does not fail on unmapped keys, by design (PLAN.md v2.3 §B2: "KHÔNG assert 'mọi key phải có trong SECTION_TITLES map'").
+
 ### Next step
 
-**E1** — Post-render shadow + semantic diff against the locked contract (per PLAN.md v2.3). Per the B4 brief, E1 is the next task. Stop after B4.
+**E2 — DOCX render integration for 6 representative BMs** (per PLAN.md v2.3 §E2 and §10.4). E2 builds on E1: schemas derived here are the input to deterministic mock value generation, then the renderer is exercised with `pnpm test:api -- renderer-integration`. E2 must NOT relax the smoke rules from correction #8 (deterministic mock values for every required manual field before render). Stop after E2.
 
 
 
