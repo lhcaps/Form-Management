@@ -4,6 +4,15 @@ on:
   push:
   pull_request:
 
+# Explicit least-privilege permissions for the GITHUB_TOKEN. Without this
+# block, GitHub Actions runs on private/org repos that default to
+# "Read repository contents only" produce empty check-runs, no jobs and
+# immediate failure (the symptom we hit on 865c69bf and the 9 runs before
+# it). The two jobs in this workflow only read the repo and run pnpm
+# scripts, so read-all is sufficient.
+permissions:
+  contents: read
+
 jobs:
   static-verification:
     name: Static verification
@@ -53,7 +62,7 @@ jobs:
       - name: DOCX prelock guard (informational — generic draft forms)
         run: pnpm audit:docx:prelock || true
 
-      - name: Gate: 213 forms corpus readiness
+      - name: "Gate: 213 forms corpus readiness"
         run: pnpm gate:forms:213
 
   docker-production-build:
