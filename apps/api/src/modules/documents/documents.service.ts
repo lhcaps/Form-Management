@@ -414,6 +414,23 @@ export class DocumentsService {
                 renderScope: item.renderScope,
               },
               formats: plan.formats,
+              // Canonical shape: always present on newly created documents.
+              // updateFormInputs deep-merges into formInputs, never replaces it.
+              formInputs: {},
+              payloadOverrides: {},
+              renderPayloadOverrides: {},
+              // TODO(PLAN.md v2.3 C1/J1): replace safe fallback with single-row indexed
+              // lookup (e.g. prisma.form_contract_versions.findFirst where
+              // template_id + status='PUBLISHED' take 1 order by updated_at desc)
+              // once the contract cache (J1) + startup guard (C1) are wired.
+              // Hard constraint: MUST NOT compile contracts or hash filesystem
+              // files in createBatch hot path.
+              contractMeta: {
+                templateCode: item.templateCode,
+                sourceId: null,
+                contractVersionHash: null,
+                contractLookupStatus: 'MISSING',
+              },
             } as any,
             validation_result: {
               status: 'NOT_RENDERED_YET',
