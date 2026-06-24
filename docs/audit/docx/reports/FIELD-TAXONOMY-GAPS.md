@@ -1,6 +1,6 @@
 # Field Taxonomy Gaps
 
-Sinh lúc: 2026-06-19T07:39:52.752Z
+Sinh lúc: 2026-06-24T17:01:47.805Z
 
 ## Phân tích
 
@@ -10,31 +10,31 @@ So sánh các `canonicalField.path` thực sự xuất hiện trong BESPOKE (213
 
 | Field path | Số file dùng |
 |---|---:|
-| signature.positionTitle | 226 |
-| agency.name | 222 |
-| document.documentCode | 220 |
-| signature.signMode | 220 |
-| agency.parentName | 219 |
-| recipients.archiveLine | 191 |
-| signature.signerName | 190 |
+| signature.positionTitle | 232 |
+| agency.name | 226 |
+| signature.signMode | 226 |
+| document.documentCode | 224 |
+| agency.parentName | 223 |
+| recipients.archiveLine | 203 |
+| signature.signerName | 192 |
 | document.issuePlace | 175 |
-| document.issueDate | 151 |
-| agency.issuePlace | 148 |
+| document.issueDate | 153 |
+| agency.issuePlace | 150 |
 | legalBasis.procedureArticlesLine | 93 |
 | document.issueDateIso | 84 |
 | agency.bodyName | 50 |
 | agency.shortName | 48 |
 | document.issueDateText | 47 |
-| document.issuePlaceAndDateLine | 45 |
+| document.issuePlaceAndDateLine | 47 |
 | agency.nameUpper | 33 |
 | agency.parentNameUpper | 32 |
-| recipients.primaryLine | 30 |
+| recipients.primaryLine | 31 |
 | recipients.investigatingAgencyLine | 27 |
 | recipients.personLine | 22 |
 | legalBasis.juvenileJusticeLine | 22 |
 | decision.caseTitle | 22 |
 | recipients.executionAgencyLine | 21 |
-| recipients.accusedLine | 18 |
+| recipients.accusedLine | 21 |
 | document.documentNo | 16 |
 | decision.procedureArticlesLine | 16 |
 | case.caseTitle | 15 |

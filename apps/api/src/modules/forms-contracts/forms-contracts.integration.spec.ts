@@ -14,10 +14,12 @@ describe('real DOCX contract repository', () => {
     ]);
 
     expect(contracts).toHaveLength(213);
+    // Corpus is 213/213 locked since the form-213 closure (2026-06-22). All 213
+    // distinct BM-### templates have a locked contract; there are no drafts.
     expect(status).toMatchObject({
       ready: true,
-      lockedCount: 3,
-      draftCount: 210,
+      lockedCount: 213,
+      draftCount: 0,
       invalidFiles: [],
     });
     expect(bm001).toMatchObject({

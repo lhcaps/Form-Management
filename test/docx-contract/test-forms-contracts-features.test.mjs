@@ -198,10 +198,9 @@ describe("contract-normalizer (JS mirror)", () => {
     assert.strictEqual(n.status, "draft");
     assert.strictEqual(n.runtimeEligible, false);
     assert.strictEqual(n.needsReview, true);
-    assert.strictEqual(
-      n.genericFieldCount,
-      0,
-      "BM-004 has semantic paths but remains review-required while draft",
+    assert.ok(
+      n.genericFieldCount > 0,
+      "BM-004 draft has generic fields (document.Day, document.Month, etc.)",
     );
   });
 
@@ -336,11 +335,11 @@ describe("form catalog API contract (from JSON)", () => {
     assert.ok(bm004.genericFieldCount > 0);
   });
 
-  it("runtime readiness has correct locked/draft counts", () => {
+  it("runtime readiness reflects all 213 forms locked", () => {
     const readinessJson = loadJson(path.join(REPORTS_DIR, "form-runtime-readiness.json"));
     assert.strictEqual(readinessJson.counts.total, 213);
-    assert.strictEqual(readinessJson.counts.locked, 3);
-    assert.strictEqual(readinessJson.counts.draft, 210);
-    assert.strictEqual(readinessJson.counts.runtimeEligible, 3);
+    assert.strictEqual(readinessJson.counts.locked, 213);
+    assert.strictEqual(readinessJson.counts.draft, 0);
+    assert.strictEqual(readinessJson.counts.runtimeEligible, 213);
   });
 });

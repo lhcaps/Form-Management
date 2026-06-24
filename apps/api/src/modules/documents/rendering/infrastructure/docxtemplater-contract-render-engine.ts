@@ -100,6 +100,22 @@ export class DocxtemplaterContractRenderEngine {
     const contractDocx = await this.loadTemplate(plan.templateCode);
 
     const bindingMap = new Map(plan.bindings.map((b) => [b.slotId, b.value]));
+    // Fallback for unbound DOCX placeholders: also fill from raw formData.
+    // The locked contract may reject certain namespaces (e.g. crimeReport.*
+    // in BM-001), but the underlying DOCX template still has those
+    // placeholders from the original .doc source. Without this fallback,
+    // Docxtemplater would emit literal "undefined" text for every unbound
+    // placeholder. We only add formData values for keys that the contract
+    // did not bind, so a binding whose value is explicitly empty stays
+    // empty (used by the semantic-comparison tests). This mirrors the
+    // behaviour already present in renderActiveDocx().
+    const boundKeys = new Set(plan.bindings.map((b) => b.slotId));
+    for (const [key, value] of Object.entries(formData)) {
+      if (boundKeys.has(key)) continue;
+      if (value !== undefined && value !== null && value !== '') {
+        bindingMap.set(key, String(value));
+      }
+    }
 
     const renderedDocx = await this.fillTemplate(contractDocx, bindingMap);
 

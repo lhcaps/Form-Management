@@ -42,18 +42,28 @@ interface LockedContract {
   renderBindings: ContractRenderBinding[];
 }
 
+// Sources observed across the 213 locked BM contracts. `officialConfig` is
+// the KSV-station configuration slot (position title, department, signer).
+// `systemDate` is the runtime-injected document issue line.
 const VALID_SOURCES = new Set([
   'agencyConfig',
+  'officialConfig',
+  'systemDate',
   'manual',
   'casePayload',
   'computed',
 ]);
+// `date.issuePlaceDateLine` is the historic per-slot transform identifier
+// used by the BM-002..BM-173 contracts for the document header date line.
+// Semantically it is equivalent to `identity` (raw string passthrough);
+// kept distinct so existing contract data does not need regeneration.
 const VALID_TRANSFORMS = new Set([
   'identity',
   'derived',
   'uppercase',
   'lowercase',
   'trim',
+  'date.issuePlaceDateLine',
 ]);
 
 @Injectable()
@@ -209,6 +219,11 @@ export class ContractRenderPlanBuilder {
       case 'identity':
         return value;
       case 'derived':
+        return value;
+      case 'date.issuePlaceDateLine':
+        // Alias of identity for the historic per-slot date transform used by
+        // 63 of the 213 locked BM contracts. No date formatting is applied
+        // here; the slot value is the full pre-formatted line.
         return value;
       case 'uppercase':
         return typeof value === 'string' ? value.toUpperCase() : value;

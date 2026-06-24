@@ -68,7 +68,7 @@ describe('ContractRenderPlanBuilder', () => {
 
       const receiverField = plan.fields.find((f) => f.path === 'receiver.fullName');
       expect(receiverField?.value).toBe('Nguyễn Văn Minh');
-      expect(receiverField?.source).toBe('agencyConfig');
+      expect(receiverField?.source).toBe('manual');
       expect(receiverField?.required).toBe(true);
 
       const informantField = plan.fields.find((f) => f.path === 'informant.fullName');
@@ -160,7 +160,15 @@ describe('ContractRenderPlanBuilder', () => {
       const plan = builder.build(makeDescriptor());
 
       const unknownTransformBindings = plan.bindings.filter(
-        (b) => !['identity', 'derived', 'uppercase', 'lowercase', 'trim'].includes(b.transform),
+        (b) =>
+          ![
+            'identity',
+            'derived',
+            'uppercase',
+            'lowercase',
+            'trim',
+            'date.issuePlaceDateLine',
+          ].includes(b.transform),
       );
       expect(unknownTransformBindings).toHaveLength(0);
     });

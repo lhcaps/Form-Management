@@ -1,6 +1,6 @@
 # Master DOCX Audit Report
 
-Sinh lúc: 2026-06-19T07:39:52.606Z
+Sinh lúc: 2026-06-24T17:01:47.659Z
 
 ## Summary
 
@@ -11,10 +11,10 @@ Sinh lúc: 2026-06-19T07:39:52.606Z
 - File không detect được code: **2** (2 file Thông tư — xem REFERENCE-DOCUMENTS.md)
 - File lỗi/corrupt: **0**
 - Extract success count: **216/216**
-- Draft contract count: **214** | locked: **0**
-- Tổng docxSlots: **1802**
-- Tổng unknown sources: **1526**
-- Tổng review-required items (slot+field+binding): **5130**
+- Draft contract count: **1** | locked: **213**
+- Tổng docxSlots: **2458**
+- Tổng unknown sources: **21**
+- Tổng review-required items (slot+field+binding): **282**
 - Tổng missing binding (slot không có renderBinding): **0**
 - Tổng BESPOKE files so sánh: **213**
   - Có contract: **213**
@@ -46,7 +46,7 @@ Mỗi bước đều idempotent, không crash khi 1 file lỗi, output UTF-8 no 
 
 ## Current risk level
 
-- **Cao**: 0/214 contract locked, 100% source=unknown, 100% reviewRequired=true.
+- **Cao**: 0/1 contract locked, 100% source=unknown, 100% reviewRequired=true.
 - **Trung bình**: 481 UI gene violations tổng cộng (chủ yếu ở BM-002, BM-003, BM-039, BM-097, BM-156 vẫn dùng custom shell).
 - **Cao**: 68 BESPOKE dùng GenericTemplateFormInputsPanel (stub), chưa có contract cho từng BM này.
 - **Thấp**: 0 file lỗi extract — pipeline ổn định, idempotent.
@@ -62,7 +62,7 @@ Tóm tắt:
 | BM-001__f4c2aa3682d3 | BM-001 | Biên bản tiếp nhận nguồn tin về tội phạm | 38 | 0 | 28 | 28 | Tất cả slot+field đều reviewRequired=true |
 | BM-002__f78301178da7 | BM-002 | Phiếu chuyển nguồn tin về tội phạm | 36 | 0 | 32 | 29 | Tất cả slot+field đều reviewRequired=true |
 | BM-003__bb64990bc49b | BM-003 | QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm | 26 | 0 | 10 | 10 | Tất cả slot+field đều reviewRequired=true |
-| BM-004__2775520fd22c | BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 24 | 45 | 50 | 46 | Tất cả slot+field đều reviewRequired=true |
+| BM-004__2775520fd22c | BM-004 | QĐ thay đổi người THQCT, KS việc giải quyết nguồn tin | 44 | 29 | 43 | 35 | Tất cả slot+field đều reviewRequired=true |
 
 ## Recommended migration strategy
 
@@ -90,9 +90,9 @@ Xem chi tiết: `CONTRACT-DRIVEN-UI-PLAN.md`.
 
 - [x] 216/216 inventoried (trong folder nguồn `0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC`)
 - [x] 216/216 extracted (extractor chạy hết, 0 error)
-- [x] 214/214 contracts drafted (form only, 2 reference docs excluded)
+- [x] 1/214 contracts drafted (form only, 2 reference docs excluded)
 - [ ] 214/214 contracts reviewed và locked (chưa — chờ reviewer)
-- [ ] 0 unknown sources (hiện tại 1526)
+- [ ] 0 unknown sources (hiện tại 21)
 - [ ] 0 unresolved slots (chưa — chờ reviewer)
 - [ ] 214/214 render smoke pass (chưa — cần ContractDrivenFormPanel pilot)
 - [ ] 214/214 PDF smoke pass (chưa — cần backend render integration)
