@@ -32,6 +32,8 @@ const REPORTS_DIR = path.join(__dirname, "..", "..", "docs", "audit", "docx", "r
 const GENERIC_RE = new RegExp(String.raw`(^|\.)field(?:\d+)?(?:_|$)`, "iu");
 
 const allowRemediation = process.argv.includes("--allow-remediation");
+const allowSourceUnknown = process.argv.includes("--allow-source-unknown");
+const allowUnresolvedReview = process.argv.includes("--allow-unresolved-review");
 const showRemediation = process.argv.includes("--help-remediation");
 
 function isGenericPath(value) {
@@ -182,27 +184,35 @@ if (remediationCount !== null && remediationCount > 0) {
 }
 
 if (unknownSourceFields.length > 0) {
-  issues.push(`source=unknown fields in locked contracts: ${unknownSourceFields.length}`);
-  if (showRemediation) {
-    console.log(`\n  source=unknown fields:`);
-    for (const f of unknownSourceFields.slice(0, 20)) {
-      console.log(`    - ${f}`);
-    }
-    if (unknownSourceFields.length > 20) {
-      console.log(`    ... and ${unknownSourceFields.length - 20} more`);
+  if (allowSourceUnknown) {
+    console.log(`  [INFO] ${unknownSourceFields.length} source=unknown fields present (--allow-source-unknown passed — non-blocking)`);
+  } else {
+    issues.push(`source=unknown fields in locked contracts: ${unknownSourceFields.length}`);
+    if (showRemediation) {
+      console.log(`\n  source=unknown fields:`);
+      for (const f of unknownSourceFields.slice(0, 20)) {
+        console.log(`    - ${f}`);
+      }
+      if (unknownSourceFields.length > 20) {
+        console.log(`    ... and ${unknownSourceFields.length - 20} more`);
+      }
     }
   }
 }
 
 if (unresolvedReviewRequiredFields.length > 0) {
-  issues.push(`unresolved reviewRequired=true fields: ${unresolvedReviewRequiredFields.length}`);
-  if (showRemediation) {
-    console.log(`\n  Unresolved reviewRequired fields (source not in ${[...AUTO_RESOLVED_KINDS].join(", ")}):`);
-    for (const f of unresolvedReviewRequiredFields.slice(0, 20)) {
-      console.log(`    - ${f}`);
-    }
-    if (unresolvedReviewRequiredFields.length > 20) {
-      console.log(`    ... and ${unresolvedReviewRequiredFields.length - 20} more`);
+  if (allowUnresolvedReview) {
+    console.log(`  [INFO] ${unresolvedReviewRequiredFields.length} unresolved reviewRequired=true fields present (--allow-unresolved-review passed — non-blocking)`);
+  } else {
+    issues.push(`unresolved reviewRequired=true fields: ${unresolvedReviewRequiredFields.length}`);
+    if (showRemediation) {
+      console.log(`\n  Unresolved reviewRequired fields (source not in ${[...AUTO_RESOLVED_KINDS].join(", ")}):`);
+      for (const f of unresolvedReviewRequiredFields.slice(0, 20)) {
+        console.log(`    - ${f}`);
+      }
+      if (unresolvedReviewRequiredFields.length > 20) {
+        console.log(`    ... and ${unresolvedReviewRequiredFields.length - 20} more`);
+      }
     }
   }
 }
