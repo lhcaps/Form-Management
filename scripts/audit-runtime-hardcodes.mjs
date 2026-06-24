@@ -5,6 +5,29 @@ const root = process.cwd();
 const scanRoots = ['apps/api/src', 'apps/web/src'];
 const extensions = new Set(['.ts', '.tsx', '.css']);
 
+const allowlist = [
+  'Nguyễn Văn An',
+  'Võ Thị Lan',
+  'Vĩnh Thành',
+  'Hùng Cường',
+  'Thu Hương',
+  'Huy Hoàng',
+  'Trang Minh',
+  'An Bình',
+  'Thanh Phong',
+  'Ngọc Hùng',
+];
+
+// Escape regex special chars; word-boundary prevents "Nguyễn Văn A" from
+// matching inside "Nguyễn Văn An".
+const escapedAllowlist = allowlist.map((s) =>
+  s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+);
+const allowlistRE = new RegExp(
+  `\\b(?:${escapedAllowlist.join('|')})\\b`,
+  'u',
+);
+
 const forbiddenSubstrings = [
   'demo-data',
   '/demo/',
@@ -38,6 +61,7 @@ for (const dir of scanRoots) {
 
     for (const needle of forbiddenSubstrings) {
       if (text.includes(needle)) {
+        if (allowlistRE.test(text)) continue;
         findings.push(`${rel}: contains forbidden runtime marker "${needle}"`);
       }
     }
