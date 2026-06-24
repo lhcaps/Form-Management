@@ -119,6 +119,20 @@ function buildBindingMap(contract, formData) {
     const resolvedValue = resolveValue(rawValue, binding.transform, binding.fallback);
     bindings.set(binding.slotId, resolvedValue);
   }
+  // Fallback for unbound DOCX placeholders: also fill from raw formData.
+  // The locked contract may reject certain namespaces (e.g. crimeReport.*
+  // in BM-001), but the underlying DOCX template still has those
+  // placeholders from the original .doc source. Without this fallback,
+  // Docxtemplater would emit literal "undefined" text for every unbound
+  // placeholder. Mirrors the production behaviour in
+  // DocxtemplaterContractRenderEngine.renderShadow.
+  const boundKeys = new Set(bindings.keys());
+  for (const [key, value] of Object.entries(formData ?? {})) {
+    if (boundKeys.has(key)) continue;
+    if (value !== undefined && value !== null && value !== '') {
+      bindings.set(key, String(value));
+    }
+  }
   return bindings;
 }
 
