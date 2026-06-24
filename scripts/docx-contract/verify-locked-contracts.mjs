@@ -184,8 +184,14 @@ const main = () => {
     );
 
     // Quality checks using evaluateFormArtifact
-    const normalizedPath = contract.extractionSource?.relativePath
-      ? path.join(ROOT, contract.extractionSource.relativePath)
+    // Contract relativePath values were authored on Windows and contain
+    // backslashes; normalize to forward slashes so path.join produces the
+    // same result on POSIX runners as on Windows.
+    const normalizedRelative = contract.extractionSource?.relativePath
+      ? contract.extractionSource.relativePath.replace(/\\/g, "/")
+      : null;
+    const normalizedPath = normalizedRelative
+      ? path.join(ROOT, normalizedRelative)
       : null;
 
     let qualityState = "UNKNOWN";
