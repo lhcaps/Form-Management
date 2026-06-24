@@ -205,3 +205,68 @@ All helpers are pure, file-local, and easy to unit-test:
 ### Next step
 
 A3 — Wire hotfix UI: render structured `FormValidationError` list in `generic-template-form-inputs.tsx`. Per PLAN.md v2.3 §A3 exactly. Stop after A3.
+
+## Task A3. Render structured FormValidationError list in form-inputs UI
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Files changed
+
+- `apps/web/src/lib/form-validation-errors.ts` *(new)* — client-side `FormValidationError` / `FormValidationCode` types and a defensive `extractStructuredValidationErrors()` parser.
+- `apps/web/src/lib/form-validation-errors.test.ts` *(new)* — 8 pure-helper tests (Axios-style, bare details, bare errors[], nested `data` wrap, legacy shape, unknown inputs, malformed entries, every locked code).
+- `apps/web/src/components/documents/generic-template-form-inputs.tsx` — added `structuredErrors` state, parses the response body through the new helper inside `handleSave`, renders the structured list via a new `StructuredValidationErrorList` sub-component, and keeps the existing single-string error fallback for legacy responses.
+
+### How structured errors are parsed
+
+`extractStructuredValidationErrors(error: unknown)` is pure and never throws. It walks three layered shapes:
+
+1. Axios-style: `error.response.data.details.errors`
+2. Bare details: `{ details: { ok, errors } }`
+3. Bare errors array: `[{ path, code, message, ... }]`
+
+Unknown / legacy shapes return `[]` so the caller can fall back to the legacy `extractApiError` message. Malformed entries (missing `code`/`path`, unknown `code`) are dropped silently rather than rejected wholesale — a single bad row must not hide the others. Forward-compatible extra fields (e.g. a future field on the backend payload) are tolerated. The helper uses `VALID_CODES` set membership to whitelist `code` values, mirroring the locked union from A2.
+
+### UI behavior
+
+In `generic-template-form-inputs.tsx`:
+
+- New `structuredErrors: FormValidationError[]` state alongside the existing `error: string | null`.
+- In `handleSave`, after parsing the response body (when `!response.ok`), the body is passed through `extractStructuredValidationErrors` first. The legacy `extractApiError` message is still thrown and captured into `error` for backward compatibility.
+- The render block now reads:
+  - If `structuredErrors.length > 0` → render `<StructuredValidationErrorList>`.
+  - Else if `error` → render the legacy single-string red banner (unchanged behavior).
+  - Else → nothing.
+- `StructuredValidationErrorList` groups entries by `sectionTitle` (sorted Vietnamese locale), shows:
+  - A header (`Có N lỗi cần sửa trước khi lưu.` or a stronger `Hợp đồng biểu mẫu đã thay đổi — tải lại trước khi lưu.` when `CONTRACT_DRIFT` is present).
+  - Per-section group with the `sectionTitle` heading.
+  - Per-row: `label` (large), `code` (muted monospace tag), `path` (small monospace), `message` (Vietnamese text — backend-supplied, not rewritten).
+  - Color theme: red when only field errors, amber + `role="alert"` when `CONTRACT_DRIFT` is present, signaling the user should reload before saving.
+- Success path (`response.ok`) still sets `message` and never touches `error` or `structuredErrors` — pre-existing success UX is untouched.
+
+### Commands run
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm test:web-unit` | 0 | 46 tests pass (8 new from `form-validation-errors.test.ts`, 38 pre-existing) |
+| `pnpm typecheck` (form-contracts + api + web) | 0 | clean |
+| `pnpm --filter web exec eslint src/components/documents/generic-template-form-inputs.tsx src/lib/form-validation-errors.ts` | 0 | 0 errors |
+
+### Backward compatibility
+
+- The legacy Vietnamese message (`extractApiError(...)`) is still set as the `error` state when a save fails. If the response does NOT carry `details.errors`, the UI shows the legacy red banner exactly as before. The 46-test web suite stays green with no modifications.
+- The new `StructuredValidationErrorList` is purely additive: it renders only when `structuredErrors.length > 0`. No state-machine or behavior change for callers that previously received the legacy message.
+- `useCasePayload` / `applyCasePayloadToGenericForm` paths unchanged.
+- Backend untouched in A3 (no type import required; the locked type is mirrored client-side intentionally so the FE does not pull a runtime dependency on the API package).
+- Save / deep-merge behavior (`JSON.stringify({ ...formToSave, formInputs: formToSave, payloadOverrides: formToSave, renderPayloadOverrides: formToSave })`) unchanged.
+- `document-renderer.service.ts`, `createBatch`, `/form-schema` endpoint — all untouched.
+
+### Risks / Open
+
+- **Risk**: A future backend that adds a 6th `FormValidationCode` value (e.g. `OUT_OF_RANGE`) will silently filter it out client-side. Mitigated by the `VALID_CODES` whitelist being a single source-of-truth — bumping the union on the FE is a one-line edit in `form-validation-errors.ts` and a one-line update to the union in the API service.
+- **Open**: Phase B's `/form-schema` may add per-field UI cues (e.g. inline highlights). The A3 list is the only signal today; once B1 lands, the `path` string in each list row is the natural anchor for inline linking.
+- **Open**: No E2E / Playwright test was added because the project's existing test infrastructure (node:test via tsx) does not include a browser harness. Per the A3 brief, the helper-level tests are the minimum required; component-level render tests should land when a React Testing Library setup is introduced.
+- **Open**: The CONTRACT_DRIFT helper is intentionally not wired in this UI yet (the helper exists in the API service but auto-emission is deferred per A2). The UI gracefully handles the code if/when the backend emits it, but currently a real user will never see it.
+
+### Next step
+
+B1 — `derive-form-input-schema.ts` with 3-layer fallback (PLAN.md v2.3 §B1). B1 introduces the dynamic schema that A3's structured error list will eventually point at for inline field highlighting.

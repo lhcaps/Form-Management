@@ -8,6 +8,10 @@ import {
   type GenericCaseFormInputs,
 } from "@/lib/bm-auto-populate/generic-case-defaults";
 import { useCasePayload } from "@/lib/case-payload-context";
+import {
+  extractStructuredValidationErrors,
+  type FormValidationError,
+} from "@/lib/form-validation-errors";
 
 type TextSection = Record<string, string>;
 
@@ -149,6 +153,85 @@ function normalizePayload(payload: Record<string, unknown> | null): GenericTempl
   };
 }
 
+function StructuredValidationErrorList({
+  errors,
+}: {
+  errors: FormValidationError[];
+}) {
+  if (errors.length === 0) return null;
+
+  // Group by sectionTitle so the FE mirrors the locked shape without
+  // forcing the user to read an undifferentiated list. A flat list was
+  // considered for A3 but section grouping was cheap (Map + sort) and
+  // aligns with the SectionCard layout the rest of the panel already
+  // uses, so users immediately know where to look.
+  const groups = new Map<string, FormValidationError[]>();
+  for (const err of errors) {
+    const key = err.sectionTitle || err.section || "Khác";
+    const list = groups.get(key);
+    if (list) list.push(err);
+    else groups.set(key, [err]);
+  }
+  const sortedGroups = Array.from(groups.entries()).sort(([a], [b]) =>
+    a.localeCompare(b, "vi"),
+  );
+
+  const hasDrift = errors.some((err) => err.code === "CONTRACT_DRIFT");
+
+  return (
+    <div
+      className={`rounded-xl border px-4 py-3 text-sm ${
+        hasDrift
+          ? "border-amber-300 bg-amber-50 text-amber-900"
+          : "border-red-200 bg-red-50 text-red-800"
+      }`}
+      role={hasDrift ? "alert" : undefined}
+      data-testid="structured-validation-errors"
+    >
+      <div className="mb-2 flex items-baseline justify-between gap-2">
+        <p className="text-sm font-semibold">
+          {hasDrift
+            ? "Hợp đồng biểu mẫu đã thay đổi — tải lại trước khi lưu."
+            : `Có ${errors.length} lỗi cần sửa trước khi lưu.`}
+        </p>
+        <span className="text-xs font-medium uppercase tracking-wider text-slate-500">
+          FormValidationError
+        </span>
+      </div>
+      <div className="space-y-3">
+        {sortedGroups.map(([sectionTitle, group]) => (
+          <div key={sectionTitle}>
+            <p className="mb-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-600">
+              {sectionTitle}
+            </p>
+            <ul className="space-y-1.5">
+              {group.map((err) => (
+                <li
+                  key={`${err.path}-${err.code}`}
+                  className="flex flex-col gap-0.5 rounded-lg bg-white/70 px-3 py-2 ring-1 ring-inset ring-slate-200"
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="font-semibold text-slate-900">
+                      {err.label}
+                    </span>
+                    <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-600">
+                      {err.code}
+                    </code>
+                  </div>
+                  <span className="font-mono text-[11px] text-slate-500">
+                    {err.path}
+                  </span>
+                  <span className="text-sm text-slate-800">{err.message}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function SectionCard({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -207,6 +290,9 @@ export function GenericTemplateFormInputsPanel({
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [structuredErrors, setStructuredErrors] = useState<
+    FormValidationError[]
+  >([]);
   const isDirtyRef = useRef(false);
   const casePayload = useCasePayload();
 
@@ -248,6 +334,7 @@ export function GenericTemplateFormInputsPanel({
   async function handleSave() {
     setIsSaving(true);
     setError(null);
+    setStructuredErrors([]);
     setMessage(null);
 
     try {
@@ -277,6 +364,12 @@ export function GenericTemplateFormInputsPanel({
             responseBody = responseText;
           }
         }
+        // Capture structured A2 errors before falling back to the legacy
+        // single-string message. extractStructuredValidationErrors is
+        // defensive — if the shape is unknown, it returns [] and we keep
+        // the existing user-facing error string.
+        const structured = extractStructuredValidationErrors(responseBody);
+        setStructuredErrors(structured);
         throw new Error(extractApiError(responseBody, `Không lưu được dữ liệu [HTTP ${response.status}]`));
       }
 
@@ -361,7 +454,9 @@ export function GenericTemplateFormInputsPanel({
           {message}
         </div>
       ) : null}
-      {error ? (
+      {structuredErrors.length > 0 ? (
+        <StructuredValidationErrorList errors={structuredErrors} />
+      ) : error ? (
         <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {error}
         </div>
