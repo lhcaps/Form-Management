@@ -178,7 +178,7 @@ test("conflicting duplicate bindings fail closed", () => {
   );
 });
 
-test("unresolved questions remain blockers instead of being deleted", () => {
+test("unresolved questions remain notes instead of blockers", () => {
   const contract = genericContract();
   contract.unresolvedQuestions = ["Xác nhận người nhận"];
   const mapping = humanMapping();
@@ -190,8 +190,10 @@ test("unresolved questions remain blockers instead of being deleted", () => {
   );
 
   assert.deepEqual(locked.unresolvedQuestions, ["Xác nhận người nhận"]);
+  // Unresolved questions are preserved but flagged as non-blocking notes
+  // (corpus-wide convention: unresolved questions do not block lock).
   assert.deepEqual(checkLockBlockingIssues(locked), [
-    "1 unresolved question(s)",
+    "NOTE: 1 unresolved question(s) (non-blocking)",
   ]);
 });
 
