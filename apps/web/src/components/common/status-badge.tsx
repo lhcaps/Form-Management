@@ -65,15 +65,15 @@ interface StatusBadgeProps {
 
 const REVIEW_CONFIG: Record<
   ReviewStatus,
-  { label: string; variant: "default" | "secondary" | "destructive" | "success" | "warning" | "muted" | "outline" }
+  { label: string; variant: "default" | "secondary" | "destructive" | "success" | "warning" | "muted" | "outline" | "blue" | "violet" }
 > = {
   DRAFT:            { label: "Bản nháp",    variant: "muted" },
-  GENERATED:        { label: "Đã render",  variant: "muted" },
-  WAITING_REVIEW:   { label: "Cần duyệt",  variant: "warning" },
-  APPROVED:         { label: "Đã duyệt",   variant: "success" },
-  NEEDS_REVISION:   { label: "Cần sửa",     variant: "destructive" },
-  FINAL_EXPORTED:   { label: "Đã xuất",     variant: "default" },
-  CANCELLED:        { label: "Đã hủy",      variant: "muted" },
+  GENERATED:        { label: "Đã render",   variant: "violet" },
+  WAITING_REVIEW:   { label: "Cần duyệt",   variant: "warning" },
+  APPROVED:         { label: "Đã duyệt",    variant: "success" },
+  NEEDS_REVISION:   { label: "Cần sửa",      variant: "destructive" },
+  FINAL_EXPORTED:   { label: "Đã xuất",      variant: "blue" },
+  CANCELLED:        { label: "Đã hủy",       variant: "muted" },
 };
 
 const CASE_STATUS_CONFIG: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "success" | "warning" | "muted" | "outline" }> = {
@@ -117,7 +117,7 @@ const FORM_RUNTIME_CONFIG: Record<string, { label: string; variant: "default" | 
 // ----------------------------------------------------------------
 
 function StatusBadge({ value, type, label, className }: StatusBadgeProps) {
-  let config: { label: string; variant: "default" | "secondary" | "destructive" | "success" | "warning" | "muted" | "outline" };
+  let config: { label: string; variant: "default" | "secondary" | "destructive" | "success" | "warning" | "muted" | "outline" | "blue" | "violet" };
 
   switch (type) {
     case "review":

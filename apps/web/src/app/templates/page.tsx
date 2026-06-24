@@ -1,6 +1,19 @@
 "use client";
 
+/**
+ * Review Queue page — orchestration layer.
+ *
+ * Responsibilities:
+ * - Fetch + cache review queue data
+ * - Manage filter/search state
+ * - Route status actions through the appropriate dialog
+ * - Render extracted sub-components
+ *
+ * Extracted components live in @/components/review-queue/.
+ */
+
 import { useEffect, useMemo, useState } from "react";
+
 import {
   fetchReviewQueue,
   updateReviewStatus,
@@ -9,7 +22,31 @@ import {
   type ReviewQueueSummary,
 } from "@/lib/documents-review-api";
 import { ApiError } from "@/lib/api-client";
+
 import { ErrorBanner } from "@/components/common/error-banner";
+import { LoadingState } from "@/components/common/loading-state";
+import { EmptyState } from "@/components/common/empty-state";
+import { PageShell, PageSection } from "@/components/common/page-shell";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+
+import {
+  ReviewNoteDialog,
+  ReviewQueueItemCard,
+  ReviewQueueFilters,
+} from "@/components/review-queue";
+
+// ---------------------------------------------------------------------------
+// Filter definitions
+// ---------------------------------------------------------------------------
 
 type FilterKey = "ALL" | ReviewStatus;
 
@@ -22,57 +59,63 @@ const FILTERS: Array<{ key: FilterKey; label: string }> = [
   { key: "CANCELLED", label: "Đã hủy" },
 ];
 
-function statusClass(status: ReviewStatus) {
-  switch (status) {
-    case "WAITING_REVIEW":
-      return "border-amber-200 bg-amber-50 text-amber-800";
-    case "NEEDS_REVISION":
-      return "border-red-200 bg-red-50 text-red-700";
-    case "APPROVED":
-      return "border-emerald-200 bg-emerald-50 text-emerald-700";
-    case "FINAL_EXPORTED":
-      return "border-blue-200 bg-blue-50 text-blue-700";
-    case "CANCELLED":
-      return "border-slate-200 bg-slate-100 text-slate-600";
-    case "GENERATED":
-      return "border-violet-200 bg-violet-50 text-violet-700";
-    case "DRAFT":
-    default:
-      return "border-slate-200 bg-slate-50 text-slate-700";
-  }
+// ---------------------------------------------------------------------------
+// Confirm dialog state
+// ---------------------------------------------------------------------------
+
+type ConfirmAction = "APPROVED" | "FINAL_EXPORTED" | "CANCELLED";
+
+interface ConfirmDialogState {
+  open: boolean;
+  action: ConfirmAction;
+  item: ReviewQueueItem | null;
 }
 
-function formatDateTime(value: string | null) {
-  if (!value) return "Chưa có";
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
+const ACTION_CONFIG: Record<
+  ConfirmAction,
+  {
+    title: string;
+    confirmText: string;
+    note: string;
+    destructive: boolean;
+    description: (item: ReviewQueueItem) => string;
   }
+> = {
+  APPROVED: {
+    title: "Duyệt biểu mẫu",
+    confirmText: "Duyệt biểu mẫu",
+    destructive: false,
+    note: "Đã kiểm tra nội dung và phê duyệt biểu mẫu.",
+    description: (item) =>
+      `Bạn có chắc muốn duyệt biểu mẫu "${item.templateCode} — ${
+        item.documentTitle || "Không có tiêu đề"
+      }" không?`,
+  },
+  FINAL_EXPORTED: {
+    title: "Đánh dấu đã xuất cuối",
+    confirmText: "Đánh dấu đã xuất cuối",
+    destructive: false,
+    note: "Biểu mẫu đã được xuất bản chính thức.",
+    description: (item) =>
+      `Bạn có chắc muốn đánh dấu "${item.templateCode} — ${
+        item.documentTitle || "Không có tiêu đề"
+      }" là đã xuất cuối không?`,
+  },
+  CANCELLED: {
+    title: "Hủy biểu mẫu",
+    confirmText: "Hủy biểu mẫu",
+    destructive: true,
+    note: "Hủy biểu mẫu khỏi luồng phê duyệt.",
+    description: (item) =>
+      `Bạn có chắc muốn hủy biểu mẫu "${item.templateCode} — ${
+        item.documentTitle || "Không có tiêu đề"
+      }" không?`,
+  },
+};
 
-  return new Intl.DateTimeFormat("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-}
-
-function formatSize(value: string) {
-  const bytes = Number(value);
-
-  if (!Number.isFinite(bytes) || bytes <= 0) {
-    return "";
-  }
-
-  if (bytes < 1024 * 1024) {
-    return `${Math.round(bytes / 1024)} KB`;
-  }
-
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-}
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
 
 export default function TemplatesPage() {
   const [items, setItems] = useState<ReviewQueueItem[]>([]);
@@ -82,6 +125,21 @@ export default function TemplatesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+  // Review note dialog state (NEEDS_REVISION)
+  const [reviewNoteItem, setReviewNoteItem] = useState<ReviewQueueItem | null>(null);
+  const [reviewNoteValue, setReviewNoteValue] = useState("");
+
+  // Confirm dialog state (APPROVED / FINAL_EXPORTED / CANCELLED)
+  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogState>({
+    open: false,
+    action: "APPROVED",
+    item: null,
+  });
+
+  // ---------------------------------------------------------------------------
+  // Data loading
+  // ---------------------------------------------------------------------------
 
   async function loadQueue() {
     setIsLoading(true);
@@ -104,16 +162,19 @@ export default function TemplatesPage() {
     }
   }
 
-  async function handleUpdateReviewStatus(
+  useEffect(() => {
+    void loadQueue();
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // Shared status update
+  // ---------------------------------------------------------------------------
+
+  async function performStatusUpdate(
     documentId: string,
     nextStatus: ReviewStatus,
-    defaultNote: string,
+    reviewNote: string,
   ) {
-    const reviewNote =
-      nextStatus === "NEEDS_REVISION"
-        ? window.prompt("Nhập lý do yêu cầu sửa:", defaultNote) ?? ""
-        : defaultNote;
-
     setUpdatingId(documentId);
     setError(null);
 
@@ -133,18 +194,54 @@ export default function TemplatesPage() {
     }
   }
 
-  useEffect(() => {
-    void loadQueue();
-  }, []);
+  // ---------------------------------------------------------------------------
+  // Action handlers
+  // ---------------------------------------------------------------------------
+
+  function handleApprove(item: ReviewQueueItem) {
+    setConfirmDialog({ open: true, action: "APPROVED", item });
+  }
+
+  function handleFinalExport(item: ReviewQueueItem) {
+    setConfirmDialog({ open: true, action: "FINAL_EXPORTED", item });
+  }
+
+  function handleCancel(item: ReviewQueueItem) {
+    setConfirmDialog({ open: true, action: "CANCELLED", item });
+  }
+
+  function handleRequestRevision(item: ReviewQueueItem) {
+    setReviewNoteValue(
+      item.note || "Cần kiểm tra và chỉnh sửa lại biểu mẫu.",
+    );
+    setReviewNoteItem(item);
+  }
+
+  function handleRevisionSubmit(note: string) {
+    if (!reviewNoteItem) return;
+    void performStatusUpdate(reviewNoteItem.id, "NEEDS_REVISION", note);
+    setReviewNoteItem(null);
+  }
+
+  function handleConfirmConfirm() {
+    const { action, item } = confirmDialog;
+    if (!item) return;
+    const cfg = ACTION_CONFIG[action];
+    void performStatusUpdate(item.id, action, cfg.note);
+    setConfirmDialog({ open: false, action, item: null });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Client-side filtering
+  // ---------------------------------------------------------------------------
 
   const filteredItems = useMemo(() => {
     const normalizedKeyword = keyword.trim().toLowerCase();
 
     return items.filter((item) => {
-      const matchesStatus =
-        activeFilter === "ALL" || item.reviewStatus === activeFilter;
-
-      if (!matchesStatus) return false;
+      if (activeFilter !== "ALL" && item.reviewStatus !== activeFilter) {
+        return false;
+      }
 
       if (!normalizedKeyword) return true;
 
@@ -163,239 +260,189 @@ export default function TemplatesPage() {
     });
   }, [activeFilter, items, keyword]);
 
+  // ---------------------------------------------------------------------------
+  // Dialog helpers
+  // ---------------------------------------------------------------------------
+
+  const confirmCfg = confirmDialog.item
+    ? ACTION_CONFIG[confirmDialog.action]
+    : null;
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
+
+  const totalCount = summary.total ?? items.length;
+
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-8">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
-                QUANLYVKS / REVIEW QUEUE
-              </p>
-              <h1 className="mt-3 text-3xl font-black text-slate-950">
-                Duyệt biểu mẫu đã xuất
-              </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-                Biểu mẫu sau khi render DOCX/PDF sẽ xuất hiện ở đây để kiểm tra,
-                mở xử lý, tải file và theo dõi trạng thái phê duyệt.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={loadQueue}
-              disabled={isLoading}
-              className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isLoading ? "Đang tải..." : "Tải lại danh sách"}
-            </button>
-          </div>
-
-          <div className="mt-6 grid gap-3 md:grid-cols-4">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">
-                Tổng biểu mẫu
-              </p>
-              <p className="mt-2 text-2xl font-black text-slate-950">
-                {summary.total ?? items.length}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-              <p className="text-xs font-bold uppercase text-amber-700">
-                Cần phê duyệt
-              </p>
-              <p className="mt-2 text-2xl font-black text-amber-800">
-                {summary.WAITING_REVIEW ?? 0}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-red-200 bg-red-50 p-4">
-              <p className="text-xs font-bold uppercase text-red-700">
-                Cần sửa
-              </p>
-              <p className="mt-2 text-2xl font-black text-red-700">
-                {summary.NEEDS_REVISION ?? 0}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-              <p className="text-xs font-bold uppercase text-emerald-700">
-                Đã duyệt
-              </p>
-              <p className="mt-2 text-2xl font-black text-emerald-700">
-                {summary.APPROVED ?? 0}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-wrap gap-2">
-              {FILTERS.map((filter) => {
-                const count =
-                  filter.key === "ALL"
-                    ? summary.total ?? items.length
-                    : summary[filter.key] ?? 0;
-
-                const isActive = activeFilter === filter.key;
-
-                return (
-                  <button
-                    key={filter.key}
-                    type="button"
-                    onClick={() => setActiveFilter(filter.key)}
-                    className={
-                      isActive
-                        ? "rounded-full bg-slate-950 px-4 py-2 text-sm font-bold text-white"
-                        : "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                    }
-                  >
-                    {filter.label} <span className="ml-1 opacity-75">{count}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="Tìm theo mã BM, số văn bản, hồ sơ, người liên quan..."
-              className="h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100 lg:max-w-md"
-            />
-          </div>
-        </section>
-
-        {error ? <ErrorBanner error={error} /> : null}
-
-        {isLoading ? (
-          <section className="rounded-3xl border border-slate-200 bg-white p-8 text-sm text-slate-600 shadow-sm">
-            Đang tải danh sách biểu mẫu cần duyệt...
-          </section>
-        ) : null}
-
-        {!isLoading && filteredItems.length === 0 ? (
-          <section className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-            <h2 className="text-xl font-black text-slate-950">
-              Không có biểu mẫu phù hợp
-            </h2>
-            <p className="mt-2 text-sm text-slate-500">
-              Hãy render DOCX/PDF từ trang tạo biểu mẫu, hoặc đổi bộ lọc trạng thái.
+    <PageShell maxWidth="default">
+      {/* Page header + summary cards */}
+      <PageSection>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
+              QUANLYVKS / REVIEW QUEUE
             </p>
-          </section>
-        ) : null}
+            <h1 className="mt-3 text-3xl font-black text-slate-950">
+              Duyệt biểu mẫu đã xuất
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600">
+              Biểu mẫu sau khi render DOCX/PDF sẽ xuất hiện ở đây để kiểm tra,
+              mở xử lý, tải file và theo dõi trạng thái phê duyệt.
+            </p>
+          </div>
+        </div>
 
-        <section className="space-y-4">
+        <div className="mt-6 grid gap-3 md:grid-cols-4">
+          <SummaryCard label="Tổng biểu mẫu" value={totalCount} tone="neutral" />
+          <SummaryCard
+            label="Cần phê duyệt"
+            value={summary.WAITING_REVIEW ?? 0}
+            tone="amber"
+          />
+          <SummaryCard
+            label="Cần sửa"
+            value={summary.NEEDS_REVISION ?? 0}
+            tone="red"
+          />
+          <SummaryCard
+            label="Đã duyệt"
+            value={summary.APPROVED ?? 0}
+            tone="emerald"
+          />
+        </div>
+      </PageSection>
+
+      <ReviewQueueFilters
+        filters={FILTERS}
+        summary={summary}
+        totalCount={totalCount}
+        activeFilter={activeFilter}
+        keyword={keyword}
+        isLoading={isLoading}
+        onFilterChange={setActiveFilter}
+        onSearchChange={setKeyword}
+        onReload={() => void loadQueue()}
+      />
+
+      {error ? <ErrorBanner error={error} /> : null}
+
+      {isLoading ? <LoadingState variant="card" count={3} /> : null}
+
+      {!isLoading && filteredItems.length === 0 ? (
+        <EmptyState
+          title="Không có biểu mẫu phù hợp"
+          description="Không có biểu mẫu nào khớp với bộ lọc hiện tại. Hãy đổi trạng thái, từ khóa tìm kiếm hoặc tạo batch biểu mẫu mới."
+        />
+      ) : null}
+
+      {!isLoading && filteredItems.length > 0 && (
+        <div className="space-y-4">
           {filteredItems.map((item) => (
-            <article
+            <ReviewQueueItemCard
               key={item.id}
-              className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-blue-200 hover:shadow-md"
-            >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
-                      {item.templateCode}
-                    </span>
-
-                    <span
-                      className={`rounded-full border px-3 py-1 text-xs font-black ${statusClass(
-                        item.reviewStatus,
-                      )}`}
-                    >
-                      {item.reviewStatusLabel}
-                    </span>
-
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
-                      {item.hasPdf ? "Đã có PDF" : item.hasDocx ? "Đã có DOCX" : "Chưa có file"}
-                    </span>
-                  </div>
-
-                  <h2 className="mt-3 text-xl font-black text-slate-950">
-                    {item.documentTitle || `${item.templateCode} - ${item.templateName}`}
-                  </h2>
-
-                  <div className="mt-3 grid gap-2 text-sm text-slate-600 md:grid-cols-2">
-                    <p>
-                      <span className="font-bold text-slate-800">Ngày tạo:</span>{" "}
-                      {formatDateTime(item.generatedAt)}
-                    </p>
-                  </div>
-
-                  {item.note ? (
-                    <p className="mt-3 rounded-2xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                      {item.note}
-                    </p>
-                  ) : null}
-                </div>
-
-                <div className="flex shrink-0 flex-col gap-2 lg:w-48">
-                  <a
-                    href={`/documents/${item.id}`}
-                    className="rounded-2xl bg-slate-950 px-4 py-2.5 text-center text-sm font-bold text-white transition hover:bg-slate-800"
-                  >
-                    Mở xử lý
-                  </a>
-
-                  {item.reviewStatus !== "APPROVED" ? (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        void handleUpdateReviewStatus(
-                          item.id,
-                          "APPROVED",
-                          "Đã kiểm tra nội dung và phê duyệt biểu mẫu.",
-                        )
-                      }
-                      disabled={updatingId === item.id}
-                      className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-center text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {updatingId === item.id ? "Đang duyệt..." : "Phê duyệt"}
-                    </button>
-                  ) : null}
-
-                  {item.reviewStatus !== "NEEDS_REVISION" ? (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        void handleUpdateReviewStatus(
-                          item.id,
-                          "NEEDS_REVISION",
-                          "Cần kiểm tra và chỉnh sửa lại biểu mẫu.",
-                        )
-                      }
-                      disabled={updatingId === item.id}
-                      className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-center text-sm font-bold text-amber-700 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      Yêu cầu sửa
-                    </button>
-                  ) : null}
-
-                  {item.reviewStatus !== "CANCELLED" ? (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        void handleUpdateReviewStatus(
-                          item.id,
-                          "CANCELLED",
-                          "Hủy biểu mẫu khỏi luồng phê duyệt.",
-                        )
-                      }
-                      disabled={updatingId === item.id}
-                      className="rounded-2xl border border-red-200 bg-red-50 px-4 py-2.5 text-center text-sm font-bold text-red-700 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      Hủy
-                    </button>
-                  ) : null}
-
-
-                </div>
-              </div>
-            </article>
+              item={item}
+              updatingId={updatingId}
+              onApprove={handleApprove}
+              onRequestRevision={handleRequestRevision}
+              onCancel={handleCancel}
+            />
           ))}
-        </section>
-      </div>
+        </div>
+      )}
+
+      {/* Review note dialog for NEEDS_REVISION */}
+      <ReviewNoteDialog
+        open={reviewNoteItem !== null}
+        documentTitle={reviewNoteItem?.documentTitle ?? ""}
+        templateCode={reviewNoteItem?.templateCode ?? ""}
+        defaultNote={reviewNoteValue}
+        isSubmitting={updatingId !== null}
+        onConfirm={handleRevisionSubmit}
+        onCancel={() => setReviewNoteItem(null)}
+      />
+
+      {/* Confirm dialog for APPROVED / FINAL_EXPORTED / CANCELLED */}
+      <AlertDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) =>
+          setConfirmDialog((prev) => ({ ...prev, open }))
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{confirmCfg?.title ?? ""}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {confirmDialog.item
+                ? confirmCfg?.description(confirmDialog.item)
+                : ""}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild>
+              <button type="button">Hủy</button>
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmConfirm}
+              className={
+                confirmCfg?.destructive
+                  ? "bg-destructive hover:bg-destructive/90"
+                  : undefined
+              }
+            >
+              {confirmCfg?.confirmText ?? ""}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </PageShell>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Local helpers
+// ---------------------------------------------------------------------------
+
+type SummaryTone = "neutral" | "amber" | "red" | "emerald";
+
+const SUMMARY_TONE_CLASSES: Record<
+  SummaryTone,
+  { border: string; bg: string; label: string }
+> = {
+  neutral: {
+    border: "border-slate-200",
+    bg: "bg-slate-50",
+    label: "text-slate-500",
+  },
+  amber: {
+    border: "border-amber-200",
+    bg: "bg-amber-50",
+    label: "text-amber-700",
+  },
+  red: { border: "border-red-200", bg: "bg-red-50", label: "text-red-700" },
+  emerald: {
+    border: "border-emerald-200",
+    bg: "bg-emerald-50",
+    label: "text-emerald-700",
+  },
+};
+
+function SummaryCard({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: number;
+  tone: SummaryTone;
+}) {
+  const classes = SUMMARY_TONE_CLASSES[tone];
+  return (
+    <div
+      className={`rounded-2xl border ${classes.border} ${classes.bg} p-4`}
+    >
+      <p className={`text-xs font-bold uppercase ${classes.label}`}>{label}</p>
+      <p className="mt-2 text-2xl font-black text-slate-950">{value}</p>
     </div>
   );
 }
