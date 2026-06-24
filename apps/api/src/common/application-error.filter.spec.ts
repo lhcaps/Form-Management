@@ -53,6 +53,45 @@ describe('ApplicationErrorFilter', () => {
     });
   });
 
+  it('surfaces a structured cause as details on the response (A2 contract)', () => {
+    const { host, json, status } = createHost();
+    const filter = new ApplicationErrorFilter();
+    const details = {
+      ok: false,
+      errors: [
+        {
+          path: 'person.fullName',
+          label: 'Họ tên',
+          section: 'person',
+          sectionTitle: 'Thông tin',
+          required: true,
+          code: 'REQUIRED',
+          message: 'Trường "Họ tên" là bắt buộc.',
+        },
+      ],
+    };
+
+    filter.catch(
+      new InfrastructureError(
+        'CONTRACT_INPUT_VALIDATION_FAILED',
+        'Dữ liệu biểu mẫu chưa hợp lệ.',
+        details,
+      ),
+      host,
+    );
+
+    expect(status).toHaveBeenCalledWith(503);
+    expect(json).toHaveBeenCalledWith({
+      statusCode: 503,
+      code: 'CONTRACT_INPUT_VALIDATION_FAILED',
+      message: 'Dữ liệu biểu mẫu chưa hợp lệ.',
+      requestId: 'req-123',
+      timestamp: expect.any(String),
+      path: '/api/v1/forms/catalog',
+      details,
+    });
+  });
+
   it('keeps Nest HTTP status and public message', () => {
     const { host, json, status } = createHost();
     const filter = new ApplicationErrorFilter();

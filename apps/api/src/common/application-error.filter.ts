@@ -16,6 +16,7 @@ type ErrorResponse = {
   requestId: string;
   timestamp: string;
   path: string;
+  details?: unknown;
 };
 
 function getHttpExceptionMessage(exception: HttpException): string {
@@ -62,6 +63,9 @@ export class ApplicationErrorFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path,
     };
+    if (mapped.details !== undefined) {
+      body.details = mapped.details;
+    }
 
     response.status(mapped.statusCode).json(body);
   }
@@ -70,12 +74,14 @@ export class ApplicationErrorFilter implements ExceptionFilter {
     statusCode: number;
     code: string;
     message: string;
+    details?: unknown;
   } {
     if (exception instanceof ApplicationError) {
       return {
         statusCode: exception.status,
         code: exception.code,
         message: exception.message,
+        details: exception.cause,
       };
     }
 
