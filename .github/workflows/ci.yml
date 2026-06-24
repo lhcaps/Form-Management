@@ -62,6 +62,9 @@ jobs:
       - name: DOCX prelock guard (informational — generic draft forms)
         run: pnpm audit:docx:prelock || true
 
+      - name: Regenerate locked-contracts verify report
+        run: pnpm audit:docx:verify-locked
+
       - name: "Gate: 213 forms corpus readiness"
         run: pnpm gate:forms:213 --allow-remediation --allow-source-unknown --allow-unresolved-review
 
