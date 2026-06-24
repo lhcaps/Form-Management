@@ -6,3 +6,4 @@ export * from "./factory.js";
 export * from "./compiler.js";
 export * from "./v1-adapter.js";
 export * from "./payload.js";
+export * from "./derive-form-input-schema.js";

@@ -270,3 +270,156 @@ In `generic-template-form-inputs.tsx`:
 ### Next step
 
 B1 — `derive-form-input-schema.ts` with 3-layer fallback (PLAN.md v2.3 §B1). B1 introduces the dynamic schema that A3's structured error list will eventually point at for inline field highlighting.
+
+## Task B1. Derive `FormInputSchema` from a locked form contract (3-layer fallback)
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Files changed
+
+- `packages/form-contracts/src/derive-form-input-schema.ts` *(new)* — pure, deterministic `deriveFormInputSchema(contract: unknown): FormInputSchema` plus the locked type exports (`FormInputSchema`, `FormInputSection`, `FormInputField`, `SchemaWarning`, the supporting union types).
+- `packages/form-contracts/src/index.ts` — re-export the new module so the API/web apps can import it once they wire the dynamic schema (no app-side import added in B1).
+- `packages/form-contracts/test/derive-form-input-schema.test.ts` *(new)* — 16 unit tests: 6 against the locked contract JSONs for the representative BMs, 10 against inline fixtures covering hints, rejected candidates, unknown source, computed, read-only sources, dedup, fallback, inputType mapping, defensive input, and section ordering.
+
+### Exported types and functions
+
+```ts
+export type FormInputFieldSource =
+  | "manual" | "casePayload" | "agencyConfig"
+  | "officialConfig" | "systemDate" | "computed";
+
+export type FormInputFieldInputType = "text" | "date" | "number" | "textarea";
+
+export type FormInputFieldReadonlyReason =
+  | "CASE_PAYLOAD" | "AGENCY_CONFIG" | "OFFICIAL_CONFIG"
+  | "SYSTEM_DATE" | "COMPUTED";
+
+export type FormInputFieldVisibilityReason =
+  | "USER_INPUT" | "READONLY_PREVIEW" | "INTERNAL_RENDER_ONLY";
+
+export type FormInputField = {
+  path: string;
+  label: string;
+  required: boolean;
+  inputType: FormInputFieldInputType;
+  source: FormInputFieldSource;
+  editable: boolean;
+  readonlyReason?: FormInputFieldReadonlyReason;
+  visible: boolean;
+  visibilityReason?: FormInputFieldVisibilityReason;
+  reviewRequired: boolean;
+  origin: "canonical" | "binding-fallback" | "hint";
+};
+
+export type FormInputSection = {
+  key: string;
+  title: string;
+  fields: FormInputField[];
+};
+
+export type SchemaWarning = {
+  code: "BOUND_SLOT_MISSING_FIELD" | "REJECTED_AS_EDITABLE" | "UNKNOWN_SOURCE_NORMALIZED";
+  path?: string;
+  message: string;
+};
+
+export type FormInputSchema = {
+  templateCode: string;
+  sourceId: string;
+  warnings: SchemaWarning[];
+  sections: FormInputSection[];
+};
+
+export function deriveFormInputSchema(contract: unknown): FormInputSchema;
+```
+
+`deriveFormInputSchema` is pure (no I/O, no throws). It returns an empty `FormInputSchema` for `null` / arrays / non-objects, and silently drops malformed entries inside `canonicalFields` / `docxSlots` / `renderBindings` / `rejectedCandidates` / `formInputHints.suggestedControls` rather than failing.
+
+### Source priority implemented
+
+1. **Canonical** (`canonicalFields[]`) — primary source. Each well-formed entry produces exactly one `FormInputField` with `origin: "canonical"`. Path = `canonicalField.path`; section key = first dot segment; label = `canonicalField.label` or path tail.
+2. **Binding fallback** (`renderBindings[]` ∪ `docxSlots[]`) — for every `renderBinding.from` that is missing from canonical AND not in `rejectedCandidates`, a fallback editable field is created with `origin: "binding-fallback"`, `source: "manual"`, `required: false` (unless `slot.required` or `binding.reviewRequired` says otherwise), `reviewRequired: true`, and a `BOUND_SLOT_MISSING_FIELD` warning. Rejected candidates referenced by bindings are suppressed and emit `REJECTED_AS_EDITABLE`.
+3. **Hint refinement** (`formInputHints.suggestedControls[]`) — strictly read-only. If a hint points to a path that is not already in canonical/fallback, it is silently dropped. If it points to an existing path, it may refine `label` and/or `inputType` only. The origin of the existing field is preserved (no field ever carries `origin: "hint"`), which makes the brief's hint-doesn't-create assertion structural rather than enforced.
+4. **Rejected candidates** (`rejectedCandidates[]`) — never produce editable fields. They are tracked as a `Set<string>` and consulted in both the canonical and binding passes; matching paths are dropped (canonical defensively, binding with a `REJECTED_AS_EDITABLE` warning).
+
+Deduplication: fields are stored in a `Map<string, FormInputField>` keyed by `path`. Canonical inserts first; binding-fallback only inserts when the key is absent. The final field list iterates a parallel `insertionOrder: string[]` so the output preserves canonical order then binding-fallback order.
+
+### Source / editability / visibility mapping
+
+| Raw source | Output `source` | `editable` | `readonlyReason` | `visible` | `visibilityReason` |
+|---|---|---|---|---|---|
+| `manual` | `manual` | true | — | true | `USER_INPUT` |
+| `casePayload` | `casePayload` | false | `CASE_PAYLOAD` | true | `READONLY_PREVIEW` |
+| `agencyConfig` | `agencyConfig` | false | `AGENCY_CONFIG` | true | `READONLY_PREVIEW` |
+| `officialConfig` | `officialConfig` | false | `OFFICIAL_CONFIG` | true | `READONLY_PREVIEW` |
+| `systemDate` | `systemDate` | false | `SYSTEM_DATE` | true | `READONLY_PREVIEW` |
+| `computed` | `computed` | false | `COMPUTED` | false | `INTERNAL_RENDER_ONLY` |
+| `unknown` (or any unrecognized string) | `manual` | true | — | true | `USER_INPUT` + `UNKNOWN_SOURCE_NORMALIZED` warning |
+
+`computed` flipping to `visible: true` via a hint is intentionally NOT wired in B1 (the brief allows it but no current contract uses a hint that would justify it; the type union for `visibilityReason` is already sufficient and a future change can extend `applyHint` without touching the type or other rules).
+
+### `inputType` mapping (locked v1 contract → `FormInputFieldInputType`)
+
+1. `uiComponent: "date"` → `"date"`.
+2. `uiComponent: "textarea"` → `"textarea"`.
+3. `uiComponent: "number"` → `"number"` (forward-compat for v2 contracts).
+4. `uiComponent: "text" | "select" | ""` (default fallback for v1 corpus):
+   - Path tail matches `^(date|day|month|year|time)$` (case-insensitive) → `"date"`. Catches v1 `informant.birthDay` / `birthMonth` / `birthYear` paths whose `uiComponent` is `"text"` and whose `slotType` is `"datePart"`.
+   - Path tail matches `^(count|quantity|amount|num|number|integer)$` → `"number"`.
+   - The matching `docxSlots[].slotType === "datePart"` is also consulted as a secondary signal — useful if the v1 contract has a date-typed path that does not end in one of the date suffixes.
+   - Otherwise → `"text"`.
+
+### Section grouping and titling
+
+- Section key = first dot segment of `path`. e.g. `informant.birthDay` → `"informant"`.
+- Section order = order of first occurrence (canonical first, then binding-fallback, each preserving the iteration order of its source array).
+- Section title = a small local `humanizeSectionKey(key)` helper that splits camelCase / snake_case / kebab-case and title-cases each word. English-only on purpose: B2 will introduce a Vietnamese `SECTION_TITLES` map, and B1 deliberately avoids depending on a translation that does not exist yet. `caseInfo → "Case Info"`, `legalBasis → "Legal Basis"`, etc.
+- Fields within a section preserve their global insertion order (canonical before binding-fallback). They are NOT re-sorted by path, which would shuffle the curated canonical order.
+
+### Warning codes implemented
+
+| Code | Where emitted | Meaning |
+|---|---|---|
+| `BOUND_SLOT_MISSING_FIELD` | binding-fallback pass | A `renderBinding.from` is bound/rendered but not in canonical — fallback editable field created. |
+| `REJECTED_AS_EDITABLE` | canonical / binding pass | A path that exists in canonical or in renderBindings was also in `rejectedCandidates`; suppressed. |
+| `UNKNOWN_SOURCE_NORMALIZED` | canonical pass | A `canonicalField.source` is `"unknown"` (or any other unrecognized string) and was normalized to `"manual"` with conservative editable=true / visible=true. BM-051's `document.fullDocumentCode` triggers this naturally. |
+
+### Commands run
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm --filter form-contracts test` | 0 | 24 tests pass (8 pre-existing + 16 new from `derive-form-input-schema.test.ts`) |
+| `pnpm typecheck` (form-contracts + api + web) | 0 | clean |
+| `pnpm --filter form-contracts exec eslint src/derive-form-input-schema.ts` | n/a | No eslint binary in the repo. The package's `lint` script is `tsc --noEmit` which is the same check as `typecheck` (already passing). |
+
+### Representative BMs vs kill criteria
+
+All 6 representative BMs (BM-001, BM-051, BM-053, BM-100, BM-150, BM-200) derive a schema with `sections.length > 0` and `fields.length > 0`. Zero hit the kill criterion. Worst case observed: BM-051 contains a `source: "unknown"` field which is intentionally normalized to `manual` with a `UNKNOWN_SOURCE_NORMALIZED` warning — this is by design and does not block schema derivation.
+
+Per-BM highlights:
+
+- **BM-001** (28 canonical fields, 28 docxSlots, 28 renderBindings, 11 rejectedCandidates) → 4 sections (`document`, `receiver`, `informant`, `recipients`), 28 fields, 11 `REJECTED_AS_EDITABLE` warnings, 0 `BOUND_SLOT_MISSING_FIELD`, 0 `UNKNOWN_SOURCE_NORMALIZED`. The birthDay / birthMonth / birthYear canonical fields correctly map to `inputType: "date"` via the path-tail rule.
+- **BM-051** (2 canonical fields, 1 unknown source) → 1 `UNKNOWN_SOURCE_NORMALIZED` warning emitted for `document.fullDocumentCode`. The unknown field still surfaces as an editable `manual` field so the UI can collect a value or block the user with a clear message.
+- **BM-053** (many canonical fields including `legalBasis.line1`..`line5`) → 5 `legalBasis.*` fields present in the derived schema (test 3 passes).
+- **BM-100 / BM-150 / BM-200** — derive without throwing; section/field counts > 0; warnings limited to whatever their respective contracts naturally produce.
+
+### Backward compatibility
+
+- The new file is purely additive. `packages/form-contracts/src/index.ts` adds a new `export * from "./derive-form-input-schema.js"` line; the pre-existing 8 tests in this package stay green.
+- `deriveFormInputSchema` does not read the filesystem, does not call into the API, and never throws. It is safe to call from both server and client contexts.
+- Defensive against bad input: `null` / `[]` / `{}` / garbage arrays all return a well-typed empty schema with no warnings. This is the same posture as the rest of the package (`compileContract`, `stableStringify`, etc.).
+- The locked contract files under `docs/audit/docx/contracts/locked/` are not modified. Tests read them via `readFileSync` + `JSON.parse` and are tolerant to schema-version drift.
+- `document-renderer.service.ts`, `generic-template-form-inputs.tsx`, `contract-form-inputs.service.ts`, `documents.service.ts`, and the A1/A2/A3 hot paths are all untouched.
+
+### Risks / Open
+
+- **Risk**: `getSectionTitle` is English-only. Until B2 lands, the UI will display English titles for sections like `informant` (`"Informant"`), which may feel inconsistent next to the Vietnamese field labels that come from the locked contract. Mitigated by B2 explicitly owning a `section-titles.ts` helper. The B1 type/structure is already designed for that — `FormInputSection.title` is the only field B2 needs to override.
+- **Risk**: The `hint-doesn't-create-fields` rule is enforced structurally (hints only `set` on existing keys) rather than via an explicit assertion. If a future refactor of `applyHint` accidentally changes that, the `origin === "hint"`-forbidden invariant in the type union would still allow fields to be created with `origin: "hint"`. The test "hints do not create new paths" + the "no field has origin === 'hint'" assertion in test 5 lock this in for the current shape.
+- **Open**: A future phase may want a "preview required" boolean per field for the A2 CONTRACT_DRIFT wiring. The current `reviewRequired` covers the existing audit/contract-driven rendering flags; if a separate "preview required" semantically diverges, B1's `FormInputField` is the place to add it.
+- **Open**: B1 does not wire the derived schema into any API endpoint. A consumer (e.g. a `/documents/generated/:id/form-schema` route planned for Phase B) is the natural next step. Per the B1 brief, that wiring is explicitly out of scope.
+- **Open**: A per-BM "all 213" smoke test was intentionally not added. The 6-representative test is fast and locked; extending to 213 would inflate test runtime and is unnecessary for B1 (PLAN.md v2.3 §B1 only requires representative coverage).
+
+### Next step
+
+B2 — `section-titles.ts` (Vietnamese section title helper) and wiring of `deriveFormInputSchema` into a `/documents/generated/:id/form-schema` endpoint. Per PLAN.md v2.3 §B2. Stop after B2.
+
