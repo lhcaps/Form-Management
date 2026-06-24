@@ -423,3 +423,128 @@ Per-BM highlights:
 
 B2 — `section-titles.ts` (Vietnamese section title helper) and wiring of `deriveFormInputSchema` into a `/documents/generated/:id/form-schema` endpoint. Per PLAN.md v2.3 §B2. Stop after B2.
 
+## Task B2. Vietnamese section title helper + integration
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Scope correction vs the B1 "next step" paragraph
+
+The B1 summary described B2 as a combined "section-titles + endpoint" task. The actual B2 brief scopes only the Vietnamese title helper and its integration into `deriveFormInputSchema`; the `/documents/generated/:id/form-schema` endpoint belongs to B3 and is explicitly out of scope for B2. Apps under `apps/api/` and `apps/web/` are not touched.
+
+### Files changed
+
+- `packages/form-contracts/src/section-titles.ts` *(new)* — `SECTION_TITLES` map, `getSectionTitle(sectionKey)`, `humanizeSectionKey(sectionKey)`.
+- `packages/form-contracts/src/derive-form-input-schema.ts` — removed the B1 English-only local `humanizeSectionKey` / `getSectionTitle` helpers and now imports `getSectionTitle` from `./section-titles.js`. The call site in `groupFieldsBySection` is unchanged.
+- `packages/form-contracts/src/index.ts` — added `export * from "./section-titles.js"`.
+- `packages/form-contracts/test/section-titles.test.ts` *(new)* — 10 tests covering the minimum SECTION_TITLES entries, the Vietnamese lookup, the humanize fallback, casing variants (camel / snake / kebab), the "never empty" invariant, and three integration tests against BM-001 / BM-051 / BM-053.
+- `packages/form-contracts/test/derive-form-input-schema.test.ts` — added one non-blocking corpus-scan test that logs every section key NOT yet mapped in `SECTION_TITLES`. The test never fails the suite; it is informational only.
+
+### `SECTION_TITLES` entries added (B2 brief, all 28 keys)
+
+```ts
+{
+  agency: "Cơ quan",
+  document: "Văn bản",
+  caseInfo: "Thông tin vụ án",
+  content: "Nội dung",
+  recipients: "Nơi nhận",
+  signature: "Chữ ký",
+  decision: "Quyết định",
+  legalBasis: "Căn cứ pháp lý",
+  offense: "Hành vi / tội danh",
+  measure: "Biện pháp tố tụng",
+  reception: "Tiếp nhận",
+  receiver: "Người tiếp nhận",
+  informant: "Người cung cấp tin",
+  crimeReport: "Tin báo / tố giác",
+  accusedDecision: "Quyết định về bị can",
+  caseDecision: "Quyết định vụ án",
+  attachments: "Tài liệu kèm theo",
+  indictment: "Cáo trạng",
+  monitoring: "Kiểm sát",
+  proposal: "Đề xuất",
+  investigation: "Điều tra",
+  investigationConclusion: "Kết luận điều tra",
+  caseJoinder: "Nhập vụ án",
+  caseRecovery: "Khôi phục vụ án",
+  investigationExtension: "Gia hạn điều tra",
+  prosecutionExtension: "Gia hạn truy tố",
+  prosecutionTransfer: "Chuyển truy tố",
+  approval: "Phê duyệt",
+}
+```
+
+### Fallback behavior
+
+`getSectionTitle(sectionKey)`:
+
+1. Trims `sectionKey`.
+2. Looks up `SECTION_TITLES[sectionKey]`. If a non-empty string is found, returns it (Vietnamese).
+3. Otherwise, returns `humanizeSectionKey(sectionKey)`.
+
+`humanizeSectionKey(sectionKey)`:
+
+1. Trims `sectionKey`. Empty / whitespace-only input coerces to `"Section"`, so downstream consumers always see a non-empty string.
+2. Splits camelCase boundaries via `([a-z0-9])([A-Z]) → "$1 $2"`.
+3. Collapses `_` and `-` runs into a single space.
+4. Title-cases the first letter of every word via `/\b\w/g`.
+
+Worked examples (asserted by tests):
+
+| Input | Output |
+|---|---|
+| `caseInfo` | `Case Info` |
+| `legalBasis` | `Legal Basis` |
+| `case_recovery` | `Case Recovery` |
+| `case-recovery` | `Case Recovery` |
+| `unknownFutureSection` | `Unknown Future Section` |
+| `""` or `"   "` | `Section` |
+| any key in `SECTION_TITLES` | the mapped Vietnamese title |
+
+### Integration with `deriveFormInputSchema`
+
+`deriveFormInputSchema` continues to call `getSectionTitle(key)` for each section's `title`. B1's English-only local helpers are removed; the function now reads from `section-titles.ts` exclusively. Source priority (canonical → binding-fallback → hint refinement), source normalization, editability/visibility mapping, warnings, deduplication, and the rejected-candidates blacklist are unchanged.
+
+### Commands run
+
+| Command | Exit | Result |
+|---|---|---|
+| `pnpm --filter form-contracts test` | 0 | 35 tests pass (8 pre-existing + 16 B1 + 1 B2 corpus scan + 10 new B2 section-titles tests) |
+| `pnpm typecheck` (form-contracts + api + web) | 0 | clean across all three packages |
+| `pnpm --filter form-contracts exec eslint ...` | n/a | no eslint binary in the repo (same posture as B1); the package's `lint` script is `tsc --noEmit`, already covered by `typecheck` above. |
+
+### Backward compatibility
+
+- All 16 B1 tests pass unchanged. None of them assert section `title` content, so swapping the English-only fallback for the Vietnamese map is invisible to B1's contract.
+- The new `SECTION_TITLES` map is purely additive: any section key that was previously emitted as an English humanize string (`"Informant"`, `"Legal Basis"`, etc.) is now emitted as a Vietnamese string (`"Người cung cấp tin"`, `"Căn cứ pháp lý"`, etc.). This is the explicit behavior change requested by the B2 brief; the API/web apps are not yet wired to consume `FormInputSection.title`, so no caller is affected.
+- Unknown section keys (e.g. `futureSection`, `custody`, `defendant`) keep deriving a usable schema with a sensible English fallback title. The new corpus-scan test surfaces them as a report so future B2.x work can extend the map.
+- No change to `apps/api` or `apps/web`. The endpoint wiring is B3.
+
+### Corpus scan report (informational, non-blocking)
+
+The new `derive-form-input-schema.test.ts` "B2 corpus scan" test walks all 213 locked contracts, runs `deriveFormInputSchema` on each, and reports section keys that are NOT yet in `SECTION_TITLES`. The test is intentionally non-blocking — it never fails the suite. Top entries from the run:
+
+| Section key | BM count | Example templates |
+|---|---|---|
+| `official` | 49 | BM-006, BM-007, BM-008 |
+| `person` | 35 | BM-022, BM-036, BM-053 |
+| `case` | 5 | BM-023, BM-163, BM-203 |
+| `delivery` | 3 | BM-053, BM-058, BM-059 |
+| `initiationRequest` | 2 | BM-019, BM-020 |
+| `assignment` | 2 | BM-070, BM-071 |
+| (≈ 30 others) | 1 each | (one representative BM each) |
+
+This is a roadmap signal, not a defect. B2 ships with the 28 brief-mandated entries; future B2.x passes can grow the map as representative templates confirm each key.
+
+### Risks / Open
+
+- **Open**: The `official` (49 BMs) and `person` (35 BMs) keys are clearly Vietnamese-localizable but not in the B2 brief. Documented here for B2.x follow-up. Until then, the English fallback (`"Official"`, `"Person"`) is shown.
+- **Open**: B2 does not consume or generate Vietnamese characters at the I/O boundary — the map is in source, not derived. If a future B2.x needs auto-translation for unknown keys (e.g. via a lookup table or external service), `getSectionTitle` is the single point to extend.
+- **Open**: Section title localization is currently English-fallback only for unknown keys. B2 ships bilingual in the sense that mapped keys are Vietnamese and unmapped keys are English. A future i18n pass may want a `getSectionTitle(key, locale)` signature; the current signature is intentionally minimal.
+- **Risk**: If a future BM adds a section key that is already a Vietnamese noun (e.g. `caseInfo` mapping to `"Thông tin vụ án"`) but in a different register, the locked brief value is the source of truth. If the value is wrong, B2 must be amended by editing `section-titles.ts` directly.
+
+### Next step
+
+B3 — `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 §B3 (and the B2 brief's scope correction). Stop after B2.
+
+

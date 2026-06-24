@@ -31,8 +31,16 @@
  *  - computed          → editable=false, visible=false, INTERNAL_RENDER_ONLY (COMPUTED)
  *                        (only flipped to visible=true if a hint explicitly says so)
  *
+ * Section titles (PLAN.md v2.3 §B2): each section's `title` is
+ * resolved through getSectionTitle(), which looks up the Vietnamese
+ * SECTION_TITLES map and falls back to an English humanizeSectionKey
+ * for unknown keys. Unknown keys never break schema derivation.
+ *
  * Pure: no I/O, no thrown errors, deterministic.
  */
+
+import { getSectionTitle } from "./section-titles.js";
+
 
 const VALID_SOURCES = new Set([
   "manual",
@@ -128,20 +136,6 @@ function pathSectionKey(path: string): string {
 function pathTail(path: string): string {
   const tail = path.split(".").pop()?.trim();
   return tail ? tail : path;
-}
-
-function humanizeSectionKey(key: string): string {
-  // English-only fallback. B2 will replace this with a Vietnamese
-  // SECTION_TITLES map; B1 deliberately keeps it minimal and stable so
-  // tests do not depend on a translation that does not exist yet.
-  return key
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .replace(/[_-]+/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function getSectionTitle(key: string): string {
-  return humanizeSectionKey(key);
 }
 
 function mapInputType(input: {

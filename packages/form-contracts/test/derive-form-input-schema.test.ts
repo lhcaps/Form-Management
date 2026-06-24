@@ -29,6 +29,7 @@ import type {
   FormInputSchema,
   FormInputSection,
 } from "../src/derive-form-input-schema.js";
+import { SECTION_TITLES } from "../src/section-titles.js";
 
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const REPO_ROOT = resolve(HERE, "..", "..", "..");
@@ -625,3 +626,78 @@ test("section order follows first occurrence in canonical", () => {
   const documentPaths = documentSection?.fields.map((f) => f.path) ?? [];
   assert.deepEqual(documentPaths, ["document.first", "document.second"]);
 });
+
+// ---------------------------------------------------------------------------
+// B2 corpus scan (non-blocking)
+//
+// This test walks every locked contract in docs/audit/docx/contracts/locked/
+// and reports any section keys that are NOT yet mapped in SECTION_TITLES.
+// It is INTENTIONALLY non-blocking: it never fails the suite. The
+// report is logged via console.log so reviewers can spot future
+// translation work without test churn.
+//
+// If the corpus grows to a size that makes this slow, delete this
+// block and run the scan manually as a one-off script.
+// ---------------------------------------------------------------------------
+
+test("B2 corpus scan: lists section keys missing from SECTION_TITLES (non-blocking)", () => {
+  const files = readdirSync(LOCKED_DIR).filter(
+    (entry) => entry.endsWith(".contract.locked.json"),
+  );
+
+  const missingByKey = new Map<string, { templates: string[]; count: number }>();
+  for (const file of files) {
+    const raw = readFileSync(resolve(LOCKED_DIR, file), "utf8");
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      continue;
+    }
+    if (!isRecord(parsed)) continue;
+    const templateCode = readString(parsed, "templateCode");
+    if (!templateCode) continue;
+    const schema = deriveFormInputSchema(parsed);
+    for (const section of schema.sections) {
+      if (SECTION_TITLES[section.key]) continue;
+      const existing = missingByKey.get(section.key);
+      if (existing) {
+        existing.count += 1;
+        if (existing.templates.length < 3) {
+          existing.templates.push(templateCode);
+        }
+      } else {
+        missingByKey.set(section.key, {
+          templates: [templateCode],
+          count: 1,
+        });
+      }
+    }
+  }
+
+  if (missingByKey.size > 0) {
+    const lines: string[] = [];
+    lines.push(
+      "[B2 corpus scan] section keys not yet in SECTION_TITLES (informational, non-blocking):",
+    );
+    const sorted = [...missingByKey.entries()].sort((a, b) => b[1].count - a[1].count);
+    for (const [key, info] of sorted) {
+      lines.push(
+        `  - ${key}  (${info.count} BM(s), examples: ${info.templates.join(", ")})`,
+      );
+    }
+    console.log(lines.join("\n"));
+  }
+
+  // Non-blocking: assert only that the scan ran without throwing.
+  assert.equal(typeof missingByKey, "object");
+});
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readString(record: Record<string, unknown>, key: string): string {
+  const value = record[key];
+  return typeof value === "string" ? value : "";
+}
