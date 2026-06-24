@@ -667,4 +667,91 @@ The V2 compiled contract is mapped to a V1-shaped object before `deriveFormInput
 Per PLAN.md v2.3 sequencing, the next task is either **B4** (deeper dynamic-schema features such as width-aware rendering, control-type-specific components, or section-level conditional rules) or **E1** (post-render shadow + semantic diff against the locked contract) depending on whether the next focus is form-schema expressiveness or render-time validation. The PLAN.md should be consulted for the exact ordering. Stop after B3 per the brief.
 
 
+## Task B4. Source normalization hardening and corpus audit
+
+**Status**: ✅ DONE (2026-06-25)
+
+### Files changed
+
+- `packages/form-contracts/test/derive-form-input-schema.test.ts` — added two new inline-fixture unit tests (invalid source value, all six valid sources emit no warning) and three new corpus-audit test blocks: `B4 corpus audit: scans all locked contracts and reports source normalization`, `B4 corpus audit: B1 normalizes every flagged field, so no UNKNOWN_SOURCE_NORMALIZED escapes the suite`, `B4 corpus audit: TABLE renderBindings are reported if present (non-blocking)`. Added the `CorpusSourceAuditReport` type, the `looksLikeTableBinding()` detector, the `auditCorpusSources()` walker, and a small `readArray()` helper local to the test file. Production source code (`derive-form-input-schema.ts`) is untouched — B1's normalization was already correct and deterministic; B4 is read-only with respect to production behavior.
+
+### Unknown / invalid source normalization behavior (locked)
+
+`packages/form-contracts/src/derive-form-input-schema.ts::mapSource()` was already implemented in B1 with the brief's exact contract. B4 confirms it through both inline fixtures and a corpus walk:
+
+| Raw `canonicalFields[i].source` | Output `FormInputField.source` | `editable` | `visible` | `visibilityReason` | `readonlyReason` | Warning emitted |
+|---|---|---|---|---|---|---|
+| `manual` | `manual` | true | true | `USER_INPUT` | undefined | none |
+| `casePayload` | `casePayload` | false | true | `READONLY_PREVIEW` | `CASE_PAYLOAD` | none |
+| `agencyConfig` | `agencyConfig` | false | true | `READONLY_PREVIEW` | `AGENCY_CONFIG` | none |
+| `officialConfig` | `officialConfig` | false | true | `READONLY_PREVIEW` | `OFFICIAL_CONFIG` | none |
+| `systemDate` | `systemDate` | false | true | `READONLY_PREVIEW` | `SYSTEM_DATE` | none |
+| `computed` | `computed` | false | **false** | `INTERNAL_RENDER_ONLY` | `COMPUTED` | none |
+| `"unknown"` (literal) | `manual` | true | true | `USER_INPUT` | undefined | `UNKNOWN_SOURCE_NORMALIZED` with `path = field.path`, message = `Trường "<path>" có source không hợp lệ ("unknown") đã được chuẩn hoá về "manual".` |
+| any unrecognized string (e.g. `"constantFromDocx"`, `"derived"`, `"legacyConstant"`) | `manual` | true | true | `USER_INPUT` | undefined | same `UNKNOWN_SOURCE_NORMALIZED` with the actual original string interpolated in the message |
+
+The warning always carries both `path` and a non-empty Vietnamese `message`; the message includes the offending path so FE / audit tooling can show it without a second lookup. This is asserted by the new `invalid source normalizes to manual and emits UNKNOWN_SOURCE_NORMALIZED` test (which also covers the unrecognized-but-not-`"unknown"` case via `source: "legacyConstant"`) and re-checked across the locked corpus by the second new audit test.
+
+### Corpus audit result (read-only, non-blocking)
+
+The audit walks `docs/audit/docx/contracts/locked/` and reports:
+
+```jsonc
+{
+  "totalContracts": 213,
+  "totalUnknownSourceFields": 16,
+  "totalInvalidSourceFields": 99,   // 90 × "constantFromDocx" + 9 × "derived"
+  "totalTableRenderBindings": 0,
+  "unknownSourceFields": [ /* 16 entries */ ],
+  "invalidSourceFields": [ /* 99 entries */ ],
+  "tableRenderBindings": []          // empty — V1 corpus has zero TABLE bindings
+}
+```
+
+Highlights from the corpus walk:
+
+- **Unknown source (16 fields)**: All use the literal string `"unknown"`. Examples: `BM-051/document.fullDocumentCode`, `BM-052/document.fullDocumentCode`, `BM-052/document.fullDocumentCode2`, `BM-060/document.fullDocumentCode`, `BM-061/document.fullDocumentCode`, `BM-062/decision.decisionLine`, `BM-062/document.fullDocumentCode`, `BM-063/document.issuePlaceAndDateLine`, `BM-063/document.fullDocumentCode`, `BM-064/document.fullDocumentCode`. B1's normalization already covers all 16.
+- **Invalid source (99 fields)**: `constantFromDocx` × 90 (concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`) and `derived` × 9. Examples: `BM-003/legalBasis.procedureArticlesLine`, `BM-005/sourceVerification.procedureArticlesLine`, `BM-007/legalBasis.procedureArticlesLine`, `BM-009/sourceResolutionExtension.procedureArticlesLine`, `BM-011/legalBasis.procedureArticlesLine`, `BM-021/agency.parentNameUpper`. Each is currently normalized to `manual` + `UNKNOWN_SOURCE_NORMALIZED` by B1, but the underlying source value is a domain signal that should be remapped to one of the recognized sources — owned by **C3**.
+- **TABLE renderBindings (0)**: The current V1 locked corpus has zero TABLE bindings. The audit's `looksLikeTableBinding()` detector still defines three heuristics (V2 `target.kind === "TABLE"`, V1 `transform === "table"`, V1 `slotId` ending in `.table` or `.rows`) so a future C3 introduction of a TABLE binding will be surfaced without code changes. A synthetic fixture in the audit test asserts the detector works against a TABLE-shaped V1 binding.
+
+Per the B4 brief the audit is intentionally non-blocking — it never fails the suite. Remediation of the 99 invalid source values and any TABLE bindings that appear in the future is owned by **C3**, not by B4. B4 only proves the report shape and that B1's normalization continues to apply deterministically across the corpus.
+
+### TABLE binding warning decision
+
+The B4 brief considered adding a new `TABLE_BINDING_UNSUPPORTED` schema warning when a TABLE binding is silently dropped by the B3 V2→V1 mapper. After checking the current corpus (zero TABLE bindings) and the warning-type churn cost (would force an api/web type update), B4 deliberately **does not** add the warning. The risk is documented below for C3 to revisit when TABLE bindings first appear.
+
+### Commands run
+
+| Command | Exit | Result |
+|---|---|---|
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 40/40 tests pass (35 pre-existing + 5 new B4 tests: 2 inline-fixture normalization tests, 3 corpus-audit tests). The 1 pre-existing `BM-051 (real corpus) emits UNKNOWN_SOURCE_NORMALIZED` test still passes — BM-051's `document.fullDocumentCode` is among the 16 reported unknown fields. |
+| `pnpm --filter @qllaw/form-contracts typecheck` | 0 | clean. |
+| `pnpm test:api -- --testPathPatterns=document-form-schema` | 0 | 10/10 B3 service tests pass (B3 endpoint consumer regression; B4 is read-only but the B3 surface must still derive the same `UNKNOWN_SOURCE_NORMALIZED` warnings). |
+| `pnpm test:api -- --testPathPatterns=form-studio` | 0 | 34/34 form-studio tests pass (A1/A2/A3 regression). |
+| `pnpm test:web-unit` | 0 | 59/59 web tests pass (B3 client regression). |
+| `pnpm --filter api exec tsc --noEmit` | 0 | clean. |
+| `pnpm --filter web exec tsc --noEmit` | 0 | clean. |
+| `pnpm --filter @qllaw/form-contracts exec eslint ...` | n/a | no eslint binary in the package (`lint: "tsc --noEmit"`); the typecheck already covers the same surface. |
+
+### Backward compatibility
+
+- `derive-form-input-schema.ts` is **not modified**. B1's normalization, warning emission, section grouping, hint refinement, rejected-candidate handling, dedup, and `inputType` mapping are byte-identical to B1.
+- B3's `/documents/generated/:id/form-schema` endpoint and the dynamic FE panel are not modified. B3 still emits `UNKNOWN_SOURCE_NORMALIZED` warnings exactly as before — only B4 adds new assertions about the same behavior.
+- No locked contract JSON files modified. No production code outside the test file is touched.
+- `document-renderer.service.ts`, `documents.service.ts`, `contract-form-inputs.service.ts`, `generic-template-form-inputs.tsx`, `form-studio.module.ts`, the B3 controller, and the B3 service are all untouched.
+- No new dependency. No Prisma schema change. No public API change.
+
+### Risks / Open
+
+- **Risk**: The 99 invalid source fields (`constantFromDocx`, `derived`) currently flow through B1's `UNKNOWN_SOURCE_NORMALIZED` fallback and reach the user as editable manual inputs. That is the safe behavior (lock in user-editable values, never silently drop) but it is not what the locked contracts intended — they were written before the 6-source taxonomy was enforced. C3 must remap each invalid source to the correct one of `manual` / `casePayload` / `agencyConfig` / `officialConfig` / `systemDate` / `computed` and verify the schema stays correct. B4 deliberately does not touch the locked contracts.
+- **Risk**: The B3 V2→V1 mapper drops TABLE bindings silently. B4 chose not to add a `TABLE_BINDING_UNSUPPORTED` schema warning because the current V1 corpus has zero TABLE bindings, so the warning would be churn for zero production benefit. When C3 introduces the first TABLE binding, **C3 must either** (a) extend the V2→V1 mapper to synthesize a TABLE-shaped V1 slot, **or** (b) add `TABLE_BINDING_UNSUPPORTED` to the `SchemaWarning["code"]` union and surface it on the B3 endpoint. Documented here as the natural follow-up.
+- **Open**: The audit is implemented as test blocks inside `derive-form-input-schema.test.ts` (consistent with B2's corpus-scan test). If a future reviewer prefers a repo-level script (`scripts/audit/audit-form-schema-sources.mjs` + `pnpm audit:form-schema-sources`), the `auditCorpusSources()` function is pure and re-usable — the move is mechanical (extract the helper into a `node --test`-runnable script under `scripts/audit/`).
+- **Open**: The audit reports section-key coverage and source-value coverage but not the BM-specific edge cases that B1 might still have (e.g. unknown `uiComponent` values, unknown `transform` values). Those are owned by B1's existing defensive logic; B4 only locks in source normalization, which is the B1 behavior the brief asked B4 to harden.
+- **Open**: B4 does not add a CI gate. The audit test asserts the report shape and the B1 normalization coverage today; a future hardening could promote the audit into a `pnpm audit:form-schema-sources` script that fails the build when `totalInvalidSourceFields > 0` — but that is C3 territory (after the 99 invalid fields are remediated).
+
+### Next step
+
+**E1** — Post-render shadow + semantic diff against the locked contract (per PLAN.md v2.3). Per the B4 brief, E1 is the next task. Stop after B4.
+
+
 

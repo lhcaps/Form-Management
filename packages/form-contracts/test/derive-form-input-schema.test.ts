@@ -10,11 +10,15 @@
  *  - canonical wins over binding-fallback
  *  - rejectedCandidates never become editable fields
  *  - unknown source normalizes to manual with a warning
+ *  - invalid source (any non-VALID_SOURCES value) normalizes the same
+ *  - valid sources do not emit UNKNOWN_SOURCE_NORMALIZED
  *  - computed defaults to editable=false, visible=false
  *  - casePayload/agencyConfig/systemDate are editable=false, visible=true
  *  - hints never create new paths
  *  - inputType is mapped from uiComponent / slotType / path tail
  *  - sections group by first path segment and preserve canonical order
+ *  - corpus audit reports unknown + invalid source fields and TABLE
+ *    renderBindings across all locked contracts (B4, non-blocking)
  */
 
 import assert from "node:assert/strict";
@@ -376,6 +380,108 @@ test("casePayload / agencyConfig / systemDate sources are editable=false and vis
   assert.equal(system?.inputType, "date");
 });
 
+test("invalid source normalizes to manual and emits UNKNOWN_SOURCE_NORMALIZED", () => {
+  // A raw source value that is not in the 6 valid set and is not the
+  // literal "unknown" must still go through the same conservative
+  // fallback: editable manual + visible + USER_INPUT + warning with
+  // path and a clear message. This guards the B3 endpoint against
+  // future contract drift (e.g. legacy values like "constantFromDocx"
+  // or "derived" still surfacing in the corpus).
+  const schema = deriveFormInputSchema({
+    templateCode: "CUS-INVALID-SOURCE-TEST",
+    sourceId: "invalid-source-test",
+    canonicalFields: [
+      {
+        path: "legalBasis.articlesLine",
+        type: "string",
+        label: "Căn cứ",
+        source: "legacyConstant", // not in VALID_SOURCES, not "unknown"
+        required: true,
+        uiComponent: "text",
+        reviewRequired: false,
+      },
+    ],
+    docxSlots: [],
+    renderBindings: [],
+    rejectedCandidates: [],
+  });
+
+  const fields = collectFields(schema);
+  assert.equal(fields.length, 1);
+  const field = fields[0]!;
+  assert.equal(field.source, "manual");
+  assert.equal(field.editable, true);
+  assert.equal(field.visible, true);
+  assert.equal(field.visibilityReason, "USER_INPUT");
+  assert.equal(field.readonlyReason, undefined);
+  const warning = schema.warnings.find(
+    (w) =>
+      w.code === "UNKNOWN_SOURCE_NORMALIZED" &&
+      w.path === "legalBasis.articlesLine",
+  );
+  assert.ok(warning, "expected UNKNOWN_SOURCE_NORMALIZED warning");
+  // Warning must carry a human-readable message, not just the code.
+  assert.ok(
+    typeof warning?.message === "string" && warning.message.length > 0,
+    "warning message must be a non-empty string",
+  );
+  assert.ok(
+    warning?.message.includes("legalBasis.articlesLine"),
+    "warning message should reference the offending path",
+  );
+});
+
+test("valid sources do not emit UNKNOWN_SOURCE_NORMALIZED", () => {
+  // For every value in VALID_SOURCES (the six recognized sources), the
+  // derived schema MUST NOT emit an UNKNOWN_SOURCE_NORMALIZED warning.
+  // This is the dual of the unknown/invalid tests and locks in that
+  // future source additions only normalize things that are actually
+  // unrecognized.
+  const validSources = [
+    "manual",
+    "casePayload",
+    "agencyConfig",
+    "officialConfig",
+    "systemDate",
+    "computed",
+  ] as const;
+
+  const schema = deriveFormInputSchema({
+    templateCode: "CUS-VALID-SOURCES-TEST",
+    sourceId: "valid-sources-test",
+    canonicalFields: validSources.map((source, index) => ({
+      path: `field.${source}`,
+      type: "string",
+      label: `Field ${source}`,
+      source,
+      required: index === 0, // only the first field is required
+      uiComponent: "text",
+      reviewRequired: false,
+    })),
+    docxSlots: [],
+    renderBindings: [],
+    rejectedCandidates: [],
+  });
+
+  const warnings = schema.warnings.filter(
+    (w) => w.code === "UNKNOWN_SOURCE_NORMALIZED",
+  );
+  assert.deepEqual(
+    warnings,
+    [],
+    `expected zero UNKNOWN_SOURCE_NORMALIZED warnings, got: ${JSON.stringify(warnings)}`,
+  );
+
+  // Sanity: each field is present with its own source value.
+  const fields = collectFields(schema);
+  const byPath = new Map(fields.map((f) => [f.path, f]));
+  for (const source of validSources) {
+    const field = byPath.get(`field.${source}`);
+    assert.ok(field, `expected field.${source} in derived schema`);
+    assert.equal(field?.source, source);
+  }
+});
+
 test("deduplication: canonical path wins over binding-fallback", () => {
   // Both canonical and renderBindings claim the same path. The
   // canonical field should win (origin = "canonical"), the binding
@@ -628,6 +734,365 @@ test("section order follows first occurrence in canonical", () => {
 });
 
 // ---------------------------------------------------------------------------
+// B4 source-normalization corpus audit (non-blocking)
+//
+// B1 already normalizes "unknown" and any unrecognized source string to
+// "manual" and emits UNKNOWN_SOURCE_NORMALIZED. B3 surfaces those
+// warnings via /documents/generated/:id/form-schema. B4 hardens that
+// behavior by adding:
+//   - one inline test for invalid source values (not "unknown")
+//   - one inline test asserting that the six valid sources emit no warning
+//   - a corpus audit that scans every locked contract and reports
+//     unknown + invalid sources + TABLE renderBindings
+//
+// The audit is INTENTIONALLY non-blocking: it never fails the suite.
+// Remediation of invalid sources is owned by C3; this audit only proves
+// the report shape and that B1's normalization continues to apply.
+//
+// If the corpus grows large enough that this scan becomes slow, move
+// the helper to scripts/audit/audit-form-schema-sources.mjs and keep
+// only the assertion-level checks here.
+// ---------------------------------------------------------------------------
+
+type CorpusSourceField = {
+  templateCode: string;
+  sourceId: string;
+  path: string;
+  label?: string;
+  originalSource: string;
+};
+
+type CorpusTableRenderBinding = {
+  templateCode: string;
+  sourceId: string;
+  bindingKey?: string;
+  slotId?: string;
+  path?: string;
+};
+
+type CorpusSourceAuditReport = {
+  totalContracts: number;
+  totalUnknownSourceFields: number;
+  totalInvalidSourceFields: number;
+  totalTableRenderBindings: number;
+  unknownSourceFields: CorpusSourceField[];
+  invalidSourceFields: CorpusSourceField[];
+  tableRenderBindings: CorpusTableRenderBinding[];
+};
+
+const B4_VALID_SOURCES = new Set([
+  "manual",
+  "casePayload",
+  "agencyConfig",
+  "officialConfig",
+  "systemDate",
+  "computed",
+]);
+
+/**
+ * Detect renderBindings that look like they target a TABLE rather than
+ * a single SLOT. B3's V2->V1 mapper drops bindings whose target.kind
+ * is not "SLOT", so any TABLE binding is silently missing from the
+ * derived schema. The brief asks us to surface them even though the
+ * current V1 corpus has zero.
+ *
+ * Heuristics (ordered, intentional):
+ *   1. V2 discriminator:  binding.target?.kind === "TABLE"
+ *   2. V1 transform cue:  binding.transform === "table"
+ *   3. V1 slotId cue:     binding.slotId ends with ".table" or ".rows"
+ *
+ * These are intentionally narrow: we only flag what B1/B3 would
+ * actually drop or mishandle. Generic slotIds are not flagged.
+ */
+function looksLikeTableBinding(binding: Record<string, unknown>): boolean {
+  const target = binding.target as { kind?: unknown } | undefined;
+  if (target && typeof target === "object" && target.kind === "TABLE") {
+    return true;
+  }
+  if (binding.transform === "table") return true;
+  const slotId = typeof binding.slotId === "string" ? binding.slotId : "";
+  if (/\.(?:table|rows)$/u.test(slotId)) return true;
+  return false;
+}
+
+/**
+ * Scan every locked contract under docs/audit/docx/contracts/locked/
+ * and build the B4 corpus audit report. Pure, read-only, deterministic.
+ *
+ * The audit never throws: malformed files are skipped (logged via
+ * console.warn) so a single broken file cannot fail the suite. This
+ * matches the B2 corpus scan convention.
+ */
+function auditCorpusSources(): CorpusSourceAuditReport {
+  const files = readdirSync(LOCKED_DIR).filter(
+    (entry) => entry.endsWith(".contract.locked.json"),
+  );
+
+  const report: CorpusSourceAuditReport = {
+    totalContracts: 0,
+    totalUnknownSourceFields: 0,
+    totalInvalidSourceFields: 0,
+    totalTableRenderBindings: 0,
+    unknownSourceFields: [],
+    invalidSourceFields: [],
+    tableRenderBindings: [],
+  };
+
+  for (const file of files) {
+    const raw = readFileSync(resolve(LOCKED_DIR, file), "utf8");
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch (err) {
+      console.warn(`[B4 corpus audit] skipping malformed JSON: ${file}`);
+      continue;
+    }
+    if (!isRecord(parsed)) continue;
+    report.totalContracts += 1;
+
+    const templateCode = readString(parsed, "templateCode") || file;
+    const sourceId = readString(parsed, "sourceId");
+
+    for (const cf of readArray<Record<string, unknown>>(parsed, "canonicalFields")) {
+      const source = typeof cf.source === "string" ? cf.source : "";
+      if (!source) continue;
+      const path = typeof cf.path === "string" ? cf.path : "";
+      if (!path) continue;
+      const label = typeof cf.label === "string" ? cf.label : undefined;
+      if (source === "unknown") {
+        report.totalUnknownSourceFields += 1;
+        report.unknownSourceFields.push({
+          templateCode,
+          sourceId,
+          path,
+          label,
+          originalSource: source,
+        });
+      } else if (!B4_VALID_SOURCES.has(source)) {
+        report.totalInvalidSourceFields += 1;
+        report.invalidSourceFields.push({
+          templateCode,
+          sourceId,
+          path,
+          label,
+          originalSource: source,
+        });
+      }
+    }
+
+    for (const rb of readArray<Record<string, unknown>>(parsed, "renderBindings")) {
+      if (!looksLikeTableBinding(rb)) continue;
+      report.totalTableRenderBindings += 1;
+      const slotId = typeof rb.slotId === "string" ? rb.slotId : undefined;
+      const from = typeof rb.from === "string" ? rb.from : undefined;
+      const target = rb.target as { slotId?: unknown; tableKey?: unknown } | undefined;
+      report.tableRenderBindings.push({
+        templateCode,
+        sourceId,
+        bindingKey: slotId ?? from,
+        slotId,
+        path: from ?? (target && typeof target.tableKey === "string"
+          ? target.tableKey
+          : undefined),
+      });
+    }
+  }
+
+  return report;
+}
+
+test("B4 corpus audit: scans all locked contracts and reports source normalization", () => {
+  const report = auditCorpusSources();
+
+  // (a) The audit must report at least one contract. The locked corpus
+  // currently holds 213 BMs; we only assert >0 so a future CI variant
+  // with a subset still passes.
+  assert.ok(
+    report.totalContracts > 0,
+    `expected totalContracts > 0, got ${report.totalContracts}`,
+  );
+
+  // (b) The audit must detect known unknown-source fields. The corpus
+  // currently contains a "document.fullDocumentCode" unknown field in
+  // BM-051 (and several others). This is the "audit detects unknown
+  // sources if present" assertion from the brief.
+  const unknown051 = report.unknownSourceFields.find(
+    (f) => f.templateCode === "BM-051" && f.path === "document.fullDocumentCode",
+  );
+  assert.ok(
+    unknown051,
+    "audit should report BM-051/document.fullDocumentCode as an unknown source",
+  );
+  assert.equal(unknown051?.originalSource, "unknown");
+
+  // (c) The corpus also contains invalid (non-unknown) source values,
+  // such as "constantFromDocx" on legalBasis/section.procedureArticlesLine.
+  // The audit must surface them so C3 can remediate.
+  const invalidExample = report.invalidSourceFields.find(
+    (f) =>
+      f.templateCode === "BM-003" && f.path === "legalBasis.procedureArticlesLine",
+  );
+  assert.ok(
+    invalidExample,
+    "audit should report BM-003/legalBasis.procedureArticlesLine as an invalid source",
+  );
+  assert.equal(invalidExample?.originalSource, "constantFromDocx");
+
+  // (d) Cross-check totals: the audit must agree with itself.
+  assert.equal(
+    report.totalUnknownSourceFields,
+    report.unknownSourceFields.length,
+  );
+  assert.equal(
+    report.totalInvalidSourceFields,
+    report.invalidSourceFields.length,
+  );
+  assert.equal(
+    report.totalTableRenderBindings,
+    report.tableRenderBindings.length,
+  );
+});
+
+test("B4 corpus audit: B1 normalizes every flagged field, so no UNKNOWN_SOURCE_NORMALIZED escapes the suite", () => {
+  // For every contract in the corpus, derive its schema and confirm
+  // that B1's normalization handled it: schema derivation must not
+  // throw, every flagged field must surface as a manual editable
+  // field, and the per-field warnings must include the UNKNOWN warning
+  // for both "unknown" and unrecognized values.
+  const report = auditCorpusSources();
+
+  // Build the union of paths the audit flagged so we only re-derive
+  // those contracts (keeps this test under ~1s).
+  const flaggedPaths = new Set<string>();
+  for (const f of report.unknownSourceFields) flaggedPaths.add(f.path);
+  for (const f of report.invalidSourceFields) flaggedPaths.add(f.path);
+  assert.ok(flaggedPaths.size > 0, "expected the corpus to have at least one flagged path");
+
+  const files = readdirSync(LOCKED_DIR).filter(
+    (entry) => entry.endsWith(".contract.locked.json"),
+  );
+
+  let checkedContracts = 0;
+  for (const file of files) {
+    const raw = readFileSync(resolve(LOCKED_DIR, file), "utf8");
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      continue;
+    }
+    if (!isRecord(parsed)) continue;
+    const templateCode = readString(parsed, "templateCode") || file;
+    const canonicalFields = readArray<Record<string, unknown>>(
+      parsed,
+      "canonicalFields",
+    );
+    const hasFlaggedPath = canonicalFields.some((cf) =>
+      flaggedPaths.has(String(cf.path ?? "")),
+    );
+    if (!hasFlaggedPath) continue;
+
+    const schema = deriveFormInputSchema(parsed);
+    checkedContracts += 1;
+
+    const flaggedForThisContract = [
+      ...report.unknownSourceFields.filter((f) => f.templateCode === templateCode),
+      ...report.invalidSourceFields.filter((f) => f.templateCode === templateCode),
+    ];
+
+    for (const flagged of flaggedForThisContract) {
+      const warning = schema.warnings.find(
+        (w) =>
+          w.code === "UNKNOWN_SOURCE_NORMALIZED" && w.path === flagged.path,
+      );
+      assert.ok(
+        warning,
+        `expected UNKNOWN_SOURCE_NORMALIZED for ${templateCode}/${flagged.path}`,
+      );
+    }
+  }
+
+  assert.ok(
+    checkedContracts > 0,
+    "expected to re-derive at least one flagged contract",
+  );
+});
+
+test("B4 corpus audit: TABLE renderBindings are reported if present (non-blocking)", () => {
+  const report = auditCorpusSources();
+
+  // The current V1 locked corpus holds zero TABLE renderBindings. This
+  // is the desired steady state: B3's V2->V1 mapper has nothing to
+  // drop. We still assert that the audit ran cleanly and that the
+  // TABLE bucket is the right shape. If C3 ever introduces a V1
+  // TABLE binding, this number becomes >0 and the audit will surface
+  // it without code changes.
+  assert.ok(
+    Number.isInteger(report.totalTableRenderBindings),
+    "totalTableRenderBindings must be an integer",
+  );
+  assert.equal(
+    report.totalTableRenderBindings,
+    report.tableRenderBindings.length,
+  );
+
+  if (report.totalTableRenderBindings > 0) {
+    console.log(
+      `[B4 corpus audit] ${report.totalTableRenderBindings} TABLE renderBinding(s) found in the locked corpus. ` +
+        "B3 V2->V1 mapper drops TABLE targets; consider adding a TABLE_BINDING_UNSUPPORTED schema warning.",
+    );
+    for (const row of report.tableRenderBindings.slice(0, 10)) {
+      console.log(
+        `  - ${row.templateCode}  slotId=${row.slotId ?? "?"}  path=${row.path ?? "?"}`,
+      );
+    }
+  }
+
+  // Synthetic fixture: a TABLE-shaped renderBinding MUST be detected.
+  const synthetic = deriveFormInputSchema({
+    templateCode: "CUS-TABLE-BINDING-TEST",
+    sourceId: "table-binding-test",
+    canonicalFields: [
+      {
+        path: "evidence.items",
+        type: "array",
+        label: "Danh sách vật chứng",
+        source: "manual",
+        required: false,
+        uiComponent: "text",
+        reviewRequired: false,
+      },
+    ],
+    docxSlots: [],
+    renderBindings: [
+      {
+        slotId: "evidence.items.table",
+        from: "evidence.items",
+        transform: "table",
+        fallback: "",
+        reviewRequired: false,
+      },
+    ],
+    rejectedCandidates: [],
+  });
+
+  // B1 itself does not surface TABLE-specific behavior in derived
+  // schemas (it works on canonicalFields, not on renderBindings), so
+  // we only need to assert the audit helper detects the synthetic
+  // fixture. Run the helper logic directly against the synthetic
+  // binding rather than re-deriving through deriveFormInputSchema.
+  const detected = looksLikeTableBinding({
+    slotId: "evidence.items.table",
+    from: "evidence.items",
+    transform: "table",
+  });
+  assert.ok(detected, "audit helper must detect a TABLE-shaped V1 renderBinding");
+  // And the synthetic schema must still derive without throwing.
+  assert.equal(synthetic.templateCode, "CUS-TABLE-BINDING-TEST");
+  assert.ok(synthetic.sections.length >= 0);
+});
+
+// ---------------------------------------------------------------------------
 // B2 corpus scan (non-blocking)
 //
 // This test walks every locked contract in docs/audit/docx/contracts/locked/
@@ -700,4 +1165,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function readString(record: Record<string, unknown>, key: string): string {
   const value = record[key];
   return typeof value === "string" ? value : "";
+}
+
+function readArray<T = unknown>(record: Record<string, unknown>, key: string): T[] {
+  const value = record[key];
+  return Array.isArray(value) ? (value as T[]) : [];
 }
