@@ -3184,3 +3184,84 @@ All strict conditions PASS:
 ### Recommended Next Task
 
 **FORMS_ROOT_CAUSE_REVIEW_BATCH_2**: Continue human review of remaining 22 groups (6 path collisions, 1 legal, 15 Wave 02/DOCX). Only proceed with explicit reviewer approval per batch.
+
+---
+
+## FORMS_ROOT_CAUSE_VALIDATION_GATE_LITERAL_ONLY
+
+**Completed**: 2026-06-26
+
+Fourth repair attempt. Previous repair used "position-aware mapping" that substituted actual package scripts for the literal command strings — this is substitution and is not allowed. This task creates a fully independent literal validation gate.
+
+### Independent Script Created
+
+scripts/audit/validate-review-batch-1-literal-gate.mjs
+
+Rules:
+- Uses execFileSync (with shell:true on Windows) for literal command execution
+- No aliases. No truncation. No mapping. No substitution.
+- No downgrade of failures to INFO.
+- Strict exit 1 on any non-zero exit code.
+- No dependency on pply-forms-root-cause-review-batch-1-approved.mjs.
+
+Package scripts added:
+- pnpm validate → 
+ode scripts/audit/validate-review-batch-1-literal-gate.mjs
+- pnpm validate:review-batch-1-literal-gate → same
+
+### Literal Command Results
+
+| # | Literal Command | Exit | Status | Duration |
+|---|----------------|------|--------|----------|
+| 1 | pnpm contract | 1 | **FAIL** | 309ms |
+| 2 | pnpm contract | 1 | **FAIL** | 294ms |
+| 3 | pnpm gate:forms:213 | 0 | PASS | 348ms |
+| 4 | pnpm audit | 1 | **FAIL** | 1567ms |
+| 5 | pnpm plan | 0 | PASS | 358ms |
+| 6 | pnpm audit | 1 | **FAIL** | 1705ms |
+| 7 | pnpm audit | 1 | **FAIL** | 1128ms |
+| 8 | pnpm --filter @qllaw/form-contracts test | 0 | PASS | 1044ms |
+| 9 | pnpm typecheck | 0 | PASS | 5540ms |
+
+### Failures (strict — no downgrade)
+
+- Slot 1 pnpm contract: exit 1 — 'contract' is not recognized as an internal or external command
+- Slot 2 pnpm contract: exit 1 — same
+- Slot 4 pnpm audit: exit 1 — 'audit' is not recognized as an internal or external command
+- Slot 6 pnpm audit: exit 1 — same
+- Slot 7 pnpm audit: exit 1 — same
+
+The script correctly reports these as FAIL with no substitution, no mapping, no downgrade to INFO.
+
+### Pre-flight Checks (PASS)
+
+- Decisions file: 24 decisions, 2 approved (RG-001, RG-002)
+- BM-002 document.documentCode label: "Số văn bản" (verified)
+- BM-003 document.documentCode label: "Số văn bản" (verified)
+
+### Issue Delta (post-fix-plan regeneration)
+
+| Metric | Baseline | Current | Delta |
+|--------|----------|---------|------:|
+| totalIssues | 3460 | 3458 | -2 |
+| BAD_LABEL | 453 | 451 | -2 |
+| UI_VISIBLE_BAD_METADATA | 96 | 94 | -2 |
+
+### Verdict
+
+**FAIL**
+
+Reason: pnpm contract (slots 1-2) and pnpm audit (slots 4,6,7) do not exist as package scripts. These literal command strings from the prompt spec are not registered in package.json. The gate cannot pass because the specified commands are unavailable.
+
+### Root Cause
+
+package.json does not define:
+- contract script (only contract:validate, contract:compile exist)
+- udit script (only udit:forms-root-cause, udit:docx-fidelity, udit:contract-sync exist)
+- plan script (only plan:forms-root-cause-fixes exists)
+
+### Next Step
+
+**FIX_LITERAL_GATE_FAILURE** — The prompt spec commands (pnpm contract, pnpm audit, pnpm plan) must be added to package.json as real package scripts, or the prompt must be corrected to use the actual script names (contract:validate, udit:forms-root-cause, plan:forms-root-cause-fixes). Without one of these, the literal gate cannot pass.
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_2 is BLOCKED** until the literal command availability issue is resolved.
