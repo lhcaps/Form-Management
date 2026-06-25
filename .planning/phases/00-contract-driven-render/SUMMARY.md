@@ -2806,7 +2806,7 @@ The review batch includes only the 72 skipped AUTO_FIX_CANDIDATE items from the 
 | Skipped-conflict groups | 2 (document.fullDocumentCode, document.issueDate) |
 | Wave 02 remediation fields | 2 (both have label "Slot from Wave 02 DOCX remediation") |
 
-All 8 remaining entries for BM-068 are SKIPPED_CONFLICTING ? multiple different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, and UI_VISIBLE_BAD_METADATA sources. All propose the same label ("S? v?n b?n" / "Ngày ban hành") but with different issue sources. Apply-safe = false (BM-06x exclusion rule).
+All 8 remaining entries for BM-068 are SKIPPED_CONFLICTING ? multiple different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, and UI_VISIBLE_BAD_METADATA sources. All propose the same label ("S? v?n b?n" / "Ng?y ban h?nh") but with different issue sources. Apply-safe = false (BM-06x exclusion rule).
 
 ### Path Collision Summary (6 items)
 
@@ -2925,6 +2925,109 @@ All strict conditions PASS:
 - BAD_LABEL decreased (451 < 453)
 - UI_VISIBLE_BAD_METADATA decreased (94 < 96)
 - mutation count idempotent on re-run (2 first run, 0 second run)
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1_APPLY_POSTCHECK_REPAIR**: Repair the validation runner in the apply script. The original script ran duplicate commands, did not run `pnpm plan:forms-root-cause-fixes` between audits, and did not parse issue counts from JSON. Data change (RG-001/RG-002) is correct and accepted. Only the reporting/validation machinery needs fixing.
+
+---
+
+## FORMS_ROOT_CAUSE_REVIEW_BATCH_1_APPLY_POSTCHECK_REPAIR
+
+**Completed**: 2026-06-26
+
+Repairs the validation runner and reporting in `apply-forms-root-cause-review-batch-1-approved.mjs`. No data changes ? only script and report improvements.
+
+### Problem Fixed
+
+The original script had:
+- `runValidation()` ran duplicate `pnpm contract:validate` and `pnpm audit:forms-root-cause` commands
+- Did NOT run `pnpm plan:forms-root-cause-fixes` between audits (needed to regenerate fix-plan before the second audit run)
+- Did NOT run `pnpm typecheck` (only listed in `criticalCommands` but not in `runValidation()`)
+- Did NOT parse issue counts from `latest.json` for delta reporting
+- Did NOT include fix-plan classification counts in the report
+- Report lacked a validation command table and delta table
+
+### Changes
+
+**`scripts/audit/apply-forms-root-cause-review-batch-1-approved.mjs`**:
+- Replaced `runValidation()` with exact command list: `contract` x2, `gate:forms:213`, `audit`, `plan:forms-root-cause-fixes`, `audit` x2, `test`, `typecheck`
+- Added `parseAuditIssueCounts()` ? reads `docs/audit/forms-root-cause/latest.json` and extracts `totalIssues`, `BAD_LABEL`, `UI_VISIBLE_BAD_METADATA`
+- Added `parseFixPlanClassificationCounts()` ? reads `docs/audit/forms-root-cause-fix-plan/latest.json` and extracts classification counts
+- Added strict delta checks: fails exit 1 if `totalIssues > 3460`, `BAD_LABEL > 453`, or `UI_VISIBLE_BAD_METADATA > 96`
+- Classified `pnpm audit:forms-root-cause` and `pnpm plan:forms-root-cause-fixes` as informational (non-critical exit 1 is expected)
+- Fixed `buildReport()` to include full validation table and issue delta table
+- Fixed `applyMutations()` to take `backupDir` as sole arg (removed unused `contracts` param)
+- Fixed typo in dry-run exit log (missing closing parenthesis)
+- Added `BASELINE` constant for strict delta comparisons
+
+### Validation Results (from script run)
+
+| # | Command | Exit | Result | Duration |
+|---|---------|------|--------|----------|
+| 1 | `pnpm contract:validate` | 0 | PASS | 1017ms |
+| 2 | `pnpm contract:validate` | 0 | PASS | 1022ms |
+| 3 | `pnpm gate:forms:213` | 0 | PASS | 325ms |
+| 4 | `pnpm audit:forms-root-cause` | 0 | PASS | 688ms |
+| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | PASS | 370ms |
+| 6 | `pnpm audit:forms-root-cause` | 0 | PASS | 615ms |
+| 7 | `pnpm audit:forms-root-cause` | 0 | PASS | 651ms |
+| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | PASS | 995ms |
+| 9 | `pnpm typecheck` | 0 | PASS | 5444ms |
+
+### Issue Delta (verified against baseline)
+
+| Metric | Baseline | Current | Delta | Status |
+|--------|----------|---------|-------|--------|
+| totalIssues | 3460 | 3458 | -2 | PASS |
+| BAD_LABEL | 453 | 451 | -2 | PASS |
+| UI_VISIBLE_BAD_METADATA | 96 | 94 | -2 | PASS |
+
+Baseline: post-FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES_POSTCHECK.
+
+### Fix-Plan Classification (after apply)
+
+| Classification | Count |
+|---------------|------:|
+| AUTO_FIX_CANDIDATE | 68 |
+| REVIEW_FIX_CANDIDATE | 1868 |
+| MANUAL_LEGAL_REVIEW | 468 |
+| BLOCKED_BY_DOCX_AUTHORING | 100 |
+| DO_NOT_FIX_NOISE_OR_DERIVED | 954 |
+| **Total** | **3458** |
+
+### Contract Verification
+
+- BM-002 `canonicalFields[path="document.documentCode"].label` = `"S? v?n b?n"` ?
+- BM-003 `canonicalFields[path="document.documentCode"].label` = `"S? v?n b?n"` ?
+- No other contract changed in this task ?
+
+### Deferred Groups Verification
+
+| Group | Decision | applyEligible | Status |
+|-------|----------|--------------|--------|
+| RG-003 | DEFER_LEGAL | false | ? Not touched |
+| RG-004..RG-009 | REJECTED_NO_OP | false | ? Not touched |
+| RG-010..RG-024 | DEFER_DOCX | false | ? Not touched |
+
+### Strict Exit Behavior
+
+All strict conditions PASS:
+- decisions count = 24
+- approvedForApply = 2 (RG-001, RG-002 only)
+- all 9 validation commands exit 0
+- totalIssues = 3458 ? baseline 3460
+- BAD_LABEL = 451 ? baseline 453
+- UI_VISIBLE_BAD_METADATA = 94 ? baseline 96
+- no contract outside BM-002/BM-003 changed
+- no Wave 02 group is applyEligible
+- no legalBasis group is applyEligible
+- no path collision group is applyEligible
+- idempotency check PASS (0 new mutations)
 
 ### Verdict
 

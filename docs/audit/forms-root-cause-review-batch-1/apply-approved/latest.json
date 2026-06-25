@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T20:43:43.115Z",
+  "generatedAt": "2026-06-25T21:01:51.256Z",
   "mode": "write",
   "totalDecisionsReviewed": 24,
   "decisionsSummary": {
@@ -152,5 +152,87 @@
       "bm": "BM-041",
       "path": "agency.issuePlace"
     }
-  ]
+  ],
+  "validation": {
+    "commands": [
+      {
+        "command": "pnpm contract:validate",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 1017
+      },
+      {
+        "command": "pnpm contract:validate",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 1022
+      },
+      {
+        "command": "pnpm gate:forms:213",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 325
+      },
+      {
+        "command": "pnpm audit:forms-root-cause",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 688
+      },
+      {
+        "command": "pnpm plan:forms-root-cause-fixes",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 370
+      },
+      {
+        "command": "pnpm audit:forms-root-cause",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 615
+      },
+      {
+        "command": "pnpm audit:forms-root-cause",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 651
+      },
+      {
+        "command": "pnpm --filter @qllaw/form-contracts test",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 995
+      },
+      {
+        "command": "pnpm typecheck",
+        "exitCode": 0,
+        "result": "PASS",
+        "durationMs": 5444
+      }
+    ]
+  },
+  "issueDelta": {
+    "totalIssues": {
+      "baseline": 3460,
+      "current": 3458,
+      "delta": -2
+    },
+    "BAD_LABEL": {
+      "baseline": 453,
+      "current": 451,
+      "delta": -2
+    },
+    "UI_VISIBLE_BAD_METADATA": {
+      "baseline": 96,
+      "current": 94,
+      "delta": -2
+    }
+  },
+  "fixPlanCounts": {
+    "AUTO_FIX_CANDIDATE": 68,
+    "REVIEW_FIX_CANDIDATE": 1868,
+    "MANUAL_LEGAL_REVIEW": 468,
+    "BLOCKED_BY_DOCX_AUTHORING": 100,
+    "DO_NOT_FIX_NOISE_OR_DERIVED": 954
+  }
 }
