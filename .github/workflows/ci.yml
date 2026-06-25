@@ -68,6 +68,9 @@ jobs:
       - name: "Gate: 213 forms corpus readiness"
         run: pnpm gate:forms:213 --allow-remediation --allow-source-unknown --allow-unresolved-review
 
+      - name: "Gate: Contract sync (C2)"
+        run: pnpm audit:contract-sync
+
   docker-production-build:
     name: Docker production build
     runs-on: ubuntu-latest

@@ -11,12 +11,23 @@ import { createCorsOriginValidator } from './common/cors-origin';
 import { requestContextMiddleware } from './common/request-context.middleware';
 import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { AppConfigService } from './infrastructure/config/app-config.service';
+import { ContractSyncGuard } from './modules/forms-contracts/infrastructure/contract-sync.guard';
 
 loadEnv({ path: resolve(process.cwd(), '..', '..', '.env') });
 loadEnv({ path: resolve(process.cwd(), '.env') });
 
 async function bootstrap(): Promise<void> {
   const logger = new Logger('Bootstrap');
+
+  // --- C1: Contract Sync Guard ---
+  // Verify locked contracts match runtime compiled contracts before starting server
+  try {
+    const contractGuard = new ContractSyncGuard();
+    await contractGuard.verify();
+  } catch (error) {
+    logger.error('Contract sync guard failed:', error.message);
+    process.exit(1);
+  }
   const bootstrapConfig = new AppConfigService(process.env);
   bootstrapConfig.assertProductionSafety();
 
