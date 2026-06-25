@@ -872,5 +872,140 @@ Highlights:
 
 **E2 — DOCX render integration for 6 representative BMs** (per PLAN.md v2.3 §E2 and §10.4). E2 builds on E1: schemas derived here are the input to deterministic mock value generation, then the renderer is exercised with `pnpm test:api -- renderer-integration`. E2 must NOT relax the smoke rules from correction #8 (deterministic mock values for every required manual field before render). Stop after E2.
 
+## Task E2. DOCX render integration for 6 representative BMs
+
+**Status**: ⚠️ PARTIAL — 35/36 pass, 1 expected failure (BM-051 surfaces a real template defect owned by F2) (2026-06-25)
+
+### Files changed
+
+- `apps/api/src/modules/documents/rendering/infrastructure/representative-bms-render.spec.ts` *(new, untracked at task start)* — integration spec covering 6 representative BMs through `deriveFormInputSchema` → deterministic mock values → `DocxtemplaterContractRenderEngine.renderShadow` → text extraction → marker smoke. No production source modified.
+
+### Render utility / path used
+
+- Renderer: existing `DocxtemplaterContractRenderEngine.renderShadow(plan, formData, outputRoot)` (already used by the BM-001 shadow spec). No parallel renderer; no XML manipulation.
+- Workspace paths: `makeWorkspacePaths()` reusing the existing workspace fixture (`apps/api/src/modules/documents/rendering/.../__tests__/workspace-paths.ts`) — same paths the BM-001 shadow test uses.
+- Plan builder: a small local `buildPlan(templateCode, formData)` that wraps the same shape `DocxtemplaterContractRenderEngine` consumes (template, renderScope, etc.) so we don't depend on `createBatch` / Prisma.
+
+### DOCX text extraction method
+
+- Test-local helper `extractDocxText(docxBuffer)`:
+  - unzip the DOCX buffer in-memory,
+  - read `word/document.xml` (and `word/header*.xml`, `word/footer*.xml` for completeness),
+  - strip XML tags / collect `w:t` text into one string.
+- Not promoted to a shared util — kept inline in the spec until a second consumer needs it.
+
+### Deterministic mock values
+
+- `markerForPath(path)` produces `__PATH_ENCODED_TO_UPPER_SNAKE__`. Example: `legalBasis.line1 → __LEGALBASIS_LINE1__`, `signature.signerName → __SIGNATURE_SIGNERNAME__`, `document.issueDate → __DOCUMENT_ISSUEDATE__`.
+- Only fields where `field.required === true && field.editable === true && field.source === 'manual' && field.origin === 'canonical'` are included in the mock set.
+- Date `inputType` also gets the marker string — no renderer-enforced date check failed during this run, so no exception was needed. Comment in the spec records this for future debugging.
+
+### Per-BM report (from this run's `afterAll` JSON)
+
+```json
+[
+  {
+    "templateCode": "BM-001",
+    "schemaSections": 4,
+    "schemaFields": 28,
+    "requiredManualEditableFieldCount": 24,
+    "renderSucceeded": true,
+    "markerFoundCount": 24,
+    "markerMissingCount": 0,
+    "containsDoubleOpenBrace": false,
+    "containsDoubleCloseBrace": false
+  },
+  {
+    "templateCode": "BM-051",
+    "schemaSections": 3,
+    "schemaFields": 3,
+    "requiredManualEditableFieldCount": 0,
+    "renderSucceeded": false,
+    "skippedReason": "Render failed: Multi error"
+  },
+  {
+    "templateCode": "BM-053",
+    "schemaSections": 9,
+    "schemaFields": 34,
+    "requiredManualEditableFieldCount": 20,
+    "renderSucceeded": true,
+    "markerFoundCount": 20,
+    "markerMissingCount": 0,
+    "containsDoubleOpenBrace": false,
+    "containsDoubleCloseBrace": false
+  },
+  {
+    "templateCode": "BM-100",
+    "schemaSections": 2,
+    "schemaFields": 3,
+    "requiredManualEditableFieldCount": 0,
+    "renderSucceeded": true,
+    "markerFoundCount": 0,
+    "markerMissingCount": 0,
+    "containsDoubleOpenBrace": false,
+    "containsDoubleCloseBrace": false
+  },
+  {
+    "templateCode": "BM-150",
+    "schemaSections": 6,
+    "schemaFields": 22,
+    "requiredManualEditableFieldCount": 16,
+    "renderSucceeded": true,
+    "markerFoundCount": 16,
+    "markerMissingCount": 0,
+    "containsDoubleOpenBrace": false,
+    "containsDoubleCloseBrace": false
+  },
+  {
+    "templateCode": "BM-200",
+    "schemaSections": 2,
+    "schemaFields": 2,
+    "requiredManualEditableFieldCount": 0,
+    "renderSucceeded": true,
+    "markerFoundCount": 0,
+    "markerMissingCount": 0,
+    "containsDoubleOpenBrace": false,
+    "containsDoubleCloseBrace": false
+  }
+]
+```
+
+Aggregate:
+
+- **5/6 BMs render successfully**. All 5 rendered BMs pass the `no {`, `no }}` assertion. Of the 4 BMs that have manual editable fields, all 60 mock markers (24 + 20 + 16) appear in the extracted DOCX text — schema path → renderer binding is correct end-to-end on the green path.
+- **BM-051 surfaces a real template defect**: `Docxtemplater` throws `Multi error → Unopened tag` at compile time. The BM-051 normalized DOCX contains `}}` outside `{{...}}` placeholders (offsets 1302, 1329, 1704 …), which the lexer rejects. The schema derives fine (3 sections, 3 fields, 0 required manual editable), but the renderer cannot compile the template. This is **F2 territory** (header/footer/style fidelity, including unbalanced braces in prose). E2 deliberately fails the BM-051 test instead of papering over it — per the brief's brutal note, a real renderer-template mismatch must surface as a failing test, not a green one.
+- **BM-100 and BM-200**: render successfully, but their schemas have 0 required manual editable fields. The `no {`, `no }}` assertion is the only meaningful smoke signal for these templates; the marker assertion is a no-op when the mock set is empty. This is by design (system-date-only or fully auto-filled templates).
+
+### Commands run + exit codes
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm --filter api test -- --testPathPatterns=representative-bms-render` | 1 | 35 passed / 1 failed (BM-051 Docxtemplater Unopened tag — expected, real template defect owned by F2). |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 47/47 pass (E1 + B1/B2/B4 regression intact). |
+| `pnpm --filter api test -- --testPathPatterns="document-form-schema\|form-studio"` | 0 | 6 suites, 34 tests, all pass. |
+| `pnpm --filter api test -- --testPathPatterns="documents" --testPathIgnorePatterns="representative-bms-render"` | 0 | 13 suites, 103 tests, all pass. E2 spec is excluded from this regression by design (its BM-051 fail is a known signal, not a regression). |
+| `pnpm typecheck` (full monorepo: form-contracts + api + web) | 0 | clean across all three packages. |
+| `pnpm test:web-unit` | 0 | 59/59 pass. |
+| `pnpm --filter api lint -- "src/modules/documents/rendering/infrastructure/representative-bms-render.spec.ts"` | n/a | Spec files are explicitly ignored by ESLint config (warning shown). Per E2 brief: "If only test files changed and spec files are ignored by eslint, state that clearly." → noted here. |
+| `pnpm --filter api lint` (full api lint, including any indirect renderer change) | 0 | clean. Production source untouched. |
+
+### Backward compatibility / scope adherence
+
+- `document-renderer.service.ts`, `DocxtemplaterContractRenderEngine`, `documents.service.ts`, the B3 controller/service, B1's `derive-form-input-schema.ts`, B2's `section-titles.ts`, and all FE form-inputs modules are **not modified**.
+- No locked contract JSON files modified. No Prisma schema change. No new dependency. No public API change.
+- E2 does not implement F1/F2/F3/F4/F5/F6, does not implement G semantic validation, does not remediate the 115 source fields, does not relax renderer errors, and does not wire new UI behavior — exactly per the E2 brief's "Important scope" list.
+- Spec file is a sibling of `docxtemplater-contract-render-engine.spec.ts` (existing BM-001 shadow test) and reuses the same engine + workspace-path pattern. No parallel renderer created.
+
+### Risks / Open
+
+- **Open (F2-owned)**: BM-051's normalized DOCX has `}}` literals that Docxtemplater cannot compile. F2 (header/footer/style fidelity) must decide whether the right fix is (a) normalize those literals during the F1 slot-inventory step, or (b) configure Docxtemplater with a `nullGetter` / custom parser that tolerates unbalanced `}}` in prose. E2 will continue to surface this as a failure until F2 ships.
+- **Open (F5-owned)**: BM-100 and BM-200 have no required manual editable fields. If those BMs are actually designed to have manual inputs (e.g. case-context fields that B1 dropped because they fell through to `unknown` source), F5 (table/repeat row counts) + C3 (source remediation) will need to revisit them. E2 does not own that decision.
+- **Open (C3 follow-up)**: The 60 mock markers used in E2 (24 + 20 + 16) cover only `required && editable && manual && canonical` fields. The 115 `UNKNOWN_SOURCE_NORMALIZED` fields across the corpus still flow through to UI as editable — same risk as E1. C3 owns remediation.
+- **Risk**: The marker assertion uses `extractedText.includes(marker)`. If a renderer's text extractor accidentally drops markers (e.g. split across `w:t` runs), E2 would falsely report `markerMissingCount > 0`. The chosen extractor concatenates all `w:t` text without run boundaries, which avoids this for the V1 templates but is a known limitation. F4 (text extraction parity) is the right place to harden this.
+
+### Next step
+
+**F1 — Slot inventory + extraction mapping** (per PLAN.md v2.3 §F1 and §10.5). F1 walks every locked contract + its normalized DOCX and produces a per-template slot inventory: which `{{...}}` placeholders exist, which canonical field each one binds to, and where literal `}}` patterns live (the BM-051 defect is the first concrete case). F1 unblocks F2 (header/footer fidelity) and F4 (extraction parity). E2's findings (BM-051 `}}` literal, BM-100/BM-200 zero manual fields) feed directly into the F1 inventory. Stop after F1.
+
 
 
