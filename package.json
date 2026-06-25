@@ -108,7 +108,9 @@
     "plan": "node scripts/audit/plan-forms-root-cause-fixes.mjs",
     "plan:forms-root-cause-fixes": "node scripts/audit/plan-forms-root-cause-fixes.mjs",
     "apply": "node scripts/audit/apply-forms-root-cause-safe-fixes.mjs",
-    "apply:forms-root-cause-safe-fixes": "node scripts/audit/apply-forms-root-cause-safe-fixes.mjs --write"
+    "apply:forms-root-cause-safe-fixes": "node scripts/audit/apply-forms-root-cause-safe-fixes.mjs --write",
+    "postcheck": "node scripts/audit/postcheck-forms-root-cause-safe-apply.mjs",
+    "postcheck:forms-root-cause-safe-apply": "node scripts/audit/postcheck-forms-root-cause-safe-apply.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",

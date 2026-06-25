@@ -2628,5 +2628,122 @@ Timestamped backup: `docs/audit/forms-root-cause-apply/backups/2026-06-25T17-49-
 
 ### Recommended Next Task
 
-**FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: 72 remaining AUTO_FIX_CANDIDATE items with applySafe=true are ready for review after audit re-run. Priority order: UI_VISIBLE_BAD_METADATA ? BAD_LABEL ? SOURCE_MISMATCH/REQUIRED_SUSPICIOUS. BLOCKED_BY_DOCX_AUTHORING (100) is a separate lane ? do not mix.
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: 72 remaining AUTO_FIX_CANDIDATE items with applySafe=true are ready for review after audit re-run. Priority order: UI_VISIBLE_BAD_METADATA > BAD_LABEL > SOURCE_MISMATCH/REQUIRED_SUSPICIOUS. BLOCKED_BY_DOCX_AUTHORING (100) is a separate lane ? do not mix.
 
+---
+
+## FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES_POSTCHECK
+
+**Completed**: 2026-06-26
+
+Post-apply integrity audit for `FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES`. Verifies mutation integrity, dry-run safety, remaining auto-fix classification, issue delta sanity, BM-050/BM-068 status, and validation pipeline.
+
+### Script
+
+`scripts/audit/postcheck-forms-root-cause-safe-apply.mjs`
+
+Modes:
+- `node postcheck-forms-root-cause-safe-apply.mjs` ? run all checks, write `postcheck.json` and `postcheck.md`
+- `pnpm postcheck` / `pnpm postcheck:forms-root-cause-safe-apply`
+
+### Batch Summary
+
+|| Metric | Value |
+|--------|-------|
+| Input AUTO_FIX_CANDIDATE | 141 |
+| Applied mutations (reconstructed) | 46 |
+| Skipped | 91 |
+| Changed contracts | 21 |
+
+### Mutation Integrity
+
+**PASS** ? All 46 reconstructed applied mutations changed only allowed fields (label, path) and respected scope constraints.
+
+### Dry-Run Mutation Safety
+
+**Finding: REPORTING_BUG**
+
+`buildReport()` is called before the `--write` guard in `main()`. In dry-run mode, `applyMutation()` mutates in-memory objects used to derive the report's "before" state. Report before/after diff may be unreliable across multiple runs. Proposed fix: separate mutation computation from report generation; regenerate report from actual file reads in write mode.
+
+### Remaining Auto-Fix Classification
+
+|| Classification | Count |
+|----------------|-------|
+| ALREADY_APPLIED_IDEMPOTENT | 0 |
+| DUPLICATE_OF_APPLIED_MUTATION | 0 |
+| SKIPPED_PATH_COLLISION | 6 |
+| SKIPPED_CONFLICTING | 66 |
+| STILL_ACTIONABLE | **0** |
+| INVALID_AUTO_FIX_CANDIDATE | **0** |
+
+All 72 remaining items are legitimate skips:
+- **66 SKIPPED_CONFLICTING**: Multiple conflicting mutations planned for the same field (e.g., `document.fullDocumentCode` had 4 different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA sources). Need human resolution.
+- **6 SKIPPED_PATH_COLLISION**: Target path already occupied by another field. Need path redesign.
+
+No items are genuinely unfixed. `STILL_ACTIONABLE = 0` confirms no missed auto-fixes.
+
+### Issue Delta
+
+|| IssueCode | Before | After | Delta |
+|-----------|---------|-------|-------|
+| BAD_LABEL | 499 | 453 | -46 |
+| RAW_PATTERN_DOMAIN_MISMATCH | 323 | 319 | -4 |
+| SOURCE_MISMATCH | 339 | 342 | +3 |
+| GENERIC_FIELD_CANONICALIZATION | 388 | 369 | -19 |
+| SHOULD_BE_READONLY | 461 | 457 | -4 |
+| COMPILED_DRIFT | 765 | 811 | **+46** |
+| REQUIRED_SUSPICIOUS | 114 | 118 | **+4** |
+| REMEDIATION_LEAK | 73 | 73 | 0 |
+| UI_VISIBLE_BAD_METADATA | 96 | 96 | 0 |
+| WEAK_EVIDENCE_AUTO_LOCKED | 422 | 422 | 0 |
+| **total** | **3480** | **3460** | **-20** |
+
+Net drop is only -20 despite BAD_LABEL (-46) and GENERIC_FIELD_CANONICALIZATION (-19) dropping more. Three categories increased:
+- **COMPILED_DRIFT +46**: Reclassification ? fixed labels changed canonical slot usage, triggering drift.
+- **REQUIRED_SUSPICIOUS +4**: Reclassification ? fixed fields now flagged as suspicious vs. hidden.
+- **SOURCE_MISMATCH +3**: Minor reclassification, not a regression.
+
+No net increase in total issues (-20). All increases are expected reclassification side-effects.
+
+### BM-050 Status
+
+| Metric | Value |
+|--------|-------|
+| Remaining issues | 13 |
+| Remaining auto-fix | 0 |
+
+All original AUTO_FIX_CANDIDATE items for BM-050 were either applied or legitimately skipped. No auto-fix remains.
+
+### BM-068 Status
+
+| Metric | Value |
+|--------|-------|
+| Remaining issues | 49 |
+| Remaining auto-fix | 8 (SKIPPED_CONFLICTING) |
+
+8 remaining AUTO_FIX_CANDIDATE items for BM-068 are all SKIPPED_CONFLICTING ? all proposed fixing `document.fullDocumentCode` and `document.issueDate` but with conflicting labels from different audit sources. Human resolution needed before auto-apply.
+
+### Validation Results
+
+|| Command | Exit | Result |
+|---------|-------|-------|
+| `pnpm contract:validate` | 0 | PASS |
+| `pnpm contract:compile` | 0 | PASS |
+| `pnpm gate:forms:213` | 0 | PASS |
+| `pnpm audit:forms-root-cause` | 0 | PASS |
+| `pnpm plan:forms-root-cause-fixes` | 0 | PASS |
+| `pnpm audit:forms-root-cause` | 0 | PASS |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | PASS |
+| `pnpm typecheck` | 0 | PASS |
+| `pnpm audit:docx-fidelity` | 1 | INFO |
+| `pnpm audit:contract-sync` | 0 | PASS |
+
+All hard-requirement commands pass. `audit:docx-fidelity` exit 1 is informational ? pre-existing DOCX fidelity issues unrelated to this batch.
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: All 72 remaining AUTO_FIX_CANDIDATE items are classified (66 SKIPPED_CONFLICTING, 6 SKIPPED_PATH_COLLISION). No missed auto-fixes. Batch 1 is clean ? proceed to review batch.

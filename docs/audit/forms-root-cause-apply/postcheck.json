@@ -1,0 +1,1351 @@
+{
+  "generatedAt": "2026-06-25T19:31:45.438Z",
+  "appliedBatch": {
+    "inputAutoFixCount": 141,
+    "appliedMutationCount": 46,
+    "skippedCount": 91,
+    "changedContractCount": 21
+  },
+  "mutationIntegrity": {
+    "passed": true,
+    "violations": []
+  },
+  "dryRunMutationSafety": {
+    "finding": "REPORTING_BUG",
+    "detail": "buildReport() is called in main() BEFORE the \"if (WRITE)\" guard. In dry-run mode, buildReport() generates its report by calling applyMutation() on cloned objects — but those clones are derived from contracts that are mutated in the write path of the same run. The second invocation of buildReport() (if any) will process already-mutated state. Report before/after diff may be corrupted because cloned objects for the report are derived from already-mutated original contracts. [SECONDARY] buildReport() called 2 times in main().",
+    "affected": [
+      "before/after diff in latest.json",
+      "changed-contracts.json"
+    ],
+    "fix": "Separate report generation from mutation application. In dry-run mode, never call applyMutation() — only compute planned mutations and report them. In write mode, apply mutations only after all safety checks pass, then regenerate report from actual file reads."
+  },
+  "remainingAutoFix": {
+    "total": 72,
+    "byClassification": {
+      "ALREADY_APPLIED_IDEMPOTENT": 0,
+      "DUPLICATE_OF_APPLIED_MUTATION": 0,
+      "SKIPPED_PATH_COLLISION": 6,
+      "SKIPPED_CONFLICTING": 66,
+      "STILL_ACTIONABLE": 0,
+      "INVALID_AUTO_FIX_CANDIDATE": 0
+    },
+    "items": [
+      {
+        "templateCode": "BM-021",
+        "path": "document.issuePlaceAndDateLine",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Căn cứ pháp lý",
+          "path": "legalBasis.procedureArticlesLine",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"legalBasis.procedureArticlesLine\" already exists in BM-021",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-026",
+        "path": "agency.nameUpper",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "path": "document.issueDate",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"document.issueDate\" already exists in BM-026",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-036",
+        "path": "document.issuePlaceAndDateLine",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Họ tên",
+          "path": "person.fullName",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"person.fullName\" already exists in BM-036",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-036",
+        "path": "person.fullName",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "path": "document.issueDate",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"document.issueDate\" already exists in BM-036",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-036",
+        "path": "decision.summaryLine",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Cơ quan cấp trên viết hoa",
+          "path": "agency.parentNameUpper",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"agency.parentNameUpper\" already exists in BM-036",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-041",
+        "path": "agency.issuePlace",
+        "action": "UPDATE_PATH",
+        "proposed": {
+          "label": "Số văn bản",
+          "path": "document.documentCode",
+          "action": "UPDATE_PATH"
+        },
+        "reason": "Skip reason: Proposed path \"document.documentCode\" already exists in BM-041",
+        "classification": "SKIPPED_PATH_COLLISION"
+      },
+      {
+        "templateCode": "BM-002",
+        "path": "document.documentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-002::document.documentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-002",
+        "path": "document.documentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-002::document.documentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-003",
+        "path": "document.documentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-003::document.documentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-003",
+        "path": "legalBasis.procedureArticlesLine",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Căn cứ pháp lý",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-003::legalBasis.procedureArticlesLine",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-003",
+        "path": "document.documentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-003::document.documentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-003",
+        "path": "legalBasis.procedureArticlesLine",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Căn cứ pháp lý",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-003::legalBasis.procedureArticlesLine",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-068",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-068::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-069",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-069::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-073",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-073::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-075",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-075::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-075",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-075::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-075",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-075::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-075",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-075::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-077",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-077::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-077",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-077::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-077",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-077::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-077",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-077::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-080",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-080::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-082",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-082::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-082",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-082::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-082",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-082::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-082",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-082::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-162",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-162::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Số văn bản",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.fullDocumentCode",
+        "classification": "SKIPPED_CONFLICTING"
+      },
+      {
+        "templateCode": "BM-163",
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "proposed": {
+          "label": "Ngày ban hành",
+          "action": "UPDATE_LABEL"
+        },
+        "reason": "Skip reason: Multiple different mutations planned for BM-163::document.issueDate",
+        "classification": "SKIPPED_CONFLICTING"
+      }
+    ]
+  },
+  "issueDelta": {
+    "preApply": {
+      "BAD_LABEL": 499,
+      "RAW_PATTERN_DOMAIN_MISMATCH": 323,
+      "SOURCE_MISMATCH": 339,
+      "WEAK_EVIDENCE_AUTO_LOCKED": 422,
+      "GENERIC_FIELD_CANONICALIZATION": 388,
+      "UI_VISIBLE_BAD_METADATA": 96,
+      "COMPILED_DRIFT": 765,
+      "REQUIRED_SUSPICIOUS": 114,
+      "SHOULD_BE_READONLY": 461,
+      "REMEDIATION_LEAK": 73
+    },
+    "after": {
+      "BAD_LABEL": 453,
+      "RAW_PATTERN_DOMAIN_MISMATCH": 319,
+      "SOURCE_MISMATCH": 342,
+      "WEAK_EVIDENCE_AUTO_LOCKED": 422,
+      "GENERIC_FIELD_CANONICALIZATION": 369,
+      "UI_VISIBLE_BAD_METADATA": 96,
+      "COMPILED_DRIFT": 811,
+      "REQUIRED_SUSPICIOUS": 118,
+      "SHOULD_BE_READONLY": 457,
+      "REMEDIATION_LEAK": 73
+    },
+    "deltaByCode": {
+      "BAD_LABEL": {
+        "before": 499,
+        "after": 453,
+        "delta": -46
+      },
+      "RAW_PATTERN_DOMAIN_MISMATCH": {
+        "before": 323,
+        "after": 319,
+        "delta": -4
+      },
+      "SOURCE_MISMATCH": {
+        "before": 339,
+        "after": 342,
+        "delta": 3
+      },
+      "WEAK_EVIDENCE_AUTO_LOCKED": {
+        "before": 422,
+        "after": 422,
+        "delta": 0
+      },
+      "GENERIC_FIELD_CANONICALIZATION": {
+        "before": 388,
+        "after": 369,
+        "delta": -19
+      },
+      "UI_VISIBLE_BAD_METADATA": {
+        "before": 96,
+        "after": 96,
+        "delta": 0
+      },
+      "COMPILED_DRIFT": {
+        "before": 765,
+        "after": 811,
+        "delta": 46
+      },
+      "REQUIRED_SUSPICIOUS": {
+        "before": 114,
+        "after": 118,
+        "delta": 4
+      },
+      "SHOULD_BE_READONLY": {
+        "before": 461,
+        "after": 457,
+        "delta": -4
+      },
+      "REMEDIATION_LEAK": {
+        "before": 73,
+        "after": 73,
+        "delta": 0
+      },
+      "total": {
+        "before": 3480,
+        "after": 3460,
+        "delta": -20
+      }
+    },
+    "increased": [
+      {
+        "code": "SOURCE_MISMATCH",
+        "before": 339,
+        "after": 342,
+        "delta": 3
+      },
+      {
+        "code": "COMPILED_DRIFT",
+        "before": 765,
+        "after": 811,
+        "delta": 46
+      },
+      {
+        "code": "REQUIRED_SUSPICIOUS",
+        "before": 114,
+        "after": 118,
+        "delta": 4
+      }
+    ],
+    "decreased": [
+      {
+        "code": "BAD_LABEL",
+        "before": 499,
+        "after": 453,
+        "delta": -46
+      },
+      {
+        "code": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "before": 323,
+        "after": 319,
+        "delta": -4
+      },
+      {
+        "code": "GENERIC_FIELD_CANONICALIZATION",
+        "before": 388,
+        "after": 369,
+        "delta": -19
+      },
+      {
+        "code": "SHOULD_BE_READONLY",
+        "before": 461,
+        "after": 457,
+        "delta": -4
+      },
+      {
+        "code": "total",
+        "before": 3480,
+        "after": 3460,
+        "delta": -20
+      }
+    ],
+    "explanation": {
+      "summary": "BAD_LABEL dropped 46 and GENERIC_CANON dropped 19, but total dropped only -20. This is expected: (1) some BAD_LABEL and GENERIC_CANON reclassified into other noise categories that previously offset the drops, (2) re-audit counts may differ from pre-audit due to non-determinism.",
+      "keyDeltas": [
+        "BAD_LABEL: 499 → 453 (-46)",
+        "RAW_PATTERN_DOMAIN_MISMATCH: 323 → 319 (-4)",
+        "GENERIC_FIELD_CANONICALIZATION: 388 → 369 (-19)",
+        "SHOULD_BE_READONLY: 461 → 457 (-4)",
+        "total: 3480 → 3460 (-20)"
+      ]
+    }
+  },
+  "bm050": {
+    "templateCode": "BM-050",
+    "changedFields": [
+      {
+        "path": "agency.tenVien",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig"
+      },
+      {
+        "path": "agency.coQuan",
+        "label": "Ô trống",
+        "source": "agencyConfig"
+      },
+      {
+        "path": "agency.diaDanh",
+        "label": "Ô trống",
+        "source": "agencyConfig"
+      }
+    ],
+    "remainingIssues": [
+      {
+        "path": "agency.tenVien",
+        "issueCode": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "reason": "rawPattern domain \"document\" ({{document.field1}}) does not match canonical path domain \"agency\". Context: \"VIỆN KIỂM SÁ"
+      },
+      {
+        "path": "agency.tenVien",
+        "issueCode": "SOURCE_MISMATCH",
+        "reason": "source=\"agencyConfig\" but rawPattern \"{{document.field1}}\" is from \"document\" domain. agencyConfig cannot provide decisi"
+      },
+      {
+        "path": "agency.coQuan",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI."
+      },
+      {
+        "path": "agency.coQuan",
+        "issueCode": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "reason": "rawPattern domain \"decision\" ({{decision.field2}}) does not match canonical path domain \"agency\". Context: \"Xét hồ sơ đề"
+      },
+      {
+        "path": "agency.coQuan",
+        "issueCode": "SOURCE_MISMATCH",
+        "reason": "source=\"agencyConfig\" but rawPattern \"{{decision.field2}}\" is from \"decision\" domain. agencyConfig cannot provide decisi"
+      },
+      {
+        "path": "agency.coQuan",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "reason": "Generic raw pattern \"{{decision.field2}}\" mapped to \"agency.coQuan\" but has problems (label=\"Ô trống\" (bad), weak_eviden"
+      },
+      {
+        "path": "agency.diaDanh",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI."
+      },
+      {
+        "path": "agency.diaDanh",
+        "issueCode": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "reason": "rawPattern domain \"document\" ({{document.field3}}) does not match canonical path domain \"agency\". Context: \"11{{document"
+      },
+      {
+        "path": "agency.diaDanh",
+        "issueCode": "SOURCE_MISMATCH",
+        "reason": "source=\"agencyConfig\" but rawPattern \"{{document.field3}}\" is from \"document\" domain. agencyConfig cannot provide decisi"
+      },
+      {
+        "path": "agency.diaDanh",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "reason": "Generic raw pattern \"{{document.field3}}\" mapped to \"agency.diaDanh\" but has problems (label=\"Ô trống\" (bad), weak_evide"
+      },
+      {
+        "path": "agency.tenVien",
+        "issueCode": "COMPILED_DRIFT",
+        "reason": "dataSource drift: locked=\"agencyConfig\" vs compiled=\"AGENCY\"."
+      },
+      {
+        "path": "agency.coQuan",
+        "issueCode": "COMPILED_DRIFT",
+        "reason": "dataSource drift: locked=\"agencyConfig\" vs compiled=\"AGENCY\"."
+      },
+      {
+        "path": "agency.diaDanh",
+        "issueCode": "COMPILED_DRIFT",
+        "reason": "dataSource drift: locked=\"agencyConfig\" vs compiled=\"AGENCY\"."
+      }
+    ],
+    "remainingIssueCount": 13,
+    "remainingAutoFixCount": 0,
+    "remainingAutoFix": []
+  },
+  "bm068": {
+    "templateCode": "BM-068",
+    "changedFields": [
+      {
+        "path": "agency.name",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig"
+      },
+      {
+        "path": "recipients.personLine",
+        "label": "Người bị áp dụng",
+        "source": "manual"
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.dateOfBirth",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.permanentAddress",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.permanentAddress2",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.occupation",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.idNumber",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.permanentAddress3",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.occupation2",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.idNumber2",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.temporaryAddress",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      },
+      {
+        "path": "person.province",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual"
+      }
+    ],
+    "remainingIssues": [
+      {
+        "path": "agency.name",
+        "issueCode": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "reason": "rawPattern domain \"document\" ({{document.field1}}) does not match canonical path domain \"agency\". Context: \"VIỆN KIỂM SÁ"
+      },
+      {
+        "path": "agency.name",
+        "issueCode": "SOURCE_MISMATCH",
+        "reason": "source=\"agencyConfig\" but rawPattern \"{{document.field1}}\" is from \"document\" domain. agencyConfig cannot provide decisi"
+      },
+      {
+        "path": "agency.name",
+        "issueCode": "SHOULD_BE_READONLY",
+        "reason": "Field appears to be a computed/agency/official field (agency name field). source=\"agencyConfig\" is likely wrong."
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "reason": "Generic raw pattern \"{{document.field1}}\" mapped to \"document.fullDocumentCode\" but has problems (label=\"Slot from Wave "
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "reason": "Field looks required (identity/key field likely required) but required=false."
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "issueCode": "SHOULD_BE_READONLY",
+        "reason": "Field appears to be a computed/agency/official field (fixed/generated administrative field). source=\"manual\" is likely w"
+      },
+      {
+        "path": "document.issueDate",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "document.issueDate",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "reason": "Generic raw pattern \"{{document.field2}}\" mapped to \"document.issueDate\" but has problems (label=\"Slot from Wave 02 DOCX"
+      },
+      {
+        "path": "document.issueDate",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "reason": "Field looks required (date field likely required) but required=false."
+      },
+      {
+        "path": "person.dateOfBirth",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "person.dateOfBirth",
+        "issueCode": "RAW_PATTERN_DOMAIN_MISMATCH",
+        "reason": "rawPattern domain \"document\" ({{document.field3}}) does not match canonical path domain \"person\". Context: \"imes New Rom"
+      },
+      {
+        "path": "person.dateOfBirth",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "reason": "Generic raw pattern \"{{document.field3}}\" mapped to \"person.dateOfBirth\" but has problems (label=\"Slot from Wave 02 DOCX"
+      },
+      {
+        "path": "person.permanentAddress",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "person.permanentAddress2",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "person.occupation",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "person.occupation",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "reason": "Field looks required (person info field likely required) but required=false."
+      },
+      {
+        "path": "person.idNumber",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      },
+      {
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      },
+      {
+        "path": "person.permanentAddress3",
+        "issueCode": "BAD_LABEL",
+        "reason": "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI."
+      }
+    ],
+    "remainingIssueCount": 49,
+    "remainingAutoFixCount": 8,
+    "remainingAutoFix": [
+      {
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "label": "Số văn bản",
+        "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \""
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "label": "Số văn bản",
+        "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field1}}\" on path \"document.fullDocumentCode\" which has known la"
+      },
+      {
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "label": "Ngày ban hành",
+        "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ba"
+      },
+      {
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "label": "Ngày ban hành",
+        "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field2}}\" on path \"document.issueDate\" which has known label. Fi"
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "label": "Số văn bản",
+        "reason": "REMEDIATION_LEAK on path=\"document.fullDocumentCode\" which has known label override. Label fix resolves leak; path is se"
+      },
+      {
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "label": "Ngày ban hành",
+        "reason": "REMEDIATION_LEAK on path=\"document.issueDate\" which has known label override. Label fix resolves leak; path is semantica"
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "action": "UPDATE_LABEL",
+        "label": "Số văn bản",
+        "reason": "UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing label resolves UI issue."
+      },
+      {
+        "path": "document.issueDate",
+        "action": "UPDATE_LABEL",
+        "label": "Ngày ban hành",
+        "reason": "UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing label resolves UI issue."
+      }
+    ]
+  },
+  "validation": [
+    {
+      "command": "pnpm contract:validate",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm contract:compile",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm gate:forms:213",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm audit:forms-root-cause",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm plan:forms-root-cause-fixes",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm audit:forms-root-cause",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @qllaw/form-contracts test",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm audit:docx-fidelity",
+      "exitCode": 1,
+      "result": "FAIL"
+    },
+    {
+      "command": "pnpm audit:contract-sync",
+      "exitCode": 0,
+      "result": "PASS"
+    }
+  ],
+  "verdict": "PASS",
+  "recommendedNextTask": "FORMS_ROOT_CAUSE_REVIEW_BATCH_1"
+}
