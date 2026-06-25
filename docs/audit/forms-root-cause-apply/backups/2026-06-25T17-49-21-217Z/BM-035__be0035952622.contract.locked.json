@@ -1,0 +1,237 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-035__be0035952622",
+  "templateCode": "BM-035",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ",
+  "docx": {
+    "sha256": "be0035952622ea412f64d75e187b89d33fba81b6957669785f3361eb398916ce",
+    "fileName": "35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/35-QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-035/BM-035_normalized.docx",
+    "sha256": "549f38862899b5cfedab4bd4f6e15c4a4e89eb059ee712a87a9784c92b2499ee",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.parentNameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0011",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0011"
+      }
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0026",
+        "tableCellId": null
+      },
+      "context": "Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8{{document.documentCode}}",
+      "label": "Số quyết định",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8",
+        "textAfter": "",
+        "rawPattern": "{{document.documentCode}}",
+        "context": "[Auto-generated] Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8",
+        "blockId": "P0026"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0037",
+        "tableCellId": null
+      },
+      "context": "10{{document.field5}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "10",
+        "textAfter": "",
+        "rawPattern": "{{document.field5}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "10",
+        "textAfter": "",
+        "rawPattern": "{{document.field5}}",
+        "context": "[Auto-generated] 10",
+        "blockId": "P0037"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.parentNameUpper",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0011"
+      }
+    },
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "Số quyết định",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Xét Quyết định tạm giữ/Quyết định gia hạn tạm giữ số … ngày … tháng … năm … của7… đối với8",
+        "blockId": "P0026"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "systemDate",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto-generated] 10",
+        "blockId": "P0037"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "02",
+      "label": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "035/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.documentCode",
+        "control": "text"
+      },
+      {
+        "path": "document.field5",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-25T14:39:20.424Z",
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-25T14:39:20.424Z",
+  "reviewKind": "human"
+}

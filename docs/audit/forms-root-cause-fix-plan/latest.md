@@ -1,84 +1,84 @@
 # Form Root-Cause Fix Plan
-Generated: 2026-06-25T17:36:42.761Z
+Generated: 2026-06-25T17:50:37.395Z
 Source audit: v2
 
 ## Executive Summary
 
 | Metric | Value |
 |--------|-------|
-| totalIssues | 3480 |
-| totalClassified | 3480 |
+| totalIssues | 3460 |
+| totalClassified | 3460 |
 | unclassifiedCount | 0 |
 
 | Classification | Count |
 |---------------|-------|
-| REVIEW_FIX_CANDIDATE | 1862 |
-| DO_NOT_FIX_NOISE_OR_DERIVED | 909 |
+| REVIEW_FIX_CANDIDATE | 1868 |
+| DO_NOT_FIX_NOISE_OR_DERIVED | 952 |
 | MANUAL_LEGAL_REVIEW | 468 |
-| AUTO_FIX_CANDIDATE | 141 |
 | BLOCKED_BY_DOCX_AUTHORING | 100 |
+| AUTO_FIX_CANDIDATE | 72 |
 
 ## Classification Breakdown
 
-### AUTO_FIX_CANDIDATE (141)
+### AUTO_FIX_CANDIDATE (72)
 
 These are safe, high-confidence fixes. They do NOT modify locked contracts — they represent the safest batch for automated application.
 
 | templateCode | path | action | proposedLabel | proposedPath | reason |
 |--------------|------|--------|--------------|-------------|--------|
-| BM-001 | `document.issuePlaceDateLine` | UPDATE_LABEL | `Địa điểm, ngày lập` | - | BAD_LABEL="issuePlaceDateLine" on path "document.issuePlaceDateLine" has known V |
-| BM-001 | `receiver.fullName` | UPDATE_LABEL | `Họ tên người tiếp nhận` | - | BAD_LABEL="fullName" on path "receiver.fullName" has known Vietnamese label over |
-| BM-001 | `receiver.positionTitle` | UPDATE_LABEL | `Chức vụ` | - | BAD_LABEL="positionTitle" on path "receiver.positionTitle" has known Vietnamese  |
-| BM-001 | `receiver.departmentName` | UPDATE_LABEL | `Đơn vị công tác` | - | BAD_LABEL="departmentName" on path "receiver.departmentName" has known Vietnames |
-| BM-001 | `informant.fullName` | UPDATE_LABEL | `Họ tên người cung cấp tin` | - | BAD_LABEL="fullName" on path "informant.fullName" has known Vietnamese label ove |
-| BM-001 | `informant.genderLabel` | UPDATE_LABEL | `Giới tính` | - | BAD_LABEL="genderLabel" on path "informant.genderLabel" has known Vietnamese lab |
-| BM-001 | `informant.otherName` | UPDATE_LABEL | `Tên gọi khác` | - | BAD_LABEL="otherName" on path "informant.otherName" has known Vietnamese label o |
-| BM-001 | `informant.birthDay` | UPDATE_LABEL | `Ngày sinh` | - | BAD_LABEL="birthDay" on path "informant.birthDay" has known Vietnamese label ove |
-| BM-001 | `informant.birthMonth` | UPDATE_LABEL | `Tháng sinh` | - | BAD_LABEL="birthMonth" on path "informant.birthMonth" has known Vietnamese label |
-| BM-001 | `informant.birthYear` | UPDATE_LABEL | `Năm sinh` | - | BAD_LABEL="birthYear" on path "informant.birthYear" has known Vietnamese label o |
-| BM-001 | `informant.placeOfBirth` | UPDATE_LABEL | `Nơi sinh` | - | BAD_LABEL="placeOfBirth" on path "informant.placeOfBirth" has known Vietnamese l |
-| BM-001 | `informant.nationality` | UPDATE_LABEL | `Quốc tịch` | - | BAD_LABEL="nationality" on path "informant.nationality" has known Vietnamese lab |
-| BM-001 | `informant.ethnicity` | UPDATE_LABEL | `Dân tộc` | - | BAD_LABEL="ethnicity" on path "informant.ethnicity" has known Vietnamese label o |
-| BM-001 | `informant.religion` | UPDATE_LABEL | `Tôn giáo` | - | BAD_LABEL="religion" on path "informant.religion" has known Vietnamese label ove |
-| BM-001 | `informant.signerName` | UPDATE_LABEL | `Người ký` | - | BAD_LABEL="signerName" on path "informant.signerName" has known Vietnamese label |
-| BM-001 | `receiver.signerName` | UPDATE_LABEL | `Người ký` | - | BAD_LABEL="signerName" on path "receiver.signerName" has known Vietnamese label  |
-| BM-002 | `agency.parentName` | UPDATE_LABEL | `Cơ quan cấp trên` | - | BAD_LABEL="parentName" on path "agency.parentName" has known Vietnamese label ov |
-| BM-002 | `agency.name` | UPDATE_LABEL | `Tên cơ quan` | - | BAD_LABEL="name" on path "agency.name" has known Vietnamese label override "Tên  |
 | BM-002 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="documentCode" on path "document.documentCode" has known Vietnamese la |
-| BM-002 | `receiver.name` | UPDATE_LABEL | `Tên người tiếp nhận` | - | BAD_LABEL="name" on path "receiver.name" has known Vietnamese label override "Tê |
-| BM-002 | `reporter.fullName` | UPDATE_LABEL | `Họ tên người báo tin` | - | BAD_LABEL="fullName" on path "reporter.fullName" has known Vietnamese label over |
-| BM-002 | `reporter.nationality` | UPDATE_LABEL | `Quốc tịch` | - | BAD_LABEL="nationality" on path "reporter.nationality" has known Vietnamese labe |
-| BM-002 | `signature.positionTitle` | UPDATE_LABEL | `Chức vụ` | - | BAD_LABEL="positionTitle" on path "signature.positionTitle" has known Vietnamese |
-| BM-002 | `signature.signerName` | UPDATE_LABEL | `Người ký` | - | BAD_LABEL="signerName" on path "signature.signerName" has known Vietnamese label |
 | BM-002 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
-| BM-003 | `agency.parentName` | UPDATE_LABEL | `Cơ quan cấp trên` | - | BAD_LABEL="parentName" on path "agency.parentName" has known Vietnamese label ov |
-| BM-003 | `agency.name` | UPDATE_LABEL | `Tên cơ quan` | - | BAD_LABEL="name" on path "agency.name" has known Vietnamese label override "Tên  |
 | BM-003 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="documentCode" on path "document.documentCode" has known Vietnamese la |
 | BM-003 | `legalBasis.procedureArticlesLine` | UPDATE_LABEL | `Căn cứ pháp lý` | - | BAD_LABEL="procedureArticlesLine" on path "legalBasis.procedureArticlesLine" has |
-| BM-003 | `signature.positionTitle` | UPDATE_LABEL | `Chức vụ` | - | BAD_LABEL="positionTitle" on path "signature.positionTitle" has known Vietnamese |
-| BM-003 | `signature.signerName` | UPDATE_LABEL | `Người ký` | - | BAD_LABEL="signerName" on path "signature.signerName" has known Vietnamese label |
 | BM-003 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
 | BM-003 | `legalBasis.procedureArticlesLine` | UPDATE_LABEL | `Căn cứ pháp lý` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
-| BM-021 | `agency.nameUpper` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "agency.nameUpper". sugges |
-| BM-021 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Ô trống" on path "document.documentCode" has known Vietnamese label o |
-| BM-021 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field4}}" on path "docum |
 | BM-021 | `document.issuePlaceAndDateLine` | UPDATE_PATH | `Căn cứ pháp lý` | `legalBasis.procedureArticlesLine` | Domain mismatch: raw="{{legalBasis.procedureArticlesLine}}" on path "document.is |
-| BM-022 | `agency.nameUpper` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "agency.nameUpper". sugges |
-| BM-022 | `person.fullName` | UPDATE_LABEL | `Họ tên` | - | BAD_LABEL="Ô trống" on path "person.fullName" has known Vietnamese label overrid |
-| BM-022 | `person.fullName` | UPDATE_LABEL | `Họ tên` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field7}}" on path "perso |
-| BM-025 | `agency.nameUpper` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "agency.nameUpper". sugges |
 | BM-026 | `agency.nameUpper` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "agency.nameUpper". sugges |
-| BM-026 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Ô trống" on path "document.issueDate" has known Vietnamese label over |
-| BM-026 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field5}}" on path "docum |
-| BM-032 | `agency.nameUpper` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "agency.nameUpper". sugges |
-| BM-032 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Ô trống" on path "document.documentCode" has known Vietnamese label o |
-| BM-032 | `document.documentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field4}}" on path "docum |
-| BM-034 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Ô trống" on path "document.issueDate" has known Vietnamese label over |
-| BM-034 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field5}}" on path "docum |
-| BM-035 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Ô trống" on path "document.issueDate" has known Vietnamese label over |
-| ... | | | | | 91 more |
+| BM-036 | `document.issuePlaceAndDateLine` | UPDATE_PATH | `Họ tên` | `person.fullName` | Domain mismatch: raw="{{person.fullName}}" on path "document.issuePlaceAndDateLi |
+| BM-036 | `person.fullName` | UPDATE_PATH | `Ngày ban hành` | `document.issueDate` | Domain mismatch: raw="{{document.issueDate}}" on path "person.fullName". suggest |
+| BM-036 | `decision.summaryLine` | UPDATE_PATH | `Cơ quan cấp trên viết hoa` | `agency.parentNameUpper` | Domain mismatch: raw="{{agency.parentNameUpper}}" on path "decision.summaryLine" |
+| BM-041 | `agency.issuePlace` | UPDATE_PATH | `Số văn bản` | `document.documentCode` | Domain mismatch: raw="{{document.documentCode}}" on path "agency.issuePlace". su |
+| BM-068 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-068 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-068 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.issueDate" has  |
+| BM-068 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field2}}" on path "docum |
+| BM-068 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-068 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | REMEDIATION_LEAK on path="document.issueDate" which has known label override. La |
+| BM-068 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-068 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-069 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-069 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-069 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.issueDate" has  |
+| BM-069 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field2}}" on path "docum |
+| BM-069 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-069 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | REMEDIATION_LEAK on path="document.issueDate" which has known label override. La |
+| BM-069 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-069 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-073 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-073 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-073 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.issueDate" has  |
+| BM-073 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field2}}" on path "docum |
+| BM-073 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-073 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | REMEDIATION_LEAK on path="document.issueDate" which has known label override. La |
+| BM-073 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-073 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-075 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-075 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-075 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-075 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-077 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-077 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-077 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-077 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | UI_VISIBLE_BAD_METADATA caused by bad label that has known override. Fixing labe |
+| BM-080 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.fullDocumentCod |
+| BM-080 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field1}}" on path "docum |
+| BM-080 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | BAD_LABEL="Slot from Wave 02 DOCX remediation" on path "document.issueDate" has  |
+| BM-080 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | GENERIC_FIELD_CANONICALIZATION: generic raw "{{document.field2}}" on path "docum |
+| BM-080 | `document.fullDocumentCode` | UPDATE_LABEL | `Số văn bản` | - | REMEDIATION_LEAK on path="document.fullDocumentCode" which has known label overr |
+| BM-080 | `document.issueDate` | UPDATE_LABEL | `Ngày ban hành` | - | REMEDIATION_LEAK on path="document.issueDate" which has known label override. La |
+| ... | | | | | 22 more |
 
-### REVIEW_FIX_CANDIDATE (1862)
+### REVIEW_FIX_CANDIDATE (1868)
 
 These need human review before fixing. Common: SOURCE_MISMATCH, REQUIRED_SUSPICIOUS, SHOULD_BE_READONLY, GENERIC_FIELD_CANONICALIZATION with unknown path.
 
@@ -134,7 +134,7 @@ These need human review before fixing. Common: SOURCE_MISMATCH, REQUIRED_SUSPICI
 | BM-002 | `recipients.archiveLine` | BAD_LABEL | UPDATE_LABEL | Raw camelCase label "archiveLine" on path "recipients.archiveLine" needs review |
 | BM-002 | `agency.bodyName` | UI_VISIBLE_BAD_METADATA | UPDATE_LABEL | UI_VISIBLE_BAD_METADATA on path "agency.bodyName" with label "bodyName" — needs  |
 | BM-002 | `document.issuePlaceAndDateLine` | UI_VISIBLE_BAD_METADATA | UPDATE_LABEL | UI_VISIBLE_BAD_METADATA on path "document.issuePlaceAndDateLine" with label "iss |
-| ... | | | | 1812 more |
+| ... | | | | 1818 more |
 
 ### MANUAL_LEGAL_REVIEW (468)
 
@@ -174,43 +174,43 @@ These involve legal/procedural judgment. Required: legal expert review before an
 | BM-027 | `document.ngayBan` | GENERIC_FIELD_CANONICALIZATION | GENERIC_FIELD_CANONICALIZATION: generic raw "{{case.field5}}" on path="document. |
 | ... | | | 438 more |
 
-### DO_NOT_FIX_NOISE_OR_DERIVED (909)
+### DO_NOT_FIX_NOISE_OR_DERIVED (952)
 
 These are NOT defects: compiled normalization, SHOULD_BE_READONLY noise where source is already correct, duplicate issues.
 
 | templateCode | path | issueCodes | reason |
 |--------------|------|------------|--------|
+| BM-001 | `document.issuePlaceDateLine` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-001 | `document.issuePlaceDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
+| BM-001 | `receiver.fullName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `receiver.positionTitle` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-001 | `receiver.positionTitle` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
+| BM-001 | `receiver.departmentName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.fullName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.genderLabel` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.otherName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.birthDay` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.birthMonth` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.birthYear` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.placeOfBirth` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.nationality` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.ethnicity` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.religion` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
+| BM-001 | `informant.signerName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-001 | `informant.signerName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
+| BM-001 | `receiver.signerName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-001 | `receiver.signerName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
 | BM-002 | `agency.parentName` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.parentName" but source="agencyConfig" is alre |
 | BM-002 | `agency.name` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.name" but source="agencyConfig" is already a  |
+| BM-002 | `agency.parentName` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-002 | `agency.parentName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
+| BM-002 | `agency.name` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-002 | `agency.name` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
 | BM-002 | `document.issuePlaceAndDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
+| BM-002 | `receiver.name` | COMPILED_DRIFT | Label drift between locked and compiled is resolved by compilation; not a locked |
 | BM-002 | `sourceReport.receivedDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
 | BM-002 | `agency.bodyName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-002 | `reporter.birthDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-002 | `reporter.identityIssueDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-002 | `signature.positionTitle` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-002 | `signature.signerName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `agency.parentName` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.parentName" but source="agencyConfig" is alre |
-| BM-003 | `agency.name` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.name" but source="agencyConfig" is already a  |
-| BM-003 | `agency.parentName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `agency.name` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `document.issuePlaceAndDateLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `legalBasis.procedureArticlesLine` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `signature.signMode` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `signature.positionTitle` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-003 | `signature.signerName` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-004 | `agency.vienKiem` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-004 | `agency.tenCo` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-004 | `signature.positionTitle` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-004 | `agency.diaDanh` | COMPILED_DRIFT | Enum normalization difference between locked (snake) and compiled (uppercase); n |
-| BM-005 | `agency.parentName` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.parentName" but source="agencyConfig" is alre |
-| BM-005 | `agency.name` | SHOULD_BE_READONLY | SHOULD_BE_READONLY on path="agency.name" but source="agencyConfig" is already a  |
-| ... | | | 879 more |
+| ... | | | 922 more |
 
 ### BLOCKED_BY_DOCX_AUTHORING (100)
 
@@ -359,7 +359,7 @@ Total: 49 issues classified
 
 **FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES**
 
-141 AUTO_FIX_CANDIDATE items with applySafe=true are ready for application.
+72 AUTO_FIX_CANDIDATE items with applySafe=true are ready for application.
 
 **Action**: Apply only AUTO_FIX_CANDIDATE with applySafe=true. These:
 1. Update labels using known Vietnamese label overrides

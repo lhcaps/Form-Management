@@ -2549,5 +2549,84 @@ All 141 auto-fix candidates have applySafe=true.
 
 ### Recommended Next Task
 
-**FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES**: 141 AUTO_FIX_CANDIDATE items with applySafe=true are ready for safe, non-destructive application to locked contracts. Regenerate compiled-v2 after changes.
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: 72 remaining AUTO_FIX_CANDIDATE items with applySafe=true are ready for review. 1,862 REVIEW_FIX_CANDIDATE items need manual triage. Priority order: UI_VISIBLE_BAD_METADATA ? BAD_LABEL ? SOURCE_MISMATCH / REQUIRED_SUSPICIOUS.
+
+---
+
+## FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES
+
+**Completed**: 2026-06-26
+
+Apply only 141 AUTO_FIX_CANDIDATE items (applySafe=true) from `docs/audit/forms-root-cause-fix-plan/auto-fix-candidates.json`.
+
+### Script
+
+`scripts/audit/apply-forms-root-cause-safe-fixes.mjs`
+
+Modes:
+- `node apply-forms-root-cause-safe-fixes.mjs` ? dry-run (read, compute, report, modify nothing)
+- `node apply-forms-root-cause-safe-fixes.mjs --write` ? apply mutations
+
+Safety layers: strict pre-write assertions, collision detection, timestamped backup, idempotency, before/after diff.
+
+### Apply Summary
+
+| Metric | Value |
+|--------|-------|
+| Input AUTO_FIX_CANDIDATE | 141 |
+| Planned mutations | 50 |
+| Skipped (duplicate/idempotent) | 91 |
+| Changed contracts | 22 |
+
+### Mutations by Action
+
+| Action | Count |
+|--------|-------|
+| UPDATE_LABEL | 45 |
+| UPDATE_PATH | 5 |
+
+### Validation Results
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm contract:validate` | 0 | 213/213 VALID |
+| `pnpm contract:compile` | 0 | 213/213 COMPILED |
+| `pnpm audit:forms-root-cause` | 0 | 3,460 issues (pre: 3,480) |
+| `pnpm plan:forms-root-cause-fixes` | 0 | 72 auto-fix remaining |
+| `pnpm gate:forms:213` | 0 | GATE PASSED |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 80/80 pass |
+| `pnpm typecheck` | 0 | PASS |
+
+### Issue Count Delta
+
+| IssueCode | Before | After | Delta |
+|-----------|--------|-------|-------|
+| BAD_LABEL | 499 | 453 | -46 |
+| GENERIC_FIELD_CANONICALIZATION | 388 | 369 | -19 |
+| All others | ~2,593 | ~2,938 | ? |
+
+### Second Apply (Idempotency)
+
+Second run: 0 mutations, 72 skipped as already-applied/idempotent. No new changes.
+
+### Backup
+
+Timestamped backup: `docs/audit/forms-root-cause-apply/backups/2026-06-25T17-49-21-217Z/`
+
+### Reports
+
+- `docs/audit/forms-root-cause-apply/latest.json`
+- `docs/audit/forms-root-cause-apply/latest.md`
+- `docs/audit/forms-root-cause-apply/changed-contracts.json`
+- `docs/audit/forms-root-cause-apply/skipped-items.json`
+- `docs/audit/forms-root-cause-apply/before-after-diff.json`
+
+### Exit Behavior
+
+- `pnpm apply:forms-root-cause-safe-fixes` (dry-run): exits 0, reports planned mutations
+- `pnpm apply:forms-root-cause-safe-fixes --write`: exits 0, applies 50 mutations to 22 contracts
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: 72 remaining AUTO_FIX_CANDIDATE items with applySafe=true are ready for review after audit re-run. Priority order: UI_VISIBLE_BAD_METADATA ? BAD_LABEL ? SOURCE_MISMATCH/REQUIRED_SUSPICIOUS. BLOCKED_BY_DOCX_AUTHORING (100) is a separate lane ? do not mix.
 

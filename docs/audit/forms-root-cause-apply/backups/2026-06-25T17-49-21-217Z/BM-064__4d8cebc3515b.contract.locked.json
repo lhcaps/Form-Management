@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-064__4d8cebc3515b",
+  "templateCode": "BM-064",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ huỷ bỏ biện pháp kê biên tài sản",
+  "docx": {
+    "sha256": "4d8cebc3515bddffb06a6ea4b1cc390cd454d23d5f1a3b646eded4ff73a86ae3",
+    "fileName": "64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/64-QĐ huỷ bỏ biện pháp kê biên tài sản.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-064/BM-064_normalized.docx",
+    "sha256": "24443811d254bf2e15156c17bd285cd26f9266bc8937b9d7f759ac1328b4328b",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0010",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0020"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0024",
+        "tableCellId": null
+      },
+      "context": "Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với{{document.field3}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với",
+        "textAfter": "",
+        "rawPattern": "{{document.field3}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "n\"/> {{document.issueDate4}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "n\"/> {{document.issueDate4}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Ti",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate4}}"
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN TRƯỞNG VIỆN KIỂM SÁT2",
+        "blockId": "P0020"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    },
+    {
+      "path": "document.issueDate4",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "from": "document.issueDate4",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "02",
+      "label": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "064/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "agency"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "document.field3",
+        "control": "text"
+      },
+      {
+        "path": "document.field4",
+        "control": "text"
+      },
+      {
+        "path": "agency.field5",
+        "control": "text"
+      },
+      {
+        "path": "document.field6",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-25T14:39:20.667Z",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-25T14:39:20.667Z",
+  "reviewKind": "human"
+}

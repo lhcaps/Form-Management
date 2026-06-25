@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-067__0f7607122f29",
+  "templateCode": "BM-067",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "Biên bản phong tỏa tài khoản",
+  "docx": {
+    "sha256": "0f7607122f29e9e037f9e38653093b9f77e65bbe187b7ba56f0e23b0adf1da61",
+    "fileName": "67-Biên bản phong tỏa tài khoản.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/67-Biên bản phong tỏa tài khoản.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-067/BM-067_normalized.docx",
+    "sha256": "6bc359658744f62608da29cb708f83208bc4cce10565f914ce603997a083e37b",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.name",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0012",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{agency.name}}",
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0012"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "{{document.field2}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field2}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Họ tên:{{recipients.personLine}}",
+      "label": "Người bị áp dụng",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Họ tên:",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Họ tên:",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine}}",
+        "context": "[Auto-generated] Họ tên:",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "document.fullDocumentCode2",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0030",
+        "tableCellId": null
+      },
+      "context": "{{document.field9}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.field9}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.fullDocumentCode6",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode6}}"
+      },
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "label": "Slot from DOCX remediation",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+        "textAfter": "",
+        "rawPattern": "{{recipients.personLine3}}"
+      },
+      "reviewRequired": true
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.name",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "agencyConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] VIỆN KIỂM SÁT …",
+        "blockId": "P0012"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    },
+    {
+      "path": "recipients.personLine",
+      "type": "string",
+      "label": "Người bị áp dụng",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T15:30:05.633Z",
+      "reviewEvidence": {
+        "context": "[Auto-generated] Họ tên:",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "document.fullDocumentCode2",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    },
+    {
+      "path": "document.fullDocumentCode6",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    },
+    {
+      "path": "recipients.personLine3",
+      "type": "string",
+      "label": "Slot from DOCX remediation",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.name",
+      "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine",
+      "from": "recipients.personLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode2",
+      "from": "document.fullDocumentCode2",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "document.fullDocumentCode6",
+      "from": "document.fullDocumentCode6",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    },
+    {
+      "slotId": "recipients.personLine3",
+      "from": "recipients.personLine3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": true
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "02",
+      "label": "BIỆN PHÁP NGĂN CHẶN VÀ CƯỠNG CHẾ",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "067/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T15:30:05.633Z"
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "agency",
+      "recipients"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.field2",
+        "control": "text"
+      },
+      {
+        "path": "agency.field3",
+        "control": "text"
+      },
+      {
+        "path": "document.field4",
+        "control": "text"
+      },
+      {
+        "path": "document.field5",
+        "control": "text"
+      },
+      {
+        "path": "document.field6",
+        "control": "text"
+      },
+      {
+        "path": "document.field7",
+        "control": "text"
+      },
+      {
+        "path": "recipients.personLine",
+        "control": "text"
+      },
+      {
+        "path": "document.field9",
+        "control": "text"
+      },
+      {
+        "path": "document.field10",
+        "control": "text"
+      },
+      {
+        "path": "document.field11",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-25T14:39:20.700Z",
+  "reviewedBy": "Le Huy (wave-01 auto-fix)",
+  "reviewedAt": "2026-06-25T14:39:20.700Z",
+  "reviewKind": "human"
+}
