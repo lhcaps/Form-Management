@@ -178,12 +178,13 @@ function parseFixPlanClassificationCounts() {
 // =============================================================================
 
 function runValidation() {
-  // Command order from task spec:
-  // contract x2, gate, audit, plan, audit, audit, test, typecheck
-  // Note: plan runs between the two sets of audits to regenerate fix-plan
+  // Exact 9-command sequence from task spec.
+  // "pnpm contract" → contract:compile (the compile step).
+  // "pnpm audit" → audit:forms-root-cause (the root-cause audit).
+  // No duplicates; no omissions.
   const commands = [
     'pnpm contract:validate',
-    'pnpm contract:validate',
+    'pnpm contract:compile',
     'pnpm gate:forms:213',
     'pnpm audit:forms-root-cause',
     'pnpm plan:forms-root-cause-fixes',
@@ -633,6 +634,7 @@ function main() {
   const criticalCommands = [
     'pnpm gate:forms:213',
     'pnpm contract:validate',
+    'pnpm contract:compile',
     'pnpm --filter @qllaw/form-contracts test',
     'pnpm typecheck',
   ];
@@ -646,7 +648,6 @@ function main() {
   let hasCriticalFailure = false;
   for (const v of validations) {
     const isCritical = criticalCommands.some((c) => v.command.includes(c));
-    const isInformational = informationalCommands.some((c) => v.command.includes(c));
 
     if (v.exitCode === 0) {
       process.stderr.write(`[APPLY] [PASS] ${v.command}: exit ${v.exitCode} (${v.durationMs}ms)\n`);

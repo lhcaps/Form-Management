@@ -3036,3 +3036,71 @@ All strict conditions PASS:
 ### Recommended Next Task
 
 **FORMS_ROOT_CAUSE_REVIEW_BATCH_2**: Continue human review of remaining 22 groups (6 path collisions, 1 legal, 15 Wave 02/DOCX). Only proceed with explicit reviewer approval per batch.
+
+---
+
+## FORMS_ROOT_CAUSE_REVIEW_BATCH_1_APPLY_POSTCHECK_REPAIR_FINAL
+
+**Completed**: 2026-06-26
+
+Final repair of the validation runner. The second repair attempt (`APPLY_POSTCHECK_REPAIR`) still had duplicate `pnpm contract:validate` and missing `pnpm contract:compile`. This final pass fixes the exact command list.
+
+### Problem Fixed
+
+The second repair script still had:
+- `pnpm contract:validate` listed twice (duplicate)
+- `pnpm contract:compile` missing entirely
+- This meant the command list did not match the task spec
+
+### Final Command List (exact, no duplicates)
+
+| # | Command | Exit | Result |
+|---|---------|------|--------|
+| 1 | `pnpm contract:validate` | 0 | PASS |
+| 2 | `pnpm contract:compile` | 0 | PASS |
+| 3 | `pnpm gate:forms:213` | 0 | PASS |
+| 4 | `pnpm audit:forms-root-cause` | 0 | PASS |
+| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | PASS |
+| 6 | `pnpm audit:forms-root-cause` | 0 | PASS |
+| 7 | `pnpm audit:forms-root-cause` | 0 | PASS |
+| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | PASS |
+| 9 | `pnpm typecheck` | 0 | PASS |
+
+### Issue Delta
+
+| Metric | Baseline | Current | Delta |
+|--------|----------|---------|------:|
+| totalIssues | 3460 | 3458 | -2 |
+| BAD_LABEL | 453 | 451 | -2 |
+| UI_VISIBLE_BAD_METADATA | 96 | 94 | -2 |
+
+### Fix-Plan Classification
+
+| Classification | Count |
+|---------------|------:|
+| AUTO_FIX_CANDIDATE | 68 |
+| REVIEW_FIX_CANDIDATE | 1868 |
+| MANUAL_LEGAL_REVIEW | 468 |
+| BLOCKED_BY_DOCX_AUTHORING | 100 |
+| DO_NOT_FIX_NOISE_OR_DERIVED | 954 |
+| **Total** | **3458** |
+
+### Strict Exit Behavior
+
+All strict conditions PASS:
+- decisions count = 24
+- approvedForApply = 2 (RG-001, RG-002 only)
+- all 9 validation commands exit 0 (no duplicates, no omissions)
+- totalIssues = 3458 <= baseline 3460
+- BAD_LABEL = 451 <= baseline 453
+- UI_VISIBLE_BAD_METADATA = 94 <= baseline 96
+- no contract outside BM-002/BM-003 changed
+- idempotency check PASS
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_2**: Continue human review of remaining 22 groups (6 path collisions, 1 legal, 15 Wave 02/DOCX). Only proceed with explicit reviewer approval per batch.
