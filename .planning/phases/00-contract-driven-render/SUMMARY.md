@@ -11,7 +11,7 @@
 ### Files changed
 
 - `apps/api/src/modules/documents/documents.service.ts` ? extended `render_payload_snapshot` in `createBatch` with 4 canonical keys.
-- `apps/api/src/modules/documents/documents.service.spec.ts` *(new)* ? unit test asserting the 7 contract assertions from PLAN.md v2.3 §A1.
+- `apps/api/src/modules/documents/documents.service.spec.ts` *(new)* ? unit test asserting the 7 contract assertions from PLAN.md v2.3 ?A1.
 
 ### Snapshot shape implemented
 
@@ -88,7 +88,7 @@ The 3-test split covers the 7 required assertions specified in the task brief.
 
 ### Next step
 
-A2 ? Structured validation error contract (`contract-form-inputs.service.ts`). Follow PLAN.md v2.3 §A2 exactly. Stop after A2.
+A2 ? Structured validation error contract (`contract-form-inputs.service.ts`). Follow PLAN.md v2.3 ?A2 exactly. Stop after A2.
 
 ## Task A2. Structured validation error contract
 
@@ -103,7 +103,7 @@ A2 ? Structured validation error contract (`contract-form-inputs.service.ts`). F
 
 ### Error response shape implemented
 
-Locked type from PLAN.md v2.3 §A2 is now exported from the service:
+Locked type from PLAN.md v2.3 ?A2 is now exported from the service:
 
 ```ts
 export type FormValidationCode =
@@ -134,12 +134,12 @@ On validation failure the service still throws `FormStudioError('CONTRACT_INPUT_
   "errors": [
     {
       "path": "person.fullName",
-      "label": "H? tên",
+      "label": "H? t?n",
       "section": "person",
-      "sectionTitle": "Thông tin",
+      "sectionTitle": "Th?ng tin",
       "required": true,
       "code": "REQUIRED",
-      "message": "Tr??ng \"H? tên\" là b?t bu?c."
+      "message": "Tr??ng \"H? t?n\" l? b?t bu?c."
     }
   ]
 }
@@ -204,7 +204,7 @@ All helpers are pure, file-local, and easy to unit-test:
 
 ### Next step
 
-A3 ? Wire hotfix UI: render structured `FormValidationError` list in `generic-template-form-inputs.tsx`. Per PLAN.md v2.3 §A3 exactly. Stop after A3.
+A3 ? Wire hotfix UI: render structured `FormValidationError` list in `generic-template-form-inputs.tsx`. Per PLAN.md v2.3 ?A3 exactly. Stop after A3.
 
 ## Task A3. Render structured FormValidationError list in form-inputs UI
 
@@ -237,7 +237,7 @@ In `generic-template-form-inputs.tsx`:
   - Else if `error` ? render the legacy single-string red banner (unchanged behavior).
   - Else ? nothing.
 - `StructuredValidationErrorList` groups entries by `sectionTitle` (sorted Vietnamese locale), shows:
-  - A header (`Có N l?i c?n s?a tr??c khi l?u.` or a stronger `H?p ??ng bi?u m?u ?ã thay ??i ? t?i l?i tr??c khi l?u.` when `CONTRACT_DRIFT` is present).
+  - A header (`C? N l?i c?n s?a tr??c khi l?u.` or a stronger `H?p ??ng bi?u m?u ?? thay ??i ? t?i l?i tr??c khi l?u.` when `CONTRACT_DRIFT` is present).
   - Per-section group with the `sectionTitle` heading.
   - Per-row: `label` (large), `code` (muted monospace tag), `path` (small monospace), `message` (Vietnamese text ? backend-supplied, not rewritten).
   - Color theme: red when only field errors, amber + `role="alert"` when `CONTRACT_DRIFT` is present, signaling the user should reload before saving.
@@ -269,7 +269,7 @@ In `generic-template-form-inputs.tsx`:
 
 ### Next step
 
-B1 ? `derive-form-input-schema.ts` with 3-layer fallback (PLAN.md v2.3 §B1). B1 introduces the dynamic schema that A3's structured error list will eventually point at for inline field highlighting.
+B1 ? `derive-form-input-schema.ts` with 3-layer fallback (PLAN.md v2.3 ?B1). B1 introduces the dynamic schema that A3's structured error list will eventually point at for inline field highlighting.
 
 ## Task B1. Derive `FormInputSchema` from a locked form contract (3-layer fallback)
 
@@ -417,11 +417,11 @@ Per-BM highlights:
 - **Risk**: The `hint-doesn't-create-fields` rule is enforced structurally (hints only `set` on existing keys) rather than via an explicit assertion. If a future refactor of `applyHint` accidentally changes that, the `origin === "hint"`-forbidden invariant in the type union would still allow fields to be created with `origin: "hint"`. The test "hints do not create new paths" + the "no field has origin === 'hint'" assertion in test 5 lock this in for the current shape.
 - **Open**: A future phase may want a "preview required" boolean per field for the A2 CONTRACT_DRIFT wiring. The current `reviewRequired` covers the existing audit/contract-driven rendering flags; if a separate "preview required" semantically diverges, B1's `FormInputField` is the place to add it.
 - **Open**: B1 does not wire the derived schema into any API endpoint. A consumer (e.g. a `/documents/generated/:id/form-schema` route planned for Phase B) is the natural next step. Per the B1 brief, that wiring is explicitly out of scope.
-- **Open**: A per-BM "all 213" smoke test was intentionally not added. The 6-representative test is fast and locked; extending to 213 would inflate test runtime and is unnecessary for B1 (PLAN.md v2.3 §B1 only requires representative coverage).
+- **Open**: A per-BM "all 213" smoke test was intentionally not added. The 6-representative test is fast and locked; extending to 213 would inflate test runtime and is unnecessary for B1 (PLAN.md v2.3 ?B1 only requires representative coverage).
 
 ### Next step
 
-B2 ? `section-titles.ts` (Vietnamese section title helper) and wiring of `deriveFormInputSchema` into a `/documents/generated/:id/form-schema` endpoint. Per PLAN.md v2.3 §B2. Stop after B2.
+B2 ? `section-titles.ts` (Vietnamese section title helper) and wiring of `deriveFormInputSchema` into a `/documents/generated/:id/form-schema` endpoint. Per PLAN.md v2.3 ?B2. Stop after B2.
 
 ## Task B2. Vietnamese section title helper + integration
 
@@ -445,32 +445,32 @@ The B1 summary described B2 as a combined "section-titles + endpoint" task. The 
 {
   agency: "C? quan",
   document: "V?n b?n",
-  caseInfo: "Thông tin v? án",
+  caseInfo: "Th?ng tin v? ?n",
   content: "N?i dung",
   recipients: "N?i nh?n",
-  signature: "Ch? ký",
+  signature: "Ch? k?",
   decision: "Quy?t ??nh",
-  legalBasis: "C?n c? pháp lý",
-  offense: "Hành vi / t?i danh",
-  measure: "Bi?n pháp t? t?ng",
+  legalBasis: "C?n c? ph?p l?",
+  offense: "H?nh vi / t?i danh",
+  measure: "Bi?n ph?p t? t?ng",
   reception: "Ti?p nh?n",
   receiver: "Ng??i ti?p nh?n",
   informant: "Ng??i cung c?p tin",
-  crimeReport: "Tin báo / t? giác",
+  crimeReport: "Tin b?o / t? gi?c",
   accusedDecision: "Quy?t ??nh v? b? can",
-  caseDecision: "Quy?t ??nh v? án",
-  attachments: "Tài li?u kèm theo",
-  indictment: "Cáo tr?ng",
-  monitoring: "Ki?m sát",
+  caseDecision: "Quy?t ??nh v? ?n",
+  attachments: "T?i li?u k?m theo",
+  indictment: "C?o tr?ng",
+  monitoring: "Ki?m s?t",
   proposal: "?? xu?t",
   investigation: "?i?u tra",
   investigationConclusion: "K?t lu?n ?i?u tra",
-  caseJoinder: "Nh?p v? án",
-  caseRecovery: "Khôi ph?c v? án",
+  caseJoinder: "Nh?p v? ?n",
+  caseRecovery: "Kh?i ph?c v? ?n",
   investigationExtension: "Gia h?n ?i?u tra",
   prosecutionExtension: "Gia h?n truy t?",
   prosecutionTransfer: "Chuy?n truy t?",
-  approval: "Phê duy?t",
+  approval: "Ph? duy?t",
 }
 ```
 
@@ -516,7 +516,7 @@ Worked examples (asserted by tests):
 ### Backward compatibility
 
 - All 16 B1 tests pass unchanged. None of them assert section `title` content, so swapping the English-only fallback for the Vietnamese map is invisible to B1's contract.
-- The new `SECTION_TITLES` map is purely additive: any section key that was previously emitted as an English humanize string (`"Informant"`, `"Legal Basis"`, etc.) is now emitted as a Vietnamese string (`"Ng??i cung c?p tin"`, `"C?n c? pháp lý"`, etc.). This is the explicit behavior change requested by the B2 brief; the API/web apps are not yet wired to consume `FormInputSection.title`, so no caller is affected.
+- The new `SECTION_TITLES` map is purely additive: any section key that was previously emitted as an English humanize string (`"Informant"`, `"Legal Basis"`, etc.) is now emitted as a Vietnamese string (`"Ng??i cung c?p tin"`, `"C?n c? ph?p l?"`, etc.). This is the explicit behavior change requested by the B2 brief; the API/web apps are not yet wired to consume `FormInputSection.title`, so no caller is affected.
 - Unknown section keys (e.g. `futureSection`, `custody`, `defendant`) keep deriving a usable schema with a sensible English fallback title. The new corpus-scan test surfaces them as a report so future B2.x work can extend the map.
 - No change to `apps/api` or `apps/web`. The endpoint wiring is B3.
 
@@ -541,11 +541,11 @@ This is a roadmap signal, not a defect. B2 ships with the 28 brief-mandated entr
 - **Open**: The `official` (49 BMs) and `person` (35 BMs) keys are clearly Vietnamese-localizable but not in the B2 brief. Documented here for B2.x follow-up. Until then, the English fallback (`"Official"`, `"Person"`) is shown.
 - **Open**: B2 does not consume or generate Vietnamese characters at the I/O boundary ? the map is in source, not derived. If a future B2.x needs auto-translation for unknown keys (e.g. via a lookup table or external service), `getSectionTitle` is the single point to extend.
 - **Open**: Section title localization is currently English-fallback only for unknown keys. B2 ships bilingual in the sense that mapped keys are Vietnamese and unmapped keys are English. A future i18n pass may want a `getSectionTitle(key, locale)` signature; the current signature is intentionally minimal.
-- **Risk**: If a future BM adds a section key that is already a Vietnamese noun (e.g. `caseInfo` mapping to `"Thông tin v? án"`) but in a different register, the locked brief value is the source of truth. If the value is wrong, B2 must be amended by editing `section-titles.ts` directly.
+- **Risk**: If a future BM adds a section key that is already a Vietnamese noun (e.g. `caseInfo` mapping to `"Th?ng tin v? ?n"`) but in a different register, the locked brief value is the source of truth. If the value is wrong, B2 must be amended by editing `section-titles.ts` directly.
 
 ### Next step
 
-B3 ? `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 §B3 (and the B2 brief's scope correction). Stop after B2.
+B3 ? `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 ?B3 (and the B2 brief's scope correction). Stop after B2.
 
 
 ## Task B3. `GET /documents/generated/:id/form-schema` endpoint + minimal UI wiring
@@ -554,7 +554,7 @@ B3 ? `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 §B
 
 ### Files changed
 
-- `packages/form-contracts/src/section-titles.ts` ? added two high-frequency section keys surfaced by the B2 corpus scan: `official: "Thông tin ng??i có th?m quy?n"`, `person: "Thông tin cá nhân"`. Fallback behavior unchanged.
+- `packages/form-contracts/src/section-titles.ts` ? added two high-frequency section keys surfaced by the B2 corpus scan: `official: "Th?ng tin ng??i c? th?m quy?n"`, `person: "Th?ng tin c? nh?n"`. Fallback behavior unchanged.
 - `packages/form-contracts/test/section-titles.test.ts` ? extended the "known keys" test to assert the two new Vietnamese titles.
 - `apps/api/src/modules/form-studio/application/document-form-schema.service.ts` *(new)* ? read-only `getFormSchema(documentId, user)` that resolves the active compiled contract, runs `deriveFormInputSchema`, and assembles `values` / `resolvedValues` / `validation.missingRequiredFields`. Includes a small V2?V1 mapper for the compiled contract shape that `deriveFormInputSchema` consumes.
 - `apps/api/src/modules/form-studio/application/document-form-schema.service.spec.ts` *(new)* ? 10 unit tests covering: locked response shape, `formInputs` round-trip, `REQUIRED` errors for missing editable required fields, no-required for readonly (`casePayload`/`computed`) fields, missing-snapshot tolerance, 404 `GENERATED_DOCUMENT_NOT_FOUND`, 403 `AGENCY_SCOPE_FORBIDDEN`, ADMIN bypass, resolvedValues for visible fields, Vietnamese title propagation.
@@ -562,7 +562,7 @@ B3 ? `/documents/generated/:id/form-schema` endpoint wiring. Per PLAN.md v2.3 §B
 - `apps/api/src/modules/form-studio/form-studio.module.ts` ? registered `DocumentFormSchemaService` as a provider and `DocumentFormSchemaController` as a controller.
 - `apps/web/src/lib/form-schema-client.ts` *(new)* ? typed client (`FormSchemaResponse`, `fetchFormSchema`) plus pure helpers `getValueByPath`, `setValueByPath`, `partitionSchemaFields`. Types are sourced from `@qllaw/form-contracts` so the web and api share one source of truth.
 - `apps/web/src/lib/form-schema-client.test.ts` *(new)* ? 13 unit tests for the helpers and the response unwrap.
-- `apps/web/src/components/documents/generic-template-form-inputs.tsx` ? minimal dynamic-schema wiring: on load the panel fetches `GET /documents/generated/:id/form-schema` in parallel with the existing render-payload fetch. When the schema is non-empty, sections/fields are driven by `schema.sections`. Editable fields bind to `values[field.path]`, readonly visible fields render a `ReadonlyPreview` from `resolvedValues[field.path]`. The legacy 3-`SectionCard` view is kept as the fallback when the endpoint fails, the schema is empty, or there are no visible editable fields. The existing save payload shape and deep-merge semantics are unchanged ? when the panel is in dynamic mode it just sends `dynamicValues` (built by `setValueByPath` from the editable field paths) under `formInputs` / `payloadOverrides` / `renderPayloadOverrides`. The "L?y t? v? án" button is disabled in dynamic mode to avoid confusing the user (the legacy `applyCasePayloadToGenericForm` only knows the legacy 6-section shape).
+- `apps/web/src/components/documents/generic-template-form-inputs.tsx` ? minimal dynamic-schema wiring: on load the panel fetches `GET /documents/generated/:id/form-schema` in parallel with the existing render-payload fetch. When the schema is non-empty, sections/fields are driven by `schema.sections`. Editable fields bind to `values[field.path]`, readonly visible fields render a `ReadonlyPreview` from `resolvedValues[field.path]`. The legacy 3-`SectionCard` view is kept as the fallback when the endpoint fails, the schema is empty, or there are no visible editable fields. The existing save payload shape and deep-merge semantics are unchanged ? when the panel is in dynamic mode it just sends `dynamicValues` (built by `setValueByPath` from the editable field paths) under `formInputs` / `payloadOverrides` / `renderPayloadOverrides`. The "L?y t? v? ?n" button is disabled in dynamic mode to avoid confusing the user (the legacy `applyCasePayloadToGenericForm` only knows the legacy 6-section shape).
 
 ### Endpoint
 
@@ -624,7 +624,7 @@ The V2 compiled contract is mapped to a V1-shaped object before `deriveFormInput
 - Sections iterate over `schema.sections` (preserves the locked V1 first-occurrence order ? same as B1). Each `SectionCard` shows editable fields via the existing `Field` component (with the existing `text`/`date`/`textarea` mapping from `FormInputField.inputType`) and readonly fields via a new `ReadonlyPreview` component (visually distinct: slate background, no focus ring).
 - Required editable fields get a `*` suffix on the label; readonly fields have no `*`.
 - `validation.missingRequiredFields` from the GET response is fed into the existing `structuredErrors` state (re-using the A3 `StructuredValidationErrorList`). On save, the A2 backend response overrides it with the canonical A2 `errors[]` (still using the same state), so there is no UI duplication.
-- The "L?y t? v? án" button is disabled in dynamic mode because the legacy `applyCasePayloadToGenericForm` operates on the hard-coded 6-section shape, which is not present in dynamic mode. Tooltip explains why. Re-enabling it for dynamic mode belongs to a future B3.x / Phase F.
+- The "L?y t? v? ?n" button is disabled in dynamic mode because the legacy `applyCasePayloadToGenericForm` operates on the hard-coded 6-section shape, which is not present in dynamic mode. Tooltip explains why. Re-enabling it for dynamic mode belongs to a future B3.x / Phase F.
 
 ### Fallback behavior
 
@@ -687,7 +687,7 @@ Per PLAN.md v2.3 sequencing, the next task is either **B4** (deeper dynamic-sche
 | `officialConfig` | `officialConfig` | false | true | `READONLY_PREVIEW` | `OFFICIAL_CONFIG` | none |
 | `systemDate` | `systemDate` | false | true | `READONLY_PREVIEW` | `SYSTEM_DATE` | none |
 | `computed` | `computed` | false | **false** | `INTERNAL_RENDER_ONLY` | `COMPUTED` | none |
-| `"unknown"` (literal) | `manual` | true | true | `USER_INPUT` | undefined | `UNKNOWN_SOURCE_NORMALIZED` with `path = field.path`, message = `Tr??ng "<path>" có source không h?p l? ("unknown") ?ã ???c chu?n hoá v? "manual".` |
+| `"unknown"` (literal) | `manual` | true | true | `USER_INPUT` | undefined | `UNKNOWN_SOURCE_NORMALIZED` with `path = field.path`, message = `Tr??ng "<path>" c? source kh?ng h?p l? ("unknown") ?? ???c chu?n ho? v? "manual".` |
 | any unrecognized string (e.g. `"constantFromDocx"`, `"derived"`, `"legacyConstant"`) | `manual` | true | true | `USER_INPUT` | undefined | same `UNKNOWN_SOURCE_NORMALIZED` with the actual original string interpolated in the message |
 
 The warning always carries both `path` and a non-empty Vietnamese `message`; the message includes the offending path so FE / audit tooling can show it without a second lookup. This is asserted by the new `invalid source normalizes to manual and emits UNKNOWN_SOURCE_NORMALIZED` test (which also covers the unrecognized-but-not-`"unknown"` case via `source: "legacyConstant"`) and re-checked across the locked corpus by the second new audit test.
@@ -700,7 +700,7 @@ The audit walks `docs/audit/docx/contracts/locked/` and reports:
 {
   "totalContracts": 213,
   "totalUnknownSourceFields": 16,
-  "totalInvalidSourceFields": 99,   // 90 × "constantFromDocx" + 9 × "derived"
+  "totalInvalidSourceFields": 99,   // 90 ? "constantFromDocx" + 9 ? "derived"
   "totalTableRenderBindings": 0,
   "unknownSourceFields": [ /* 16 entries */ ],
   "invalidSourceFields": [ /* 99 entries */ ],
@@ -711,7 +711,7 @@ The audit walks `docs/audit/docx/contracts/locked/` and reports:
 Highlights from the corpus walk:
 
 - **Unknown source (16 fields)**: All use the literal string `"unknown"`. Examples: `BM-051/document.fullDocumentCode`, `BM-052/document.fullDocumentCode`, `BM-052/document.fullDocumentCode2`, `BM-060/document.fullDocumentCode`, `BM-061/document.fullDocumentCode`, `BM-062/decision.decisionLine`, `BM-062/document.fullDocumentCode`, `BM-063/document.issuePlaceAndDateLine`, `BM-063/document.fullDocumentCode`, `BM-064/document.fullDocumentCode`. B1's normalization already covers all 16.
-- **Invalid source (99 fields)**: `constantFromDocx` × 90 (concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`) and `derived` × 9. Examples: `BM-003/legalBasis.procedureArticlesLine`, `BM-005/sourceVerification.procedureArticlesLine`, `BM-007/legalBasis.procedureArticlesLine`, `BM-009/sourceResolutionExtension.procedureArticlesLine`, `BM-011/legalBasis.procedureArticlesLine`, `BM-021/agency.parentNameUpper`. Each is currently normalized to `manual` + `UNKNOWN_SOURCE_NORMALIZED` by B1, but the underlying source value is a domain signal that should be remapped to one of the recognized sources ? owned by **C3**.
+- **Invalid source (99 fields)**: `constantFromDocx` ? 90 (concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`) and `derived` ? 9. Examples: `BM-003/legalBasis.procedureArticlesLine`, `BM-005/sourceVerification.procedureArticlesLine`, `BM-007/legalBasis.procedureArticlesLine`, `BM-009/sourceResolutionExtension.procedureArticlesLine`, `BM-011/legalBasis.procedureArticlesLine`, `BM-021/agency.parentNameUpper`. Each is currently normalized to `manual` + `UNKNOWN_SOURCE_NORMALIZED` by B1, but the underlying source value is a domain signal that should be remapped to one of the recognized sources ? owned by **C3**.
 - **TABLE renderBindings (0)**: The current V1 locked corpus has zero TABLE bindings. The audit's `looksLikeTableBinding()` detector still defines three heuristics (V2 `target.kind === "TABLE"`, V1 `transform === "table"`, V1 `slotId` ending in `.table` or `.rows`) so a future C3 introduction of a TABLE binding will be surfaced without code changes. A synthetic fixture in the audit test asserts the detector works against a TABLE-shaped V1 binding.
 
 Per the B4 brief the audit is intentionally non-blocking ? it never fails the suite. Remediation of the 99 invalid source values and any TABLE bindings that appear in the future is owned by **C3**, not by B4. B4 only proves the report shape and that B1's normalization continues to apply deterministically across the corpus.
@@ -753,10 +753,10 @@ The B4 brief considered adding a new `TABLE_BINDING_UNSUPPORTED` schema warning 
 
 B4 reported 16 `source: "unknown"` fields but also discovered 99 additional invalid source values:
 
-- `constantFromDocx` × 90 ? concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`. Semantically these are constants extracted from the DOCX template, not user input. Mapping them to `manual` (editable) is dangerous: the user can edit text that the contract intended as fixed, breaking the legal-basis wording. C3 must remap them to either `officialConfig` or a new render-only field kind, not to `manual`.
-- `derived` × 9 ? these are values computed from other fields at render time. Mapping them to `manual` makes the user re-enter values the renderer can already compute, which is double-work. C3 must map these to `computed`.
+- `constantFromDocx` ? 90 ? concentrated on `legalBasis.procedureArticlesLine` and `agency.parentNameUpper`. Semantically these are constants extracted from the DOCX template, not user input. Mapping them to `manual` (editable) is dangerous: the user can edit text that the contract intended as fixed, breaking the legal-basis wording. C3 must remap them to either `officialConfig` or a new render-only field kind, not to `manual`.
+- `derived` ? 9 ? these are values computed from other fields at render time. Mapping them to `manual` makes the user re-enter values the renderer can already compute, which is double-work. C3 must map these to `computed`.
 
-**Effective C3 scope**: 16 unknown + 90 constantFromDocx + 9 derived = **115 source fields** across the corpus, not 16. PLAN.md §C3 wording must be amended from "Remediate 16 source=unknown" to "Remediate 115 invalid/unknown source fields" before C3 starts.
+**Effective C3 scope**: 16 unknown + 90 constantFromDocx + 9 derived = **115 source fields** across the corpus, not 16. PLAN.md ?C3 wording must be amended from "Remediate 16 source=unknown" to "Remediate 115 invalid/unknown source fields" before C3 starts.
 
 Until C3 ships, the schema layer normalizes all 115 to `manual` with `UNKNOWN_SOURCE_NORMALIZED` warnings. This is the safe conservative behavior (the user can still type values and the form is still saved) but it is the wrong long-term answer. The C3 gate must require `source` to be a member of `VALID_SOURCES` across all 213 contracts before `gate:forms:213` is allowed to drop `--allow-source-*` flags.
 
@@ -838,7 +838,7 @@ Highlights:
 - **115 `UNKNOWN_SOURCE_NORMALIZED` warnings** ? this number equals exactly `16 unknown + 90 constantFromDocx + 9 derived`. E1 independently reproduces B4's count from the runtime side and **locks it in** as a C3 deliverable.
 - **`BOUND_SLOT_MISSING_FIELD = 0`** ? every binding in the corpus is matched by a canonical field. This means the binding-fallback layer is currently a no-op for the V1 corpus, which is the desired steady state.
 - **`REJECTED_AS_EDITABLE = 0`** ? no rejected candidate was emitted as editable. B1's reject suppression works as designed across the full corpus.
-- **`agency` × 212 and `document` × 202** confirm that these two sections are universal. The next 8 (`recipients` × 107, `signature` × 68, `legalBasis` × 54, `official` × 49, `person` × 35, `decision` × 15, `caseDecision` × 14, `measure` × 11) give C3 a prioritized list for SECTION_TITLES extensions.
+- **`agency` ? 212 and `document` ? 202** confirm that these two sections are universal. The next 8 (`recipients` ? 107, `signature` ? 68, `legalBasis` ? 54, `official` ? 49, `person` ? 35, `decision` ? 15, `caseDecision` ? 14, `measure` ? 11) give C3 a prioritized list for SECTION_TITLES extensions.
 - **53 unique-to-template section keys** (e.g. `BM-001/informant`, `BM-002/reporter`, `BM-005/sourceVerification`, ...) ? these are real but narrow. The corpus report surfaces them for future B2.x / SECTION_TITLES extension work.
 
 ### Commands run
@@ -866,11 +866,11 @@ Highlights:
 - **Open**: The 115 `UNKNOWN_SOURCE_NORMALIZED` warnings are still flowing through to the UI as editable manual inputs. C3 is the right place to fix this ? E1 deliberately does not touch production code. Until C3 ships, a user could edit `legalBasis.procedureArticlesLine` or `agency.parentNameUpper` (both currently `constantFromDocx`) and break the legal-basis wording. The UI should at minimum show a warning badge for any field with `UNKNOWN_SOURCE_NORMALIZED`; that wiring is a candidate for a future E1.x task.
 - **Open**: The corpus report is `console.log`'d on test run. If a future CI step wants the report as a JSON artifact (rather than stdout), a `scripts/audit/schema-conformance-report.mjs` wrapper can call the same `deriveSafely` logic. The walker is pure and re-usable.
 - **Open**: The "100% required manual editable fields must be visible" assertion (spec #10) currently passes 100% because B1 defaults `unknown ? editable + visible`. After C3 fixes the source taxonomy, a `casePayload`/`agencyConfig` field marked `required` by a contract will be visible=true (because B1's `READONLY_PREVIEW` rule applies) but not editable ? which is the correct UI affordance. E1 already asserts this invariant per-field, so C3 cannot regress it silently.
-- **Risk**: If a future BM adds a `section title` key that no test ever references, E1 will still pass (because `getSectionTitle` falls back via `humanizeSectionKey`). The corpus report's `unmappedSectionKeysCount` (currently 53) is the right signal for SECTION_TITLES follow-up, but it is informational only ? E1 does not fail on unmapped keys, by design (PLAN.md v2.3 §B2: "KHÔNG assert 'm?i key ph?i có trong SECTION_TITLES map'").
+- **Risk**: If a future BM adds a `section title` key that no test ever references, E1 will still pass (because `getSectionTitle` falls back via `humanizeSectionKey`). The corpus report's `unmappedSectionKeysCount` (currently 53) is the right signal for SECTION_TITLES follow-up, but it is informational only ? E1 does not fail on unmapped keys, by design (PLAN.md v2.3 ?B2: "KH?NG assert 'm?i key ph?i c? trong SECTION_TITLES map'").
 
 ### Next step
 
-**E2 ? DOCX render integration for 6 representative BMs** (per PLAN.md v2.3 §E2 and §10.4). E2 builds on E1: schemas derived here are the input to deterministic mock value generation, then the renderer is exercised with `pnpm test:api -- renderer-integration`. E2 must NOT relax the smoke rules from correction #8 (deterministic mock values for every required manual field before render). Stop after E2.
+**E2 ? DOCX render integration for 6 representative BMs** (per PLAN.md v2.3 ?E2 and ?10.4). E2 builds on E1: schemas derived here are the input to deterministic mock value generation, then the renderer is exercised with `pnpm test:api -- renderer-integration`. E2 must NOT relax the smoke rules from correction #8 (deterministic mock values for every required manual field before render). Stop after E2.
 
 ## Task E2. DOCX render integration for 6 representative BMs
 
@@ -1005,7 +1005,7 @@ Aggregate:
 
 ### Next step
 
-**F1 ? Slot inventory + extraction mapping** (per PLAN.md v2.3 §F1 and §10.5). F1 walks every locked contract + its normalized DOCX and produces a per-template slot inventory: which `{{...}}` placeholders exist, which canonical field each one binds to, and where literal `}}` patterns live (the BM-051 defect is the first concrete case). F1 unblocks F2 (header/footer fidelity) and F4 (extraction parity). E2's findings (BM-051 `}}` literal, BM-100/BM-200 zero manual fields) feed directly into the F1 inventory. Stop after F1.
+**F1 ? Slot inventory + extraction mapping** (per PLAN.md v2.3 ?F1 and ?10.5). F1 walks every locked contract + its normalized DOCX and produces a per-template slot inventory: which `{{...}}` placeholders exist, which canonical field each one binds to, and where literal `}}` patterns live (the BM-051 defect is the first concrete case). F1 unblocks F2 (header/footer fidelity) and F4 (extraction parity). E2's findings (BM-051 `}}` literal, BM-100/BM-200 zero manual fields) feed directly into the F1 inventory. Stop after F1.
 
 ## Task F1. DOCX slot inventory + placeholder syntax audit (213/213)
 
@@ -2488,4 +2488,66 @@ Do not apply fixes in this task.
 3. Manual-fix: REMEDIATION_LEAK (73, Wave 02 DOCX), COMPILED_DRIFT (765)
 
 Do not apply fixes in this task.
+
+---
+
+## FORMS_ROOT_CAUSE_FIX_PLAN
+
+**Status**: DONE
+
+**Description**: Created fix plan script that classifies all 3,480 v2 audit issues into 6 actionable buckets. Strict noise filtering applied: SHOULD_BE_READONLY noise (source already correct) classified as DO_NOT_FIX_NOISE_OR_DERIVED; COMPILED_DRIFT label drift classified as noise; generic RAW_PATTERN_DOMAIN_MISMATCH with fieldN suggestedPath held for review.
+
+### Changes
+
+- `scripts/audit/plan-forms-root-cause-fixes.mjs` (new) ? classification engine for all 10 issue codes
+- `package.json` ? added `pnpm plan` and `pnpm plan:forms-root-cause-fixes`
+- `docs/audit/forms-root-cause-fix-plan/` (new directory) ? 7 output files
+
+### Classification Results
+
+| Classification | Count | % |
+|---|---|---|
+| AUTO_FIX_CANDIDATE | 141 | 4% |
+| REVIEW_FIX_CANDIDATE | 1,862 | 54% |
+| MANUAL_LEGAL_REVIEW | 468 | 13% |
+| DO_NOT_FIX_NOISE_OR_DERIVED | 909 | 26% |
+| BLOCKED_BY_DOCX_AUTHORING | 100 | 3% |
+| BLOCKED_BY_COMPILED_DRIFT_REBUILD | 0 | 0% |
+| **UNCLASSIFIED** | **0** | **0%** |
+
+### AUTO_FIX_CANDIDATE Breakdown
+
+| issueCode | Count |
+|---|---|
+| BAD_LABEL | 64 |
+| UI_VISIBLE_BAD_METADATA | 18 |
+| RAW_PATTERN_DOMAIN_MISMATCH | 10 |
+| GENERIC_FIELD_CANONICALIZATION | 34 |
+| REMEDIATION_LEAK | 15 |
+
+All 141 auto-fix candidates have applySafe=true.
+
+### NOISE Breakdown
+
+| issueCode | Count | Reason |
+|---|---|---|
+| COMPILED_DRIFT (label drift) | 728 | Label drift between locked/compiled is compilation artifact |
+| SHOULD_BE_READONLY | 181 | Source already correct (agencyConfig/officialConfig/systemDate/computed) |
+
+### BM-050 Plan Summary
+
+22 issues classified: AUTO_FIX candidates for bad labels with known overrides; REVIEW_FIX for SOURCE_MISMATCH on agency fields; NOISE for SHOULD_BE_READONLY where source=agencyConfig already; MANUAL_LEGAL for legalBasis fields.
+
+### BM-068 Plan Summary
+
+36 issues classified: BLOCKED_DOCX for Wave 02 remediation leaks without known path; REVIEW_FIX for SOURCE_MISMATCH and REQUIRED_SUSPICIOUS; MANUAL_LEGAL for legalBasis fields. No blind auto-fix applied.
+
+### Exit Behavior
+
+- `pnpm plan` exits 0 (report generated)
+- `pnpm plan:forms-root-cause-fixes` exits 0 (unclassifiedCount=0, all applySafe=true)
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES**: 141 AUTO_FIX_CANDIDATE items with applySafe=true are ready for safe, non-destructive application to locked contracts. Regenerate compiled-v2 after changes.
 
