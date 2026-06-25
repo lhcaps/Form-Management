@@ -3353,15 +3353,25 @@ This is correct behavior ? these require human review to determine correct Vietn
 
 ### Verdict
 
-**PASS** ? Batch 2 review plan generated correctly. 50 groups prepared for human review. Apply-preview is empty (no deterministic candidates qualify for auto-apply).
+**PASS** ? Batch 2 review plan generated correctly. 50 groups prepared for human review. Apply-preview was empty.
+
+### Decisions and Apply Results
+
+The Batch 2 decisions were reviewed and applied in a controlled follow-up:
+
+- **decisions.approved.json** created: 50 decisions total
+  - 2 APPROVED_FOR_APPLY: B2RG-015 (BM-002 agency.bodyName "T?n c? quan"), B2RG-037 (BM-003 signature.signMode "Ph??ng th?c k?")
+  - 48 DEFER_METADATA_REVIEW (all non-deterministic candidates deferred)
+- **apply script**: `scripts/audit/apply-forms-root-cause-review-batch-2-approved.mjs`
+- **applied**: 2 label-only mutations
+- **idempotency check**: PASS
+- **validation**: 9/9 commands exit 0
+- **delta**: totalIssues 3458 ? 3456 (-2), BAD_LABEL 451 ? 449 (-2), UI_VISIBLE_BAD_METADATA 94 ? 92 (-2)
+- **backup**: `docs/audit/forms-root-cause-review-batch-2/apply-approved/backups/`
 
 ### Recommended Next Task
 
-**FORMS_ROOT_CAUSE_REVIEW_BATCH_2_DECISIONS**: Human reviewer reviews the decision sheet (`docs/audit/forms-root-cause-review-batch-2/decision-sheet.md`) and produces `docs/audit/forms-root-cause-review-batch-2/decisions.approved.json`. After approval:
-1. `pnpm apply:forms-root-cause-review-batch-2-approved` (after decisions exist)
-2. `pnpm validate`
-3. `pnpm --filter @qllaw/form-contracts test`
-4. `pnpm typecheck`
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_3**: Continue human review of remaining deferred groups. From 1868 REVIEW_FIX_CANDIDATE items not yet reviewed, identify the next high-confidence, label-only, non-legal, non-DOCX subset for Batch 3 review planning.
 
 ---
 
@@ -3439,4 +3449,4 @@ All 9 commands exit 0. No failures. No substitutions. No downgrades.
 
 ### Recommended Next Task
 
-**FORMS_ROOT_CAUSE_REVIEW_BATCH_2_DECISIONS**: Human reviewer reviews the decision sheet and produces `decisions.approved.json`. See Batch 2 section above for full next-step instructions.
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_3**: Continue human review of remaining deferred groups from the fix-plan. Prioritize next deterministic label-only candidates for Batch 3.
