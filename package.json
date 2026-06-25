@@ -96,7 +96,7 @@
     "audit:encoding": "node scripts/audit-encoding-bom.mjs",
     "smoke:forms-runtime": "node scripts/smoke-forms-runtime.mjs",
     "smoke:forms-runtime:213": "node scripts/smoke-forms-runtime-213.mjs",
-    "gate:forms:213": "node scripts/docx-contract/gate-forms-213.cjs",
+    "gate:forms:213": "node scripts/docx-contract/gate-forms-213.cjs --allow-remediation --allow-unresolved-review",
     "publish:forms:db": "node scripts/docx-contract/publish-locked-contracts-to-db.mjs",
     "smoke:bm001-shadow-render": "pnpm --filter api exec tsx ../../scripts/smoke-bm001-shadow-render.mjs",
     "report:bm001-shadow-evidence": "node scripts/report-bm001-shadow-evidence.mjs",

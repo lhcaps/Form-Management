@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-24T17:56:28.310Z
+Generated: 2026-06-25T16:26:35.469Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,8 +8,8 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 7** (requires DOCX edit, non-blocking)
-- **Warning: 70** (metadata completeness, non-blocking)
+- **Remediation: 8** (requires DOCX edit, non-blocking)
+- **Warning: 85** (metadata completeness, non-blocking)
 
 ## Remediation Required (DOCX editing needed)
 
@@ -30,16 +30,14 @@ _placeholders before these slots can be fully verified._
   - document.fullDocumentCode2
 - ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
   - document.fullDocumentCode2
+- ⚠️ [BM-167] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
+  - document.fullDocumentCode2
 
 ## Notes (Audit Policy Suppressions)
 
 _Items previously flagged as remediation but now accepted per active audit policies (Phase F)._
 _No DOCX changes required._
 
-- ℹ️ [BM-031] ACCEPTED_METADATA_ONLY_FIELD
-  - agency.bodyName
-- ℹ️ [BM-031] ACCEPTED_METADATA_ONLY_FIELD
-  - agency.bodyName
 - ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
   - document.issueDate
 - ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
@@ -66,86 +64,79 @@ _No DOCX changes required._
 _These are non-blocking. They indicate metadata that needs human review_
 _but does not prevent runtime rendering._
 
-- ℹ️ [BM-051] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown
+- ℹ️ [BM-021] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-021] Non-taxonomy source "computed": agency.nameUpper
+- ℹ️ [BM-021] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-021] Non-taxonomy source "computed": decision.summaryLine
+- ℹ️ [BM-022] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-024] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-024] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-025] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-025] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-026] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-032] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-032] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-033] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-034] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-034] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-035] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-036] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-036] Non-taxonomy source "computed": document.issueDate
+- ℹ️ [BM-036] Non-taxonomy source "computed": decision.summaryLine
+- ℹ️ [BM-038] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-039] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-041] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-041] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-044] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-045] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, decision.decisionLine3, document.fullDocumentCode, decision.decisionLine3
 - ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine3, document.fullDocumentCode
-- ℹ️ [BM-051] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode
-- ℹ️ [BM-052] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown, document.fullDocumentCode2:unknown
 - ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.fullDocumentCode2, decision.decisionLine2, recipients.personLine6, document.fullDocumentCode, document.fullDocumentCode2, decision.decisionLine2, recipients.personLine6
 - ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine2, document.fullDocumentCode, document.fullDocumentCode2, recipients.personLine6
-- ℹ️ [BM-052] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode, document.fullDocumentCode2
-- ℹ️ [BM-060] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown
+- ℹ️ [BM-058] Non-taxonomy source "computed": document.issuePlaceAndDateLine
+- ℹ️ [BM-058] Non-taxonomy source "computed": person.dateOfBirthText
+- ℹ️ [BM-058] Non-taxonomy source "computed": measure.detentionFromDateText
+- ℹ️ [BM-058] Non-taxonomy source "computed": measure.detentionToDateText
 - ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, decision.decisionLine10, document.fullDocumentCode, decision.decisionLine10
 - ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine10, document.fullDocumentCode
-- ℹ️ [BM-060] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode
-- ℹ️ [BM-061] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown
 - ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, recipients.personLine3, document.fullDocumentCode, recipients.personLine3
 - ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, recipients.personLine3
-- ℹ️ [BM-061] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode
-- ℹ️ [BM-062] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, document.fullDocumentCode, decision.decisionLine11, recipients.personLine5, decision.decisionLine, document.fullDocumentCode, decision.decisionLine11, recipients.personLine5
 - ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, decision.decisionLine11, document.fullDocumentCode, recipients.personLine5
-- ℹ️ [BM-062] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine, document.fullDocumentCode
-- ℹ️ [BM-063] UNKNOWN_FIELD_SOURCE
-  - document.issuePlaceAndDateLine:unknown, document.fullDocumentCode:unknown
+- ℹ️ [BM-062] Non-taxonomy source "computed": decision.decisionLine
 - ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
   - document.issuePlaceAndDateLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine5, document.issuePlaceAndDateLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine5
 - ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.fullDocumentCode8, document.issuePlaceAndDateLine, recipients.personLine5
-- ℹ️ [BM-063] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode, document.issuePlaceAndDateLine
-- ℹ️ [BM-064] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown
+- ℹ️ [BM-063] Non-taxonomy source "computed": document.issuePlaceAndDateLine
 - ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.issueDate4, document.fullDocumentCode, document.issueDate4
 - ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.issueDate4
-- ℹ️ [BM-064] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode
-- ℹ️ [BM-065] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine:unknown, document.fullDocumentCode:unknown
 - ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
 - ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
-- ℹ️ [BM-065] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine, document.fullDocumentCode
-- ℹ️ [BM-066] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine:unknown, document.fullDocumentCode:unknown
+- ℹ️ [BM-065] Non-taxonomy source "computed": decision.decisionLine
 - ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
 - ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
   - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
-- ℹ️ [BM-066] UNKNOWN_FIELD_SOURCE
-  - decision.decisionLine, document.fullDocumentCode
-- ℹ️ [BM-067] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode:unknown, document.fullDocumentCode2:unknown
+- ℹ️ [BM-066] Non-taxonomy source "computed": decision.decisionLine
 - ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3, document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
 - ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
-- ℹ️ [BM-067] UNKNOWN_FIELD_SOURCE
-  - document.fullDocumentCode, document.fullDocumentCode2
 - ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province
 - ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
@@ -174,6 +165,7 @@ _but does not prevent runtime rendering._
   - document.fullDocumentCode, document.fullDocumentCode
 - ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode
+- ℹ️ [BM-126] Non-taxonomy source "computed": decision.summaryLine
 - ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
   - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber
 - ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
@@ -182,6 +174,9 @@ _but does not prevent runtime rendering._
   - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber
 - ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
   - case.caseNumber, document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName, person.province, person.ward
+- ℹ️ [BM-213] Non-taxonomy source "computed": document.issuePlaceAndDateLine
+- ℹ️ [BM-213] Non-taxonomy source "computed": person.dateOfBirthText
+- ℹ️ [BM-213] Non-taxonomy source "computed": person.identityIssueLine
 
 ## Per-file Summary
 
@@ -217,7 +212,7 @@ _but does not prevent runtime rendering._
 | BM-028 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-029 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-030 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
-| BM-031 | CONTRACT_REPAIR_REQUIRED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-031 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
 | BM-032 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-033 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
 | BM-034 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
@@ -237,8 +232,8 @@ _but does not prevent runtime rendering._
 | BM-048 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-049 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-050 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-051 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
-| BM-052 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-051 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 6 | 0 | 0 |
+| BM-052 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
 | BM-053 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-054 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-055 | VERIFIED | 33 | 33 | 33 | 0 | 0 | 0 | 0 |
@@ -246,14 +241,14 @@ _but does not prevent runtime rendering._
 | BM-057 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-058 | VERIFIED | 36 | 36 | 36 | 0 | 0 | 0 | 0 |
 | BM-059 | VERIFIED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
-| BM-060 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
-| BM-061 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 1 | 6 | 0 | 0 |
-| BM-062 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
-| BM-063 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
-| BM-064 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 1 | 6 | 0 | 0 |
-| BM-065 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
-| BM-066 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
-| BM-067 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 2 | 12 | 0 | 0 |
+| BM-060 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 6 | 0 | 0 |
+| BM-061 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 0 | 6 | 0 | 0 |
+| BM-062 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
+| BM-063 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
+| BM-064 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 6 | 0 | 0 |
+| BM-065 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
+| BM-066 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
+| BM-067 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 12 | 0 | 0 |
 | BM-068 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
 | BM-069 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
 | BM-070 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
@@ -353,7 +348,7 @@ _but does not prevent runtime rendering._
 | BM-164 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
 | BM-165 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-166 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
-| BM-167 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-167 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
 | BM-168 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-169 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
 | BM-170 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |

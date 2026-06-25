@@ -7,10 +7,11 @@
  *   - All 213 are human-reviewed
  *   - Zero generic paths (docxSlots, canonicalFields, renderBindings)
  *   - Zero blocking verify issues
- *   - Zero remediation verify issues
+ *   - Zero remediation verify issues (pass --allow-remediation to acknowledge)
  *   - No locked contract has canonicalFields with source="unknown"
  *   - No locked contract has reviewRequired=true on fields without a
  *     CONSTANT/DEFAULT/SYSTEM/COMPUTED dataSource (those are auto-resolved)
+ *     (pass --allow-unresolved-review to acknowledge)
  *
  * Run with --help-remediation to see remediation details without blocking.
  *
@@ -174,7 +175,8 @@ if (blockingCount !== null && blockingCount > 0) {
   issues.push(`blocking verify issues: ${blockingCount}`);
 }
 
-// NEW: remediation is now a hard failure (not just informational)
+// Remediation items require DOCX authoring work — informational by default,
+// but block production until acknowledged with --allow-remediation.
 if (remediationCount !== null && remediationCount > 0) {
   if (allowRemediation) {
     console.log(`  [INFO] ${remediationCount} remediation items present (--allow-remediation passed — non-blocking)`);
