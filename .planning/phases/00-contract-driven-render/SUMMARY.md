@@ -2352,3 +2352,76 @@ C3: Already applied on branch (0015cc37). Do not re-apply.
 2. C1 implementation: `apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts` ? verify on startup that `stableHash(compileContract(lockedFile))` matches `stableHash(DB.latestPublished.compiled_json)` for all BMs.
 3. Wire guard into `main.ts` `onModuleInit()` with `ALLOW_CONTRACT_DRIFT=1` bypass.
 
+## AUDIT_FORMS_ROOT_CAUSE
+
+**Status**: DONE (2026-06-26)
+
+### What this task does
+
+Scans all 213 locked form contracts for semantic/schema/UI metadata issues. Read-only audit. No contracts modified.
+
+### Audit results
+
+- **totalContracts**: 213
+- **totalFields**: 2,453
+- **totalIssues**: 1,567
+- **FAIL**: 603
+- **REVIEW**: 964
+
+### Issue counts
+
+| Issue Code | Count |
+|------------|-------|
+| BAD_LABEL | 499 |
+| RAW_PATTERN_DOMAIN_MISMATCH | 171 |
+| SOURCE_MISMATCH | 20 |
+| WEAK_EVIDENCE_AUTO_LOCKED | 0 |
+| GENERIC_FIELD_CANONICALIZATION | 0 |
+| UI_VISIBLE_BAD_METADATA | 0 |
+| COMPILED_DRIFT | 765 |
+| REQUIRED_SUSPICIOUS | 39 |
+| SHOULD_BE_READONLY | 0 |
+| REMEDIATION_LEAK | 73 |
+
+### BM-050 findings
+
+BM-050 has 4 FAILs across 3 canonicalFields:
+
+1. `agency.coQuan` ? label="Ô tr?ng" (BAD_LABEL), rawPattern={{decision.field2}}, source=agencyConfig
+   - Domain mismatch: rawPattern domain "decision" mapped to path domain "agency"
+   - Suggested: path=decision.requestingAgencyName, label="C? quan ra quy?t ??nh ?? ngh? phê chu?n", source=manual
+2. `agency.diaDanh` ? label="Ô tr?ng" (BAD_LABEL), rawPattern={{document.field3}}, source=agencyConfig
+   - Domain mismatch: rawPattern domain "document" mapped to path domain "agency"
+   - Suggested: path=document.issuePlaceDateLine, label="??a ?i?m, ngày l?p v?n b?n", source=manual
+3. `agency.coQuan` ? SOURCE_MISMATCH: agencyConfig source but decision domain
+4. `agency.diaDanh` ? SOURCE_MISMATCH: agencyConfig source but document domain
+Plus 3 COMPILED_DRIFT entries (count mismatch with compiled artifact).
+
+### BM-068 findings
+
+BM-068 has 13 FAILs:
+
+- 12 REMEDIATION_LEAK: many canonicalFields have label="Slot from Wave 02 DOCX remediation" ? internal metadata leaking to user-facing UI
+- 1 RAW_PATTERN_DOMAIN_MISMATCH: rawPattern={{document.field1}} but path=document.fullDocumentCode
+- 4 REQUIRED_SUSPICIOUS: signerName, idNumber, occupation, address fields have required=false but look required
+- Plus 1 COMPILED_DRIFT
+
+### Files changed
+
+- scripts/audit/audit-forms-root-cause.mjs (new)
+- package.json (added pnpm scripts)
+- docs/audit/forms-root-cause/latest.json (report)
+- docs/audit/forms-root-cause/latest.md (report)
+
+### Strict result
+
+`pnpm audit:forms-root-cause:strict` exits 1 as expected (603 FAIL issues found).
+
+### Recommended next task
+
+**FORMS_ROOT_CAUSE_FIX_PLAN**: After report review, create fix plan dividing issues into:
+1. Auto-fix: BAD_LABEL where path already has correct semantic mapping, path correction where domain mismatch is unambiguous
+2. Review-fix: SOURCE_MISMATCH where path is ambiguous, REQUIRED_SUSPICIOUS needing human review
+3. Manual-fix: REMEDIATION_LEAK where context needs DOCX reauthoring
+
+Do not apply fixes in this task.
