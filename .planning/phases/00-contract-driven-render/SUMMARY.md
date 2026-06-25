@@ -1007,5 +1007,139 @@ Aggregate:
 
 **F1 — Slot inventory + extraction mapping** (per PLAN.md v2.3 §F1 and §10.5). F1 walks every locked contract + its normalized DOCX and produces a per-template slot inventory: which `{{...}}` placeholders exist, which canonical field each one binds to, and where literal `}}` patterns live (the BM-051 defect is the first concrete case). F1 unblocks F2 (header/footer fidelity) and F4 (extraction parity). E2's findings (BM-051 `}}` literal, BM-100/BM-200 zero manual fields) feed directly into the F1 inventory. Stop after F1.
 
+## Task F1. DOCX slot inventory + placeholder syntax audit (213/213)
+
+**Status**: ⚠️ BLOCKED_BY_TEMPLATE_DEFECT — 200/213 PASS, 13/213 FAIL on `malformedPlaceholders` (2026-06-25)
+
+### Files changed
+
+- `scripts/audit/audit-docx-slot-inventory.mjs` *(new)* — the audit itself. Walks every locked contract + its normalized DOCX, computes slot inventory and placeholder-syntax findings, writes machine + human reports, exits 1 on FAIL (or 0 with `--report-only`).
+- `apps/api/src/modules/documents/rendering/infrastructure/docx-slot-inventory.spec.ts` *(new)* — focused jest spec that asserts the report's invariants (corpus size, BM-051 surface, no duplicates, no slot-without-binding). Companion to the audit script; the audit must run before this spec runs.
+- `docs/audit/docx-slot-inventory/latest.json` *(new, generated)* — machine-readable report.
+- `docs/audit/docx-slot-inventory/latest.md` *(new, generated)* — human summary.
+- `package.json` — added `audit:docx-slot-inventory` and `audit:docx-slot-inventory:report-only` scripts. No new dependency (PizZip already in `devDependencies` for the existing BM-001 shadow test).
+
+### Audit command(s)
+
+- `pnpm audit:docx-slot-inventory` — default: exit 0 on PASS, exit 1 on FAIL.
+- `pnpm audit:docx-slot-inventory:report-only` — exit 0 regardless of status; useful for CI dashboards that want the report but cannot block on F2 ownership.
+
+### Report paths
+
+- `docs/audit/docx-slot-inventory/latest.json` — full per-BM report.
+- `docs/audit/docx-slot-inventory/latest.md` — corpus totals + first-25 malformed placeholder samples + non-PASS BMs list.
+
+### Audit rules (implemented)
+
+PASS requires, per locked contract:
+
+1. The normalized DOCX template exists at `storage/templates/normalized-docx/<templateCode>/<templateCode>_normalized.docx` (or at the path declared in `extractionSource.relativePath`).
+2. `canonicalFields[*].path` is unique within the contract (no duplicates).
+3. Every `docxSlots[*]` has either a matching `renderBindings[*]` entry OR is in `rejectedCandidates` with a non-empty `reason`.
+4. No `rejectedCandidates[*]` entry is missing its `reason`.
+5. No malformed placeholder syntax in `word/document.xml`, `word/header*.xml`, `word/footer*.xml`, `word/footnotes*.xml`, `word/endnotes*.xml` — detected as `ORPHAN_CLOSING` (a `}}` without matching `{{`), `UNCLOSED_OPENING` (a `{{` without matching `}}`), or `TRIPLE_BRACE` (3+ consecutive `}` chars; the BM-051 defect class).
+
+FAIL triggers on any of: missing template, duplicate canonical paths, slot-without-binding-or-rejected-reason, rejected-without-reason, any malformed placeholder.
+
+### Corpus totals (this run)
+
+```
+totalContracts: 213
+totalTemplatesFound: 213
+totalTemplatesMissing: 0
+totalDocxSlots: 2453
+totalRenderBindings: 2453
+totalCanonicalFields: 2453
+malformedPlaceholdersCount: 107
+passCount: 200
+failCount: 13
+status: FAIL
+```
+
+### Non-PASS BMs (13)
+
+| templateCode | malformedPlaceholders | dominant kind |
+|--------------|-----------------------|---------------|
+| BM-031 | 2 | TRIPLE_BRACE |
+| **BM-051** | **4** | **TRIPLE_BRACE — E2's "Unopened tag" blocker** |
+| BM-052 | 9 | TRIPLE_BRACE |
+| BM-059 | 2 | TRIPLE_BRACE |
+| BM-060 | 11 | TRIPLE_BRACE |
+| BM-061 | 4 | TRIPLE_BRACE |
+| BM-062 | 18 | TRIPLE_BRACE |
+| BM-063 | 15 | TRIPLE_BRACE |
+| BM-064 | 5 | TRIPLE_BRACE |
+| BM-065 | 13 | TRIPLE_BRACE |
+| BM-066 | 10 | TRIPLE_BRACE |
+| BM-067 | 11 | TRIPLE_BRACE |
+| BM-167 | 3 | TRIPLE_BRACE |
+
+### BM-051 finding (explicit)
+
+BM-051 — the only BM that E2 currently cannot render — is now classified by F1 with **4 TRIPLE_BRACE** findings in `word/document.xml`:
+
+| offset | preview |
+|--------|---------|
+| 24 | `{{decision.decisionLine3}}}` |
+| 29321 | `…{{decision.decisionLine3}}}…` |
+| 29623 | `…{{decision.decisionLine3}}}…` |
+| 35403 | `…{{decision.decisionLine3}}}…` |
+
+The defect pattern is **`{{key}}}`** — the placeholder is well-formed on its open/close pair, but a literal `}` follows the `}}` close, producing three consecutive `}` chars. DocxTemplater's lexer sees `}}` as a tag close and the trailing `}` as a stray character — depending on the surrounding `<w:r>` / `<w:t>` structure, this is parsed as a malformed token (`Unopened tag`).
+
+### Whether F1 blocks F2
+
+**Yes, intentionally.** Per the F1 brief's brutal note, the audit must NOT allowlist BM-051. F1 stays `BLOCKED_BY_TEMPLATE_DEFECT` until one of:
+
+- **F2 fixes the template** — normalize BM-051's DOCX so `}}}` becomes `}}` (likely via `scripts/docx-contract/normalize-docx-format.mjs` + re-extraction + re-locking the contract).
+- **F2 configures DocxTemplater** to tolerate trailing `}` via a custom `nullGetter` / parser, and the F1 detector is widened to recognize the resulting lex as acceptable.
+
+F2 must explicitly state which approach it takes. F1 will continue to surface this until F2 ships.
+
+### Commands run + exit codes
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `node scripts/audit/audit-docx-slot-inventory.mjs` | 1 | 200/213 PASS, 13/213 FAIL on malformed placeholders. JSON + MD reports written. |
+| `node scripts/audit/audit-docx-slot-inventory.mjs --report-only` | 0 | Same report; --report-only exit 0 even on FAIL (for CI dashboards). |
+| `pnpm --filter api test -- --testPathPatterns=docx-slot-inventory` | 0 | 9/9 focused spec tests pass. BM-051 reported as FAIL with TRIPLE_BRACE; corpus size 213/213; no duplicates; no slot-without-binding. |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 47/47 pass (E1 + B1/B2/B4 regression intact). |
+| `pnpm --filter api test -- --testPathPatterns="document-form-schema\|form-studio"` | 0 | 6 suites / 34 tests pass. |
+| `pnpm --filter api test -- --testPathPatterns="documents" --testPathIgnorePatterns="representative-bms-render"` | 0 | 14 suites / 112 tests pass (F1 spec included; E2 spec excluded by design — its BM-051 fail is a known signal). |
+| `pnpm test:web-unit` | 0 | 59/59 pass. |
+| `pnpm typecheck` | 0 | Full monorepo (form-contracts + api + web) clean. |
+| `pnpm --filter api lint` | 0 | Production lint clean. F1 spec is ignored by ESLint config (warning, not error) — same as E2 spec, same as every other `*.spec.ts` in this package. |
+
+### Scope adherence
+
+- F1 does NOT render DOCX.
+- F1 does NOT fix BM-051 or any other template.
+- F1 does NOT modify any DOCX template.
+- F1 does NOT modify any locked contract JSON.
+- F1 does NOT implement F2/F3/F4/F5/F6.
+- F1 does NOT implement G semantic validation.
+- F1 does NOT remediate the 115 source fields.
+- F1 does NOT refactor `document-renderer.service.ts`.
+- F1 does NOT allowlist BM-051 — the failure is the signal.
+- No new dependency added.
+- No Prisma schema change. No public API change.
+
+### Risks / Open
+
+- **Open (F2-owned)**: 13 BMs (BM-031/051/052/059/060/061/062/063/064/065/066/067/167) carry `TRIPLE_BRACE` defects. F1 cannot classify whether each defect is benign (lexer survives) or fatal (lexer throws) without per-template rendering. F2 must inspect and either fix the templates or harden the renderer.
+- **Open (F2-owned)**: The decision tree for F2 — normalize during slot-inventory vs. configure DocxTemplater to tolerate trailing `}` — is not yet made. F1 makes the classification explicit but does not pick a side.
+- **Risk**: BM-100 and BM-200 still have 0 required manual editable fields (E2 finding). F1 slot inventory confirms they have 2-3 docxSlots and a matching number of canonicalFields, so this is a schema-level question (F5/C3), not a slot-inventory issue.
+- **Risk**: The TRIPLE_BRACE detector flags every `}}}{`-class pattern, including ones that may be benign in their specific `<w:r>` / `<w:t>` context. F2 will need to verify which of the 13 BMs actually break Docxtemplater and which are no-ops in practice. E2's render integration is the ground truth for "does it actually break"; F1's job is only to surface them.
+- **C3 follow-up**: The 107 malformed-placeholder findings do NOT intersect with the 115 `UNKNOWN_SOURCE_NORMALIZED` source warnings from E1 — they are independent defect classes. C3 does not own this; F2 does.
+
+### Next step
+
+**F1 is BLOCKED_BY_TEMPLATE_DEFECT — do NOT proceed to F2 without an explicit user decision.** Two paths forward, each requires user approval:
+
+- **Path A (preferred if F2 chooses normalize-first)**: `F1_FIX_BM051_TEMPLATE` — re-normalize the 13 affected DOCX templates (likely via `scripts/docx-contract/normalize-docx-format.mjs`), re-extract their structures, re-lock their contracts, then re-run F1. F1 must reach 213/213 PASS before F2 begins.
+- **Path B (preferred if F2 chooses renderer-hardening)**: `F2_TOLERATE_TRIPLE_BRACE` — extend `DocxtemplaterContractRenderEngine` to tolerate `}}}` (custom parser / `nullGetter`), then widen the F1 detector to recognize the resulting lex as acceptable. F1 will then PASS once F2 ships.
+
+Either way, **stop here** until the user picks a path. Do NOT auto-implement Path A or Path B.
+
 
 
