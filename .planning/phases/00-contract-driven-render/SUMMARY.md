@@ -1644,3 +1644,178 @@ All 8 regression gates pass:
 **Stop after F5. Do not proceed to F6/G/C.**
 
 **Proceed to F4 only if explicitly authorized.**
+
+---
+
+## Task K0. DOCX Fidelity Gate ? Audit Integrity & Runtime Parity
+
+**Status**: DONE (2026-06-25)
+
+### Why K0
+
+F1?F5 can report green but still miss real defects if:
+1. The audits are technically "correct" but not sensitive enough to catch real bugs.
+2. The audit render path differs from the production user render path.
+
+K0 is a **meta-audit** that verifies the audits themselves are trustworthy. Two layers:
+- **Mutation testing** ? deliberately break fixtures and assert audits catch it.
+- **Runtime parity** ? compare audit render path vs. fresh production render path.
+
+### Files changed
+
+- `scripts/audit/run-docx-fidelity-all.mjs` *(new)* ? meta-orchestrator, runs F1?F5 in sequence, exits non-zero if any fails.
+- `scripts/audit/verify-docx-audit-reports.mjs` *(new)* ? report freshness + coverage + counter verifier.
+- `scripts/audit/audit-docx-fidelity-mutations.mjs` *(new)* ? mutation tests (M1?M5).
+- `scripts/audit/audit-docx-runtime-parity.mjs` *(new)* ? runtime parity check (6 representative BMs).
+- `package.json` ? added 4 new `audit:docx-fidelity*` scripts.
+- `docs/audit/docx-runtime-parity/latest.json` / `latest.md` *(new)* ? parity report.
+- `docs/audit/source-remediation/source-remediation-proposal.json` / `.md` *(new)* ? source remediation proposal (C3-PREP output).
+
+### K0 Results
+
+| Component | Command | Result |
+|-----------|---------|--------|
+| Meta-orchestrator | `pnpm audit:docx-fidelity` | PASS ? F1:213/0/0, F2:213/0/0, F3:213/0/0, F4:212/1/0, F5:213/0/0 |
+| Verifier | `pnpm audit:docx-fidelity:verify` | PASS ? 31/31 checks: fresh reports, 213 coverage, counters, F4 review explained |
+| Mutations | `pnpm audit:docx-fidelity:mutations` | PASS ? 5/5: M1(F1), M2(F2), M3(F3), M4(F4), M5(F5) all correctly detect defects |
+| Parity | `pnpm audit:docx-fidelity:parity` | PASS ? 6/6 BMs: structure + text identical between audit cache and fresh render |
+| Typecheck | `pnpm typecheck` | PASS |
+
+### Mutation tests (5/5 PASS)
+
+| Mutation | Defect injected | Audit | Result |
+|----------|----------------|-------|--------|
+| M1 | `}}}}}` triple-brace injection into normalized DOCX | F1 slot inventory | F1 exit=1 ? |
+| M2 | 8 extra paragraphs added to normalized DOCX (--report-only mode) | F2 structural fidelity | F2 exit=1 ? |
+| M3 | `{{fake.unresolved}}` injection into normalized DOCX | F3 text fidelity | F3 exit=1 ? |
+| M4 | Slot key casing corruption (`{{receiver.fullName}}` ? broken) | F4 binding correctness | F4 exit=1 ? |
+| M5 | Synthetic `slotType=repeat` added to BM-001 contract JSON | F5 repeat blocks | F5 CONFIRMED ? |
+
+**M2 note**: In LIVE mode, F2 re-renders both sides from the same normalized DOCX, so mutations are mirrored on both sides ? delta=0. Solution: use `--report-only` mode which compares cached DOCX (pre-mutation) against mutated normalized ? real structural diff.
+
+### Runtime parity (6/6 PASS)
+
+| BM | Structure match | Text delta |
+|----|---------------|-----------|
+| BM-001 | 49p/2t | 0.0% |
+| BM-051 | 49p/2t | 0.0% |
+| BM-053 | 40p/3t | 0.0% |
+| BM-100 | 42p/2t | 0.0% |
+| BM-150 | 49p/2t | 0.0% |
+| BM-200 | 45p/3t | 0.0% |
+
+Audit-rendered DOCX (from F2 cache) matches fresh Docxtemplater render exactly.
+
+### K0 Verdict
+
+DOCX fidelity layer is trustworthy. After K0, remaining visible problems are UI/UX/schema-label issues, not DOCX fidelity problems.
+
+### F4 REVIEW item from K0
+
+F4 binding correctness found 1 REVIEW_REQUIRED item:
+- **BM-021**: `{{agency.nameUpper}}` left unreplaced (non-required slot, mock didn't fill it).
+
+This is a **smoke flag only** ? not a FAIL. It points to a `source=derived` classification issue (agency.nameUpper should be `computed`, not a manual field). Owned by Phase C3.
+
+---
+
+## Task C3-PREP. Source Remediation Proposal (115 + 1 fields)
+
+**Status**: DONE (2026-06-25)
+
+### Why C3-PREP
+
+After K0, the DOCX fidelity layer is locked. The remaining bottleneck is **form semantics** ? 115 canonical fields have invalid `source` values in locked contracts:
+- `source="unknown"` ? 16 fields, normalized to `manual` at runtime with a warning.
+- `source="constantFromDocx"` ? 90 fields, treated as `officialConfig` at runtime.
+- `source="derived"` ? 9 fields, treated as `computed` at runtime.
+
+Additionally, F4 found BM-021 `{{agency.nameUpper}}` (non-required, non-manual slot) unreplaced.
+
+C3-PREP generates a **deterministic proposal** mapping each invalid field to a VALID_SOURCES value. Do NOT apply automatically ? human review first.
+
+### Files changed
+
+- `scripts/audit/source-remediation-proposal.mjs` *(new)* ? proposal generator.
+- `docs/audit/source-remediation/source-remediation-proposal.json` *(new)* ? full proposal data.
+- `docs/audit/source-remediation/source-remediation-proposal.md` *(new)* ? human-readable proposal.
+- `package.json` ? added `audit:source-remediation:proposal` script.
+
+### Command
+
+```bash
+pnpm audit:source-remediation:proposal
+```
+
+### Proposal summary
+
+| Metric | Value |
+|--------|-------|
+| Contracts scanned | 213 |
+| Invalid source fields | 115 |
+| Binding review items | 1 (BM-021) |
+| **Total issues** | **116** |
+
+**By original source:**
+
+| Original | Count |
+|----------|-------|
+| constantFromDocx | 90 |
+| derived | 9 |
+| unknown | 16 |
+
+**By proposed source:**
+
+| Proposed | Count | Confidence HIGH | MEDIUM |
+|----------|-------|----------------|--------|
+| officialConfig | 66 | 61 | 5 |
+| computed | 37 | 19 | 18 |
+| manual | 12 | 0 | 12 |
+
+**Confidence:**
+
+| Level | Count |
+|-------|-------|
+| HIGH | 80 |
+| MEDIUM | 35 |
+| LOW | 0 |
+| Human review required | 0 |
+
+### Heuristic rules applied
+
+| Pattern | Proposed Source | Confidence |
+|---------|----------------|------------|
+| constantFromDocx + legalBasis.*Line | officialConfig | HIGH |
+| constantFromDocx + agency.*Upper | computed | HIGH |
+| constantFromDocx + agency.issuePlace | computed | HIGH |
+| constantFromDocx + decision.summaryLine | computed | HIGH |
+| constantFromDocx + caseDecision/accusedDecision.*Line | officialConfig | HIGH |
+| constantFromDocx + indictment.*Line | officialConfig | HIGH |
+| constantFromDocx + juvenileProtection.*Line | officialConfig | HIGH |
+| constantFromDocx + measure.detentionArticle*Line | officialConfig | HIGH |
+| derived + nameUpper | computed | HIGH |
+| derived + date patterns | computed | HIGH |
+| derived + *Line patterns | computed | HIGH |
+| unknown + document.*Code* | manual | HIGH |
+| unknown + decision.decisionLine | computed | HIGH |
+| unknown + issuePlaceAndDateLine | computed | HIGH |
+| unknown + other patterns | manual | LOW |
+
+### BM-021 proposals
+
+| path | originalSource | proposedSource | confidence | reason |
+|------|---------------|----------------|------------|--------|
+| agency.parentNameUpper | constantFromDocx | **computed** | HIGH | Uppercase transform of agency.parentName; computed, not manual. |
+| agency.nameUpper | derived | **computed** | HIGH | Uppercase transform of agency.name; computed, not user input. F4 review item will clear automatically. |
+| agency.issuePlace | constantFromDocx | **computed** | HIGH | Derived from agency config; not a free-form manual field. |
+| legalBasis.procedureArticlesLine | constantFromDocx | **officialConfig** | MEDIUM | Fixed legal procedure reference from DOCX template. |
+| decision.summaryLine | constantFromDocx | **computed** | HIGH | Summary line derived from decision data; not user-typed fixed text. |
+
+**BM-021 F4 binding review:** Status=REVIEW_REQUIRED because `{{agency.nameUpper}}` was left unreplaced. The `source=derived` classification means it's treated as `computed` at runtime ? the mock doesn't fill computed fields. Remediation: change `source` from `"derived"` to `"computed"` in the locked contract JSON.
+
+### Next step
+
+1. **User reviews** the proposal (especially MEDIUM-confidence items).
+2. If approved ? **C3-APPLY**: patch locked contract JSON files with corrected `source` values.
+3. After C3-APPLY ? re-run `pnpm audit:docx-fidelity` to confirm no regressions.
+4. BM-021 F4 review item should clear automatically after source correction.
