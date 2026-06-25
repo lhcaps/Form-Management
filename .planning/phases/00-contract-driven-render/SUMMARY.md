@@ -1457,4 +1457,91 @@ All 7 regression gates pass:
 - `pnpm audit:rendered-text-fidelity` ? exit 0, 213/213 PASS.
 - All regression commands ? exit 0.
 
+## Task F4. DOCX binding correctness audit (212/213 PASS, 1 REVIEW)
+
+**Status**: DONE (2026-06-25)
+
+### What F4 does
+
+F4 proves that deterministic field values (via `__FIELD_PATH__` markers) are rendered into the correct DOCX binding locations.
+
+Two tiers:
+1. **Representative BMs** (BM-001, BM-051, BM-053, BM-100, BM-150, BM-200): strict OOXML context check ? extracts full marker locations with `paragraphIndex`, `tableIndex`, `rowIndex`, `cellIndex`, and `nearbyTextBefore/After` from the rendered DOCX. Status: `STRICT_PASS` when context is proven, `FAIL` when marker missing.
+2. **Remaining 207 BMs**: text-level marker smoke check ? verifies every required+editable+manual marker appears at least once in rendered text.
+
+Mock strategy: `deriveFormInputSchema(contract)` + fill fields where `required === true && editable === true && source === 'manual'`. Non-required fields (e.g., `agency.nameUpper`) are left empty and their unreplaced tokens result in `REVIEW_REQUIRED` (not FAIL) because the mock deliberately did not fill them.
+
+### Files changed
+
+- `scripts/audit/audit-docx-binding-correctness.mjs` *(new)* ? F4 audit script.
+- `docs/audit/docx-binding-correctness/latest.json` *(new)* ? F4 audit report (JSON).
+- `docs/audit/docx-binding-correctness/latest.md` *(new)* ? F4 audit report (Markdown).
+- `.cache/f4-binding-docx/` *(new)* ? F4 rendered DOCX cache (213 files).
+- `package.json` ? added `test:docx-binding-correctness` and `test:docx-binding-correctness:report-only` scripts.
+
+### Command(s)
+
+- `pnpm test:docx-binding-correctness` ? render all 213 BMs and run binding correctness audit.
+- `pnpm test:docx-binding-correctness:report-only` ? read from `.cache/f4-binding-docx/`, exit 0.
+- `pnpm test:docx-binding-correctness --template-code BM-001` ? audit a single BM.
+
+### Corpus totals
+
+| Metric | Value |
+|--------|-------|
+| totalContracts | 213 |
+| renderedCount | 213 |
+| passCount | 212 |
+| reviewRequiredCount | 1 |
+| failCount | 0 |
+
+### Representative BM results
+
+| templateCode | status | reqFields | found | missing | xmlContext |
+|-------------|--------|-----------|-------|---------|------------|
+| BM-001 | PASS | 24 | 24 | 0 | PASS |
+| BM-051 | PASS | 0 | 0 | 0 | PASS |
+| BM-053 | PASS | 20 | 20 | 0 | PASS |
+| BM-100 | PASS | 0 | 0 | 0 | PASS |
+| BM-150 | PASS | 16 | 16 | 0 | PASS |
+| BM-200 | PASS | 0 | 0 | 0 | PASS |
+
+All 6 representative BMs: every required+editable+manual field's `__PATH__` marker found at the correct XML context location.
+
+### REVIEW_REQUIRED items
+
+| templateCode | reason |
+|-------------|--------|
+| BM-021 | 1 non-required placeholder (`{{agency.nameUpper}}`) left unreplaced. This field has `required=false, editable=true, source=manual` in the schema; the mock did not fill it because it is not required. This is a schema/renderer gap, not a render failure. C3 source remediation should decide whether this field should be required or source changed to `agencyConfig`. |
+
+### Key observations
+
+- **BM-051, BM-100, BM-200** have `requiredManualEditableFieldCount=0` ? these forms have no required manual editable fields, all fields are auto-populated (agencyConfig, casePayload, computed, etc.). Correctly audited as PASS with `NO_REQUIRED_MANUAL_FIELDS` logic.
+- **BM-001** has 24 required+editable+manual fields, all found in `document.xml` at expected paragraph/table cell locations. All 24 markers have multiplicity=1 (correct single-value fields).
+- The **non-required field gap** (BM-021's `agency.nameUpper`) is a schema-layer issue: the placeholder exists in the DOCX template but the schema marks it as `required=false`. When the renderer receives no value for this field, Docxtemplater leaves the placeholder as-is. This is a legitimate binding gap but not a render error.
+
+### Does F4 block F5 (repeat/table multiplicity)?
+
+**No.** F4 is GREEN (`failCount=0`). F5 (exact repeat/table row multiplicity) can proceed.
+
+### Regression
+
+All 8 regression gates pass:
+- `pnpm audit:docx-slot-inventory` ? exit 0, 213/213 PASS, malformedPlaceholdersCount = 0.
+- `pnpm test:docx-structural-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm audit:rendered-text-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm --filter api test -- --testPathPatterns=representative-bms-render` ? exit 0, 36/36 pass.
+- `pnpm --filter @qllaw/form-contracts test` ? exit 0, 47/47 pass.
+- `pnpm --filter api test -- --testPathPatterns=document-form-schema` ? exit 0, 10/10 pass.
+- `pnpm test:web-unit` ? exit 0, 59/59 pass.
+- `pnpm typecheck` ? exit 0.
+
+### Next step
+
+**F4 is green.** All gates pass:
+- `pnpm test:docx-binding-correctness` ? exit 0, 212 PASS, 1 REVIEW_REQUIRED, 0 FAIL.
+- All regression commands ? exit 0.
+
+**Proceed to F5 only if explicitly authorized.**
+
 **Proceed to F4 only if explicitly authorized.**
