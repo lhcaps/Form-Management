@@ -1,17 +1,28 @@
 #!/usr/bin/env node
 /**
- * audit-forms-root-cause.mjs - AUDIT_FORMS_ROOT_CAUSE task.
+ * audit-forms-root-cause.mjs - AUDIT_FORMS_ROOT_CAUSE v2 repair.
  *
- * Scans all 213 locked form contracts for semantic/schema/UI metadata issues.
+ * Improvements over v1:
+ * - Rule independence: every rule runs for every field, not gated by BAD_LABEL.
+ * - parseRawPattern helper: strips {{ and }} cleanly, no trailing brace bug.
+ * - SOURCE_MISMATCH considers rawPattern domain + context + source together.
+ * - GENERIC_FIELD_CANONICALIZATION runs even when label is good.
+ * - WEAK_EVIDENCE_AUTO_LOCKED runs even when label is good.
+ * - SHOULD_BE_READONLY runs for all fields, independent of source value.
+ * - UI_VISIBLE_BAD_METADATA is explicit, not suppressed by BAD_LABEL.
+ * - BM-050/BM-068 callouts list ALL issues.
+ * - Built-in smoke tests with synthetic in-memory contracts.
+ * - Report versioning: auditVersion: "v2".
  *
  * Exit codes:
- *   0 - report generated (regardless of issue count).
+ *   0 - report generated (always; strict mode controls exit 1).
  *   1 - strict mode and one or more FAIL issues exist.
  *
  * Usage:
- *   node scripts/audit/audit-forms-root-cause.mjs
- *   node scripts/audit/audit-forms-root-cause.mjs --strict
+ *   node scripts/audit/audit-forms-root-cause.mjs                    # audit
+ *   node scripts/audit/audit-forms-root-cause.mjs --strict          # strict
  *   node scripts/audit/audit-forms-root-cause.mjs --template-code BM-050
+ *   node scripts/audit/audit-forms-root-cause.mjs --smoke-test        # self-test only
  *   pnpm audit:forms-root-cause
  *   pnpm audit:forms-root-cause:strict
  */
@@ -28,6 +39,7 @@ const COMPILED_DIR = join(ROOT, 'docs', 'audit', 'docx', 'compiled-v2');
 const OUT_DIR = join(ROOT, 'docs', 'audit', 'forms-root-cause');
 
 const STRICT = process.argv.includes('--strict');
+const SMOKE_TEST = process.argv.includes('--smoke-test');
 const TEMPLATE_CODE = (() => {
   const idx = process.argv.indexOf('--template-code');
   return idx >= 0 ? process.argv[idx + 1]?.toUpperCase() : null;
@@ -51,7 +63,7 @@ const ISSUE = {
 };
 
 // =============================================================================
-// DOMAIN MAPS
+// DOMAIN HELPERS
 // =============================================================================
 
 const DOMAIN_KEYS = new Set([
@@ -68,11 +80,31 @@ function pathDomain(path) {
   return DOMAIN_KEYS.has(head) ? head : 'unknown';
 }
 
+/**
+ * Parse a raw DOCX pattern like "{{decision.field2}}" or "{{document.field3}}".
+ * Returns { rawKey, rawDomain, rawTail } or null for invalid input.
+ * Never returns values with braces attached.
+ */
+function parseRawPattern(rawPattern) {
+  if (!rawPattern || typeof rawPattern !== 'string') return null;
+  const trimmed = rawPattern.trim();
+  if (!trimmed.startsWith('{{') || !trimmed.endsWith('}}')) return null;
+  const inner = trimmed.slice(2, -2).trim();
+  const dotIdx = inner.indexOf('.');
+  if (dotIdx < 0) return null;
+  const rawDomain = inner.slice(0, dotIdx);
+  const rawTail = inner.slice(dotIdx + 1);
+  if (!rawDomain || !rawTail) return null;
+  return {
+    rawKey: inner,
+    rawDomain: DOMAIN_KEYS.has(rawDomain) ? rawDomain : 'unknown',
+    rawTail,
+  };
+}
+
 function rawPatternDomain(rawPattern) {
-  if (!rawPattern) return 'unknown';
-  const match = rawPattern.match(/\{\{([^.]+)\./);
-  if (match) return DOMAIN_KEYS.has(match[1]) ? match[1] : 'unknown';
-  return 'unknown';
+  const parsed = parseRawPattern(rawPattern);
+  return parsed ? parsed.rawDomain : 'unknown';
 }
 
 // =============================================================================
@@ -97,7 +129,7 @@ function isBadLabel(label, path) {
   for (const [re, desc] of BAD_LABEL_RE) {
     if (re.test(label)) return { bad: true, reason: desc };
   }
-  const tail = path?.split('.').at(-1) ?? '';
+  const tail = path?.split('.')?.at(-1) ?? '';
   if (
     /^[a-z][a-zA-Z0-9]+$/.test(label) &&
     !VIETNAMESE_RE.test(label) &&
@@ -110,7 +142,7 @@ function isBadLabel(label, path) {
 }
 
 // =============================================================================
-// KNOWN GOOD LABEL VALUES (from field-labels.ts PATH_OVERRIDES)
+// KNOWN GOOD LABEL VALUES
 // =============================================================================
 
 const PATH_OVERRIDE_VALUES = new Set([
@@ -135,7 +167,11 @@ const PATH_OVERRIDE_VALUES = new Set([
 // GENERIC RAW PATTERN DETECTION
 // =============================================================================
 
-const GENERIC_RAW_RE = /^(document|decision|person|caseInfo|informant|reporter|legalBasis|offense|measure|proposal|official)\.field\d+$/i;
+const GENERIC_RAW_TAIL_RE = /^field\d+$/i;
+
+function isGenericRawTail(tail) {
+  return GENERIC_RAW_TAIL_RE.test(tail ?? '');
+}
 
 // =============================================================================
 // REMEDIATION LEAK DETECTION
@@ -149,40 +185,32 @@ function containsRemediationLeak(str) {
 }
 
 // =============================================================================
-// SOURCE CLASSIFICATION
-// =============================================================================
-
-function isSystemSource(source) {
-  return ['agencyConfig', 'officialConfig', 'systemDate', 'computed'].has(source);
-}
-
-// =============================================================================
 // WEAK EVIDENCE DETECTION
 // =============================================================================
 
 function isWeakEvidence(context, textBefore, rawPattern, reviewRequired) {
   if (reviewRequired) return false;
-  const isAutoGen = context?.startsWith('[Auto-generated]');
+  const parsed = parseRawPattern(rawPattern);
+  const isAutoGen = context?.startsWith('[Auto-generated]') ?? false;
   const isShortContext = !context || context.length < 10;
-  const isNoisyTextBefore = textBefore && /^[0-9.,:; ]+$/.test(textBefore.trim());
-  const isGenericRaw = GENERIC_RAW_RE.test(rawPattern ?? '');
+  const isNoisyTextBefore = Boolean(textBefore && /^[0-9.,:; ]+$/.test(textBefore.trim()));
+  const isGenericRaw = parsed ? isGenericRawTail(parsed.rawTail) : false;
   return (isAutoGen || isShortContext) && (isNoisyTextBefore || isGenericRaw || !context);
 }
 
 // =============================================================================
-// SHOULD_BE_READONLY DETECTION
+// SHOULD_BE_READONLY PATTERNS
 // =============================================================================
 
 const READONLY_PATH_PATTERNS = [
-  [/^(document|agency)\.(nameUpper|fullDocumentCode|issuePlaceDateLine|documentCode|issueNumber|issueOffice|legalBasisLine|formNumber|documentNumberSuffix)$/i, 'fixed/generated administrative field'],
-  [/^legalBasis\.(procedureArticlesLine|articleLine)$/i, 'fixed legal text'],
-  [/^signature\.signDate$/i, 'system-generated sign date'],
-  [/^agency\.(name|parentName|shortName)$/i, 'agency name field'],
+  { re: /^(document|agency)\.(nameUpper|fullDocumentCode|issuePlaceDateLine|documentCode|issueNumber|issueOffice|legalBasisLine|formNumber|documentNumberSuffix)$/i, reason: 'fixed/generated administrative field' },
+  { re: /^legalBasis\.(procedureArticlesLine|articleLine)$/i, reason: 'fixed legal text' },
+  { re: /^signature\.signDate$/i, reason: 'system-generated sign date' },
+  { re: /^agency\.(name|parentName|shortName)$/i, reason: 'agency name field' },
 ];
 
-function detectReadonlyReason(path, source) {
-  if (source === 'manual') return null;
-  for (const [re, reason] of READONLY_PATH_PATTERNS) {
+function detectReadonlyReason(path, source, context) {
+  for (const { re, reason } of READONLY_PATH_PATTERNS) {
     if (re.test(path)) return reason;
   }
   if (path.toLowerCase().includes('upper') && source !== 'manual') {
@@ -210,7 +238,7 @@ function detectRequiredReason(path) {
 }
 
 // =============================================================================
-// SUGGESTIONS
+// SUGGESTIONS (path -> corrected path/label)
 // =============================================================================
 
 const PATH_SUGGESTIONS = {
@@ -230,8 +258,14 @@ const LABEL_SUGGESTIONS = {
 // =============================================================================
 
 function makeIssue({ templateCode, sourceId, path, slotId, rawPattern, label, source, issueCode, severity, reason, context, suggestedPath, suggestedLabel, suggestedSource, confidence, requiresHumanReview }) {
+  const parsed = rawPattern ? parseRawPattern(rawPattern) : null;
   return {
-    templateCode, sourceId, path, slotId, rawPattern, label, source,
+    templateCode, sourceId, path, slotId,
+    rawPattern,
+    rawKey: parsed?.rawKey ?? null,
+    rawDomain: parsed?.rawDomain ?? null,
+    rawTail: parsed?.rawTail ?? null,
+    label, source,
     issueCode, severity, reason, context,
     suggestedPath: suggestedPath ?? PATH_SUGGESTIONS[path],
     suggestedLabel: suggestedLabel ?? LABEL_SUGGESTIONS[path],
@@ -248,29 +282,219 @@ function makeIssue({ templateCode, sourceId, path, slotId, rawPattern, label, so
 function loadCompiled() {
   const map = new Map();
   try {
-    const files = readdirSync(COMPILED_DIR).filter((f) => f.endsWith('.compiled.json'));
-    for (const f of files) {
+    for (const f of readdirSync(COMPILED_DIR).filter((f) => f.endsWith('.compiled.json'))) {
       const code = f.replace('.compiled.json', '');
-      try {
-        map.set(code, JSON.parse(readFileSync(join(COMPILED_DIR, f), 'utf8')));
-      } catch { /* skip */ }
+      try { map.set(code, JSON.parse(readFileSync(join(COMPILED_DIR, f), 'utf8'))); }
+      catch { /* skip */ }
     }
   } catch { /* dir missing */ }
   return map;
 }
 
 function loadContracts() {
-  const files = readdirSync(LOCKED_DIR).filter((f) => f.endsWith('.contract.locked.json'));
   const contracts = [];
-  for (const f of files) {
+  for (const f of readdirSync(LOCKED_DIR).filter((f) => f.endsWith('.contract.locked.json'))) {
     const code = f.match(/^(BM-\d+)/)?.[1];
     if (!code) continue;
     if (TEMPLATE_CODE && code !== TEMPLATE_CODE) continue;
-    try {
-      contracts.push(JSON.parse(readFileSync(join(LOCKED_DIR, f), 'utf8')));
-    } catch { /* skip */ }
+    try { contracts.push(JSON.parse(readFileSync(join(LOCKED_DIR, f), 'utf8'))); }
+    catch { /* skip */ }
   }
   return contracts.sort((a, b) => a.templateCode.localeCompare(b.templateCode));
+}
+
+// =============================================================================
+// PER-FIELD AUDIT (each rule is independent)
+// =============================================================================
+
+/**
+ * Run all independent rules for a single canonical field.
+ * Rules are NOT gated by BAD_LABEL or any other rule.
+ */
+function auditField({ field, slot, contract, templateCode, sourceId }) {
+  const issues = [];
+  const path = field.path;
+  const label = field.label;
+  const source = field.source;
+  const reviewRequired = field.reviewRequired ?? false;
+  const required = field.required ?? false;
+
+  const parsed = slot ? parseRawPattern(slot.evidence?.rawPattern ?? '') : null;
+  const rawPattern = slot?.evidence?.rawPattern ?? null;
+  const context = slot?.context ?? '';
+  const textBefore = slot?.evidence?.textBefore ?? '';
+
+  const pathDom = pathDomain(path);
+  const rawDom = parsed ? parsed.rawDomain : 'unknown';
+
+  // ---- RULE 1: BAD_LABEL ----
+  {
+    const { bad, reason } = isBadLabel(label, path);
+    if (bad) {
+      const severity = ['empty string', '"Ô trống"', 'raw generic fieldN'].some((r) => reason?.includes(r))
+        ? 'FAIL' : 'REVIEW';
+      issues.push(makeIssue({
+        templateCode, sourceId, path, slotId: path,
+        rawPattern, label, source,
+        issueCode: ISSUE.BAD_LABEL,
+        severity,
+        reason: `Canonical field label is "${label}" (${reason}). This will appear in UI.`,
+        context,
+        confidence: reason === 'empty string' ? 'HIGH' : 'MEDIUM',
+      }));
+    }
+  }
+
+  // ---- RULE 2: RAW_PATTERN_DOMAIN_MISMATCH ----
+  // Always check: label good or bad does not matter
+  if (parsed && parsed.rawDomain !== 'unknown' && pathDom !== 'unknown' && parsed.rawDomain !== pathDom) {
+    issues.push(makeIssue({
+      templateCode, sourceId, path, slotId: path,
+      rawPattern, label, source,
+      issueCode: ISSUE.RAW_PATTERN_DOMAIN_MISMATCH,
+      severity: 'FAIL',
+      reason: `rawPattern domain "${parsed.rawDomain}" ({{${parsed.rawKey}}}) does not match canonical path domain "${pathDom}". Context: "${context.slice(0, 80)}"`,
+      context,
+      suggestedPath: `${parsed.rawDomain}.${parsed.rawTail}`,
+      confidence: 'HIGH',
+    }));
+  }
+
+  // ---- RULE 3: SOURCE_MISMATCH ----
+  // Consider: rawPattern domain vs source vs context all together
+  {
+    // agencyConfig source but path/rawPattern is decision/document/person => mismatch
+    if (source === 'agencyConfig') {
+      if (pathDom === 'decision' || pathDom === 'person' || pathDom === 'document' || pathDom === 'caseInfo') {
+        issues.push(makeIssue({
+          templateCode, sourceId, path, slotId: path,
+          rawPattern, label, source,
+          issueCode: ISSUE.SOURCE_MISMATCH,
+          severity: 'FAIL',
+          reason: `source="agencyConfig" but path="${path}" is a ${pathDom} field. agencyConfig should only apply to agency.* fields. rawPattern=${rawPattern ?? '-'}, context="${context.slice(0, 60)}"`,
+          context,
+          suggestedSource: pathDom === 'decision' || pathDom === 'person' || pathDom === 'document' ? 'manual' : 'casePayload',
+          confidence: 'HIGH',
+        }));
+      }
+    }
+
+    // manual source but context is fixed legal text
+    if (source === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(context)) {
+      issues.push(makeIssue({
+        templateCode, sourceId, path, slotId: path,
+        rawPattern, label, source,
+        issueCode: ISSUE.SOURCE_MISMATCH,
+        severity: 'REVIEW',
+        reason: `source="manual" but context contains fixed legal text. Verify this really needs user input. context="${context.slice(0, 80)}"`,
+        context,
+        confidence: 'MEDIUM',
+      }));
+    }
+
+    // rawPattern domain is decision/document but source is agencyConfig => mismatch
+    if (source === 'agencyConfig' && parsed && (parsed.rawDomain === 'decision' || parsed.rawDomain === 'document' || parsed.rawDomain === 'person')) {
+      issues.push(makeIssue({
+        templateCode, sourceId, path, slotId: path,
+        rawPattern, label, source,
+        issueCode: ISSUE.SOURCE_MISMATCH,
+        severity: 'FAIL',
+        reason: `source="agencyConfig" but rawPattern "{{${parsed.rawKey}}}" is from "${parsed.rawDomain}" domain. agencyConfig cannot provide decision/document/person data.`,
+        context,
+        suggestedSource: parsed.rawDomain === 'decision' ? 'casePayload' : 'manual',
+        confidence: 'HIGH',
+      }));
+    }
+  }
+
+  // ---- RULE 4: WEAK_EVIDENCE_AUTO_LOCKED ----
+  // Always check regardless of label quality
+  if (!reviewRequired && isWeakEvidence(context, textBefore, rawPattern, reviewRequired)) {
+    issues.push(makeIssue({
+      templateCode, sourceId, path, slotId: path,
+      rawPattern, label, source,
+      issueCode: ISSUE.WEAK_EVIDENCE_AUTO_LOCKED,
+      severity: 'FAIL',
+      reason: `reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore="${textBefore.slice(0, 40)}", rawDomain="${rawDom}", rawTail="${parsed?.rawTail ?? '-'}"`,
+      context,
+      confidence: 'HIGH',
+      requiresHumanReview: true,
+    }));
+  }
+
+  // ---- RULE 5: GENERIC_FIELD_CANONICALIZATION ----
+  // Always check: generic raw mapped to semantic path (label good OR bad does not matter)
+  if (parsed && isGenericRawTail(parsed.rawTail)) {
+    const { bad: labelBad } = isBadLabel(label, path);
+    const isWeak = isWeakEvidence(context, textBefore, rawPattern, reviewRequired);
+    if (labelBad || isWeak) {
+      issues.push(makeIssue({
+        templateCode, sourceId, path, slotId: path,
+        rawPattern, label, source,
+        issueCode: ISSUE.GENERIC_FIELD_CANONICALIZATION,
+        severity: 'FAIL',
+        reason: `Generic raw pattern "{{${parsed.rawKey}}}" mapped to "${path}" but has problems (label="${label}" ${labelBad ? '(bad)' : '(good)'}, weak_evidence=${isWeak}). Generic fieldN should be replaced with correct semantic path.`,
+        context,
+        confidence: isWeak ? 'HIGH' : 'MEDIUM',
+        requiresHumanReview: true,
+      }));
+    }
+  }
+
+  // ---- RULE 8: REQUIRED_SUSPICIOUS ----
+  // Always check regardless of source
+  if (!required) {
+    const reqReason = detectRequiredReason(path);
+    if (reqReason) {
+      issues.push(makeIssue({
+        templateCode, sourceId, path,
+        label, source,
+        issueCode: ISSUE.REQUIRED_SUSPICIOUS,
+        severity: 'REVIEW',
+        reason: `Field looks required (${reqReason}) but required=false.`,
+        confidence: 'MEDIUM',
+      }));
+    }
+  }
+
+  // ---- RULE 9: SHOULD_BE_READONLY ----
+  // Always check: if path looks computed/system/agency but source is manual
+  {
+    const readonlyReason = detectReadonlyReason(path, source, context);
+    if (readonlyReason) {
+      issues.push(makeIssue({
+        templateCode, sourceId, path,
+        label, source,
+        issueCode: ISSUE.SHOULD_BE_READONLY,
+        severity: 'REVIEW',
+        reason: `Field appears to be a computed/agency/official field (${readonlyReason}). source="${source}" is likely wrong.`,
+        suggestedSource: 'agencyConfig',
+        confidence: 'MEDIUM',
+      }));
+    }
+
+    // Additional: manual source + rawPattern suggests system data
+    if (source === 'manual' && parsed && (parsed.rawDomain === 'document' || parsed.rawDomain === 'agency')) {
+      const tail = parsed.rawTail;
+      if (
+        /^(fullDocumentCode|issuePlaceDateLine|documentCode|issueNumber|issueOffice|name|parentName)$/i.test(tail) ||
+        /upper/i.test(tail)
+      ) {
+        issues.push(makeIssue({
+          templateCode, sourceId, path, slotId: path,
+          rawPattern, label, source,
+          issueCode: ISSUE.SHOULD_BE_READONLY,
+          severity: 'REVIEW',
+          reason: `source="manual" but rawPattern "{{${parsed.rawKey}}}" suggests this is a system-generated/agency field. Likely should be agencyConfig or computed.`,
+          context,
+          suggestedSource: 'agencyConfig',
+          confidence: 'HIGH',
+        }));
+      }
+    }
+  }
+
+  return issues;
 }
 
 // =============================================================================
@@ -284,232 +508,57 @@ function auditContract(contract, compiledMap, deriveFn) {
   const slotById = new Map(docxSlots.map((s) => [s.slotId, s]));
   const canonicalByPath = new Map(canonicalFields.map((f) => [f.path, f]));
 
-  // -------------------------------------------------------------------------
-  // 1. BAD_LABEL on canonicalFields
-  // -------------------------------------------------------------------------
+  // ---- RULES 1-9 on each canonical field (all independent) ----
   for (const field of canonicalFields) {
-    const { bad, reason } = isBadLabel(field.label, field.path);
-    if (!bad) continue;
-
-    const slot = slotById.get(field.path);
-    const severity = ['empty string', '"Ô trống"', 'raw generic fieldN'].some((r) => reason?.includes(r))
-      ? 'FAIL' : 'REVIEW';
-
-    issues.push(makeIssue({
-      templateCode, sourceId, path: field.path,
-      rawPattern: slot?.evidence?.rawPattern,
-      label: field.label,
-      source: field.source,
-      issueCode: ISSUE.BAD_LABEL,
-      severity,
-      reason: `Canonical field label is "${field.label}" (${reason}). This will appear in UI.`,
-      context: slot?.context,
-      confidence: reason === 'empty string' ? 'HIGH' : 'MEDIUM',
-    }));
-
-    // -------------------------------------------------------------------------
-    // 2. RAW_PATTERN_DOMAIN_MISMATCH
-    // -------------------------------------------------------------------------
-    if (slot) {
-      const rawPattern = slot.evidence?.rawPattern;
-      if (rawPattern) {
-        const rawDom = rawPatternDomain(rawPattern);
-        const pathDom = pathDomain(field.path);
-        if (rawDom !== 'unknown' && pathDom !== 'unknown' && rawDom !== pathDom) {
-          issues.push(makeIssue({
-            templateCode, sourceId, path: field.path, slotId: field.path,
-            rawPattern, label: field.label, source: field.source,
-            issueCode: ISSUE.RAW_PATTERN_DOMAIN_MISMATCH,
-            severity: 'FAIL',
-            reason: `rawPattern domain "${rawDom}" does not match canonical path domain "${pathDom}". DOCX slot extracted from "${rawDom}" but mapped to "${pathDom}".`,
-            context: slot.context,
-            suggestedPath: `${rawDom}.${rawPattern.split('.').at(-1)}`,
-            confidence: 'HIGH',
-          }));
-        }
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 3. SOURCE_MISMATCH
-    // -------------------------------------------------------------------------
-    if (slot) {
-      const rawPattern = slot.evidence?.rawPattern;
-      const pathDom = pathDomain(field.path);
-      const src = field.source;
-
-      if (src === 'agencyConfig' && pathDom === 'decision') {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path, slotId: field.path,
-          rawPattern, label: field.label, source: src,
-          issueCode: ISSUE.SOURCE_MISMATCH,
-          severity: 'FAIL',
-          reason: `source="agencyConfig" but path="${field.path}" is a decision/document/person field. agencyConfig should only apply to agency.* fields.`,
-          context: slot.context,
-          suggestedSource: 'casePayload',
-          confidence: 'HIGH',
-        }));
-      }
-
-      if (src === 'agencyConfig' && pathDom === 'document') {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path, slotId: field.path,
-          rawPattern, label: field.label, source: src,
-          issueCode: ISSUE.SOURCE_MISMATCH,
-          severity: 'FAIL',
-          reason: `source="agencyConfig" but path="${field.path}" is a document field. agencyConfig should only apply to agency.* fields.`,
-          context: slot.context,
-          suggestedSource: 'manual',
-          confidence: 'HIGH',
-        }));
-      }
-
-      if (src === 'agencyConfig' && pathDom === 'person') {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path, slotId: field.path,
-          rawPattern, label: field.label, source: src,
-          issueCode: ISSUE.SOURCE_MISMATCH,
-          severity: 'FAIL',
-          reason: `source="agencyConfig" but path="${field.path}" is a person field. Should be manual or casePayload.`,
-          context: slot.context,
-          suggestedSource: 'manual',
-          confidence: 'HIGH',
-        }));
-      }
-
-      if (src === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(slot.context ?? '')) {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path, slotId: field.path,
-          rawPattern, label: field.label, source: src,
-          issueCode: ISSUE.SOURCE_MISMATCH,
-          severity: 'REVIEW',
-          reason: `source="manual" but context contains fixed legal text. Verify this really needs user input.`,
-          context: slot.context,
-          confidence: 'MEDIUM',
-        }));
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 4. WEAK_EVIDENCE_AUTO_LOCKED
-    // -------------------------------------------------------------------------
-    if (!field.reviewRequired && slot) {
-      const context = slot.context ?? '';
-      const textBefore = slot.evidence?.textBefore ?? '';
-      const rawPattern = slot.evidence?.rawPattern ?? '';
-      if (isWeakEvidence(context, textBefore, rawPattern, field.reviewRequired)) {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path, slotId: field.path,
-          rawPattern, label: field.label, source: field.source,
-          issueCode: ISSUE.WEAK_EVIDENCE_AUTO_LOCKED,
-          severity: 'FAIL',
-          reason: `reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. Context: "${context.slice(0, 80)}"`,
-          confidence: 'HIGH',
-          requiresHumanReview: true,
-        }));
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 5. GENERIC_FIELD_CANONICALIZATION
-    // -------------------------------------------------------------------------
-    if (slot) {
-      const rawPattern = slot.evidence?.rawPattern ?? '';
-      if (GENERIC_RAW_RE.test(rawPattern)) {
-        const { bad: labelBad } = isBadLabel(field.label, field.path);
-        const isWeak = isWeakEvidence(slot.context ?? '', slot.evidence?.textBefore ?? '', rawPattern, field.reviewRequired);
-        if (labelBad || isWeak) {
-          issues.push(makeIssue({
-            templateCode, sourceId, path: field.path, slotId: field.path,
-            rawPattern, label: field.label, source: field.source,
-            issueCode: ISSUE.GENERIC_FIELD_CANONICALIZATION,
-            severity: 'FAIL',
-            reason: `Generic raw pattern "${rawPattern}" mapped to "${field.path}" but has problems (label="${field.label}", weak_evidence=${isWeak}).`,
-            context: slot.context,
-            confidence: isWeak ? 'HIGH' : 'MEDIUM',
-            requiresHumanReview: true,
-          }));
-        }
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 8. REQUIRED_SUSPICIOUS
-    // -------------------------------------------------------------------------
-    if (!field.required) {
-      const reqReason = detectRequiredReason(field.path);
-      if (reqReason) {
-        issues.push(makeIssue({
-          templateCode, sourceId, path: field.path,
-          label: field.label, source: field.source,
-          issueCode: ISSUE.REQUIRED_SUSPICIOUS,
-          severity: 'REVIEW',
-          reason: `Field looks required (${reqReason}) but required=false.`,
-          confidence: 'MEDIUM',
-        }));
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 9. SHOULD_BE_READONLY
-    // -------------------------------------------------------------------------
-    const readonlyReason = detectReadonlyReason(field.path, field.source);
-    if (readonlyReason && field.source === 'manual') {
-      issues.push(makeIssue({
-        templateCode, sourceId, path: field.path,
-        label: field.label, source: field.source,
-        issueCode: ISSUE.SHOULD_BE_READONLY,
-        severity: 'REVIEW',
-        reason: `Field appears to be a computed/agency/official field (${readonlyReason}) but source="manual".`,
-        suggestedSource: 'agencyConfig',
-        confidence: 'MEDIUM',
-      }));
-    }
+    const slot = slotById.get(field.path) ?? null;
+    issues.push(...auditField({ field, slot, contract, templateCode, sourceId }));
   }
 
-  // -------------------------------------------------------------------------
-  // 10. REMEDIATION_LEAK on docxSlots
-  // -------------------------------------------------------------------------
+  // ---- RULE 10: REMEDIATION_LEAK on docxSlots ----
   for (const slot of docxSlots) {
     const slotLabel = slot.label ?? '';
-    const context = slot.context ?? '';
-    const rawPattern = slot.evidence?.rawPattern ?? '';
+    const ctx = slot.context ?? '';
+    const rawP = slot.evidence?.rawPattern ?? '';
 
     if (containsRemediationLeak(slotLabel)) {
       issues.push(makeIssue({
         templateCode, sourceId, path: slot.slotId, slotId: slot.slotId,
-        rawPattern, label: slotLabel,
+        rawPattern: rawP, label: slotLabel,
         source: canonicalByPath.get(slot.slotId)?.source,
         issueCode: ISSUE.REMEDIATION_LEAK,
         severity: 'FAIL',
         reason: `Slot label "${slotLabel}" contains remediation metadata. This leaks internal process language into user-facing UI.`,
-        context,
+        context: ctx,
         confidence: 'HIGH',
       }));
     }
 
-    if (containsRemediationLeak(context) && !containsRemediationLeak(slotLabel)) {
+    if (containsRemediationLeak(ctx) && !containsRemediationLeak(slotLabel)) {
       issues.push(makeIssue({
         templateCode, sourceId, path: slot.slotId, slotId: slot.slotId,
-        rawPattern, label: slotLabel,
+        rawPattern: rawP, label: slotLabel,
         source: canonicalByPath.get(slot.slotId)?.source,
         issueCode: ISSUE.REMEDIATION_LEAK,
         severity: 'REVIEW',
-        reason: `Slot context contains remediation keyword: "${context.slice(0, 100)}"`,
+        reason: `Slot context contains remediation keyword: "${ctx.slice(0, 100)}"`,
+        context: ctx,
         confidence: 'MEDIUM',
       }));
     }
   }
 
-  // -------------------------------------------------------------------------
-  // 7. COMPILED_DRIFT
-  // -------------------------------------------------------------------------
+  // ---- RULE 7: COMPILED_DRIFT ----
   const compiled = compiledMap.get(templateCode);
   if (compiled) {
+    // Deduplicate compiled fields by key (v2 may have duplicates from old+new)
+    const seenKeys = new Set();
     const compiledFields = [];
     for (const section of compiled.uiSchema?.sections ?? []) {
       for (const field of section.fields ?? []) {
-        compiledFields.push(field);
+        if (!seenKeys.has(field.key)) {
+          seenKeys.add(field.key);
+          compiledFields.push(field);
+        }
       }
     }
 
@@ -518,7 +567,7 @@ function auditContract(contract, compiledMap, deriveFn) {
         templateCode, sourceId, path: '—',
         issueCode: ISSUE.COMPILED_DRIFT,
         severity: 'REVIEW',
-        reason: `Field count mismatch: locked=${canonicalFields.length} vs compiled=${compiledFields.length}.`,
+        reason: `Field count mismatch: locked=${canonicalFields.length} vs compiled=${compiledFields.length} (deduplicated).`,
         confidence: 'HIGH',
       }));
     }
@@ -537,6 +586,7 @@ function auditContract(contract, compiledMap, deriveFn) {
         continue;
       }
 
+      // Label drift
       if (compiledField.label !== cf.label &&
           !['Ô trống', 'Slot from Wave 02 DOCX remediation'].includes(cf.label)) {
         issues.push(makeIssue({
@@ -550,6 +600,7 @@ function auditContract(contract, compiledMap, deriveFn) {
         }));
       }
 
+      // Required drift
       if (compiledField.required !== cf.required) {
         issues.push(makeIssue({
           templateCode, sourceId, path: cf.path,
@@ -561,6 +612,7 @@ function auditContract(contract, compiledMap, deriveFn) {
         }));
       }
 
+      // dataSource drift
       const compiledSrc = compiledField.dataSource?.kind;
       const lockedSrc = cf.source;
       if (compiledSrc && lockedSrc) {
@@ -580,31 +632,26 @@ function auditContract(contract, compiledMap, deriveFn) {
     }
   }
 
-  // -------------------------------------------------------------------------
-  // 6. UI_VISIBLE_BAD_METADATA via deriveFormInputSchema
-  // -------------------------------------------------------------------------
+  // ---- RULE 6: UI_VISIBLE_BAD_METADATA via deriveFormInputSchema ----
   if (deriveFn) {
     try {
       const schema = deriveFn(contract);
+      const lockedPaths = new Set(issues.filter((i) => i.issueCode === ISSUE.BAD_LABEL).map((i) => i.path));
+
       for (const section of schema.sections) {
         for (const field of section.fields) {
           if (!field.visible) continue;
           const { bad, reason } = isBadLabel(field.label, field.path);
           if (!bad) continue;
-          // Only flag if this isn't already covered by BAD_LABEL on canonicalFields
-          const alreadyFlagged = issues.some(
-            (i) => i.templateCode === templateCode && i.path === field.path && i.issueCode === ISSUE.BAD_LABEL
-          );
-          if (!alreadyFlagged) {
-            issues.push(makeIssue({
-              templateCode, sourceId, path: field.path,
-              label: field.label, source: field.source,
-              issueCode: ISSUE.UI_VISIBLE_BAD_METADATA,
-              severity: 'FAIL',
-              reason: `Visible field resolves to bad label "${field.label}" (${reason}) after full label resolution. This will appear in UI.`,
-              confidence: reason === 'empty string' ? 'HIGH' : 'MEDIUM',
-            }));
-          }
+          // Always emit UI_VISIBLE_BAD_METADATA if bad label reaches the UI
+          issues.push(makeIssue({
+            templateCode, sourceId, path: field.path,
+            label: field.label, source: field.source,
+            issueCode: ISSUE.UI_VISIBLE_BAD_METADATA,
+            severity: 'FAIL',
+            reason: `Visible field resolves to bad label "${field.label}" (${reason}) after full label resolution chain. This WILL appear in UI.`,
+            confidence: reason === 'empty string' ? 'HIGH' : 'MEDIUM',
+          }));
         }
       }
     } catch (err) {
@@ -613,6 +660,172 @@ function auditContract(contract, compiledMap, deriveFn) {
   }
 
   return issues;
+}
+
+// =============================================================================
+// SMOKE TESTS
+// =============================================================================
+
+function runSmokeTests() {
+  const results = [];
+  let passed = 0;
+  let failed = 0;
+
+  function test(name, fn) {
+    try {
+      const got = fn();
+      if (got === true) {
+        results.push(`  PASS  ${name}`);
+        passed++;
+      } else {
+        results.push(`  FAIL  ${name}: ${got}`);
+        failed++;
+      }
+    } catch (err) {
+      results.push(`  FAIL  ${name}: ${err.message}`);
+      failed++;
+    }
+  }
+
+  // parseRawPattern
+  test('parseRawPattern: strips braces cleanly', () => {
+    const r = parseRawPattern('{{decision.field2}}');
+    if (!r) return 'returned null';
+    if (r.rawKey !== 'decision.field2') return `rawKey="${r.rawKey}" expected "decision.field2"`;
+    if (r.rawDomain !== 'decision') return `rawDomain="${r.rawDomain}" expected "decision"`;
+    if (r.rawTail !== 'field2') return `rawTail="${r.rawTail}" expected "field2"`;
+    if (r.rawKey.includes('{') || r.rawKey.includes('}')) return 'rawKey still contains braces';
+    if (r.rawTail.endsWith('}')) return 'rawTail ends with }';
+    return true;
+  });
+
+  test('parseRawPattern: strips braces on document.field3', () => {
+    const r = parseRawPattern('{{document.field3}}');
+    if (!r) return 'returned null';
+    if (r.rawTail !== 'field3') return `rawTail="${r.rawTail}" expected "field3"`;
+    return true;
+  });
+
+  test('parseRawPattern: strips braces on person.permanentAddress', () => {
+    const r = parseRawPattern('{{person.permanentAddress}}');
+    if (!r) return 'returned null';
+    if (r.rawTail !== 'permanentAddress') return `rawTail="${r.rawTail}"`;
+    return true;
+  });
+
+  test('parseRawPattern: null on invalid input', () => {
+    if (parseRawPattern(null) !== null) return 'should return null for null';
+    if (parseRawPattern('') !== null) return 'should return null for empty';
+    if (parseRawPattern('field2}}') !== null) return 'should return null for missing {{';
+    if (parseRawPattern('{{field2') !== null) return 'should return null for missing }}';
+    return true;
+  });
+
+  // Good label + rawPattern domain mismatch flags RAW_PATTERN_DOMAIN_MISMATCH
+  test('Good label + domain mismatch still flags RAW_PATTERN_DOMAIN_MISMATCH', () => {
+    const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'manual', required: false, reviewRequired: false };
+    const slot = { context: 'Xét hồ sơ đề nghị', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.RAW_PATTERN_DOMAIN_MISMATCH);
+    return found || 'RAW_PATTERN_DOMAIN_MISMATCH not found';
+  });
+
+  // Good label + agencyConfig + rawPattern decision.field2 flags SOURCE_MISMATCH
+  test('Good label + agencyConfig + decision rawPattern flags SOURCE_MISMATCH', () => {
+    const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'agencyConfig', required: false, reviewRequired: false };
+    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.SOURCE_MISMATCH);
+    return found || 'SOURCE_MISMATCH not found';
+  });
+
+  // Good label + document.field1 + weak context flags GENERIC_FIELD_CANONICALIZATION
+  test('Good label + generic raw + weak context flags GENERIC_FIELD_CANONICALIZATION', () => {
+    const field = { path: 'document.someField', label: 'Tên trường', source: 'manual', required: false, reviewRequired: false };
+    const slot = { context: '[Auto-generated]', evidence: { rawPattern: '{{document.field1}}', textBefore: '11' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.GENERIC_FIELD_CANONICALIZATION);
+    return found || 'GENERIC_FIELD_CANONICALIZATION not found';
+  });
+
+  // Good label + document.field1 + weak context also flags WEAK_EVIDENCE_AUTO_LOCKED
+  test('Generic raw + weak context also flags WEAK_EVIDENCE_AUTO_LOCKED', () => {
+    const field = { path: 'document.someField', label: 'Tên trường', source: 'manual', required: false, reviewRequired: false };
+    const slot = { context: '[Auto-generated]', evidence: { rawPattern: '{{document.field1}}', textBefore: '11' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.WEAK_EVIDENCE_AUTO_LOCKED);
+    return found || 'WEAK_EVIDENCE_AUTO_LOCKED not found';
+  });
+
+  // manual + document.fullDocumentCode flags SHOULD_BE_READONLY REVIEW
+  test('manual + document.fullDocumentCode flags SHOULD_BE_READONLY', () => {
+    const field = { path: 'document.fullDocumentCode', label: 'Số văn bản', source: 'manual', required: false, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
+    return found || 'SHOULD_BE_READONLY not found';
+  });
+
+  // agencyConfig + rawPattern decision flags both RAW_PATTERN_DOMAIN_MISMATCH and SOURCE_MISMATCH
+  test('agencyConfig + decision rawPattern flags both MISMATCH rules', () => {
+    const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'agencyConfig', required: false, reviewRequired: false };
+    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const hasDomain = issues.some((i) => i.issueCode === ISSUE.RAW_PATTERN_DOMAIN_MISMATCH);
+    const hasSource = issues.some((i) => i.issueCode === ISSUE.SOURCE_MISMATCH);
+    if (!hasDomain) return 'RAW_PATTERN_DOMAIN_MISMATCH not found';
+    if (!hasSource) return 'SOURCE_MISMATCH not found';
+    return true;
+  });
+
+  // Good label + agency nameUpper flags SHOULD_BE_READONLY
+  test('agency.nameUpper + agencyConfig flags SHOULD_BE_READONLY', () => {
+    const field = { path: 'agency.nameUpper', label: 'Tên viết hoa', source: 'agencyConfig', required: false, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
+    return found || 'SHOULD_BE_READONLY not found';
+  });
+
+  // required=false + signerName flags REQUIRED_SUSPICIOUS
+  test('required=false + signerName flags REQUIRED_SUSPICIOUS', () => {
+    const field = { path: 'signature.signerName', label: 'Người ký', source: 'manual', required: false, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.REQUIRED_SUSPICIOUS);
+    return found || 'REQUIRED_SUSPICIOUS not found';
+  });
+
+  // Empty label flags BAD_LABEL (severity FAIL)
+  test('Empty label flags BAD_LABEL as FAIL', () => {
+    const field = { path: 'agency.coQuan', label: '', source: 'manual', required: false, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.find((i) => i.issueCode === ISSUE.BAD_LABEL && i.severity === 'FAIL');
+    return found ? true : 'BAD_LABEL FAIL not found';
+  });
+
+  // Remediation label flags REMEDIATION_LEAK
+  test('Remediation label in slot flags REMEDIATION_LEAK', () => {
+    const issues = [];
+    const slot = { slotId: 'person.name', label: 'Slot from Wave 02 DOCX remediation', context: 'Họ tên:', evidence: { rawPattern: '{{person.name}}', textBefore: 'Họ tên:' } };
+    if (containsRemediationLeak(slot.label)) {
+      issues.push(makeIssue({
+        templateCode: 'BM-TEST', sourceId: 't',
+        path: slot.slotId, slotId: slot.slotId,
+        rawPattern: slot.evidence.rawPattern,
+        label: slot.label,
+        issueCode: ISSUE.REMEDIATION_LEAK,
+        severity: 'FAIL',
+        reason: `Slot label leak`,
+        context: slot.context,
+        confidence: 'HIGH',
+      }));
+    }
+    const found = issues.some((i) => i.issueCode === ISSUE.REMEDIATION_LEAK);
+    return found || 'REMEDIATION_LEAK not found';
+  });
+
+  console.log('\n=== SMOKE TESTS ===');
+  for (const line of results) console.log(line);
+  console.log(`\nSmoke tests: ${passed} passed, ${failed} failed`);
+  return { passed, failed };
 }
 
 // =============================================================================
@@ -638,6 +851,9 @@ function writeReports(results) {
   const issueCounts = countIssues(allIssues);
 
   const body = {
+    auditVersion: 'v2',
+    repairedFrom: 'AUDIT_FORMS_ROOT_CAUSE',
+    ruleIndependence: true,
     generatedAt: new Date().toISOString(),
     totalContracts,
     totalFields,
@@ -653,7 +869,8 @@ function writeReports(results) {
       issueCount: r.issues.length,
       failCount: r.issues.filter((i) => i.severity === 'FAIL').length,
       reviewCount: r.issues.filter((i) => i.severity === 'REVIEW').length,
-      topIssues: r.issues.slice(0, 5),
+      // Include ALL issues (not just top 5)
+      allIssues: r.issues,
     })),
   };
 
@@ -663,8 +880,9 @@ function writeReports(results) {
 
   // ---- Markdown report ----
   const lines = [];
-  lines.push(`# AUDIT_FORMS_ROOT_CAUSE - Form Metadata Root-Cause Audit`);
+  lines.push(`# AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)`);
   lines.push(`Generated: ${body.generatedAt}`);
+  lines.push(`Audit version: v2 (rule independence: true)`);
   lines.push('');
 
   // Executive summary
@@ -704,7 +922,7 @@ function writeReports(results) {
     lines.push('');
   }
 
-  // BM-050 and BM-068 callouts
+  // ---- BM-050 and BM-068 callouts: ALL issues, no truncation ----
   for (const code of ['BM-050', 'BM-068']) {
     const bm = body.byTemplate.find((b) => b.templateCode === code);
     if (!bm) continue;
@@ -712,20 +930,19 @@ function writeReports(results) {
     lines.push('');
     lines.push(`**${bm.title ?? ''}**`);
     lines.push('');
+    lines.push(`Total: ${bm.issueCount} issues (${bm.failCount} FAIL, ${bm.reviewCount} REVIEW)`);
+    lines.push('');
     if (bm.issueCount === 0) {
       lines.push('No issues found.');
     } else {
-      for (const issue of bm.topIssues) {
+      for (const issue of bm.allIssues) {
         lines.push(`- **${issue.issueCode}** [${issue.severity}] \`${issue.path}\``);
-        lines.push(`  - Label: \`${issue.label ?? '-'}\` | rawPattern: \`${issue.rawPattern ?? '-'}\` | source: \`${issue.source ?? '-'}\``);
+        lines.push(`  - Label: \`${issue.label ?? '-'}\` | rawPattern: \`${issue.rawPattern ?? '-'}\` | rawDomain: \`${issue.rawDomain ?? '-'}\` | rawTail: \`${issue.rawTail ?? '-'}\` | source: \`${issue.source ?? '-'}\``);
         lines.push(`  - Reason: ${issue.reason}`);
         if (issue.suggestedPath) lines.push(`  - Suggested path: \`${issue.suggestedPath}\``);
         if (issue.suggestedLabel) lines.push(`  - Suggested label: \`${issue.suggestedLabel}\``);
         if (issue.suggestedSource) lines.push(`  - Suggested source: \`${issue.suggestedSource}\``);
         lines.push(`  - Confidence: ${issue.confidence} | requiresHumanReview: ${issue.requiresHumanReview}`);
-      }
-      if (bm.issueCount > bm.topIssues.length) {
-        lines.push(`  ... and ${bm.issueCount - bm.topIssues.length} more issues`);
       }
     }
     lines.push('');
@@ -739,17 +956,21 @@ function writeReports(results) {
     [ISSUE.REMEDIATION_LEAK, 'REMEDIATION_LEAK'],
     [ISSUE.WEAK_EVIDENCE_AUTO_LOCKED, 'WEAK_EVIDENCE_AUTO_LOCKED'],
     [ISSUE.GENERIC_FIELD_CANONICALIZATION, 'GENERIC_FIELD_CANONICALIZATION'],
+    [ISSUE.SHOULD_BE_READONLY, 'SHOULD_BE_READONLY'],
+    [ISSUE.REQUIRED_SUSPICIOUS, 'REQUIRED_SUSPICIOUS'],
+    [ISSUE.COMPILED_DRIFT, 'COMPILED_DRIFT'],
+    [ISSUE.UI_VISIBLE_BAD_METADATA, 'UI_VISIBLE_BAD_METADATA'],
   ]) {
     const codeIssues = allIssues.filter((i) => i.issueCode === code);
     if (codeIssues.length === 0) continue;
     lines.push(`### ${label} (${codeIssues.length})`);
     lines.push('');
-    lines.push('| templateCode | path | label | rawPattern | source | severity | confidence |');
-    lines.push('|--------------|------|-------|------------|--------|----------|------------|');
-    for (const issue of codeIssues.slice(0, 50)) {
-      lines.push(`| ${issue.templateCode} | \`${issue.path}\` | \`${(issue.label ?? '-').slice(0, 30)}\` | \`${(issue.rawPattern ?? '-').slice(0, 25)}\` | ${issue.source ?? '-'} | ${issue.severity} | ${issue.confidence} |`);
+    lines.push('| templateCode | path | label | rawDomain | rawTail | source | severity | confidence |');
+    lines.push('|--------------|------|-------|----------|---------|--------|----------|------------|');
+    for (const issue of codeIssues.slice(0, 100)) {
+      lines.push(`| ${issue.templateCode} | \`${issue.path}\` | \`${(issue.label ?? '-').slice(0, 25)}\` | ${issue.rawDomain ?? '-'} | ${issue.rawTail ?? '-'} | ${issue.source ?? '-'} | ${issue.severity} | ${issue.confidence} |`);
     }
-    if (codeIssues.length > 50) lines.push(`| ... | | | | | | ${codeIssues.length - 50} more |`);
+    if (codeIssues.length > 100) lines.push(`| ... | | | | | | | ${codeIssues.length - 100} more |`);
     lines.push('');
   }
 
@@ -798,61 +1019,74 @@ function writeReports(results) {
     `  By code: ${JSON.stringify(issueCounts)}\n`,
   );
 
-  return { failCount, reviewCount, totalIssues };
+  return { failCount, reviewCount, totalIssues, issueCounts };
 }
 
 // =============================================================================
 // MAIN
 // =============================================================================
 
-const compiledMap = loadCompiled();
-const contracts = loadContracts();
+async function main() {
+  // ---- Smoke tests first ----
+  const smoke = runSmokeTests();
+  if (SMOKE_TEST) {
+    process.exit(smoke.failed > 0 ? 1 : 0);
+  }
 
-// Load deriveFormInputSchema once
-let deriveFn = null;
-try {
-  const mod = $require('@qllaw/form-contracts');
-  deriveFn = mod.deriveFormInputSchema;
-} catch (err) {
-  process.stderr.write(`[AUDIT] Could not load deriveFormInputSchema: ${err.message}\n`);
-  // Try workspace resolve
+  const compiledMap = loadCompiled();
+  const contracts = loadContracts();
+
+  // Load deriveFormInputSchema
+  let deriveFn = null;
   try {
-    const pkgPath = join(ROOT, 'packages', 'form-contracts', 'dist', 'index.js');
-    const { deriveFormInputSchema: df } = await import('file://' + pkgPath);
-    deriveFn = df;
-  } catch { /* still noop */ }
-}
+    const mod = $require('@qllaw/form-contracts');
+    deriveFn = mod.deriveFormInputSchema;
+  } catch (err) {
+    process.stderr.write(`[AUDIT] Could not load deriveFormInputSchema: ${err.message}\n`);
+    try {
+      const pkgPath = join(ROOT, 'packages', 'form-contracts', 'dist', 'index.js');
+      const imported = await import('file://' + pkgPath);
+      deriveFn = imported.deriveFormInputSchema;
+    } catch { /* noop */ }
+  }
 
-process.stderr.write(
-  `[AUDIT_FORMS_ROOT_CAUSE] Form metadata root-cause audit\n` +
-  `[AUDIT] strict=${STRICT} | template=${TEMPLATE_CODE ?? 'ALL'}\n` +
-  `[AUDIT] ${contracts.length} contracts loaded\n` +
-  `[AUDIT] ${compiledMap.size} compiled artifacts loaded\n` +
-  `[AUDIT] deriveFn available: ${deriveFn !== null}\n`,
-);
+  process.stderr.write(
+    `[AUDIT_FORMS_ROOT_CAUSE v2] Form metadata root-cause audit\n` +
+    `[AUDIT] strict=${STRICT} | template=${TEMPLATE_CODE ?? 'ALL'}\n` +
+    `[AUDIT] ${contracts.length} contracts loaded\n` +
+    `[AUDIT] ${compiledMap.size} compiled artifacts loaded\n` +
+    `[AUDIT] deriveFn available: ${deriveFn !== null}\n` +
+    `[AUDIT] smoke tests: ${smoke.passed} passed, ${smoke.failed} failed\n`,
+  );
 
-const results = [];
-for (let i = 0; i < contracts.length; i++) {
-  const contract = contracts[i];
-  process.stderr.write(`[${i + 1}/${contracts.length}] auditing ${contract.templateCode}...\n`);
-  const issues = auditContract(contract, compiledMap, deriveFn);
-  results.push({
-    templateCode: contract.templateCode,
-    sourceId: contract.sourceId,
-    title: contract.templateTitle,
-    fieldCount: (contract.canonicalFields ?? []).length,
-    issues,
-  });
-  if (issues.some((i) => i.severity === 'FAIL')) {
-    const byCode = {};
-    for (const issue of issues) byCode[issue.issueCode] = (byCode[issue.issueCode] ?? 0) + 1;
-    process.stderr.write(`  -> FAILs: ${issues.filter((i2) => i2.severity === 'FAIL').length}, codes: ${JSON.stringify(byCode)}\n`);
+  const results = [];
+  for (let i = 0; i < contracts.length; i++) {
+    const contract = contracts[i];
+    process.stderr.write(`[${i + 1}/${contracts.length}] auditing ${contract.templateCode}...\n`);
+    const issues = auditContract(contract, compiledMap, deriveFn);
+    results.push({
+      templateCode: contract.templateCode,
+      sourceId: contract.sourceId,
+      title: contract.templateTitle,
+      fieldCount: (contract.canonicalFields ?? []).length,
+      issues,
+    });
+    if (issues.some((i) => i.severity === 'FAIL')) {
+      const byCode = {};
+      for (const issue of issues) byCode[issue.issueCode] = (byCode[issue.issueCode] ?? 0) + 1;
+      process.stderr.write(`  -> FAILs: ${issues.filter((i2) => i2.severity === 'FAIL').length}, codes: ${JSON.stringify(byCode)}\n`);
+    }
+  }
+
+  const { failCount, issueCounts } = writeReports(results);
+
+  if (STRICT && failCount > 0) {
+    process.stderr.write(`\n[AUDIT] strict mode: ${failCount} FAIL issues found - exiting 1\n`);
+    process.exit(1);
   }
 }
 
-const { failCount } = writeReports(results);
-
-if (STRICT && failCount > 0) {
-  process.stderr.write(`\n[AUDIT] strict mode: ${failCount} FAIL issues found - exiting 1\n`);
+main().catch((err) => {
+  process.stderr.write(`[AUDIT] Fatal: ${err.message}\n${err.stack}\n`);
   process.exit(1);
-}
+});
