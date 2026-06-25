@@ -1,6 +1,6 @@
 # Review Batch 1 — Approved Apply Report
 
-Generated: 2026-06-25T21:17:28.563Z
+Generated: 2026-06-25T21:36:56.685Z
 Mode: **WRITE**
 
 ## Executive Summary
@@ -66,15 +66,15 @@ Contracts changed: ****
 
 | # | Command | Exit | Result | Duration |
 |---|---------|------|--------|---------|
-| 1 | `pnpm contract:validate` | 0 | **PASS** | 924ms |
-| 2 | `pnpm contract:compile` | 0 | **PASS** | 1038ms |
-| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 340ms |
-| 4 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 572ms |
-| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | **PASS** | 347ms |
-| 6 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 648ms |
-| 7 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 558ms |
-| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 1026ms |
-| 9 | `pnpm typecheck` | 0 | **PASS** | 4869ms |
+| 1 | `pnpm contract` | 0 | **PASS** | 544ms |
+| 2 | `pnpm contract` | 0 | **PASS** | 592ms |
+| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 330ms |
+| 4 | `pnpm audit` | 0 | **PASS** | 604ms |
+| 5 | `pnpm plan` | 0 | **PASS** | 351ms |
+| 6 | `pnpm audit` | 1 | **FAIL** | 180009ms |
+| 7 | `pnpm audit` | 0 | **PASS** | 344ms |
+| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 954ms |
+| 9 | `pnpm typecheck` | 0 | **PASS** | 5220ms |
 
 ## Post-Apply Issue Delta
 
