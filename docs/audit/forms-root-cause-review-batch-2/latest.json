@@ -1,0 +1,2768 @@
+{
+  "generatedAt": "2026-06-25T22:31:22.849Z",
+  "reviewBatch": "FORMS_ROOT_CAUSE_REVIEW_BATCH_2",
+  "totalGroups": 50,
+  "stats": {
+    "totalGroups": 50,
+    "applyPreviewCount": 0,
+    "byType": {
+      "DEFER_METADATA_REVIEW": 50
+    },
+    "byReviewType": {
+      "REVIEW_CHOOSE_LABEL": 0,
+      "REVIEW_CHOOSE_SOURCE": 0,
+      "REVIEW_CHOOSE_PATH": 0,
+      "DEFER_METADATA_REVIEW": 50
+    },
+    "byIssueCode": {
+      "BAD_LABEL": 46,
+      "UI_VISIBLE_BAD_METADATA": 34,
+      "RAW_PATTERN_DOMAIN_MISMATCH": 9,
+      "SOURCE_MISMATCH": 6,
+      "SHOULD_BE_READONLY": 1,
+      "COMPILED_DRIFT": 3
+    },
+    "byAction": {
+      "UPDATE_LABEL": 46,
+      "UPDATE_SOURCE": 3,
+      "UPDATE_PATH": 1
+    },
+    "applySafeCount": 0
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": []
+  },
+  "groups": [
+    {
+      "reviewGroupId": "B2RG-001",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.occupation",
+      "rawPattern": "{{informant.occupation}}",
+      "current": {
+        "path": "informant.occupation",
+        "label": "occupation",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"occupation\" on path \"informant.occupation\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"occupation\" on path \"informant.occupation\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-002",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.identityNo",
+      "rawPattern": "{{informant.identityNo}}",
+      "current": {
+        "path": "informant.identityNo",
+        "label": "identityNo",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityNo\" on path \"informant.identityNo\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityNo\" on path \"informant.identityNo\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-003",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.identityIssuedDay",
+      "rawPattern": "{{informant.identityIssuedDay}}",
+      "current": {
+        "path": "informant.identityIssuedDay",
+        "label": "identityIssuedDay",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssuedDay\" on path \"informant.identityIssuedDay\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssuedDay\" on path \"informant.identityIssuedDay\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-004",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.identityIssuedMonth",
+      "rawPattern": "{{informant.identityIssuedMonth}}",
+      "current": {
+        "path": "informant.identityIssuedMonth",
+        "label": "identityIssuedMonth",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssuedMonth\" on path \"informant.identityIssuedMonth\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssuedMonth\" on path \"informant.identityIssuedMonth\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-005",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.identityIssuedYear",
+      "rawPattern": "{{informant.identityIssuedYear}}",
+      "current": {
+        "path": "informant.identityIssuedYear",
+        "label": "identityIssuedYear",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssuedYear\" on path \"informant.identityIssuedYear\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssuedYear\" on path \"informant.identityIssuedYear\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-006",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.identityIssuedPlace",
+      "rawPattern": "{{informant.identityIssuedPlace}}",
+      "current": {
+        "path": "informant.identityIssuedPlace",
+        "label": "identityIssuedPlace",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssuedPlace\" on path \"informant.identityIssuedPlace\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssuedPlace\" on path \"informant.identityIssuedPlace\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-007",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.permanentAddress",
+      "rawPattern": "{{informant.permanentAddress}}",
+      "current": {
+        "path": "informant.permanentAddress",
+        "label": "permanentAddress",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"permanentAddress\" on path \"informant.permanentAddress\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"permanentAddress\" on path \"informant.permanentAddress\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-008",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.temporaryAddress",
+      "rawPattern": "{{informant.temporaryAddress}}",
+      "current": {
+        "path": "informant.temporaryAddress",
+        "label": "temporaryAddress",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"temporaryAddress\" on path \"informant.temporaryAddress\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"temporaryAddress\" on path \"informant.temporaryAddress\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-009",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.currentAddress",
+      "rawPattern": "{{informant.currentAddress}}",
+      "current": {
+        "path": "informant.currentAddress",
+        "label": "currentAddress",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"currentAddress\" on path \"informant.currentAddress\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"currentAddress\" on path \"informant.currentAddress\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-010",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.phone",
+      "rawPattern": "{{informant.phone}}",
+      "current": {
+        "path": "informant.phone",
+        "label": "phone",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"phone\" on path \"informant.phone\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"phone\" on path \"informant.phone\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-011",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "informant.representedOrganization",
+      "rawPattern": "{{informant.representedOrganization}}",
+      "current": {
+        "path": "informant.representedOrganization",
+        "label": "representedOrganization",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"representedOrganization\" on path \"informant.representedOrganization\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"representedOrganization\" on path \"informant.representedOrganization\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-012",
+      "templateCode": "BM-001",
+      "title": "BM-001",
+      "path": "recipients.archiveLine",
+      "rawPattern": "{{recipients.archiveLine}}",
+      "current": {
+        "path": "recipients.archiveLine",
+        "label": "archiveLine",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-013",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "document.issuePlaceAndDateLine",
+      "rawPattern": "{{document.issuePlaceAndDateLine}}",
+      "current": {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "issuePlaceAndDateLine",
+        "source": "systemDate",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"issuePlaceAndDateLine\" on path \"document.issuePlaceAndDateLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"issuePlaceAndDateLine\" on path \"document.issuePlaceAndDateLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-014",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "sourceReport.receivedDateLine",
+      "rawPattern": "{{sourceReport.receivedDateLine}}",
+      "current": {
+        "path": "sourceReport.receivedDateLine",
+        "label": "receivedDateLine",
+        "source": "systemDate",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"receivedDateLine\" on path \"sourceReport.receivedDateLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"receivedDateLine\" on path \"sourceReport.receivedDateLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-015",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "agency.bodyName",
+      "rawPattern": "{{agency.bodyName}}",
+      "current": {
+        "path": "agency.bodyName",
+        "label": "bodyName",
+        "source": "agencyConfig",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"bodyName\" on path \"agency.bodyName\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"bodyName\" on path \"agency.bodyName\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-016",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.genderText",
+      "rawPattern": "{{reporter.genderText}}",
+      "current": {
+        "path": "reporter.genderText",
+        "label": "genderText",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"genderText\" on path \"reporter.genderText\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"genderText\" on path \"reporter.genderText\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-017",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.otherName",
+      "rawPattern": "{{reporter.otherName}}",
+      "current": {
+        "path": "reporter.otherName",
+        "label": "otherName",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"otherName\" on path \"reporter.otherName\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"otherName\" on path \"reporter.otherName\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-018",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.birthDateLine",
+      "rawPattern": "{{reporter.birthDateLine}}",
+      "current": {
+        "path": "reporter.birthDateLine",
+        "label": "birthDateLine",
+        "source": "systemDate",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"birthDateLine\" on path \"reporter.birthDateLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"birthDateLine\" on path \"reporter.birthDateLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-019",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.birthPlace",
+      "rawPattern": "{{reporter.birthPlace}}",
+      "current": {
+        "path": "reporter.birthPlace",
+        "label": "birthPlace",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"birthPlace\" on path \"reporter.birthPlace\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"birthPlace\" on path \"reporter.birthPlace\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-020",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.ethnicity",
+      "rawPattern": "{{reporter.ethnicity}}",
+      "current": {
+        "path": "reporter.ethnicity",
+        "label": "ethnicity",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"ethnicity\" on path \"reporter.ethnicity\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"ethnicity\" on path \"reporter.ethnicity\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-021",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.religion",
+      "rawPattern": "{{reporter.religion}}",
+      "current": {
+        "path": "reporter.religion",
+        "label": "religion",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"religion\" on path \"reporter.religion\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"religion\" on path \"reporter.religion\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-022",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.occupation",
+      "rawPattern": "{{reporter.occupation}}",
+      "current": {
+        "path": "reporter.occupation",
+        "label": "occupation",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"occupation\" on path \"reporter.occupation\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"occupation\" on path \"reporter.occupation\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-023",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.identityNumber",
+      "rawPattern": "{{reporter.identityNumber}}",
+      "current": {
+        "path": "reporter.identityNumber",
+        "label": "identityNumber",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityNumber\" on path \"reporter.identityNumber\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityNumber\" on path \"reporter.identityNumber\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-024",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.identityIssueDateLine",
+      "rawPattern": "{{reporter.identityIssueDateLine}}",
+      "current": {
+        "path": "reporter.identityIssueDateLine",
+        "label": "identityIssueDateLine",
+        "source": "systemDate",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssueDateLine\" on path \"reporter.identityIssueDateLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssueDateLine\" on path \"reporter.identityIssueDateLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-025",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.identityIssuePlace",
+      "rawPattern": "{{reporter.identityIssuePlace}}",
+      "current": {
+        "path": "reporter.identityIssuePlace",
+        "label": "identityIssuePlace",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"identityIssuePlace\" on path \"reporter.identityIssuePlace\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"identityIssuePlace\" on path \"reporter.identityIssuePlace\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-026",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.permanentResidence",
+      "rawPattern": "{{reporter.permanentResidence}}",
+      "current": {
+        "path": "reporter.permanentResidence",
+        "label": "permanentResidence",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"permanentResidence\" on path \"reporter.permanentResidence\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"permanentResidence\" on path \"reporter.permanentResidence\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-027",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.temporaryResidence",
+      "rawPattern": "{{reporter.temporaryResidence}}",
+      "current": {
+        "path": "reporter.temporaryResidence",
+        "label": "temporaryResidence",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"temporaryResidence\" on path \"reporter.temporaryResidence\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"temporaryResidence\" on path \"reporter.temporaryResidence\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-028",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.currentResidence",
+      "rawPattern": "{{reporter.currentResidence}}",
+      "current": {
+        "path": "reporter.currentResidence",
+        "label": "currentResidence",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"currentResidence\" on path \"reporter.currentResidence\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"currentResidence\" on path \"reporter.currentResidence\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-029",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.phoneNumber",
+      "rawPattern": "{{reporter.phoneNumber}}",
+      "current": {
+        "path": "reporter.phoneNumber",
+        "label": "phoneNumber",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"phoneNumber\" on path \"reporter.phoneNumber\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"phoneNumber\" on path \"reporter.phoneNumber\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-030",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "reporter.organizationRepresentative",
+      "rawPattern": "{{reporter.organizationRepresentative}}",
+      "current": {
+        "path": "reporter.organizationRepresentative",
+        "label": "organizationRepresentative",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"organizationRepresentative\" on path \"reporter.organizationRepresentative\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"organizationRepresentative\" on path \"reporter.organizationRepresentative\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-031",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "sourceReport.content",
+      "rawPattern": "{{sourceReport.content}}",
+      "current": {
+        "path": "sourceReport.content",
+        "label": "content",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"content\" on path \"sourceReport.content\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"content\" on path \"sourceReport.content\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-032",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "recipients.primaryLine",
+      "rawPattern": "{{recipients.primaryLine}}",
+      "current": {
+        "path": "recipients.primaryLine",
+        "label": "primaryLine",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"primaryLine\" on path \"recipients.primaryLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"primaryLine\" on path \"recipients.primaryLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-033",
+      "templateCode": "BM-002",
+      "title": "BM-002",
+      "path": "recipients.archiveLine",
+      "rawPattern": "{{recipients.archiveLine}}",
+      "current": {
+        "path": "recipients.archiveLine",
+        "label": "archiveLine",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-034",
+      "templateCode": "BM-003",
+      "title": "BM-003",
+      "path": "document.issuePlaceAndDateLine",
+      "rawPattern": "{{document.issuePlaceAndDateLine}}",
+      "current": {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "issuePlaceAndDateLine",
+        "source": "systemDate",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"issuePlaceAndDateLine\" on path \"document.issuePlaceAndDateLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"issuePlaceAndDateLine\" on path \"document.issuePlaceAndDateLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-035",
+      "templateCode": "BM-003",
+      "title": "BM-003",
+      "path": "recipients.primaryLine",
+      "rawPattern": "{{recipients.primaryLine}}",
+      "current": {
+        "path": "recipients.primaryLine",
+        "label": "primaryLine",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"primaryLine\" on path \"recipients.primaryLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"primaryLine\" on path \"recipients.primaryLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-036",
+      "templateCode": "BM-003",
+      "title": "BM-003",
+      "path": "recipients.archiveLine",
+      "rawPattern": "{{recipients.archiveLine}}",
+      "current": {
+        "path": "recipients.archiveLine",
+        "label": "archiveLine",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"archiveLine\" on path \"recipients.archiveLine\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-037",
+      "templateCode": "BM-003",
+      "title": "BM-003",
+      "path": "signature.signMode",
+      "rawPattern": "{{signature.signMode}}",
+      "current": {
+        "path": "signature.signMode",
+        "label": "signMode",
+        "source": "officialConfig",
+        "required": true,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Raw camelCase label \"signMode\" on path \"signature.signMode\" needs review"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Raw camelCase label \"signMode\" on path \"signature.signMode\" needs review",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-038",
+      "templateCode": "BM-004",
+      "title": "BM-004",
+      "path": "agency.vienKiem",
+      "rawPattern": "{{document.field1}}",
+      "current": {
+        "path": "agency.vienKiem",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.vienKiem\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path.",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_SOURCE",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "SOURCE_MISMATCH: current source=\"agencyConfig\" inconsistent with path. Proposed source is invalid or not determined. Needs human review.",
+        "confidence": "MEDIUM"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-039",
+      "templateCode": "BM-004",
+      "title": "BM-004",
+      "path": "agency.tenCo",
+      "rawPattern": "{{document.field3}}",
+      "current": {
+        "path": "agency.tenCo",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field3\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.tenCo\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field3\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path.",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_SOURCE",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "SOURCE_MISMATCH: current source=\"agencyConfig\" inconsistent with path. Proposed source is invalid or not determined. Needs human review.",
+        "confidence": "MEDIUM"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-040",
+      "templateCode": "BM-004",
+      "title": "BM-004",
+      "path": "document.vietTat",
+      "rawPattern": "{{document.field4}}",
+      "current": {
+        "path": "document.vietTat",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"document.vietTat\"; context=\"Xét thấy:{{document.field4}}\" — needs review to determine correct label"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"document.vietTat\"; context=\"Xét thấy:{{document.field4}}\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-041",
+      "templateCode": "BM-004",
+      "title": "BM-004",
+      "path": "agency.diaDanh",
+      "rawPattern": "{{document.field9}}",
+      "current": {
+        "path": "agency.diaDanh",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"{{document.field9}}\" — needs review to determine correct label"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field9\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.diaDanh\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"{{document.field9}}\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-042",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "agency.vienKiem",
+      "rawPattern": "{{document.field1}}",
+      "current": {
+        "path": "agency.vienKiem",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.vienKiem\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path.",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_SOURCE",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "SOURCE_MISMATCH: current source=\"agencyConfig\" inconsistent with path. Proposed source is invalid or not determined. Needs human review.",
+        "confidence": "MEDIUM"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-043",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "agency.tenCo",
+      "rawPattern": "{{document.field3}}",
+      "current": {
+        "path": "agency.tenCo",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"agency.tenCo\"; context=\"Nhận thấy vụ việc{{document.field3}}{{document.field4}}\" — needs review to determine correct label"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field3\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.tenCo\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"agency.tenCo\"; context=\"Nhận thấy vụ việc{{document.field3}}{{document.field4}}\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-044",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "document.vietTat",
+      "rawPattern": "{{document.field4}}",
+      "current": {
+        "path": "document.vietTat",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"document.vietTat\"; context=\"Nhận thấy vụ việc{{document.field3}}{{document.field4}}\" — needs review to determine correct label"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"document.vietTat\"; context=\"Nhận thấy vụ việc{{document.field3}}{{document.field4}}\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-045",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "agency.diaDanh",
+      "rawPattern": "{{document.field5}}",
+      "current": {
+        "path": "agency.diaDanh",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SOURCE_MISMATCH"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"Điều 1. Vụ việc7… thuộc thẩm quyền giải quyết của8{{document\" — needs review to determine correct label"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field5\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"agency.diaDanh\" (document domain). Needs review to determine correct source."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"Điều 1. Vụ việc7… thuộc thẩm quyền giải quyết của8{{document\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-046",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "document.ngayBan",
+      "rawPattern": "{{case.field6}}",
+      "current": {
+        "path": "document.ngayBan",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"document.ngayBan\"; context=\"Điều 2. Yêu cầu8{{case.field6}} tiếp tục giải quyết nguồn ti\" — needs review to determine correct label"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"document.ngayBan\"; context=\"Điều 2. Yêu cầu8{{case.field6}} tiếp tục giải quyết nguồn ti\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-047",
+      "templateCode": "BM-013",
+      "title": "BM-013",
+      "path": "document.soVan",
+      "rawPattern": "{{document.field7}}",
+      "current": {
+        "path": "document.soVan",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"document.soVan\"; context=\"{{document.field7}}.\" — needs review to determine correct label"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"document.soVan\"; context=\"{{document.field7}}.\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-048",
+      "templateCode": "BM-021",
+      "title": "BM-021",
+      "path": "agency.parentNameUpper",
+      "rawPattern": "{{document.field1}}",
+      "current": {
+        "path": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "SHOULD_BE_READONLY",
+        "COMPILED_DRIFT"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_SOURCE",
+          "issueCodes": [
+            "SHOULD_BE_READONLY"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "SHOULD_BE_READONLY on path=\"agency.parentNameUpper\" with source=\"computed\" — needs review"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "NO_OP",
+          "issueCodes": [
+            "COMPILED_DRIFT"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field1\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path.",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_PATH",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "RAW_PATTERN_DOMAIN_MISMATCH: raw pattern domain does not match path. Proposed path=\"N/A\". Suggested path is generic or missing — needs human review.",
+        "confidence": "MEDIUM"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-049",
+      "templateCode": "BM-021",
+      "title": "BM-021",
+      "path": "agency.issuePlace",
+      "rawPattern": "{{document.field3}}",
+      "current": {
+        "path": "agency.issuePlace",
+        "label": "Ô trống",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "COMPILED_DRIFT"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"agency.issuePlace\"; context=\"Xét thấy{{document.field3}}{{document.field4}},\" — needs review to determine correct label"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field3\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "NO_OP",
+          "issueCodes": [
+            "COMPILED_DRIFT"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"agency.issuePlace\"; context=\"Xét thấy{{document.field3}}{{document.field4}},\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    },
+    {
+      "reviewGroupId": "B2RG-050",
+      "templateCode": "BM-021",
+      "title": "BM-021",
+      "path": "decision.summaryLine",
+      "rawPattern": "{{document.field9}}",
+      "current": {
+        "path": "decision.summaryLine",
+        "label": "Ô trống",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "RAW_PATTERN_DOMAIN_MISMATCH",
+        "COMPILED_DRIFT"
+      ],
+      "candidateOptions": [
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "Bad label \"Ô trống\" on path \"decision.summaryLine\"; context=\"{{document.field9}}{{document.field10}}\" — needs review to determine correct label"
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested \"document.field9\" but suggestedPath contains generic fieldN. Requires review to find correct semantic path."
+        },
+        {
+          "proposedLabel": null,
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "NO_OP",
+          "issueCodes": [
+            "COMPILED_DRIFT"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct"
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": "Bad label \"Ô trống\" on path \"decision.summaryLine\"; context=\"{{document.field9}}{{document.field10}}\" — needs review to determine correct label",
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "recommendedDecision": {
+        "decision": "DEFER_METADATA_REVIEW",
+        "action": "UPDATE_LABEL",
+        "label": null,
+        "path": null,
+        "source": null,
+        "rationale": "BAD_LABEL candidate but proposed label is missing or same as current. Needs human to confirm Vietnamese label.",
+        "confidence": "LOW"
+      },
+      "applySafeAfterApproval": false,
+      "reviewerDecisionRequired": true
+    }
+  ]
+}
