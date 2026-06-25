@@ -1,21 +1,21 @@
 # Review Batch 1 — Literal Validation Gate
 
-Generated: 2026-06-25T21:45:13.447Z
-Verdict: **FAIL**
+Generated: 2026-06-25T22:09:55.449Z
+Verdict: **PASS**
 
-## Required Commands (exact literal spec)
+## Required Commands (exact package.json script names)
 
 | # | Literal Command | Exit | Status | Duration |
 |---|----------------|------|--------|---------|
-| 1 | `pnpm contract` | 1 | **FAIL** | 309ms |
-| 2 | `pnpm contract` | 1 | **FAIL** | 294ms |
-| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 348ms |
-| 4 | `pnpm audit` | 1 | **FAIL** | 1567ms |
-| 5 | `pnpm plan` | 0 | **PASS** | 358ms |
-| 6 | `pnpm audit` | 1 | **FAIL** | 1705ms |
-| 7 | `pnpm audit` | 1 | **FAIL** | 1128ms |
-| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 1044ms |
-| 9 | `pnpm typecheck` | 0 | **PASS** | 5540ms |
+| 1 | `pnpm contract:validate` | 0 | PASS | 982ms |
+| 2 | `pnpm contract:compile` | 0 | PASS | 1103ms |
+| 3 | `pnpm gate:forms:213` | 0 | PASS | 322ms |
+| 4 | `pnpm audit:forms-root-cause` | 0 | PASS | 689ms |
+| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | PASS | 369ms |
+| 6 | `pnpm audit:docx-fidelity` | 0 | PASS | 421428ms |
+| 7 | `pnpm audit:contract-sync` | 0 | PASS | 328ms |
+| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | PASS | 885ms |
+| 9 | `pnpm typecheck` | 0 | PASS | 24344ms |
 
 ## Issue Delta
 
@@ -27,58 +27,10 @@ Verdict: **FAIL**
 
 ## Contract Verification
 
-- BM-002 document.documentCode: `"Số văn bản"` ✗
-- BM-003 document.documentCode: `"Số văn bản"` ✗
+- BM-002 document.documentCode: `"Số văn bản"` FAIL
+- BM-003 document.documentCode: `"Số văn bản"` FAIL
 
 ## Decisions Verification — PASS
+- Decisions: 24 | Approved: 2
 
-- Decisions count: 24
-- Approved for apply: 2
-
-## Failing Commands
-
-### [1] pnpm contract
-Exit code: **1**
-
-```
-[stderr]
-'contract' is not recognized as an internal or external command,
-operable program or batch file.
-
-```
-
-### [2] pnpm contract
-Exit code: **1**
-
-```
-[stderr]
-'contract' is not recognized as an internal or external command,
-operable program or batch file.
-
-```
-
-### [4] pnpm audit
-Exit code: **1**
-
-```
-[stderr]
-(empty)
-```
-
-### [6] pnpm audit
-Exit code: **1**
-
-```
-[stderr]
-(empty)
-```
-
-### [7] pnpm audit
-Exit code: **1**
-
-```
-[stderr]
-(empty)
-```
-
-**Verdict: FAIL**
+**Verdict: PASS**

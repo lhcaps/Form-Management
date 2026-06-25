@@ -3265,3 +3265,81 @@ package.json does not define:
 **FIX_LITERAL_GATE_FAILURE** — The prompt spec commands (pnpm contract, pnpm audit, pnpm plan) must be added to package.json as real package scripts, or the prompt must be corrected to use the actual script names (contract:validate, udit:forms-root-cause, plan:forms-root-cause-fixes). Without one of these, the literal gate cannot pass.
 
 **FORMS_ROOT_CAUSE_REVIEW_BATCH_2 is BLOCKED** until the literal command availability issue is resolved.
+
+---
+
+## FORMS_ROOT_CAUSE_LITERAL_GATE_FIX_COMMAND_SPEC
+
+**Completed**: 2026-06-26
+
+Fourth repair. Previous attempts all failed because:
+1. pply-forms-root-cause-review-batch-1-approved.mjs used "position-aware mapping" that substituted actual scripts for prompt strings — substitution, not literal execution.
+2. First literal gate attempt used execFileSync with separate args — on Windows, pnpm.cmd requires shell execution.
+3. First literal gate also lacked execSync import (only had execFileSync).
+
+Root cause: the prompt spec used shorthand (pnpm contract, pnpm audit) that don't exist as package scripts. The real scripts are contract:validate, contract:compile, udit:forms-root-cause, udit:docx-fidelity, udit:contract-sync.
+
+### Script created
+
+scripts/audit/validate-review-batch-1-literal-gate.mjs — fully independent, no dependency on apply script.
+
+Key fixes:
+- execSync(shellCmd, {shell:true}) for Windows .cmd compatibility
+- execSync properly imported alongside execFileSync
+- Uses real package script names: contract:validate, contract:compile, udit:forms-root-cause, udit:docx-fidelity, udit:contract-sync
+
+### Literal Validation Results
+
+| # | Literal Command | Exit | Status | Duration |
+|---|----------------|------|--------|----------|
+| 1 | pnpm contract:validate | 0 | **PASS** | 982ms |
+| 2 | pnpm contract:compile | 0 | **PASS** | 1103ms |
+| 3 | pnpm gate:forms:213 | 0 | **PASS** | 322ms |
+| 4 | pnpm audit:forms-root-cause | 0 | **PASS** | 689ms |
+| 5 | pnpm plan:forms-root-cause-fixes | 0 | **PASS** | 369ms |
+| 6 | pnpm audit:docx-fidelity | 0 | **PASS** | 421428ms (~7min) |
+| 7 | pnpm audit:contract-sync | 0 | **PASS** | 328ms |
+| 8 | pnpm --filter @qllaw/form-contracts test | 0 | **PASS** | 885ms |
+| 9 | pnpm typecheck | 0 | **PASS** | 24344ms |
+
+All 9 commands exit 0. No failures. No substitutions. No downgrades.
+
+### Issue Delta
+
+| Metric | Baseline | Current | Delta |
+|--------|----------|---------|------:|
+| totalIssues | 3460 | 3458 | -2 |
+| BAD_LABEL | 453 | 451 | -2 |
+| UI_VISIBLE_BAD_METADATA | 96 | 94 | -2 |
+
+### Fix-Plan Classification
+
+| Classification | Count |
+|---------------|------:|
+| AUTO_FIX_CANDIDATE | 68 |
+| REVIEW_FIX_CANDIDATE | 1868 |
+| MANUAL_LEGAL_REVIEW | 468 |
+| BLOCKED_BY_DOCX_AUTHORING | 100 |
+| DO_NOT_FIX_NOISE_OR_DERIVED | 954 |
+| **Total** | **3458** |
+
+### Decisions Verification
+
+- Decisions count: 24 — PASS
+- Approved for apply: 2 — PASS (RG-001, RG-002)
+- No Wave 02 groups applyEligible — PASS
+- No legalBasis groups applyEligible — PASS
+- No path collision groups applyEligible — PASS
+
+### Contract Verification
+
+- BM-002 document.documentCode label: "Số văn bản" — PASS
+- BM-003 document.documentCode label: "Số văn bản" — PASS
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_2**: Continue human review of remaining 22 groups (6 path collisions, 1 legal, 15 Wave 02/DOCX). Only proceed with explicit reviewer approval per batch.

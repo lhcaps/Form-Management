@@ -1,21 +1,22 @@
 {
-  "generatedAt": "2026-06-25T21:45:13.447Z",
+  "generatedAt": "2026-06-25T22:09:55.449Z",
+  "strictMode": false,
   "requiredCommands": [
     {
       "index": 0,
       "command": "pnpm",
       "args": [
-        "contract"
+        "contract:validate"
       ],
-      "literal": "pnpm contract"
+      "literal": "pnpm contract:validate"
     },
     {
       "index": 1,
       "command": "pnpm",
       "args": [
-        "contract"
+        "contract:compile"
       ],
-      "literal": "pnpm contract"
+      "literal": "pnpm contract:compile"
     },
     {
       "index": 2,
@@ -29,33 +30,33 @@
       "index": 3,
       "command": "pnpm",
       "args": [
-        "audit"
+        "audit:forms-root-cause"
       ],
-      "literal": "pnpm audit"
+      "literal": "pnpm audit:forms-root-cause"
     },
     {
       "index": 4,
       "command": "pnpm",
       "args": [
-        "plan"
+        "plan:forms-root-cause-fixes"
       ],
-      "literal": "pnpm plan"
+      "literal": "pnpm plan:forms-root-cause-fixes"
     },
     {
       "index": 5,
       "command": "pnpm",
       "args": [
-        "audit"
+        "audit:docx-fidelity"
       ],
-      "literal": "pnpm audit"
+      "literal": "pnpm audit:docx-fidelity"
     },
     {
       "index": 6,
       "command": "pnpm",
       "args": [
-        "audit"
+        "audit:contract-sync"
       ],
-      "literal": "pnpm audit"
+      "literal": "pnpm audit:contract-sync"
     },
     {
       "index": 7,
@@ -79,65 +80,65 @@
   "results": [
     {
       "index": 0,
-      "literal": "pnpm contract",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 309,
-      "stdoutTail": "undefined\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command \"contract\" not found\n\nDid you mean \"pnpm test:contracts\"?\n",
-      "stderrTail": "'contract' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n"
+      "literal": "pnpm contract:validate",
+      "exitCode": 0,
+      "status": "PASS",
+      "durationMs": 982,
+      "stdoutTail": "VALID   docs\\audit\\docx\\contracts\\locked\\BM-166__d0762a0ffb28.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-167__70817b325370.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-168__3369df5870b2.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-169__b737aefc0c16.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-170__c8f50b0e9f5b.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-171__46b9a8be4e01.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-172__e3a3eb687d2f.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-173__2e06ac25958d.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-174__f8e45c638bb6.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-175__6d3f2b46283d.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-176__8f1b057e17a7.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-177__05be0ed97398.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-178__7f2719dcacc7.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-179__186c49575a2e.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-180__d608f62a685a.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-181__ec1d8701fc13.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-182__95dc6d1f57ab.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-183__294fc847169f.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-184__fb1c01087fa5.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-185__69c976088827.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-186__84cb2023273b.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-187__e47644149068.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-188__cb14348d184c.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-189__70da8df0a0da.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-190__36fb96ee1a73.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-191__11335dc18806.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-192__42db503bed2a.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-193__e24862458ecb.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-194__946009a4f0e0.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-195__0b409423eb38.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-196__0c6aec084a26.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-197__37dda9913570.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-198__269efb9590af.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-199__e4724bd967ad.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-200__d340f628394e.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-201__2d0aab05928d.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-202__0c74f6ae9727.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-203__7572e687ae0f.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-204__f334b93daabe.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-205__e6427663d551.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-206__83dd8f078d92.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-207__34a77bfcbd63.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-208__93ee4a40d673.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-209__2547ef797798.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-210__7266a312afb8.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-211__ff91d4c3b4e0.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-212__b1bab1e5a854.contract.locked.json\nVALID   docs\\audit\\docx\\contracts\\locked\\BM-213__33383be18132.contract.locked.json\nVALID   packages\\form-contracts\\fixtures\\synthetic-v2.contract.json\n",
+      "stderrTail": ""
     },
     {
       "index": 1,
-      "literal": "pnpm contract",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 294,
-      "stdoutTail": "undefined\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command \"contract\" not found\n\nDid you mean \"pnpm test:contracts\"?\n",
-      "stderrTail": "'contract' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n"
+      "literal": "pnpm contract:compile",
+      "exitCode": 0,
+      "status": "PASS",
+      "durationMs": 1103,
+      "stdoutTail": "COMPILED BM-165 fd1a11d0135aadcb74622a7dae52684a2887f594bcb10010174bf4316fdecb7d\nCOMPILED BM-166 501369403c5676f7726121b04307f6e3886ef8c00ff59ac02e140cdcf3a223bd\nCOMPILED BM-167 93e289f34ce09a11ced0e4b08856d6c0225945613e4f1bef618b4b677c6396da\nCOMPILED BM-168 958c378b194c06f6d133a8a015fab03982a38a408e4f34084dd36e465db7c7bf\nCOMPILED BM-169 8da97632db9fb224c77f800a05eed6cbd6505cd6919d89f5452c42d21ce328c4\nCOMPILED BM-170 0820c166839b19bacab0b2e4a0f09cced1e04e635451c72ecac572cde36177ce\nCOMPILED BM-171 332ef3be9624c85e01e0530fab5ceaefc7bf5be67ed7f0ac4ade0cccbaceac8c\nCOMPILED BM-172 a34126df1805e3dedf7b713535dc9cd411d8ca3d8cc8a19b348502bcb34c9fbe\nCOMPILED BM-173 b612940a24a2e9f9fc0243d96376e35a6b7907accd581a5c5c6af6b1435f9161\nCOMPILED BM-174 2f4d2259825f14d4b010b07e5a15d8ca945a5d9dc566cc34daec9118c288c9b0\nCOMPILED BM-175 a9f37226ca659503d2790e5f092901918a9b81a972ebf811508d6f29e31bf8de\nCOMPILED BM-176 80d55d1f8fa680d79df9611657291f143f67e940ad2d5da95a59e8b06afc59f6\nCOMPILED BM-177 76db77d29ddc148766945c21190473b3bd5354cfa6a76e4f6df8f221c1151693\nCOMPILED BM-178 bd2a68afbe713fe71bd0681f16652b619ee944e87af8c59fd3e0e37fc8da945b\nCOMPILED BM-179 99b881c5b9a8ea9282a01beb915dce3edcd77382837bd100c3306897543efc79\nCOMPILED BM-180 054e4ba882fbd121ea7628fd7abbcc6368cf4ff9e57b033accdf67263d4da7e2\nCOMPILED BM-181 59672359f3e7806247c48c431730b2490aa59fec2a1f57b6c586219ddc0bba74\nCOMPILED BM-182 98a11304de55e8ad60f38e4baeab5a0b3e98b370f06842e25ca3deb9c10ac206\nCOMPILED BM-183 96385899d13af0a7c6bcc3d7a2b2e5ce01d4ad80d1558a3ea61c33400ddbf77d\nCOMPILED BM-184 cb5c378dd8f15e3b96d4de19139ebc435a45b97f94b0941df612f53725e21c28\nCOMPILED BM-185 fc82938cf0ba01eeeb7acc1718d25ab133a0cb37fdf90ecb20b1ae83906d61d8\nCOMPILED BM-186 f590fc363bc927f883b02de8d047f6dd82387f11683e8fb27a12e0bf72ecd158\nCOMPILED BM-187 6217253cab831b4aefdde6fa9f811a76d3913e51a1d03bf4e45637cda2f6cb86\nCOMPILED BM-188 4e8f726d430c3d2e030be6e193a48af7296c0945b63dc99e70b7ae60b459fb81\nCOMPILED BM-189 a1cafca3403c4ea9a51902c13eeacb9882658bab2c0254f4da9f5ad71e1509ba\nCOMPILED BM-190 f2e67205121aaeadf533d1794b612d96dec679b33c840a9c3faecdeb96ea12af\nCOMPILED BM-191 aebda19cf5b4bf62098f9dbb12576b68853e451a9444b19dac75b3147fd81b3f\nCOMPILED BM-192 64eb9ee903ab76c34aad8b4b1b11cbc2e4fb0b49fbe05ac27dbdbb2530aaf380\nCOMPILED BM-193 27a6c988e32d8644f1c0e1ce9bef691a334f221c492ee8e5246a1700ef91c64c\nCOMPILED BM-194 d7bfc5f6b122eb8db3bf1bc3d70fc9ea88aed1babfdf35e1641c2411c5a22928\nCOMPILED BM-195 181e0f8cdb48a0158814eea239cebcfa8d62e91ddfddd7193cd60e8c8e641e06\nCOMPILED BM-196 cae91de1cbb17d4438ff290a776a633871ac61bdf878ca992b2be093ead6172b\nCOMPILED BM-197 d1506a2b9f88e44508e7f34be0989e3c16e4ad1987434905e7b8d6be7b368e2e\nCOMPILED BM-198 ec67fb1be35e29b88dba0c686061b1aea596b830a89fdea6c55588848ae478b9\nCOMPILED BM-199 952fe040f0c360681d05830eb89f17cc1a6edd5ac9fd3a476902e6bd04c755d3\nCOMPILED BM-200 0dddb85976d1e0af6dca8cc13732bc61c81dd0f30bad2eaf78cda7cee669a5ec\nCOMPILED BM-201 9ce51eb3d57f3fdade955172e20fb755f0fec0d490651f7f9614d79cd2ee993e\nCOMPILED BM-202 e2a2a55d79bac0480c0c4b90624a79de720fc8f8a4832758e93df3067695c05b\nCOMPILED BM-203 ed6ecb6d333f07d74d59c97399f4ed139857c0047cce59d112e93b844b180b94\nCOMPILED BM-204 b1dd63ee40a9c6576ef6ee37a1b8031debf24341c6e73171ffbe87e1d87080fe\nCOMPILED BM-205 35a4bd7be1d60280ef7baf7aed12f9b961710e3f9452428de57bf8f567dbde0b\nCOMPILED BM-206 08b33a49ae8f16f2d751f866394f48b1cb51b854c1eebd044c32237326b1eea3\nCOMPILED BM-207 5156457d559e295603e75211dff66be9310a4bb9474a64d288f0c2aa1190f2a5\nCOMPILED BM-208 957c23a041a63a8a5c8f0793c94d73c6384fbfd2954afb3402bf2af6ceb9c821\nCOMPILED BM-209 a1e72f39f9bccbb93792a20a566baab14ea6045b6c0d4393f4dc167d871f69f1\nCOMPILED BM-210 16ea55725c0a0fd6f9c2b7df4e3c9e898aafe8c3cae874fc77fc4dbdc2279e8b\nCOMPILED BM-211 781f12d6b39d17f688770b29cf932bd241af94c350e9b42f13c752a0abc8965a\nCOMPILED BM-212 9fe33d15cf5920a14c6eaa940d66ba7e1041b2337cef83d336eeb6242ec6905a\nCOMPILED BM-213 0c97b3424a79de1cdbbc63204bd4a5acd1c71379450cadf4ae04c1831a0f1ec7\n",
+      "stderrTail": ""
     },
     {
       "index": 2,
       "literal": "pnpm gate:forms:213",
       "exitCode": 0,
       "status": "PASS",
-      "durationMs": 348,
+      "durationMs": 322,
       "stdoutTail": "\n> quanlyvks@0.1.0 gate:forms:213 D:\\Study\\Project\\QLLaw-main\n> node scripts/docx-contract/gate-forms-213.cjs --allow-remediation --allow-unresolved-review\n\n\n[gate:forms:213]\n  Locked count:    213/213\n  Human-reviewed:  213/213\n  Generic slots:  0\n  Generic fields: 0\n  Generic binds:  0\n  Verify report:  LOCKED-CONTRACTS-SUMMARY.md\n  Blocking:       0 (must fix before production)\n  Remediation:    8 (DOCX edit needed)\n  Warning:        85 (metadata completeness)\n  [INFO] 8 remediation items present (--allow-remediation passed — non-blocking)\n  [INFO] 61 unresolved reviewRequired=true fields present (--allow-unresolved-review passed — non-blocking)\n\n[GATE PASSED] 213/213 forms locked, human-reviewed, zero generic paths.\n",
       "stderrTail": ""
     },
     {
       "index": 3,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1567,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
+      "literal": "pnpm audit:forms-root-cause",
+      "exitCode": 0,
+      "status": "PASS",
+      "durationMs": 689,
+      "stdoutTail": "\n> quanlyvks@0.1.0 audit:forms-root-cause D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-forms-root-cause.mjs\n\n\n=== SMOKE TESTS ===\n  PASS  parseRawPattern: strips braces cleanly\n  PASS  parseRawPattern: strips braces on document.field3\n  PASS  parseRawPattern: strips braces on person.permanentAddress\n  PASS  parseRawPattern: null on invalid input\n  PASS  Good label + domain mismatch still flags RAW_PATTERN_DOMAIN_MISMATCH\n  PASS  Good label + agencyConfig + decision rawPattern flags SOURCE_MISMATCH\n  PASS  Good label + generic raw + weak context flags GENERIC_FIELD_CANONICALIZATION\n  PASS  Generic raw + weak context also flags WEAK_EVIDENCE_AUTO_LOCKED\n  PASS  manual + document.fullDocumentCode flags SHOULD_BE_READONLY\n  PASS  agencyConfig + decision rawPattern flags both MISMATCH rules\n  PASS  agency.nameUpper + agencyConfig flags SHOULD_BE_READONLY\n  PASS  required=false + signerName flags REQUIRED_SUSPICIOUS\n  PASS  Empty label flags BAD_LABEL as FAIL\n  PASS  Remediation label in slot flags REMEDIATION_LEAK\n\nSmoke tests: 14 passed, 0 failed\n",
       "stderrTail": ""
     },
     {
       "index": 4,
-      "literal": "pnpm plan",
+      "literal": "pnpm plan:forms-root-cause-fixes",
       "exitCode": 0,
       "status": "PASS",
-      "durationMs": 358,
-      "stdoutTail": "\n> quanlyvks@0.1.0 plan D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/plan-forms-root-cause-fixes.mjs\n\n",
+      "durationMs": 369,
+      "stdoutTail": "\n> quanlyvks@0.1.0 plan:forms-root-cause-fixes D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/plan-forms-root-cause-fixes.mjs\n\n",
       "stderrTail": ""
     },
     {
       "index": 5,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1705,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
+      "literal": "pnpm audit:docx-fidelity",
+      "exitCode": 0,
+      "status": "PASS",
+      "durationMs": 421428,
+      "stdoutTail": "\n> quanlyvks@0.1.0 audit:docx-fidelity D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/run-docx-fidelity-all.mjs\n\n\n> quanlyvks@0.1.0 audit:docx-slot-inventory D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-docx-slot-inventory.mjs\n\n\n> quanlyvks@0.1.0 test:docx-structural-fidelity D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-docx-structural-fidelity.mjs\n\n\n> quanlyvks@0.1.0 audit:rendered-text-fidelity D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-rendered-text-fidelity.mjs\n\n\n> quanlyvks@0.1.0 test:docx-binding-correctness D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-docx-binding-correctness.mjs\n\n\n> quanlyvks@0.1.0 test:docx-repeat-blocks D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-docx-repeat-blocks.mjs\n\n",
       "stderrTail": ""
     },
     {
       "index": 6,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1128,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
+      "literal": "pnpm audit:contract-sync",
+      "exitCode": 0,
+      "status": "PASS",
+      "durationMs": 328,
+      "stdoutTail": "\n> quanlyvks@0.1.0 audit:contract-sync D:\\Study\\Project\\QLLaw-main\n> node scripts/audit/audit-contract-sync.mjs\n\n\u001b[36m\n🔍 Contract Sync CI Gate\n\u001b[0m\n\u001b[0mFound 213 locked contract files\u001b[0m\n\u001b[0mLoaded 213 locked contracts with compiled artifacts\n\u001b[0m\n\u001b[0mDATABASE_URL not set - using file-only mode\u001b[0m\n\u001b[0m\n============================================================\u001b[0m\n\u001b[0mStrategy: FILE_ONLY\u001b[0m\n\u001b[0mTotal locked contracts: 213\u001b[0m\n\u001b[32mMatched: 213\u001b[0m\n\u001b[32mMissing in DB: 0\u001b[0m\n\u001b[32mStale: 0\u001b[0m\n\u001b[0m============================================================\n\u001b[0m\n\u001b[32m\n✅ CI Gate PASSED - All contracts synced\n\u001b[0m\n",
       "stderrTail": ""
     },
     {
@@ -145,8 +146,8 @@
       "literal": "pnpm --filter @qllaw/form-contracts test",
       "exitCode": 0,
       "status": "PASS",
-      "durationMs": 1044,
-      "stdoutTail": "  ---\n  duration_ms: 0.2889\n  type: 'test'\n  ...\n# Subtest: getSectionTitle never throws and always returns a non-empty string\nok 49 - getSectionTitle never throws and always returns a non-empty string\n  ---\n  duration_ms: 0.1577\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema uses the Vietnamese title for at least one known section in BM-001\nok 50 - deriveFormInputSchema uses the Vietnamese title for at least one known section in BM-001\n  ---\n  duration_ms: 2.6154\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema uses the Vietnamese title for legalBasis in BM-053\nok 51 - deriveFormInputSchema uses the Vietnamese title for legalBasis in BM-053\n  ---\n  duration_ms: 0.9574\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema returns the Vietnamese title for agency in BM-051\nok 52 - deriveFormInputSchema returns the Vietnamese title for agency in BM-051\n  ---\n  duration_ms: 0.742\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema never fails for unknown section keys (non-blocking fallback)\nok 53 - deriveFormInputSchema never fails for unknown section keys (non-blocking fallback)\n  ---\n  duration_ms: 0.4279\n  type: 'test'\n  ...\n# Subtest: v1 adapter preserves binding semantics and payload values\nok 54 - v1 adapter preserves binding semantics and payload values\n  ---\n  duration_ms: 1.5681\n  type: 'test'\n  ...\n1..54\n# tests 80\n# suites 7\n# pass 80\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 607.508\n",
+      "durationMs": 885,
+      "stdoutTail": "  ---\n  duration_ms: 0.1697\n  type: 'test'\n  ...\n# Subtest: getSectionTitle never throws and always returns a non-empty string\nok 49 - getSectionTitle never throws and always returns a non-empty string\n  ---\n  duration_ms: 0.0706\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema uses the Vietnamese title for at least one known section in BM-001\nok 50 - deriveFormInputSchema uses the Vietnamese title for at least one known section in BM-001\n  ---\n  duration_ms: 1.485\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema uses the Vietnamese title for legalBasis in BM-053\nok 51 - deriveFormInputSchema uses the Vietnamese title for legalBasis in BM-053\n  ---\n  duration_ms: 0.7504\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema returns the Vietnamese title for agency in BM-051\nok 52 - deriveFormInputSchema returns the Vietnamese title for agency in BM-051\n  ---\n  duration_ms: 0.5374\n  type: 'test'\n  ...\n# Subtest: deriveFormInputSchema never fails for unknown section keys (non-blocking fallback)\nok 53 - deriveFormInputSchema never fails for unknown section keys (non-blocking fallback)\n  ---\n  duration_ms: 0.2869\n  type: 'test'\n  ...\n# Subtest: v1 adapter preserves binding semantics and payload values\nok 54 - v1 adapter preserves binding semantics and payload values\n  ---\n  duration_ms: 1.4986\n  type: 'test'\n  ...\n1..54\n# tests 80\n# suites 7\n# pass 80\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 495.2387\n",
       "stderrTail": ""
     },
     {
@@ -154,7 +155,7 @@
       "literal": "pnpm typecheck",
       "exitCode": 0,
       "status": "PASS",
-      "durationMs": 5540,
+      "durationMs": 24344,
       "stdoutTail": "\n> quanlyvks@0.1.0 typecheck D:\\Study\\Project\\QLLaw-main\n> pnpm --filter @qllaw/form-contracts typecheck && pnpm --filter api exec tsc --noEmit && pnpm --filter web exec tsc --noEmit\n\n\n> @qllaw/form-contracts@2.0.0 typecheck D:\\Study\\Project\\QLLaw-main\\packages\\form-contracts\n> tsc --noEmit\n\n",
       "stderrTail": ""
     }
@@ -193,52 +194,6 @@
     "approvedForApply": 2,
     "errors": []
   },
-  "failingCommands": [
-    {
-      "index": 0,
-      "literal": "pnpm contract",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 309,
-      "stdoutTail": "undefined\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command \"contract\" not found\n\nDid you mean \"pnpm test:contracts\"?\n",
-      "stderrTail": "'contract' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n"
-    },
-    {
-      "index": 1,
-      "literal": "pnpm contract",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 294,
-      "stdoutTail": "undefined\n ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command \"contract\" not found\n\nDid you mean \"pnpm test:contracts\"?\n",
-      "stderrTail": "'contract' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n"
-    },
-    {
-      "index": 3,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1567,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
-      "stderrTail": ""
-    },
-    {
-      "index": 5,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1705,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
-      "stderrTail": ""
-    },
-    {
-      "index": 6,
-      "literal": "pnpm audit",
-      "exitCode": 1,
-      "status": "FAIL",
-      "durationMs": 1128,
-      "stdoutTail": "│                     │ plugin-istanbul>@istanbuljs/load-nyc-config>js-yaml    │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-h67p-54hq-rp68      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ moderate            │ Multer vulnerable to Denial of Service via incomplete  │\n│                     │ cleanup of aborted uploads                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ multer                                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=2.0.0-alpha.1 <2.2.0                                 │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=2.2.0                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>multer                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-3p4h-7m6x-2hcm      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ esbuild allows arbitrary file read when running the    │\n│                     │ development server on Windows                          │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ esbuild                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ >=0.27.3 <0.28.1                                       │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=0.28.1                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ packages__form-contracts>tsup>esbuild                  │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-g7r4-m6w7-qqqr      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n┌─────────────────────┬────────────────────────────────────────────────────────┐\n│ low                 │ @babel/core: Arbitrary File Read via sourceMappingURL  │\n│                     │ Comment                                                │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Package             │ @babel/core                                            │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Vulnerable versions │ <=7.29.0                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Patched versions    │ >=7.29.6                                               │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ Paths               │ apps__api>jest>@jest/core>@jest/reporters>istanbul-    │\n│                     │ lib-instrument>@babel/core                             │\n├─────────────────────┼────────────────────────────────────────────────────────┤\n│ More info           │ https://github.com/advisories/GHSA-4x5r-pxfx-6jf8      │\n└─────────────────────┴────────────────────────────────────────────────────────┘\n14 vulnerabilities found\nSeverity: 2 low | 6 moderate | 5 high | 1 critical\n",
-      "stderrTail": ""
-    }
-  ],
-  "verdict": "FAIL"
+  "failingCommands": [],
+  "verdict": "PASS"
 }
