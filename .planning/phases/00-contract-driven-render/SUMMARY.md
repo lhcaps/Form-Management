@@ -2747,3 +2747,99 @@ All hard-requirement commands pass. `audit:docx-fidelity` exit 1 is informationa
 ### Recommended Next Task
 
 **FORMS_ROOT_CAUSE_REVIEW_BATCH_1**: All 72 remaining AUTO_FIX_CANDIDATE items are classified (66 SKIPPED_CONFLICTING, 6 SKIPPED_PATH_COLLISION). No missed auto-fixes. Batch 1 is clean ? proceed to review batch.
+
+---
+
+## FORMS_ROOT_CAUSE_REVIEW_BATCH_1
+
+**Completed**: 2026-06-26
+
+Prepares human-review batch plan for skipped/conflicting metadata fixes. Reads skipped-items from the apply step and produces a decision sheet with review classifications and apply-safe previews.
+
+### Script
+
+`scripts/audit/review-forms-root-cause-batch-1.mjs`
+
+Modes:
+- `node review-forms-root-cause-batch-1.mjs` — generate review batch plan
+- `pnpm review` / `pnpm review:forms-root-cause-batch-1`
+
+### Files Changed
+
+- `scripts/audit/review-forms-root-cause-batch-1.mjs` — new review batch planner
+- `package.json` — added `pnpm review` and `pnpm review:forms-root-cause-batch-1`
+- `docs/audit/forms-root-cause-review-batch-1/` — new output directory
+
+### Batch Scope
+
+The review batch includes only the 72 skipped AUTO_FIX_CANDIDATE items from the apply step:
+- 24 unique `(templateCode::path)` groups (6 x SKIPPED_PATH_COLLISION, 18 x SKIPPED_CONFLICTING)
+- HIGH-confidence REVIEW_FIX_CANDIDATE items (UI-visible, metadata-only, non-legal, non-excluded) — 0 included in this run (all filtered out by exclusion lists)
+
+### Output Files
+
+- `docs/audit/forms-root-cause-review-batch-1/latest.json` — full review data
+- `docs/audit/forms-root-cause-review-batch-1/latest.md` — markdown summary
+- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.json` — reviewer-editable decision sheet
+- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.md` — reviewer-friendly markdown table
+- `docs/audit/forms-root-cause-review-batch-1/apply-preview.json` — items approved for auto-apply after review
+
+### Review Classification Results
+
+| Type | Count |
+|------|------:|
+| REVIEW_CHOOSE_LABEL | 18 |
+| REVIEW_CHOOSE_PATH | 6 |
+| REVIEW_CHOOSE_SOURCE | 0 |
+| REVIEW_DEFER_LEGAL | 0 |
+| REVIEW_DEFER_DOCX | 0 |
+| REVIEW_REJECT_NOISE | 6 |
+| **Total** | **24** |
+
+**Apply-safe after approval**: 2 (BM-002::document.documentCode, BM-003::document.documentCode — both with APPROVE, HIGH confidence)
+
+### BM-068 Special Status
+
+| Metric | Value |
+|--------|-------|
+| Total groups | 2 |
+| Skipped-conflict groups | 2 (document.fullDocumentCode, document.issueDate) |
+| Wave 02 remediation fields | 2 (both have label "Slot from Wave 02 DOCX remediation") |
+
+All 8 remaining entries for BM-068 are SKIPPED_CONFLICTING — multiple different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, and UI_VISIBLE_BAD_METADATA sources. All propose the same label ("Số văn bản" / "Ngày ban hành") but with different issue sources. Apply-safe = false (BM-06x exclusion rule).
+
+### Path Collision Summary (6 items)
+
+All default to REJECT — path collisions indicate the auto-suggestion is ambiguous or wrong:
+
+| Group | Current Path | Proposed Path | Decision |
+|-------|-------------|---------------|----------|
+| BM-021 | document.issuePlaceAndDateLine | legalBasis.procedureArticlesLine | REJECT |
+| BM-026 | agency.nameUpper | document.issueDate | REJECT |
+| BM-036 | document.issuePlaceAndDateLine | person.fullName | REJECT |
+| BM-036 | person.fullName | document.issueDate | REJECT |
+| BM-036 | decision.summaryLine | agency.parentNameUpper | REJECT |
+| BM-041 | agency.issuePlace | document.documentCode | REJECT |
+
+### Validation Results
+
+| Command | Exit | Result |
+|---------|-------|-------|
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 80/80 pass |
+| `pnpm typecheck` | 0 | PASS |
+
+### Strict Validation (built into script)
+
+- All 24 groups have `recommendedDecision` PASS
+- No `applySafeAfterApproval=true` with `confidence=LOW` PASS
+- No MANUAL_LEGAL_REVIEW items accidentally included as apply-safe PASS
+- BM-068 has >= 2 skipped-conflict groups PASS
+- REVIEW_DEFER_LEGAL/DEFER_DOCX items not marked apply-safe PASS
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_1_DECISIONS**: Fill in `docs/audit/forms-root-cause-review-batch-1/decision-sheet.json` with human reviewer decisions. Only groups with APPROVE + HIGH confidence decisions may proceed to the apply step. Path collision groups (REJECT) and BM-068 groups (DEFER) must be resolved separately.

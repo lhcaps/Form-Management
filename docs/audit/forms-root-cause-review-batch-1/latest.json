@@ -1,0 +1,1432 @@
+{
+  "generatedAt": "2026-06-25T20:19:14.753Z",
+  "totalGroups": 24,
+  "stats": {
+    "totalGroups": 24,
+    "byType": {
+      "APPROVE": 18,
+      "REJECT": 6
+    },
+    "byReviewType": {
+      "REVIEW_CHOOSE_LABEL": 18,
+      "REVIEW_CHOOSE_PATH": 6,
+      "REVIEW_CHOOSE_SOURCE": 0,
+      "REVIEW_DEFER_LEGAL": 0,
+      "REVIEW_DEFER_DOCX": 0,
+      "REVIEW_REJECT_NOISE": 6
+    },
+    "bm068Groups": 2,
+    "pathCollisionGroups": 6,
+    "applySafeCount": 2
+  },
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "warnings": []
+  },
+  "groups": [
+    {
+      "reviewGroupId": "RG-001",
+      "templateCode": "BM-002",
+      "path": "document.documentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.documentCode",
+        "label": "documentCode",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-002::document.documentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"documentCode\" on path \"document.documentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": true
+    },
+    {
+      "reviewGroupId": "RG-002",
+      "templateCode": "BM-003",
+      "path": "document.documentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.documentCode",
+        "label": "documentCode",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-003::document.documentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"documentCode\" on path \"document.documentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": true
+    },
+    {
+      "reviewGroupId": "RG-003",
+      "templateCode": "BM-003",
+      "path": "legalBasis.procedureArticlesLine",
+      "rawPattern": null,
+      "current": {
+        "path": "legalBasis.procedureArticlesLine",
+        "label": "procedureArticlesLine",
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-003::legalBasis.procedureArticlesLine",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Căn cứ pháp lý",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"procedureArticlesLine\" on path \"legalBasis.procedureArticlesLine\" has known Vietnamese label override \"Căn cứ pháp lý\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Căn cứ pháp lý\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Căn cứ pháp lý",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-004",
+      "templateCode": "BM-021",
+      "path": "document.issuePlaceAndDateLine",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "Căn cứ Bộ luật Tố tụng hình sự",
+        "source": "systemDate",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "textarea"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"legalBasis.procedureArticlesLine\" already exists in BM-021",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Căn cứ pháp lý",
+          "proposedPath": "legalBasis.procedureArticlesLine",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{legalBasis.procedureArticlesLine}}\" on path \"document.issuePlaceAndDateLine\". suggestedPath=\"legalBasis.procedureArticlesLine\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"legalBasis.procedureArticlesLine\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-005",
+      "templateCode": "BM-026",
+      "path": "agency.nameUpper",
+      "rawPattern": null,
+      "current": {
+        "path": "agency.nameUpper",
+        "label": "Ngày ban hành",
+        "source": "agencyConfig",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "date"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"document.issueDate\" already exists in BM-026",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": "document.issueDate",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{document.issueDate}}\" on path \"agency.nameUpper\". suggestedPath=\"document.issueDate\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.issueDate\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-006",
+      "templateCode": "BM-036",
+      "path": "document.issuePlaceAndDateLine",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "Họ tên người bị áp dụng",
+        "source": "systemDate",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"person.fullName\" already exists in BM-036",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Họ tên",
+          "proposedPath": "person.fullName",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{person.fullName}}\" on path \"document.issuePlaceAndDateLine\". suggestedPath=\"person.fullName\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"person.fullName\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-007",
+      "templateCode": "BM-036",
+      "path": "person.fullName",
+      "rawPattern": null,
+      "current": {
+        "path": "person.fullName",
+        "label": "Ngày ban hành",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "date"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"document.issueDate\" already exists in BM-036",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": "document.issueDate",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{document.issueDate}}\" on path \"person.fullName\". suggestedPath=\"document.issueDate\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.issueDate\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-008",
+      "templateCode": "BM-036",
+      "path": "decision.summaryLine",
+      "rawPattern": null,
+      "current": {
+        "path": "decision.summaryLine",
+        "label": "Cơ quan cấp trên",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"agency.parentNameUpper\" already exists in BM-036",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Cơ quan cấp trên viết hoa",
+          "proposedPath": "agency.parentNameUpper",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{agency.parentNameUpper}}\" on path \"decision.summaryLine\". suggestedPath=\"agency.parentNameUpper\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"agency.parentNameUpper\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-009",
+      "templateCode": "BM-041",
+      "path": "agency.issuePlace",
+      "rawPattern": null,
+      "current": {
+        "path": "agency.issuePlace",
+        "label": "Số quyết định",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "RAW_PATTERN_DOMAIN_MISMATCH"
+      ],
+      "conflictReason": "Proposed path \"document.documentCode\" already exists in BM-041",
+      "skipReasonCode": "SKIPPED_PATH_COLLISION",
+      "classification": "SKIPPED_PATH_COLLISION",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": "document.documentCode",
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_PATH",
+          "issueCodes": [
+            "RAW_PATTERN_DOMAIN_MISMATCH"
+          ],
+          "confidence": "HIGH",
+          "reason": "Domain mismatch: raw=\"{{document.documentCode}}\" on path \"agency.issuePlace\". suggestedPath=\"document.documentCode\" is a known semantic path with known label. Auto-fix path and label."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.documentCode\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-010",
+      "templateCode": "BM-068",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-068::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Wave 02 remediation label confirmed bad. Path \"document.fullDocumentCode\" is semantically correct. Label \"Số văn bản\" matches known label map. Multiple issue sources (BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA) all agree. Safe to approve.",
+        "confidence": "HIGH",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-011",
+      "templateCode": "BM-068",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-068::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Wave 02 remediation label confirmed bad. Path \"document.issueDate\" is semantically correct. Label \"Ngày ban hành\" matches known label map. Multiple issue sources (BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA) all agree. Safe to approve.",
+        "confidence": "HIGH",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-012",
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-069::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Wave 02 remediation label confirmed bad. Path \"document.fullDocumentCode\" is semantically correct. Label \"Số văn bản\" matches known label map. Multiple issue sources (BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA) all agree. Safe to approve.",
+        "confidence": "HIGH",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-013",
+      "templateCode": "BM-069",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-069::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Wave 02 remediation label confirmed bad. Path \"document.issueDate\" is semantically correct. Label \"Ngày ban hành\" matches known label map. Multiple issue sources (BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA) all agree. Safe to approve.",
+        "confidence": "HIGH",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-014",
+      "templateCode": "BM-073",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-073::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-015",
+      "templateCode": "BM-073",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-073::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Ngày ban hành\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-016",
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-075::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-017",
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-077::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-018",
+      "templateCode": "BM-080",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-080::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-019",
+      "templateCode": "BM-080",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-080::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Ngày ban hành\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-020",
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-082::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-021",
+      "templateCode": "BM-162",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-162::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-022",
+      "templateCode": "BM-162",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-162::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Ngày ban hành\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-023",
+      "templateCode": "BM-163",
+      "path": "document.fullDocumentCode",
+      "rawPattern": null,
+      "current": {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-163::document.fullDocumentCode",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Số văn bản",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Số văn bản\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Số văn bản",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    },
+    {
+      "reviewGroupId": "RG-024",
+      "templateCode": "BM-163",
+      "path": "document.issueDate",
+      "rawPattern": null,
+      "current": {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "uiComponent": "text"
+      },
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "conflictReason": "Multiple different mutations planned for BM-163::document.issueDate",
+      "skipReasonCode": "SKIPPED_CONFLICTING_MUTATIONS",
+      "classification": "SKIPPED_CONFLICTING_MUTATIONS",
+      "candidateOptions": [
+        {
+          "proposedLabel": "Ngày ban hành",
+          "proposedPath": null,
+          "proposedSource": null,
+          "proposedRequired": null,
+          "action": "UPDATE_LABEL",
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "confidence": "MEDIUM",
+          "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+        }
+      ],
+      "context": {
+        "textBefore": null,
+        "textAfter": null,
+        "context": null,
+        "docxSlot": null,
+        "renderBinding": null
+      },
+      "reviewerDecisionRequired": true,
+      "recommendedDecision": {
+        "decision": "APPROVE",
+        "action": "UPDATE_LABEL",
+        "rationale": "Multiple issue codes conflict but all propose the same label \"Ngày ban hành\". Safe to apply.",
+        "confidence": "MEDIUM",
+        "label": "Ngày ban hành",
+        "path": null,
+        "source": null
+      },
+      "applySafeAfterApproval": false
+    }
+  ],
+  "bm068Special": {
+    "totalGroups": 2,
+    "skippedConflictGroups": 2,
+    "pathCollisionGroups": 0,
+    "wave02RemediationFields": [
+      {
+        "path": "document.fullDocumentCode",
+        "label": "Slot from Wave 02 DOCX remediation"
+      },
+      {
+        "path": "document.issueDate",
+        "label": "Slot from Wave 02 DOCX remediation"
+      }
+    ]
+  },
+  "pathCollisionSummary": [
+    {
+      "groupId": "RG-004",
+      "templateCode": "BM-021",
+      "currentPath": "document.issuePlaceAndDateLine",
+      "proposedPath": "legalBasis.procedureArticlesLine",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"legalBasis.procedureArticlesLine\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    },
+    {
+      "groupId": "RG-005",
+      "templateCode": "BM-026",
+      "currentPath": "agency.nameUpper",
+      "proposedPath": "document.issueDate",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.issueDate\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    },
+    {
+      "groupId": "RG-006",
+      "templateCode": "BM-036",
+      "currentPath": "document.issuePlaceAndDateLine",
+      "proposedPath": "person.fullName",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"person.fullName\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    },
+    {
+      "groupId": "RG-007",
+      "templateCode": "BM-036",
+      "currentPath": "person.fullName",
+      "proposedPath": "document.issueDate",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.issueDate\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    },
+    {
+      "groupId": "RG-008",
+      "templateCode": "BM-036",
+      "currentPath": "decision.summaryLine",
+      "proposedPath": "agency.parentNameUpper",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"agency.parentNameUpper\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    },
+    {
+      "groupId": "RG-009",
+      "templateCode": "BM-041",
+      "currentPath": "agency.issuePlace",
+      "proposedPath": "document.documentCode",
+      "recommendedDecision": {
+        "decision": "REJECT",
+        "action": "NO_OP",
+        "rationale": "Path collision detected: proposed path \"document.documentCode\" already exists. Auto-suggestion is ambiguous or wrong. Requires manual path design decision.",
+        "confidence": "LOW",
+        "label": null,
+        "path": null,
+        "source": null
+      }
+    }
+  ]
+}
