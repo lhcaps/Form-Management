@@ -1,19 +1,29 @@
 {
-  "generatedAt": "2026-06-25T10:47:49.238Z",
+  "generatedAt": "2026-06-25T14:53:42.657Z",
   "totalContracts": 213,
-  "passCount": 213,
-  "noRepeatCandidatesCount": 213,
+  "passCount": 212,
+  "noRepeatCandidatesCount": 212,
   "reviewRequiredCount": 0,
   "failCount": 0,
-  "totalRepeatCandidates": 161,
-  "confirmedRepeatCandidates": 0,
+  "totalRepeatCandidates": 162,
+  "confirmedRepeatCandidates": 1,
   "scalarCandidates": 161,
   "results": [
     {
       "templateCode": "BM-001",
       "sourceId": "BM-001__f4c2aa3682d3",
-      "status": "NO_REPEAT_CANDIDATES",
+      "status": "PASS",
       "repeatCandidates": [
+        {
+          "key": "k0Synthetic.repeatSlot",
+          "detectedBy": "slotType",
+          "slotType": "repeat",
+          "detectionReason": "docxSlot.slotType=repeat",
+          "classification": "CONFIRMED",
+          "notes": [
+            "slotType=repeat"
+          ]
+        },
         {
           "key": "recipients",
           "detectedBy": "knownListSection",
@@ -30,7 +40,7 @@
         }
       ],
       "notes": [
-        "1 candidate(s) detected — ALL classified as SCALAR. Known list sections (recipients/legalBasis) contain scalar text/date slots only. No {# loop syntax, no <w:tbl> elements, no repeat/table/list slotType metadata."
+        "1 confirmed repeat/list/table candidate(s)."
       ]
     },
     {

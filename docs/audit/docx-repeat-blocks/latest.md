@@ -1,15 +1,21 @@
 # DOCX Repeat/Table/List Block Fidelity — F5 audit
-Generated: 2026-06-25T10:47:49.238Z
+Generated: 2026-06-25T14:53:42.657Z
 
 | Metric | Value |
 |--------|-------|
 | totalContracts | 213 |
-| noRepeatCandidatesCount | 213 |
+| noRepeatCandidatesCount | 212 |
 | reviewRequiredCount | 0 |
 | failCount | 0 |
-| totalRepeatCandidates | 161 |
-| confirmedRepeatCandidates | 0 |
+| totalRepeatCandidates | 162 |
+| confirmedRepeatCandidates | 1 |
 | scalarCandidates | 161 |
+
+## Confirmed repeat/table/list candidates
+
+| templateCode | key | reason |
+|-------------|-----|--------|
+| BM-001 | k0Synthetic.repeatSlot | docxSlot.slotType=repeat |
 
 ## Scalar candidates (known-list sections, not repeat)
 
@@ -51,7 +57,7 @@ Generated: 2026-06-25T10:47:49.238Z
 
 | Dimension | Count |
 |-----------|-------|
-| docxSlot.slotType=repeat/table/list | 0 |
+| docxSlot.slotType=repeat/table/list | 1 |
 | renderBinding.renderType=TABLE/LIST/REPEAT | 0 |
 | canonicalField arrays | 0 |
 | DOCX {# loop syntax | 0 |
@@ -60,7 +66,7 @@ Generated: 2026-06-25T10:47:49.238Z
 
 ## Conclusion
 
-**213/213 contracts have NO_REPEAT_CANDIDATES.** 0 confirmed repeat/table/list, 161 scalar (known-list section keys with text/date slots only).
+**212/213 contracts have NO_REPEAT_CANDIDATES.** 1 confirmed repeat/table/list, 161 scalar (known-list section keys with text/date slots only).
 
 No contracts in the 213-form corpus have repeat/table/list bindings. Known list section keys (recipients, legalBasis) contain scalar text fields (e.g., `recipients.archiveLine`, `legalBasis.procedureArticlesLine`). The renderer does not need array-repeat support for any form.
 

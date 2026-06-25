@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-25T07:32:16.065Z",
-  "status": "PASS",
+  "generatedAt": "2026-06-25T14:53:39.326Z",
+  "status": "FAIL",
   "summary": {
     "totalContracts": 213,
     "totalTemplatesFound": 213,
@@ -8,11 +8,11 @@
     "totalDocxSlots": 2453,
     "totalRenderBindings": 2453,
     "totalCanonicalFields": 2453,
-    "malformedPlaceholdersCount": 0,
-    "passCount": 213,
-    "failCount": 0,
+    "malformedPlaceholdersCount": 4,
+    "passCount": 212,
+    "failCount": 1,
     "statusByBm": {
-      "BM-001": "PASS",
+      "BM-001": "FAIL",
       "BM-002": "PASS",
       "BM-003": "PASS",
       "BM-004": "PASS",
@@ -226,7 +226,36 @@
       "BM-212": "PASS",
       "BM-213": "PASS"
     },
-    "malformedSamples": []
+    "malformedSamples": [
+      {
+        "templateCode": "BM-001",
+        "part": "word/document.xml",
+        "kind": "TRIPLE_BRACE",
+        "offset": 19,
+        "preview": "{{receiver.fullName}}}}}"
+      },
+      {
+        "templateCode": "BM-001",
+        "part": "word/document.xml",
+        "kind": "UNOPENED_TAG",
+        "offset": 21,
+        "preview": "{{receiver.fullName}}}}}"
+      },
+      {
+        "templateCode": "BM-001",
+        "part": "word/document.xml",
+        "kind": "TRIPLE_BRACE",
+        "offset": 19932,
+        "preview": "l=\"28\"/></w:rPr><w:t>{{receiver.fullName}}}}}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii=\"Times New Ro"
+      },
+      {
+        "templateCode": "BM-001",
+        "part": "word/document.xml",
+        "kind": "ORPHAN_CLOSING",
+        "offset": 19934,
+        "preview": "\"28\"/></w:rPr><w:t>{{receiver.fullName}}}}}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii=\"Times New Roma"
+      }
+    ]
   },
   "perBm": [
     {
@@ -235,7 +264,7 @@
       "fileName": "BM-001__f4c2aa3682d3.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-001\\BM-001_normalized.docx",
-      "docxSha256": "e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77",
+      "docxSha256": "65bb2b76d8a73dee261eb80eba06561f0f96452f7ff493304b8e70cd8df23f6b",
       "totalDocxSlots": 28,
       "boundSlots": [
         "document.issuePlaceDateLine",
@@ -333,8 +362,33 @@
       "rejectedCandidatesCount": 11,
       "rejectedWithoutReason": [],
       "rejectedCandidateReasonMissing": false,
-      "malformedPlaceholders": [],
-      "status": "PASS"
+      "malformedPlaceholders": [
+        {
+          "part": "word/document.xml",
+          "kind": "TRIPLE_BRACE",
+          "offset": 19,
+          "preview": "{{receiver.fullName}}}}}"
+        },
+        {
+          "part": "word/document.xml",
+          "kind": "UNOPENED_TAG",
+          "offset": 21,
+          "preview": "{{receiver.fullName}}}}}"
+        },
+        {
+          "part": "word/document.xml",
+          "kind": "TRIPLE_BRACE",
+          "offset": 19932,
+          "preview": "l=\"28\"/></w:rPr><w:t>{{receiver.fullName}}}}}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii=\"Times New Ro"
+        },
+        {
+          "part": "word/document.xml",
+          "kind": "ORPHAN_CLOSING",
+          "offset": 19934,
+          "preview": "\"28\"/></w:rPr><w:t>{{receiver.fullName}}}}}</w:t></w:r><w:r><w:rPr><w:rFonts w:ascii=\"Times New Roma"
+        }
+      ],
+      "status": "FAIL"
     },
     {
       "templateCode": "BM-002",

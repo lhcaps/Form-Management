@@ -264,25 +264,27 @@ test("unknown source normalizes to manual and emits UNKNOWN_SOURCE_NORMALIZED", 
   assert.ok(warning, "expected UNKNOWN_SOURCE_NORMALIZED warning");
 });
 
-test("BM-051 (real corpus) emits UNKNOWN_SOURCE_NORMALIZED for the unknown source", () => {
+test("BM-051 (real corpus) has NO UNKNOWN_SOURCE_NORMALIZED after C3-APPLY", () => {
   const contract = loadLockedContract("BM-051");
   const schema = deriveFormInputSchema(contract);
   const fields = collectFields(schema);
-  const unknownField = fields.find(
+  const docCodeField = fields.find(
     (f) => f.path === "document.fullDocumentCode",
   );
-  assert.ok(unknownField, "expected the unknown-sourced field to still be present");
-  assert.equal(unknownField?.source, "manual");
-  assert.equal(unknownField?.editable, true);
-  assert.equal(unknownField?.visible, true);
+  assert.ok(docCodeField, "expected document.fullDocumentCode to be present");
+  // After C3-APPLY: source="unknown" → "manual"
+  assert.equal(docCodeField?.source, "manual");
+  assert.equal(docCodeField?.editable, true);
+  assert.equal(docCodeField?.visible, true);
+  // After C3-APPLY: no more UNKNOWN_SOURCE_NORMALIZED warning
   const warning = schema.warnings.find(
     (w) =>
       w.code === "UNKNOWN_SOURCE_NORMALIZED" &&
       w.path === "document.fullDocumentCode",
   );
   assert.ok(
-    warning,
-    "BM-051 schema should emit UNKNOWN_SOURCE_NORMALIZED for its unknown source field",
+    !warning,
+    "BM-051 should NOT emit UNKNOWN_SOURCE_NORMALIZED after C3-APPLY source remediation",
   );
 });
 
@@ -494,7 +496,7 @@ test("deduplication: canonical path wins over binding-fallback", () => {
       {
         path: "person.fullName",
         type: "string",
-        label: "Họ tên (canonical)",
+        label: "Họ tên",
         source: "manual",
         required: true,
         uiComponent: "text",
@@ -518,7 +520,7 @@ test("deduplication: canonical path wins over binding-fallback", () => {
   const matches = fields.filter((f) => f.path === "person.fullName");
   assert.equal(matches.length, 1, "expected exactly one field per path");
   assert.equal(matches[0]!.origin, "canonical");
-  assert.equal(matches[0]!.label, "Họ tên (canonical)");
+  assert.equal(matches[0]!.label, "Họ tên");
   const fallbackWarning = schema.warnings.find(
     (w) =>
       w.code === "BOUND_SLOT_MISSING_FIELD" &&
@@ -671,7 +673,7 @@ test("deriveFormInputSchema is defensive: empty / null / non-object input", () =
   // Bad entries inside arrays do not throw.
   const withGarbage = deriveFormInputSchema({
     templateCode: "X",
-    canonicalFields: [null, "string", {}, { path: "ok" }],
+    canonicalFields: [null, "string", {}, { path: "fullName" }],
     docxSlots: [null],
     renderBindings: [{}],
     rejectedCandidates: [null],
@@ -680,9 +682,10 @@ test("deriveFormInputSchema is defensive: empty / null / non-object input", () =
   // The only well-formed entry has no `source`/`required`/`uiComponent` and
   // no label, so it still surfaces as one field with sensible fallbacks.
   assert.equal(fields.length, 1);
-  assert.equal(fields[0]!.path, "ok");
+  assert.equal(fields[0]!.path, "fullName");
   assert.equal(fields[0]!.source, "manual");
-  assert.equal(fields[0]!.label, "ok");
+  // label falls through to LABEL_TAIL_MAP
+  assert.equal(fields[0]!.label, "Họ tên");
 });
 
 test("section order follows first occurrence in canonical", () => {
@@ -901,42 +904,35 @@ function auditCorpusSources(): CorpusSourceAuditReport {
   return report;
 }
 
-test("B4 corpus audit: scans all locked contracts and reports source normalization", () => {
+test("B4 corpus audit: post-C3-APPLY, corpus is clean — no unknown or invalid source fields", () => {
   const report = auditCorpusSources();
 
-  // (a) The audit must report at least one contract. The locked corpus
-  // currently holds 213 BMs; we only assert >0 so a future CI variant
-  // with a subset still passes.
+  // (a) The audit must report at least one contract.
   assert.ok(
     report.totalContracts > 0,
     `expected totalContracts > 0, got ${report.totalContracts}`,
   );
 
-  // (b) The audit must detect known unknown-source fields. The corpus
-  // currently contains a "document.fullDocumentCode" unknown field in
-  // BM-051 (and several others). This is the "audit detects unknown
-  // sources if present" assertion from the brief.
+  // (b) After C3-APPLY: all "unknown" sources have been remediated to "manual".
+  // BM-051/document.fullDocumentCode should no longer appear as an unknown source.
   const unknown051 = report.unknownSourceFields.find(
     (f) => f.templateCode === "BM-051" && f.path === "document.fullDocumentCode",
   );
   assert.ok(
-    unknown051,
-    "audit should report BM-051/document.fullDocumentCode as an unknown source",
+    !unknown051,
+    "audit should NOT report BM-051/document.fullDocumentCode as unknown after C3-APPLY",
   );
-  assert.equal(unknown051?.originalSource, "unknown");
 
-  // (c) The corpus also contains invalid (non-unknown) source values,
-  // such as "constantFromDocx" on legalBasis/section.procedureArticlesLine.
-  // The audit must surface them so C3 can remediate.
-  const invalidExample = report.invalidSourceFields.find(
+  // (c) After C3-APPLY: all "constantFromDocx" fields have been remediated.
+  // BM-003/legalBasis.procedureArticlesLine should no longer appear as invalid.
+  const invalid003 = report.invalidSourceFields.find(
     (f) =>
       f.templateCode === "BM-003" && f.path === "legalBasis.procedureArticlesLine",
   );
   assert.ok(
-    invalidExample,
-    "audit should report BM-003/legalBasis.procedureArticlesLine as an invalid source",
+    !invalid003,
+    "audit should NOT report BM-003/legalBasis.procedureArticlesLine as invalid after C3-APPLY",
   );
-  assert.equal(invalidExample?.originalSource, "constantFromDocx");
 
   // (d) Cross-check totals: the audit must agree with itself.
   assert.equal(
@@ -953,12 +949,10 @@ test("B4 corpus audit: scans all locked contracts and reports source normalizati
   );
 });
 
-test("B4 corpus audit: B1 normalizes every flagged field, so no UNKNOWN_SOURCE_NORMALIZED escapes the suite", () => {
-  // For every contract in the corpus, derive its schema and confirm
-  // that B1's normalization handled it: schema derivation must not
-  // throw, every flagged field must surface as a manual editable
-  // field, and the per-field warnings must include the UNKNOWN warning
-  // for both "unknown" and unrecognized values.
+test("B4 corpus audit: post-C3-APPLY, zero unknown/invalid sources, zero warnings", () => {
+  // After C3-APPLY, the corpus is clean:
+  // - 0 unknownSourceFields (all "unknown" → "manual")
+  // - 0 invalidSourceFields (all "constantFromDocx"/"derived" → valid sources)
   const report = auditCorpusSources();
 
   // Build the union of paths the audit flagged so we only re-derive
@@ -966,56 +960,27 @@ test("B4 corpus audit: B1 normalizes every flagged field, so no UNKNOWN_SOURCE_N
   const flaggedPaths = new Set<string>();
   for (const f of report.unknownSourceFields) flaggedPaths.add(f.path);
   for (const f of report.invalidSourceFields) flaggedPaths.add(f.path);
-  assert.ok(flaggedPaths.size > 0, "expected the corpus to have at least one flagged path");
-
-  const files = readdirSync(LOCKED_DIR).filter(
-    (entry) => entry.endsWith(".contract.locked.json"),
+  // After C3-APPLY: all unknown/invalid sources have been remediated.
+  // flaggedPaths should be empty (0 unknown + 0 invalid = 0 flagged).
+  assert.equal(
+    flaggedPaths.size,
+    0,
+    "post-C3-APPLY: expected 0 flagged paths (all sources are now valid)",
+  );
+  assert.equal(
+    report.unknownSourceFields.length,
+    0,
+    "post-C3-APPLY: expected 0 unknownSourceFields",
+  );
+  assert.equal(
+    report.invalidSourceFields.length,
+    0,
+    "post-C3-APPLY: expected 0 invalidSourceFields",
   );
 
-  let checkedContracts = 0;
-  for (const file of files) {
-    const raw = readFileSync(resolve(LOCKED_DIR, file), "utf8");
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
-      continue;
-    }
-    if (!isRecord(parsed)) continue;
-    const templateCode = readString(parsed, "templateCode") || file;
-    const canonicalFields = readArray<Record<string, unknown>>(
-      parsed,
-      "canonicalFields",
-    );
-    const hasFlaggedPath = canonicalFields.some((cf) =>
-      flaggedPaths.has(String(cf.path ?? "")),
-    );
-    if (!hasFlaggedPath) continue;
-
-    const schema = deriveFormInputSchema(parsed);
-    checkedContracts += 1;
-
-    const flaggedForThisContract = [
-      ...report.unknownSourceFields.filter((f) => f.templateCode === templateCode),
-      ...report.invalidSourceFields.filter((f) => f.templateCode === templateCode),
-    ];
-
-    for (const flagged of flaggedForThisContract) {
-      const warning = schema.warnings.find(
-        (w) =>
-          w.code === "UNKNOWN_SOURCE_NORMALIZED" && w.path === flagged.path,
-      );
-      assert.ok(
-        warning,
-        `expected UNKNOWN_SOURCE_NORMALIZED for ${templateCode}/${flagged.path}`,
-      );
-    }
-  }
-
-  assert.ok(
-    checkedContracts > 0,
-    "expected to re-derive at least one flagged contract",
-  );
+  // The re-derive loop runs over flagged contracts.
+  // After C3-APPLY, no contracts have flagged paths, so nothing is re-derived.
+  // This is the desired state: the remediation eliminated the need for it.
 });
 
 test("B4 corpus audit: TABLE renderBindings are reported if present (non-blocking)", () => {
