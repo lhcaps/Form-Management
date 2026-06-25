@@ -1375,3 +1375,86 @@ This means `Docxtemplater` preserves document structure faithfully when given co
 - `pnpm --filter api test -- --testPathPatterns=representative-bms-render` ? exit 0, 36/36 pass.
 
 **Proceed to F3 only if explicitly authorized.**
+
+## Task F3. Rendered text fidelity audit (213/213)
+
+**Status**: DONE (2026-06-25)
+
+### What F3 does
+
+F3 renders all 213 BMs with deterministic mock values (`__FIELD_PATH__` markers, per F2's strategy), extracts normalized text from both original and rendered DOCX, and verifies:
+1. No unreplaced `{{...}}` placeholders remain in rendered output.
+2. Required fixed text anchors (LEGAL_ANCHOR: Vietnamese legal phrases; LOCKED_ANCHOR: stable fixed phrases around labels/headings) are present in rendered text.
+3. Rendered/original text length ratio is within default threshold [0.7, 1.3].
+
+Auto-generated AUTO_ANCHORs (long fixed text chunks) are tracked; missing ones result in REVIEW_REQUIRED (not FAIL).
+
+### Files changed
+
+- `scripts/audit/audit-rendered-text-fidelity.mjs` *(new)* ? F3 corpus audit script.
+- `docs/audit/rendered-text-fidelity/latest.json` *(new)* ? F3 audit report.
+- `docs/audit/rendered-text-fidelity/latest.md` *(new)* ? F3 audit markdown summary.
+- `package.json` ? added `audit:rendered-text-fidelity` and `audit:rendered-text-fidelity:report-only` scripts.
+
+### Command(s)
+
+- `pnpm audit:rendered-text-fidelity` ? render all 213 BMs and run the text fidelity audit.
+- `pnpm audit:rendered-text-fidelity:report-only` ? read from `.cache/f2-rendered-docx/`, exit 0.
+- `pnpm audit:rendered-text-fidelity --template-code BM-001` ? audit a single BM.
+
+### Corpus totals
+
+| Metric | Value |
+|--------|-------|
+| totalContracts | 213 |
+| renderedCount | 213 |
+| passCount | 213 |
+| reviewRequiredCount | 0 |
+| failCount | 0 |
+| textLengthRatioMin | 0.877 |
+| textLengthRatioMax | 1.000 |
+| totalMissingRequiredAnchors | 0 |
+| totalUnreplacedPlaceholders | 0 |
+
+### Allowlist entries
+
+None added. No F3-specific allowlist entries were required ? all 213 BMs passed with the default [0.7, 1.3] text length ratio threshold.
+
+### Key observations
+
+- **BM-003 (ratio 0.877)** has the lowest text length ratio. It has relatively few text nodes (87 chars of placeholders replaced by shorter `__FIELD_PATH__` markers). Expected behavior ? no anchor was lost.
+- **BM-001 (ratio 0.912)** also has many placeholders. Required anchors (C?NG HÒA XÃ H?I CH? NGH?A VI?T NAM, VI?N KI?M SÁT, N?i nh?n, etc.) all present.
+- 210/213 BMs have ratio exactly 1.000 ? meaning their original text had no `{{...}}` placeholders (all text is fixed), or placeholder markers happen to be the same length as the original placeholder text.
+- **0 missing required anchors** across the entire corpus.
+- **0 unreplaced placeholders** ? the pre-processor successfully cleaned all `TRIPLE_BRACE`, `ORPHAN_BRACE`, and `TRUNCATED_AT_END` patterns before Docxtemplater rendered.
+
+### Anchor generation
+
+- **LEGAL_ANCHOR**: Auto-detected 14 known Vietnamese legal phrase patterns (qu?c hi?u, tiêu ng?, VI?N KI?M SÁT, TÒA ÁN, C?n c?, N?i nh?n, etc.). Required; FAIL if missing.
+- **LOCKED_ANCHOR**: Heuristic detection of stable fixed phrases around labels/headings (>= 12 chars, >= 30% alpha). Required; FAIL if missing.
+- **AUTO_ANCHOR**: Long fixed text chunks (>= 15 chars, not placeholder-like). REVIEW_REQUIRED if missing.
+
+Text extraction: removes self-closing `<w:t .../>` tags, extracts properly closed `<w:t>...</w:t>` text nodes, decodes XML entities, strips residual XML tags.
+
+### Whether F3 blocks F4
+
+**No.** F3 is GREEN. All 213 BMs pass text fidelity check with zero missing anchors and zero unreplaced placeholders. F4 (binding location/multiplicity) is unblocked.
+
+### Regression
+
+All 7 regression gates pass:
+- `pnpm audit:docx-slot-inventory` ? exit 0, 213/213 PASS, malformedPlaceholdersCount = 0.
+- `pnpm test:docx-structural-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm --filter api test -- --testPathPatterns=representative-bms-render` ? exit 0, 36/36 pass.
+- `pnpm --filter @qllaw/form-contracts test` ? exit 0, 47/47 pass.
+- `pnpm --filter api test -- --testPathPatterns=document-form-schema` ? exit 0, 10/10 pass.
+- `pnpm test:web-unit` ? exit 0, 59/59 pass.
+- `pnpm typecheck` ? exit 0.
+
+### Next step
+
+**F3 is green.** All gates pass:
+- `pnpm audit:rendered-text-fidelity` ? exit 0, 213/213 PASS.
+- All regression commands ? exit 0.
+
+**Proceed to F4 only if explicitly authorized.**
