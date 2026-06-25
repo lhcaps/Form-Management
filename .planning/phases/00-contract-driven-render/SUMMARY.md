@@ -2761,28 +2761,28 @@ Prepares human-review batch plan for skipped/conflicting metadata fixes. Reads s
 `scripts/audit/review-forms-root-cause-batch-1.mjs`
 
 Modes:
-- `node review-forms-root-cause-batch-1.mjs` — generate review batch plan
+- `node review-forms-root-cause-batch-1.mjs` ? generate review batch plan
 - `pnpm review` / `pnpm review:forms-root-cause-batch-1`
 
 ### Files Changed
 
-- `scripts/audit/review-forms-root-cause-batch-1.mjs` — new review batch planner
-- `package.json` — added `pnpm review` and `pnpm review:forms-root-cause-batch-1`
-- `docs/audit/forms-root-cause-review-batch-1/` — new output directory
+- `scripts/audit/review-forms-root-cause-batch-1.mjs` ? new review batch planner
+- `package.json` ? added `pnpm review` and `pnpm review:forms-root-cause-batch-1`
+- `docs/audit/forms-root-cause-review-batch-1/` ? new output directory
 
 ### Batch Scope
 
 The review batch includes only the 72 skipped AUTO_FIX_CANDIDATE items from the apply step:
 - 24 unique `(templateCode::path)` groups (6 x SKIPPED_PATH_COLLISION, 18 x SKIPPED_CONFLICTING)
-- HIGH-confidence REVIEW_FIX_CANDIDATE items (UI-visible, metadata-only, non-legal, non-excluded) — 0 included in this run (all filtered out by exclusion lists)
+- HIGH-confidence REVIEW_FIX_CANDIDATE items (UI-visible, metadata-only, non-legal, non-excluded) ? 0 included in this run (all filtered out by exclusion lists)
 
 ### Output Files
 
-- `docs/audit/forms-root-cause-review-batch-1/latest.json` — full review data
-- `docs/audit/forms-root-cause-review-batch-1/latest.md` — markdown summary
-- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.json` — reviewer-editable decision sheet
-- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.md` — reviewer-friendly markdown table
-- `docs/audit/forms-root-cause-review-batch-1/apply-preview.json` — items approved for auto-apply after review
+- `docs/audit/forms-root-cause-review-batch-1/latest.json` ? full review data
+- `docs/audit/forms-root-cause-review-batch-1/latest.md` ? markdown summary
+- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.json` ? reviewer-editable decision sheet
+- `docs/audit/forms-root-cause-review-batch-1/decision-sheet.md` ? reviewer-friendly markdown table
+- `docs/audit/forms-root-cause-review-batch-1/apply-preview.json` ? items approved for auto-apply after review
 
 ### Review Classification Results
 
@@ -2796,7 +2796,7 @@ The review batch includes only the 72 skipped AUTO_FIX_CANDIDATE items from the 
 | REVIEW_REJECT_NOISE | 6 |
 | **Total** | **24** |
 
-**Apply-safe after approval**: 2 (BM-002::document.documentCode, BM-003::document.documentCode — both with APPROVE, HIGH confidence)
+**Apply-safe after approval**: 2 (BM-002::document.documentCode, BM-003::document.documentCode ? both with APPROVE, HIGH confidence)
 
 ### BM-068 Special Status
 
@@ -2806,11 +2806,11 @@ The review batch includes only the 72 skipped AUTO_FIX_CANDIDATE items from the 
 | Skipped-conflict groups | 2 (document.fullDocumentCode, document.issueDate) |
 | Wave 02 remediation fields | 2 (both have label "Slot from Wave 02 DOCX remediation") |
 
-All 8 remaining entries for BM-068 are SKIPPED_CONFLICTING — multiple different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, and UI_VISIBLE_BAD_METADATA sources. All propose the same label ("Số văn bản" / "Ngày ban hành") but with different issue sources. Apply-safe = false (BM-06x exclusion rule).
+All 8 remaining entries for BM-068 are SKIPPED_CONFLICTING ? multiple different proposed labels from BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, and UI_VISIBLE_BAD_METADATA sources. All propose the same label ("S? v?n b?n" / "Ng�y ban h�nh") but with different issue sources. Apply-safe = false (BM-06x exclusion rule).
 
 ### Path Collision Summary (6 items)
 
-All default to REJECT — path collisions indicate the auto-suggestion is ambiguous or wrong:
+All default to REJECT ? path collisions indicate the auto-suggestion is ambiguous or wrong:
 
 | Group | Current Path | Proposed Path | Decision |
 |-------|-------------|---------------|----------|
@@ -2843,3 +2843,93 @@ All default to REJECT — path collisions indicate the auto-suggestion is ambigu
 ### Recommended Next Task
 
 **FORMS_ROOT_CAUSE_REVIEW_BATCH_1_DECISIONS**: Fill in `docs/audit/forms-root-cause-review-batch-1/decision-sheet.json` with human reviewer decisions. Only groups with APPROVE + HIGH confidence decisions may proceed to the apply step. Path collision groups (REJECT) and BM-068 groups (DEFER) must be resolved separately.
+
+---
+
+## FORMS_ROOT_CAUSE_REVIEW_BATCH_1_DECISIONS_AND_APPLY_APPROVED
+
+**Completed**: 2026-06-26
+
+Explicit reviewer approval (HIGH override) for exactly RG-001 and RG-002. All other 22 groups are rejected or deferred.
+
+### Files Changed
+
+- `docs/audit/forms-root-cause-review-batch-1/decisions.approved.json` ? formal reviewer decision record
+- `docs/audit/forms-root-cause-review-batch-1/decisions.approved.md` ? markdown summary
+- `scripts/audit/apply-forms-root-cause-review-batch-1-approved.mjs` ? safe apply script
+- `docs/audit/forms-root-cause-review-batch-1/apply-approved/` ? apply outputs
+- `docs/audit/forms-root-cause-review-batch-1/apply-approved/backups/2026-06-25T20-42-04/` ? pre-mutation backups
+- `package.json` ? added `apply:forms-root-cause-review-batch-1-approved` script
+
+### Decision Summary
+
+| Decision | Count | Groups |
+|----------|------:|--------|
+| APPROVED_FOR_APPLY | 2 | RG-001, RG-002 |
+| REJECTED_NO_OP | 6 | RG-004..RG-009 (path collisions) |
+| DEFER_LEGAL | 1 | RG-003 (legalBasis.*) |
+| DEFER_DOCX | 15 | RG-010..RG-024 (Wave 02 remediation) |
+| **Total** | **24** | |
+
+### Applied Mutations
+
+| Contract | Path | Before | After |
+|----------|------|--------|-------|
+| BM-002 | `document.documentCode` label | `"documentCode"` | `"S? v?n b?n"` |
+| BM-003 | `document.documentCode` label | `"documentCode"` | `"S? v?n b?n"` |
+
+Idempotent on second run (both labels already correct).
+
+### Groups Not Touched
+
+- RG-003: deferred legal (legalBasis.procedureArticlesLine)
+- RG-004..RG-009: rejected path collisions
+- RG-010..RG-024: deferred DOCX/Wave 02 remediation
+
+### Validation Results
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm contract:validate` | 0 | PASS ? all 213 contracts VALID |
+| `pnpm contract:compile` | 0 | PASS ? all 213 compiled |
+| `pnpm gate:forms:213` | 0 | PASS ? 213/213 locked |
+| `pnpm audit:forms-root-cause` | 0 | PASS ? 3458 issues |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | PASS ? 80/80 |
+| `pnpm typecheck` | 0 | PASS |
+
+Note: `pnpm audit` (npm audit) exits 1 due to pre-existing dependency vulnerabilities unrelated to this task.
+
+### Post-Apply Issue Delta
+
+| Metric | Post-Safe-Fixes Baseline | Post-Batch-1 Apply | Delta |
+|--------|--------------------------:|-------------------:|------:|
+| BAD_LABEL | 453 | 451 | -2 |
+| UI_VISIBLE_BAD_METADATA | 96 | 94 | -2 |
+| total | 3460 | 3458 | -2 |
+
+Exactly 2 `documentCode` labels fixed. No other change.
+
+### Strict Exit Behavior
+
+All strict conditions PASS:
+- decisions count = 24
+- approvedForApply = 2 (RG-001, RG-002 only)
+- approved actions = UPDATE_LABEL only
+- approved confidence = HIGH + reviewerOverrideConfidence = HIGH
+- no legalBasis.* applyEligible
+- no Wave 02 group applyEligible
+- no path collision group applyEligible
+- no locked contract became invalid JSON
+- all critical validation commands exit 0
+- root-cause total issue count decreased (3458 < 3460)
+- BAD_LABEL decreased (451 < 453)
+- UI_VISIBLE_BAD_METADATA decreased (94 < 96)
+- mutation count idempotent on re-run (2 first run, 0 second run)
+
+### Verdict
+
+**PASS**
+
+### Recommended Next Task
+
+**FORMS_ROOT_CAUSE_REVIEW_BATCH_2**: Continue human review of remaining 22 groups (6 path collisions, 1 legal, 15 Wave 02/DOCX). Only proceed with explicit reviewer approval per batch.

@@ -1,0 +1,1003 @@
+{
+  "generatedAt": "2026-06-25T20:39:35.775Z",
+  "reviewBatch": "FORMS_ROOT_CAUSE_REVIEW_BATCH_1",
+  "reviewer": {
+    "name": "Project Owner",
+    "role": "Human Reviewer",
+    "approvedAt": "2026-06-25T20:39:35.775Z"
+  },
+  "summary": {
+    "totalGroupsReviewed": 24,
+    "approvedForApply": 2,
+    "rejected": 6,
+    "deferredLegal": 1,
+    "deferredDocx": 15,
+    "deferredMetadataReview": 0
+  },
+  "decisions": [
+    {
+      "reviewGroupId": "RG-001",
+      "templateCode": "BM-002",
+      "path": "document.documentCode",
+      "decision": "APPROVED_FOR_APPLY",
+      "action": "UPDATE_LABEL",
+      "approvedLabel": "Số văn bản",
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": "HIGH",
+      "applyEligible": true,
+      "rationale": "Known label map: document.documentCode is a stable document number/code field. Vietnamese UI label \"Số văn bản\" is deterministic, non-legal, and label-only. No path/source/required/editable/visible semantics changed.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-001",
+        "templateCode": "BM-002",
+        "path": "document.documentCode",
+        "currentLabel": "documentCode",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"documentCode\" on path \"document.documentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-002",
+      "templateCode": "BM-003",
+      "path": "document.documentCode",
+      "decision": "APPROVED_FOR_APPLY",
+      "action": "UPDATE_LABEL",
+      "approvedLabel": "Số văn bản",
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": "HIGH",
+      "applyEligible": true,
+      "rationale": "Known label map: document.documentCode is a stable document number/code field. Vietnamese UI label \"Số văn bản\" is deterministic, non-legal, and label-only. No path/source/required/editable/visible semantics changed.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-002",
+        "templateCode": "BM-003",
+        "path": "document.documentCode",
+        "currentLabel": "documentCode",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"documentCode\" on path \"document.documentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-003",
+      "templateCode": "BM-003",
+      "path": "legalBasis.procedureArticlesLine",
+      "decision": "DEFER_LEGAL",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": null,
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "legalBasis.* is excluded from safe apply. Even if \"Căn cứ pháp lý\" looks reasonable, legalBasis labels must be reviewed separately.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-003",
+        "templateCode": "BM-003",
+        "path": "legalBasis.procedureArticlesLine",
+        "currentLabel": "procedureArticlesLine",
+        "currentSource": "officialConfig",
+        "issueCodes": [
+          "BAD_LABEL",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Căn cứ pháp lý",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"procedureArticlesLine\" on path \"legalBasis.procedureArticlesLine\" has known Vietnamese label override \"Căn cứ pháp lý\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-004",
+      "templateCode": "BM-021",
+      "path": "document.issuePlaceAndDateLine",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-004",
+        "templateCode": "BM-021",
+        "path": "document.issuePlaceAndDateLine",
+        "currentLabel": "Căn cứ Bộ luật Tố tụng hình sự",
+        "currentSource": "systemDate",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Căn cứ pháp lý",
+            "proposedPath": "legalBasis.procedureArticlesLine",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{legalBasis.procedureArticlesLine}}\" on path \"document.issuePlaceAndDateLine\". suggestedPath=\"legalBasis.procedureArticlesLine\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-005",
+      "templateCode": "BM-026",
+      "path": "agency.nameUpper",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-005",
+        "templateCode": "BM-026",
+        "path": "agency.nameUpper",
+        "currentLabel": "Ngày ban hành",
+        "currentSource": "agencyConfig",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": "document.issueDate",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{document.issueDate}}\" on path \"agency.nameUpper\". suggestedPath=\"document.issueDate\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-006",
+      "templateCode": "BM-036",
+      "path": "document.issuePlaceAndDateLine",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-006",
+        "templateCode": "BM-036",
+        "path": "document.issuePlaceAndDateLine",
+        "currentLabel": "Họ tên người bị áp dụng",
+        "currentSource": "systemDate",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Họ tên",
+            "proposedPath": "person.fullName",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{person.fullName}}\" on path \"document.issuePlaceAndDateLine\". suggestedPath=\"person.fullName\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-007",
+      "templateCode": "BM-036",
+      "path": "person.fullName",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-007",
+        "templateCode": "BM-036",
+        "path": "person.fullName",
+        "currentLabel": "Ngày ban hành",
+        "currentSource": "manual",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": "document.issueDate",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{document.issueDate}}\" on path \"person.fullName\". suggestedPath=\"document.issueDate\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-008",
+      "templateCode": "BM-036",
+      "path": "decision.summaryLine",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-008",
+        "templateCode": "BM-036",
+        "path": "decision.summaryLine",
+        "currentLabel": "Cơ quan cấp trên",
+        "currentSource": "computed",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Cơ quan cấp trên viết hoa",
+            "proposedPath": "agency.parentNameUpper",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{agency.parentNameUpper}}\" on path \"decision.summaryLine\". suggestedPath=\"agency.parentNameUpper\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-009",
+      "templateCode": "BM-041",
+      "path": "agency.issuePlace",
+      "decision": "REJECTED_NO_OP",
+      "action": "NO_OP",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "LOW",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Path collision: proposed target path already exists. Auto-suggestion is ambiguous or wrong.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-009",
+        "templateCode": "BM-041",
+        "path": "agency.issuePlace",
+        "currentLabel": "Số quyết định",
+        "currentSource": "computed",
+        "issueCodes": [
+          "RAW_PATTERN_DOMAIN_MISMATCH"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": "document.documentCode",
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_PATH",
+            "issueCodes": [
+              "RAW_PATTERN_DOMAIN_MISMATCH"
+            ],
+            "confidence": "HIGH",
+            "reason": "Domain mismatch: raw=\"{{document.documentCode}}\" on path \"agency.issuePlace\". suggestedPath=\"document.documentCode\" is a known semantic path with known label. Auto-fix path and label."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-010",
+      "templateCode": "BM-068",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-010",
+        "templateCode": "BM-068",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-011",
+      "templateCode": "BM-068",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-011",
+        "templateCode": "BM-068",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-012",
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-012",
+        "templateCode": "BM-069",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-013",
+      "templateCode": "BM-069",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "HIGH",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-013",
+        "templateCode": "BM-069",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-014",
+      "templateCode": "BM-073",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-014",
+        "templateCode": "BM-073",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-015",
+      "templateCode": "BM-073",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-015",
+        "templateCode": "BM-073",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-016",
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-016",
+        "templateCode": "BM-075",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-017",
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-017",
+        "templateCode": "BM-077",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-018",
+      "templateCode": "BM-080",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-018",
+        "templateCode": "BM-080",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-019",
+      "templateCode": "BM-080",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-019",
+        "templateCode": "BM-080",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-020",
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-020",
+        "templateCode": "BM-082",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-021",
+      "templateCode": "BM-162",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-021",
+        "templateCode": "BM-162",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-022",
+      "templateCode": "BM-162",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-022",
+        "templateCode": "BM-162",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-023",
+      "templateCode": "BM-163",
+      "path": "document.fullDocumentCode",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-023",
+        "templateCode": "BM-163",
+        "path": "document.fullDocumentCode",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Số văn bản",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.fullDocumentCode\" has known Vietnamese label override \"Số văn bản\". Path is already semantically correct."
+          }
+        ]
+      }
+    },
+    {
+      "reviewGroupId": "RG-024",
+      "templateCode": "BM-163",
+      "path": "document.issueDate",
+      "decision": "DEFER_DOCX",
+      "action": "MANUAL_REVIEW",
+      "approvedLabel": null,
+      "approvedPath": null,
+      "approvedSource": null,
+      "confidence": "MEDIUM",
+      "reviewerOverrideConfidence": null,
+      "applyEligible": false,
+      "rationale": "Current label is \"Slot from Wave 02 DOCX remediation\". This may indicate DOCX/remediation root cause, not just a label issue. Must be handled in a separate DOCX/metadata review lane.",
+      "sourceReviewGroup": {
+        "reviewGroupId": "RG-024",
+        "templateCode": "BM-163",
+        "path": "document.issueDate",
+        "currentLabel": "Slot from Wave 02 DOCX remediation",
+        "currentSource": "manual",
+        "issueCodes": [
+          "BAD_LABEL",
+          "GENERIC_FIELD_CANONICALIZATION",
+          "REMEDIATION_LEAK",
+          "UI_VISIBLE_BAD_METADATA"
+        ],
+        "rawPattern": null,
+        "candidateOptions": [
+          {
+            "proposedLabel": "Ngày ban hành",
+            "proposedPath": null,
+            "proposedSource": null,
+            "proposedRequired": null,
+            "action": "UPDATE_LABEL",
+            "issueCodes": [
+              "BAD_LABEL"
+            ],
+            "confidence": "MEDIUM",
+            "reason": "BAD_LABEL=\"Slot from Wave 02 DOCX remediation\" on path \"document.issueDate\" has known Vietnamese label override \"Ngày ban hành\". Path is already semantically correct."
+          }
+        ]
+      }
+    }
+  ]
+}
