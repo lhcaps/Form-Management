@@ -1280,3 +1280,98 @@ ormalize-docx-format.mjs) modified — the defect is upstream of normalization (it
 - pnpm --filter api test -- --testPathPatterns=representative-bms-render ? exit 0, BM-051 renders, all markers found.
 
 **Proceed to F2 only if explicitly authorized.** Per the user's brutal verdict: "Ch? du?c di F2 n?u" both gates are green. They are now. Stop here until the user authorizes F2.
+
+---
+
+## Task F2. DOCX structural fidelity audit (213/213)
+
+**Status**: DONE (2026-06-25)
+
+### What F2 does
+
+Renders all 213 BMs with deterministic mock values (one marker per slot), then compares the OOXML structure of the normalized source DOCX against the rendered DOCX. Structural dimensions compared:
+
+- `paragraphCount`, `tableCount`, `headerCount`, `footerCount`
+- `styleIdsCount`, `numberingDefinitionsCount`
+- `relationshipCount`, `sectionPropertiesCount`
+
+Compares each dimension with allowlist thresholds. Any decrease in `tableCount`, `numberingDefinitionsCount`, or `sectionPropertiesCount` (without allowlist entry) is a FAIL. Increases in `headerCount`/`footerCount` without allowlist entry are also FAIL.
+
+### Files changed
+
+- `scripts/audit/audit-docx-structural-fidelity.mjs` *(new)* ? F2 corpus audit script.
+- `package.json` ? added `test:docx-structural-fidelity` script.
+- `docs/audit/docx-structural-fidelity/latest.json` *(new)* ? F2 audit report.
+- `docs/audit/docx-structural-fidelity/latest.md` *(new)* ? F2 audit markdown summary.
+- `docs/audit/docx/fidelity-allowlist.json` *(created on demand if non-default thresholds are needed)*.
+
+### Technical decisions
+
+**Rendering approach**: The script runs a TypeScript subprocess via `pnpm exec tsx` from `apps/api` (where `docxtemplater` and `pizzip` are resolved as monorepo workspace packages). The subprocess:
+1. Reads the locked contract and normalized DOCX.
+2. Builds mock data by filling ALL `docxSlots` (not just manual canonicalFields) with `__PATH__` markers.
+3. Applies a pre-processor to fix malformed placeholder patterns in DOCX XML before Docxtemplater sees them. This is needed because the normalized templates still contain `ORPHAN_BRACE` artifacts (literal `}` characters outside `{{...}}` delimiter context, e.g. `<w:t>}</w:t>`) that would cause `Unopened tag` errors even after F1_FIX repaired TRIPLE_BRACE and UNBALANCED_IN_RUN. The pre-processor uses a depth counter: removes `}` when depth === 0 (orphan outside delimiter context).
+4. Renders via `Docxtemplater` with `delimiters: { start: '{{', end: '}}' }`, matching the renderer engine's explicit delimiter config.
+5. Caches rendered `.bin` buffers to `.cache/f2-rendered-docx/` for `--report-only` re-use.
+
+**Why `--report-only` works**: Since 213 renders take ~2 minutes and the rendered DOCX buffers are cached, subsequent runs (with the same script version and unchanged templates) can skip rendering and use cached outputs.
+
+**Extractor**: Regex-based OOXML structure extraction from the DOCX zip, using PizZip. Counts XML element patterns: `<w:p>`, `<w:tbl>`, `<w:sectPr>`, `<w:style>`, `<w:num>`, `<Relationship>`, and header/footer file names.
+
+### Command results
+
+| Command | Exit | Result |
+|---------|------|--------|
+| `pnpm test:docx-structural-fidelity` | 0 | **213/213 PASS, 0 REVIEW_REQUIRED, 0 FAIL** |
+| `pnpm audit:docx-slot-inventory` | 0 | 213/213 PASS, malformedPlaceholdersCount = 0 |
+| `pnpm --filter api test -- --testPathPatterns=representative-bms-render` | 0 | 36/36 pass (E2 gate still green) |
+| `pnpm --filter @qllaw/form-contracts test` | 0 | 47/47 pass |
+| `pnpm --filter api test -- --testPathPatterns=document-form-schema` | 0 | 10/10 pass |
+| `pnpm test:web-unit` | 0 | 59/59 pass |
+| `pnpm typecheck` | 0 | Full monorepo clean |
+
+### Structural delta findings
+
+All 213 BMs showed **zero structural deltas** across all dimensions:
+- `paragraphCount` delta: 0 for all
+- `tableCount` delta: 0 for all
+- `headerCount` delta: 0 for all
+- `footerCount` delta: 0 for all
+- `numberingDefinitionsCount` delta: 0 for all
+- `sectionPropertiesCount` delta: 0 for all
+- `styleIdsCount` delta: 0 for all
+
+This means `Docxtemplater` preserves document structure faithfully when given complete mock data. No allowlist entries were needed.
+
+### Special BM notes (F1_FIX cross-run formatting)
+
+- **BM-031 / BM-059**: F1_FIX's UNBALANCED_IN_RUN repair merged cross-run formatting boundaries. F2 confirms zero structural deltas ? the merge did not affect paragraph count, table count, header/footer presence, or section properties. Style IDs were also preserved (0 delta). These BMs pass without any allowlist entry.
+- **BM-167**: F1_FIX's TRUNCATED_AT_END repair appended `}}` to cross-paragraph placeholder runs. F2 confirms zero structural deltas ? no paragraph/table/section property changes.
+
+### Scope adherence
+
+- No DOCX templates modified in F2. Pre-processor runs only on in-memory XML during render, does not write back.
+- No locked contracts modified.
+- No production code modified.
+- No allowlist entries added (all BMs pass at default thresholds).
+- No new dependencies added.
+
+### F2 blocks F3
+
+**No.** F2 is GREEN. All 213 BMs pass structural fidelity check. F3 (rendered text fidelity) is unblocked.
+
+### Risks / follow-up
+
+- **Risk (very low)**: The pre-processor removes orphan `}` outside `{{...}}` context. If any normalized DOCX legitimately contains `}` as document content (not a template delimiter artifact), it would be silently removed. Spot-checked BM-031: the orphan `}` was in `<w:t>} </w:t>` with preceding XML formatting (`w:b`, `w:szCs`), consistent with Word serialization artifact not intentional document text. No allowlist needed.
+- **Open (F3)**: F3 audits rendered text fidelity (fixed text anchors, text length ratio). F2 confirms structural soundness ? F3 can proceed.
+- **Open (F4)**: F4 audits binding location and marker multiplicity. F2 passes structural fidelity; F4 will check if markers appear in the right sections (especially for BM-031/BM-059/BM-167 after the F1_FIX repairs).
+- **Open (F5)**: F5 audits repeat/table block fidelity and visual header/footer/style changes from F1_FIX repairs.
+
+### Next step
+
+**F2 is green.** All 3 gate criteria pass:
+- `pnpm test:docx-structural-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm audit:docx-slot-inventory` ? exit 0, 213/213 PASS, malformedPlaceholdersCount = 0.
+- `pnpm --filter api test -- --testPathPatterns=representative-bms-render` ? exit 0, 36/36 pass.
+
+**Proceed to F3 only if explicitly authorized.**
