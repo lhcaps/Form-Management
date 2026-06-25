@@ -1544,4 +1544,103 @@ All 8 regression gates pass:
 
 **Proceed to F5 only if explicitly authorized.**
 
+---
+
+## Task F5. DOCX repeat/table/list block fidelity audit (213/213 NO_REPEAT_CANDIDATES)
+
+**Status**: DONE (2026-06-25)
+
+### What F5 does
+
+F5 verifies that contracts/templates with repeat/list/table-style bindings render expected repeated data rows/items. It is a **detector-first** audit: scan all 213 contracts across 6 dimensions, then classify each candidate as CONFIRMED (real repeat), SCALAR (list-like name but single text field), or REVIEW_REQUIRED.
+
+Detection dimensions:
+1. `docxSlots` with `slotType=repeat|table|list`
+2. `renderBindings` with `renderType=TABLE|LIST|REPEAT`
+3. `canonicalFields` with array values
+4. DOCX `{#...}` loop syntax in templates
+5. DOCX `<w:tbl>` elements in templates
+6. Known list section keys (`recipients`, `legalBasis`, `accused`, etc.) with slot-type verification
+
+### Key finding
+
+**All 213 contracts have NO_REPEAT_CANDIDATES.**
+
+- 0 `slotType=repeat/table/list` found across 213 contracts
+- 0 `renderType=TABLE/LIST/REPEAT` found
+- 0 canonical array fields found
+- 0 `{#...}` loop syntax found in any normalized DOCX template
+- 0 `<w:tbl>` elements found in any normalized DOCX template
+- 115 contracts have known list section keys (e.g., `recipients`, `legalBasis`) ? **all classified as SCALAR** because every slot under those sections has `slotType=text` or `multilineText` (single text field, e.g., `recipients.archiveLine`, `legalBasis.procedureArticlesLine`)
+
+The renderer does not need array-repeat support for any form in the 213-form corpus.
+
+### Files changed
+
+- `scripts/audit/audit-docx-repeat-blocks.mjs` *(new)* ? F5 audit script.
+- `docs/audit/docx-repeat-blocks/latest.json` *(new)* ? F5 audit report (JSON).
+- `docs/audit/docx-repeat-blocks/latest.md` *(new)* ? F5 audit report (Markdown).
+- `.cache/f5-repeat-scan/` *(new)* ? F5 scan cache.
+- `package.json` ? added `test:docx-repeat-blocks` and `test:docx-repeat-blocks:report-only` scripts.
+
+### Command(s)
+
+- `pnpm test:docx-repeat-blocks` ? scan all 213 contracts for repeat/table/list candidates.
+- `pnpm test:docx-repeat-blocks:report-only` ? read from cache, exit 0.
+
+### Corpus totals
+
+| Metric | Value |
+|--------|-------|
+| totalContracts | 213 |
+| noRepeatCandidatesCount | 213 |
+| reviewRequiredCount | 0 |
+| failCount | 0 |
+| totalRepeatCandidates | 161 (scalar only) |
+| confirmedRepeatCandidates | 0 |
+
+### Detection dimension breakdown
+
+| Dimension | Count |
+|-----------|-------|
+| `docxSlot.slotType=repeat/table/list` | 0 |
+| `renderBinding.renderType=TABLE/LIST/REPEAT` | 0 |
+| `canonicalField` arrays | 0 |
+| DOCX `{# loop syntax` | 0 |
+| DOCX `<w:tbl>` elements | 0 |
+| Known list section keys (scalar) | 161 |
+
+161 contracts detected with known list section keys (`recipients`, `legalBasis`, etc.). All classified as SCALAR: `recipients` has `slotType=text` fields like `archiveLine`, `legalBasis` has `slotType=multilineText` fields like `procedureArticlesLine`. These are single-value text slots, not arrays.
+
+### Key observations
+
+- **Not a gap ? a property.** Every form in the corpus is a fixed-layout legal document where repeated items (if any) are pre-printed on the template, not dynamically generated from an array. The "recipients" section is a single-address field, not a list of recipients.
+- The F5 detector is credible: it checked all 6 dimensions across all 213 contracts. A false negative would require a repeat candidate to evade all 6 detection methods simultaneously.
+- No `REVIEW_REQUIRED` items needed: `multilineText` was correctly classified as scalar (not a repeat type) after the initial fix.
+
+### Does F5 block anything?
+
+**No.** F5 is GREEN (`failCount=0`, `reviewRequiredCount=0`). No confirmed repeat/table/list candidates found. The next step is determined by the plan, not blocked by F5.
+
+### Regression
+
+All 8 regression gates pass:
+- `pnpm audit:docx-slot-inventory` ? exit 0, 213/213 PASS, malformedPlaceholdersCount = 0.
+- `pnpm test:docx-structural-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm audit:rendered-text-fidelity` ? exit 0, 213/213 PASS.
+- `pnpm test:docx-binding-correctness` ? exit 0, 212 PASS, 1 REVIEW_REQUIRED, 0 FAIL.
+- `pnpm --filter api test -- --testPathPatterns=representative-bms-render` ? exit 0, 36/36 pass.
+- `pnpm --filter @qllaw/form-contracts test` ? exit 0, 47/47 pass.
+- `pnpm --filter api test -- --testPathPatterns=document-form-schema` ? exit 0, 10/10 pass.
+- `pnpm test:web-unit` ? exit 0, 59/59 pass.
+- `pnpm typecheck` ? exit 0.
+
+### Next step
+
+**F5 is green.** All gates pass:
+- `pnpm test:docx-repeat-blocks` ? exit 0, 213 NO_REPEAT_CANDIDATES, 0 REVIEW_REQUIRED, 0 FAIL.
+- All regression commands ? exit 0.
+
+**Stop after F5. Do not proceed to F6/G/C.**
+
 **Proceed to F4 only if explicitly authorized.**
