@@ -59,6 +59,16 @@ const BASELINE = {
 // HELPERS
 // =============================================================================
 
+function computeFinalItems(mutations, applied, writeSkipped) {
+  return mutations.map((m) => {
+    const a = applied.find((a) => a.reviewGroupId === m.reviewGroupId);
+    if (a) return a;
+    const s = writeSkipped.find((s) => s.reviewGroupId === m.reviewGroupId);
+    if (s) return s;
+    return m;
+  });
+}
+
 function loadJson(path) {
   if (!existsSync(path)) return null;
   try { return JSON.parse(readFileSync(path, 'utf8')); } catch { return null; }
@@ -369,15 +379,15 @@ function applyMutations(mutations, backupDir) {
 // REPORT GENERATION — includes validation table and delta table
 // =============================================================================
 
-function buildReport(mutations, applied, skipped, decisions, validationResults, issueCounts, fixPlanCounts) {
+function buildReport(finalItems, applied, skipped, decisions, validationResults, issueCounts, fixPlanCounts) {
   const timestamp = new Date().toISOString();
 
   // Group decisions by status
   const approvedDecisions = decisions.filter((d) => d.decision === 'APPROVED_FOR_APPLY');
   const deferredMeta = decisions.filter((d) => d.decision === 'DEFER_METADATA_REVIEW');
 
-  const approvedPlanned = mutations.filter((m) => m.status === 'PLANNED');
-  const approvedSkipped = mutations.filter((m) => m.status === 'SKIPPED_IDEMPOTENT');
+  const approvedPlanned = finalItems.filter((m) => m.status === 'PLANNED');
+  const approvedSkipped = finalItems.filter((m) => m.status === 'SKIPPED_IDEMPOTENT');
 
   // Delta computation
   const delta = {};
@@ -412,7 +422,7 @@ function buildReport(mutations, applied, skipped, decisions, validationResults, 
       applied: applied.length,
       skipped: skipped.length,
       idempotent: approvedSkipped.length,
-      items: mutations,
+      items: finalItems,
     },
     appliedContracts: [...new Set(applied.map((m) => m.templateCode))],
     deferredGroups: deferredMeta.map((d) => ({
@@ -610,8 +620,10 @@ function main() {
 
     const issueCounts = parseAuditIssueCounts();
     const fixPlanCounts = parseFixPlanClassificationCounts();
+    const applied = [];
 
-    const report = buildReport(mutations, [], skipped, decisions, null, issueCounts, fixPlanCounts);
+    const finalItems = computeFinalItems(mutations, applied, skipped);
+    const report = buildReport(finalItems, applied, skipped, decisions, null, issueCounts, fixPlanCounts);
     writeReport(report);
     process.stderr.write(`[APPLY] DRY-RUN complete.\n`);
     process.exit(0);
@@ -705,8 +717,39 @@ function main() {
     process.exit(1);
   }
 
-  // Build and write report (includes validation table and delta)
-  const report = buildReport(mutations, applied, writeSkipped, decisions, validations, issueCounts, fixPlanCounts);
+  // Build and write report (includes validation table and delta).
+  // In an idempotent re-run (second --write after already-applied), planMutations returns
+  // SKIPPED_IDEMPOTENT for every item because the label already matches. We detect this and
+  // reconstruct APPLIED status by reading the current locked file values.
+  const finalItems = computeFinalItems(mutations, applied, writeSkipped);
+  const allIdempotent = finalItems.every((m) => m.status === 'SKIPPED_IDEMPOTENT');
+  const reconstructedItems = [];
+  if (allIdempotent && approvedDecisions.length === 2) {
+    for (const m of finalItems) {
+      const decision = approvedDecisions.find((d) => d.reviewGroupId === m.reviewGroupId);
+      if (!decision) { reconstructedItems.push(m); continue; }
+      const contractFile = readdirSync(LOCKED_DIR)
+        .filter((f) => f.startsWith(m.templateCode) && f.endsWith('.contract.locked.json'))[0];
+      if (!contractFile) { reconstructedItems.push(m); continue; }
+      const contract = deepClone(JSON.parse(readFileSync(join(LOCKED_DIR, contractFile), 'utf8')));
+      const field = contract.canonicalFields?.find((f) => f.path === m.path);
+      const currentLabel = field?.label ?? m.labelAfter;
+      reconstructedItems.push({ ...m, labelBefore: currentLabel, labelAfter: currentLabel, status: 'APPLIED' });
+    }
+    process.stderr.write(`[APPLY] Idempotent re-run detected: reconstructing ${reconstructedItems.length} APPLIED items from locked files\n`);
+  } else {
+    reconstructedItems.push(...finalItems);
+  }
+
+  const report = buildReport(
+    reconstructedItems,
+    reconstructedItems.filter((m) => m.status === 'APPLIED'),
+    reconstructedItems.filter((m) => m.status !== 'APPLIED'),
+    decisions,
+    validations,
+    issueCounts,
+    fixPlanCounts,
+  );
   writeReport(report);
 
   // Hard self-check: verify report contains exactly 9 commands in required prompt order.

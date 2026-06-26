@@ -1,6 +1,6 @@
 # Review Batch 2 — Approved Apply Report
 
-Generated: 2026-06-25T23:16:18.622Z
+Generated: 2026-06-26T08:21:11.759Z
 Mode: **WRITE**
 
 ## Executive Summary
@@ -24,6 +24,8 @@ Contracts changed: **BM-002, BM-003**
 
 | Group | BM | Path | Before | After |
 |-------|---|------|--------|-------|
+| B2RG-015 | BM-002 | `agency.bodyName` | `Tên cơ quan` | `Tên cơ quan` |
+| B2RG-037 | BM-003 | `signature.signMode` | `Phương thức ký` | `Phương thức ký` |
 
 ## Deferred Groups (DEFER_METADATA_REVIEW — not applyEligible)
 
@@ -34,15 +36,15 @@ All RAW_PATTERN_DOMAIN_MISMATCH, SOURCE_MISMATCH, COMPILED_DRIFT, SHOULD_BE_READ
 
 | # | Command | Exit | Result | Duration |
 |---|---------|------|--------|---------|
-| 1 | `pnpm contract:validate` | 0 | **PASS** | 921ms |
-| 2 | `pnpm contract:compile` | 0 | **PASS** | 967ms |
-| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 291ms |
-| 4 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 514ms |
-| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | **PASS** | 329ms |
-| 6 | `pnpm audit:docx-fidelity` | 0 | **PASS** | 376126ms |
-| 7 | `pnpm audit:contract-sync` | 0 | **PASS** | 299ms |
-| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 1023ms |
-| 9 | `pnpm typecheck` | 0 | **PASS** | 4493ms |
+| 1 | `pnpm contract:validate` | 0 | **PASS** | 962ms |
+| 2 | `pnpm contract:compile` | 0 | **PASS** | 1068ms |
+| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 304ms |
+| 4 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 826ms |
+| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | **PASS** | 351ms |
+| 6 | `pnpm audit:docx-fidelity` | 0 | **PASS** | 410214ms |
+| 7 | `pnpm audit:contract-sync` | 0 | **PASS** | 347ms |
+| 8 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 1080ms |
+| 9 | `pnpm typecheck` | 0 | **PASS** | 5009ms |
 
 ## Post-Apply Issue Delta
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-25T23:16:18.622Z",
+  "generatedAt": "2026-06-26T08:21:11.759Z",
   "mode": "write",
   "totalDecisionsReviewed": 50,
   "decisionsSummary": {
@@ -7,7 +7,7 @@
     "deferredMetadataReview": 48
   },
   "mutations": {
-    "planned": 2,
+    "planned": 0,
     "applied": 2,
     "skipped": 0,
     "idempotent": 0,
@@ -17,18 +17,18 @@
         "templateCode": "BM-002",
         "path": "agency.bodyName",
         "action": "UPDATE_LABEL",
-        "labelBefore": "bodyName",
+        "labelBefore": "Tên cơ quan",
         "labelAfter": "Tên cơ quan",
-        "status": "PLANNED"
+        "status": "APPLIED"
       },
       {
         "reviewGroupId": "B2RG-037",
         "templateCode": "BM-003",
         "path": "signature.signMode",
         "action": "UPDATE_LABEL",
-        "labelBefore": "signMode",
+        "labelBefore": "Phương thức ký",
         "labelAfter": "Phương thức ký",
-        "status": "PLANNED"
+        "status": "APPLIED"
       }
     ]
   },
@@ -475,55 +475,55 @@
         "command": "pnpm contract:validate",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 921
+        "durationMs": 962
       },
       {
         "command": "pnpm contract:compile",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 967
+        "durationMs": 1068
       },
       {
         "command": "pnpm gate:forms:213",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 291
+        "durationMs": 304
       },
       {
         "command": "pnpm audit:forms-root-cause",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 514
+        "durationMs": 826
       },
       {
         "command": "pnpm plan:forms-root-cause-fixes",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 329
+        "durationMs": 351
       },
       {
         "command": "pnpm audit:docx-fidelity",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 376126
+        "durationMs": 410214
       },
       {
         "command": "pnpm audit:contract-sync",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 299
+        "durationMs": 347
       },
       {
         "command": "pnpm --filter @qllaw/form-contracts test",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 1023
+        "durationMs": 1080
       },
       {
         "command": "pnpm typecheck",
         "exitCode": 0,
         "result": "PASS",
-        "durationMs": 4493
+        "durationMs": 5009
       }
     ]
   },

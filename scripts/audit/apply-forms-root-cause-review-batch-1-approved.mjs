@@ -630,7 +630,14 @@ function main() {
     const issueCounts = parseAuditIssueCounts();
     const fixPlanCounts = parseFixPlanClassificationCounts();
 
-    const report = buildReport(mutations, [], skipped, decisions, null, issueCounts, fixPlanCounts);
+    const finalItems = mutations.map((m) => {
+      const a = applied.find((a) => a.reviewGroupId === m.reviewGroupId);
+      if (a) return a;
+      const s = skipped.find((s) => s.reviewGroupId === m.reviewGroupId);
+      if (s) return s;
+      return m;
+    });
+    const report = buildReport(finalItems, applied, skipped, decisions, null, issueCounts, fixPlanCounts);
     writeReport(report);
     process.stderr.write(`[APPLY] DRY-RUN complete.\n`);
     process.exit(0);
@@ -725,7 +732,16 @@ function main() {
   }
 
   // Build and write report (includes validation table and delta)
-  const report = buildReport(mutations, applied, writeSkipped, decisions, validations, issueCounts, fixPlanCounts);
+  // Merge planned mutations with actual applied/skipped statuses for accurate reporting
+  const finalItems = mutations.map((m) => {
+    const a = applied.find((a) => a.reviewGroupId === m.reviewGroupId);
+    if (a) return a;
+    const s = writeSkipped.find((s) => s.reviewGroupId === m.reviewGroupId);
+    if (s) return s;
+    return m;
+  });
+  const mergedMutations = finalItems;
+  const report = buildReport(mergedMutations, applied, writeSkipped, decisions, validations, issueCounts, fixPlanCounts);
   writeReport(report);
 
   // Hard self-check: verify report contains exactly 9 commands in required prompt order.
