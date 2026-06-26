@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "task": "BATCH_4_LABEL_ONLY_PLANNING_SCAN",
+  "mode": "planning-only",
+  "generatedAt": "2026-06-26T11:09:51.933Z",
+  "summary": {
+    "rootCauseIssuesBefore": 3441,
+    "badLabelRemainingBefore": 432,
+    "uiVisibleBadMetadataBefore": 77,
+    "candidatesScanned": 326,
+    "safeLabelOnlyCandidates": 0,
+    "deferredCandidates": 326,
+    "blockedCandidates": 0,
+    "labelBreakdown": {
+      "o_trong_count": 340,
+      "wave02_slots": 57,
+      "docx_slots": 16,
+      "individual_camelcase": 19
+    },
+    "rootCause": "340 BAD_LABEL are O trong (blank display label from DOCX rendering). Cannot fix label-only - requires DOCX authoring source fix.",
+    "wave02Slots": "57 BAD_LABEL are Slot from Wave 02 DOCX remediation. Source=manual, label=Slot from Wave 02 DOCX remediation. These are structural leftovers in Wave 02 contracts.",
+    "recommendation": "DEFER_TO_DOCX_AUTHORING_LANE"
+  },
+  "clusters": [
+    {
+      "name": "person_identity",
+      "count": 49
+    },
+    {
+      "name": "case_metadata",
+      "count": 197
+    },
+    {
+      "name": "agency",
+      "count": 17
+    },
+    {
+      "name": "signature",
+      "count": 0
+    },
+    {
+      "name": "other",
+      "count": 63
+    }
+  ],
+  "candidates": [],
+  "unresolvedAnalysis": {
+    "primaryBlocker": {
+      "label": "O trong",
+      "count": 340,
+      "contracts": 86,
+      "description": "Fields labeled O trong (blank in Vietnamese). The actual label comes from DOCX slot name. Cannot fix label-only without DOCX authoring.",
+      "action": "Requires DOCX authoring lane to set correct slot labels in source DOCX."
+    },
+    "secondaryBlocker": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "count": 57,
+      "contracts": 9,
+      "description": "Structural slot leftovers from Wave 02 DOCX remediation. Label itself is the problem.",
+      "action": "Requires targeted DOCX remediation of Wave 02 contracts."
+    },
+    "patchableCamelCase": {
+      "count": 19,
+      "description": "Individual camelCase labels like archiveLine, issuePlaceAndDateLine, primaryLine. Each needs per-BM review.",
+      "action": "Could be fixed manually per BM if worth the effort."
+    }
+  }
+}
