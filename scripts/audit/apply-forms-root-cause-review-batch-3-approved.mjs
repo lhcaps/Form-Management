@@ -300,7 +300,7 @@ function applyMutations(mutations, backupDir) {
 // REPORT GENERATION
 // =============================================================================
 
-function buildReport(finalItems, applied, skipped, decisions, validationResults, issueCounts, fixPlanCounts) {
+function buildReport(finalItems, applied, skipped, plannedCount, decisions, validationResults, issueCounts, fixPlanCounts) {
   const timestamp = new Date().toISOString();
 
   const approvedDecisions = decisions.filter((d) => d.decision === 'APPROVED_FOR_APPLY');
@@ -340,7 +340,7 @@ function buildReport(finalItems, applied, skipped, decisions, validationResults,
       blocked: blockedDecisions.length,
     },
     mutations: {
-      planned: planned.length,
+      planned: plannedCount,
       applied: applied.length,
       skipped: skipped.length,
       idempotent: approvedSkipped.length,
@@ -524,10 +524,31 @@ function main() {
 
     const issueCounts = parseAuditIssueCounts();
     const fixPlanCounts = parseFixPlanClassificationCounts();
-    const applied = [];
 
-    const finalItems = computeFinalItems(mutations, applied, skipped);
-    const report = buildReport(finalItems, applied, skipped, decisions, null, issueCounts, fixPlanCounts);
+    // Detect idempotent re-run: when planMutations returns all SKIPPED_IDEMPOTENT
+    // (contracts already have correct labels), reconstruct APPLIED status from
+    // the locked file values so the report reflects the original apply accurately.
+    const allIdempotent = skipped.length > 0 && planned.length === 0;
+    let finalItems;
+    if (allIdempotent) {
+      finalItems = [];
+      for (const m of mutations) {
+        const decision = approvedDecisions.find((d) => d.reviewGroupId === m.reviewGroupId);
+        if (!decision) { finalItems.push(m); continue; }
+        const files = readdirSync(LOCKED_DIR)
+          .filter((f) => f.startsWith(m.templateCode) && f.endsWith('.contract.locked.json'));
+        if (!files[0]) { finalItems.push(m); continue; }
+        const contract = deepClone(JSON.parse(readFileSync(join(LOCKED_DIR, files[0]), 'utf8')));
+        const field = contract.canonicalFields?.find((f) => f.path === m.path);
+        const currentLabel = field?.label ?? m.proposedLabel ?? m.labelAfter;
+        finalItems.push({ ...m, labelBefore: currentLabel, labelAfter: currentLabel, status: 'APPLIED' });
+      }
+      process.stderr.write(`[APPLY] Idempotent dry-run re-run: reconstructing ${finalItems.length} APPLIED items from locked files\n`);
+    } else {
+      finalItems = computeFinalItems(mutations, [], skipped);
+    }
+
+    const report = buildReport(finalItems, finalItems.filter((m) => m.status === 'APPLIED'), finalItems.filter((m) => m.status !== 'APPLIED'), planned.length, decisions, null, issueCounts, fixPlanCounts);
     writeReport(report);
     process.stderr.write(`[APPLY] DRY-RUN complete.\n`);
     process.exit(0);
@@ -611,7 +632,7 @@ function main() {
 
   // Build and write report
   const finalItems = computeFinalItems(mutations, applied, writeSkipped);
-  const report = buildReport(finalItems, applied, writeSkipped, decisions, validations, issueCounts, fixPlanCounts);
+  const report = buildReport(finalItems, applied, writeSkipped, planned.length, decisions, validations, issueCounts, fixPlanCounts);
   writeReport(report);
 
   // Command gate check

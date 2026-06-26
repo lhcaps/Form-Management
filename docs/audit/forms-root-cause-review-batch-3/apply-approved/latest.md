@@ -1,7 +1,7 @@
 # Review Batch 3 — Approved Apply Report
 
-Generated: 2026-06-26T08:43:12.995Z
-Mode: **WRITE**
+Generated: 2026-06-26T08:56:21.996Z
+Mode: **DRY-RUN**
 
 ## Executive Summary
 
@@ -24,36 +24,23 @@ Contracts changed: **BM-001, BM-002**
 
 | Group | BM | Path | Before | After |
 |-------|---|------|--------|-------|
-| B3RG-001 | BM-001 | `informant.currentAddress` | `currentAddress` | `Nơi ở hiện tại` |
-| B3RG-002 | BM-001 | `informant.identityIssuedPlace` | `identityIssuedPlace` | `Nơi cấp` |
-| B3RG-003 | BM-001 | `informant.identityNo` | `identityNo` | `Số CCCD/CMND` |
-| B3RG-004 | BM-001 | `informant.occupation` | `occupation` | `Nghề nghiệp` |
-| B3RG-005 | BM-001 | `informant.permanentAddress` | `permanentAddress` | `Nơi thường trú` |
-| B3RG-006 | BM-001 | `informant.phone` | `phone` | `Số điện thoại` |
-| B3RG-007 | BM-001 | `informant.temporaryAddress` | `temporaryAddress` | `Nơi tạm trú` |
-| B3RG-008 | BM-002 | `reporter.birthPlace` | `birthPlace` | `Nơi sinh` |
-| B3RG-009 | BM-002 | `reporter.currentResidence` | `currentResidence` | `Nơi ở hiện tại` |
-| B3RG-010 | BM-002 | `reporter.ethnicity` | `ethnicity` | `Dân tộc` |
-| B3RG-011 | BM-002 | `reporter.identityIssuePlace` | `identityIssuePlace` | `Nơi cấp` |
-| B3RG-012 | BM-002 | `reporter.identityNumber` | `identityNumber` | `Số CCCD/CMND` |
-| B3RG-013 | BM-002 | `reporter.occupation` | `occupation` | `Nghề nghiệp` |
-| B3RG-014 | BM-002 | `reporter.permanentResidence` | `permanentResidence` | `Nơi thường trú` |
-| B3RG-015 | BM-002 | `reporter.phoneNumber` | `phoneNumber` | `Số điện thoại` |
-| B3RG-016 | BM-002 | `reporter.religion` | `religion` | `Tôn giáo` |
-| B3RG-017 | BM-002 | `reporter.temporaryResidence` | `temporaryResidence` | `Nơi tạm trú` |
-
-## Validation Command Results
-
-| # | Command | Exit | Result | Duration |
-|---|---------|------|--------|---------|
-| 1 | `pnpm contract:validate` | 0 | **PASS** | 1010ms |
-| 2 | `pnpm contract:compile` | 0 | **PASS** | 1082ms |
-| 3 | `pnpm gate:forms:213` | 0 | **PASS** | 305ms |
-| 4 | `pnpm audit:forms-root-cause` | 0 | **PASS** | 749ms |
-| 5 | `pnpm plan:forms-root-cause-fixes` | 0 | **PASS** | 367ms |
-| 6 | `pnpm audit:contract-sync` | 0 | **PASS** | 342ms |
-| 7 | `pnpm --filter @qllaw/form-contracts test` | 0 | **PASS** | 1341ms |
-| 8 | `pnpm typecheck` | 0 | **PASS** | 4969ms |
+| B3RG-001 | BM-001 | `informant.currentAddress` | `Nơi ở hiện tại` | `Nơi ở hiện tại` |
+| B3RG-002 | BM-001 | `informant.identityIssuedPlace` | `Nơi cấp` | `Nơi cấp` |
+| B3RG-003 | BM-001 | `informant.identityNo` | `Số CCCD/CMND` | `Số CCCD/CMND` |
+| B3RG-004 | BM-001 | `informant.occupation` | `Nghề nghiệp` | `Nghề nghiệp` |
+| B3RG-005 | BM-001 | `informant.permanentAddress` | `Nơi thường trú` | `Nơi thường trú` |
+| B3RG-006 | BM-001 | `informant.phone` | `Số điện thoại` | `Số điện thoại` |
+| B3RG-007 | BM-001 | `informant.temporaryAddress` | `Nơi tạm trú` | `Nơi tạm trú` |
+| B3RG-008 | BM-002 | `reporter.birthPlace` | `Nơi sinh` | `Nơi sinh` |
+| B3RG-009 | BM-002 | `reporter.currentResidence` | `Nơi ở hiện tại` | `Nơi ở hiện tại` |
+| B3RG-010 | BM-002 | `reporter.ethnicity` | `Dân tộc` | `Dân tộc` |
+| B3RG-011 | BM-002 | `reporter.identityIssuePlace` | `Nơi cấp` | `Nơi cấp` |
+| B3RG-012 | BM-002 | `reporter.identityNumber` | `Số CCCD/CMND` | `Số CCCD/CMND` |
+| B3RG-013 | BM-002 | `reporter.occupation` | `Nghề nghiệp` | `Nghề nghiệp` |
+| B3RG-014 | BM-002 | `reporter.permanentResidence` | `Nơi thường trú` | `Nơi thường trú` |
+| B3RG-015 | BM-002 | `reporter.phoneNumber` | `Số điện thoại` | `Số điện thoại` |
+| B3RG-016 | BM-002 | `reporter.religion` | `Tôn giáo` | `Tôn giáo` |
+| B3RG-017 | BM-002 | `reporter.temporaryResidence` | `Nơi tạm trú` | `Nơi tạm trú` |
 
 ## Post-Apply Issue Delta
 
