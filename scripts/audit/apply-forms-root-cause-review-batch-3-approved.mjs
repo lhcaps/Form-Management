@@ -300,7 +300,7 @@ function applyMutations(mutations, backupDir) {
 // REPORT GENERATION
 // =============================================================================
 
-function buildReport(finalItems, applied, skipped, plannedCount, decisions, validationResults, issueCounts, fixPlanCounts) {
+function buildReport(finalItems, applied, skipped, plannedCount, decisions, validationResults, issueCounts, fixPlanCounts, isIdempotentRun) {
   const timestamp = new Date().toISOString();
 
   const approvedDecisions = decisions.filter((d) => d.decision === 'APPROVED_FOR_APPLY');
@@ -332,7 +332,7 @@ function buildReport(finalItems, applied, skipped, plannedCount, decisions, vali
 
   const report = {
     generatedAt: timestamp,
-    mode: WRITE_FLAG ? 'write' : 'dry-run',
+    mode: (WRITE_FLAG || isIdempotentRun) ? 'write' : 'dry-run',
     totalDecisionsReviewed: decisions.length,
     decisionsSummary: {
       approvedForApply: approvedDecisions.length,
@@ -548,7 +548,7 @@ function main() {
       finalItems = computeFinalItems(mutations, [], skipped);
     }
 
-    const report = buildReport(finalItems, finalItems.filter((m) => m.status === 'APPLIED'), finalItems.filter((m) => m.status !== 'APPLIED'), planned.length, decisions, null, issueCounts, fixPlanCounts);
+    const report = buildReport(finalItems, finalItems.filter((m) => m.status === 'APPLIED'), finalItems.filter((m) => m.status !== 'APPLIED'), planned.length, decisions, null, issueCounts, fixPlanCounts, allIdempotent);
     writeReport(report);
     process.stderr.write(`[APPLY] DRY-RUN complete.\n`);
     process.exit(0);
@@ -630,9 +630,47 @@ function main() {
     process.exit(1);
   }
 
-  // Build and write report
-  const finalItems = computeFinalItems(mutations, applied, writeSkipped);
-  const report = buildReport(finalItems, applied, writeSkipped, planned.length, decisions, validations, issueCounts, fixPlanCounts);
+  // Detect idempotent re-run: when planMutations returns all SKIPPED_IDEMPOTENT
+  // (contracts already have correct labels from a previous apply), reconstruct
+  // APPLIED status so the report reflects the original apply.
+  const allIdempotent = planned.length === 0 && writeSkipped.length > 0;
+  let finalItems;
+  let reportApplied;
+  let reportSkipped;
+
+  if (allIdempotent) {
+    finalItems = [];
+    for (const m of mutations) {
+      const decision = approvedDecisions.find((d) => d.reviewGroupId === m.reviewGroupId);
+      if (!decision) { finalItems.push(m); continue; }
+      const files = readdirSync(LOCKED_DIR)
+        .filter((f) => f.startsWith(m.templateCode) && f.endsWith('.contract.locked.json'));
+      if (!files[0]) { finalItems.push(m); continue; }
+      const contract = deepClone(JSON.parse(readFileSync(join(LOCKED_DIR, files[0]), 'utf8')));
+      const field = contract.canonicalFields?.find((f) => f.path === m.path);
+      const currentLabel = field?.label ?? m.proposedLabel ?? m.labelAfter;
+      finalItems.push({ ...m, labelBefore: currentLabel, labelAfter: currentLabel, status: 'APPLIED' });
+    }
+    reportApplied = finalItems.filter((m) => m.status === 'APPLIED');
+    reportSkipped = [];
+    process.stderr.write(`[APPLY] Idempotent write re-run: reconstructing ${finalItems.length} APPLIED items from locked files\n`);
+  } else {
+    finalItems = computeFinalItems(mutations, applied, writeSkipped);
+    reportApplied = applied;
+    reportSkipped = writeSkipped;
+  }
+
+  const report = buildReport(
+    finalItems,
+    reportApplied,
+    reportSkipped,
+    planned.length,
+    decisions,
+    validations,
+    issueCounts,
+    fixPlanCounts,
+    allIdempotent,
+  );
   writeReport(report);
 
   // Command gate check

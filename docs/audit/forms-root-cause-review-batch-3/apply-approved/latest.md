@@ -1,7 +1,7 @@
 # Review Batch 3 — Approved Apply Report
 
-Generated: 2026-06-26T08:56:21.996Z
-Mode: **DRY-RUN**
+Generated: 2026-06-26T10:45:51.974Z
+Mode: **WRITE**
 
 ## Executive Summary
 
