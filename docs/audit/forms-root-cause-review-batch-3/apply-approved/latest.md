@@ -1,12 +1,15 @@
 # Review Batch 3 — Approved Apply Report
 
-Generated: 2026-06-26T10:45:51.974Z
+Generated: 2026-06-26T11:03:34.490Z
 Mode: **WRITE**
 
 ## Executive Summary
 
-Approved: **17** decisions
+Decisions reviewed: **17**
+Mutations planned: **17**
 Mutations applied: **17**
+Mutations skipped (idempotent): **0**
+Mutations failed: **0**
 Contracts changed: **BM-001, BM-002**
 
 > Batch 3 label-only dictionary: person/address/contact labels.
@@ -19,6 +22,14 @@ Contracts changed: **BM-001, BM-002**
 | APPROVED_FOR_APPLY | 17 |
 | DEFER_METADATA_REVIEW | 0 |
 | BLOCKED | 0 |
+
+## Current Run
+
+| Property | Value |
+|----------|-------|
+| idempotentRun | true |
+| wouldApplyNow | 0 |
+| alreadyApplied | 17 |
 
 ## Applied Mutations
 

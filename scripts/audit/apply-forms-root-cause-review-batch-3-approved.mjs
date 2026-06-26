@@ -300,39 +300,16 @@ function applyMutations(mutations, backupDir) {
 // REPORT GENERATION
 // =============================================================================
 
-function buildReport(finalItems, applied, skipped, plannedCount, decisions, validationResults, issueCounts, fixPlanCounts, isIdempotentRun) {
+function buildReport(finalItems, applied, skipped, plannedCount, failedCount, decisions, validationResults, issueCounts, fixPlanCounts, currentRun) {
   const timestamp = new Date().toISOString();
 
   const approvedDecisions = decisions.filter((d) => d.decision === 'APPROVED_FOR_APPLY');
   const deferredDecisions = decisions.filter((d) => d.decision === 'DEFER_METADATA_REVIEW');
   const blockedDecisions = decisions.filter((d) => d.decision?.startsWith('BLOCKED'));
 
-  // Derive counts from finalItems
-  const planned = finalItems.filter((m) => m.status === 'PLANNED');
-  const approvedSkipped = finalItems.filter((m) => m.status === 'SKIPPED_IDEMPOTENT');
-
-  const delta = {};
-  if (issueCounts) {
-    delta.totalIssues = {
-      baseline: BASELINE.totalIssues,
-      current: issueCounts.totalIssues,
-      delta: issueCounts.totalIssues - BASELINE.totalIssues,
-    };
-    delta.BAD_LABEL = {
-      baseline: BASELINE.BAD_LABEL,
-      current: issueCounts.BAD_LABEL,
-      delta: issueCounts.BAD_LABEL - BASELINE.BAD_LABEL,
-    };
-    delta.UI_VISIBLE_BAD_METADATA = {
-      baseline: BASELINE.UI_VISIBLE_BAD_METADATA,
-      current: issueCounts.UI_VISIBLE_BAD_METADATA,
-      delta: issueCounts.UI_VISIBLE_BAD_METADATA - BASELINE.UI_VISIBLE_BAD_METADATA,
-    };
-  }
-
   const report = {
     generatedAt: timestamp,
-    mode: (WRITE_FLAG || isIdempotentRun) ? 'write' : 'dry-run',
+    mode: (WRITE_FLAG || (currentRun && currentRun.idempotentRun)) ? 'write' : 'dry-run',
     totalDecisionsReviewed: decisions.length,
     decisionsSummary: {
       approvedForApply: approvedDecisions.length,
@@ -342,10 +319,11 @@ function buildReport(finalItems, applied, skipped, plannedCount, decisions, vali
     mutations: {
       planned: plannedCount,
       applied: applied.length,
-      skipped: skipped.length,
-      idempotent: approvedSkipped.length,
+      skippedIdempotent: skipped.length,
+      failed: failedCount,
       items: finalItems,
     },
+    currentRun: currentRun || null,
     appliedContracts: [...new Set(applied.map((m) => m.templateCode))],
     validation: {
       commands: (validationResults || []).map((v) => ({
@@ -355,7 +333,27 @@ function buildReport(finalItems, applied, skipped, plannedCount, decisions, vali
         durationMs: v.durationMs,
       })),
     },
-    issueDelta: delta,
+    issueDelta: (() => {
+      const delta = {};
+      if (issueCounts) {
+        delta.totalIssues = {
+          baseline: BASELINE.totalIssues,
+          current: issueCounts.totalIssues,
+          delta: issueCounts.totalIssues - BASELINE.totalIssues,
+        };
+        delta.BAD_LABEL = {
+          baseline: BASELINE.BAD_LABEL,
+          current: issueCounts.BAD_LABEL,
+          delta: issueCounts.BAD_LABEL - BASELINE.BAD_LABEL,
+        };
+        delta.UI_VISIBLE_BAD_METADATA = {
+          baseline: BASELINE.UI_VISIBLE_BAD_METADATA,
+          current: issueCounts.UI_VISIBLE_BAD_METADATA,
+          delta: issueCounts.UI_VISIBLE_BAD_METADATA - BASELINE.UI_VISIBLE_BAD_METADATA,
+        };
+      }
+      return Object.keys(delta).length > 0 ? delta : null;
+    })(),
     fixPlanCounts: fixPlanCounts || null,
   };
 
@@ -369,8 +367,6 @@ function writeReport(report) {
 
   const approvedContracts = report.appliedContracts;
   const appliedItems = report.mutations.items.filter((m) => m.status === 'APPLIED');
-  const skippedItems = report.mutations.items.filter((m) => m.status === 'SKIPPED_IDEMPOTENT');
-  const plannedItems = report.mutations.items.filter((m) => m.status === 'PLANNED');
 
   const lines = [
     '# Review Batch 3 — Approved Apply Report',
@@ -380,8 +376,11 @@ function writeReport(report) {
     '',
     '## Executive Summary',
     '',
-    `Approved: **${report.decisionsSummary.approvedForApply}** decisions`,
-    `Mutations applied: **${appliedItems.length}**`,
+    `Decisions reviewed: **${report.totalDecisionsReviewed}**`,
+    `Mutations planned: **${report.mutations.planned}**`,
+    `Mutations applied: **${report.mutations.applied}**`,
+    `Mutations skipped (idempotent): **${report.mutations.skippedIdempotent}**`,
+    `Mutations failed: **${report.mutations.failed}**`,
     `Contracts changed: **${approvedContracts.join(', ')}**`,
     '',
     `> Batch 3 label-only dictionary: person/address/contact labels.`,
@@ -397,6 +396,17 @@ function writeReport(report) {
     '',
   ];
 
+  if (report.currentRun) {
+    lines.push('## Current Run');
+    lines.push('');
+    lines.push('| Property | Value |');
+    lines.push('|----------|-------|');
+    lines.push(`| idempotentRun | ${report.currentRun.idempotentRun} |`);
+    lines.push(`| wouldApplyNow | ${report.currentRun.wouldApplyNow} |`);
+    lines.push(`| alreadyApplied | ${report.currentRun.alreadyApplied} |`);
+    lines.push('');
+  }
+
   if (appliedItems.length > 0) {
     lines.push('## Applied Mutations');
     lines.push('');
@@ -408,10 +418,10 @@ function writeReport(report) {
     lines.push('');
   }
 
-  if (skippedItems.length > 0) {
+  if (report.mutations.skippedIdempotent > 0) {
     lines.push('## Idempotent (Already Applied)');
     lines.push('');
-    for (const m of skippedItems) {
+    for (const m of report.mutations.items.filter((m) => m.status === 'SKIPPED_IDEMPOTENT')) {
       lines.push(`- ${m.reviewGroupId}: ${m.templateCode}::${m.path} — already \`"${m.labelAfter}"\``);
     }
     lines.push('');
@@ -548,7 +558,21 @@ function main() {
       finalItems = computeFinalItems(mutations, [], skipped);
     }
 
-    const report = buildReport(finalItems, finalItems.filter((m) => m.status === 'APPLIED'), finalItems.filter((m) => m.status !== 'APPLIED'), planned.length, decisions, null, issueCounts, fixPlanCounts, allIdempotent);
+    const currentRun = allIdempotent
+      ? { idempotentRun: true, wouldApplyNow: planned.length, alreadyApplied: finalItems.filter((m) => m.status === 'APPLIED').length }
+      : { idempotentRun: false, wouldApplyNow: planned.length, alreadyApplied: 0 };
+    const report = buildReport(
+      finalItems,
+      finalItems.filter((m) => m.status === 'APPLIED'),
+      finalItems.filter((m) => m.status !== 'APPLIED'),
+      approvedDecisions.length,
+      0,
+      decisions,
+      null,
+      issueCounts,
+      fixPlanCounts,
+      currentRun,
+    );
     writeReport(report);
     process.stderr.write(`[APPLY] DRY-RUN complete.\n`);
     process.exit(0);
@@ -637,6 +661,7 @@ function main() {
   let finalItems;
   let reportApplied;
   let reportSkipped;
+  let failedCount = 0;
 
   if (allIdempotent) {
     finalItems = [];
@@ -657,19 +682,26 @@ function main() {
   } else {
     finalItems = computeFinalItems(mutations, applied, writeSkipped);
     reportApplied = applied;
-    reportSkipped = writeSkipped;
+    // Only SKIPPED_IDEMPOTENT count toward skippedIdempotent; SKIPPED_NO_FILE / SKIPPED_FIELD_MISSING are failures
+    reportSkipped = writeSkipped.filter((s) => s.status === 'SKIPPED_IDEMPOTENT');
+    failedCount = writeSkipped.filter((s) => s.status !== 'SKIPPED_IDEMPOTENT').length;
   }
+
+  const currentRun = allIdempotent
+    ? { idempotentRun: true, wouldApplyNow: 0, alreadyApplied: reportApplied.length }
+    : { idempotentRun: false, wouldApplyNow: planned.length, alreadyApplied: applied.length };
 
   const report = buildReport(
     finalItems,
     reportApplied,
     reportSkipped,
-    planned.length,
+    approvedDecisions.length,
+    failedCount,
     decisions,
     validations,
     issueCounts,
     fixPlanCounts,
-    allIdempotent,
+    currentRun,
   );
   writeReport(report);
 
