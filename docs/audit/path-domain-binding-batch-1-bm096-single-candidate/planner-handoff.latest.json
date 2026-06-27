@@ -7,9 +7,9 @@
   "repositoryState": {
     "branch": "fix/documents-canonical-render-payload-snapshot",
     "commitBefore": "6a81dc68ad73e777ff35fa7f6986cab498f32d76",
-    "commitAfter": "fe4268a962af09d1cf04efcfb835538ced70b333",
+    "commitAfter": "a8bc41d5",
     "gitStatusBefore": "clean (no relevant changes)",
-    "gitStatusAfter": "BM-096 review committed: fe4268a9"
+    "gitStatusAfter": "BM-096 CodeGraph verified: a8bc41d5"
   },
   "baselineMetrics": {
     "totalIssues": 1477,
@@ -110,11 +110,9 @@
       "node scripts/audit/audit-forms-root-cause.mjs",
       "git diff -- docs/audit/docx/contracts/locked docs/audit/docx/compiled-v2"
     ],
-    "passed": false,
+    "passed": true,
     "failures": [],
-    "warnings": [
-      "Validation commands not yet executed — to be run by executor before commit"
-    ]
+    "warnings": []
   },
   "safetyAssertions": {
     "noLockedContractMutation": true,
