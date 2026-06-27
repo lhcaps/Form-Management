@@ -1,0 +1,618 @@
+{
+  "planVersion": "1.0.0",
+  "task": "BM096_DEFERRED_GROUP_REVIEW_PLAN",
+  "status": "READY_FOR_PLANNER_REVIEW",
+  "generatedAt": "2026-06-27T21:03:39.358Z",
+  "reviewedFieldsCount": 18,
+  "classificationCounts": {
+    "CLEAN_NO_ISSUES": 2,
+    "REVIEW_CANDIDATE_LABEL_ONLY": 4,
+    "DEFER_NO_VISIBLE_LABEL": 11,
+    "DEFER_REQUIRED_POLICY_REVIEW": 1
+  },
+  "fields": [
+    {
+      "path": "agency.vienKiem",
+      "slotId": "agency.vienKiem",
+      "currentLabel": "Tên cơ quan",
+      "rawPattern": "{{document.field1}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "VIỆN KIỂM SÁT …",
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "source": "agencyConfig",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [],
+      "renderBinding": {
+        "slotId": "agency.vienKiem",
+        "from": "agency.vienKiem",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "CLEAN_NO_ISSUES",
+      "plannerRecommendation": "NO_ACTION"
+    },
+    {
+      "path": "document.soYeu",
+      "slotId": "document.soYeu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field3}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Xét thấy8",
+      "context": "Xét thấy8{{document.field3}}{{document.field4}}{{document.field5}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.soYeu",
+        "from": "document.soYeu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "plannerRecommendation": "REQUEST_APPROVAL_FOR_NEXT_SINGLE_FIELD",
+      "notes": "Has visible context but generic label. Consider label-only fix."
+    },
+    {
+      "path": "agency.diaDanh",
+      "slotId": "agency.diaDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field4}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Xét thấy8{{document.field3}}",
+      "context": "Xét thấy8{{document.field3}}{{document.field4}}{{document.field5}}",
+      "source": "agencyConfig",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "agency.diaDanh",
+        "from": "agency.diaDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.ngayBan",
+      "slotId": "document.ngayBan",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field5}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Xét thấy8{{document.field3}}{{document.field4}}",
+      "context": "Xét thấy8{{document.field3}}{{document.field4}}{{document.field5}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.ngayBan",
+        "from": "document.ngayBan",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "recipients.personLine",
+      "slotId": "recipients.personLine",
+      "currentLabel": "Người bị áp dụng",
+      "rawPattern": "{{recipients.personLine}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Họ tên:10",
+      "context": "Họ tên:10{{recipients.personLine}}……",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [],
+      "renderBinding": {
+        "slotId": "recipients.personLine",
+        "from": "recipients.personLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "CLEAN_NO_ISSUES",
+      "plannerRecommendation": "NO_ACTION"
+    },
+    {
+      "path": "agency.dongDia",
+      "slotId": "agency.dongDia",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field7}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "",
+      "context": "{{document.field7}}{{document.field8}}",
+      "source": "agencyConfig",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "agency.dongDia",
+        "from": "agency.dongDia",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.chuThe",
+      "slotId": "document.chuThe",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field8}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "{{document.field7}}",
+      "context": "{{document.field7}}{{document.field8}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.chuThe",
+        "from": "document.chuThe",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "legalBasis.canCu",
+      "slotId": "legalBasis.canCu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field9}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "",
+      "context": "{{document.field9}}{{document.field10}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "legalBasis.canCu",
+        "from": "legalBasis.canCu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.tenVu",
+      "slotId": "document.tenVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field10}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "{{document.field9}}",
+      "context": "{{document.field9}}{{document.field10}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.tenVu",
+        "from": "document.tenVu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "person.toiDanh",
+      "slotId": "person.toiDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field11}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "",
+      "context": "{{document.field11}}{{document.field12}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "person.toiDanh",
+        "from": "person.toiDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "person.hoTen",
+      "slotId": "person.hoTen",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field12}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "{{document.field11}}",
+      "context": "{{document.field11}}{{document.field12}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "person.hoTen",
+        "from": "person.hoTen",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.namSinh",
+      "slotId": "document.namSinh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field13}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Nghề nghiệp:",
+      "context": "Nghề nghiệp:{{document.field13}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.namSinh",
+        "from": "document.namSinh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "plannerRecommendation": "REQUEST_APPROVAL_FOR_NEXT_SINGLE_FIELD",
+      "notes": "Has visible context but generic label. Consider label-only fix."
+    },
+    {
+      "path": "person.idNumber",
+      "slotId": "person.idNumber",
+      "currentLabel": "Số CCCD/CMND",
+      "rawPattern": "{{person.field14}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "renderBinding": {
+        "slotId": "person.idNumber",
+        "from": "person.idNumber",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "plannerRecommendation": "DEFER",
+      "notes": "REQUIRED_SUSPICIOUS is unmasking. DO NOT touch in this batch. Follow-up: human review of required field."
+    },
+    {
+      "path": "document.lyDo",
+      "slotId": "document.lyDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field15}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "C",
+      "context": "C{{document.field15}}{{document.field16}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "document.lyDo",
+        "from": "document.lyDo",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "recipients.luuHo",
+      "slotId": "recipients.luuHo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field16}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "C{{document.field15}}",
+      "context": "C{{document.field15}}{{document.field16}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "recipients.luuHo",
+        "from": "recipients.luuHo",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field17}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Nơi thường trú:",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "signature.cheDo",
+        "from": "signature.cheDo",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "plannerRecommendation": "REQUEST_APPROVAL_FOR_NEXT_SINGLE_FIELD",
+      "notes": "Has visible context but generic label. Consider label-only fix."
+    },
+    {
+      "path": "signature.chucVu",
+      "slotId": "signature.chucVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field18}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Nơi thường trú: {{document.field17}}",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "signature.chucVu",
+        "from": "signature.chucVu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "plannerRecommendation": "DEFER",
+      "notes": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field19}}",
+      "rawDomain": null,
+      "rawTail": null,
+      "textBefore": "Nơi tạm trú:",
+      "context": "Nơi tạm trú: {{document.field19}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "renderBinding": {
+        "slotId": "signature.nguoiKy",
+        "from": "signature.nguoiKy",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "plannerRecommendation": "REQUEST_APPROVAL_FOR_NEXT_SINGLE_FIELD",
+      "notes": "Has visible context but generic label. Consider label-only fix."
+    }
+  ],
+  "codeGraphHealth": {
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  },
+  "baselineMetrics": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "verifiedAt": "2026-06-28T03:46:00.000+07:00"
+    }
+  },
+  "bm096PreviousMutation": {
+    "path": "document.diaChi -> person.idNumber",
+    "label": "Ô trống -> Số CCCD/CMND",
+    "commit": "a6622d57dad26dfab7161e181307ae901bf59631",
+    "status": "ACCEPTED"
+  },
+  "deferredExcluded": [
+    "signature.cheDo",
+    "signature.nguoiKy",
+    "document.namSinh",
+    "document.soYeu",
+    "agency.diaDanh",
+    "agency.dongDia",
+    "document.chuThe",
+    "legalBasis.canCu",
+    "document.tenVu",
+    "person.toiDanh",
+    "person.hoTen",
+    "document.lyDo",
+    "recipients.luuHo",
+    "signature.chucVu",
+    "document.ngayBan"
+  ],
+  "keyInsights": {
+    "scriptVsManualClassification": "Script uses slot.rawPattern for rawDomain (always null), classifying more fields as DEFER_NO_VISIBLE_LABEL. Manual analysis found path/domain mismatch signals in audit rawKey that script misses.",
+    "signatureFieldsNote": "signature.cheDo/nguoiKy/chucVu have textBefore='Nơi thường trú:'/'Nơi tạm trú:' suggesting wrong paths (person address vs signature). Script classifies DEFER due to null rawDomain.",
+    "documentNamSinhNote": "textBefore='Nghề nghiệp:' (occupation) vs path=document.namSinh (birth year) is the strongest signal. Script classifies DEFER_NO_VISIBLE_LABEL."
+  },
+  "topCandidates": [
+    {
+      "path": "document.soYeu",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "Has visible context but generic label. Consider label-only fix."
+    },
+    {
+      "path": "document.namSinh",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "Has visible context but generic label. Consider label-only fix."
+    },
+    {
+      "path": "signature.cheDo",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "Has visible context but generic label. Consider label-only fix."
+    }
+  ],
+  "deferredItems": [
+    {
+      "path": "agency.diaDanh",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.ngayBan",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "agency.dongDia",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.chuThe",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "legalBasis.canCu",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "document.tenVu",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "person.toiDanh",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "person.hoTen",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "person.idNumber",
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "REQUIRED_SUSPICIOUS is unmasking. DO NOT touch in this batch. Follow-up: human review of required field."
+    },
+    {
+      "path": "document.lyDo",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "recipients.luuHo",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    },
+    {
+      "path": "signature.chucVu",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION but no visible Vietnamese context. Cannot determine correct path."
+    }
+  ]
+}
