@@ -1,0 +1,116 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM096_SIGNATURE_GROUP_DOCX_EVIDENCE_EXTRACTION",
+  "status": "READY_FOR_PLANNER_REVIEW",
+  "mode": "EVIDENCE_ONLY",
+  "canApplyRunNow": false,
+  "baselineMetrics": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "BAD_LABEL": 352,
+    "GENERIC_FIELD_CANONICALIZATION": 351,
+    "REQUIRED_SUSPICIOUS": 116,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "verifiedAt": "2026-06-28T03:46:00.000+07:00"
+    }
+  },
+  "postTaskMetrics": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "BAD_LABEL": 352,
+    "GENERIC_FIELD_CANONICALIZATION": 351,
+    "REQUIRED_SUSPICIOUS": 116,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "verifiedAt": "2026-06-28T03:46:00.000+07:00"
+    }
+  },
+  "targetFields": [
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "proposedTargetPath": null,
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    },
+    {
+      "path": "signature.chucVu",
+      "slotId": "signature.chucVu",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "proposedTargetPath": null,
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "proposedTargetPath": null,
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    }
+  ],
+  "classificationCounts": {
+    "DEFER_PATH_DOMAIN_MISMATCH": 3
+  },
+  "codeGraphHealth": {
+    "cliFound": true,
+    "projectInitialized": true,
+    "cursorMcpConfigured": true,
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  },
+  "validation": {
+    "scriptExecuted": true,
+    "noLockedContractDiff": true,
+    "noCompiledV2Diff": true,
+    "noDbPublish": true,
+    "noApplyRunnerCreated": true,
+    "noDecisionsApprovedCreated": true,
+    "totalIssuesBaseline": 1476,
+    "totalIssuesPost": 1476,
+    "totalIssuesDelta": 0,
+    "REMEDIATION_LEAKBaseline": 10,
+    "REMEDIATION_LEAKPost": 10,
+    "COMPILED_DRIFTBaseline": 37,
+    "COMPILED_DRIFTPost": 37,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0
+    }
+  },
+  "safetyAssertions": {
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noCrossBmEvidence": true,
+    "noApprovedDecisions": true,
+    "noApplyRunnerCreated": true,
+    "directDocxEvidenceOnly": true,
+    "rawPatternEmptyGuard": true,
+    "placeholderOnlyTextBeforeGuard": true,
+    "labelDomainMismatchGuard": true,
+    "canApplyRunNow": false
+  },
+  "plannerDecisionNeeded": {
+    "requested": true,
+    "reason": "All 3 BM-096 signature fields classified DEFER_PATH_DOMAIN_MISMATCH. Direct DOCX evidence shows address semantics ('Nơi thường trú' / 'Nơi tạm trú') but no safe exact person.* target path can be proposed without cross-BM inference. Planner must decide: (a) DEFER to DOCX authoring fix, (b) DEFER to manual legal review, or (c) identify a safe single-field candidate for next batch.",
+    "nextCandidate": null,
+    "recommendation": "DEFER_MANUAL_LEGAL_REVIEW for all 3 fields. Evidence is compelling (address semantics under signature.*) but legal/form semantics require human domain expert. No apply action should be taken."
+  }
+}
