@@ -1,0 +1,567 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-06-27T19:11:06.852Z",
+  "task": "PATH_DOMAIN_BINDING_BATCH_1",
+  "templateCode": "BM-096",
+  "templateTitle": "Yêu cầu ra QĐ khởi tố bị can",
+  "mode": "evidence-only",
+  "summary": {
+    "totalPathsWithIssues": 16,
+    "safeLabelCleanup": 2,
+    "safePathRemap": 1,
+    "deferred": 13,
+    "approvedForBatch1": 3
+  },
+  "analysis": [
+    {
+      "path": "document.soYeu",
+      "slotId": "document.soYeu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field3}}",
+      "textBefore": "Xét thấy8",
+      "extractedLabel": "Xét thấy",
+      "proposedLabel": "Xét thấy",
+      "proposedPath": null,
+      "confidence": "LOW",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "Label \"Xét thấy\" found but not in approved semantic list. Need domain review.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "agency.diaDanh",
+      "slotId": "agency.diaDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field4}}",
+      "textBefore": "Xét thấy8{{document.field3}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.ngayBan",
+      "slotId": "document.ngayBan",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field5}}",
+      "textBefore": "Xét thấy8{{document.field3}}{{document.field4}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "agency.dongDia",
+      "slotId": "agency.dongDia",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field7}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.chuThe",
+      "slotId": "document.chuThe",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field8}}",
+      "textBefore": "{{document.field7}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "legalBasis.canCu",
+      "slotId": "legalBasis.canCu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field9}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.tenVu",
+      "slotId": "document.tenVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field10}}",
+      "textBefore": "{{document.field9}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "person.toiDanh",
+      "slotId": "person.toiDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field11}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "person.hoTen",
+      "slotId": "person.hoTen",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field12}}",
+      "textBefore": "{{document.field11}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.namSinh",
+      "slotId": "document.namSinh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field13}}",
+      "textBefore": "Nghề nghiệp:",
+      "extractedLabel": "Nghề nghiệp:",
+      "proposedLabel": "Nghề nghiệp:",
+      "proposedPath": null,
+      "confidence": "LOW",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "Label suggests occupation but path \"document.namSinh\" may not match. Need domain expert review.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.diaChi",
+      "slotId": "document.diaChi",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{person.field14}}",
+      "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "extractedLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "proposedLabel": "Số CCCD/CMND",
+      "proposedPath": "person.idNumber",
+      "confidence": "MEDIUM",
+      "classification": "SAFE_PATH_REMAP",
+      "rationale": "Clear ID number label. Path should be person.idNumber.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.lyDo",
+      "slotId": "document.lyDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field15}}",
+      "textBefore": "C",
+      "extractedLabel": "C",
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "recipients.luuHo",
+      "slotId": "recipients.luuHo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field16}}",
+      "textBefore": "C{{document.field15}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field17}}",
+      "textBefore": "Nơi thường trú:",
+      "extractedLabel": "Nơi thường trú:",
+      "proposedLabel": "Nơi thường trú:",
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "SAFE_LABEL_CLEANUP",
+      "rationale": "Clear address label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "signature.chucVu",
+      "slotId": "signature.chucVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field18}}",
+      "textBefore": "Nơi thường trú: {{document.field17}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field19}}",
+      "textBefore": "Nơi tạm trú:",
+      "extractedLabel": "Nơi tạm trú:",
+      "proposedLabel": "Nơi tạm trú:",
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "SAFE_LABEL_CLEANUP",
+      "rationale": "Clear address label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    }
+  ],
+  "safeCleanupCandidates": [
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field17}}",
+      "textBefore": "Nơi thường trú:",
+      "extractedLabel": "Nơi thường trú:",
+      "proposedLabel": "Nơi thường trú:",
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "SAFE_LABEL_CLEANUP",
+      "rationale": "Clear address label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field19}}",
+      "textBefore": "Nơi tạm trú:",
+      "extractedLabel": "Nơi tạm trú:",
+      "proposedLabel": "Nơi tạm trú:",
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "SAFE_LABEL_CLEANUP",
+      "rationale": "Clear address label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    }
+  ],
+  "safeRemapCandidates": [
+    {
+      "path": "document.diaChi",
+      "slotId": "document.diaChi",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{person.field14}}",
+      "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "extractedLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "proposedLabel": "Số CCCD/CMND",
+      "proposedPath": "person.idNumber",
+      "confidence": "MEDIUM",
+      "classification": "SAFE_PATH_REMAP",
+      "rationale": "Clear ID number label. Path should be person.idNumber.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    }
+  ],
+  "deferredCandidates": [
+    {
+      "path": "document.soYeu",
+      "slotId": "document.soYeu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field3}}",
+      "textBefore": "Xét thấy8",
+      "extractedLabel": "Xét thấy",
+      "proposedLabel": "Xét thấy",
+      "proposedPath": null,
+      "confidence": "LOW",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "Label \"Xét thấy\" found but not in approved semantic list. Need domain review.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "agency.diaDanh",
+      "slotId": "agency.diaDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field4}}",
+      "textBefore": "Xét thấy8{{document.field3}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.ngayBan",
+      "slotId": "document.ngayBan",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field5}}",
+      "textBefore": "Xét thấy8{{document.field3}}{{document.field4}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "agency.dongDia",
+      "slotId": "agency.dongDia",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field7}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.chuThe",
+      "slotId": "document.chuThe",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field8}}",
+      "textBefore": "{{document.field7}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "legalBasis.canCu",
+      "slotId": "legalBasis.canCu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field9}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.tenVu",
+      "slotId": "document.tenVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field10}}",
+      "textBefore": "{{document.field9}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "person.toiDanh",
+      "slotId": "person.toiDanh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field11}}",
+      "textBefore": "",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "person.hoTen",
+      "slotId": "person.hoTen",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field12}}",
+      "textBefore": "{{document.field11}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.namSinh",
+      "slotId": "document.namSinh",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field13}}",
+      "textBefore": "Nghề nghiệp:",
+      "extractedLabel": "Nghề nghiệp:",
+      "proposedLabel": "Nghề nghiệp:",
+      "proposedPath": null,
+      "confidence": "LOW",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "Label suggests occupation but path \"document.namSinh\" may not match. Need domain expert review.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "document.lyDo",
+      "slotId": "document.lyDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field15}}",
+      "textBefore": "C",
+      "extractedLabel": "C",
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
+      "rationale": "No clear evidence for semantic determination.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "recipients.luuHo",
+      "slotId": "recipients.luuHo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field16}}",
+      "textBefore": "C{{document.field15}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    },
+    {
+      "path": "signature.chucVu",
+      "slotId": "signature.chucVu",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field18}}",
+      "textBefore": "Nơi thường trú: {{document.field17}}",
+      "extractedLabel": null,
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "NONE",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "rationale": "textBefore only contains field codes. No visible label found.",
+      "issues": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ]
+    }
+  ]
+}

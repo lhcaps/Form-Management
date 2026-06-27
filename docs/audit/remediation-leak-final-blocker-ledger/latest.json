@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-06-28T02:07:00.000Z",
+  "task": "REMEDIATION_LEAK_FINAL_BLOCKER_LEDGER",
+  "status": "CLOSED - REQUIRES_DIRECT_DOCX_REVIEW",
+  "totalRemediationLeak": 10,
+  "classification": "DOCX_AUTHORING_BLOCKED / NEEDS_DIRECT_DOCX_REVIEW",
+  "summary": {
+    "BM-069_missing_direct_decision": 5,
+    "body_footer_slot_wrong_context": 3,
+    "no_visible_dob_label": 2,
+    "total": 10
+  },
+  "blockers": [
+    {
+      "id": "LEAK-BLK-001",
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "reason": "CROSS_BM_EVIDENCE_REJECTED",
+      "detail": "Approval was from BM-068 evidence. BM-069 has no independent approval. Requires direct BM-069 DOCX review.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-069"
+    },
+    {
+      "id": "LEAK-BLK-002",
+      "templateCode": "BM-069",
+      "path": "document.reasonLine",
+      "reason": "NO_REVIEW_DECISION",
+      "detail": "W2R-017 in review-pack has null decision. No reviewer approval for this field.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-069"
+    },
+    {
+      "id": "LEAK-BLK-003",
+      "templateCode": "BM-069",
+      "path": "document.reasonLine2",
+      "reason": "NO_REVIEW_DECISION",
+      "detail": "W2R-018 in review-pack has null decision. No reviewer approval for this field.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-069"
+    },
+    {
+      "id": "LEAK-BLK-004",
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "reason": "NO_REVIEW_DECISION",
+      "detail": "W2R-022 in review-pack has null decision. No reviewer approval for this field.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-069"
+    },
+    {
+      "id": "LEAK-BLK-005",
+      "templateCode": "BM-069",
+      "path": "document.summaryLine",
+      "reason": "NO_REVIEW_DECISION",
+      "detail": "W2R-024 in review-pack has null decision. No reviewer approval for this field.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-069"
+    },
+    {
+      "id": "LEAK-BLK-006",
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "reason": "BODY_SLOT_NOT_HEADER",
+      "detail": "Slot is in body 'Xét thấy...ĐỀ NGHỊ:' context, not document header. Cannot approve as document code. Requires path remapping.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "PATH_REMAP_REQUIRES_DOCX_AUTHORING"
+    },
+    {
+      "id": "LEAK-BLK-007",
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "reason": "FOOTER_SLOT_NOT_HEADER",
+      "detail": "Slot is in 'Nơi nhận' footer, not document header. Cannot approve as document code. Requires path remapping.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "PATH_REMAP_REQUIRES_DOCX_AUTHORING"
+    },
+    {
+      "id": "LEAK-BLK-008",
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "reason": "WRONG_SEMANTIC_PATH",
+      "detail": "Slot is in procedural case reference context, not document code field. Wrong semantic mapping. Requires path remapping.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "PATH_REMAP_REQUIRES_DOCX_AUTHORING"
+    },
+    {
+      "id": "LEAK-BLK-009",
+      "templateCode": "BM-162",
+      "path": "person.dateOfBirth",
+      "reason": "NO_VISIBLE_DOB_LABEL",
+      "detail": "Complex multi-column table layout, no clear 'Sinh ngày' or 'Ngày sinh:' visible label found. Requires manual DOCX review.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-162"
+    },
+    {
+      "id": "LEAK-BLK-010",
+      "templateCode": "BM-163",
+      "path": "person.dateOfBirth",
+      "reason": "NO_VISIBLE_DOB_LABEL",
+      "detail": "No clear 'Sinh ngày' or 'Ngày sinh:' visible label found in extracted text. Requires manual DOCX review.",
+      "classification": "DOCX_AUTHORING_BLOCKED",
+      "canRemediate": false,
+      "requiredAction": "DIRECT_DOCX_REVIEW_BM-163"
+    }
+  ],
+  "hardRules": {
+    "rawPattern_EMPTY_and_textBefore_generic": "DO NOT APPROVE",
+    "crossBM_evidence": "DO NOT APPROVE",
+    "body_footer_slot_not_header": "DO NOT APPROVE",
+    "no_direct_DOCX_evidence": "DEFER"
+  },
+  "nextAction": "Lane switch to PATH_DOMAIN_BINDING_BATCH_1 for BM-096, BM-155, BM-136"
+}
