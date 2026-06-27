@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-27T19:53:15.773Z
+Generated: 2026-06-27T20:02:38.274Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -8,19 +8,19 @@ Audit version: v2 (rule independence: true)
 |--------|-------|
 | totalContracts | 213 |
 | totalFields | 2443 |
-| totalIssues | 1477 |
-| **FAIL** | **1156** |
-| REVIEW | 321 |
+| totalIssues | 1476 |
+| **FAIL** | **1154** |
+| REVIEW | 322 |
 
 ### Issue Counts by Category
 
 | Issue Code | Count |
 |------------|-------|
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
-| BAD_LABEL | 353 |
-| GENERIC_FIELD_CANONICALIZATION | 352 |
+| BAD_LABEL | 352 |
+| GENERIC_FIELD_CANONICALIZATION | 351 |
 | SOURCE_MISMATCH | 121 |
-| REQUIRED_SUSPICIOUS | 115 |
+| REQUIRED_SUSPICIOUS | 116 |
 | SHOULD_BE_READONLY | 42 |
 | COMPILED_DRIFT | 37 |
 | UI_VISIBLE_BAD_METADATA | 15 |
@@ -31,7 +31,7 @@ Audit version: v2 (rule independence: true)
 
 | templateCode | title | failCount | reviewCount | totalIssues |
 |--------------|-------|-----------|-------------|-------------|
-| BM-096 | Yêu cầu ra QĐ khởi tố bị can | 32 | 0 | 32 |
+| BM-096 | Yêu cầu ra QĐ khởi tố bị can | 30 | 1 | 31 |
 | BM-155 | QĐ phục hồi vụ án đối với bị can | 28 | 1 | 29 |
 | BM-136 | BB đối chất | 28 | 0 | 28 |
 | BM-212 | Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho  | 23 | 2 | 25 |
@@ -106,7 +106,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
   - Reason: Field looks required (ID field likely required) but required=false.
   - Confidence: MEDIUM | requiresHumanReview: true
 
-### BAD_LABEL (353)
+### BAD_LABEL (352)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -210,7 +210,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
 | BM-096 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-096 | `agency.dongDia` | `Ô trống` | document | field7 | agencyConfig | FAIL | MEDIUM |
-| ... | | | | | | | 253 more |
+| ... | | | | | | | 252 more |
 
 ### RAW_PATTERN_DOMAIN_MISMATCH (10)
 
@@ -454,7 +454,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-187 | `recipients.personLine13` | `Người nhận (dòng 13)` | recipients | personLine13 | manual | FAIL | HIGH |
 | ... | | | | | | | 322 more |
 
-### GENERIC_FIELD_CANONICALIZATION (352)
+### GENERIC_FIELD_CANONICALIZATION (351)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -558,7 +558,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `document.chuThe` | `Ô trống` | document | field8 | manual | FAIL | MEDIUM |
 | BM-096 | `legalBasis.canCu` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
 | BM-096 | `document.tenVu` | `Ô trống` | document | field10 | manual | FAIL | MEDIUM |
-| ... | | | | | | | 252 more |
+| ... | | | | | | | 251 more |
 
 ### SHOULD_BE_READONLY (42)
 
@@ -607,7 +607,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | - | - | manual | REVIEW | MEDIUM |
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | agency | parentName | manual | REVIEW | HIGH |
 
-### REQUIRED_SUSPICIOUS (115)
+### REQUIRED_SUSPICIOUS (116)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -645,6 +645,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-080 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-080 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | REVIEW | MEDIUM |
+| BM-096 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-139 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-162 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-162 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
@@ -710,8 +711,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-199 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-199 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
 | BM-200 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
-| BM-201 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
-| ... | | | | | | | 15 more |
+| ... | | | | | | | 16 more |
 
 ### COMPILED_DRIFT (37)
 
@@ -778,8 +778,8 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 ## Proposed Fix Plan
 
 - **HIGH confidence auto-fix candidates**: 27
-- **MEDIUM confidence / requires review (FAIL)**: 1129
-- **REVIEW only (not auto-fix)**: 321
+- **MEDIUM confidence / requires review (FAIL)**: 1127
+- **REVIEW only (not auto-fix)**: 322
 
 ### Auto-fix Candidates (HIGH confidence, no human review needed)
 
@@ -847,5 +847,5 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-021 | `decision.summaryLine` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
 | BM-022 | `document.issueDate` | REQUIRED_SUSPICIOUS | Field looks required (date field likely required) but required=false. |
 | BM-022 | `person.fullName` | REQUIRED_SUSPICIOUS | Field looks required (identity/key field likely required) but required=false. |
-| ... | | | 291 more |
+| ... | | | 292 more |
 
