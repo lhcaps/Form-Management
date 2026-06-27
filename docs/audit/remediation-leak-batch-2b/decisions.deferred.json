@@ -1,0 +1,137 @@
+{
+  "version": "2b.0.0",
+  "generatedAt": "2026-06-27T18:44:00.000Z",
+  "batch": "2b",
+  "scope": "REMEDIATION_LEAK with GENERIC_FIELD_CANONICALIZATION",
+  "summary": {
+    "totalTargetItems": 10,
+    "approved": 0,
+    "deferred": 10,
+    "reason": "All 10 items have EMPTY rawPattern and generic placeholders in textBefore. Cannot determine correct semantic path without manual DOCX review."
+  },
+  "decisions": [],
+  "deferredItems": [
+    {
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field1}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field1}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field6}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field6}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine2",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field7}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field7}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field8}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field8}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.summaryLine",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field12}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field12}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field1}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field1}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field1}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field1}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field1}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field1}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-162",
+      "path": "person.dateOfBirth",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field3}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field3}}",
+        "hasEvidence": false
+      }
+    },
+    {
+      "templateCode": "BM-163",
+      "path": "person.dateOfBirth",
+      "classification": "DEFERRED_DOCX_EVIDENCE_WEAK",
+      "rationale": "rawPattern is EMPTY, textBefore contains generic placeholder {{document.field3}}. Cannot determine correct semantic.",
+      "blockingIssues": ["GENERIC_FIELD_CANONICALIZATION", "REMEDIATION_LEAK"],
+      "docxEvidence": {
+        "rawPattern": "",
+        "textBefore": "{{document.field3}}",
+        "hasEvidence": false
+      }
+    }
+  ],
+  "recommendation": "Batch 2B cannot proceed. All 10 items require manual DOCX review to extract actual field semantics from the DOCX content. No mutations should be applied without proper evidence.",
+  "requiredNextStep": "DOCX_REVIEW_BATCH: Manual review of BM-069, BM-075, BM-077, BM-082, BM-162, BM-163 to extract field semantics from actual DOCX content."
+}
