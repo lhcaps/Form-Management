@@ -1,16 +1,21 @@
 {
-  "version": "1.0.0",
-  "generatedAt": "2026-06-27T19:11:06.852Z",
+  "version": "1.0.1",
+  "generatedAt": "2026-06-28T02:15:00.000Z",
   "task": "PATH_DOMAIN_BINDING_BATCH_1",
   "templateCode": "BM-096",
   "templateTitle": "Yêu cầu ra QĐ khởi tố bị can",
   "mode": "evidence-only",
+  "integrityFix": {
+    "fixedAt": "2026-06-28T02:15:00.000Z",
+    "reason": "signature.cheDo and signature.nguoiKy marked as SAFE_LABEL_CLEANUP but are path/domain mismatches. Path is signature.* but label is person address (Nơi thường trú, Nơi tạm trú). Not label-only cleanup.",
+    "document_diaChi": "Kept as SAFE_PATH_REMAP because person.idNumber does not exist in BM-096 (collision-free)"
+  },
   "summary": {
     "totalPathsWithIssues": 16,
-    "safeLabelCleanup": 2,
+    "safeLabelCleanup": 0,
     "safePathRemap": 1,
-    "deferred": 13,
-    "approvedForBatch1": 3
+    "deferred": 15,
+    "approvedForBatch1": 1
   },
   "analysis": [
     {
@@ -20,15 +25,12 @@
       "rawPattern": "{{document.field3}}",
       "textBefore": "Xét thấy8",
       "extractedLabel": "Xét thấy",
-      "proposedLabel": "Xét thấy",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "LOW",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
-      "rationale": "Label \"Xét thấy\" found but not in approved semantic list. Need domain review.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Label 'Xét thấy' found but not in approved semantic list. Need domain review.",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "agency.diaDanh",
@@ -42,10 +44,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.ngayBan",
@@ -59,10 +58,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "agency.dongDia",
@@ -76,10 +72,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.chuThe",
@@ -93,10 +86,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "legalBasis.canCu",
@@ -110,10 +100,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.tenVu",
@@ -127,10 +114,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "person.toiDanh",
@@ -144,10 +128,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "person.hoTen",
@@ -161,10 +142,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.namSinh",
@@ -173,15 +151,12 @@
       "rawPattern": "{{document.field13}}",
       "textBefore": "Nghề nghiệp:",
       "extractedLabel": "Nghề nghiệp:",
-      "proposedLabel": "Nghề nghiệp:",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "LOW",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
-      "rationale": "Label suggests occupation but path \"document.namSinh\" may not match. Need domain expert review.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Label suggests occupation but path 'document.namSinh' literally means birth year. Domain mismatch. Need domain expert review.",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.diaChi",
@@ -194,11 +169,13 @@
       "proposedPath": "person.idNumber",
       "confidence": "MEDIUM",
       "classification": "SAFE_PATH_REMAP",
-      "rationale": "Clear ID number label. Path should be person.idNumber.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Clear ID number label. person.idNumber does not exist in BM-096 (collision-free). Safe path remap candidate.",
+      "collisionCheck": {
+        "targetPath": "person.idNumber",
+        "exists": false,
+        "safeToRemap": true
+      },
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.lyDo",
@@ -212,10 +189,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "recipients.luuHo",
@@ -229,10 +203,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "signature.cheDo",
@@ -241,15 +212,13 @@
       "rawPattern": "{{document.field17}}",
       "textBefore": "Nơi thường trú:",
       "extractedLabel": "Nơi thường trú:",
-      "proposedLabel": "Nơi thường trú:",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "MEDIUM",
-      "classification": "SAFE_LABEL_CLEANUP",
-      "rationale": "Clear address label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "rationale": "UNSAFE: Path is 'signature.cheDo' but label is 'Nơi thường trú:' (person address field). This is NOT label-only cleanup - it's a path/domain mismatch. Cannot apply label-only fix. Requires path remap (person.permanentAddress) or defer.",
+      "unsafeReason": "SAFE_LABEL_CLEANUP rejected: label 'Nơi thường trú' belongs to person domain, not signature domain",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "signature.chucVu",
@@ -263,10 +232,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "signature.nguoiKy",
@@ -275,53 +241,16 @@
       "rawPattern": "{{document.field19}}",
       "textBefore": "Nơi tạm trú:",
       "extractedLabel": "Nơi tạm trú:",
-      "proposedLabel": "Nơi tạm trú:",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "MEDIUM",
-      "classification": "SAFE_LABEL_CLEANUP",
-      "rationale": "Clear address label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "rationale": "UNSAFE: Path is 'signature.nguoiKy' but label is 'Nơi tạm trú:' (person address field). This is NOT label-only cleanup - it's a path/domain mismatch. Cannot apply label-only fix. Requires path remap (person.temporaryAddress) or defer.",
+      "unsafeReason": "SAFE_LABEL_CLEANUP rejected: label 'Nơi tạm trú' belongs to person domain, not signature domain",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     }
   ],
-  "safeCleanupCandidates": [
-    {
-      "path": "signature.cheDo",
-      "slotId": "signature.cheDo",
-      "currentLabel": "Ô trống",
-      "rawPattern": "{{document.field17}}",
-      "textBefore": "Nơi thường trú:",
-      "extractedLabel": "Nơi thường trú:",
-      "proposedLabel": "Nơi thường trú:",
-      "proposedPath": null,
-      "confidence": "MEDIUM",
-      "classification": "SAFE_LABEL_CLEANUP",
-      "rationale": "Clear address label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
-    },
-    {
-      "path": "signature.nguoiKy",
-      "slotId": "signature.nguoiKy",
-      "currentLabel": "Ô trống",
-      "rawPattern": "{{document.field19}}",
-      "textBefore": "Nơi tạm trú:",
-      "extractedLabel": "Nơi tạm trú:",
-      "proposedLabel": "Nơi tạm trú:",
-      "proposedPath": null,
-      "confidence": "MEDIUM",
-      "classification": "SAFE_LABEL_CLEANUP",
-      "rationale": "Clear address label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
-    }
-  ],
+  "safeCleanupCandidates": [],
   "safeRemapCandidates": [
     {
       "path": "document.diaChi",
@@ -334,11 +263,13 @@
       "proposedPath": "person.idNumber",
       "confidence": "MEDIUM",
       "classification": "SAFE_PATH_REMAP",
-      "rationale": "Clear ID number label. Path should be person.idNumber.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Clear ID number label. person.idNumber does not exist in BM-096 (collision-free). Safe path remap candidate.",
+      "collisionCheck": {
+        "targetPath": "person.idNumber",
+        "exists": false,
+        "safeToRemap": true
+      },
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     }
   ],
   "deferredCandidates": [
@@ -349,15 +280,12 @@
       "rawPattern": "{{document.field3}}",
       "textBefore": "Xét thấy8",
       "extractedLabel": "Xét thấy",
-      "proposedLabel": "Xét thấy",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "LOW",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
-      "rationale": "Label \"Xét thấy\" found but not in approved semantic list. Need domain review.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Label 'Xét thấy' found but not in approved semantic list. Need domain review.",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "agency.diaDanh",
@@ -371,10 +299,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.ngayBan",
@@ -388,10 +313,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "agency.dongDia",
@@ -405,10 +327,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.chuThe",
@@ -422,10 +341,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "legalBasis.canCu",
@@ -439,10 +355,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.tenVu",
@@ -456,10 +369,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "person.toiDanh",
@@ -473,10 +383,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "person.hoTen",
@@ -490,10 +397,7 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.namSinh",
@@ -502,15 +406,12 @@
       "rawPattern": "{{document.field13}}",
       "textBefore": "Nghề nghiệp:",
       "extractedLabel": "Nghề nghiệp:",
-      "proposedLabel": "Nghề nghiệp:",
+      "proposedLabel": null,
       "proposedPath": null,
       "confidence": "LOW",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
-      "rationale": "Label suggests occupation but path \"document.namSinh\" may not match. Need domain expert review.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "rationale": "Label suggests occupation but path 'document.namSinh' literally means birth year. Domain mismatch.",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "document.lyDo",
@@ -524,10 +425,7 @@
       "confidence": "NONE",
       "classification": "DEFER_REQUIRES_MANUAL_REVIEW",
       "rationale": "No clear evidence for semantic determination.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "recipients.luuHo",
@@ -541,10 +439,22 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
+    },
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field17}}",
+      "textBefore": "Nơi thường trú:",
+      "extractedLabel": "Nơi thường trú:",
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "rationale": "UNSAFE: Path is 'signature.cheDo' but label is 'Nơi thường trú:' (person address). Not label-only cleanup. Requires path remap or defer.",
+      "unsafeReason": "SAFE_LABEL_CLEANUP rejected: label belongs to person domain, not signature domain",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     },
     {
       "path": "signature.chucVu",
@@ -558,10 +468,26 @@
       "confidence": "NONE",
       "classification": "DEFER_NO_VISIBLE_LABEL",
       "rationale": "textBefore only contains field codes. No visible label found.",
-      "issues": [
-        "BAD_LABEL",
-        "GENERIC_FIELD_CANONICALIZATION"
-      ]
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "currentLabel": "Ô trống",
+      "rawPattern": "{{document.field19}}",
+      "textBefore": "Nơi tạm trú:",
+      "extractedLabel": "Nơi tạm trú:",
+      "proposedLabel": null,
+      "proposedPath": null,
+      "confidence": "MEDIUM",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "rationale": "UNSAFE: Path is 'signature.nguoiKy' but label is 'Nơi tạm trú:' (person address). Not label-only cleanup. Requires path remap or defer.",
+      "unsafeReason": "SAFE_LABEL_CLEANUP rejected: label belongs to person domain, not signature domain",
+      "issues": ["BAD_LABEL", "GENERIC_FIELD_CANONICALIZATION"]
     }
-  ]
+  ],
+  "guardRules": {
+    "SAFE_LABEL_CLEANUP_DOMAIN_CHECK": "A SAFE_LABEL_CLEANUP must keep the same semantic domain. Path starting with 'signature.' cannot receive labels like 'Nơi thường trú', 'Nơi tạm trú', 'Số CCCD/CMND', 'Nghề nghiệp'.",
+    "SAFE_PATH_REMAP_COLLISION_CHECK": "A SAFE_PATH_REMAP must have collision check result. Target path must not already exist, or merge must be explicitly safe."
+  }
 }
