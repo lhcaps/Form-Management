@@ -20,6 +20,8 @@
  * Usage:
  *   node scripts/audit/apply-remediation-leak-batch-1-approved.mjs          # dry-run
  *   node scripts/audit/apply-remediation-leak-batch-1-approved.mjs --write    # apply
+ *   node scripts/audit/apply-remediation-leak-batch-1-approved.mjs --batch 1b  # batch 1b folder
+ *   node scripts/audit/apply-remediation-leak-batch-1-approved.mjs --batch 1b --write
  */
 
 import {
@@ -34,13 +36,17 @@ import { join, resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const LOCKED_DIR = join(ROOT, 'docs', 'audit', 'docx', 'contracts', 'locked');
-const OUT_DIR = join(ROOT, 'docs', 'audit', 'remediation-leak-batch-1');
-const BACKUP_DIR = join(OUT_DIR, 'backups');
 
 const WRITE_MODE = process.argv.includes('--write');
+const BATCH_FLAG_IDX = process.argv.indexOf('--batch');
+const BATCH_NAME = BATCH_FLAG_IDX >= 0 ? process.argv[BATCH_FLAG_IDX + 1] ?? 'batch-1' : 'batch-1';
+// Normalize: if batch name doesn't start with "batch-", prepend it
+const NORM_BATCH = BATCH_NAME.startsWith('batch-') ? BATCH_NAME : `batch-${BATCH_NAME}`;
+const OUT_DIR = join(ROOT, 'docs', 'audit', `remediation-leak-${NORM_BATCH}`);
+const BACKUP_DIR = join(OUT_DIR, 'backups');
 
 function log(msg) {
-  console.log(`[apply${WRITE_MODE ? '*' : ''}] ${msg}`);
+  console.log(`[apply${WRITE_MODE ? '*' : ''}:${NORM_BATCH}] ${msg}`);
 }
 
 function readJSON(path) {

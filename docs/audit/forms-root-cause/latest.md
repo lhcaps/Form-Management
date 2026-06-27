@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-27T17:59:39.132Z
+Generated: 2026-06-27T18:09:49.606Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -8,8 +8,8 @@ Audit version: v2 (rule independence: true)
 |--------|-------|
 | totalContracts | 213 |
 | totalFields | 2443 |
-| totalIssues | 1539 |
-| **FAIL** | **1198** |
+| totalIssues | 1526 |
+| **FAIL** | **1185** |
 | REVIEW | 341 |
 
 ### Issue Counts by Category
@@ -21,9 +21,9 @@ Audit version: v2 (rule independence: true)
 | GENERIC_FIELD_CANONICALIZATION | 352 |
 | SOURCE_MISMATCH | 121 |
 | REQUIRED_SUSPICIOUS | 115 |
-| REMEDIATION_LEAK | 43 |
 | SHOULD_BE_READONLY | 42 |
 | COMPILED_DRIFT | 37 |
+| REMEDIATION_LEAK | 30 |
 | UI_VISIBLE_BAD_METADATA | 24 |
 | RAW_PATTERN_DOMAIN_MISMATCH | 10 |
 
@@ -45,12 +45,12 @@ Audit version: v2 (rule independence: true)
 | BM-106 | Yêu cầu truy nã bị can | 18 | 0 | 18 |
 | BM-190 | Đề nghị Tòa án xem xét, quyết định áp dụng biện ph | 17 | 2 | 19 |
 | BM-199 | Kiến nghị về quyết định áp dụng BPXLCH của Tòa án  | 17 | 2 | 19 |
-| BM-163 | Giấy triệu tập | 16 | 9 | 25 |
 | BM-188 | Đề nghị Tòa án giải quyết vấn đề bồi thường thiệt  | 16 | 2 | 18 |
 | BM-191 | Quyết định áp dụng biện pháp xử lý chuyển hướng tạ | 16 | 2 | 18 |
 | BM-069 | BB về việc hủy bỏ biện pháp phong tỏa tài khoản | 15 | 9 | 24 |
 | BM-192 | Quyết định không áp dụng biện pháp xử lý chuyển hư | 15 | 2 | 17 |
 | BM-201 | Quyết định giải quyết khiếu nại, kiến nghị | 15 | 2 | 17 |
+| BM-189 | Yêu cầu CQĐT đề nghị TA xem xét áp dụng biện pháp  | 15 | 1 | 16 |
 
 ### BM-050 Findings
 
@@ -333,7 +333,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-148 | `suspension.executionRequestLine` | `Điều 3 - Yêu cầu` | unknown | executionRequestLine | manual | REVIEW | MEDIUM |
 | ... | | | | | | | 21 more |
 
-### REMEDIATION_LEAK (43)
+### REMEDIATION_LEAK (30)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -357,28 +357,15 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-075 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | FAIL | HIGH |
 | BM-075 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
 | BM-077 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-080 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-080 | `document.issueDate` | `Slot from Wave 02 DOCX re` | document | field2 | manual | FAIL | HIGH |
 | BM-080 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | FAIL | HIGH |
 | BM-080 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
 | BM-080 | `legalBasis.legalBasisLine` | `Slot from Wave 02 DOCX re` | legalBasis | legalBasisLine | manual | FAIL | HIGH |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-162 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-162 | `document.issueDate` | `Slot from Wave 02 DOCX re` | document | field2 | manual | FAIL | HIGH |
 | BM-162 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
-| BM-162 | `person.personFullName` | `Slot from Wave 02 DOCX re` | person | personFullName | manual | FAIL | HIGH |
-| BM-162 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
-| BM-162 | `person.occupation` | `Slot from Wave 02 DOCX re` | person | occupation | manual | FAIL | HIGH |
-| BM-162 | `person.idNumber` | `Slot from Wave 02 DOCX re` | person | idNumber | manual | FAIL | HIGH |
-| BM-163 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-163 | `document.issueDate` | `Slot from Wave 02 DOCX re` | document | field2 | manual | FAIL | HIGH |
 | BM-163 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
-| BM-163 | `person.personFullName` | `Slot from Wave 02 DOCX re` | person | personFullName | manual | FAIL | HIGH |
-| BM-163 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
 | BM-163 | `person.occupation` | `Slot from Wave 02 DOCX re` | person | occupation | manual | FAIL | HIGH |
 | BM-163 | `person.ward` | `Slot from Wave 02 DOCX re` | person | ward | manual | FAIL | HIGH |
 | BM-163 | `person.province` | `Slot from Wave 02 DOCX re` | person | province | manual | FAIL | HIGH |
-| BM-163 | `person.idNumber` | `Slot from Wave 02 DOCX re` | person | idNumber | manual | FAIL | HIGH |
 | BM-163 | `case.caseNumber` | `Slot from Wave 02 DOCX re` | unknown | caseNumber | manual | FAIL | HIGH |
 
 ### WEAK_EVIDENCE_AUTO_LOCKED (422)
@@ -819,7 +806,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 
 ## Proposed Fix Plan
 
-- **HIGH confidence auto-fix candidates**: 60
+- **HIGH confidence auto-fix candidates**: 47
 - **MEDIUM confidence / requires review (FAIL)**: 1138
 - **REVIEW only (not auto-fix)**: 341
 
@@ -857,7 +844,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-067 | `recipients.personLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
 | BM-069 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
 | BM-069 | `document.reasonLine` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
-| ... | | | | 30 more |
+| ... | | | | 17 more |
 
 ### Manual Review Required
 
