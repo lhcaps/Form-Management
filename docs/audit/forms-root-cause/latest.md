@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-27T16:58:07.166Z
+Generated: 2026-06-27T17:59:39.132Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -8,8 +8,8 @@ Audit version: v2 (rule independence: true)
 |--------|-------|
 | totalContracts | 213 |
 | totalFields | 2443 |
-| totalIssues | 1559 |
-| **FAIL** | **1218** |
+| totalIssues | 1539 |
+| **FAIL** | **1198** |
 | REVIEW | 341 |
 
 ### Issue Counts by Category
@@ -21,7 +21,7 @@ Audit version: v2 (rule independence: true)
 | GENERIC_FIELD_CANONICALIZATION | 352 |
 | SOURCE_MISMATCH | 121 |
 | REQUIRED_SUSPICIOUS | 115 |
-| REMEDIATION_LEAK | 63 |
+| REMEDIATION_LEAK | 43 |
 | SHOULD_BE_READONLY | 42 |
 | COMPILED_DRIFT | 37 |
 | UI_VISIBLE_BAD_METADATA | 24 |
@@ -35,7 +35,6 @@ Audit version: v2 (rule independence: true)
 | BM-155 | QĐ phục hồi vụ án đối với bị can | 28 | 1 | 29 |
 | BM-136 | BB đối chất | 28 | 0 | 28 |
 | BM-212 | Đề nghị tham gia tố tụng để hướng dẫn, hỗ trợ cho  | 23 | 2 | 25 |
-| BM-069 | BB về việc hủy bỏ biện pháp phong tỏa tài khoản | 22 | 9 | 31 |
 | BM-117 | QĐ phục hồi điều tra bị can | 20 | 1 | 21 |
 | BM-118 | QĐ phục hồi điều tra VA đối với bị can | 20 | 1 | 21 |
 | BM-203 | Thông báo về hoạt động tố tụng | 19 | 2 | 21 |
@@ -49,6 +48,7 @@ Audit version: v2 (rule independence: true)
 | BM-163 | Giấy triệu tập | 16 | 9 | 25 |
 | BM-188 | Đề nghị Tòa án giải quyết vấn đề bồi thường thiệt  | 16 | 2 | 18 |
 | BM-191 | Quyết định áp dụng biện pháp xử lý chuyển hướng tạ | 16 | 2 | 18 |
+| BM-069 | BB về việc hủy bỏ biện pháp phong tỏa tài khoản | 15 | 9 | 24 |
 | BM-192 | Quyết định không áp dụng biện pháp xử lý chuyển hư | 15 | 2 | 17 |
 | BM-201 | Quyết định giải quyết khiếu nại, kiến nghị | 15 | 2 | 17 |
 
@@ -87,7 +87,7 @@ Total: 4 issues (4 FAIL, 0 REVIEW)
 
 **QĐ huỷ bỏ biện pháp phong toả tài khoản**
 
-Total: 16 issues (12 FAIL, 4 REVIEW)
+Total: 4 issues (0 FAIL, 4 REVIEW)
 
 - **REQUIRED_SUSPICIOUS** [REVIEW] `document.fullDocumentCode`
   - Label: `Số văn bản` | rawPattern: `-` | rawDomain: `-` | rawTail: `-` | source: `manual`
@@ -105,54 +105,6 @@ Total: 16 issues (12 FAIL, 4 REVIEW)
   - Label: `Số CCCD/CMND` | rawPattern: `-` | rawDomain: `-` | rawTail: `-` | source: `manual`
   - Reason: Field looks required (ID field likely required) but required=false.
   - Confidence: MEDIUM | requiresHumanReview: true
-- **REMEDIATION_LEAK** [FAIL] `document.fullDocumentCode`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{document.field1}}` | rawDomain: `document` | rawTail: `field1` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `document.issueDate`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{document.field2}}` | rawDomain: `document` | rawTail: `field2` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.dateOfBirth`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{document.field3}}` | rawDomain: `document` | rawTail: `field3` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.permanentAddress`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.permanentAddress}}` | rawDomain: `person` | rawTail: `permanentAddress` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.permanentAddress2`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.permanentAddress2}}` | rawDomain: `person` | rawTail: `permanentAddress2` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.occupation`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.occupation}}` | rawDomain: `person` | rawTail: `occupation` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.idNumber`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.idNumber}}` | rawDomain: `person` | rawTail: `idNumber` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.permanentAddress3`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.permanentAddress3}}` | rawDomain: `person` | rawTail: `permanentAddress3` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.occupation2`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.occupation2}}` | rawDomain: `person` | rawTail: `occupation2` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.idNumber2`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.idNumber2}}` | rawDomain: `person` | rawTail: `idNumber2` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.temporaryAddress`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.temporaryAddress}}` | rawDomain: `person` | rawTail: `temporaryAddress` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
-- **REMEDIATION_LEAK** [FAIL] `person.province`
-  - Label: `Slot from Wave 02 DOCX remediation` | rawPattern: `{{person.province}}` | rawDomain: `person` | rawTail: `province` | source: `manual`
-  - Reason: Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. This leaks internal process language into user-facing UI.
-  - Confidence: HIGH | requiresHumanReview: false
 
 ### BAD_LABEL (373)
 
@@ -381,7 +333,7 @@ Total: 16 issues (12 FAIL, 4 REVIEW)
 | BM-148 | `suspension.executionRequestLine` | `Điều 3 - Yêu cầu` | unknown | executionRequestLine | manual | REVIEW | MEDIUM |
 | ... | | | | | | | 21 more |
 
-### REMEDIATION_LEAK (63)
+### REMEDIATION_LEAK (43)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -396,32 +348,12 @@ Total: 16 issues (12 FAIL, 4 REVIEW)
 | BM-066 | `document.fullDocumentCode4` | `Slot from DOCX remediatio` | document | fullDocumentCode4 | manual | FAIL | HIGH |
 | BM-067 | `document.fullDocumentCode6` | `Slot from DOCX remediatio` | document | fullDocumentCode6 | manual | FAIL | HIGH |
 | BM-067 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | FAIL | HIGH |
-| BM-068 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-068 | `document.issueDate` | `Slot from Wave 02 DOCX re` | document | field2 | manual | FAIL | HIGH |
-| BM-068 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
-| BM-068 | `person.permanentAddress` | `Slot from Wave 02 DOCX re` | person | permanentAddress | manual | FAIL | HIGH |
-| BM-068 | `person.permanentAddress2` | `Slot from Wave 02 DOCX re` | person | permanentAddress2 | manual | FAIL | HIGH |
-| BM-068 | `person.occupation` | `Slot from Wave 02 DOCX re` | person | occupation | manual | FAIL | HIGH |
-| BM-068 | `person.idNumber` | `Slot from Wave 02 DOCX re` | person | idNumber | manual | FAIL | HIGH |
-| BM-068 | `person.permanentAddress3` | `Slot from Wave 02 DOCX re` | person | permanentAddress3 | manual | FAIL | HIGH |
-| BM-068 | `person.occupation2` | `Slot from Wave 02 DOCX re` | person | occupation2 | manual | FAIL | HIGH |
-| BM-068 | `person.idNumber2` | `Slot from Wave 02 DOCX re` | person | idNumber2 | manual | FAIL | HIGH |
-| BM-068 | `person.temporaryAddress` | `Slot from Wave 02 DOCX re` | person | temporaryAddress | manual | FAIL | HIGH |
-| BM-068 | `person.province` | `Slot from Wave 02 DOCX re` | person | province | manual | FAIL | HIGH |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-069 | `document.issueDate` | `Slot from Wave 02 DOCX re` | document | field2 | manual | FAIL | HIGH |
-| BM-069 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
-| BM-069 | `person.idNumber` | `Slot from Wave 02 DOCX re` | document | field5 | manual | FAIL | HIGH |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | document | field6 | manual | FAIL | HIGH |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | document | field7 | manual | FAIL | HIGH |
-| BM-069 | `person.personFullName` | `Slot from Wave 02 DOCX re` | person | personFullName | manual | FAIL | HIGH |
-| BM-069 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
-| BM-069 | `person.currentAddress2` | `Slot from Wave 02 DOCX re` | person | currentAddress2 | manual | FAIL | HIGH |
 | BM-069 | `decision.decisionLine` | `Slot from Wave 02 DOCX re` | document | field8 | manual | FAIL | HIGH |
-| BM-069 | `person.occupation` | `Slot from Wave 02 DOCX re` | document | field10 | manual | FAIL | HIGH |
 | BM-069 | `document.summaryLine` | `Slot from Wave 02 DOCX re` | document | field12 | manual | FAIL | HIGH |
 | BM-075 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-075 | `person.personFullName` | `Slot from Wave 02 DOCX re` | person | personFullName | manual | FAIL | HIGH |
 | BM-075 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | FAIL | HIGH |
 | BM-075 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
 | BM-077 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
@@ -887,7 +819,7 @@ Total: 16 issues (12 FAIL, 4 REVIEW)
 
 ## Proposed Fix Plan
 
-- **HIGH confidence auto-fix candidates**: 80
+- **HIGH confidence auto-fix candidates**: 60
 - **MEDIUM confidence / requires review (FAIL)**: 1138
 - **REVIEW only (not auto-fix)**: 341
 
@@ -923,9 +855,9 @@ Total: 16 issues (12 FAIL, 4 REVIEW)
 | BM-066 | `document.fullDocumentCode4` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
 | BM-067 | `document.fullDocumentCode6` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
 | BM-067 | `recipients.personLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-068 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
-| BM-068 | `document.issueDate` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
-| ... | | | | 50 more |
+| BM-069 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-069 | `document.reasonLine` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| ... | | | | 30 more |
 
 ### Manual Review Required
 
