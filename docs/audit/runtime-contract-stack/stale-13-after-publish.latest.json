@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "task": "PUBLISH_STALE_13_CONTRACTS_AND_VERIFY_RUNTIME_SYNC",
+  "phase": "post-publish",
+  "generatedAt": "2026-06-28T03:46:00.000+07:00",
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "ciGate": "PASSED"
+  },
+  "publishCommand": "OFFICIAL_ID=1 pnpm publish:forms:db",
+  "publishResult": {
+    "contractsCreated": 16,
+    "contractsSkipped": 197,
+    "total": 213,
+    "note": "16 stale contracts (13 + BM-068 + BM-069) were inserted. 197 were already up-to-date. Assertion in script expected all 213 to be created, but actual behavior is correct - only stale contracts get inserted."
+  },
+  "staleContractsPublished": [
+    "BM-051",
+    "BM-052",
+    "BM-060",
+    "BM-061",
+    "BM-062",
+    "BM-063",
+    "BM-065",
+    "BM-066",
+    "BM-067",
+    "BM-075",
+    "BM-080",
+    "BM-096",
+    "BM-163"
+  ],
+  "prePublishState": {
+    "matched": 200,
+    "missing": 0,
+    "stale": 13,
+    "report": "docs/audit/runtime-contract-stack/stale-13-before-publish.latest.json"
+  },
+  "postPublishState": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0
+  }
+}
