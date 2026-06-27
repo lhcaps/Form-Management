@@ -84,9 +84,11 @@
     "assessment": "INCREASE: BM-096 mutation unmasked REQUIRED_SUSPICIOUS REVIEW on person.idNumber"
   },
   "dbSync": {
-    "matched": 213,
+    "matched": 200,
     "missing": 0,
-    "stale": 0
+    "stale": 13,
+    "runtimeVerifiedAt": "2026-06-28T03:31:00.000+07:00",
+    "note": "Runtime DB check shows matched=200 stale=13. Stale contracts: BM-051, BM-052, BM-060, BM-061, BM-062, BM-063, BM-065, BM-066, BM-067, BM-075, BM-080, BM-096, BM-163. BM-096 is fresh stale from this mutation. 12 others are pre-existing from prior batches. apply.latest.json reported matched=213 stale=0 at apply time (likely DB state differed then). Runtime state takes precedence."
   },
   "safetyAssertions": {
     "onlyBM096LockedContractChanged": true,
@@ -94,7 +96,8 @@
     "noSourceRequiredReviewRequiredMutation": true,
     "compiledV2GeneratedOnly": true,
     "noMetricRegression": false,
-    "contractSyncPassed": true,
+    "contractSyncPassed": false,
+    "contractSyncRuntimeStatus": "STALE_CONTRACTS_13: BLOCKED_REQUIRES_PUBLISH",
     "noMetricRegression_note": "REQUIRED_SUSPICIOUS increased by +1 (115->116) — BM-096 unmasking, not unrelated. Not mutation fault (isUnmasking=true). Follow-up: human review required for person.idNumber required field.",
     "noMetricRegression_isMutationFault": false,
     "noMetricRegression_isUnmasking": true,
