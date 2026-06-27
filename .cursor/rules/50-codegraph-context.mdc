@@ -1,0 +1,184 @@
+---
+description: CodeGraph MCP context for QLLaw project - code structure, patterns, and usage guide
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# CodeGraph Context - QLLaw Project
+
+## CRITICAL: How to Use CodeGraph MCP Tools
+
+**MCP tools are NOT shell commands.** They are accessed via `CallMcpTool`, not `Shell`.
+
+### Correct usage:
+
+```json
+CallMcpTool({
+  "server": "user-codegraph",
+  "toolName": "codegraph_explore",
+  "arguments": {
+    "query": "How does audit-forms-root-cause.mjs work?"
+  }
+})
+```
+
+### Wrong usage (this is CLI, not MCP):
+
+```powershell
+# These are CLI commands — they verify the tool is installed, NOT how you call it from the agent
+codegraph --help
+codegraph status
+codegraph explore "..."
+```
+
+### Always do this FIRST in every session:
+
+1. Use `CallMcpTool` with `codegraph_explore` for structural questions
+2. Use `Shell` with `codegraph --help` only for verifying CLI installation
+3. Never fallback to direct file reads without first trying `codegraph_explore`
+4. If `codegraph_explore` fails, report `codeGraphHealth.exploreQuerySucceeded: false` in handoff
+
+## Project Overview
+
+**QLLaw** là project phần mềm quản lý hồ sơ pháp lý, được viết bằng JavaScript/TypeScript với cấu trúc thư mục như sau:
+
+```
+d:\Study\Project\QLLaw-main\
+├── src/
+│   ├── components/       # React components
+│   ├── pages/            # Page components
+│   ├── hooks/            # Custom React hooks
+│   ├── services/         # API services
+│   ├── utils/            # Utility functions
+│   └── types/            # TypeScript types
+├── scripts/
+│   ├── audit/           # Audit scripts (Node.js)
+│   └── *.js
+├── docs/
+│   ├── Biểu mẫu/       # Vietnamese legal form templates
+│   └── audit/            # Audit reports
+├── packages/form-contracts/  # Form contract V1/V2 adapter + compile
+├── public/               # Static assets
+├── .harness/            # Meta-harness config
+├── .cursor/
+│   └── rules/           # Cursor rules
+├── node_modules/
+├── package.json
+└── *.config.js
+```
+
+## CodeGraph MCP Integration
+
+### MCP Server
+
+- **Server identifier**: `user-codegraph`
+- **Primary tool**: `codegraph_explore`
+- **Config**: `C:\Users\ADMIN\.cursor\mcp.json`
+- **Project index**: `D:\Study\Project\QLLaw-main\.codegraph\`
+
+### Available MCP Tools (via CallMcpTool)
+
+| Tool | Purpose |
+|------|---------|
+| `codegraph_explore` | Primary tool: answers structural questions, returns source + call paths |
+| `codegraph_node` | Read specific symbol or file with line numbers |
+| `codegraph_search` | Full-text symbol search |
+| `codegraph_callers` | Find what calls a given symbol |
+| `codegraph_callees` | Find what a symbol calls |
+| `codegraph_impact` | Blast radius analysis |
+| `codegraph_files` | File structure from index |
+
+### Quick Commands (Shell — CLI verification only)
+
+```powershell
+# Verify CLI is installed
+where.exe codegraph
+
+# Check index health
+codegraph status
+
+# Rebuild index if stale
+codegraph sync
+codegraph index
+
+# Install MCP for Cursor (if needed)
+codegraph install --target=cursor --location=global --yes
+
+# Init project (if needed)
+codegraph init
+```
+
+## CodeGraph Health Check
+
+Every task that uses CodeGraph must report health in the PlannerHandoff:
+
+```json
+"codeGraphHealth": {
+  "cliFound": true,
+  "projectInitialized": true,
+  "cursorMcpConfigured": true,
+  "mcpToolAvailableInAgent": true,
+  "exploreQuerySucceeded": true,
+  "fallbackUsed": false,
+  "errors": []
+}
+```
+
+If `exploreQuerySucceeded` is `false`:
+- Report exact error
+- Set `status` to `BLOCKED`
+- Fall back to direct file reads only after documenting the failure
+- Never silently use file reads when `codegraph_explore` should have worked
+
+## Troubleshooting
+
+- **CLI not found**: `where.exe codegraph` — install via `npm i -g @colbymchenry/codegraph@latest`
+- **MCP tool not visible in agent**: Restart Cursor completely, then verify with `codegraph install --target=cursor --location=global --yes`
+- **Index stale**: `codegraph sync` or `codegraph index`
+- **MCP serve fails**: Check `C:\Users\ADMIN\.cursor\mcp.json` — avoid `${workspaceFolder}` in stdio args, use absolute path instead
+- **Tool returns empty**: Increase `maxFiles` or rephrase query with specific symbol names
+
+## Examples
+
+### "How does form rendering work?" (CORRECT — use CallMcpTool)
+
+```json
+CallMcpTool({
+  "server": "user-codegraph",
+  "toolName": "codegraph_explore",
+  "arguments": {
+    "query": "How does form rendering work in QLLaw?"
+  }
+})
+```
+
+### "Audit document.diaChi in BM-096" (CORRECT)
+
+```json
+CallMcpTool({
+  "server": "user-codegraph",
+  "toolName": "codegraph_explore",
+  "arguments": {
+    "query": "audit-forms-root-cause.mjs BM-096 document.diaChi person.idNumber"
+  }
+})
+```
+
+### "Find what calls the documents API" (WRONG — this is CLI)
+
+```powershell
+# WRONG: codegraph callers fetchDocuments  ← CLI command, not MCP tool
+```
+
+### "Show me the components structure" (WRONG — use CallMcpTool)
+
+```json
+CallMcpTool({
+  "server": "user-codegraph",
+  "toolName": "codegraph_files",
+  "arguments": {
+    "path": "src/components",
+    "maxDepth": 2
+  }
+})
+```
