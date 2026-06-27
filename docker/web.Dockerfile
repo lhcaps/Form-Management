@@ -12,6 +12,7 @@ RUN npm install -g pnpm@10.33.2
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/package.json ./apps/web/package.json
+COPY packages/form-contracts/package.json ./packages/form-contracts/package.json
 
 RUN pnpm install --frozen-lockfile
 
@@ -30,8 +31,12 @@ RUN npm install -g pnpm@10.33.2
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/packages/form-contracts/node_modules ./packages/form-contracts/node_modules
 
 COPY . .
+
+# Build workspace packages that the web depends on
+RUN pnpm --filter @qllaw/form-contracts build
 
 RUN pnpm --filter web build
 
@@ -51,10 +56,14 @@ ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 RUN npm install -g pnpm@10.33.2
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/package.json ./apps/web/package.json
+COPY packages/form-contracts/package.json ./packages/form-contracts/package.json
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/packages/form-contracts/node_modules ./packages/form-contracts/node_modules
+COPY --from=builder /app/packages/form-contracts/dist ./packages/form-contracts/dist
 COPY --from=builder /app/apps/web/.next ./apps/web/.next
 COPY --from=builder /app/apps/web/public ./apps/web/public
 COPY --from=builder /app/apps/web/next.config.* ./apps/web/
