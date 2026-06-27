@@ -304,6 +304,7 @@ export type V1Contract = {
   }>;
   canonicalFields?: Array<{
     path: string;
+    label?: string;
     type?: string;
     source?: string;
     uiComponent?: string;

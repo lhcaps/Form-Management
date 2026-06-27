@@ -10,7 +10,8 @@
       "path": "decision.decisionLine3",
       "source": "manual",
       "rawPattern": "{{decision.decisionLine3}}",
-      "context": "\" w:hAnsi=\"Times New Roman\"/> 8 {{decision.decisionLine3}}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times Ne"
+      "context": "\" w:hAnsi=\"Times New Roman\"/> 8 {{decision.decisionLine3}}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times Ne",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -32,35 +33,14 @@
       "path": "decision.decisionLine2",
       "source": "manual",
       "rawPattern": "{{decision.decisionLine2}}",
-      "context": "nsi=\"Times New Roman\"/> {{decision.decisionLine2}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New"
+      "context": "nsi=\"Times New Roman\"/> {{decision.decisionLine2}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
     "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"decision.decisionLine2\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-052",
-    "path": "recipients.personLine6",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "recipients.personLine6",
-      "source": "manual",
-      "rawPattern": "{{recipients.personLine6}}",
-      "context": "> {{recipients.personLine6}}} <w:tab w:val=\"left\" w:pos=\"9893\" w:leader=\"dot\"/"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine6\"; path may also be wrong. Requires DOCX review.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -76,7 +56,8 @@
       "path": "decision.decisionLine10",
       "source": "manual",
       "rawPattern": "{{decision.decisionLine10}}",
-      "context": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}"
+      "context": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -98,16 +79,54 @@
       "path": "recipients.personLine3",
       "source": "manual",
       "rawPattern": "{{recipients.personLine3}}",
-      "context": "> {{recipients.personLine3}}} <w:tab w:val=\"left\" w:pos=\"9893\""
+      "context": "> {{recipients.personLine3}}} <w:tab w:val=\"left\" w:pos=\"9893\"",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine3\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-061__ec44550246e9",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-061",
+    "path": "recipients.personLine3",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from DOCX remediation",
+      "path": "recipients.personLine3",
+      "source": "manual",
+      "rawPattern": "{{recipients.personLine3}}",
+      "context": "> {{recipients.personLine3}}} <w:tab w:val=\"left\" w:pos=\"9893\"",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-061__ec44550246e9",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-062",
@@ -120,7 +139,8 @@
       "path": "decision.decisionLine11",
       "source": "manual",
       "rawPattern": "{{decision.decisionLine11}}",
-      "context": "si=\"Times New Roman\"/> {{decision.decisionLine11}}} <w:szCs w:va"
+      "context": "si=\"Times New Roman\"/> {{decision.decisionLine11}}} <w:szCs w:va",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -132,7 +152,67 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-062",
+    "templateCode": "BM-063",
+    "path": "document.issuePlaceAndDateLine",
+    "issueCodes": [
+      "BAD_LABEL"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "document.issuePlaceAndDateLine",
+      "source": "computed",
+      "rawPattern": "{{document.field2}}",
+      "context": "{{document.field2}}ngày … tháng … năm … {{document.field3}}",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-063__54b73110a34f",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-063",
+    "path": "document.issuePlaceAndDateLine",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "document.issuePlaceAndDateLine",
+      "source": "computed",
+      "rawPattern": "{{document.field2}}",
+      "context": "{{document.field2}}ngày … tháng … năm … {{document.field3}}",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-063__54b73110a34f",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-063",
     "path": "recipients.personLine5",
     "issueCodes": [
       "BAD_LABEL"
@@ -142,82 +222,142 @@
       "path": "recipients.personLine5",
       "source": "manual",
       "rawPattern": "{{recipients.personLine5}}",
-      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"left\" w:pos=\"9356\" w:leader=\"dot\"/"
+      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"right\" w:pos=\"9887\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine5\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-063",
-    "path": "document.fullDocumentCode8",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "document.fullDocumentCode8",
-      "source": "manual",
-      "rawPattern": "{{document.fullDocumentCode8}}",
-      "context": "> {{document.fullDocumentCode8}}} ngày"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"document.fullDocumentCode8\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-063__54b73110a34f",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-063",
     "path": "recipients.personLine5",
     "issueCodes": [
-      "BAD_LABEL"
+      "REMEDIATION_LEAK"
     ],
     "current": {
       "label": "Slot from DOCX remediation",
       "path": "recipients.personLine5",
       "source": "manual",
       "rawPattern": "{{recipients.personLine5}}",
-      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"right\" w:pos=\"9887\" w"
+      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"right\" w:pos=\"9887\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine5\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-063__54b73110a34f",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-064",
-    "path": "document.issueDate4",
+    "templateCode": "BM-063",
+    "path": "document.issuePlaceAndDateLine",
+    "issueCodes": [
+      "COMPILED_DRIFT"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "document.issuePlaceAndDateLine",
+      "source": "computed",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / NO_OP.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-063__54b73110a34f",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-065",
+    "path": "decision.decisionLine",
     "issueCodes": [
       "BAD_LABEL"
     ],
     "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "document.issueDate4",
-      "source": "manual",
-      "rawPattern": "{{document.issueDate4}}",
-      "context": "n\"/> {{document.issueDate4}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New"
+      "label": "Ô trống",
+      "path": "decision.decisionLine",
+      "source": "computed",
+      "rawPattern": "{{document.field2}}",
+      "context": "{{document.field2}}",
+      "canonicalLabel": "Ô trống"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"document.issueDate4\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-065",
+    "path": "decision.decisionLine",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "decision.decisionLine",
+      "source": "computed",
+      "rawPattern": "{{document.field2}}",
+      "context": "{{document.field2}}",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-065",
@@ -230,16 +370,24 @@
       "path": "document.fullDocumentCode8",
       "source": "manual",
       "rawPattern": "{{document.fullDocumentCode8}}",
-      "context": "l=\"-2\"/> {{document.fullDocumentCode8}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\""
+      "context": "l=\"-2\"/> {{document.fullDocumentCode8}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"document.fullDocumentCode8\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-065",
@@ -252,16 +400,112 @@
       "path": "recipients.personLine3",
       "source": "manual",
       "rawPattern": "{{recipients.personLine3}}",
-      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w"
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine3\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-065",
+    "path": "document.fullDocumentCode8",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from DOCX remediation",
+      "path": "document.fullDocumentCode8",
+      "source": "manual",
+      "rawPattern": "{{document.fullDocumentCode8}}",
+      "context": "l=\"-2\"/> {{document.fullDocumentCode8}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-065",
+    "path": "recipients.personLine3",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from DOCX remediation",
+      "path": "recipients.personLine3",
+      "source": "manual",
+      "rawPattern": "{{recipients.personLine3}}",
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-065",
+    "path": "decision.decisionLine",
+    "issueCodes": [
+      "COMPILED_DRIFT"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "decision.decisionLine",
+      "source": "computed",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / NO_OP.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-066",
@@ -274,7 +518,8 @@
       "path": "document.fullDocumentCode4",
       "source": "manual",
       "rawPattern": "{{document.fullDocumentCode4}}",
-      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.fullDocumentCode4}}} <w:b"
+      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.fullDocumentCode4}}} <w:b",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -286,26 +531,64 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-066",
-    "path": "recipients.personLine4",
+    "templateCode": "BM-067",
+    "path": "document.fullDocumentCode2",
     "issueCodes": [
       "BAD_LABEL"
     ],
     "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "recipients.personLine4",
+      "label": "Ô trống",
+      "path": "document.fullDocumentCode2",
       "source": "manual",
-      "rawPattern": "{{recipients.personLine4}}",
-      "context": "> {{recipients.personLine4}}} <w:tab w:val=\"right\" w:pos=\"9887"
+      "rawPattern": "{{document.field9}}",
+      "context": "{{document.field9}}",
+      "canonicalLabel": "Ô trống"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine4\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-067",
+    "path": "document.fullDocumentCode2",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Ô trống",
+      "path": "document.fullDocumentCode2",
+      "source": "manual",
+      "rawPattern": "{{document.field9}}",
+      "context": "{{document.field9}}",
+      "canonicalLabel": "Ô trống"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-067",
@@ -318,16 +601,24 @@
       "path": "document.fullDocumentCode6",
       "source": "manual",
       "rawPattern": "{{document.fullDocumentCode6}}",
-      "context": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\""
+      "context": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "canonicalLabel": "Slot from DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"document.fullDocumentCode6\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-067",
@@ -340,234 +631,128 @@
       "path": "recipients.personLine3",
       "source": "manual",
       "rawPattern": "{{recipients.personLine3}}",
-      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w"
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-067",
+    "path": "document.fullDocumentCode6",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from DOCX remediation",
+      "path": "document.fullDocumentCode6",
+      "source": "manual",
+      "rawPattern": "{{document.fullDocumentCode6}}",
+      "context": "l=\"-2\"/> {{document.fullDocumentCode6}}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-067",
+    "path": "recipients.personLine3",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from DOCX remediation",
+      "path": "recipients.personLine3",
+      "source": "manual",
+      "rawPattern": "{{recipients.personLine3}}",
+      "context": "l=\"-2\"/> {{recipients.personLine3}}} <w:tab w:val=\"right\" w:pos=\"9356\" w",
+      "canonicalLabel": "Slot from DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-067__0f7607122f29",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-068",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.field1}} <w:b/",
+      "canonicalLabel": "Số văn bản"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from DOCX remediation\" on path \"recipients.personLine3\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Số văn bản\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
   {
     "templateCode": "BM-068",
-    "path": "person.dateOfBirth",
+    "path": "document.issueDate",
     "issueCodes": [
-      "BAD_LABEL"
+      "REMEDIATION_LEAK"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.dateOfBirth",
+      "path": "document.issueDate",
       "source": "manual",
-      "rawPattern": "{{document.field3}}",
-      "context": "imes New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
+      "rawPattern": "{{document.field2}}",
+      "context": ":spacing w:val=\"-2\"/> {{document.field2}} <w:spacing w:",
+      "canonicalLabel": "Ngày ban hành"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.dateOfBirth\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.permanentAddress",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.permanentAddress",
-      "source": "manual",
-      "rawPattern": "{{person.permanentAddress}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress}} <w:ind w:firstLine=\"720\" w:end=\"0"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.permanentAddress\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.permanentAddress2",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.permanentAddress2",
-      "source": "manual",
-      "rawPattern": "{{person.permanentAddress2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress2}} <w:jc"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.permanentAddress2\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.occupation",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.occupation",
-      "source": "manual",
-      "rawPattern": "{{person.occupation}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation}} <w:jc"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.occupation\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.idNumber",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
-      "source": "manual",
-      "rawPattern": "{{person.idNumber}}",
-      "context": "> {{person.idNumber}} <w:ind w:firstLine=\"720\" w:end=\"0"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.permanentAddress3",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.permanentAddress3",
-      "source": "manual",
-      "rawPattern": "{{person.permanentAddress3}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress3}} <w:jc"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.permanentAddress3\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.occupation2",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.occupation2",
-      "source": "manual",
-      "rawPattern": "{{person.occupation2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation2}} <w:ind w:firstLine=\"720\" w:end=\"0"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.occupation2\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.idNumber2",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber2",
-      "source": "manual",
-      "rawPattern": "{{person.idNumber2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.idNumber2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber2\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.temporaryAddress",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.temporaryAddress",
-      "source": "manual",
-      "rawPattern": "{{person.temporaryAddress}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAn"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.temporaryAddress\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-068",
-    "path": "person.province",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.province",
-      "source": "manual",
-      "rawPattern": "{{person.province}}",
-      "context": "n\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.province\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Ngày ban hành\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -582,7 +767,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": "imes New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
+      "context": "imes New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Ngày sinh"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -604,7 +790,8 @@
       "path": "person.permanentAddress",
       "source": "manual",
       "rawPattern": "{{person.permanentAddress}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress}} <w:ind w:firstLine=\"720\" w:end=\"0"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress}} <w:ind w:firstLine=\"720\" w:end=\"0",
+      "canonicalLabel": "Nơi thường trú"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -626,7 +813,8 @@
       "path": "person.permanentAddress2",
       "source": "manual",
       "rawPattern": "{{person.permanentAddress2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress2}} <w:jc"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress2}} <w:jc",
+      "canonicalLabel": "Nơi thường trú"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -648,7 +836,8 @@
       "path": "person.occupation",
       "source": "manual",
       "rawPattern": "{{person.occupation}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation}} <w:jc"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation}} <w:jc",
+      "canonicalLabel": "Nghề nghiệp"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -670,7 +859,8 @@
       "path": "person.idNumber",
       "source": "manual",
       "rawPattern": "{{person.idNumber}}",
-      "context": "> {{person.idNumber}} <w:ind w:firstLine=\"720\" w:end=\"0"
+      "context": "> {{person.idNumber}} <w:ind w:firstLine=\"720\" w:end=\"0",
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -692,7 +882,8 @@
       "path": "person.permanentAddress3",
       "source": "manual",
       "rawPattern": "{{person.permanentAddress3}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress3}} <w:jc"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress3}} <w:jc",
+      "canonicalLabel": "Nơi thường trú"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -714,7 +905,8 @@
       "path": "person.occupation2",
       "source": "manual",
       "rawPattern": "{{person.occupation2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation2}} <w:ind w:firstLine=\"720\" w:end=\"0"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation2}} <w:ind w:firstLine=\"720\" w:end=\"0",
+      "canonicalLabel": "Nghề nghiệp"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -736,7 +928,8 @@
       "path": "person.idNumber2",
       "source": "manual",
       "rawPattern": "{{person.idNumber2}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.idNumber2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.idNumber2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -758,7 +951,8 @@
       "path": "person.temporaryAddress",
       "source": "manual",
       "rawPattern": "{{person.temporaryAddress}}",
-      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAn"
+      "context": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAn",
+      "canonicalLabel": "Nơi tạm trú"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -780,7 +974,8 @@
       "path": "person.province",
       "source": "manual",
       "rawPattern": "{{person.province}}",
-      "context": "n\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R"
+      "context": "n\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Tỉnh/Thành phố"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -793,47 +988,91 @@
   },
   {
     "templateCode": "BM-069",
-    "path": "person.dateOfBirth",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
       "BAD_LABEL"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.dateOfBirth",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{document.field3}}",
-      "context": "al=\"2\"/> {{document.field3}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade"
+      "rawPattern": "{{document.field1}}",
+      "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.dateOfBirth\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
-    "path": "person.idNumber",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
-      "BAD_LABEL"
+      "GENERIC_FIELD_CANONICALIZATION"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{document.field5}}",
-      "context": "28\"/> {{document.field5}} <w:"
+      "rawPattern": "{{document.field1}}",
+      "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -846,16 +1085,54 @@
       "path": "document.reasonLine",
       "source": "manual",
       "rawPattern": "{{document.field6}}",
-      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va"
+      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"document.reasonLine\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "document.reasonLine",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.reasonLine",
+      "source": "manual",
+      "rawPattern": "{{document.field6}}",
+      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -868,82 +1145,54 @@
       "path": "document.reasonLine2",
       "source": "manual",
       "rawPattern": "{{document.field7}}",
-      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </"
+      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"document.reasonLine2\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
-    "path": "person.personFullName",
+    "path": "document.reasonLine2",
     "issueCodes": [
-      "BAD_LABEL"
+      "GENERIC_FIELD_CANONICALIZATION"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
+      "path": "document.reasonLine2",
       "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": "l=\"-2\"/> {{person.personFullName}} <w:tab w:val=\"right\" w:pos=\"9356\" w:"
+      "rawPattern": "{{document.field7}}",
+      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.personFullName\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-069",
-    "path": "person.currentAddress",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.currentAddress",
-      "source": "manual",
-      "rawPattern": "{{person.currentAddress}}",
-      "context": "l=\"-2\"/> {{person.currentAddress}} <w:"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.currentAddress\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-069",
-    "path": "person.currentAddress2",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.currentAddress2",
-      "source": "manual",
-      "rawPattern": "{{person.currentAddress2}}",
-      "context": "=\"28\"/> {{person.currentAddress2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.currentAddress2\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -956,38 +1205,54 @@
       "path": "decision.decisionLine",
       "source": "manual",
       "rawPattern": "{{document.field8}}",
-      "context": "oản theo {{document.field8}} <w:lang w"
+      "context": "oản theo {{document.field8}} <w:lang w",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"decision.decisionLine\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
-    "path": "person.occupation",
+    "path": "decision.decisionLine",
     "issueCodes": [
-      "BAD_LABEL"
+      "GENERIC_FIELD_CANONICALIZATION"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.occupation",
+      "path": "decision.decisionLine",
       "source": "manual",
-      "rawPattern": "{{document.field10}}",
-      "context": "al=\"superscript\"/> 2 {{document.field10}} <"
+      "rawPattern": "{{document.field8}}",
+      "context": "oản theo {{document.field8}} <w:lang w",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.occupation\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -1000,16 +1265,114 @@
       "path": "document.summaryLine",
       "source": "manual",
       "rawPattern": "{{document.field12}}",
-      "context": "/w:rPr> {{document.field12}} </"
+      "context": "/w:rPr> {{document.field12}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"document.summaryLine\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "document.summaryLine",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.summaryLine",
+      "source": "manual",
+      "rawPattern": "{{document.field12}}",
+      "context": "/w:rPr> {{document.field12}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "document.issueDate",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.issueDate",
+      "source": "manual",
+      "rawPattern": "{{document.field2}}",
+      "context": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+      "canonicalLabel": "Ngày lập biên bản"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM has KEEP_DEFERRED closure items; auto-fix is blocked until that BM is reviewed as a unit. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": null,
+      "reasons": [
+        "BM has KEEP_DEFERRED closure items; auto-fix is blocked until that BM is reviewed as a unit"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -1022,7 +1385,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": "al=\"2\"/> {{document.field3}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade"
+      "context": "al=\"2\"/> {{document.field3}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+      "canonicalLabel": "Ngày sinh"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1044,7 +1408,8 @@
       "path": "person.idNumber",
       "source": "manual",
       "rawPattern": "{{document.field5}}",
-      "context": "28\"/> {{document.field5}} <w:"
+      "context": "28\"/> {{document.field5}} <w:",
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1066,16 +1431,24 @@
       "path": "document.reasonLine",
       "source": "manual",
       "rawPattern": "{{document.field6}}",
-      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va"
+      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"document.reasonLine\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -1088,16 +1461,24 @@
       "path": "document.reasonLine2",
       "source": "manual",
       "rawPattern": "{{document.field7}}",
-      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </"
+      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"document.reasonLine2\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -1110,7 +1491,8 @@
       "path": "person.personFullName",
       "source": "manual",
       "rawPattern": "{{person.personFullName}}",
-      "context": "l=\"-2\"/> {{person.personFullName}} <w:tab w:val=\"right\" w:pos=\"9356\" w:"
+      "context": "l=\"-2\"/> {{person.personFullName}} <w:tab w:val=\"right\" w:pos=\"9356\" w:",
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1132,7 +1514,8 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": "l=\"-2\"/> {{person.currentAddress}} <w:"
+      "context": "l=\"-2\"/> {{person.currentAddress}} <w:",
+      "canonicalLabel": "Nơi ở hiện tại"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1154,7 +1537,8 @@
       "path": "person.currentAddress2",
       "source": "manual",
       "rawPattern": "{{person.currentAddress2}}",
-      "context": "=\"28\"/> {{person.currentAddress2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:"
+      "context": "=\"28\"/> {{person.currentAddress2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:",
+      "canonicalLabel": "Nơi ở hiện tại"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1176,16 +1560,24 @@
       "path": "decision.decisionLine",
       "source": "manual",
       "rawPattern": "{{document.field8}}",
-      "context": "oản theo {{document.field8}} <w:lang w"
+      "context": "oản theo {{document.field8}} <w:lang w",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"decision.decisionLine\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-069",
@@ -1198,7 +1590,8 @@
       "path": "person.occupation",
       "source": "manual",
       "rawPattern": "{{document.field10}}",
-      "context": "al=\"superscript\"/> 2 {{document.field10}} <"
+      "context": "al=\"superscript\"/> 2 {{document.field10}} <",
+      "canonicalLabel": "Nghề nghiệp"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1220,126 +1613,252 @@
       "path": "document.summaryLine",
       "source": "manual",
       "rawPattern": "{{document.field12}}",
-      "context": "/w:rPr> {{document.field12}} </"
+      "context": "/w:rPr> {{document.field12}} </",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"document.summaryLine\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-073",
-    "path": "person.dateOfBirth",
+    "templateCode": "BM-069",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
-      "BAD_LABEL"
+      "UI_VISIBLE_BAD_METADATA"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.dateOfBirth",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{document.field3}}",
-      "context": "New Roman\" w:hAnsi=\"Times New Roman\"/> 5 {{document.field3}} <w:footnoteRefe"
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.dateOfBirth\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-073",
-    "path": "person.idNumber",
+    "templateCode": "BM-069",
+    "path": "document.reasonLine",
     "issueCodes": [
-      "BAD_LABEL"
+      "UI_VISIBLE_BAD_METADATA"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
+      "path": "document.reasonLine",
       "source": "manual",
-      "rawPattern": "{{document.field5}}",
-      "context": ":footnoteReference w:id=\"15\"/> {{document.field5}} .. <w"
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-073",
-    "path": "person.dateOfBirth",
+    "templateCode": "BM-069",
+    "path": "document.reasonLine2",
     "issueCodes": [
-      "REMEDIATION_LEAK"
+      "UI_VISIBLE_BAD_METADATA"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.dateOfBirth",
+      "path": "document.reasonLine2",
       "source": "manual",
-      "rawPattern": "{{document.field3}}",
-      "context": "New Roman\" w:hAnsi=\"Times New Roman\"/> 5 {{document.field3}} <w:footnoteRefe"
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"person.dateOfBirth\". Needs DOCX review to determine correct path and label.",
-    "confidence": "HIGH",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-073",
-    "path": "person.idNumber",
+    "templateCode": "BM-069",
+    "path": "document.summaryLine",
     "issueCodes": [
-      "REMEDIATION_LEAK"
+      "UI_VISIBLE_BAD_METADATA"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
+      "path": "document.summaryLine",
       "source": "manual",
-      "rawPattern": "{{document.field5}}",
-      "context": ":footnoteReference w:id=\"15\"/> {{document.field5}} .. <w"
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"person.idNumber\". Needs DOCX review to determine correct path and label.",
-    "confidence": "HIGH",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-069",
+    "path": "decision.decisionLine",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "decision.decisionLine",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-069__3a67d1a2e298",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-075",
-    "path": "person.personFullName",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
       "BAD_LABEL"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:"
+      "rawPattern": "{{document.field1}}",
+      "context": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.personFullName\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-075",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-075",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-075",
@@ -1352,16 +1871,24 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{person.dateOfBirth}}",
-      "context": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:"
+      "context": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.dateOfBirth\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-075",
@@ -1374,16 +1901,54 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro"
+      "context": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.currentAddress\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-075",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-075",
@@ -1396,7 +1961,8 @@
       "path": "person.personFullName",
       "source": "manual",
       "rawPattern": "{{person.personFullName}}",
-      "context": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:"
+      "context": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:",
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1418,16 +1984,24 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{person.dateOfBirth}}",
-      "context": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:"
+      "context": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"person.dateOfBirth\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-075",
@@ -1440,38 +2014,254 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro"
+      "context": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"person.currentAddress\". Needs DOCX review to determine correct path and label.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
-    "templateCode": "BM-080",
-    "path": "person.personFullName",
+    "templateCode": "BM-075",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-075",
+    "path": "person.dateOfBirth",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "person.dateOfBirth",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-075",
+    "path": "person.currentAddress",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "person.currentAddress",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-075__dc493cfb5fd3",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-077",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
       "BAD_LABEL"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\""
+      "rawPattern": "{{document.field1}}",
+      "context": "val=\"24\"/> 10 {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roma",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
-      "action": "DOCX_REAUTHOR"
+      "action": "KEEP_DEFERRED"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.personFullName\"; path may also be wrong. Requires DOCX review.",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
-    "applySafe": false
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-077__99d7843f9f9e",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-077",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "val=\"24\"/> 10 {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roma",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-077__99d7843f9f9e",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-077",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-077__99d7843f9f9e",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-077",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "val=\"24\"/> 10 {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roma",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-077__99d7843f9f9e",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-077",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-077__99d7843f9f9e",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-080",
@@ -1484,7 +2274,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{person.dateOfBirth}}",
-      "context": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:"
+      "context": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1506,7 +2297,8 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w"
+      "context": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1528,7 +2320,8 @@
       "path": "legalBasis.legalBasisLine",
       "source": "manual",
       "rawPattern": "{{legalBasis.legalBasisLine}}",
-      "context": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h"
+      "context": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1541,22 +2334,46 @@
   },
   {
     "templateCode": "BM-080",
-    "path": "person.personFullName",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
       "REMEDIATION_LEAK"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\""
+      "rawPattern": "{{document.field1}}",
+      "context": "> {{document.field1}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+      "canonicalLabel": "Số văn bản"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "REMEDIATION_LEAK: Wave 02 slot \"Slot from Wave 02 DOCX remediation\" on path=\"person.personFullName\". Needs DOCX review to determine correct path and label.",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Số văn bản\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-080",
+    "path": "document.issueDate",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.issueDate",
+      "source": "manual",
+      "rawPattern": "{{document.field2}}",
+      "context": "> {{document.field2}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+      "canonicalLabel": "Ngày ban hành"
+    },
+    "proposed": {
+      "action": "DOCX_REAUTHOR"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Ngày ban hành\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
     "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1572,7 +2389,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{person.dateOfBirth}}",
-      "context": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:"
+      "context": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1594,7 +2412,8 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w"
+      "context": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1616,7 +2435,8 @@
       "path": "legalBasis.legalBasisLine",
       "source": "manual",
       "rawPattern": "{{legalBasis.legalBasisLine}}",
-      "context": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h"
+      "context": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts w:ascii=\"Times New Roman\" w:h",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1626,6 +2446,152 @@
     "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
+  },
+  {
+    "templateCode": "BM-082",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "BAD_LABEL"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-082__44cc2b043383",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-082",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "GENERIC_FIELD_CANONICALIZATION"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-082__44cc2b043383",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-082",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-082__44cc2b043383",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-082",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-082__44cc2b043383",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
+  },
+  {
+    "templateCode": "BM-082",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "UI_VISIBLE_BAD_METADATA"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+    },
+    "proposed": {
+      "action": "KEEP_DEFERRED"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false,
+    "keepDeferred": {
+      "source": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\batches\\safe-label-only-batch-1\\plan.latest.json",
+      "sourceId": "BM-082__44cc2b043383",
+      "reasons": [
+        "BM/path is on KEEP_DEFERRED closure track"
+      ]
+    }
   },
   {
     "templateCode": "BM-162",
@@ -1638,7 +2604,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T"
+      "context": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1651,89 +2618,47 @@
   },
   {
     "templateCode": "BM-162",
-    "path": "person.personFullName",
+    "path": "document.fullDocumentCode",
     "issueCodes": [
-      "BAD_LABEL"
+      "REMEDIATION_LEAK"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
+      "path": "document.fullDocumentCode",
       "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia"
+      "rawPattern": "{{document.field1}}",
+      "context": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Số văn bản"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.personFullName\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Số văn bản\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
   {
     "templateCode": "BM-162",
-    "path": "person.currentAddress",
+    "path": "document.issueDate",
     "issueCodes": [
-      "BAD_LABEL"
+      "REMEDIATION_LEAK"
     ],
     "current": {
       "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.currentAddress",
+      "path": "document.issueDate",
       "source": "manual",
-      "rawPattern": "{{person.currentAddress}}",
-      "context": "\"/> {{person.currentAddress}} <"
+      "rawPattern": "{{document.field2}}",
+      "context": "\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+      "canonicalLabel": "Ngày ban hành"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.currentAddress\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-162",
-    "path": "person.occupation",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.occupation",
-      "source": "manual",
-      "rawPattern": "{{person.occupation}}",
-      "context": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\""
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.occupation\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-162",
-    "path": "person.idNumber",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
-      "source": "manual",
-      "rawPattern": "{{person.idNumber}}",
-      "context": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Ngày ban hành\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -1748,7 +2673,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T"
+      "context": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1770,7 +2696,8 @@
       "path": "person.personFullName",
       "source": "manual",
       "rawPattern": "{{person.personFullName}}",
-      "context": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia"
+      "context": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia",
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1792,7 +2719,8 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": "\"/> {{person.currentAddress}} <"
+      "context": "\"/> {{person.currentAddress}} <",
+      "canonicalLabel": "Nơi ở hiện nay"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1814,7 +2742,8 @@
       "path": "person.occupation",
       "source": "manual",
       "rawPattern": "{{person.occupation}}",
-      "context": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\""
+      "context": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\"",
+      "canonicalLabel": "Nghề nghiệp"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1836,7 +2765,8 @@
       "path": "person.idNumber",
       "source": "manual",
       "rawPattern": "{{person.idNumber}}",
-      "context": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R"
+      "context": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R",
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1858,57 +2788,14 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": "> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim"
+      "context": "> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
     "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.dateOfBirth\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.personFullName",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.personFullName",
-      "source": "manual",
-      "rawPattern": "{{person.personFullName}}",
-      "context": "{{person.personFullName}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.personFullName\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.currentAddress",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.currentAddress",
-      "source": "manual",
-      "rawPattern": "{{person.currentAddress}}",
-      "context": "s=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> Nơi ở hiện nay: {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T"
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.currentAddress\"; path may also be wrong. Requires DOCX review.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1924,7 +2811,8 @@
       "path": "person.occupation",
       "source": "manual",
       "rawPattern": "{{person.occupation}}",
-      "context": "\"/> {{person.occupation}} <w:sz w:val=\""
+      "context": "\"/> {{person.occupation}} <w:sz w:val=\"",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1946,7 +2834,8 @@
       "path": "person.ward",
       "source": "manual",
       "rawPattern": "{{person.ward}}",
-      "context": "{{person.ward}} <w:ind w:firstLine=\"709\" w:end=\"0"
+      "context": "{{person.ward}} <w:ind w:firstLine=\"709\" w:end=\"0",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -1968,35 +2857,14 @@
       "path": "person.province",
       "source": "manual",
       "rawPattern": "{{person.province}}",
-      "context": "> {{person.province}} <w:sz w:val=\""
+      "context": "> {{person.province}} <w:sz w:val=\"",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
     },
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
     "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.province\"; path may also be wrong. Requires DOCX review.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.idNumber",
-    "issueCodes": [
-      "BAD_LABEL"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.idNumber",
-      "source": "manual",
-      "rawPattern": "{{person.idNumber}}",
-      "context": "\"/> {{person.idNumber}} <w:ind w:firstLine=\"709\""
-    },
-    "proposed": {
-      "action": "DOCX_REAUTHOR"
-    },
-    "classification": "BLOCKED_BY_DOCX_AUTHORING",
-    "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"person.idNumber\"; path may also be wrong. Requires DOCX review.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -2012,7 +2880,8 @@
       "path": "case.caseNumber",
       "source": "manual",
       "rawPattern": "{{case.caseNumber}}",
-      "context": "\"/> {{case.caseNumber}} <w:rFonts w:ascii=\"Times New R"
+      "context": "\"/> {{case.caseNumber}} <w:rFonts w:ascii=\"Times New R",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2020,6 +2889,52 @@
     "classification": "BLOCKED_BY_DOCX_AUTHORING",
     "reason": "Remediation label leak \"Slot from Wave 02 DOCX remediation\" on path \"case.caseNumber\"; path may also be wrong. Requires DOCX review.",
     "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-163",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "rawPattern": "{{document.field1}}",
+      "context": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Số văn bản"
+    },
+    "proposed": {
+      "action": "DOCX_REAUTHOR"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Số văn bản\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-163",
+    "path": "document.issueDate",
+    "issueCodes": [
+      "REMEDIATION_LEAK"
+    ],
+    "current": {
+      "label": "Slot from Wave 02 DOCX remediation",
+      "path": "document.issueDate",
+      "source": "manual",
+      "rawPattern": "{{document.field2}}",
+      "context": "\"/> {{document.field2}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Ngày ban hành"
+    },
+    "proposed": {
+      "action": "DOCX_REAUTHOR"
+    },
+    "classification": "BLOCKED_BY_DOCX_AUTHORING",
+    "reason": "REMEDIATION_LEAK cannot be fixed by UPDATE_LABEL: canonicalFields label is already \"Ngày ban hành\", while audit label=\"Slot from Wave 02 DOCX remediation\" comes from slot/evidence metadata. Needs DOCX/raw metadata review.",
+    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -2034,7 +2949,8 @@
       "path": "person.dateOfBirth",
       "source": "manual",
       "rawPattern": "{{document.field3}}",
-      "context": "> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim"
+      "context": "> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2056,7 +2972,8 @@
       "path": "person.personFullName",
       "source": "manual",
       "rawPattern": "{{person.personFullName}}",
-      "context": "{{person.personFullName}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim"
+      "context": "{{person.personFullName}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2078,7 +2995,8 @@
       "path": "person.currentAddress",
       "source": "manual",
       "rawPattern": "{{person.currentAddress}}",
-      "context": "s=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> Nơi ở hiện nay: {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T"
+      "context": "s=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> Nơi ở hiện nay: {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+      "canonicalLabel": "Nơi ở hiện nay"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2100,7 +3018,8 @@
       "path": "person.occupation",
       "source": "manual",
       "rawPattern": "{{person.occupation}}",
-      "context": "\"/> {{person.occupation}} <w:sz w:val=\""
+      "context": "\"/> {{person.occupation}} <w:sz w:val=\"",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2122,7 +3041,8 @@
       "path": "person.ward",
       "source": "manual",
       "rawPattern": "{{person.ward}}",
-      "context": "{{person.ward}} <w:ind w:firstLine=\"709\" w:end=\"0"
+      "context": "{{person.ward}} <w:ind w:firstLine=\"709\" w:end=\"0",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2144,7 +3064,8 @@
       "path": "person.province",
       "source": "manual",
       "rawPattern": "{{person.province}}",
-      "context": "> {{person.province}} <w:sz w:val=\""
+      "context": "> {{person.province}} <w:sz w:val=\"",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2166,7 +3087,8 @@
       "path": "person.idNumber",
       "source": "manual",
       "rawPattern": "{{person.idNumber}}",
-      "context": "\"/> {{person.idNumber}} <w:ind w:firstLine=\"709\""
+      "context": "\"/> {{person.idNumber}} <w:ind w:firstLine=\"709\"",
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"
@@ -2188,7 +3110,8 @@
       "path": "case.caseNumber",
       "source": "manual",
       "rawPattern": "{{case.caseNumber}}",
-      "context": "\"/> {{case.caseNumber}} <w:rFonts w:ascii=\"Times New R"
+      "context": "\"/> {{case.caseNumber}} <w:rFonts w:ascii=\"Times New R",
+      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
     },
     "proposed": {
       "action": "DOCX_REAUTHOR"

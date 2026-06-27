@@ -7,9 +7,12 @@
  * records with status=PUBLISHED.
  *
  * Safety guarantees:
- *   - Idempotent: skips forms whose latest version already has the same contractHash
+ *   - Idempotent: skips forms whose latest version already has the same
+ *     contractHash and compiled_json.contractHash
  *   - Atomic: all-or-nothing via transaction
- *   - Envs required: OFFICIAL_ID (createdBy/approvedBy/publishedBy), optional AGENCY_ID
+ *   - Envs required: OFFICIAL_ID (createdBy/approvedBy/publishedBy)
+ *   - Publishes the 213-contract baseline as GLOBAL only. Agency-scoped
+ *     versions must go through the Form Studio approval workflow.
  *   - Fails if published != expected (default 213)
  *
  * Prerequisites:
@@ -167,6 +170,7 @@ function buildPublishPlan(contracts) {
       templateTitle: contract.templateTitle,
       sourceId: contract.sourceId,
       contractHash,
+      compiledHash: compileResult.artifact.contractHash,
       templateHash: contract.extractionSha256 ?? sha256HexString(contract.templateCode),
       normalizedDocxPath: contract.normalizedDocxPath
         ? path.join(ROOT, contract.normalizedDocxPath)
@@ -196,7 +200,7 @@ function generatePlan(toPublish, opts) {
     ``,
     `# For each form below, the script will:`,
     `#   1. Find the template by template_code in the DB`,
-    `#   2. Check idempotency: skip if latest PUBLISHED version has the same contractHash`,
+    `#   2. Check idempotency: skip only if latest PUBLISHED version has the same contractHash and compiled_json.contractHash`,
     `#   3. Upsert form_contract_versions with:`,
     `#      - status: PUBLISHED`,
     `#      - draft_json: V1 locked contract (raw)`,
@@ -348,18 +352,27 @@ async function publishToDb(toPublish, opts) {
         );
       }
 
-      // Check idempotency: skip if latest published version already has this contractHash
+      // Check idempotency: skip only if both the raw V1 semantic hash and the
+      // compiled V2 hash already match. Compiler/adapter changes can require a
+      // new DB version even when the locked V1 JSON is unchanged.
       const latestPublished = await tx.form_contract_versions.findFirst({
         where: {
           template_id: template.id,
+          agency_id: null,
           scope_key: "GLOBAL",
           status: "PUBLISHED",
         },
         orderBy: { version_no: "desc" },
       });
 
-      if (latestPublished?.contract_hash === p.contractHash) {
-        console.log(`  [SKIP] ${p.templateCode} — already published with same contractHash`);
+      const latestCompiledHash = latestPublished?.compiled_json?.contractHash ?? null;
+      if (
+        latestPublished?.contract_hash === p.contractHash &&
+        latestCompiledHash === p.compiledHash
+      ) {
+        console.log(
+          `  [SKIP] ${p.templateCode} - already published with same contractHash and compiledHash`,
+        );
         skipped++;
         continue;
       }
@@ -368,6 +381,7 @@ async function publishToDb(toPublish, opts) {
       const latestAny = await tx.form_contract_versions.findFirst({
         where: {
           template_id: template.id,
+          agency_id: null,
           scope_key: "GLOBAL",
         },
         orderBy: { version_no: "desc" },
@@ -378,7 +392,7 @@ async function publishToDb(toPublish, opts) {
       await tx.form_contract_versions.create({
         data: {
           template_id: BigInt(template.id.toString()),
-          agency_id: agencyId ? BigInt(agencyId) : null,
+          agency_id: null,
           scope_key: "GLOBAL",
           version_no: nextVersion,
           status: "PUBLISHED",
@@ -451,7 +465,8 @@ async function main() {
 
   // Required: OFFICIAL_ID
   const officialId = process.env.OFFICIAL_ID ?? envVars.OFFICIAL_ID;
-  // Optional: AGENCY_ID
+  // This publisher is intentionally global-only. Keeping agency_id null avoids
+  // rows that look agency-specific while still carrying scope_key=GLOBAL.
   const agencyId = process.env.AGENCY_ID ?? envVars.AGENCY_ID ?? null;
   // Expected count (default 213)
   const expectExactly = parseInt(
@@ -501,6 +516,12 @@ async function main() {
   if (!officialId) {
     console.error("OFFICIAL_ID env required. Set it via environment variable or .env:");
     console.error("  $env:OFFICIAL_ID=\"1\"; node scripts/.../publish-locked-contracts-to-db.mjs");
+    process.exit(1);
+  }
+
+  if (agencyId) {
+    console.error("AGENCY_ID is not supported by this global baseline publisher.");
+    console.error("Unset AGENCY_ID and rerun with only OFFICIAL_ID for scope_key=GLOBAL.");
     process.exit(1);
   }
 

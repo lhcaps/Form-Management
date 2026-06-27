@@ -89,9 +89,15 @@ export class FormPlatformCatalogService {
         form_contract_versions: {
           where: agencyId
             ? {
-                OR: [{ agency_id: BigInt(agencyId) }, { agency_id: null }],
+                OR: [
+                  {
+                    agency_id: BigInt(agencyId),
+                    scope_key: `AGENCY:${agencyId}`,
+                  },
+                  { agency_id: null, scope_key: 'GLOBAL' },
+                ],
               }
-            : { agency_id: null },
+            : { agency_id: null, scope_key: 'GLOBAL' },
           orderBy: [{ updated_at: 'desc' }, { version_no: 'desc' }],
         },
       },
@@ -106,10 +112,13 @@ export class FormPlatformCatalogService {
         (c) => c.templateCode === template.template_code,
       );
       const agencyVersions = template.form_contract_versions.filter(
-        (v) => agencyId && v.agency_id === BigInt(agencyId),
+        (v) =>
+          agencyId &&
+          v.agency_id === BigInt(agencyId) &&
+          v.scope_key === `AGENCY:${agencyId}`,
       );
       const globalVersions = template.form_contract_versions.filter(
-        (v) => v.agency_id === null,
+        (v) => v.agency_id === null && v.scope_key === 'GLOBAL',
       );
 
       return this.buildCatalogItem(
@@ -140,9 +149,15 @@ export class FormPlatformCatalogService {
         form_contract_versions: {
           where: agencyId
             ? {
-                OR: [{ agency_id: BigInt(agencyId) }, { agency_id: null }],
+                OR: [
+                  {
+                    agency_id: BigInt(agencyId),
+                    scope_key: `AGENCY:${agencyId}`,
+                  },
+                  { agency_id: null, scope_key: 'GLOBAL' },
+                ],
               }
-            : { agency_id: null },
+            : { agency_id: null, scope_key: 'GLOBAL' },
           orderBy: [{ updated_at: 'desc' }, { version_no: 'desc' }],
         },
       },
@@ -153,10 +168,13 @@ export class FormPlatformCatalogService {
     const v1 = await this.fileContracts.findByIdentifier(templateCode);
     const activeVersion = template.template_versions[0];
     const agencyVersions = template.form_contract_versions.filter(
-      (v) => agencyId && v.agency_id === BigInt(agencyId),
+      (v) =>
+        agencyId &&
+        v.agency_id === BigInt(agencyId) &&
+        v.scope_key === `AGENCY:${agencyId}`,
     );
     const globalVersions = template.form_contract_versions.filter(
-      (v) => v.agency_id === null,
+      (v) => v.agency_id === null && v.scope_key === 'GLOBAL',
     );
 
     return this.buildCatalogItem(
@@ -177,6 +195,7 @@ export class FormPlatformCatalogService {
       form_contract_versions: Array<{
         id: bigint;
         agency_id: bigint | null;
+        scope_key: string;
         version_no: number;
         status: string;
         contract_hash: string | null;
@@ -196,6 +215,7 @@ export class FormPlatformCatalogService {
     agencyVersions: Array<{
       id: bigint;
       agency_id: bigint | null;
+      scope_key: string;
       version_no: number;
       status: string;
       contract_hash: string | null;
@@ -206,6 +226,7 @@ export class FormPlatformCatalogService {
     globalVersions: Array<{
       id: bigint;
       agency_id: bigint | null;
+      scope_key: string;
       version_no: number;
       status: string;
       contract_hash: string | null;

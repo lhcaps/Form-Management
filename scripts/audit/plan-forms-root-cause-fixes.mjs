@@ -19,7 +19,7 @@
  *   pnpm plan:forms-root-cause-fixes
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 // =============================================================================
@@ -30,6 +30,16 @@ const ROOT = resolve(process.cwd());
 const AUDIT_DIR = join(ROOT, 'docs', 'audit', 'forms-root-cause');
 const PLAN_DIR = join(ROOT, 'docs', 'audit', 'forms-root-cause-fix-plan');
 const AUDIT_JSON = join(AUDIT_DIR, 'latest.json');
+const LOCKED_DIR = join(ROOT, 'docs', 'audit', 'docx', 'contracts', 'locked');
+const SAFE_LABEL_BATCH_PLAN_JSON = join(
+  ROOT,
+  'docs',
+  'audit',
+  'per-form-render-accurate',
+  'batches',
+  'safe-label-only-batch-1',
+  'plan.latest.json',
+);
 
 // =============================================================================
 // CLASSIFICATION BUCKETS
@@ -146,6 +156,10 @@ const KNOWN_LABEL_OVERRIDE = {
 // Paths that have known label override (high confidence for auto-fix)
 const HAS_KNOWN_LABEL = new Set(Object.keys(KNOWN_LABEL_OVERRIDE));
 
+function isCanonicalKnownLabel(path, label) {
+  return HAS_KNOWN_LABEL.has(path) && label === KNOWN_LABEL_OVERRIDE[path];
+}
+
 // =============================================================================
 // DOMAIN / SOURCE HELPERS
 // =============================================================================
@@ -156,6 +170,62 @@ const LEGAL_FIELDS = /^(legalBasis|decision|measure|approval|prosecution|investi
 const GENERIC_RAW_TAIL = /^field\d+$/i;
 
 const READONLY_SOURCES = new Set(['agencyConfig', 'officialConfig', 'systemDate', 'computed']);
+
+function issueKey(templateCode, path) {
+  return `${templateCode}::${path}`;
+}
+
+function loadKeepDeferredIndex() {
+  const byPath = new Map();
+  const byBm = new Set();
+
+  if (!existsSync(SAFE_LABEL_BATCH_PLAN_JSON)) {
+    return { byPath, byBm, source: null };
+  }
+
+  const batchPlan = JSON.parse(readFileSync(SAFE_LABEL_BATCH_PLAN_JSON, 'utf8'));
+  for (const bm of batchPlan.keepDeferred?.bms ?? []) {
+    byBm.add(bm);
+  }
+
+  for (const item of batchPlan.sections?.EXCLUDED_KEEP_DEFERRED ?? []) {
+    if (!item.bm || !item.path) continue;
+    byPath.set(issueKey(item.bm, item.path), {
+      bm: item.bm,
+      path: item.path,
+      reasons: item.reasons ?? ['BM/path is on KEEP_DEFERRED closure track'],
+      sourceId: item.sourceId ?? null,
+    });
+  }
+
+  return {
+    byPath,
+    byBm,
+    source: SAFE_LABEL_BATCH_PLAN_JSON,
+  };
+}
+
+function loadCanonicalFieldLabels() {
+  const labels = new Map();
+
+  if (!existsSync(LOCKED_DIR)) return labels;
+
+  for (const file of readdirSync(LOCKED_DIR).filter((f) => f.endsWith('.contract.locked.json'))) {
+    const templateCode = file.match(/^(BM-\d+)/)?.[1];
+    if (!templateCode) continue;
+    try {
+      const contract = JSON.parse(readFileSync(join(LOCKED_DIR, file), 'utf8'));
+      for (const field of contract.canonicalFields ?? []) {
+        if (!field.path) continue;
+        labels.set(issueKey(templateCode, field.path), field.label ?? '');
+      }
+    } catch {
+      // Planner remains usable even if one file is malformed; validation gates catch parse failures.
+    }
+  }
+
+  return labels;
+}
 
 // =============================================================================
 // CLASSIFICATION ENGINE
@@ -199,6 +269,14 @@ function classifyIssue(issue) {
   if (issueCode === 'BAD_LABEL') {
     // Has known label override → auto-fix candidate
     if (HAS_KNOWN_LABEL.has(path)) {
+      if (isCanonicalKnownLabel(path, label)) {
+        return {
+          classification: CLASS.REVIEW_FIX,
+          action: 'REVIEW_METADATA',
+          reason: `BAD_LABEL fired on path "${path}" but label already matches known override "${KNOWN_LABEL_OVERRIDE[path]}". Needs metadata/audit review, not label mutation.`,
+          applySafe: false,
+        };
+      }
       return {
         classification: CLASS.AUTO_FIX,
         action: 'UPDATE_LABEL',
@@ -239,6 +317,14 @@ function classifyIssue(issue) {
   if (issueCode === 'UI_VISIBLE_BAD_METADATA') {
     // If path has known label override → auto-fix
     if (HAS_KNOWN_LABEL.has(path)) {
+      if (isCanonicalKnownLabel(path, label)) {
+        return {
+          classification: CLASS.REVIEW_FIX,
+          action: 'REVIEW_METADATA',
+          reason: `UI metadata issue remains even though "${path}" already has canonical label "${KNOWN_LABEL_OVERRIDE[path]}". Needs metadata/path review, not label mutation.`,
+          applySafe: false,
+        };
+      }
       return {
         classification: CLASS.AUTO_FIX,
         action: 'UPDATE_LABEL',
@@ -257,15 +343,16 @@ function classifyIssue(issue) {
     if (suggestedPath && GENERIC_RAW_TAIL.test(suggestedPath.split('.').pop() ?? '')) {
       return { classification: CLASS.REVIEW_FIX, action: 'UPDATE_PATH', reason: `RAW_PATTERN_DOMAIN_MISMATCH suggested "${suggestedPath}" but suggestedPath contains generic fieldN. Requires review to find correct semantic path.`, applySafe: false };
     }
-    // If suggestedPath is a known path → auto-fix candidate
+    // Path rewrites are structural contract changes. Even when the
+    // suggested path is known, they must stay in reviewer-gated flow.
     if (suggestedPath && HAS_KNOWN_LABEL.has(suggestedPath)) {
       return {
-        classification: CLASS.AUTO_FIX,
+        classification: CLASS.REVIEW_FIX,
         action: 'UPDATE_PATH',
         proposedPath: suggestedPath,
         proposedLabel: KNOWN_LABEL_OVERRIDE[suggestedPath],
-        reason: `Domain mismatch: raw="${rawPattern}" on path "${path}". suggestedPath="${suggestedPath}" is a known semantic path with known label. Auto-fix path and label.`,
-        applySafe: true,
+        reason: `RAW_PATTERN_DOMAIN_MISMATCH suggested known path "${suggestedPath}" for "${path}". Path rewrite needs human validation before apply.`,
+        applySafe: false,
       };
     }
     // If context strongly supports the suggested path → review-fix
@@ -298,6 +385,14 @@ function classifyIssue(issue) {
   if (issueCode === 'GENERIC_FIELD_CANONICALIZATION') {
     // Generic raw pattern + known path + known label → auto-fix label only
     if (HAS_KNOWN_LABEL.has(path)) {
+      if (isCanonicalKnownLabel(path, label)) {
+        return {
+          classification: CLASS.REVIEW_FIX,
+          action: 'REVIEW_RAW_PATTERN',
+          reason: `GENERIC_FIELD_CANONICALIZATION remains on "${path}" after label is already canonical. The remaining defect is rawPattern/evidence, not a label-only fix.`,
+          applySafe: false,
+        };
+      }
       return {
         classification: CLASS.AUTO_FIX,
         action: 'UPDATE_LABEL',
@@ -346,6 +441,14 @@ function classifyIssue(issue) {
   if (issueCode === 'REMEDIATION_LEAK') {
     // If path has known label override and context is not critical → auto-fix label
     if (HAS_KNOWN_LABEL.has(path)) {
+      if (isCanonicalKnownLabel(path, label)) {
+        return {
+          classification: CLASS.BLOCKED_DOCX,
+          action: 'DOCX_REAUTHOR',
+          reason: `REMEDIATION_LEAK remains on "${path}" after label is already canonical. The leak is in DOCX/raw/context metadata and cannot be resolved by label mutation.`,
+          applySafe: false,
+        };
+      }
       return {
         classification: CLASS.AUTO_FIX,
         action: 'UPDATE_LABEL',
@@ -377,6 +480,10 @@ function classifyIssue(issue) {
 function buildPlan(auditData) {
   const plans = [];
   const byTemplate = new Map();
+  const keepDeferred = loadKeepDeferredIndex();
+  const canonicalFieldLabels = loadCanonicalFieldLabels();
+  let keepDeferredGuardedCount = 0;
+  let ineffectiveAutoFixGuardedCount = 0;
 
   // Group issues by template
   const byTemplateMap = new Map();
@@ -391,7 +498,43 @@ function buildPlan(auditData) {
     const planList = [];
 
     for (const issue of issues) {
-      const result = classifyIssue(issue);
+      let result = classifyIssue(issue);
+      const canonicalLabel = canonicalFieldLabels.get(issueKey(issue.templateCode, issue.path));
+      if (
+        result.classification === CLASS.AUTO_FIX &&
+        result.action === 'UPDATE_LABEL' &&
+        result.proposedLabel &&
+        canonicalLabel === result.proposedLabel
+      ) {
+        ineffectiveAutoFixGuardedCount += 1;
+        result = {
+          classification: issue.issueCode === 'REMEDIATION_LEAK' ? CLASS.BLOCKED_DOCX : CLASS.REVIEW_FIX,
+          action: issue.issueCode === 'REMEDIATION_LEAK' ? 'DOCX_REAUTHOR' : 'REVIEW_METADATA',
+          reason: `${issue.issueCode} cannot be fixed by UPDATE_LABEL: canonicalFields label is already "${canonicalLabel}", while audit label="${issue.label}" comes from slot/evidence metadata. Needs DOCX/raw metadata review.`,
+          applySafe: false,
+        };
+      }
+      const exactKeepDeferredItem = keepDeferred.byPath.get(issueKey(issue.templateCode, issue.path));
+      const bmKeepDeferredItem = !exactKeepDeferredItem &&
+        result.classification === CLASS.AUTO_FIX &&
+        keepDeferred.byBm.has(issue.templateCode)
+        ? {
+            bm: issue.templateCode,
+            path: issue.path,
+            reasons: ['BM has KEEP_DEFERRED closure items; auto-fix is blocked until that BM is reviewed as a unit'],
+            sourceId: null,
+          }
+        : null;
+      const keepDeferredItem = exactKeepDeferredItem ?? bmKeepDeferredItem;
+      if (keepDeferredItem) {
+        keepDeferredGuardedCount += 1;
+        result = {
+          classification: CLASS.BLOCKED_DOCX,
+          action: 'KEEP_DEFERRED',
+          reason: `KEEP_DEFERRED closure guard: ${keepDeferredItem.reasons.join('; ')}. Prior classifier result was ${result.classification ?? 'UNCLASSIFIED'} / ${result.action}.`,
+          applySafe: false,
+        };
+      }
 
       plans.push({
         templateCode: issue.templateCode,
@@ -403,6 +546,7 @@ function buildPlan(auditData) {
           source: issue.source ?? undefined,
           rawPattern: issue.rawPattern ?? undefined,
           context: issue.context ?? undefined,
+          canonicalLabel: canonicalLabel ?? undefined,
         },
         proposed: {
           label: result.proposedLabel ?? undefined,
@@ -415,6 +559,11 @@ function buildPlan(auditData) {
         confidence: issue.confidence,
         requiresHumanReview: result.classification !== CLASS.AUTO_FIX,
         applySafe: result.applySafe ?? false,
+        keepDeferred: keepDeferredItem ? {
+          source: keepDeferred.source,
+          sourceId: keepDeferredItem.sourceId,
+          reasons: keepDeferredItem.reasons,
+        } : undefined,
       });
 
       planList.push({ ...issue, _class: result.classification, _applySafe: result.applySafe });
@@ -462,6 +611,15 @@ function buildPlan(auditData) {
   return {
     generatedAt: new Date().toISOString(),
     sourceAuditVersion: 'v2',
+    keepDeferredGuard: {
+      source: keepDeferred.source,
+      bmCount: keepDeferred.byBm.size,
+      pathCount: keepDeferred.byPath.size,
+      guardedIssueCount: keepDeferredGuardedCount,
+    },
+    ineffectiveAutoFixGuard: {
+      guardedIssueCount: ineffectiveAutoFixGuardedCount,
+    },
     totalIssuesInput: auditData.totalIssues,
     totalClassified,
     unclassifiedCount,
@@ -505,6 +663,8 @@ function writeReports(plan) {
   lines.push(`# Form Root-Cause Fix Plan`);
   lines.push(`Generated: ${plan.generatedAt}`);
   lines.push(`Source audit: v2`);
+  lines.push(`KEEP_DEFERRED guard: ${plan.keepDeferredGuard.guardedIssueCount} issues blocked from auto-fix (${plan.keepDeferredGuard.pathCount} guarded BM/path entries)`);
+  lines.push(`Ineffective auto-fix guard: ${plan.ineffectiveAutoFixGuard.guardedIssueCount} issues blocked because canonical label already matches proposed label`);
   lines.push('');
 
   // Executive summary
@@ -675,7 +835,9 @@ function writeReports(plan) {
   // Recommended next task
   const autoFixUnsafe = autoFix.filter((p) => !p.applySafe).length;
   const hasUnclassified = plan.unclassifiedCount > 0;
-  const nextTask = (hasUnclassified || autoFixUnsafe > 0) ? 'FORMS_ROOT_CAUSE_REVIEW_BATCH_1' : 'FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES';
+  const nextTask = (autoFix.length > 0 && !hasUnclassified && autoFixUnsafe === 0)
+    ? 'FORMS_ROOT_CAUSE_APPLY_SAFE_FIXES'
+    : 'FORMS_ROOT_CAUSE_REVIEW_BATCH_1';
 
   lines.push('## Recommended Next Task');
   lines.push('');
@@ -694,6 +856,7 @@ function writeReports(plan) {
     lines.push(`Cannot proceed to auto-apply. Reasons:`);
     if (hasUnclassified) lines.push(`- ${plan.unclassifiedCount} unclassified issues`);
     if (autoFixUnsafe > 0) lines.push(`- ${autoFixUnsafe} AUTO_FIX_CANDIDATE with applySafe=false`);
+    if (autoFix.length === 0) lines.push('- 0 effective AUTO_FIX_CANDIDATE items remain');
     lines.push('');
     lines.push('**Action**: Run FORMS_ROOT_CAUSE_REVIEW_BATCH_1 to triage remaining issues.');
   }

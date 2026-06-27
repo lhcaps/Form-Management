@@ -39,6 +39,7 @@
  * Pure: no I/O, no thrown errors, deterministic.
  */
 
+import { getFieldLabel } from "./field-labels.js";
 import { getSectionTitle } from "./section-titles.js";
 
 
@@ -354,7 +355,7 @@ function buildCanonicalField(
   }
   return {
     path: field.path,
-    label: field.label || pathTail(field.path),
+    label: getFieldLabel(field.path, field.label),
     required: field.required,
     inputType,
     source: source.source,
@@ -383,7 +384,7 @@ function buildBindingFallbackField(
   });
   return {
     path,
-    label: pathTail(path),
+    label: getFieldLabel(path),
     required: Boolean(slot?.required) || Boolean(binding?.reviewRequired),
     inputType,
     source: "manual",

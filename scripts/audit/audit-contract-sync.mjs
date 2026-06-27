@@ -28,14 +28,17 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..", "..");
+const apiRequire = createRequire(path.join(ROOT, "apps", "api", "package.json"));
 
 const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
 const COMPILED_V2_DIR = path.join(ROOT, "docs", "audit", "docx", "compiled-v2");
+const ENV_FILE = path.join(ROOT, ".env");
 
 // ANSI colors for terminal output
 const COLORS = {
@@ -48,6 +51,34 @@ const COLORS = {
 
 function log(msg, color = COLORS.reset) {
   console.log(`${color}${msg}${COLORS.reset}`);
+}
+
+function parseEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return {};
+  const env = {};
+  for (const rawLine of fs.readFileSync(filePath, "utf8").split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith("#")) continue;
+    const idx = line.indexOf("=");
+    if (idx < 1) continue;
+    const key = line.slice(0, idx).trim();
+    let value = line.slice(idx + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    env[key] = value;
+  }
+  return env;
+}
+
+function resolveDatabaseUrl() {
+  return {
+    value: process.env.DATABASE_URL ?? parseEnvFile(ENV_FILE).DATABASE_URL ?? null,
+    source: process.env.DATABASE_URL ? "process.env" : fs.existsSync(ENV_FILE) ? ".env" : null,
+  };
 }
 
 function getLockedContractFiles() {
@@ -108,16 +139,16 @@ function loadLockedContractsWithHashes(files) {
   return result;
 }
 
-async function compareWithDatabase(lockedContracts) {
+async function compareWithDatabase(lockedContracts, databaseUrl) {
   // Try to load Prisma dynamically
   let prisma;
   try {
-    const { PrismaClient } = await import("@prisma/client");
-    prisma = new PrismaClient();
+    const { PrismaClient } = apiRequire("@prisma/client");
+    prisma = new PrismaClient({ datasourceUrl: databaseUrl });
   } catch (err) {
     return {
       dbAvailable: false,
-      reason: "Prisma not available or DATABASE_URL not set",
+      reason: `Prisma not available or DATABASE_URL invalid: ${err.message}`,
     };
   }
 
@@ -137,13 +168,16 @@ async function compareWithDatabase(lockedContracts) {
   let matched = 0;
 
   try {
-    // Get all published contracts from DB
+    // Get latest global published contracts from DB. Historical rows remain in
+    // the table; comparing against arbitrary older versions creates false drift.
     const dbContracts = await prisma.form_contract_versions.findMany({
-      where: { status: "PUBLISHED" },
+      where: { status: "PUBLISHED", scope_key: "GLOBAL", agency_id: null },
       select: {
         template_id: true,
         compiled_json: true,
+        version_no: true,
       },
+      orderBy: { version_no: "desc" },
     });
 
     // Get template codes
@@ -155,9 +189,13 @@ async function compareWithDatabase(lockedContracts) {
     });
 
     const templateIdToCode = new Map(templates.map((t) => [t.id, t.template_code]));
-    const dbContractsByCode = new Map(
-      dbContracts.map((c) => [templateIdToCode.get(c.template_id), c.compiled_json])
-    );
+    const dbContractsByCode = new Map();
+    for (const contract of dbContracts) {
+      const templateCode = templateIdToCode.get(contract.template_id);
+      if (templateCode && !dbContractsByCode.has(templateCode)) {
+        dbContractsByCode.set(templateCode, contract.compiled_json);
+      }
+    }
 
     // Compare each locked contract
     for (const [templateCode, locked] of lockedContracts.entries()) {
@@ -233,9 +271,18 @@ async function main() {
 
   // Try DB comparison first, fallback to file-only
   let result;
-  if (process.env.DATABASE_URL) {
-    log("DATABASE_URL set - attempting DB comparison...");
-    result = await compareWithDatabase(lockedContracts);
+  const databaseUrl = resolveDatabaseUrl();
+  if (databaseUrl.value) {
+    log(`DATABASE_URL resolved from ${databaseUrl.source} - attempting DB comparison...`);
+    result = await compareWithDatabase(lockedContracts, databaseUrl.value);
+    if (!result.dbAvailable) {
+      log(`DB comparison unavailable: ${result.reason}`, COLORS.yellow);
+      log("Falling back to file-only mode");
+      result = {
+        ...fileOnlyCheck(lockedContracts),
+        dbUnavailableReason: result.reason,
+      };
+    }
   } else {
     log("DATABASE_URL not set - using file-only mode");
     result = fileOnlyCheck(lockedContracts);

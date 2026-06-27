@@ -29,6 +29,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 
 const $require = createRequire(import.meta.url);
@@ -105,6 +106,31 @@ function parseRawPattern(rawPattern) {
 function rawPatternDomain(rawPattern) {
   const parsed = parseRawPattern(rawPattern);
   return parsed ? parsed.rawDomain : 'unknown';
+}
+
+function normalizeCompiledSourceKind(kind) {
+  switch (String(kind ?? '').toUpperCase()) {
+    case 'MANUAL':
+      return 'manual';
+    case 'CASE':
+      return 'casePayload';
+    case 'AGENCY':
+      return 'agencyConfig';
+    case 'OFFICIAL':
+      return 'officialConfig';
+    case 'SYSTEM':
+      return 'systemDate';
+    case 'COMPUTED':
+      return 'computed';
+    case 'CONSTANT':
+      return 'constantFromDocx';
+    default:
+      return String(kind ?? '');
+  }
+}
+
+function normalizeLockedSourceKind(source) {
+  return String(source ?? '').trim();
 }
 
 // =============================================================================
@@ -203,17 +229,35 @@ function isWeakEvidence(context, textBefore, rawPattern, reviewRequired) {
 // =============================================================================
 
 const READONLY_PATH_PATTERNS = [
-  { re: /^(document|agency)\.(nameUpper|fullDocumentCode|issuePlaceDateLine|documentCode|issueNumber|issueOffice|legalBasisLine|formNumber|documentNumberSuffix)$/i, reason: 'fixed/generated administrative field' },
-  { re: /^legalBasis\.(procedureArticlesLine|articleLine)$/i, reason: 'fixed legal text' },
-  { re: /^signature\.signDate$/i, reason: 'system-generated sign date' },
-  { re: /^agency\.(name|parentName|shortName)$/i, reason: 'agency name field' },
+  {
+    re: /^agency\.(name|parentName|shortName|nameUpper|parentNameUpper)$/i,
+    reason: 'agency name field',
+    allowedSources: new Set(['agencyConfig', 'computed']),
+  },
+  {
+    re: /^legalBasis\.(procedureArticlesLine|articleLine)$/i,
+    reason: 'fixed legal text',
+    allowedSources: new Set(['constantFromDocx', 'computed']),
+  },
+  {
+    re: /^signature\.signDate$/i,
+    reason: 'system-generated sign date',
+    allowedSources: new Set(['systemDate', 'computed']),
+  },
+  {
+    re: /^document\.(issuePlaceDateLine|issuePlaceAndDateLine|issueOffice|legalBasisLine|formNumber|documentNumberSuffix)$/i,
+    reason: 'fixed/generated administrative field',
+    allowedSources: new Set(['agencyConfig', 'systemDate', 'computed', 'constantFromDocx']),
+  },
 ];
 
 function detectReadonlyReason(path, source, context) {
-  for (const { re, reason } of READONLY_PATH_PATTERNS) {
-    if (re.test(path)) return reason;
+  for (const { re, reason, allowedSources } of READONLY_PATH_PATTERNS) {
+    if (!re.test(path)) continue;
+    if (allowedSources?.has(source)) return null;
+    return reason;
   }
-  if (path.toLowerCase().includes('upper') && source !== 'manual') {
+  if (path.toLowerCase().includes('upper') && !['agencyConfig', 'computed'].includes(source)) {
     return 'uppercase transform indicates agency/official field';
   }
   return null;
@@ -347,7 +391,13 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
 
   // ---- RULE 2: RAW_PATTERN_DOMAIN_MISMATCH ----
   // Always check: label good or bad does not matter
-  if (parsed && parsed.rawDomain !== 'unknown' && pathDom !== 'unknown' && parsed.rawDomain !== pathDom) {
+  if (
+    parsed &&
+    !isGenericRawTail(parsed.rawTail) &&
+    parsed.rawDomain !== 'unknown' &&
+    pathDom !== 'unknown' &&
+    parsed.rawDomain !== pathDom
+  ) {
     issues.push(makeIssue({
       templateCode, sourceId, path, slotId: path,
       rawPattern, label, source,
@@ -393,7 +443,12 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     }
 
     // rawPattern domain is decision/document but source is agencyConfig => mismatch
-    if (source === 'agencyConfig' && parsed && (parsed.rawDomain === 'decision' || parsed.rawDomain === 'document' || parsed.rawDomain === 'person')) {
+    if (
+      source === 'agencyConfig' &&
+      parsed &&
+      !isGenericRawTail(parsed.rawTail) &&
+      (parsed.rawDomain === 'decision' || parsed.rawDomain === 'document' || parsed.rawDomain === 'person')
+    ) {
       issues.push(makeIssue({
         templateCode, sourceId, path, slotId: path,
         rawPattern, label, source,
@@ -477,7 +532,7 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     if (source === 'manual' && parsed && (parsed.rawDomain === 'document' || parsed.rawDomain === 'agency')) {
       const tail = parsed.rawTail;
       if (
-        /^(fullDocumentCode|issuePlaceDateLine|documentCode|issueNumber|issueOffice|name|parentName)$/i.test(tail) ||
+        /^(issuePlaceDateLine|issuePlaceAndDateLine|issueOffice|name|parentName)$/i.test(tail) ||
         /upper/i.test(tail)
       ) {
         issues.push(makeIssue({
@@ -616,8 +671,8 @@ function auditContract(contract, compiledMap, deriveFn) {
       const compiledSrc = compiledField.dataSource?.kind;
       const lockedSrc = cf.source;
       if (compiledSrc && lockedSrc) {
-        const normCompiled = compiledSrc.toLowerCase().replace('agency', 'agencyConfig').replace('official', 'officialConfig');
-        const normLocked = lockedSrc.toLowerCase();
+        const normCompiled = normalizeCompiledSourceKind(compiledSrc);
+        const normLocked = normalizeLockedSourceKind(lockedSrc);
         if (normCompiled !== normLocked) {
           issues.push(makeIssue({
             templateCode, sourceId, path: cf.path,
@@ -721,22 +776,51 @@ function runSmokeTests() {
     return true;
   });
 
-  // Good label + rawPattern domain mismatch flags RAW_PATTERN_DOMAIN_MISMATCH
+  test('normalizeCompiledSourceKind: V2 enum kinds map to locked V1 source strings', () => {
+    const cases = [
+      ['MANUAL', 'manual'],
+      ['CASE', 'casePayload'],
+      ['AGENCY', 'agencyConfig'],
+      ['OFFICIAL', 'officialConfig'],
+      ['SYSTEM', 'systemDate'],
+      ['COMPUTED', 'computed'],
+      ['CONSTANT', 'constantFromDocx'],
+    ];
+    for (const [input, expected] of cases) {
+      const actual = normalizeCompiledSourceKind(input);
+      if (actual !== expected) return `${input} mapped to ${actual}, expected ${expected}`;
+    }
+    return true;
+  });
+
+  // Good label + semantic rawPattern domain mismatch flags RAW_PATTERN_DOMAIN_MISMATCH
   test('Good label + domain mismatch still flags RAW_PATTERN_DOMAIN_MISMATCH', () => {
     const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'manual', required: false, reviewRequired: false };
-    const slot = { context: 'Xét hồ sơ đề nghị', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const slot = { context: 'Xét hồ sơ đề nghị', evidence: { rawPattern: '{{decision.requestingAgencyName}}', textBefore: '' } };
     const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.RAW_PATTERN_DOMAIN_MISMATCH);
     return found || 'RAW_PATTERN_DOMAIN_MISMATCH not found';
   });
 
-  // Good label + agencyConfig + rawPattern decision.field2 flags SOURCE_MISMATCH
+  // Good label + agencyConfig + semantic rawPattern decision.* flags SOURCE_MISMATCH
   test('Good label + agencyConfig + decision rawPattern flags SOURCE_MISMATCH', () => {
     const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'agencyConfig', required: false, reviewRequired: false };
-    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.requestingAgencyName}}', textBefore: '' } };
     const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.SOURCE_MISMATCH);
     return found || 'SOURCE_MISMATCH not found';
+  });
+
+  // Generic fieldN placeholders are not semantic domain evidence.
+  test('generic rawPattern domain does not force mismatch', () => {
+    const field = { path: 'agency.name', label: 'Agency name', source: 'agencyConfig', required: false, reviewRequired: false };
+    const slot = { context: 'VIEN KIEM SAT {{document.field1}}', evidence: { rawPattern: '{{document.field1}}', textBefore: 'VIEN KIEM SAT' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const hasDomain = issues.some((i) => i.issueCode === ISSUE.RAW_PATTERN_DOMAIN_MISMATCH);
+    const hasSource = issues.some((i) => i.issueCode === ISSUE.SOURCE_MISMATCH);
+    if (hasDomain) return 'RAW_PATTERN_DOMAIN_MISMATCH should not be emitted for generic fieldN rawPattern';
+    if (hasSource) return 'SOURCE_MISMATCH should not be emitted for generic fieldN rawPattern';
+    return true;
   });
 
   // Good label + document.field1 + weak context flags GENERIC_FIELD_CANONICALIZATION
@@ -757,18 +841,19 @@ function runSmokeTests() {
     return found || 'WEAK_EVIDENCE_AUTO_LOCKED not found';
   });
 
-  // manual + document.fullDocumentCode flags SHOULD_BE_READONLY REVIEW
-  test('manual + document.fullDocumentCode flags SHOULD_BE_READONLY', () => {
+  // document.fullDocumentCode is user-entered administrative data unless
+  // a contract explicitly models it as computed.
+  test('manual + document.fullDocumentCode does not flag SHOULD_BE_READONLY', () => {
     const field = { path: 'document.fullDocumentCode', label: 'Số văn bản', source: 'manual', required: false, reviewRequired: false };
     const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
-    return found || 'SHOULD_BE_READONLY not found';
+    return !found || 'SHOULD_BE_READONLY should not be emitted for document.fullDocumentCode manual source';
   });
 
-  // agencyConfig + rawPattern decision flags both RAW_PATTERN_DOMAIN_MISMATCH and SOURCE_MISMATCH
+  // agencyConfig + semantic rawPattern decision flags both RAW_PATTERN_DOMAIN_MISMATCH and SOURCE_MISMATCH
   test('agencyConfig + decision rawPattern flags both MISMATCH rules', () => {
     const field = { path: 'agency.coQuan', label: 'Cơ quan', source: 'agencyConfig', required: false, reviewRequired: false };
-    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.field2}}', textBefore: '' } };
+    const slot = { context: 'Xét hồ sơ', evidence: { rawPattern: '{{decision.requestingAgencyName}}', textBefore: '' } };
     const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const hasDomain = issues.some((i) => i.issueCode === ISSUE.RAW_PATTERN_DOMAIN_MISMATCH);
     const hasSource = issues.some((i) => i.issueCode === ISSUE.SOURCE_MISMATCH);
@@ -777,12 +862,29 @@ function runSmokeTests() {
     return true;
   });
 
-  // Good label + agency nameUpper flags SHOULD_BE_READONLY
-  test('agency.nameUpper + agencyConfig flags SHOULD_BE_READONLY', () => {
+  // agencyConfig is already readonly in the derived form schema.
+  test('agency.nameUpper + agencyConfig does not flag SHOULD_BE_READONLY', () => {
     const field = { path: 'agency.nameUpper', label: 'Tên viết hoa', source: 'agencyConfig', required: false, reviewRequired: false };
     const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
+    return !found || 'SHOULD_BE_READONLY should not be emitted for agencyConfig';
+  });
+
+  // manual + agency nameUpper still flags SHOULD_BE_READONLY
+  test('agency.nameUpper + manual flags SHOULD_BE_READONLY', () => {
+    const field = { path: 'agency.nameUpper', label: 'Agency uppercase', source: 'manual', required: false, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
     return found || 'SHOULD_BE_READONLY not found';
+  });
+
+  // document numbers are user-entered administrative data unless a
+  // contract explicitly models them as computed.
+  test('document.documentCode + manual does not flag SHOULD_BE_READONLY', () => {
+    const field = { path: 'document.documentCode', label: 'Document number', source: 'manual', required: true, reviewRequired: false };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.SHOULD_BE_READONLY);
+    return !found || 'SHOULD_BE_READONLY should not be emitted for document.documentCode manual source';
   });
 
   // required=false + signerName flags REQUIRED_SUSPICIOUS
@@ -1036,18 +1138,27 @@ async function main() {
   const compiledMap = loadCompiled();
   const contracts = loadContracts();
 
-  // Load deriveFormInputSchema
+  // Load deriveFormInputSchema. Direct Node execution may not have pnpm's
+  // workspace package resolver, so prefer the local built artifact first.
   let deriveFn = null;
-  try {
-    const mod = $require('@qllaw/form-contracts');
-    deriveFn = mod.deriveFormInputSchema;
-  } catch (err) {
-    process.stderr.write(`[AUDIT] Could not load deriveFormInputSchema: ${err.message}\n`);
+  const deriveLoadErrors = [];
+  const deriveLoaders = [
+    async () => import(pathToFileURL(join(ROOT, 'packages', 'form-contracts', 'dist', 'index.js')).href),
+    async () => $require('@qllaw/form-contracts'),
+  ];
+  for (const load of deriveLoaders) {
     try {
-      const pkgPath = join(ROOT, 'packages', 'form-contracts', 'dist', 'index.js');
-      const imported = await import('file://' + pkgPath);
-      deriveFn = imported.deriveFormInputSchema;
-    } catch { /* noop */ }
+      const mod = await load();
+      if (typeof mod.deriveFormInputSchema === 'function') {
+        deriveFn = mod.deriveFormInputSchema;
+        break;
+      }
+    } catch (err) {
+      deriveLoadErrors.push(err.message);
+    }
+  }
+  if (!deriveFn && deriveLoadErrors.length > 0) {
+    process.stderr.write(`[AUDIT] Could not load deriveFormInputSchema: ${deriveLoadErrors.join(' | ')}\n`);
   }
 
   process.stderr.write(

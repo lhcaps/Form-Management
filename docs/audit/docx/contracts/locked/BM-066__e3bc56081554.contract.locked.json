@@ -129,25 +129,6 @@
         "rawPattern": "{{document.fullDocumentCode4}}"
       },
       "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.personLine4",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": "> {{recipients.personLine4}}} <w:tab w:val=\"right\" w:pos=\"9887",
-      "label": "Slot from DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "> {{recipients.personLine4}}} <w:tab w:val=\"right\" w:pos=\"9887",
-        "textAfter": "",
-        "rawPattern": "{{recipients.personLine4}}"
-      },
-      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -209,15 +190,6 @@
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false
-    },
-    {
-      "path": "recipients.personLine4",
-      "type": "string",
-      "label": "Slot from DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false
     }
   ],
   "renderBindings": [
@@ -252,13 +224,6 @@
     {
       "slotId": "document.fullDocumentCode4",
       "from": "document.fullDocumentCode4",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "recipients.personLine4",
-      "from": "recipients.personLine4",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true

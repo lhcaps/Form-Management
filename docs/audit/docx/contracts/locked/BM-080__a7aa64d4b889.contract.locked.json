@@ -86,25 +86,6 @@
       "reviewRequired": true
     },
     {
-      "slotId": "person.personFullName",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\"",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\"",
-        "textAfter": "",
-        "rawPattern": "{{person.personFullName}}"
-      },
-      "reviewRequired": true
-    },
-    {
       "slotId": "person.dateOfBirth",
       "location": {
         "partName": "word/document.xml",
@@ -182,7 +163,7 @@
     {
       "path": "document.fullDocumentCode",
       "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Số văn bản",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
@@ -191,16 +172,7 @@
     {
       "path": "document.issueDate",
       "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "person.personFullName",
-      "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Ngày ban hành",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
@@ -252,13 +224,6 @@
     {
       "slotId": "document.issueDate",
       "from": "document.issueDate",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "person.personFullName",
-      "from": "person.personFullName",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true

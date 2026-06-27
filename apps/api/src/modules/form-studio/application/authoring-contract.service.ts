@@ -263,6 +263,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: agencyId ? BigInt(agencyId) : null,
+        scope_key: agencyId ? `AGENCY:${agencyId}` : 'GLOBAL',
         status: { in: ['DRAFT', 'CHANGES_REQUESTED'] },
       },
       orderBy: { updated_at: 'desc' },
@@ -274,6 +275,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: agencyId ? BigInt(agencyId) : null,
+        scope_key: agencyId ? `AGENCY:${agencyId}` : 'GLOBAL',
         status: { in: ['DRAFT', 'CHANGES_REQUESTED'] },
       },
       orderBy: { updated_at: 'desc' },
@@ -288,6 +290,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: agencyId ? BigInt(agencyId) : null,
+        scope_key: agencyId ? `AGENCY:${agencyId}` : 'GLOBAL',
         status: { in: ['IN_REVIEW', 'APPROVED'] },
       },
       orderBy: { updated_at: 'desc' },
@@ -302,6 +305,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: agencyId ? BigInt(agencyId) : null,
+        scope_key: agencyId ? `AGENCY:${agencyId}` : 'GLOBAL',
         status: 'PUBLISHED',
       },
       orderBy: { published_at: 'desc' },
@@ -313,6 +317,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: null,
+        scope_key: 'GLOBAL',
         status: 'PUBLISHED',
       },
       orderBy: { published_at: 'desc' },
@@ -327,6 +332,7 @@ export class AuthoringContractService {
       where: {
         template_id: templateId,
         agency_id: agencyId ? BigInt(agencyId) : null,
+        scope_key: agencyId ? `AGENCY:${agencyId}` : 'GLOBAL',
       },
       select: { version_no: true },
       orderBy: { version_no: 'desc' },

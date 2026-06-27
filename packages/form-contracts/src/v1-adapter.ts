@@ -91,8 +91,9 @@ export function adaptV1Contract(
         adapted.sections[0]?.id ??
         "section-default",
       label:
-        contract.docxSlots?.find((slot) => slot.slotId === field.path)?.label ??
-        field.path.split(".").at(-1) ??
+        field.label?.trim() ||
+        contract.docxSlots?.find((slot) => slot.slotId === field.path)?.label ||
+        field.path.split(".").at(-1) ||
         field.path,
       control,
       order: index,

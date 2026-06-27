@@ -95,6 +95,25 @@ function buildMutationPlan(candidates, contracts) {
   const mutations = []; // successful mutations
   const skipped = []; // skipped items
 
+  const mutationSignature = (item) => JSON.stringify({
+    action: item.proposed?.action ?? null,
+    path: item.proposed?.path ?? null,
+    label: item.proposed?.label ?? null,
+    source: item.proposed?.source ?? null,
+  });
+
+  const mergeDuplicateItems = (items) => {
+    const [first] = items;
+    const issueCodes = [...new Set(items.flatMap((item) => item.issueCodes ?? []))];
+    const reasons = [...new Set(items.map((item) => item.reason).filter(Boolean))];
+    return {
+      ...first,
+      issueCodes,
+      reason: reasons.join(' | '),
+      duplicateCount: Math.max(0, items.length - 1),
+    };
+  };
+
   // Group by template+path to detect collisions
   const byKey = new Map();
   for (const item of candidates) {
@@ -104,26 +123,34 @@ function buildMutationPlan(candidates, contracts) {
   }
 
   for (const [key, items] of byKey) {
-    if (items.length > 1) {
-      // Multiple candidates for same path — check if they're identical
-      const first = items[0];
-      const allSame = items.every((i) =>
-        deepEqual(i.proposed, first.proposed) && deepEqual(i.current, first.current)
-      );
-      if (!allSame) {
-        for (const item of items) {
-          skipped.push({ ...item, reasonCode: 'SKIPPED_CONFLICTING_MUTATIONS', reason: `Multiple different mutations planned for ${item.templateCode}::${item.path}` });
-        }
-        continue;
-      }
-      // All same — record the extra duplicates as skipped, process only first
-      for (let di = 1; di < items.length; di++) {
-        skipped.push({ ...items[di], reasonCode: 'SKIPPED_DUPLICATE', reason: `Duplicate mutation (same proposed change as ${items[0].templateCode}::${items[0].path}); first item will apply` });
-      }
-      items.length = 1; // keep only first
+    const bySignature = new Map();
+    for (const item of items) {
+      const sig = mutationSignature(item);
+      if (!bySignature.has(sig)) bySignature.set(sig, []);
+      bySignature.get(sig).push(item);
     }
 
-    const item = items[0];
+    if (bySignature.size > 1) {
+      for (const item of items) {
+        skipped.push({
+          ...item,
+          reasonCode: 'SKIPPED_CONFLICTING_MUTATIONS',
+          reason: `Multiple different proposed mutations planned for ${key}`,
+        });
+      }
+      continue;
+    }
+
+    const duplicateGroup = [...bySignature.values()][0] ?? [];
+    for (let di = 1; di < duplicateGroup.length; di++) {
+      skipped.push({
+        ...duplicateGroup[di],
+        reasonCode: 'SKIPPED_DUPLICATE',
+        reason: `Duplicate issue for the same proposed mutation as ${key}; issue codes are merged into the first mutation`,
+      });
+    }
+
+    const item = mergeDuplicateItems(duplicateGroup);
     const contract = contracts.get(item.templateCode);
 
     // Idempotency check
@@ -531,23 +558,6 @@ function main() {
     `[APPLY] Safety: noBadSources=${safety.checks.noUnsupportedSources} noCollisions=${safety.checks.noPathCollisions}\n`,
   );
 
-  // Build changed-contracts list for report
-  const changedContracts = [];
-  const changedSet = new Map(); // templateCode -> contract
-  for (const { item, contract } of mutations) {
-    if (!changedSet.has(item.templateCode)) {
-      changedSet.set(item.templateCode, {
-        templateCode: item.templateCode,
-        sourceId: contract?.sourceId ?? '',
-        file: `${item.templateCode}__${(contract?.sourceId ?? '').split('__')[1] ?? 'unknown'}.contract.locked.json`,
-        mutations: [],
-      });
-    }
-    const cc = changedSet.get(item.templateCode);
-    const mutResult = applyMutation(contract, { item, contract });
-    cc.mutations.push(...mutResult);
-  }
-
   const report = buildReport({
     candidates,
     mutations,
@@ -564,12 +574,12 @@ function main() {
 
   // Write JSON reports
   writeFileSync(join(APPLY_DIR, 'latest.json'), JSON.stringify(report, null, 2), 'utf8');
-  writeFileSync(join(APPLY_DIR, 'changed-contracts.json'), JSON.stringify([...changedSet.values()], null, 2), 'utf8');
+  writeFileSync(join(APPLY_DIR, 'changed-contracts.json'), JSON.stringify(report.changedContracts, null, 2), 'utf8');
   writeFileSync(join(APPLY_DIR, 'skipped-items.json'), JSON.stringify(report.skippedItems, null, 2), 'utf8');
   writeFileSync(join(APPLY_DIR, 'before-after-diff.json'), JSON.stringify(report.changedContracts, null, 2), 'utf8');
 
   process.stderr.write(`[APPLY] Written reports to ${APPLY_DIR}\n`);
-  process.stderr.write(`[APPLY] Changed contracts: ${changedSet.size}\n`);
+  process.stderr.write(`[APPLY] Changed contracts: ${report.changedContractCount}\n`);
 
   // Write markdown
   writeMarkdownReport(report);
@@ -583,32 +593,40 @@ function main() {
       process.exit(1);
     }
 
-    if (changedSet.size === 0) {
+    if (report.changedContractCount === 0) {
       process.stderr.write(`[APPLY] No changes needed. Exiting.\n`);
       process.exit(0);
     }
 
     // Backup
-    createBackup([...changedSet.values()]);
+    createBackup(report.changedContracts);
 
     // Apply mutations
     let appliedCount = 0;
+    const changedTemplateCodes = new Set();
     for (const { item, contract } of mutations) {
-      const file = join(LOCKED_DIR, `${item.templateCode}__${(contract.sourceId ?? '').split('__')[1] ?? 'unknown'}.contract.locked.json`);
+      const mutationResult = applyMutation(contract, { item, contract });
+      if (mutationResult.length === 0) continue;
+      appliedCount += mutationResult.length;
+      changedTemplateCodes.add(item.templateCode);
+      process.stderr.write(`[APPLY] Applied: ${item.templateCode}::${item.path} (${item.proposed.action})\n`);
+    }
+
+    for (const templateCode of changedTemplateCodes) {
+      const contract = contracts.get(templateCode);
+      const file = join(LOCKED_DIR, `${templateCode}__${(contract.sourceId ?? '').split('__')[1] ?? 'unknown'}.contract.locked.json`);
       if (!existsSync(file)) {
         process.stderr.write(`[APPLY] WARNING: Cannot find file ${file}\n`);
         continue;
       }
       writeFileSync(file, JSON.stringify(contract, null, 2), 'utf8');
-      appliedCount++;
-      process.stderr.write(`[APPLY] Applied: ${item.templateCode}::${item.path} (${item.proposed.action})\n`);
     }
 
     // Update report applied count
     report.appliedMutationCount = appliedCount;
     writeFileSync(join(APPLY_DIR, 'latest.json'), JSON.stringify(report, null, 2), 'utf8');
 
-    process.stderr.write(`[APPLY] Write complete: ${appliedCount} mutations applied to ${changedSet.size} contracts\n`);
+    process.stderr.write(`[APPLY] Write complete: ${appliedCount} mutations applied to ${changedTemplateCodes.size} contracts\n`);
   }
 
   // Final exit code

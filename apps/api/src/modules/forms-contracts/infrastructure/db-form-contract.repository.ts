@@ -168,8 +168,8 @@ export class DbFormContractRepository extends FormContractRepository {
     const templates = await this.prisma.templates.findMany({
       include: {
         form_contract_versions: {
-          where: { status: 'PUBLISHED' },
-          orderBy: { updated_at: 'desc' },
+          where: { status: 'PUBLISHED', scope_key: 'GLOBAL', agency_id: null },
+          orderBy: [{ version_no: 'desc' }, { updated_at: 'desc' }],
           take: 1,
         },
       },
@@ -189,8 +189,8 @@ export class DbFormContractRepository extends FormContractRepository {
     const templates = await this.prisma.templates.findMany({
       include: {
         form_contract_versions: {
-          where: { status: 'PUBLISHED' },
-          orderBy: { updated_at: 'desc' },
+          where: { status: 'PUBLISHED', scope_key: 'GLOBAL', agency_id: null },
+          orderBy: [{ version_no: 'desc' }, { updated_at: 'desc' }],
           take: 1,
         },
       },
@@ -207,7 +207,8 @@ export class DbFormContractRepository extends FormContractRepository {
       const templates = await this.prisma.templates.findMany({
         include: {
           form_contract_versions: {
-            where: { status: 'PUBLISHED' },
+            where: { status: 'PUBLISHED', scope_key: 'GLOBAL', agency_id: null },
+            orderBy: { version_no: 'desc' },
             take: 1,
           },
         },

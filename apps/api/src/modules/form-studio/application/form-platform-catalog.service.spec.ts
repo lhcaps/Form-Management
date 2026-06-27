@@ -43,12 +43,16 @@ function row(input: {
   id: bigint;
   agencyId: bigint | null;
   status: string;
+  scopeKey?: string;
   contractHash?: string | null;
   compiled?: unknown;
 }) {
   return {
     id: input.id,
     agency_id: input.agencyId,
+    scope_key:
+      input.scopeKey ??
+      (input.agencyId ? `AGENCY:${input.agencyId}` : 'GLOBAL'),
     version_no: 1,
     status: input.status,
     contract_hash: input.contractHash ?? null,
@@ -158,6 +162,36 @@ describe('FormPlatformCatalogService', () => {
       available: true,
       source: 'AGENCY_PUBLISHED',
       contractHash: 'agency-published-hash',
+    });
+  });
+
+  it('does not treat a GLOBAL row with agency_id as an agency published contract', async () => {
+    const service = setup({
+      versions: [
+        row({
+          id: 2n,
+          agencyId: 7n,
+          scopeKey: 'GLOBAL',
+          status: 'PUBLISHED',
+          contractHash: 'mis-scoped-global-hash',
+          compiled: { contractHash: 'mis-scoped-global-hash' },
+        }),
+        row({
+          id: 1n,
+          agencyId: null,
+          status: 'PUBLISHED',
+          contractHash: 'global-published-hash',
+          compiled: { contractHash: 'global-published-hash' },
+        }),
+      ],
+    });
+
+    const [item] = await service.listCatalog('7');
+
+    expect(item.runtime).toEqual({
+      available: true,
+      source: 'GLOBAL_PUBLISHED',
+      contractHash: 'global-published-hash',
     });
   });
 

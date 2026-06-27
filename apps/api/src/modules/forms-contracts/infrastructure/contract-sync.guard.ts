@@ -198,13 +198,16 @@ export class ContractSyncGuard {
     let matched = 0;
 
     try {
-      // Get all published contracts from DB
+      // Compare against the latest global published contract per template.
+      // Historical versions stay in the table and must not drive drift checks.
       const dbContracts = await prisma.form_contract_versions.findMany({
-        where: { status: 'PUBLISHED' },
+        where: { status: 'PUBLISHED', scope_key: 'GLOBAL', agency_id: null },
         select: {
           template_id: true,
           compiled_json: true,
+          version_no: true,
         },
+        orderBy: { version_no: 'desc' },
       });
 
       // Get template codes
@@ -219,12 +222,13 @@ export class ContractSyncGuard {
         templates.map((t) => [t.id, t.template_code]),
       );
 
-      const dbContractsByCode = new Map(
-        dbContracts.map((c) => [
-          templateIdToCode.get(c.template_id),
-          c.compiled_json,
-        ]),
-      );
+      const dbContractsByCode = new Map<string, unknown>();
+      for (const contract of dbContracts) {
+        const templateCode = templateIdToCode.get(contract.template_id);
+        if (templateCode && !dbContractsByCode.has(templateCode)) {
+          dbContractsByCode.set(templateCode, contract.compiled_json);
+        }
+      }
 
       // Compare each locked contract
       for (const [templateCode, locked] of lockedContracts.entries()) {

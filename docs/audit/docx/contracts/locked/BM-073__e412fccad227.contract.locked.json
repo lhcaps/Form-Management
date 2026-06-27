@@ -46,82 +46,6 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
-    },
-    {
-      "slotId": "document.fullDocumentCode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": "val=\"28\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "val=\"28\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"T",
-        "textAfter": "",
-        "rawPattern": "{{document.field1}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": "n\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Time",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "n\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Time",
-        "textAfter": "",
-        "rawPattern": "{{document.field2}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "person.dateOfBirth",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": "New Roman\" w:hAnsi=\"Times New Roman\"/> 5 {{document.field3}} <w:footnoteRefe",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "New Roman\" w:hAnsi=\"Times New Roman\"/> 5 {{document.field3}} <w:footnoteRefe",
-        "textAfter": "",
-        "rawPattern": "{{document.field3}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "person.idNumber",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": null,
-        "tableCellId": null
-      },
-      "context": ":footnoteReference w:id=\"15\"/> {{document.field5}} .. <w",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": ":footnoteReference w:id=\"15\"/> {{document.field5}} .. <w",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}"
-      },
-      "reviewRequired": true
     }
   ],
   "canonicalFields": [
@@ -140,42 +64,6 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
-    },
-    {
-      "path": "document.fullDocumentCode",
-      "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "person.dateOfBirth",
-      "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": true
-    },
-    {
-      "path": "person.idNumber",
-      "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": true
     }
   ],
   "renderBindings": [
@@ -185,34 +73,6 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
-    },
-    {
-      "slotId": "document.fullDocumentCode",
-      "from": "document.fullDocumentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "person.dateOfBirth",
-      "from": "person.dateOfBirth",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
-      "slotId": "person.idNumber",
-      "from": "person.idNumber",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
     }
   ],
   "rejectedCandidates": [],

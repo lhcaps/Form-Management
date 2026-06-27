@@ -56,7 +56,9 @@ export class RuntimeFormContractService {
       if (historical?.compiled_json) {
         return this.fromDatabase(
           historical,
-          historical.agency_id ? 'AGENCY_PUBLISHED' : 'GLOBAL_PUBLISHED',
+          historical.scope_key.startsWith('AGENCY:')
+            ? 'AGENCY_PUBLISHED'
+            : 'GLOBAL_PUBLISHED',
         );
       }
       throw new FormStudioError(
@@ -73,6 +75,7 @@ export class RuntimeFormContractService {
             where: {
               template_id: template.id,
               agency_id: BigInt(agencyId),
+              scope_key: `AGENCY:${agencyId}`,
               status: 'PUBLISHED',
             },
             orderBy: [{ published_at: 'desc' }, { version_no: 'desc' }],
@@ -87,6 +90,7 @@ export class RuntimeFormContractService {
           where: {
             template_id: template.id,
             agency_id: null,
+            scope_key: 'GLOBAL',
             status: 'PUBLISHED',
           },
           orderBy: [{ published_at: 'desc' }, { version_no: 'desc' }],
