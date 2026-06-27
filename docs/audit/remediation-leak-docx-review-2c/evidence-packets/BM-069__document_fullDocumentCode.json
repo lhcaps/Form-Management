@@ -1,24 +1,32 @@
 {
   "templateCode": "BM-069",
   "path": "document.fullDocumentCode",
-  "templateTitle": "QĐ huỷ bỏ biện pháp phong toả tài khoản",
-  "reviewItemId": "W2R-001",
-  "reviewSource": "docx-wave-02-bm068-bm069-review/review.latest.json",
-  "decision": "APPROVED_LABEL",
+  "templateTitle": "BB về việc hủy bỏ biện pháp phong tỏa tài khoản",
+  "reviewItemId": "W2R-013 (review-pack null) / W2R-001 (BM-068 cross-evidence)",
+  "reviewSource": "docx-wave-02-bm068-bm069-review/review.latest.json (BM-068 FILE, NOT BM-069)",
+  "decision": "NULL / CROSS_BM_EVIDENCE_REJECTED",
   "currentLabel": "Slot from Wave 02 DOCX remediation",
-  "approvedLabel": "Số/Ký hiệu văn bản",
+  "approvedLabel": null,
   "suggestedLabel": "Số/Ký hiệu văn bản",
   "placeholder": "{{document.field1}}",
-  "classification": "APPROVE_SAFE_REMAP_CANDIDATE",
-  "rationale": "Reviewer Le Huy approved label \"Số/Ký hiệu văn bản\" with risk medium. Evidence: Original DOC BM-068 has visible text 'Số:' before placeholder.",
-  "canApproveForBatch2C": true,
-  "risk": "medium",
-  "reviewer": "Le Huy",
+  "classification": "DEFERRED_CROSS_BM_EVIDENCE_NOT_ACCEPTED",
+  "rationale": "REJECTED: The approval came from W2R-001 in BM-068 review, but the originalDocPath points to 68-QĐ...doc (BM-068 evidence). BM-069 has NO independent approval. Cross-BM evidence cannot approve a field. W2R-013 in review-pack has NULL decision.",
+  "canApproveForBatch2C": false,
+  "risk": "high",
+  "reviewer": "Le Huy (BM-068 review)",
   "reviewedAt": "2026-06-26T15:45:00.000Z",
   "evidence": {
-    "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+    "originalDocPath": "68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc (BM-068 EVIDENCE - NOT BM-069)",
     "staticContextFound": true,
     "visibleLabel": "Số",
-    "evidenceNotes": "Original DOC BM-068 has visible text 'Số:' before placeholder."
-  }
+    "evidenceNotes": "BM-068 evidence cannot approve BM-069 field. Cross-BM evidence rejected."
+  },
+  "integrityFlags": [
+    {
+      "flag": "CROSS_BM_EVIDENCE",
+      "description": "Evidence from BM-068 (68-QĐ...) used to approve BM-069 field",
+      "severity": "CRITICAL",
+      "action": "REJECTED - Cross-BM evidence cannot approve a field"
+    }
+  ]
 }
