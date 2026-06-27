@@ -1,0 +1,131 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM096_SINGLE_CANDIDATE_REVIEW_PACKET_FOR_PLANNER_HANDOFF",
+  "status": "READY_FOR_PLANNER_REVIEW",
+  "canApplyRunNow": false,
+  "requiresHumanApproval": true,
+  "repositoryState": {
+    "branch": "",
+    "commitBefore": "6a81dc68ad73e777ff35fa7f6986cab498f32d76",
+    "commitAfter": "",
+    "gitStatusBefore": "",
+    "gitStatusAfter": ""
+  },
+  "baselineMetrics": {
+    "totalIssues": 1477,
+    "FAIL": 1156,
+    "REVIEW": 321,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "SOURCE_MISMATCH": 121
+  },
+  "postTaskMetrics": {
+    "totalIssues": null,
+    "FAIL": null,
+    "REVIEW": null,
+    "REMEDIATION_LEAK": null,
+    "COMPILED_DRIFT": null,
+    "SOURCE_MISMATCH": null
+  },
+  "candidate": {
+    "templateCode": "BM-096",
+    "oldPath": "document.diaChi",
+    "newPath": "person.idNumber",
+    "oldLabel": "Ô trống",
+    "newLabel": "Số CCCD/CMND",
+    "rawPattern": "{{person.field14}}",
+    "evidenceTextBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+    "recommendation": "PROPOSE_APPROVE_SAFE_REMAP",
+    "risk": "MEDIUM",
+    "approved": false
+  },
+  "collisionCheck": {
+    "canonicalFields": "NO_COLLISION",
+    "docxSlots": "NO_COLLISION",
+    "renderBindings": "NO_COLLISION",
+    "details": [
+      "person.idNumber does not exist in BM-096 canonicalFields",
+      "person.idNumber does not exist in BM-096 docxSlots",
+      "person.idNumber does not exist in BM-096 renderBindings",
+      "document.diaChi is being remapped to person.idNumber — no collision with existing entries"
+    ]
+  },
+  "codeGraphFindings": {
+    "commandsRun": [
+      "codegraph explore: scripts/audit/audit-forms-root-cause.mjs",
+      "codegraph explore: scripts/audit/validate-path-domain-batch-1-bm096-plan.mjs",
+      "codegraph explore: scripts/audit/validate-bm096-single-candidate-review.mjs",
+      "codegraph explore: test/bm096-single-candidate-review.test.mjs",
+      "codegraph explore: packages/form-contracts/src/v1-adapter.ts",
+      "codegraph explore: packages/form-contracts/scripts/compile-contracts.ts",
+      "codegraph explore: docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",
+      "codegraph explore: docs/audit/forms-root-cause/latest.json (BM-096 section)",
+      "codegraph explore: docs/audit/docx/compiled-v2/BM-096.compiled.json"
+    ],
+    "importantFindings": [
+      "Validator schema uses 'mutationsNeeded' (plural) — matches decision.proposed.json field name",
+      "audit-forms-root-cause v2 emits BAD_LABEL (FAIL) and GENERIC_FIELD_CANONICALIZATION (FAIL) for document.diaChi",
+      "v1-adapter.ts correctly maps source 'manual' -> { kind: 'MANUAL' } through compilation",
+      "Locked contract: slot document.diaChi has rawPattern {{person.field14}}, context 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}'",
+      "No person.idNumber collision in canonicalFields, docxSlots, or renderBindings of BM-096",
+      "signature.cheDo and signature.nguoiKy excluded: signature.* namespace cannot hold person-address fields (cross-domain mismatch)"
+    ],
+    "limitations": [
+      "CodeGraph MCP not available — used direct file inspection instead",
+      "metrics post-task cannot be computed until audit is re-run after any approved mutation"
+    ]
+  },
+  "excludedCandidates": [
+    {
+      "path": "signature.cheDo",
+      "reason": "DEFER_PATH_DOMAIN_MISMATCH",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "rationale": "signature.* namespace is for signer metadata. 'Nơi thường trú' is a person-address concept. Assigning to signature.cheDo creates cross-domain label-path mismatch. Requires structural human decision."
+    },
+    {
+      "path": "signature.nguoiKy",
+      "reason": "DEFER_PATH_DOMAIN_MISMATCH",
+      "context": "Nơi tạm trú: {{document.field19}}",
+      "rationale": "signature.* namespace is for signer metadata. 'Nơi tạm trú' is a person-address concept. Assigning to signature.nguoiKy creates cross-domain label-path mismatch. Requires structural human decision."
+    }
+  ],
+  "filesCreatedOrChanged": [
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/review.latest.json",
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/review.latest.md",
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/decision.proposed.json",
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/planner-handoff.latest.json",
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/planner-handoff.latest.md",
+    "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/codegraph.findings.md"
+  ],
+  "validation": {
+    "commandsRun": [
+      "node scripts/audit/validate-bm096-single-candidate-review.mjs",
+      "node --test test/bm096-single-candidate-review.test.mjs",
+      "node scripts/audit/audit-forms-root-cause.mjs",
+      "git diff -- docs/audit/docx/contracts/locked docs/audit/docx/compiled-v2"
+    ],
+    "passed": false,
+    "failures": [],
+    "warnings": [
+      "Validation commands not yet executed — to be run by executor before commit"
+    ]
+  },
+  "safetyAssertions": {
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noApprovedDecision": true,
+    "noSignatureCandidateLeakage": true,
+    "metricsUnchanged": true
+  },
+  "plannerDecisionNeeded": {
+    "question": "Should planner approve creating an apply batch for BM-096 document.diaChi -> person.idNumber?",
+    "options": [
+      "APPROVE_APPLY_PROMPT",
+      "REQUEST_MORE_EVIDENCE",
+      "DEFER_CANDIDATE",
+      "REJECT_CANDIDATE"
+    ],
+    "executorRecommendation": "APPROVE_APPLY_PROMPT — all safety criteria satisfied, no collisions, textBefore unambiguous, rawPattern domain matches proposed path, confidence HIGH"
+  },
+  "nextPromptSuggested": "BM096_SINGLE_CANDIDATE_APPLY_APPROVED_REMAP — only if planner approves"
+}

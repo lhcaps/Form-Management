@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "mode": "PROPOSED_ONLY_NOT_APPROVED",
+  "templateCode": "BM-096",
+  "approvedCount": 0,
+  "proposedCount": 1,
+  "decisions": [
+    {
+      "decision": "PROPOSE_APPROVE_SAFE_PATH_REMAP",
+      "templateCode": "BM-096",
+      "oldPath": "document.diaChi",
+      "newPath": "person.idNumber",
+      "oldLabel": "Ô trống",
+      "newLabel": "Số CCCD/CMND",
+      "rawPattern": "{{person.field14}}",
+      "evidenceTextBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "collisionCheck": {
+        "canonicalFields": "NO_COLLISION",
+        "docxSlots": "NO_COLLISION",
+        "renderBindings": "NO_COLLISION"
+      },
+      "mutationsNeededIfApprovedLater": [
+        "UPDATE_CANONICAL_PATH",
+        "UPDATE_CANONICAL_LABEL",
+        "UPDATE_DOCX_SLOT_ID",
+        "UPDATE_DOCX_SLOT_LABEL",
+        "UPDATE_RENDER_BINDING_SLOT_ID",
+        "UPDATE_RENDER_BINDING_FROM_IF_NEEDED"
+      ],
+      "reviewerRequired": true,
+      "approved": false,
+      "risk": "MEDIUM",
+      "recommendation": "PROPOSE_APPROVE_SAFE_REMAP"
+    }
+  ]
+}
