@@ -1,0 +1,279 @@
+{
+  "version": "2c.0.0",
+  "generatedAt": "2026-06-27T18:53:38.429Z",
+  "mode": "evidence-only",
+  "totalItems": 10,
+  "approved": 1,
+  "deferred": 9,
+  "approvedItems": [
+    {
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "risk": "medium"
+    }
+  ],
+  "deferredItems": [
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine",
+      "reason": "NO_REVIEW_FOUND",
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine2",
+      "reason": "NO_REVIEW_FOUND",
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "reason": "NO_REVIEW_FOUND",
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.summaryLine",
+      "reason": "NO_REVIEW_FOUND",
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "reason": "DEFERRED_BY_REVIEWER",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Header has 'Số: …/CV-VKS…- …' but the __DOCUMENT_FULLDOCUMENTCODE__ field code appears in body line 'Xét thấy __DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:' — this is a 'Xét thấy' (case context) line, not the document number. The actual Số header has no slot code. Ambiguous mapping. DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "reason": "DEFERRED_BY_REVIEWER",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-077.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "reason": "DEFERRED_BY_REVIEWER",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-077.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-162",
+      "path": "person.dateOfBirth",
+      "reason": "DEFERRED_BY_REVIEWER",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+      }
+    },
+    {
+      "templateCode": "BM-163",
+      "path": "person.dateOfBirth",
+      "reason": "DEFERRED_BY_REVIEWER",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+      }
+    }
+  ],
+  "consolidatedEvidence": [
+    {
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "templateTitle": "QĐ huỷ bỏ biện pháp phong toả tài khoản",
+      "reviewItemId": "W2R-001",
+      "reviewSource": "docx-wave-02-bm068-bm069-review/review.latest.json",
+      "decision": "APPROVED_LABEL",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "placeholder": "{{document.field1}}",
+      "classification": "APPROVE_SAFE_REMAP_CANDIDATE",
+      "rationale": "Reviewer Le Huy approved label \"Số/Ký hiệu văn bản\" with risk medium. Evidence: Original DOC BM-068 has visible text 'Số:' before placeholder.",
+      "canApproveForBatch2C": true,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Số",
+        "evidenceNotes": "Original DOC BM-068 has visible text 'Số:' before placeholder."
+      }
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine",
+      "reviewStatus": "NOT_FOUND_IN_REVIEW",
+      "decision": "DEFER_PLACEHOLDER_NOT_FOUND",
+      "rationale": "No review item found in any existing review documents.",
+      "approvedLabel": null,
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.reasonLine2",
+      "reviewStatus": "NOT_FOUND_IN_REVIEW",
+      "decision": "DEFER_PLACEHOLDER_NOT_FOUND",
+      "rationale": "No review item found in any existing review documents.",
+      "approvedLabel": null,
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "reviewStatus": "NOT_FOUND_IN_REVIEW",
+      "decision": "DEFER_PLACEHOLDER_NOT_FOUND",
+      "rationale": "No review item found in any existing review documents.",
+      "approvedLabel": null,
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-069",
+      "path": "document.summaryLine",
+      "reviewStatus": "NOT_FOUND_IN_REVIEW",
+      "decision": "DEFER_PLACEHOLDER_NOT_FOUND",
+      "rationale": "No review item found in any existing review documents.",
+      "approvedLabel": null,
+      "evidence": null
+    },
+    {
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "templateTitle": "Đề nghị thay đổi người phiên dịch/người dịch thuật",
+      "reviewItemId": "W2R-029",
+      "reviewSource": "docx-wave-02-bm075-bm080-review/review.latest.json",
+      "decision": "DEFER",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": null,
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "placeholder": "{{document.field1}}",
+      "classification": "DEFER_DOCX_REAUTHOR_REQUIRED",
+      "rationale": "Header has 'Số: …/CV-VKS…- …' but the __DOCUMENT_FULLDOCUMENTCODE__ field code appears in body line 'Xét thấy __DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:' — this is a 'Xét thấy' (case context) line, not the document number. The actual Số header has no slot code. Ambiguous mapping. DEFER.",
+      "canApproveForBatch2C": false,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Header has 'Số: …/CV-VKS…- …' but the __DOCUMENT_FULLDOCUMENTCODE__ field code appears in body line 'Xét thấy __DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:' — this is a 'Xét thấy' (case context) line, not the document number. The actual Số header has no slot code. Ambiguous mapping. DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "templateTitle": "Yêu cầu/Đề nghị cử người bào chữa",
+      "reviewItemId": "W2R-033",
+      "reviewSource": "docx-wave-02-bm077-bm082-review/review.latest.json",
+      "decision": "DEFER",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": null,
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "placeholder": "{{document.field1}}",
+      "classification": "DEFER_DOCX_REAUTHOR_REQUIRED",
+      "rationale": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER.",
+      "canApproveForBatch2C": false,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:04:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-077.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "templateTitle": "Yêu cầu/Đề nghị cử người bào chữa",
+      "reviewItemId": "W2R-033",
+      "reviewSource": "docx-wave-02-bm077-bm082-review/review.latest.json",
+      "decision": "DEFER",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": null,
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "placeholder": "{{document.field1}}",
+      "classification": "DEFER_DOCX_REAUTHOR_REQUIRED",
+      "rationale": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER.",
+      "canApproveForBatch2C": false,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:04:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-077.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      }
+    },
+    {
+      "templateCode": "BM-162",
+      "path": "person.dateOfBirth",
+      "templateTitle": "Giấy mời",
+      "reviewItemId": "W2R-043",
+      "reviewSource": "docx-wave-02-bm162-bm163-review/review.latest.json",
+      "decision": "DEFER",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": null,
+      "suggestedLabel": "Ngày sinh",
+      "placeholder": "{{document.field3}}",
+      "classification": "DEFER_DOCX_REAUTHOR_REQUIRED",
+      "rationale": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review.",
+      "canApproveForBatch2C": false,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+      }
+    },
+    {
+      "templateCode": "BM-163",
+      "path": "person.dateOfBirth",
+      "templateTitle": "Giấy mời",
+      "reviewItemId": "W2R-043",
+      "reviewSource": "docx-wave-02-bm162-bm163-review/review.latest.json",
+      "decision": "DEFER",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "approvedLabel": null,
+      "suggestedLabel": "Ngày sinh",
+      "placeholder": "{{document.field3}}",
+      "classification": "DEFER_DOCX_REAUTHOR_REQUIRED",
+      "rationale": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review.",
+      "canApproveForBatch2C": false,
+      "risk": "medium",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+      }
+    }
+  ],
+  "recommendations": {
+    "batch2C": "CAN_CREATE_BATCH_2C_APPLY",
+    "reason": "1 items have approved labels from existing DOCX review. Batch 2C can proceed."
+  }
+}
