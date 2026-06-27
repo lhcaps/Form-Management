@@ -60,13 +60,28 @@
   "metricAssessment": {
     "BAD_LABEL": "EXPECTED -1: ✅ correct",
     "GENERIC_FIELD_CANONICALIZATION": "EXPECTED -1: ✅ correct",
-    "totalIssues": "MET -1: ✅ floor met (REQUIRED_SUSPICIOUS incidental +1 offset by BAD_LABEL/GFC -2)",
+    "totalIssues": "MET -1: ✅ floor met (REQUIRED_SUSPICIOUS +1 is BM-096 unmasking, not unrelated)",
     "REMEDIATION_LEAK": "UNCHANGED 0: ✅ protected",
     "COMPILED_DRIFT": "UNCHANGED 0: ✅ not affected",
     "SOURCE_MISMATCH": "UNCHANGED 0: ✅ source preserved",
     "SHOULD_BE_READONLY": "UNCHANGED 0: ✅ not affected",
     "WEAK_EVIDENCE_AUTO_LOCKED": "UNCHANGED 0: ✅ not affected",
-    "REQUIRED_SUSPICIOUS_note": "116 vs 115 (+1): incidental pre-existing in unrelated forms, not caused by this mutation"
+    "REQUIRED_SUSPICIOUS_note": "116 vs 115 (+1): BM-096 mutation unmasked pre-existing REQUIRED_SUSPICIOUS REVIEW on person.idNumber (required=false). NOT unrelated — it IS in BM-096. Not mutation fault; is unmasking."
+  },
+  "rsAttribution": {
+    "netDelta": 1,
+    "newlyAdded": [
+      {
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "severity": "REVIEW",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "newlyRemoved": [],
+    "isBM096MutationCaused": true,
+    "assessment": "INCREASE: BM-096 mutation unmasked REQUIRED_SUSPICIOUS REVIEW on person.idNumber"
   },
   "dbSync": {
     "matched": 213,
@@ -78,8 +93,12 @@
     "noSignatureFieldsChanged": true,
     "noSourceRequiredReviewRequiredMutation": true,
     "compiledV2GeneratedOnly": true,
-    "noMetricRegression": true,
-    "contractSyncPassed": true
+    "noMetricRegression": false,
+    "contractSyncPassed": true,
+    "noMetricRegression_note": "REQUIRED_SUSPICIOUS increased by +1 (115->116) — BM-096 unmasking, not unrelated. Not mutation fault (isUnmasking=true). Follow-up: human review required for person.idNumber required field.",
+    "noMetricRegression_isMutationFault": false,
+    "noMetricRegression_isUnmasking": true,
+    "noMetricRegression_followUpNeeded": true
   },
   "filesChanged": [
     "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",

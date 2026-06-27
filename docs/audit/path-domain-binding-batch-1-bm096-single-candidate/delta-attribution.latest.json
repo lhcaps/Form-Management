@@ -1,0 +1,180 @@
+{
+  "version": "1.0.0",
+  "task": "BM096_APPLY_DELTA_ATTRIBUTION_REVIEW",
+  "generatedAt": "2026-06-27T20:25:22.012Z",
+  "preApplyCommit": "a8bc41d5",
+  "postApplyCommit": "a6622d57",
+  "mutation": {
+    "templateCode": "BM-096",
+    "oldPath": "document.diaChi",
+    "newPath": "person.idNumber",
+    "oldLabel": "Ô trống",
+    "newLabel": "Số CCCD/CMND"
+  },
+  "issueDelta": {
+    "removed": [
+      {
+        "key": "BM-096|document.diaChi|BAD_LABEL",
+        "templateCode": "BM-096",
+        "path": "document.diaChi",
+        "issueCode": "BAD_LABEL",
+        "severity": "FAIL",
+        "reason": "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI."
+      },
+      {
+        "key": "BM-096|document.diaChi|GENERIC_FIELD_CANONICALIZATION",
+        "templateCode": "BM-096",
+        "path": "document.diaChi",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "severity": "FAIL",
+        "reason": "Generic raw pattern \"{{person.field14}}\" mapped to \"document.diaChi\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      }
+    ],
+    "added": [
+      {
+        "key": "BM-096|person.idNumber|REQUIRED_SUSPICIOUS",
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "severity": "REVIEW",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "severityChanged": []
+  },
+  "metricsBefore": {
+    "totalIssues": 1477,
+    "FAIL": 1156,
+    "REVIEW": 321,
+    "BAD_LABEL": 353,
+    "GENERIC_FIELD_CANONICALIZATION": 352,
+    "REQUIRED_SUSPICIOUS": 115,
+    "SOURCE_MISMATCH": 121,
+    "COMPILED_DRIFT": 37,
+    "REMEDIATION_LEAK": 10,
+    "SHOULD_BE_READONLY": 42,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 422,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 10,
+    "UI_VISIBLE_BAD_METADATA": 15
+  },
+  "metricsAfter": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "BAD_LABEL": 352,
+    "GENERIC_FIELD_CANONICALIZATION": 351,
+    "REQUIRED_SUSPICIOUS": 116,
+    "SOURCE_MISMATCH": 121,
+    "COMPILED_DRIFT": 37,
+    "REMEDIATION_LEAK": 10,
+    "SHOULD_BE_READONLY": 42,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 422,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 10,
+    "UI_VISIBLE_BAD_METADATA": 15
+  },
+  "metricDelta": {
+    "totalIssues": -1,
+    "FAIL": -2,
+    "REVIEW": 1,
+    "BAD_LABEL": -1,
+    "GENERIC_FIELD_CANONICALIZATION": -1,
+    "REQUIRED_SUSPICIOUS": 1,
+    "SOURCE_MISMATCH": 0,
+    "COMPILED_DRIFT": 0,
+    "REMEDIATION_LEAK": 0,
+    "SHOULD_BE_READONLY": 0,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 0,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 0,
+    "UI_VISIBLE_BAD_METADATA": 0
+  },
+  "rsAttribution": {
+    "netDelta": 1,
+    "newlyAdded": [
+      {
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "severity": "REVIEW",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "newlyRemoved": [],
+    "isBM096MutationCaused": true,
+    "bm096Candidate": {
+      "templateCode": "BM-096",
+      "path": "person.idNumber",
+      "severity": "REVIEW",
+      "reason": "Field looks required (ID field likely required) but required=false."
+    },
+    "assessment": "INCREASE: newly surfaced on 1 issue(s)"
+  },
+  "reviewAttribution": {
+    "netDelta": 1,
+    "newlyAdded": [
+      {
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "newlyRemoved": [],
+    "isBM096MutationCaused": true
+  },
+  "mutationAssessment": {
+    "pathRemapCorrect": true,
+    "labelFixCorrect": true,
+    "removedIssues": [
+      {
+        "templateCode": "BM-096",
+        "path": "document.diaChi",
+        "issueCode": "BAD_LABEL",
+        "severity": "FAIL",
+        "reason": "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI."
+      },
+      {
+        "templateCode": "BM-096",
+        "path": "document.diaChi",
+        "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+        "severity": "FAIL",
+        "reason": "Generic raw pattern \"{{person.field14}}\" mapped to \"document.diaChi\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      }
+    ],
+    "addedIssues": [
+      {
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "severity": "REVIEW",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "netEffectOnBM096": {
+      "FAIL": 2,
+      "REVIEW": -1
+    },
+    "requiredSuspiciousNote": "REQUIRED_SUSPICIOUS REVIEW on person.idNumber is a pre-existing metadata issue that was UNMASKED by the path remap (document.diaChi -> person.idNumber). The audit rule flags ID fields with required=false as suspicious. This is a valid signal for human review. It does NOT mean the remap was wrong. If the DOCX/legal evidence confirms person.idNumber is required in BM-096, then a follow-up mutation to set required=true would be appropriate."
+  },
+  "safetyAssertionCorrection": {
+    "value": false,
+    "caveat": "REQUIRED_SUSPICIOUS increased by +1 (115->116) due to BM-096 mutation unmasking a pre-existing metadata issue on person.idNumber (required=false). This is a newly surfaced REVIEW issue, not a regression in the mutation itself.",
+    "isMutationFault": false,
+    "isUnmasking": true,
+    "followUpNeeded": true,
+    "followUpAction": "Human review: confirm whether person.idNumber requires required=true in BM-096"
+  },
+  "conclusion": {
+    "mutationAccepted": true,
+    "rollbackNeeded": false,
+    "nextBatchAllowed": true,
+    "followUpItems": [
+      {
+        "type": "HUMAN_REVIEW",
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "field": "required",
+        "question": "Is person.idNumber required in BM-096 based on DOCX/legal evidence? If yes, set required=true in a follow-up mutation.",
+        "priority": "LOW"
+      }
+    ]
+  }
+}
