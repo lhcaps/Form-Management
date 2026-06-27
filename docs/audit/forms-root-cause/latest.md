@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-27T18:09:49.606Z
+Generated: 2026-06-27T18:23:32.883Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -8,8 +8,8 @@ Audit version: v2 (rule independence: true)
 |--------|-------|
 | totalContracts | 213 |
 | totalFields | 2443 |
-| totalIssues | 1526 |
-| **FAIL** | **1185** |
+| totalIssues | 1497 |
+| **FAIL** | **1156** |
 | REVIEW | 341 |
 
 ### Issue Counts by Category
@@ -17,15 +17,15 @@ Audit version: v2 (rule independence: true)
 | Issue Code | Count |
 |------------|-------|
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
-| BAD_LABEL | 373 |
+| BAD_LABEL | 353 |
 | GENERIC_FIELD_CANONICALIZATION | 352 |
 | SOURCE_MISMATCH | 121 |
 | REQUIRED_SUSPICIOUS | 115 |
+| COMPILED_DRIFT | 57 |
 | SHOULD_BE_READONLY | 42 |
-| COMPILED_DRIFT | 37 |
-| REMEDIATION_LEAK | 30 |
-| UI_VISIBLE_BAD_METADATA | 24 |
+| UI_VISIBLE_BAD_METADATA | 15 |
 | RAW_PATTERN_DOMAIN_MISMATCH | 10 |
+| REMEDIATION_LEAK | 10 |
 
 ### Top 20 BMs by Issue Count
 
@@ -106,7 +106,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
   - Reason: Field looks required (ID field likely required) but required=false.
   - Confidence: MEDIUM | requiresHumanReview: true
 
-### BAD_LABEL (373)
+### BAD_LABEL (353)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -150,23 +150,12 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-049 | `agency.coQuan` | `Ô trống` | document | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.coQuan` | `Ô trống` | decision | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
-| BM-051 | `decision.decisionLine3` | `Slot from DOCX remediatio` | decision | decisionLine3 | manual | REVIEW | MEDIUM |
 | BM-052 | `document.fullDocumentCode2` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
-| BM-052 | `decision.decisionLine2` | `Slot from DOCX remediatio` | decision | decisionLine2 | manual | REVIEW | MEDIUM |
-| BM-060 | `decision.decisionLine10` | `Slot from DOCX remediatio` | decision | decisionLine10 | manual | REVIEW | MEDIUM |
-| BM-061 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | REVIEW | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | document | field3 | computed | FAIL | MEDIUM |
-| BM-062 | `decision.decisionLine11` | `Slot from DOCX remediatio` | decision | decisionLine11 | manual | REVIEW | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-063 | `recipients.personLine5` | `Slot from DOCX remediatio` | recipients | personLine5 | manual | REVIEW | MEDIUM |
 | BM-065 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-065 | `document.fullDocumentCode8` | `Slot from DOCX remediatio` | document | fullDocumentCode8 | manual | REVIEW | MEDIUM |
-| BM-065 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | REVIEW | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-066 | `document.fullDocumentCode4` | `Slot from DOCX remediatio` | document | fullDocumentCode4 | manual | REVIEW | MEDIUM |
 | BM-067 | `document.fullDocumentCode2` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
-| BM-067 | `document.fullDocumentCode6` | `Slot from DOCX remediatio` | document | fullDocumentCode6 | manual | REVIEW | MEDIUM |
-| BM-067 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | REVIEW | MEDIUM |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | REVIEW | MEDIUM |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | document | field6 | manual | REVIEW | MEDIUM |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | document | field7 | manual | REVIEW | MEDIUM |
@@ -178,8 +167,6 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-074 | `document.dienThoai` | `Ô trống` | agency | field4 | manual | FAIL | MEDIUM |
 | BM-074 | `document.soYeu` | `Ô trống` | agency | field5 | manual | FAIL | MEDIUM |
 | BM-075 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | REVIEW | MEDIUM |
-| BM-075 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | REVIEW | MEDIUM |
-| BM-075 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | REVIEW | MEDIUM |
 | BM-076 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
 | BM-076 | `document.dienThoai` | `Ô trống` | unknown | field4 | manual | FAIL | MEDIUM |
 | BM-076 | `document.soQuyet` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
@@ -188,9 +175,6 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-078 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
 | BM-078 | `document.dienThoai` | `Ô trống` | document | field4 | manual | FAIL | MEDIUM |
 | BM-078 | `document.soThong` | `Ô trống` | agency | field5 | manual | FAIL | MEDIUM |
-| BM-080 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | REVIEW | MEDIUM |
-| BM-080 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | REVIEW | MEDIUM |
-| BM-080 | `legalBasis.legalBasisLine` | `Slot from Wave 02 DOCX re` | legalBasis | legalBasisLine | manual | REVIEW | MEDIUM |
 | BM-081 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
 | BM-081 | `document.dienThoai` | `Ô trống` | document | field4 | manual | FAIL | MEDIUM |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | REVIEW | MEDIUM |
@@ -210,7 +194,23 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-091 | `document.soQuyet` | `Ô trống` | document | field3 | manual | FAIL | MEDIUM |
 | BM-091 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
 | BM-092 | `document.soQuyet` | `Ô trống` | document | field3 | manual | FAIL | MEDIUM |
-| ... | | | | | | | 273 more |
+| BM-092 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
+| BM-092 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
+| BM-093 | `document.soQuyet` | `Ô trống` | document | field3 | manual | FAIL | MEDIUM |
+| BM-093 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
+| BM-093 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
+| BM-094 | `document.soQuyet` | `Ô trống` | unknown | field3 | manual | FAIL | MEDIUM |
+| BM-094 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
+| BM-094 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
+| BM-094 | `agency.dongDia` | `Ô trống` | document | field6 | agencyConfig | FAIL | MEDIUM |
+| BM-095 | `document.soQuyet` | `Ô trống` | document | field3 | manual | FAIL | MEDIUM |
+| BM-095 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
+| BM-095 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
+| BM-096 | `document.soYeu` | `Ô trống` | document | field3 | manual | FAIL | MEDIUM |
+| BM-096 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
+| BM-096 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
+| BM-096 | `agency.dongDia` | `Ô trống` | document | field7 | agencyConfig | FAIL | MEDIUM |
+| ... | | | | | | | 253 more |
 
 ### RAW_PATTERN_DOMAIN_MISMATCH (10)
 
@@ -333,40 +333,20 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-148 | `suspension.executionRequestLine` | `Điều 3 - Yêu cầu` | unknown | executionRequestLine | manual | REVIEW | MEDIUM |
 | ... | | | | | | | 21 more |
 
-### REMEDIATION_LEAK (30)
+### REMEDIATION_LEAK (10)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
-| BM-051 | `decision.decisionLine3` | `Slot from DOCX remediatio` | decision | decisionLine3 | manual | FAIL | HIGH |
-| BM-052 | `decision.decisionLine2` | `Slot from DOCX remediatio` | decision | decisionLine2 | manual | FAIL | HIGH |
-| BM-060 | `decision.decisionLine10` | `Slot from DOCX remediatio` | decision | decisionLine10 | manual | FAIL | HIGH |
-| BM-061 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | FAIL | HIGH |
-| BM-062 | `decision.decisionLine11` | `Slot from DOCX remediatio` | decision | decisionLine11 | manual | FAIL | HIGH |
-| BM-063 | `recipients.personLine5` | `Slot from DOCX remediatio` | recipients | personLine5 | manual | FAIL | HIGH |
-| BM-065 | `document.fullDocumentCode8` | `Slot from DOCX remediatio` | document | fullDocumentCode8 | manual | FAIL | HIGH |
-| BM-065 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | FAIL | HIGH |
-| BM-066 | `document.fullDocumentCode4` | `Slot from DOCX remediatio` | document | fullDocumentCode4 | manual | FAIL | HIGH |
-| BM-067 | `document.fullDocumentCode6` | `Slot from DOCX remediatio` | document | fullDocumentCode6 | manual | FAIL | HIGH |
-| BM-067 | `recipients.personLine3` | `Slot from DOCX remediatio` | recipients | personLine3 | manual | FAIL | HIGH |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | document | field6 | manual | FAIL | HIGH |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | document | field7 | manual | FAIL | HIGH |
 | BM-069 | `decision.decisionLine` | `Slot from Wave 02 DOCX re` | document | field8 | manual | FAIL | HIGH |
 | BM-069 | `document.summaryLine` | `Slot from Wave 02 DOCX re` | document | field12 | manual | FAIL | HIGH |
 | BM-075 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-075 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | FAIL | HIGH |
-| BM-075 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
 | BM-077 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
-| BM-080 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | person | dateOfBirth | manual | FAIL | HIGH |
-| BM-080 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | person | currentAddress | manual | FAIL | HIGH |
-| BM-080 | `legalBasis.legalBasisLine` | `Slot from Wave 02 DOCX re` | legalBasis | legalBasisLine | manual | FAIL | HIGH |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | HIGH |
 | BM-162 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
 | BM-163 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | document | field3 | manual | FAIL | HIGH |
-| BM-163 | `person.occupation` | `Slot from Wave 02 DOCX re` | person | occupation | manual | FAIL | HIGH |
-| BM-163 | `person.ward` | `Slot from Wave 02 DOCX re` | person | ward | manual | FAIL | HIGH |
-| BM-163 | `person.province` | `Slot from Wave 02 DOCX re` | person | province | manual | FAIL | HIGH |
-| BM-163 | `case.caseNumber` | `Slot from Wave 02 DOCX re` | unknown | caseNumber | manual | FAIL | HIGH |
 
 ### WEAK_EVIDENCE_AUTO_LOCKED (422)
 
@@ -672,7 +652,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-162 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-163 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-163 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
-| BM-163 | `person.occupation` | `Slot from Wave 02 DOCX re` | - | - | manual | REVIEW | MEDIUM |
+| BM-163 | `person.occupation` | `Nghề nghiệp` | - | - | manual | REVIEW | MEDIUM |
 | BM-163 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-164 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
 | BM-165 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
@@ -733,7 +713,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-201 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | ... | | | | | | | 15 more |
 
-### COMPILED_DRIFT (37)
+### COMPILED_DRIFT (57)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -762,20 +742,40 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-041 | `agency.issuePlace` | `Số quyết định` | - | - | computed | REVIEW | MEDIUM |
 | BM-044 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
 | BM-045 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
+| BM-051 | `decision.decisionLine3` | `Địa điểm, ngày lập` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `decision.decisionLine2` | `Địa điểm, ngày lập` | - | - | manual | REVIEW | MEDIUM |
 | BM-058 | `document.issuePlaceAndDateLine` | `Địa danh, ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
 | BM-058 | `person.dateOfBirthText` | `Ngày sinh` | - | - | computed | REVIEW | MEDIUM |
 | BM-058 | `measure.detentionFromDateText` | `Tạm giam từ ngày` | - | - | computed | REVIEW | MEDIUM |
 | BM-058 | `measure.detentionToDateText` | `Tạm giam đến ngày` | - | - | computed | REVIEW | MEDIUM |
+| BM-060 | `decision.decisionLine10` | `Địa điểm, ngày lập` | - | - | manual | REVIEW | MEDIUM |
+| BM-061 | `recipients.personLine3` | `Người nhận` | - | - | manual | REVIEW | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
+| BM-062 | `decision.decisionLine11` | `Địa điểm, ngày lập` | - | - | manual | REVIEW | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
+| BM-063 | `recipients.personLine5` | `Người nhận` | - | - | manual | REVIEW | MEDIUM |
 | BM-065 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
+| BM-065 | `document.fullDocumentCode8` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-065 | `recipients.personLine3` | `Người nhận` | - | - | manual | REVIEW | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
+| BM-066 | `document.fullDocumentCode4` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-067 | `document.fullDocumentCode6` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-067 | `recipients.personLine3` | `Người nhận` | - | - | manual | REVIEW | MEDIUM |
+| BM-075 | `person.dateOfBirth` | `Ngày sinh` | - | - | manual | REVIEW | MEDIUM |
+| BM-075 | `person.currentAddress` | `Nơi ở hiện tại` | - | - | manual | REVIEW | MEDIUM |
+| BM-080 | `person.dateOfBirth` | `Ngày sinh` | - | - | manual | REVIEW | MEDIUM |
+| BM-080 | `person.currentAddress` | `Nơi ở hiện tại` | - | - | manual | REVIEW | MEDIUM |
+| BM-080 | `legalBasis.legalBasisLine` | `Căn cứ pháp lý` | - | - | manual | REVIEW | MEDIUM |
 | BM-126 | `decision.summaryLine` | `Tóm tắt hồ sơ` | - | - | computed | REVIEW | MEDIUM |
+| BM-163 | `person.occupation` | `Nghề nghiệp` | - | - | manual | REVIEW | MEDIUM |
+| BM-163 | `person.ward` | `Phường/Xã` | - | - | manual | REVIEW | MEDIUM |
+| BM-163 | `person.province` | `Tỉnh/Thành phố` | - | - | manual | REVIEW | MEDIUM |
+| BM-163 | `case.caseNumber` | `Số vụ án` | - | - | manual | REVIEW | MEDIUM |
 | BM-213 | `document.issuePlaceAndDateLine` | `Địa danh, ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
 | BM-213 | `person.dateOfBirthText` | `Ngày sinh` | - | - | computed | REVIEW | MEDIUM |
 | BM-213 | `person.identityIssueLine` | `Ngày cấp và nơi cấp giấy ` | - | - | computed | REVIEW | MEDIUM |
 
-### UI_VISIBLE_BAD_METADATA (24)
+### UI_VISIBLE_BAD_METADATA (15)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -788,26 +788,17 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-069 | `document.summaryLine` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-069 | `decision.decisionLine` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-075 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-075 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-075 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-077 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-080 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-080 | `person.currentAddress` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-080 | `legalBasis.legalBasisLine` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-155 | `document.dieu1` | `Dieu1` | - | - | manual | FAIL | MEDIUM |
 | BM-155 | `document.dieu2` | `Dieu2` | - | - | manual | FAIL | MEDIUM |
 | BM-162 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-163 | `person.dateOfBirth` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-163 | `person.occupation` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-163 | `person.ward` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-163 | `person.province` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
-| BM-163 | `case.caseNumber` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 
 ## Proposed Fix Plan
 
-- **HIGH confidence auto-fix candidates**: 47
-- **MEDIUM confidence / requires review (FAIL)**: 1138
+- **HIGH confidence auto-fix candidates**: 27
+- **MEDIUM confidence / requires review (FAIL)**: 1129
 - **REVIEW only (not auto-fix)**: 341
 
 ### Auto-fix Candidates (HIGH confidence, no human review needed)
@@ -831,20 +822,16 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-036 | `decision.summaryLine` | `agency.parentNameUpper` | - | rawPattern domain "agency" ({{agency.parentNameUpper}}) does not match canonical |
 | BM-036 | `recipients.executionAgencyLine` | `decision.decisionLine` | - | rawPattern domain "decision" ({{decision.decisionLine}}) does not match canonica |
 | BM-041 | `agency.issuePlace` | `document.documentCode` | - | rawPattern domain "document" ({{document.documentCode}}) does not match canonica |
-| BM-051 | `decision.decisionLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-052 | `decision.decisionLine2` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-060 | `decision.decisionLine10` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-061 | `recipients.personLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-062 | `decision.decisionLine11` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-063 | `recipients.personLine5` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-065 | `document.fullDocumentCode8` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-065 | `recipients.personLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-066 | `document.fullDocumentCode4` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-067 | `document.fullDocumentCode6` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
-| BM-067 | `recipients.personLine3` | - | - | Slot label "Slot from DOCX remediation" contains remediation metadata. This leak |
 | BM-069 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
 | BM-069 | `document.reasonLine` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
-| ... | | | | 17 more |
+| BM-069 | `document.reasonLine2` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-069 | `decision.decisionLine` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-069 | `document.summaryLine` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-075 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-077 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-082 | `document.fullDocumentCode` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-162 | `person.dateOfBirth` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
+| BM-163 | `person.dateOfBirth` | - | - | Slot label "Slot from Wave 02 DOCX remediation" contains remediation metadata. T |
 
 ### Manual Review Required
 

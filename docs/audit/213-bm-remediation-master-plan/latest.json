@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "task": "PLAN_213_BM_REMEDIATION_MASTER",
-  "generatedAt": "2026-06-27T16:58:39.513Z",
+  "generatedAt": "2026-06-27T18:23:43.827Z",
   "sourceReports": {
     "rootCause": "docs\\audit\\forms-root-cause\\latest.json",
     "fixPlan": "docs\\audit\\forms-root-cause-fix-plan\\latest.json",
@@ -12,34 +12,33 @@
   "global": {
     "totalContracts": 213,
     "totalFields": 2443,
-    "totalIssues": 1559,
-    "failCount": 1218,
+    "totalIssues": 1497,
+    "failCount": 1156,
     "reviewCount": 341,
     "issueCounts": {
-      "BAD_LABEL": 373,
+      "BAD_LABEL": 353,
       "RAW_PATTERN_DOMAIN_MISMATCH": 10,
       "SOURCE_MISMATCH": 121,
       "WEAK_EVIDENCE_AUTO_LOCKED": 422,
       "GENERIC_FIELD_CANONICALIZATION": 352,
-      "UI_VISIBLE_BAD_METADATA": 24,
-      "COMPILED_DRIFT": 37,
+      "UI_VISIBLE_BAD_METADATA": 15,
+      "COMPILED_DRIFT": 57,
       "REQUIRED_SUSPICIOUS": 115,
       "SHOULD_BE_READONLY": 42,
-      "REMEDIATION_LEAK": 63
+      "REMEDIATION_LEAK": 10
     },
     "fixPlanClassificationCounts": {
       "REVIEW_FIX_CANDIDATE": 986,
-      "AUTO_FIX_CANDIDATE": 10,
       "MANUAL_LEGAL_REVIEW": 455,
-      "BLOCKED_BY_DOCX_AUTHORING": 110
+      "BLOCKED_BY_DOCX_AUTHORING": 118
     }
   },
   "safeLabel": {
     "summary": {
-      "labelIssueFields": 374,
+      "labelIssueFields": 373,
       "autoSafeFieldCount": 0,
       "autoSafeBmCount": 0,
-      "reviewNeededFieldCount": 4,
+      "reviewNeededFieldCount": 3,
       "blockedFieldCount": 351,
       "excludedClosedFieldCount": 0,
       "excludedKeepDeferredFieldCount": 19
@@ -127,8 +126,9 @@
     "VERIFY_ONLY": 17,
     "SOURCE_POLICY": 50,
     "PATH_DOMAIN_BINDING": 127,
-    "REMEDIATION_LEAK": 9,
+    "DOCX_AUTHORING": 7,
     "KEEP_DEFERRED_REVIEW": 8,
+    "REMEDIATION_LEAK": 2,
     "EVIDENCE_REVIEW": 2
   },
   "rootCauseFindings": [
@@ -170,19 +170,6 @@
         }
       },
       {
-        "templateCode": "BM-069",
-        "issueCount": 31,
-        "primaryLane": "KEEP_DEFERRED_REVIEW",
-        "risk": "HIGH",
-        "issueCounts": {
-          "BAD_LABEL": 5,
-          "GENERIC_FIELD_CANONICALIZATION": 5,
-          "REQUIRED_SUSPICIOUS": 4,
-          "REMEDIATION_LEAK": 12,
-          "UI_VISIBLE_BAD_METADATA": 5
-        }
-      },
-      {
         "templateCode": "BM-155",
         "issueCount": 29,
         "primaryLane": "PATH_DOMAIN_BINDING",
@@ -205,19 +192,6 @@
         }
       },
       {
-        "templateCode": "BM-163",
-        "issueCount": 25,
-        "primaryLane": "REMEDIATION_LEAK",
-        "risk": "HIGH",
-        "issueCounts": {
-          "REQUIRED_SUSPICIOUS": 4,
-          "BAD_LABEL": 5,
-          "GENERIC_FIELD_CANONICALIZATION": 1,
-          "REMEDIATION_LEAK": 10,
-          "UI_VISIBLE_BAD_METADATA": 5
-        }
-      },
-      {
         "templateCode": "BM-212",
         "issueCount": 25,
         "primaryLane": "SOURCE_POLICY",
@@ -225,6 +199,19 @@
         "issueCounts": {
           "WEAK_EVIDENCE_AUTO_LOCKED": 23,
           "REQUIRED_SUSPICIOUS": 2
+        }
+      },
+      {
+        "templateCode": "BM-069",
+        "issueCount": 24,
+        "primaryLane": "KEEP_DEFERRED_REVIEW",
+        "risk": "HIGH",
+        "issueCounts": {
+          "BAD_LABEL": 5,
+          "GENERIC_FIELD_CANONICALIZATION": 5,
+          "REQUIRED_SUSPICIOUS": 4,
+          "REMEDIATION_LEAK": 5,
+          "UI_VISIBLE_BAD_METADATA": 5
         }
       },
       {
@@ -397,16 +384,6 @@
         }
       },
       {
-        "templateCode": "BM-068",
-        "issueCount": 16,
-        "primaryLane": "REMEDIATION_LEAK",
-        "risk": "MEDIUM",
-        "issueCounts": {
-          "REQUIRED_SUSPICIOUS": 4,
-          "REMEDIATION_LEAK": 12
-        }
-      },
-      {
         "templateCode": "BM-187",
         "issueCount": 16,
         "primaryLane": "SOURCE_POLICY",
@@ -423,6 +400,26 @@
         "risk": "MEDIUM",
         "issueCounts": {
           "WEAK_EVIDENCE_AUTO_LOCKED": 15,
+          "REQUIRED_SUSPICIOUS": 1
+        }
+      },
+      {
+        "templateCode": "BM-193",
+        "issueCount": 16,
+        "primaryLane": "SOURCE_POLICY",
+        "risk": "MEDIUM",
+        "issueCounts": {
+          "WEAK_EVIDENCE_AUTO_LOCKED": 14,
+          "REQUIRED_SUSPICIOUS": 2
+        }
+      },
+      {
+        "templateCode": "BM-205",
+        "issueCount": 15,
+        "primaryLane": "SOURCE_POLICY",
+        "risk": "MEDIUM",
+        "issueCounts": {
+          "WEAK_EVIDENCE_AUTO_LOCKED": 14,
           "REQUIRED_SUSPICIOUS": 1
         }
       }
@@ -476,6 +473,7 @@
       "BM-056",
       "BM-057",
       "BM-059",
+      "BM-060",
       "BM-061",
       "BM-062",
       "BM-063",
@@ -483,6 +481,7 @@
       "BM-065",
       "BM-066",
       "BM-067",
+      "BM-068",
       "BM-069",
       "BM-070",
       "BM-071",
@@ -492,6 +491,7 @@
       "BM-076",
       "BM-077",
       "BM-078",
+      "BM-080",
       "BM-081",
       "BM-082",
       "BM-083",
@@ -667,12 +667,11 @@
         "UI_VISIBLE_BAD_METADATA": 3
       },
       "fixPlanClassificationCounts": {
-        "REVIEW_FIX_CANDIDATE": 7,
-        "AUTO_FIX_CANDIDATE": 2
+        "REVIEW_FIX_CANDIDATE": 7
       },
       "safeLabelBatchCounts": {
         "autoSafe": 0,
-        "reviewNeeded": 4,
+        "reviewNeeded": 3,
         "blocked": 0,
         "excludedClosed": 0,
         "excludedKeepDeferred": 0
@@ -2494,14 +2493,13 @@
         "docxSlots": 3,
         "renderBindings": 3
       },
-      "issueCount": 4,
-      "failCount": 1,
+      "issueCount": 3,
+      "failCount": 0,
       "reviewCount": 3,
       "issueCounts": {
         "SOURCE_MISMATCH": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "BAD_LABEL": 1,
-        "REMEDIATION_LEAK": 1
+        "COMPILED_DRIFT": 1
       },
       "fixPlanClassificationCounts": {
         "MANUAL_LEGAL_REVIEW": 1,
@@ -2517,16 +2515,15 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING",
         "LEGAL_REVIEW"
       ],
       "risk": "HIGH",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-052",
@@ -2539,15 +2536,15 @@
         "docxSlots": 5,
         "renderBindings": 5
       },
-      "issueCount": 6,
-      "failCount": 3,
+      "issueCount": 5,
+      "failCount": 2,
       "reviewCount": 3,
       "issueCounts": {
         "SOURCE_MISMATCH": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "BAD_LABEL": 2,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
-        "REMEDIATION_LEAK": 1
+        "COMPILED_DRIFT": 1
       },
       "fixPlanClassificationCounts": {
         "MANUAL_LEGAL_REVIEW": 2,
@@ -2563,16 +2560,15 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING",
         "LEGAL_REVIEW"
       ],
       "risk": "HIGH",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-053",
@@ -2851,13 +2847,12 @@
         "docxSlots": 3,
         "renderBindings": 3
       },
-      "issueCount": 3,
-      "failCount": 1,
+      "issueCount": 2,
+      "failCount": 0,
       "reviewCount": 2,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 1,
-        "BAD_LABEL": 1,
-        "REMEDIATION_LEAK": 1
+        "COMPILED_DRIFT": 1
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 2,
@@ -2872,14 +2867,13 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
-      "risk": "MEDIUM",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "risk": "HIGH",
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-061",
@@ -2892,13 +2886,12 @@
         "docxSlots": 4,
         "renderBindings": 4
       },
-      "issueCount": 3,
-      "failCount": 1,
+      "issueCount": 2,
+      "failCount": 0,
       "reviewCount": 2,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 1,
-        "BAD_LABEL": 1,
-        "REMEDIATION_LEAK": 1
+        "COMPILED_DRIFT": 1
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 1,
@@ -2925,7 +2918,6 @@
       "lanes": [
         "KEEP_DEFERRED_REVIEW",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
       "risk": "HIGH",
@@ -2942,15 +2934,14 @@
         "docxSlots": 5,
         "renderBindings": 5
       },
-      "issueCount": 6,
-      "failCount": 3,
+      "issueCount": 5,
+      "failCount": 2,
       "reviewCount": 3,
       "issueCounts": {
-        "BAD_LABEL": 2,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "REMEDIATION_LEAK": 1,
-        "COMPILED_DRIFT": 1
+        "COMPILED_DRIFT": 2
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 4,
@@ -2966,16 +2957,15 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING",
         "LEGAL_REVIEW"
       ],
       "risk": "HIGH",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-063",
@@ -2988,15 +2978,14 @@
         "docxSlots": 5,
         "renderBindings": 5
       },
-      "issueCount": 6,
-      "failCount": 3,
+      "issueCount": 5,
+      "failCount": 2,
       "reviewCount": 3,
       "issueCounts": {
-        "BAD_LABEL": 2,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "REMEDIATION_LEAK": 1,
-        "COMPILED_DRIFT": 1
+        "COMPILED_DRIFT": 2
       },
       "fixPlanClassificationCounts": {
         "BLOCKED_BY_DOCX_AUTHORING": 5,
@@ -3024,7 +3013,6 @@
         "KEEP_DEFERRED_REVIEW",
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
       "risk": "HIGH",
@@ -3081,15 +3069,14 @@
         "docxSlots": 6,
         "renderBindings": 6
       },
-      "issueCount": 8,
-      "failCount": 4,
+      "issueCount": 6,
+      "failCount": 2,
       "reviewCount": 4,
       "issueCounts": {
-        "BAD_LABEL": 3,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "REMEDIATION_LEAK": 2,
-        "COMPILED_DRIFT": 1
+        "COMPILED_DRIFT": 3
       },
       "fixPlanClassificationCounts": {
         "BLOCKED_BY_DOCX_AUTHORING": 7,
@@ -3117,7 +3104,6 @@
         "KEEP_DEFERRED_REVIEW",
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
       "risk": "HIGH",
@@ -3134,15 +3120,14 @@
         "docxSlots": 5,
         "renderBindings": 5
       },
-      "issueCount": 6,
-      "failCount": 3,
+      "issueCount": 5,
+      "failCount": 2,
       "reviewCount": 3,
       "issueCounts": {
-        "BAD_LABEL": 2,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "REMEDIATION_LEAK": 1,
-        "COMPILED_DRIFT": 1
+        "COMPILED_DRIFT": 2
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 4,
@@ -3158,16 +3143,15 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING",
         "LEGAL_REVIEW"
       ],
       "risk": "HIGH",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-067",
@@ -3180,14 +3164,14 @@
         "docxSlots": 6,
         "renderBindings": 6
       },
-      "issueCount": 7,
-      "failCount": 4,
+      "issueCount": 5,
+      "failCount": 2,
       "reviewCount": 3,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 1,
-        "BAD_LABEL": 3,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
-        "REMEDIATION_LEAK": 2
+        "COMPILED_DRIFT": 2
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 1,
@@ -3215,7 +3199,6 @@
         "KEEP_DEFERRED_REVIEW",
         "PATH_DOMAIN_BINDING",
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
       "risk": "HIGH",
@@ -3232,17 +3215,15 @@
         "docxSlots": 14,
         "renderBindings": 14
       },
-      "issueCount": 16,
-      "failCount": 12,
+      "issueCount": 4,
+      "failCount": 0,
       "reviewCount": 4,
       "issueCounts": {
-        "REQUIRED_SUSPICIOUS": 4,
-        "REMEDIATION_LEAK": 12
+        "REQUIRED_SUSPICIOUS": 4
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 4,
-        "AUTO_FIX_CANDIDATE": 2,
-        "BLOCKED_BY_DOCX_AUTHORING": 10
+        "BLOCKED_BY_DOCX_AUTHORING": 12
       },
       "safeLabelBatchCounts": {
         "autoSafe": 0,
@@ -3253,14 +3234,13 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
-      "risk": "MEDIUM",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "risk": "HIGH",
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-069",
@@ -3273,14 +3253,14 @@
         "docxSlots": 14,
         "renderBindings": 14
       },
-      "issueCount": 31,
-      "failCount": 22,
+      "issueCount": 24,
+      "failCount": 15,
       "reviewCount": 9,
       "issueCounts": {
         "BAD_LABEL": 5,
         "GENERIC_FIELD_CANONICALIZATION": 5,
         "REQUIRED_SUSPICIOUS": 4,
-        "REMEDIATION_LEAK": 12,
+        "REMEDIATION_LEAK": 5,
         "UI_VISIBLE_BAD_METADATA": 5
       },
       "fixPlanClassificationCounts": {
@@ -3510,15 +3490,16 @@
         "docxSlots": 5,
         "renderBindings": 5
       },
-      "issueCount": 12,
-      "failCount": 8,
+      "issueCount": 7,
+      "failCount": 3,
       "reviewCount": 4,
       "issueCounts": {
-        "BAD_LABEL": 3,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
         "REQUIRED_SUSPICIOUS": 1,
-        "REMEDIATION_LEAK": 4,
-        "UI_VISIBLE_BAD_METADATA": 3
+        "REMEDIATION_LEAK": 1,
+        "COMPILED_DRIFT": 2,
+        "UI_VISIBLE_BAD_METADATA": 1
       },
       "fixPlanClassificationCounts": {
         "BLOCKED_BY_DOCX_AUTHORING": 12
@@ -3725,19 +3706,16 @@
         "docxSlots": 6,
         "renderBindings": 6
       },
-      "issueCount": 13,
-      "failCount": 8,
+      "issueCount": 5,
+      "failCount": 0,
       "reviewCount": 5,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 2,
-        "BAD_LABEL": 3,
-        "REMEDIATION_LEAK": 5,
-        "UI_VISIBLE_BAD_METADATA": 3
+        "COMPILED_DRIFT": 3
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 5,
-        "BLOCKED_BY_DOCX_AUTHORING": 6,
-        "AUTO_FIX_CANDIDATE": 2
+        "BLOCKED_BY_DOCX_AUTHORING": 8
       },
       "safeLabelBatchCounts": {
         "autoSafe": 0,
@@ -3748,14 +3726,13 @@
       },
       "keepDeferred": false,
       "deferredItems": [],
-      "primaryLane": "REMEDIATION_LEAK",
+      "primaryLane": "DOCX_AUTHORING",
       "lanes": [
         "SOURCE_POLICY",
-        "REMEDIATION_LEAK",
         "DOCX_AUTHORING"
       ],
-      "risk": "MEDIUM",
-      "nextAction": "Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack."
+      "risk": "HIGH",
+      "nextAction": "Return to normalized/source DOCX evidence; reauthor or remap before contract mutation."
     },
     {
       "templateCode": "BM-081",
@@ -6913,21 +6890,20 @@
         "docxSlots": 8,
         "renderBindings": 8
       },
-      "issueCount": 14,
-      "failCount": 9,
+      "issueCount": 8,
+      "failCount": 3,
       "reviewCount": 5,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 4,
         "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
-        "REMEDIATION_LEAK": 7,
+        "REMEDIATION_LEAK": 1,
         "UI_VISIBLE_BAD_METADATA": 1
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 5,
-        "BLOCKED_BY_DOCX_AUTHORING": 6,
-        "MANUAL_LEGAL_REVIEW": 1,
-        "AUTO_FIX_CANDIDATE": 2
+        "BLOCKED_BY_DOCX_AUTHORING": 8,
+        "MANUAL_LEGAL_REVIEW": 1
       },
       "safeLabelBatchCounts": {
         "autoSafe": 0,
@@ -6960,21 +6936,21 @@
         "docxSlots": 11,
         "renderBindings": 11
       },
-      "issueCount": 25,
-      "failCount": 16,
+      "issueCount": 12,
+      "failCount": 3,
       "reviewCount": 9,
       "issueCounts": {
         "REQUIRED_SUSPICIOUS": 4,
-        "BAD_LABEL": 5,
+        "BAD_LABEL": 1,
         "GENERIC_FIELD_CANONICALIZATION": 1,
-        "REMEDIATION_LEAK": 10,
-        "UI_VISIBLE_BAD_METADATA": 5
+        "REMEDIATION_LEAK": 1,
+        "COMPILED_DRIFT": 4,
+        "UI_VISIBLE_BAD_METADATA": 1
       },
       "fixPlanClassificationCounts": {
         "REVIEW_FIX_CANDIDATE": 9,
-        "BLOCKED_BY_DOCX_AUTHORING": 13,
-        "MANUAL_LEGAL_REVIEW": 1,
-        "AUTO_FIX_CANDIDATE": 2
+        "BLOCKED_BY_DOCX_AUTHORING": 15,
+        "MANUAL_LEGAL_REVIEW": 1
       },
       "safeLabelBatchCounts": {
         "autoSafe": 0,

@@ -1,6 +1,6 @@
 # 213 BM Remediation Master Plan
 
-Generated: 2026-06-27T16:58:39.513Z
+Generated: 2026-06-27T18:23:43.827Z
 
 ## Executive Decision
 
@@ -14,8 +14,8 @@ Generated: 2026-06-27T16:58:39.513Z
 |--------|-------|
 | Contracts | 213 |
 | Fields | 2443 |
-| Total issues | 1559 |
-| FAIL | 1218 |
+| Total issues | 1497 |
+| FAIL | 1156 |
 | REVIEW | 341 |
 | Safe-label AUTO_SAFE_APPROVABLE fields | 0 |
 | Safe-label approval command | none |
@@ -24,15 +24,15 @@ Generated: 2026-06-27T16:58:39.513Z
 
 | Issue | Count |
 |-------|-------|
-| BAD_LABEL | 373 |
-| UI_VISIBLE_BAD_METADATA | 24 |
+| BAD_LABEL | 353 |
+| UI_VISIBLE_BAD_METADATA | 15 |
 | GENERIC_FIELD_CANONICALIZATION | 352 |
 | RAW_PATTERN_DOMAIN_MISMATCH | 10 |
 | SOURCE_MISMATCH | 121 |
 | SHOULD_BE_READONLY | 42 |
 | REQUIRED_SUSPICIOUS | 115 |
-| COMPILED_DRIFT | 37 |
-| REMEDIATION_LEAK | 63 |
+| COMPILED_DRIFT | 57 |
+| REMEDIATION_LEAK | 10 |
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
 
 ## Primary Lane Counts
@@ -42,8 +42,9 @@ Generated: 2026-06-27T16:58:39.513Z
 | PATH_DOMAIN_BINDING | 127 |
 | SOURCE_POLICY | 50 |
 | VERIFY_ONLY | 17 |
-| REMEDIATION_LEAK | 9 |
 | KEEP_DEFERRED_REVIEW | 8 |
+| DOCX_AUTHORING | 7 |
+| REMEDIATION_LEAK | 2 |
 | EVIDENCE_REVIEW | 2 |
 
 ## Runtime/Docker/SQL Evidence
@@ -82,30 +83,30 @@ Generated: 2026-06-27T16:58:39.513Z
 | Rank | BM | Issues | Lane | Risk | Key counts |
 |------|----|--------|------|------|------------|
 | 1 | BM-096 | 32 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=16, GENERIC_FIELD_CANONICALIZATION=16 |
-| 2 | BM-069 | 31 | KEEP_DEFERRED_REVIEW | HIGH | BAD_LABEL=5, UI_VISIBLE_BAD_METADATA=5, GENERIC_FIELD_CANONICALIZATION=5, REQUIRED_SUSPICIOUS=4, REMEDIATION_LEAK=12 |
-| 3 | BM-155 | 29 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=13, UI_VISIBLE_BAD_METADATA=2, GENERIC_FIELD_CANONICALIZATION=13, SOURCE_MISMATCH=1 |
-| 4 | BM-136 | 28 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=14, GENERIC_FIELD_CANONICALIZATION=14 |
-| 5 | BM-163 | 25 | REMEDIATION_LEAK | HIGH | BAD_LABEL=5, UI_VISIBLE_BAD_METADATA=5, GENERIC_FIELD_CANONICALIZATION=1, REQUIRED_SUSPICIOUS=4, REMEDIATION_LEAK=10 |
-| 6 | BM-212 | 25 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=23 |
-| 7 | BM-117 | 21 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=10, GENERIC_FIELD_CANONICALIZATION=10, SOURCE_MISMATCH=1 |
-| 8 | BM-118 | 21 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=10, GENERIC_FIELD_CANONICALIZATION=10, SOURCE_MISMATCH=1 |
-| 9 | BM-203 | 21 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=19 |
-| 10 | BM-211 | 21 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=19 |
-| 11 | BM-126 | 20 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=9, GENERIC_FIELD_CANONICALIZATION=9, SOURCE_MISMATCH=1, COMPILED_DRIFT=1 |
-| 12 | BM-186 | 20 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=18 |
-| 13 | BM-196 | 20 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=18 |
-| 14 | BM-190 | 19 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=17 |
-| 15 | BM-199 | 19 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=17 |
-| 16 | BM-106 | 18 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=9, GENERIC_FIELD_CANONICALIZATION=9 |
-| 17 | BM-188 | 18 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=16 |
-| 18 | BM-191 | 18 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=16 |
-| 19 | BM-028 | 17 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=7, GENERIC_FIELD_CANONICALIZATION=7, SOURCE_MISMATCH=3 |
-| 20 | BM-192 | 17 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=15 |
-| 21 | BM-201 | 17 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=15 |
-| 22 | BM-036 | 16 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=2, GENERIC_FIELD_CANONICALIZATION=2, RAW_PATTERN_DOMAIN_MISMATCH=5, SHOULD_BE_READONLY=2, REQUIRED_SUSPICIOUS=2, COMPILED_DRIFT=3 |
-| 23 | BM-068 | 16 | REMEDIATION_LEAK | MEDIUM | REQUIRED_SUSPICIOUS=4, REMEDIATION_LEAK=12 |
-| 24 | BM-187 | 16 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=14 |
-| 25 | BM-189 | 16 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=1, WEAK_EVIDENCE_AUTO_LOCKED=15 |
+| 2 | BM-155 | 29 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=13, UI_VISIBLE_BAD_METADATA=2, GENERIC_FIELD_CANONICALIZATION=13, SOURCE_MISMATCH=1 |
+| 3 | BM-136 | 28 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=14, GENERIC_FIELD_CANONICALIZATION=14 |
+| 4 | BM-212 | 25 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=23 |
+| 5 | BM-069 | 24 | KEEP_DEFERRED_REVIEW | HIGH | BAD_LABEL=5, UI_VISIBLE_BAD_METADATA=5, GENERIC_FIELD_CANONICALIZATION=5, REQUIRED_SUSPICIOUS=4, REMEDIATION_LEAK=5 |
+| 6 | BM-117 | 21 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=10, GENERIC_FIELD_CANONICALIZATION=10, SOURCE_MISMATCH=1 |
+| 7 | BM-118 | 21 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=10, GENERIC_FIELD_CANONICALIZATION=10, SOURCE_MISMATCH=1 |
+| 8 | BM-203 | 21 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=19 |
+| 9 | BM-211 | 21 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=19 |
+| 10 | BM-126 | 20 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=9, GENERIC_FIELD_CANONICALIZATION=9, SOURCE_MISMATCH=1, COMPILED_DRIFT=1 |
+| 11 | BM-186 | 20 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=18 |
+| 12 | BM-196 | 20 | SOURCE_POLICY | HIGH | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=18 |
+| 13 | BM-190 | 19 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=17 |
+| 14 | BM-199 | 19 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=17 |
+| 15 | BM-106 | 18 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=9, GENERIC_FIELD_CANONICALIZATION=9 |
+| 16 | BM-188 | 18 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=16 |
+| 17 | BM-191 | 18 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=16 |
+| 18 | BM-028 | 17 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=7, GENERIC_FIELD_CANONICALIZATION=7, SOURCE_MISMATCH=3 |
+| 19 | BM-192 | 17 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=15 |
+| 20 | BM-201 | 17 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=15 |
+| 21 | BM-036 | 16 | PATH_DOMAIN_BINDING | HIGH | BAD_LABEL=2, GENERIC_FIELD_CANONICALIZATION=2, RAW_PATTERN_DOMAIN_MISMATCH=5, SHOULD_BE_READONLY=2, REQUIRED_SUSPICIOUS=2, COMPILED_DRIFT=3 |
+| 22 | BM-187 | 16 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=14 |
+| 23 | BM-189 | 16 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=1, WEAK_EVIDENCE_AUTO_LOCKED=15 |
+| 24 | BM-193 | 16 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=2, WEAK_EVIDENCE_AUTO_LOCKED=14 |
+| 25 | BM-205 | 15 | SOURCE_POLICY | MEDIUM | REQUIRED_SUSPICIOUS=1, WEAK_EVIDENCE_AUTO_LOCKED=14 |
 
 ## Per-BM Ledger
 
@@ -161,8 +162,8 @@ Generated: 2026-06-27T16:58:39.513Z
 | BM-048 | 12 | PATH_DOMAIN_BINDING | HIGH | 6 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-049 | 2 | PATH_DOMAIN_BINDING | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-050 | 4 | PATH_DOMAIN_BINDING | HIGH | 2 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
-| BM-051 | 4 | REMEDIATION_LEAK | HIGH | 1 | 0 | 1 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-052 | 6 | REMEDIATION_LEAK | HIGH | 2 | 0 | 1 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
+| BM-051 | 3 | DOCX_AUTHORING | HIGH | 0 | 0 | 1 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
+| BM-052 | 5 | DOCX_AUTHORING | HIGH | 1 | 0 | 1 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
 | BM-053 | 2 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 2 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-054 | 2 | SOURCE_POLICY | MEDIUM | 0 | 0 | 0 | 2 | 0 | 0 | Decide source kind and readonly/required policy; recompile and verify source-kind parity. |
 | BM-055 | 3 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 3 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
@@ -170,27 +171,27 @@ Generated: 2026-06-27T16:58:39.513Z
 | BM-057 | 1 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 1 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-058 | 9 | SOURCE_POLICY | MEDIUM | 0 | 0 | 0 | 5 | 0 | 0 | Decide source kind and readonly/required policy; recompile and verify source-kind parity. |
 | BM-059 | 4 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 2 | 1 | 1 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
-| BM-060 | 3 | REMEDIATION_LEAK | MEDIUM | 1 | 0 | 0 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-061 | 3 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
-| BM-062 | 6 | REMEDIATION_LEAK | HIGH | 2 | 0 | 0 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-063 | 6 | KEEP_DEFERRED_REVIEW | HIGH | 2 | 0 | 0 | 0 | 0 | 1 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-060 | 2 | DOCX_AUTHORING | HIGH | 0 | 0 | 0 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
+| BM-061 | 2 | KEEP_DEFERRED_REVIEW | HIGH | 0 | 0 | 0 | 0 | 0 | 0 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-062 | 5 | DOCX_AUTHORING | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
+| BM-063 | 5 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
 | BM-064 | 2 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 1 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
-| BM-065 | 8 | KEEP_DEFERRED_REVIEW | HIGH | 3 | 0 | 0 | 0 | 0 | 2 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
-| BM-066 | 6 | REMEDIATION_LEAK | HIGH | 2 | 0 | 0 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-067 | 7 | KEEP_DEFERRED_REVIEW | HIGH | 3 | 0 | 0 | 0 | 0 | 2 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
-| BM-068 | 16 | REMEDIATION_LEAK | MEDIUM | 0 | 0 | 0 | 0 | 0 | 12 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-069 | 31 | KEEP_DEFERRED_REVIEW | HIGH | 5 | 0 | 0 | 0 | 0 | 12 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-065 | 6 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-066 | 5 | DOCX_AUTHORING | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
+| BM-067 | 5 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-068 | 4 | DOCX_AUTHORING | HIGH | 0 | 0 | 0 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
+| BM-069 | 24 | KEEP_DEFERRED_REVIEW | HIGH | 5 | 0 | 0 | 0 | 0 | 5 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
 | BM-070 | 5 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 5 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-071 | 5 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 5 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-072 | 4 | PATH_DOMAIN_BINDING | HIGH | 2 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-073 | 0 | VERIFY_ONLY | LOW | 0 | 0 | 0 | 0 | 0 | 0 | Keep in verification-only track: contract validate, compile sync, DB sync, and render smoke. |
 | BM-074 | 6 | PATH_DOMAIN_BINDING | HIGH | 3 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
-| BM-075 | 12 | KEEP_DEFERRED_REVIEW | HIGH | 3 | 0 | 0 | 0 | 0 | 4 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
+| BM-075 | 7 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
 | BM-076 | 9 | PATH_DOMAIN_BINDING | HIGH | 4 | 0 | 1 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-077 | 5 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
 | BM-078 | 6 | PATH_DOMAIN_BINDING | HIGH | 3 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-079 | 0 | VERIFY_ONLY | LOW | 0 | 0 | 0 | 0 | 0 | 0 | Keep in verification-only track: contract validate, compile sync, DB sync, and render smoke. |
-| BM-080 | 13 | REMEDIATION_LEAK | MEDIUM | 3 | 0 | 0 | 0 | 0 | 5 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
+| BM-080 | 5 | DOCX_AUTHORING | HIGH | 0 | 0 | 0 | 0 | 0 | 0 | Return to normalized/source DOCX evidence; reauthor or remap before contract mutation. |
 | BM-081 | 4 | PATH_DOMAIN_BINDING | HIGH | 2 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-082 | 5 | KEEP_DEFERRED_REVIEW | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Resolve deferred header/body/path finding first; do not run fast label-only approval. |
 | BM-083 | 6 | PATH_DOMAIN_BINDING | HIGH | 3 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
@@ -272,8 +273,8 @@ Generated: 2026-06-27T16:58:39.513Z
 | BM-159 | 2 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 1 | 1 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-160 | 2 | PATH_DOMAIN_BINDING | HIGH | 1 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
 | BM-161 | 12 | PATH_DOMAIN_BINDING | HIGH | 6 | 0 | 0 | 0 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
-| BM-162 | 14 | REMEDIATION_LEAK | HIGH | 1 | 0 | 0 | 0 | 0 | 7 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
-| BM-163 | 25 | REMEDIATION_LEAK | HIGH | 5 | 0 | 0 | 0 | 0 | 10 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
+| BM-162 | 8 | REMEDIATION_LEAK | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
+| BM-163 | 12 | REMEDIATION_LEAK | HIGH | 1 | 0 | 0 | 0 | 0 | 1 | Inspect remediation placeholder fields against source DOCX and close leak with reviewed decision pack. |
 | BM-164 | 7 | SOURCE_POLICY | MEDIUM | 0 | 0 | 0 | 0 | 6 | 0 | Decide source kind and readonly/required policy; recompile and verify source-kind parity. |
 | BM-165 | 2 | SOURCE_POLICY | MEDIUM | 0 | 0 | 0 | 0 | 1 | 0 | Decide source kind and readonly/required policy; recompile and verify source-kind parity. |
 | BM-166 | 3 | PATH_DOMAIN_BINDING | HIGH | 0 | 0 | 2 | 1 | 0 | 0 | Compare rawPattern, canonical path, renderBinding, visible DOCX context, and rendered value per field. |
