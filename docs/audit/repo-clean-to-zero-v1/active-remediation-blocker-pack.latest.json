@@ -1,0 +1,153 @@
+{
+  "task": "ACTIVE_REMEDIATION_BLOCKER_PACK_V1",
+  "generatedAt": "2026-06-28T20:57:56.541Z",
+  "head": "6621f114",
+  "gitStatusShort": "?? docs/audit/repo-clean-to-zero-v1/active-remediation-blocker-pack.latest.json\n?? docs/audit/repo-clean-to-zero-v1/active-remediation-blocker-pack.latest.md\n",
+  "gitStatusShortExcludingReportOutputs": "",
+  "gitStatusClean": false,
+  "gitStatusCleanExcludingReportOutputs": true,
+  "canStart213SemanticRemediation": false,
+  "activeDecisionGate": {
+    "head": "d68ac325",
+    "canStart213SemanticRemediation": false
+  },
+  "database": {
+    "available": true,
+    "source": ".env",
+    "reason": null
+  },
+  "runtimeSyncBlockers": [
+    {
+      "templateCode": "BM-052",
+      "repoCompiledHash": "d26e2b68b7ac9388711e7a02071d8ebb4c7bfae1c6224c2b9f1f6fb6ebf3f162",
+      "repoSourceId": null,
+      "latestDbVersion": {
+        "versionNo": 9,
+        "contractHash": "fa8d748391e1afed807951f98ad86fe58e2dc5e6c1b096b522189609ec7ecae1",
+        "publishedAt": "2026-06-28T15:48:26.000Z",
+        "matchesRepo": false
+      },
+      "matchingDbVersion": {
+        "versionNo": 6,
+        "publishedAt": "2026-06-27T20:40:34.000Z"
+      },
+      "decisionRequired": [
+        "Approve publishing the repo rollback/runtime version to DB",
+        "or approve/reapply the newer DB latest contract state into repo"
+      ],
+      "forbiddenWithoutApproval": [
+        "DB publish",
+        "contract mutation",
+        "treating C2 drift as safe"
+      ]
+    },
+    {
+      "templateCode": "BM-062",
+      "repoCompiledHash": "7af0e71d56f629c8cb2d9273963a2daf072e0cdee264e863feb06987778e388d",
+      "repoSourceId": null,
+      "latestDbVersion": {
+        "versionNo": 9,
+        "contractHash": "c45683e8e8c4d0d7c249b2e9c859035c45a4c181cee1b8afc4ef3129f44b8a43",
+        "publishedAt": "2026-06-28T15:48:26.000Z",
+        "matchesRepo": false
+      },
+      "matchingDbVersion": {
+        "versionNo": 7,
+        "publishedAt": "2026-06-27T20:40:34.000Z"
+      },
+      "decisionRequired": [
+        "Approve publishing the repo rollback/runtime version to DB",
+        "or approve/reapply the newer DB latest contract state into repo"
+      ],
+      "forbiddenWithoutApproval": [
+        "DB publish",
+        "contract mutation",
+        "treating C2 drift as safe"
+      ]
+    }
+  ],
+  "renderBlockers": [
+    {
+      "templateCode": "BM-063",
+      "status": "FAIL",
+      "clean": false,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "FAIL",
+      "literalFidelityStatus": "FAIL",
+      "undefinedOrNullLiterals": 8,
+      "placeholdersWithoutSlots": [
+        "document.fullDocumentCode8"
+      ],
+      "placeholdersWithoutBindings": [
+        "document.fullDocumentCode8"
+      ],
+      "sourcePlaceholderCounts": {
+        "agency.name": 1,
+        "document.fullDocumentCode8": 8,
+        "document.issuePlaceAndDateLine": 1,
+        "recipients.personLine": 1,
+        "recipients.personLine5": 5
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-063/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for document.fullDocumentCode8",
+        "Decide occurrence semantics for recipients.personLine5"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    },
+    {
+      "templateCode": "BM-066",
+      "status": "FAIL",
+      "clean": false,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "FAIL",
+      "literalFidelityStatus": "FAIL",
+      "undefinedOrNullLiterals": 4,
+      "placeholdersWithoutSlots": [
+        "recipients.personLine4"
+      ],
+      "placeholdersWithoutBindings": [
+        "recipients.personLine4"
+      ],
+      "sourcePlaceholderCounts": {
+        "agency.name": 2,
+        "document.fullDocumentCode4": 4,
+        "document.fullDocumentCode": 1,
+        "decision.decisionLine": 1,
+        "recipients.personLine": 1,
+        "recipients.personLine4": 4
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-066/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for recipients.personLine4",
+        "Decide occurrence semantics for document.fullDocumentCode4"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    }
+  ],
+  "evidenceInputs": [
+    "docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.json",
+    "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+    "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+    "docs/audit/docx-placeholder-renormalization/BM-063/human-review-blocker.latest.md",
+    "docs/audit/docx-placeholder-renormalization/BM-066/human-review-blocker.latest.md",
+    "docs/audit/repo-clean-to-zero-v1/pending-review/BM-052.pending-review.patch",
+    "docs/audit/repo-clean-to-zero-v1/pending-review/BM-062.pending-review.patch"
+  ]
+}
