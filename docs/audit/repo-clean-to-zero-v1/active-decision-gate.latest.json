@@ -1,0 +1,51 @@
+{
+  "task": "REPO_CLEAN_TO_ZERO_BEFORE_213_REMEDIATION_V1",
+  "artifact": "active-decision-gate",
+  "generatedAt": "2026-06-28T20:41:04.743Z",
+  "head": "d68ac325",
+  "verifiedState": {
+    "gitStatus": "CLEAN",
+    "c3LockedCompiled": "PASS: 213/213 consistent",
+    "c2ContractDbSync": {
+      "status": "FAIL",
+      "stale": ["BM-052", "BM-062"]
+    },
+    "renderAtlas": {
+      "pass": 211,
+      "fail": 2,
+      "error": 0,
+      "failingTemplates": ["BM-063", "BM-066"]
+    },
+    "pdfExportGuard": "PASS: 6/6 Jest spec",
+    "formContractsTests": "PASS: 51/51",
+    "apiTypecheck": "PASS",
+    "webTypecheck": "PASS"
+  },
+  "canStart213SemanticRemediation": false,
+  "blockingDecisions": [
+    {
+      "templates": ["BM-052", "BM-062"],
+      "blocker": "DB latest v9 does not match repo compiled hashes",
+      "requiredDecision": [
+        "Publish rollback/runtime versions so DB latest matches repo",
+        "Approve/reapply pending SOT mutations that match DB latest"
+      ],
+      "notApproved": ["DB publish", "contract mutation without explicit approval"]
+    },
+    {
+      "templates": ["BM-063", "BM-066"],
+      "blocker": "Expected render FAIL after rollback of unauthorized contract mutations",
+      "requiredDecision": [
+        "BM-063 occurrence-level semantics for document.fullDocumentCode8 and recipients.personLine5",
+        "BM-066 occurrence-level semantics for recipients.personLine4 and document.fullDocumentCode4"
+      ],
+      "notApproved": ["auto slot/binding repair", "source DOCX mutation", "locked contract mutation"]
+    }
+  ],
+  "safeNextWork": [
+    "read-only evidence review",
+    "occurrence review packs",
+    "guard tests and reports",
+    "approved-decision file preparation"
+  ]
+}
