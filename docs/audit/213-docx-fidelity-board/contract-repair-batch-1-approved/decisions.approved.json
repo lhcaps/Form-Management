@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "mode": "APPROVED_FOR_APPLY",
+  "batchId": "CONTRACT_REPAIR_BATCH_1_APPROVED",
+  "approvalScope": "BM-096_BM-003_BM-036_AND_AGENCY_NAME_UPPER_STRUCTURAL_REPAIRS",
+  "safetyAssertions": {
+    "sameBmEvidenceRequired": true,
+    "noDocxTemplateMutation": true,
+    "noCanonicalSourceFieldRename": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "otherBatchItemsDeferred": true
+  },
+  "decisions": [
+    {
+      "decisionId": "BM-096-SLOT-TARGET-RELINK-001",
+      "templateCode": "BM-096",
+      "action": "RELINK_SLOT_TARGET_TO_DOCX_PLACEHOLDER",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "oldSlotId": "person.idNumber",
+      "newSlotId": "document.diaChi",
+      "preserveBindingFrom": "person.idNumber",
+      "expectedLabel": "Số CCCD/CMND",
+      "expectedDocxRawPattern": "{{document.diaChi}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-096/evidence.latest.json",
+      "reason": "BM-096 normalized DOCX contains {{document.diaChi}} in the CCCD/CMND position. The DOCX slot target must match the template placeholder, while the semantic source field remains person.idNumber."
+    },
+    {
+      "decisionId": "BM-003-ADD-OFFICIAL-ISSUER-TITLE",
+      "templateCode": "BM-003",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "official.issuerTitle",
+      "field": {
+        "path": "official.issuerTitle",
+        "label": "Chủ thể ban hành",
+        "source": "officialConfig",
+        "required": true,
+        "uiComponent": "text",
+        "section": "official",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Chủ thể ban hành",
+        "slotType": "text",
+        "required": true,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "official.issuerTitle",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{official.issuerTitle}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-003/evidence.latest.json",
+      "reason": "BM-003 normalized DOCX contains {{official.issuerTitle}} before the legal basis line. The BM-003 input panel has official.issuerTitle as the issuer/title field, so the contract needs a same-path field, slot, and binding."
+    },
+    {
+      "decisionId": "BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-1-LINE",
+      "templateCode": "BM-003",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "sourceAssignment.article1Line",
+      "field": {
+        "path": "sourceAssignment.article1Line",
+        "label": "Điều 1",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "textarea",
+        "section": "sourceAssignment",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Điều 1",
+        "slotType": "text",
+        "required": true,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "sourceAssignment.article1Line",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{sourceAssignment.article1Line}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-003/evidence.latest.json",
+      "reason": "BM-003 normalized DOCX contains {{sourceAssignment.article1Line}} at Điều 1. The BM-003 panel exposes Điều 1 as an editable sourceAssignment textarea."
+    },
+    {
+      "decisionId": "BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-2-LINE",
+      "templateCode": "BM-003",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "sourceAssignment.article2Line",
+      "field": {
+        "path": "sourceAssignment.article2Line",
+        "label": "Điều 2",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "textarea",
+        "section": "sourceAssignment",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Điều 2",
+        "slotType": "text",
+        "required": true,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "sourceAssignment.article2Line",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{sourceAssignment.article2Line}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-003/evidence.latest.json",
+      "reason": "BM-003 normalized DOCX contains {{sourceAssignment.article2Line}} at Điều 2. The BM-003 panel exposes Điều 2 as an editable sourceAssignment textarea."
+    },
+    {
+      "decisionId": "BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-3-LINE",
+      "templateCode": "BM-003",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "sourceAssignment.article3Line",
+      "field": {
+        "path": "sourceAssignment.article3Line",
+        "label": "Điều 3",
+        "source": "manual",
+        "required": true,
+        "uiComponent": "textarea",
+        "section": "sourceAssignment",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Điều 3",
+        "slotType": "text",
+        "required": true,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "sourceAssignment.article3Line",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{sourceAssignment.article3Line}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-003/evidence.latest.json",
+      "reason": "BM-003 normalized DOCX contains {{sourceAssignment.article3Line}} at Điều 3. The BM-003 panel exposes Điều 3 as an editable sourceAssignment textarea."
+    },
+    {
+      "decisionId": "BM-036-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE",
+      "templateCode": "BM-036",
+      "action": "REMOVE_ORPHAN_FIELD_SLOT_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "path": "document.issueDate",
+      "removeCanonicalField": true,
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-036/evidence.latest.json",
+      "reason": "BM-036 normalized DOCX does not contain {{document.issueDate}}. Evidence lists document.issueDate as both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER, while issue date is represented by document.issuePlaceAndDateLine in the template."
+    },
+    {
+      "decisionId": "BM-021-ADD-AGENCY-NAME-UPPER",
+      "templateCode": "BM-021",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "agency.nameUpper",
+      "field": {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "section": "agency",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Tên cơ quan ban hành viết hoa",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{agency.nameUpper}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-021/evidence.latest.json",
+      "reason": "BM-021 normalized DOCX contains {{agency.nameUpper}} and evidence lists it as TEMPLATE_PLACEHOLDER_WITHOUT_SLOT. The field is an uppercase agency display value, so it is computed, not manual input."
+    },
+    {
+      "decisionId": "BM-021-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE",
+      "templateCode": "BM-021",
+      "action": "REMOVE_ORPHAN_FIELD_SLOT_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "path": "document.issueDate",
+      "removeCanonicalField": true,
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-021/evidence.latest.json",
+      "reason": "BM-021 normalized DOCX does not contain {{document.issueDate}}. Evidence lists document.issueDate as both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER."
+    },
+    {
+      "decisionId": "BM-025-ADD-AGENCY-NAME-UPPER",
+      "templateCode": "BM-025",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "agency.nameUpper",
+      "field": {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "section": "agency",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Tên cơ quan ban hành viết hoa",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{agency.nameUpper}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-025/evidence.latest.json",
+      "reason": "BM-025 normalized DOCX contains {{agency.nameUpper}} and evidence lists it as TEMPLATE_PLACEHOLDER_WITHOUT_SLOT. The field is an uppercase agency display value, so it is computed, not manual input."
+    },
+    {
+      "decisionId": "BM-025-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE",
+      "templateCode": "BM-025",
+      "action": "REMOVE_ORPHAN_FIELD_SLOT_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "path": "document.issueDate",
+      "removeCanonicalField": true,
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-025/evidence.latest.json",
+      "reason": "BM-025 normalized DOCX does not contain {{document.issueDate}}. Evidence lists document.issueDate as both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER."
+    },
+    {
+      "decisionId": "BM-032-ADD-AGENCY-NAME-UPPER",
+      "templateCode": "BM-032",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "agency.nameUpper",
+      "field": {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "section": "agency",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Tên cơ quan ban hành viết hoa",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{agency.nameUpper}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-032/evidence.latest.json",
+      "reason": "BM-032 normalized DOCX contains {{agency.nameUpper}} and evidence lists it as TEMPLATE_PLACEHOLDER_WITHOUT_SLOT. The field is an uppercase agency display value, so it is computed, not manual input."
+    },
+    {
+      "decisionId": "BM-032-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE",
+      "templateCode": "BM-032",
+      "action": "REMOVE_ORPHAN_FIELD_SLOT_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "path": "document.issueDate",
+      "removeCanonicalField": true,
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-032/evidence.latest.json",
+      "reason": "BM-032 normalized DOCX does not contain {{document.issueDate}}. Evidence lists document.issueDate as both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER."
+    },
+    {
+      "decisionId": "BM-022-ADD-AGENCY-NAME-UPPER",
+      "templateCode": "BM-022",
+      "action": "ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "placeholder": "agency.nameUpper",
+      "field": {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "uiComponent": "text",
+        "section": "agency",
+        "reviewRequired": false
+      },
+      "slot": {
+        "label": "Tên cơ quan ban hành viết hoa",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "reviewRequired": false
+      },
+      "binding": {
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "expectedDocxRawPattern": "{{agency.nameUpper}}",
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-022/evidence.latest.json",
+      "reason": "BM-022 normalized DOCX contains {{agency.nameUpper}} and evidence lists it as TEMPLATE_PLACEHOLDER_WITHOUT_SLOT. The field is an uppercase agency display value, so it is computed, not manual input."
+    },
+    {
+      "decisionId": "BM-022-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE",
+      "templateCode": "BM-022",
+      "action": "REMOVE_ORPHAN_FIELD_SLOT_BINDING",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "path": "document.issueDate",
+      "removeCanonicalField": true,
+      "sourceEvidence": "docs/audit/per-form-render-accurate/BM-022/evidence.latest.json",
+      "reason": "BM-022 normalized DOCX does not contain {{document.issueDate}}. Evidence lists document.issueDate as both CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER and BINDING_WITHOUT_TEMPLATE_PLACEHOLDER."
+    }
+  ],
+  "deferredDecisions": [
+    {
+      "templateCode": "BM-213",
+      "reason": "Current batch slot-level structural mismatch is empty; defer until baseline/root-cause reason is inspected separately."
+    }
+  ]
+}

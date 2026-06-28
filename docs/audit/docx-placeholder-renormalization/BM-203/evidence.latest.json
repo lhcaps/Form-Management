@@ -1,0 +1,2439 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM203_BOARD_SELECTED_EVIDENCE_ONLY",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-203",
+  "title": "Thông báo về hoạt động tố tụng",
+  "sourceId": "BM-203__7572e687ae0f",
+  "lockedContract": "docs/audit/docx/contracts/locked/BM-203__7572e687ae0f.contract.locked.json",
+  "renderGate": {
+    "status": "PASS",
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS",
+    "clean": true
+  },
+  "rootCause": {
+    "issueCount": 21,
+    "failCount": 19,
+    "reviewCount": 2,
+    "issueCounts": {
+      "REQUIRED_SUSPICIOUS": 2,
+      "WEAK_EVIDENCE_AUTO_LOCKED": 19
+    }
+  },
+  "occurrenceCount": 19,
+  "issueGroups": [
+    {
+      "path": "case.caseNumber",
+      "slotId": "case.caseNumber",
+      "rawPattern": "{{case.caseNumber}}",
+      "rawKey": "case.caseNumber",
+      "rawDomain": "unknown",
+      "rawTail": "caseNumber",
+      "label": "Số vụ án",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"unknown\", rawTail=\"caseNumber\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{case.caseNumber}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "case.caseNumber is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "case.caseNumber",
+        "type": "string",
+        "label": "Số vụ án",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Case number (hint: field18=case.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "case.caseNumber",
+        "from": "case.caseNumber",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "case.caseNumber2",
+      "slotId": "case.caseNumber2",
+      "rawPattern": "{{case.caseNumber2}}",
+      "rawKey": "case.caseNumber2",
+      "rawDomain": "unknown",
+      "rawTail": "caseNumber2",
+      "label": "Số vụ án (dòng 2)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"unknown\", rawTail=\"caseNumber2\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{case.caseNumber2}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "case.caseNumber2 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "case.caseNumber2",
+        "type": "string",
+        "label": "Số vụ án (dòng 2)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Case detail line 2 (hint: field19=case.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "case.caseNumber2",
+        "from": "case.caseNumber2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "slotId": "document.fullDocumentCode",
+      "rawPattern": "{{document.fullDocumentCode}}",
+      "rawKey": "document.fullDocumentCode",
+      "rawDomain": "document",
+      "rawTail": "fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED",
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"fullDocumentCode\"",
+        "Field looks required (identity/key field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.fullDocumentCode}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        },
+        {
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.fullDocumentCode has REQUIRED_SUSPICIOUS. Whether required=true is legally/product-correct must be reviewed before mutating locked metadata.",
+      "contractField": {
+        "path": "document.fullDocumentCode",
+        "type": "string",
+        "label": "Số văn bản / quyết định",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Document serial in header (hint: field1=document.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.fullDocumentCode",
+        "from": "document.fullDocumentCode",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issueDate",
+      "slotId": "document.issueDate",
+      "rawPattern": "{{document.issueDate}}",
+      "rawKey": "document.issueDate",
+      "rawDomain": "document",
+      "rawTail": "issueDate",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED",
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"issueDate\"",
+        "Field looks required (date field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.issueDate}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        },
+        {
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.issueDate has REQUIRED_SUSPICIOUS. Whether required=true is legally/product-correct must be reviewed before mutating locked metadata.",
+      "contractField": {
+        "path": "document.issueDate",
+        "type": "string",
+        "label": "Ngày ban hành",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Issuance date (hint: field2=document.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.issueDate",
+        "from": "document.issueDate",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issuePlace",
+      "slotId": "document.issuePlace",
+      "rawPattern": "{{document.issuePlace}}",
+      "rawKey": "document.issuePlace",
+      "rawDomain": "document",
+      "rawTail": "issuePlace",
+      "label": "Nơi ban hành",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"issuePlace\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.issuePlace}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "document.issuePlace is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "document.issuePlace",
+        "type": "string",
+        "label": "Nơi ban hành",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Issuance place",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.issuePlace",
+        "from": "document.issuePlace",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine10",
+      "slotId": "recipients.personLine10",
+      "rawPattern": "{{recipients.personLine10}}",
+      "rawKey": "recipients.personLine10",
+      "rawDomain": "recipients",
+      "rawTail": "personLine10",
+      "label": "Người nhận (dòng 10)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine10\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine10}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine10 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine10",
+        "type": "string",
+        "label": "Người nhận (dòng 10)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 10",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine10",
+        "from": "recipients.personLine10",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine11",
+      "slotId": "recipients.personLine11",
+      "rawPattern": "{{recipients.personLine11}}",
+      "rawKey": "recipients.personLine11",
+      "rawDomain": "recipients",
+      "rawTail": "personLine11",
+      "label": "Người nhận (dòng 11)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine11\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine11}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine11 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine11",
+        "type": "string",
+        "label": "Người nhận (dòng 11)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 11",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine11",
+        "from": "recipients.personLine11",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine12",
+      "slotId": "recipients.personLine12",
+      "rawPattern": "{{recipients.personLine12}}",
+      "rawKey": "recipients.personLine12",
+      "rawDomain": "recipients",
+      "rawTail": "personLine12",
+      "label": "Người nhận (dòng 12)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine12\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine12}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine12 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine12",
+        "type": "string",
+        "label": "Người nhận (dòng 12)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 12",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine12",
+        "from": "recipients.personLine12",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine13",
+      "slotId": "recipients.personLine13",
+      "rawPattern": "{{recipients.personLine13}}",
+      "rawKey": "recipients.personLine13",
+      "rawDomain": "recipients",
+      "rawTail": "personLine13",
+      "label": "Người nhận (dòng 13)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine13\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine13}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine13 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine13",
+        "type": "string",
+        "label": "Người nhận (dòng 13)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 13",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine13",
+        "from": "recipients.personLine13",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine14",
+      "slotId": "recipients.personLine14",
+      "rawPattern": "{{recipients.personLine14}}",
+      "rawKey": "recipients.personLine14",
+      "rawDomain": "recipients",
+      "rawTail": "personLine14",
+      "label": "Người nhận (dòng 14)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine14\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine14}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine14 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine14",
+        "type": "string",
+        "label": "Người nhận (dòng 14)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 14 (hint: field17=person.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine14",
+        "from": "recipients.personLine14",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine15",
+      "slotId": "recipients.personLine15",
+      "rawPattern": "{{recipients.personLine15}}",
+      "rawKey": "recipients.personLine15",
+      "rawDomain": "recipients",
+      "rawTail": "personLine15",
+      "label": "Người nhận (dòng 15)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine15\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine15}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine15 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine15",
+        "type": "string",
+        "label": "Người nhận (dòng 15)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 15",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine15",
+        "from": "recipients.personLine15",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine2",
+      "slotId": "recipients.personLine2",
+      "rawPattern": "{{recipients.personLine2}}",
+      "rawKey": "recipients.personLine2",
+      "rawDomain": "recipients",
+      "rawTail": "personLine2",
+      "label": "Người nhận (dòng 2)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine2\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine2}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine2 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine2",
+        "type": "string",
+        "label": "Người nhận (dòng 2)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 2 (hint: field4=document.* but structurally person details)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine2",
+        "from": "recipients.personLine2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine3",
+      "slotId": "recipients.personLine3",
+      "rawPattern": "{{recipients.personLine3}}",
+      "rawKey": "recipients.personLine3",
+      "rawDomain": "recipients",
+      "rawTail": "personLine3",
+      "label": "Người nhận (dòng 3)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine3\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine3}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine3 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine3",
+        "type": "string",
+        "label": "Người nhận (dòng 3)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 3",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine3",
+        "from": "recipients.personLine3",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine4",
+      "slotId": "recipients.personLine4",
+      "rawPattern": "{{recipients.personLine4}}",
+      "rawKey": "recipients.personLine4",
+      "rawDomain": "recipients",
+      "rawTail": "personLine4",
+      "label": "Người nhận (dòng 4)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine4\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine4}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine4 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine4",
+        "type": "string",
+        "label": "Người nhận (dòng 4)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 4",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine4",
+        "from": "recipients.personLine4",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine5",
+      "slotId": "recipients.personLine5",
+      "rawPattern": "{{recipients.personLine5}}",
+      "rawKey": "recipients.personLine5",
+      "rawDomain": "recipients",
+      "rawTail": "personLine5",
+      "label": "Người nhận (dòng 5)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine5\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine5}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine5 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine5",
+        "type": "string",
+        "label": "Người nhận (dòng 5)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 5",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine5",
+        "from": "recipients.personLine5",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine6",
+      "slotId": "recipients.personLine6",
+      "rawPattern": "{{recipients.personLine6}}",
+      "rawKey": "recipients.personLine6",
+      "rawDomain": "recipients",
+      "rawTail": "personLine6",
+      "label": "Người nhận (dòng 6)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine6\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine6}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine6 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine6",
+        "type": "string",
+        "label": "Người nhận (dòng 6)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 6",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine6",
+        "from": "recipients.personLine6",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine7",
+      "slotId": "recipients.personLine7",
+      "rawPattern": "{{recipients.personLine7}}",
+      "rawKey": "recipients.personLine7",
+      "rawDomain": "recipients",
+      "rawTail": "personLine7",
+      "label": "Người nhận (dòng 7)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine7\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine7}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine7 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine7",
+        "type": "string",
+        "label": "Người nhận (dòng 7)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 7 (hint: field11=person.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine7",
+        "from": "recipients.personLine7",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine8",
+      "slotId": "recipients.personLine8",
+      "rawPattern": "{{recipients.personLine8}}",
+      "rawKey": "recipients.personLine8",
+      "rawDomain": "recipients",
+      "rawTail": "personLine8",
+      "label": "Người nhận (dòng 8)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine8\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine8}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine8 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine8",
+        "type": "string",
+        "label": "Người nhận (dòng 8)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 8",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine8",
+        "from": "recipients.personLine8",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine9",
+      "slotId": "recipients.personLine9",
+      "rawPattern": "{{recipients.personLine9}}",
+      "rawKey": "recipients.personLine9",
+      "rawDomain": "recipients",
+      "rawTail": "personLine9",
+      "label": "Người nhận (dòng 9)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine9\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine9}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine9 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine9",
+        "type": "string",
+        "label": "Người nhận (dòng 9)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 9",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine9",
+        "from": "recipients.personLine9",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    }
+  ],
+  "candidates": [],
+  "deferred": [
+    {
+      "path": "case.caseNumber",
+      "slotId": "case.caseNumber",
+      "rawPattern": "{{case.caseNumber}}",
+      "rawKey": "case.caseNumber",
+      "rawDomain": "unknown",
+      "rawTail": "caseNumber",
+      "label": "Số vụ án",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"unknown\", rawTail=\"caseNumber\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{case.caseNumber}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "case.caseNumber is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "case.caseNumber",
+        "type": "string",
+        "label": "Số vụ án",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Case number (hint: field18=case.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "case.caseNumber",
+        "from": "case.caseNumber",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "case.caseNumber2",
+      "slotId": "case.caseNumber2",
+      "rawPattern": "{{case.caseNumber2}}",
+      "rawKey": "case.caseNumber2",
+      "rawDomain": "unknown",
+      "rawTail": "caseNumber2",
+      "label": "Số vụ án (dòng 2)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"unknown\", rawTail=\"caseNumber2\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{case.caseNumber2}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "case.caseNumber2 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "case.caseNumber2",
+        "type": "string",
+        "label": "Số vụ án (dòng 2)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Case detail line 2 (hint: field19=case.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "case.caseNumber2",
+        "from": "case.caseNumber2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "slotId": "document.fullDocumentCode",
+      "rawPattern": "{{document.fullDocumentCode}}",
+      "rawKey": "document.fullDocumentCode",
+      "rawDomain": "document",
+      "rawTail": "fullDocumentCode",
+      "label": "Số văn bản / quyết định",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED",
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"fullDocumentCode\"",
+        "Field looks required (identity/key field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.fullDocumentCode}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        },
+        {
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.fullDocumentCode has REQUIRED_SUSPICIOUS. Whether required=true is legally/product-correct must be reviewed before mutating locked metadata.",
+      "contractField": {
+        "path": "document.fullDocumentCode",
+        "type": "string",
+        "label": "Số văn bản / quyết định",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Document serial in header (hint: field1=document.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.fullDocumentCode",
+        "from": "document.fullDocumentCode",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issueDate",
+      "slotId": "document.issueDate",
+      "rawPattern": "{{document.issueDate}}",
+      "rawKey": "document.issueDate",
+      "rawDomain": "document",
+      "rawTail": "issueDate",
+      "label": "Ngày ban hành",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED",
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"issueDate\"",
+        "Field looks required (date field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.issueDate}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        },
+        {
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.issueDate has REQUIRED_SUSPICIOUS. Whether required=true is legally/product-correct must be reviewed before mutating locked metadata.",
+      "contractField": {
+        "path": "document.issueDate",
+        "type": "string",
+        "label": "Ngày ban hành",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Issuance date (hint: field2=document.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.issueDate",
+        "from": "document.issueDate",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issuePlace",
+      "slotId": "document.issuePlace",
+      "rawPattern": "{{document.issuePlace}}",
+      "rawKey": "document.issuePlace",
+      "rawDomain": "document",
+      "rawTail": "issuePlace",
+      "label": "Nơi ban hành",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"document\", rawTail=\"issuePlace\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{document.issuePlace}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "document.issuePlace is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "document.issuePlace",
+        "type": "string",
+        "label": "Nơi ban hành",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Issuance place",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.issuePlace",
+        "from": "document.issuePlace",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine10",
+      "slotId": "recipients.personLine10",
+      "rawPattern": "{{recipients.personLine10}}",
+      "rawKey": "recipients.personLine10",
+      "rawDomain": "recipients",
+      "rawTail": "personLine10",
+      "label": "Người nhận (dòng 10)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine10\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine10}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine10 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine10",
+        "type": "string",
+        "label": "Người nhận (dòng 10)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 10",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine10",
+        "from": "recipients.personLine10",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine11",
+      "slotId": "recipients.personLine11",
+      "rawPattern": "{{recipients.personLine11}}",
+      "rawKey": "recipients.personLine11",
+      "rawDomain": "recipients",
+      "rawTail": "personLine11",
+      "label": "Người nhận (dòng 11)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine11\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine11}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine11 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine11",
+        "type": "string",
+        "label": "Người nhận (dòng 11)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 11",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine11",
+        "from": "recipients.personLine11",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine12",
+      "slotId": "recipients.personLine12",
+      "rawPattern": "{{recipients.personLine12}}",
+      "rawKey": "recipients.personLine12",
+      "rawDomain": "recipients",
+      "rawTail": "personLine12",
+      "label": "Người nhận (dòng 12)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine12\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine12}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine12 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine12",
+        "type": "string",
+        "label": "Người nhận (dòng 12)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 12",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine12",
+        "from": "recipients.personLine12",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine13",
+      "slotId": "recipients.personLine13",
+      "rawPattern": "{{recipients.personLine13}}",
+      "rawKey": "recipients.personLine13",
+      "rawDomain": "recipients",
+      "rawTail": "personLine13",
+      "label": "Người nhận (dòng 13)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine13\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine13}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine13 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine13",
+        "type": "string",
+        "label": "Người nhận (dòng 13)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 13",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine13",
+        "from": "recipients.personLine13",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine14",
+      "slotId": "recipients.personLine14",
+      "rawPattern": "{{recipients.personLine14}}",
+      "rawKey": "recipients.personLine14",
+      "rawDomain": "recipients",
+      "rawTail": "personLine14",
+      "label": "Người nhận (dòng 14)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine14\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine14}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine14 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine14",
+        "type": "string",
+        "label": "Người nhận (dòng 14)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 14 (hint: field17=person.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine14",
+        "from": "recipients.personLine14",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine15",
+      "slotId": "recipients.personLine15",
+      "rawPattern": "{{recipients.personLine15}}",
+      "rawKey": "recipients.personLine15",
+      "rawDomain": "recipients",
+      "rawTail": "personLine15",
+      "label": "Người nhận (dòng 15)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine15\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine15}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine15 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine15",
+        "type": "string",
+        "label": "Người nhận (dòng 15)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 15",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine15",
+        "from": "recipients.personLine15",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine2",
+      "slotId": "recipients.personLine2",
+      "rawPattern": "{{recipients.personLine2}}",
+      "rawKey": "recipients.personLine2",
+      "rawDomain": "recipients",
+      "rawTail": "personLine2",
+      "label": "Người nhận (dòng 2)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine2\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine2}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine2 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine2",
+        "type": "string",
+        "label": "Người nhận (dòng 2)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 2 (hint: field4=document.* but structurally person details)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine2",
+        "from": "recipients.personLine2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine3",
+      "slotId": "recipients.personLine3",
+      "rawPattern": "{{recipients.personLine3}}",
+      "rawKey": "recipients.personLine3",
+      "rawDomain": "recipients",
+      "rawTail": "personLine3",
+      "label": "Người nhận (dòng 3)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine3\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine3}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine3 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine3",
+        "type": "string",
+        "label": "Người nhận (dòng 3)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 3",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine3",
+        "from": "recipients.personLine3",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine4",
+      "slotId": "recipients.personLine4",
+      "rawPattern": "{{recipients.personLine4}}",
+      "rawKey": "recipients.personLine4",
+      "rawDomain": "recipients",
+      "rawTail": "personLine4",
+      "label": "Người nhận (dòng 4)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine4\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine4}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine4 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine4",
+        "type": "string",
+        "label": "Người nhận (dòng 4)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 4",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine4",
+        "from": "recipients.personLine4",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine5",
+      "slotId": "recipients.personLine5",
+      "rawPattern": "{{recipients.personLine5}}",
+      "rawKey": "recipients.personLine5",
+      "rawDomain": "recipients",
+      "rawTail": "personLine5",
+      "label": "Người nhận (dòng 5)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine5\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine5}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine5 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine5",
+        "type": "string",
+        "label": "Người nhận (dòng 5)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 5",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine5",
+        "from": "recipients.personLine5",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine6",
+      "slotId": "recipients.personLine6",
+      "rawPattern": "{{recipients.personLine6}}",
+      "rawKey": "recipients.personLine6",
+      "rawDomain": "recipients",
+      "rawTail": "personLine6",
+      "label": "Người nhận (dòng 6)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine6\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine6}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine6 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine6",
+        "type": "string",
+        "label": "Người nhận (dòng 6)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 6",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine6",
+        "from": "recipients.personLine6",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine7",
+      "slotId": "recipients.personLine7",
+      "rawPattern": "{{recipients.personLine7}}",
+      "rawKey": "recipients.personLine7",
+      "rawDomain": "recipients",
+      "rawTail": "personLine7",
+      "label": "Người nhận (dòng 7)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine7\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine7}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine7 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine7",
+        "type": "string",
+        "label": "Người nhận (dòng 7)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 7 (hint: field11=person.*)",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine7",
+        "from": "recipients.personLine7",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine8",
+      "slotId": "recipients.personLine8",
+      "rawPattern": "{{recipients.personLine8}}",
+      "rawKey": "recipients.personLine8",
+      "rawDomain": "recipients",
+      "rawTail": "personLine8",
+      "label": "Người nhận (dòng 8)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine8\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine8}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine8 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine8",
+        "type": "string",
+        "label": "Người nhận (dòng 8)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 8",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine8",
+        "from": "recipients.personLine8",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "recipients.personLine9",
+      "slotId": "recipients.personLine9",
+      "rawPattern": "{{recipients.personLine9}}",
+      "rawKey": "recipients.personLine9",
+      "rawDomain": "recipients",
+      "rawTail": "personLine9",
+      "label": "Người nhận (dòng 9)",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "HIGH",
+      "issueCodes": [
+        "WEAK_EVIDENCE_AUTO_LOCKED"
+      ],
+      "severities": [
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "reviewRequired=false but context is auto-generated/short/noisy. Evidence too weak to justify locking without review. textBefore=\"renamed generic placeholder\", rawDomain=\"recipients\", rawTail=\"personLine9\""
+      ],
+      "fixPlan": [
+        {
+          "issueCode": "WEAK_EVIDENCE_AUTO_LOCKED",
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_SOURCE",
+          "applySafe": false,
+          "reason": "WEAK_EVIDENCE_AUTO_LOCKED: reviewRequired=false with generic raw=\"{{recipients.personLine9}}\" and weak context=\"\". Needs review to determine correct source or required flag."
+        }
+      ],
+      "classification": "DEFER_WEAK_EVIDENCE_AUTO_LOCKED",
+      "reason": "recipients.personLine9 is locked with reviewRequired=false but audit evidence is short/noisy or generic. Correct source/review policy needs human review.",
+      "contractField": {
+        "path": "recipients.personLine9",
+        "type": "string",
+        "label": "Người nhận (dòng 9)",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "transform": "identity",
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "reason": "Wave 03C-2: Recipient person detail line 9",
+          "docxAnchor": "wave-03c-2-remediation.mjs",
+          "reviewedAt": "2026-06-22T19:03:30.852Z",
+          "reviewedBy": "Le Huy"
+        }
+      },
+      "renderBinding": {
+        "slotId": "recipients.personLine9",
+        "from": "recipients.personLine9",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "proposedSource": null,
+      "canApply": false
+    }
+  ],
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "canMarkDone": false,
+    "noContractMutation": true,
+    "noDocxMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "renderFailureHidden": false
+  }
+}

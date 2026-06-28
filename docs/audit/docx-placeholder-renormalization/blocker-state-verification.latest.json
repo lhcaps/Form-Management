@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "SELECT_NEXT_DOCX_RENORMALIZATION_BM_AFTER_BM062_BLOCKER",
+  "mode": "BOARD_SELECTION_ONLY",
+  "generatedAt": "2026-06-28T09:47:00.000Z",
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "status": "PASS"
+  },
+  "blockedBmsVerified": [
+    {
+      "templateCode": "BM-052",
+      "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "primaryLane": "LEGAL_REVIEW",
+      "risk": "HIGH",
+      "renderGate": "FAIL",
+      "blockerReason": "3 deferred recipients.personLine6 occurrences in body require human DOCX/legal review",
+      "blockerFile": "docs/audit/docx-placeholder-renormalization/BM-052/human-review-blocker.latest.json",
+      "renderDiff": "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+      "canMarkDone": false
+    },
+    {
+      "templateCode": "BM-062",
+      "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "primaryLane": "LEGAL_REVIEW",
+      "risk": "HIGH",
+      "renderGate": "FAIL",
+      "blockerReason": "15 deferred occurrences: 11× decision.decisionLine11, 4× recipients.personLine5 body cells",
+      "blockerFile": "docs/audit/docx-placeholder-renormalization/BM-062/human-review-blocker.latest.json",
+      "renderDiff": "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json",
+      "canMarkDone": false,
+      "appliedFooter": {
+        "decisionId": "BM062-SIG-FOOTER-001",
+        "originalPlaceholder": "recipients.personLine5",
+        "occurrence": 4,
+        "finalPlaceholder": "signature.signerName"
+      }
+    }
+  ],
+  "boardNote": "Board refresh script overwrites manual blocker edits. Blocker rows must be re-applied after every refresh.",
+  "systemicIssue": "refresh-213-docx-fidelity-board.mjs does not preserve BLOCKED_BY_HUMAN_DOCX_REVIEW status from human-review-blocker ledgers. Recommend: post-processing step to re-apply blocker status from blocker ledger files after board refresh."
+}

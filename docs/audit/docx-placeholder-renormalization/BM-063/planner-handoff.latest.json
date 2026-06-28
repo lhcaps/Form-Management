@@ -1,0 +1,266 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM063_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "status": "EVIDENCE_COMPLETE",
+  "templateCode": "BM-063",
+  "canApplyRunNow": false,
+  "sourcePair": {
+    "normalizedDocx": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-063\\BM-063_normalized.docx",
+    "lockedContract": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-063__54b73110a34f.contract.locked.json"
+  },
+  "renderGateBefore": {
+    "bindingFidelity": "FAIL",
+    "literalFidelity": "FAIL",
+    "templatePlaceholdersWithoutSlots": [
+      "document.fullDocumentCode8"
+    ],
+    "templatePlaceholdersWithoutBindings": [
+      "document.fullDocumentCode8"
+    ],
+    "undefinedOrNullLiterals": 8
+  },
+  "riskPlaceholders": [
+    "document.fullDocumentCode8",
+    "recipients.personLine5"
+  ],
+  "occurrenceEvidence": [
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 0: Appears near \"Kiểm sát viên\" reference — likely a superscript footnote numeral (1, 2, etc.) attached to prosecutor names. NOT the formal document code. Semantic requires human review.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 1: Appears near \"Kiểm sát viên\" reference — likely a superscript footnote numeral (1, 2, etc.) attached to prosecutor names. NOT the formal document code. Semantic requires human review.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 2: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 3: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 4,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 4: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 5,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 5: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 6,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 6: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": []
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 7,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 7: Appears in body text referencing underlying Lệnh/Quyết định procedural antecedent. These are separate from the formal \"Số văn bản\" header. Semantic requires human DOCX/legal review — should these bind to document.fullDocumentCode (same formal header) or to a different field (e.g., legalBasis.relatedDecisionLine)? Cannot determine from DOCX alone.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 0: Blank cell in person/organization table row. 5 such cells likely represent 5 distinct participants in the asset seizure. Cannot merge into one field. Semantic requires human DOCX/legal review.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 1: Blank cell in person/organization table row. 5 such cells likely represent 5 distinct participants in the asset seizure. Cannot merge into one field. Semantic requires human DOCX/legal review.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 2: Blank cell in person/organization table row. 5 such cells likely represent 5 distinct participants in the asset seizure. Cannot merge into one field. Semantic requires human DOCX/legal review.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 3: Blank cell in person/organization table row. 5 such cells likely represent 5 distinct participants in the asset seizure. Cannot merge into one field. Semantic requires human DOCX/legal review.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 4,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "reason": "Occurrence 4: Blank cell in person/organization table row. 5 such cells likely represent 5 distinct participants in the asset seizure. Cannot merge into one field. Semantic requires human DOCX/legal review.",
+      "visibleLabels": [
+        "ưới đây :"
+      ]
+    }
+  ],
+  "classificationCounts": {
+    "DEFER_AMBIGUOUS_DOCUMENT_CODE": 8,
+    "DEFER_AMBIGUOUS_PERSON_TABLE_CELL": 5
+  },
+  "proposedCandidates": [],
+  "deferredItems": [
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 4,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 5,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 6,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "occurrenceIndex": 7,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 4,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    }
+  ],
+  "blockedBmsPreserved": {
+    "BM-052": true,
+    "BM-062": true
+  },
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true,
+    "renderGateUsed": true,
+    "codeGraphUsedForCodeOnly": true,
+    "blockedBmsNotMarkedDone": true
+  },
+  "validation": {
+    "evidenceScriptRun": true,
+    "totalOccurrencesExtracted": 13,
+    "renderGateStatus": "FAIL"
+  },
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "Review BM-063 evidence — are any REVIEW_CANDIDATE occurrences approved for apply? All others deferred to human DOCX/legal review."
+  }
+}

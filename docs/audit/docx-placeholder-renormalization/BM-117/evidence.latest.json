@@ -1,0 +1,2118 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM117_PATH_DOMAIN_BINDING_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-117",
+  "title": "QĐ phục hồi điều tra bị can",
+  "sourceId": "BM-117__c9531f5e460e",
+  "lockedContract": "docs/audit/docx/contracts/locked/BM-117__c9531f5e460e.contract.locked.json",
+  "renderGate": {
+    "status": "PASS",
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS",
+    "clean": true
+  },
+  "rootCause": {
+    "issueCount": 21,
+    "failCount": 20,
+    "reviewCount": 1,
+    "issueCounts": {
+      "BAD_LABEL": 10,
+      "GENERIC_FIELD_CANONICALIZATION": 10,
+      "SOURCE_MISMATCH": 1
+    }
+  },
+  "fixPlan": {
+    "total": 21,
+    "applySafeTrue": 0,
+    "allApplySafeFalse": true,
+    "classifications": {
+      "REVIEW_FIX_CANDIDATE": 10,
+      "MANUAL_LEGAL_REVIEW": 11
+    }
+  },
+  "occurrenceCount": 10,
+  "issueGroups": [
+    {
+      "path": "agency.diaDanh",
+      "slotId": "agency.diaDanh",
+      "rawPattern": "{{document.field4}}",
+      "rawKey": "document.field4",
+      "rawDomain": "document",
+      "rawTail": "field4",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "context": "Xét thấy9 {{document.field4}}",
+      "suggestedPath": "document.issuePlaceDateLine",
+      "suggestedLabel": "Địa điểm, ngày lập văn bản",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field4}}\" mapped to \"agency.diaDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"Xét thấy9 {{document.field4}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field4}}\" on path=\"agency.diaDanh\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_LABEL_ONLY_WEAK_EVIDENCE",
+      "reason": "agency.diaDanh has label-only or weak context evidence. The current fix-plan requires review and is not apply-safe.",
+      "contractField": {
+        "path": "agency.diaDanh",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Xét thấy9",
+          "blockId": "P0028"
+        }
+      },
+      "docxSlot": {
+        "slotId": "agency.diaDanh",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0028",
+          "tableCellId": null
+        },
+        "context": "Xét thấy9 {{document.field4}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Xét thấy9",
+          "textAfter": "",
+          "rawPattern": "{{document.field4}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Xét thấy9",
+          "textAfter": "",
+          "rawPattern": "{{document.field4}}",
+          "context": "[Auto-generated] Xét thấy9",
+          "blockId": "P0028"
+        }
+      },
+      "renderBinding": {
+        "slotId": "agency.diaDanh",
+        "from": "agency.diaDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "agency.dongDia",
+      "slotId": "agency.dongDia",
+      "rawPattern": "{{document.field7}}",
+      "rawKey": "document.field7",
+      "rawDomain": "document",
+      "rawTail": "field7",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "context": "{{document.field7}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field7}}\" mapped to \"agency.dongDia\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"agency.dongDia\"; context=\"{{document.field7}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field7}}\" on path=\"agency.dongDia\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "agency.dongDia has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "agency.dongDia",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field7}}",
+          "blockId": "P0034"
+        }
+      },
+      "docxSlot": {
+        "slotId": "agency.dongDia",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0034",
+          "tableCellId": null
+        },
+        "context": "{{document.field7}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}",
+          "context": "[Auto-generated] {{document.field7}}",
+          "blockId": "P0034"
+        }
+      },
+      "renderBinding": {
+        "slotId": "agency.dongDia",
+        "from": "agency.dongDia",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.chuThe",
+      "slotId": "document.chuThe",
+      "rawPattern": "{{document.field8}}",
+      "rawKey": "document.field8",
+      "rawDomain": "document",
+      "rawTail": "field8",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "{{document.field8}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field8}}\" mapped to \"document.chuThe\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.chuThe\"; context=\"{{document.field8}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field8}}\" on path=\"document.chuThe\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.chuThe has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.chuThe",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field8}}",
+          "blockId": "P0037"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.chuThe",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0037",
+          "tableCellId": null
+        },
+        "context": "{{document.field8}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}",
+          "context": "[Auto-generated] {{document.field8}}",
+          "blockId": "P0037"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.chuThe",
+        "from": "document.chuThe",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.donVi",
+      "slotId": "document.donVi",
+      "rawPattern": "{{document.field13}}",
+      "rawKey": "document.field13",
+      "rawDomain": "document",
+      "rawTail": "field13",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "12{{document.field13}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field13}}\" mapped to \"document.donVi\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.donVi\"; context=\"12{{document.field13}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field13}}\" on path=\"document.donVi\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.donVi has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.donVi",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] 12",
+          "blockId": "P0048"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.donVi",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0048",
+          "tableCellId": null
+        },
+        "context": "12{{document.field13}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "12",
+          "textAfter": "",
+          "rawPattern": "{{document.field13}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "12",
+          "textAfter": "",
+          "rawPattern": "{{document.field13}}",
+          "context": "[Auto-generated] 12",
+          "blockId": "P0048"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.donVi",
+        "from": "document.donVi",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.ngayBan",
+      "slotId": "document.ngayBan",
+      "rawPattern": "{{document.field6}}",
+      "rawKey": "document.field6",
+      "rawDomain": "document",
+      "rawTail": "field6",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "{{document.field6}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field6}}\" mapped to \"document.ngayBan\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.ngayBan\"; context=\"{{document.field6}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field6}}\" on path=\"document.ngayBan\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.ngayBan has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.ngayBan",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field6}}",
+          "blockId": "P0033"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.ngayBan",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0033",
+          "tableCellId": null
+        },
+        "context": "{{document.field6}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}",
+          "context": "[Auto-generated] {{document.field6}}",
+          "blockId": "P0033"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.ngayBan",
+        "from": "document.ngayBan",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.ngayQd",
+      "slotId": "document.ngayQd",
+      "rawPattern": "{{document.field12}}",
+      "rawKey": "document.field12",
+      "rawDomain": "document",
+      "rawTail": "field12",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "- 11{{document.field12}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field12}}\" mapped to \"document.ngayQd\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.ngayQd\"; context=\"- 11{{document.field12}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field12}}\" on path=\"document.ngayQd\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.ngayQd has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.ngayQd",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] - 11",
+          "blockId": "P0045"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.ngayQd",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0045",
+          "tableCellId": null
+        },
+        "context": "- 11{{document.field12}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "- 11",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "- 11",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}",
+          "context": "[Auto-generated] - 11",
+          "blockId": "P0045"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.ngayQd",
+        "from": "document.ngayQd",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.soQd",
+      "slotId": "document.soQd",
+      "rawPattern": "{{document.field11}}",
+      "rawKey": "document.field11",
+      "rawDomain": "document",
+      "rawTail": "field11",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi tạm trú: {{document.field11}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field11}}\" mapped to \"document.soQd\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.soQd\"; context=\"Nơi tạm trú: {{document.field11}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field11}}\" on path=\"document.soQd\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.soQd appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "document.soQd",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0039"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.soQd",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0039",
+          "tableCellId": null
+        },
+        "context": "Nơi tạm trú: {{document.field11}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field11}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field11}}",
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0039"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.soQd",
+        "from": "document.soQd",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.soQuyet",
+      "slotId": "document.soQuyet",
+      "rawPattern": "{{legalBasis.field3}}",
+      "rawKey": "legalBasis.field3",
+      "rawDomain": "legalBasis",
+      "rawTail": "field3",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7{{legalBasis.field3}};",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "SOURCE_MISMATCH",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối v\"",
+        "Generic raw pattern \"{{legalBasis.field3}}\" mapped to \"document.soQuyet\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.soQuyet\"; context=\"Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "SOURCE_MISMATCH: source=\"manual\" on path=\"document.soQuyet\" but context is fixed legal text. May be correct or may need system source. Legal judgment needed."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{legalBasis.field3}}\" on path=\"document.soQuyet\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_SOURCE_POLICY_CONFLICT",
+      "reason": "document.soQuyet has SOURCE_MISMATCH in legal-basis context. Source/path policy must be reviewed before changing contract metadata.",
+      "contractField": {
+        "path": "document.soQuyet",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "blockId": "P0027"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.soQuyet",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0027",
+          "tableCellId": null
+        },
+        "context": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7{{legalBasis.field3}};",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "textAfter": ";",
+          "rawPattern": "{{legalBasis.field3}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "textAfter": ";",
+          "rawPattern": "{{legalBasis.field3}}",
+          "context": "[Auto-generated] Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "blockId": "P0027"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.soQuyet",
+        "from": "document.soQuyet",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.tenVu",
+      "slotId": "document.tenVu",
+      "rawPattern": "{{document.field9}}",
+      "rawKey": "document.field9",
+      "rawDomain": "document",
+      "rawTail": "field9",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field9}}\" mapped to \"document.tenVu\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.tenVu\"; context=\"Nơi thường trú: {{document.field9}}{{document.field10}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field9}}\" on path=\"document.tenVu\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.tenVu appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "document.tenVu",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0038"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.tenVu",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0038",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field10}}",
+          "rawPattern": "{{document.field9}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field10}}",
+          "rawPattern": "{{document.field9}}",
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0038"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.tenVu",
+        "from": "document.tenVu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "person.toiDanh",
+      "slotId": "person.toiDanh",
+      "rawPattern": "{{document.field10}}",
+      "rawKey": "document.field10",
+      "rawDomain": "document",
+      "rawTail": "field10",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field10}}\" mapped to \"person.toiDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"person.toiDanh\"; context=\"Nơi thường trú: {{document.field9}}{{document.field10}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field10}}\" on path=\"person.toiDanh\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "person.toiDanh appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "person.toiDanh",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú: {{document.field9}}",
+          "blockId": "P0038"
+        }
+      },
+      "docxSlot": {
+        "slotId": "person.toiDanh",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0038",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú: {{document.field9}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú: {{document.field9}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}",
+          "context": "[Auto-generated] Nơi thường trú: {{document.field9}}",
+          "blockId": "P0038"
+        }
+      },
+      "renderBinding": {
+        "slotId": "person.toiDanh",
+        "from": "person.toiDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    }
+  ],
+  "candidates": [],
+  "deferred": [
+    {
+      "path": "agency.diaDanh",
+      "slotId": "agency.diaDanh",
+      "rawPattern": "{{document.field4}}",
+      "rawKey": "document.field4",
+      "rawDomain": "document",
+      "rawTail": "field4",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "context": "Xét thấy9 {{document.field4}}",
+      "suggestedPath": "document.issuePlaceDateLine",
+      "suggestedLabel": "Địa điểm, ngày lập văn bản",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field4}}\" mapped to \"agency.diaDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"agency.diaDanh\"; context=\"Xét thấy9 {{document.field4}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field4}}\" on path=\"agency.diaDanh\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_LABEL_ONLY_WEAK_EVIDENCE",
+      "reason": "agency.diaDanh has label-only or weak context evidence. The current fix-plan requires review and is not apply-safe.",
+      "contractField": {
+        "path": "agency.diaDanh",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Xét thấy9",
+          "blockId": "P0028"
+        }
+      },
+      "docxSlot": {
+        "slotId": "agency.diaDanh",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0028",
+          "tableCellId": null
+        },
+        "context": "Xét thấy9 {{document.field4}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Xét thấy9",
+          "textAfter": "",
+          "rawPattern": "{{document.field4}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Xét thấy9",
+          "textAfter": "",
+          "rawPattern": "{{document.field4}}",
+          "context": "[Auto-generated] Xét thấy9",
+          "blockId": "P0028"
+        }
+      },
+      "renderBinding": {
+        "slotId": "agency.diaDanh",
+        "from": "agency.diaDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "agency.dongDia",
+      "slotId": "agency.dongDia",
+      "rawPattern": "{{document.field7}}",
+      "rawKey": "document.field7",
+      "rawDomain": "document",
+      "rawTail": "field7",
+      "label": "Ô trống",
+      "source": "agencyConfig",
+      "context": "{{document.field7}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field7}}\" mapped to \"agency.dongDia\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"agency.dongDia\"; context=\"{{document.field7}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field7}}\" on path=\"agency.dongDia\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "agency.dongDia has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "agency.dongDia",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "agencyConfig",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field7}}",
+          "blockId": "P0034"
+        }
+      },
+      "docxSlot": {
+        "slotId": "agency.dongDia",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0034",
+          "tableCellId": null
+        },
+        "context": "{{document.field7}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}",
+          "context": "[Auto-generated] {{document.field7}}",
+          "blockId": "P0034"
+        }
+      },
+      "renderBinding": {
+        "slotId": "agency.dongDia",
+        "from": "agency.dongDia",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.chuThe",
+      "slotId": "document.chuThe",
+      "rawPattern": "{{document.field8}}",
+      "rawKey": "document.field8",
+      "rawDomain": "document",
+      "rawTail": "field8",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "{{document.field8}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field8}}\" mapped to \"document.chuThe\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.chuThe\"; context=\"{{document.field8}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field8}}\" on path=\"document.chuThe\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.chuThe has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.chuThe",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field8}}",
+          "blockId": "P0037"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.chuThe",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0037",
+          "tableCellId": null
+        },
+        "context": "{{document.field8}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}",
+          "context": "[Auto-generated] {{document.field8}}",
+          "blockId": "P0037"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.chuThe",
+        "from": "document.chuThe",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.donVi",
+      "slotId": "document.donVi",
+      "rawPattern": "{{document.field13}}",
+      "rawKey": "document.field13",
+      "rawDomain": "document",
+      "rawTail": "field13",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "12{{document.field13}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field13}}\" mapped to \"document.donVi\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.donVi\"; context=\"12{{document.field13}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field13}}\" on path=\"document.donVi\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.donVi has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.donVi",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] 12",
+          "blockId": "P0048"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.donVi",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0048",
+          "tableCellId": null
+        },
+        "context": "12{{document.field13}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "12",
+          "textAfter": "",
+          "rawPattern": "{{document.field13}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "12",
+          "textAfter": "",
+          "rawPattern": "{{document.field13}}",
+          "context": "[Auto-generated] 12",
+          "blockId": "P0048"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.donVi",
+        "from": "document.donVi",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.ngayBan",
+      "slotId": "document.ngayBan",
+      "rawPattern": "{{document.field6}}",
+      "rawKey": "document.field6",
+      "rawDomain": "document",
+      "rawTail": "field6",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "{{document.field6}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field6}}\" mapped to \"document.ngayBan\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.ngayBan\"; context=\"{{document.field6}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field6}}\" on path=\"document.ngayBan\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.ngayBan has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.ngayBan",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] {{document.field6}}",
+          "blockId": "P0033"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.ngayBan",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0033",
+          "tableCellId": null
+        },
+        "context": "{{document.field6}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}",
+          "context": "[Auto-generated] {{document.field6}}",
+          "blockId": "P0033"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.ngayBan",
+        "from": "document.ngayBan",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.ngayQd",
+      "slotId": "document.ngayQd",
+      "rawPattern": "{{document.field12}}",
+      "rawKey": "document.field12",
+      "rawDomain": "document",
+      "rawTail": "field12",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "- 11{{document.field12}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field12}}\" mapped to \"document.ngayQd\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.ngayQd\"; context=\"- 11{{document.field12}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field12}}\" on path=\"document.ngayQd\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.ngayQd has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone.",
+      "contractField": {
+        "path": "document.ngayQd",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] - 11",
+          "blockId": "P0045"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.ngayQd",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0045",
+          "tableCellId": null
+        },
+        "context": "- 11{{document.field12}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "- 11",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "- 11",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}",
+          "context": "[Auto-generated] - 11",
+          "blockId": "P0045"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.ngayQd",
+        "from": "document.ngayQd",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.soQd",
+      "slotId": "document.soQd",
+      "rawPattern": "{{document.field11}}",
+      "rawKey": "document.field11",
+      "rawDomain": "document",
+      "rawTail": "field11",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi tạm trú: {{document.field11}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field11}}\" mapped to \"document.soQd\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.soQd\"; context=\"Nơi tạm trú: {{document.field11}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field11}}\" on path=\"document.soQd\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.soQd appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "document.soQd",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0039"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.soQd",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0039",
+          "tableCellId": null
+        },
+        "context": "Nơi tạm trú: {{document.field11}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field11}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field11}}",
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0039"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.soQd",
+        "from": "document.soQd",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.soQuyet",
+      "slotId": "document.soQuyet",
+      "rawPattern": "{{legalBasis.field3}}",
+      "rawKey": "legalBasis.field3",
+      "rawDomain": "legalBasis",
+      "rawTail": "field3",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7{{legalBasis.field3}};",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "SOURCE_MISMATCH",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "REVIEW",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối v\"",
+        "Generic raw pattern \"{{legalBasis.field3}}\" mapped to \"document.soQuyet\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.soQuyet\"; context=\"Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "SOURCE_MISMATCH"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "SOURCE_MISMATCH: source=\"manual\" on path=\"document.soQuyet\" but context is fixed legal text. May be correct or may need system source. Legal judgment needed."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{legalBasis.field3}}\" on path=\"document.soQuyet\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_SOURCE_POLICY_CONFLICT",
+      "reason": "document.soQuyet has SOURCE_MISMATCH in legal-basis context. Source/path policy must be reviewed before changing contract metadata.",
+      "contractField": {
+        "path": "document.soQuyet",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "blockId": "P0027"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.soQuyet",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0027",
+          "tableCellId": null
+        },
+        "context": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7{{legalBasis.field3}};",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "textAfter": ";",
+          "rawPattern": "{{legalBasis.field3}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "textAfter": ";",
+          "rawPattern": "{{legalBasis.field3}}",
+          "context": "[Auto-generated] Căn cứ Quyết định đình chỉ điều tra bị can số … ngày … tháng … năm … của8… đối với7",
+          "blockId": "P0027"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.soQuyet",
+        "from": "document.soQuyet",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "document.tenVu",
+      "slotId": "document.tenVu",
+      "rawPattern": "{{document.field9}}",
+      "rawKey": "document.field9",
+      "rawDomain": "document",
+      "rawTail": "field9",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field9}}\" mapped to \"document.tenVu\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"document.tenVu\"; context=\"Nơi thường trú: {{document.field9}}{{document.field10}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field9}}\" on path=\"document.tenVu\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.tenVu appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "document.tenVu",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0038"
+        }
+      },
+      "docxSlot": {
+        "slotId": "document.tenVu",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0038",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field10}}",
+          "rawPattern": "{{document.field9}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field10}}",
+          "rawPattern": "{{document.field9}}",
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0038"
+        }
+      },
+      "renderBinding": {
+        "slotId": "document.tenVu",
+        "from": "document.tenVu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    },
+    {
+      "path": "person.toiDanh",
+      "slotId": "person.toiDanh",
+      "rawPattern": "{{document.field10}}",
+      "rawKey": "document.field10",
+      "rawDomain": "document",
+      "rawTail": "field10",
+      "label": "Ô trống",
+      "source": "manual",
+      "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+      "suggestedPath": null,
+      "suggestedLabel": null,
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "severities": [
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field10}}\" mapped to \"person.toiDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_LABEL",
+          "applySafe": false,
+          "reason": "Bad label \"Ô trống\" on path \"person.toiDanh\"; context=\"Nơi thường trú: {{document.field9}}{{document.field10}}\" — needs review to determine correct label"
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "MANUAL_LEGAL_REVIEW",
+          "action": "MANUAL_REVIEW",
+          "applySafe": false,
+          "reason": "GENERIC_FIELD_CANONICALIZATION: generic raw \"{{document.field10}}\" on path=\"person.toiDanh\" with no known label override. Path may be wrong. Needs legal/procedural review."
+        }
+      ],
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "person.toiDanh appears near a residence label, but the current path/domain is not a stable residence semantic. Same-BM DOCX/legal review is required before remap.",
+      "contractField": {
+        "path": "person.toiDanh",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú: {{document.field9}}",
+          "blockId": "P0038"
+        }
+      },
+      "docxSlot": {
+        "slotId": "person.toiDanh",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0038",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú: {{document.field9}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú: {{document.field9}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}",
+          "context": "[Auto-generated] Nơi thường trú: {{document.field9}}",
+          "blockId": "P0038"
+        }
+      },
+      "renderBinding": {
+        "slotId": "person.toiDanh",
+        "from": "person.toiDanh",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "proposedPath": null,
+      "proposedLabel": null,
+      "proposedSource": null,
+      "canApply": false
+    }
+  ],
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "canMarkDone": false,
+    "noContractMutation": true,
+    "noDocxMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "renderPassDoesNotCloseSemanticReview": true
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "generatedAt": "2026-06-26T20:00:08.122Z",
+  "sourceIds": {
+    "BM-063": "54b73110a34f",
+    "BM-065": "4a64c8d7e96c",
+    "BM-052": "9919ecdb3971",
+    "BM-061": "ec44550246e9",
+    "BM-062": "110961a781fa",
+    "BM-066": "e3bc56081554",
+    "BM-067": "0f7607122f29"
+  },
+  "findings": [
+    {
+      "investigationId": "PRIOR-DXR-006",
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "path": "recipients.personLine5",
+      "placeholder": "RECIPIENTS_PERSONLINE5",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[021]",
+        "[022]",
+        "[025]",
+        "[030]",
+        "[031]"
+      ],
+      "paragraphSnippets": [
+        "[021] Tên gọi khác:",
+        "[022] __RECIPIENTS_PERSONLINE5__",
+        "[025] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "[030] __RECIPIENTS_PERSONLINE5__ (in Điều 1 body — tài sản continuation)",
+        "[031] __RECIPIENTS_PERSONLINE5__ (in Điều 1 body — tài sản continuation)"
+      ],
+      "slotRole": "Body continuation between labeled fields AND Điều 1 body clause",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0031 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-063 recipients.personLine5 appears 5 times: as body continuation between \"Tên gọi khác:\" and \"Số CMND\" AND inside Điều 1 \"tài sản\" clause. The Điều 1 occurrences ([030][031]) are continuation lines for tài sản description, not person/recipient data. However, removing these could affect data-capture capacity. The [021][022][025] occurrences are free-text continuation for recipient details. KEEP_DEFERRED — a future domain-model review should clarify whether these continuation lines should become a repeat/array model or be removed."
+    },
+    {
+      "investigationId": "PRIOR-DXR-007",
+      "templateCode": "BM-065",
+      "sourceId": "4a64c8d7e96c",
+      "path": "recipients.personLine3",
+      "placeholder": "RECIPIENTS_PERSONLINE3",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[021]",
+        "[022]",
+        "[025]"
+      ],
+      "paragraphSnippets": [
+        "[021] Tên gọi khác:",
+        "[022] __RECIPIENTS_PERSONLINE3__",
+        "[025] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:"
+      ],
+      "slotRole": "Body continuation between labeled recipient fields",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0030 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-065 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation for recipient details. No Nơi nhận suffix. Removing these could reduce data-capture capacity. KEEP_DEFERRED."
+    },
+    {
+      "investigationId": "PRIOR-DXR-008",
+      "templateCode": "BM-052",
+      "sourceId": "9919ecdb3971",
+      "path": "recipients.personLine6",
+      "placeholder": "RECIPIENTS_PERSONLINE6",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[019]",
+        "[020]",
+        "[021]",
+        "[024]",
+        "[027]",
+        "[035]"
+      ],
+      "paragraphSnippets": [
+        "[019] Họ tên:8__RECIPIENTS_PERSONLINE__",
+        "[020] __RECIPIENTS_PERSONLINE6__",
+        "[021] __RECIPIENTS_PERSONLINE6__",
+        "[024] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "[027] Nơi tạm trú:",
+        "[035] 11__RECIPIENTS_PERSONLINE6__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+      ],
+      "slotRole": "Body continuation + Nơi nhận footer suffix [035]",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0029 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-052 recipients.personLine6 appears 6 times: [020][021] as body continuation, [024] between fields, [027] after \"Nơi tạm trú:\", and [035] as Nơi nhận suffix after \"Lưu: HSVA...\" with footnote marker 11. The Nơi nhận suffix [035] is a pure footer artifact — Nơi nhận already lists the main recipients (7, 10, 8) and the \"11\" footnote marker is a signer title placeholder. The body continuation lines [020][021][024][027] are free-text fill, but BM-052 has no legitimate repeat/array person model. HIGH confidence REMOVE — the Nơi nhận suffix is sufficient evidence on its own. The body continuation lines are secondary."
+    },
+    {
+      "investigationId": "PRIOR-DXR-009",
+      "templateCode": "BM-061",
+      "sourceId": "ec44550246e9",
+      "path": "recipients.personLine3",
+      "placeholder": "RECIPIENTS_PERSONLINE3",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[022]",
+        "[023]",
+        "[026]"
+      ],
+      "paragraphSnippets": [
+        "[022] __RECIPIENTS_PERSONLINE3__",
+        "[023] __RECIPIENTS_PERSONLINE3__",
+        "[026] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:"
+      ],
+      "slotRole": "Body continuation between labeled recipient fields",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0035 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-061 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation. No Nơi nhận suffix. KEEP_DEFERRED."
+    },
+    {
+      "investigationId": "PRIOR-DXR-010",
+      "templateCode": "BM-062",
+      "sourceId": "110961a781fa",
+      "path": "recipients.personLine5",
+      "placeholder": "RECIPIENTS_PERSONLINE5",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[021]",
+        "[022]",
+        "[023]",
+        "[037]"
+      ],
+      "paragraphSnippets": [
+        "[021] __RECIPIENTS_PERSONLINE5__",
+        "[022] __RECIPIENTS_PERSONLINE5__",
+        "[023] __RECIPIENTS_PERSONLINE5____RECIPIENTS_PERSONLINE5__ (merged line)",
+        "[037] 16__RECIPIENTS_PERSONLINE5__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+      ],
+      "slotRole": "Body continuation + Nơi nhận footer suffix [037]",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0029 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-062 recipients.personLine5 appears 4 times: [021][022][023] as body continuation (some merged with duplicate), and [037] as Nơi nhận suffix with footnote marker 16. The Nơi nhận suffix [037] is a pure footer artifact — Nơi nhận already lists main recipients (12, 13, 15). The \"16\" marker is a signer title placeholder. HIGH confidence REMOVE — the Nơi nhận suffix is sufficient evidence."
+    },
+    {
+      "investigationId": "PRIOR-DXR-011",
+      "templateCode": "BM-066",
+      "sourceId": "e3bc56081554",
+      "path": "recipients.personLine4",
+      "placeholder": "RECIPIENTS_PERSONLINE4",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[023]",
+        "[024]",
+        "[031]",
+        "[038]"
+      ],
+      "paragraphSnippets": [
+        "[023] __RECIPIENTS_PERSONLINE4__",
+        "[024] __RECIPIENTS_PERSONLINE4__",
+        "[031] __RECIPIENTS_PERSONLINE4__. (after \"Yêu cầu 12 và 14\")",
+        "[038] 15__RECIPIENTS_PERSONLINE4__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+      ],
+      "slotRole": "Body continuation + Điều 2 clause + Nơi nhận footer suffix [038]",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0032 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-066 recipients.personLine4 appears 4 times: [023][024] as body continuation between \"Tên gọi khác:\" and \"Nghề nghiệp:\", [031] as Điều 2 clause continuation, and [038] as Nơi nhận suffix with footnote marker 15. The Nơi nhận suffix [038] is a pure footer artifact — \"15\" is a signer title placeholder. HIGH confidence REMOVE. The Điều 2 clause [031] is also anomalous (Yêu cầu clause, not recipient continuation)."
+    },
+    {
+      "investigationId": "PRIOR-DXR-012",
+      "templateCode": "BM-067",
+      "sourceId": "0f7607122f29",
+      "path": "recipients.personLine3",
+      "placeholder": "RECIPIENTS_PERSONLINE3",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[021]",
+        "[022]",
+        "[025]"
+      ],
+      "paragraphSnippets": [
+        "[021] __RECIPIENTS_PERSONLINE3__",
+        "[022] __RECIPIENTS_PERSONLINE3__",
+        "[025] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:"
+      ],
+      "slotRole": "Body continuation between labeled recipient fields",
+      "visibleLabel": false,
+      "hasLegitimate": true,
+      "legitimatePath": "recipients.personLine at blockId=P0028 (labeled \"Người bị áp dụng\")",
+      "blockId": null,
+      "rootCauseFinding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-067 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation for recipient details. No Nơi nhận suffix. KEEP_DEFERRED."
+    }
+  ],
+  "counts": {
+    "byFinding": {
+      "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED": 7
+    },
+    "byRemediation": {
+      "KEEP_DEFERRED": 4,
+      "REMOVE_FIELD_FROM_CONTRACT": 3
+    }
+  },
+  "removeCandidates": [
+    {
+      "id": "PRIOR-DXR-008",
+      "bm": "BM-052",
+      "path": "recipients.personLine6",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "PRIOR-DXR-010",
+      "bm": "BM-062",
+      "path": "recipients.personLine5",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "PRIOR-DXR-011",
+      "bm": "BM-066",
+      "path": "recipients.personLine4",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    }
+  ],
+  "keepDeferred": [
+    {
+      "id": "PRIOR-DXR-006",
+      "bm": "BM-063",
+      "path": "recipients.personLine5",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "PRIOR-DXR-007",
+      "bm": "BM-065",
+      "path": "recipients.personLine3",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "PRIOR-DXR-009",
+      "bm": "BM-061",
+      "path": "recipients.personLine3",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "PRIOR-DXR-012",
+      "bm": "BM-067",
+      "path": "recipients.personLine3",
+      "finding": "RECIPIENT_FILLER_NO_CONTEXT_CONFIRMED",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "combinedHighConfidenceCount": 10
+}

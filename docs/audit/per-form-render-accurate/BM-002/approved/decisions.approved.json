@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "task": "PER_FORM_RENDER_ACCURATE_BM002_APPROVED_DECISION",
+  "generatedAt": "2026-06-27T16:10:00.000Z",
+  "approvalCommand": "APPROVE_RENDER_ACCURATE_FORM BM-002 BM-002__f78301178da7 SAFE_LABEL_ONLY",
+  "approvalStatus": "APPROVED_FOR_APPLY",
+  "templateCode": "BM-002",
+  "sourceId": "BM-002__f78301178da7",
+  "patchType": "SAFE_LABEL_ONLY",
+  "patchPlan": "docs/audit/per-form-render-accurate/BM-002/patch-plan.latest.json",
+  "changes": {
+    "totalLogicalFixes": 10,
+    "totalPhysicalEdits": 10,
+    "targetArray": "canonicalFields",
+    "targetField": "canonicalFields[N].label",
+    "docxSlotsChanged": 0,
+    "renderBindingsChanged": 0,
+    "pathsChanged": 0,
+    "fieldsAdded": 0,
+    "fieldsRemoved": 0,
+    "docxMutated": 0,
+    "sourceMutated": 0,
+    "compiledArtifactsEdited": 0
+  },
+  "exactChanges": [
+    { "path": "document.issuePlaceAndDateLine", "canonicalFieldIndex": 3, "target": "canonicalFields[3].label", "oldValue": "issuePlaceAndDateLine", "newValue": "Địa điểm, ngày tháng năm" },
+    { "path": "sourceReport.receivedDateLine", "canonicalFieldIndex": 5, "target": "canonicalFields[5].label", "oldValue": "receivedDateLine", "newValue": "Ngày tiếp nhận" },
+    { "path": "reporter.genderText", "canonicalFieldIndex": 8, "target": "canonicalFields[8].label", "oldValue": "genderText", "newValue": "Giới tính" },
+    { "path": "reporter.otherName", "canonicalFieldIndex": 9, "target": "canonicalFields[9].label", "oldValue": "otherName", "newValue": "Tên gọi khác" },
+    { "path": "reporter.birthDateLine", "canonicalFieldIndex": 10, "target": "canonicalFields[10].label", "oldValue": "birthDateLine", "newValue": "Sinh ngày" },
+    { "path": "reporter.identityIssueDateLine", "canonicalFieldIndex": 17, "target": "canonicalFields[17].label", "oldValue": "identityIssueDateLine", "newValue": "Cấp ngày" },
+    { "path": "reporter.organizationRepresentative", "canonicalFieldIndex": 23, "target": "canonicalFields[23].label", "oldValue": "organizationRepresentative", "newValue": "Người đại diện cơ quan, tổ chức" },
+    { "path": "sourceReport.content", "canonicalFieldIndex": 24, "target": "canonicalFields[24].label", "oldValue": "content", "newValue": "Nội dung" },
+    { "path": "recipients.primaryLine", "canonicalFieldIndex": 25, "target": "canonicalFields[25].label", "oldValue": "primaryLine", "newValue": "Nơi nhận" },
+    { "path": "recipients.archiveLine", "canonicalFieldIndex": 26, "target": "canonicalFields[26].label", "oldValue": "archiveLine", "newValue": "Nơi lưu" }
+  ],
+  "scopeConstraints": {
+    "docxSlotsLabelsNotModified": true,
+    "docxSlotsLabelMisalignmentDeferred": "Tracked as separate consistency cleanup task. docxSlots labels do not trigger audit issues.",
+    "renderBindingsUnchanged": true,
+    "noPathChanges": true,
+    "noFieldCountChanges": true,
+    "noDocxMutation": true,
+    "noSourceMutation": true,
+    "noCompiledArtifactEdits": true
+  },
+  "expectedAuditDelta": {
+    "BAD_LABEL": -10,
+    "UI_VISIBLE_BAD_METADATA": -9,
+    "renderOutputChanges": false
+  },
+  "rollbackMethod": "Restore locked contract from backup directory",
+  "applyScript": "scripts/audit/apply-bm002-safe-label-only-render-accurate.mjs",
+  "safety": {
+    "templateCodeGuard": "BM-002",
+    "sourceIdGuard": "BM-002__f78301178da7",
+    "arrayTargetGuard": "canonicalFields only",
+    "preconditionAbort": [
+      "if docxSlots label changes attempted",
+      "if renderBindings changed",
+      "if any path changed",
+      "if any field added/removed",
+      "if any array count changed",
+      "if templateCode !== BM-002",
+      "if sourceId !== BM-002__f78301178da7"
+    ]
+  }
+}

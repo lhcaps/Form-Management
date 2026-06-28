@@ -1,0 +1,90 @@
+{
+  "task": "FORENSIC_VERIFY_BLOCKED_BM_MUTATION_CLAIM",
+  "mode": "READ_ONLY_FORENSIC_AUDIT",
+  "generated": "2026-06-28T16:40:00.000Z",
+  "branch": "fix/documents-canonical-render-payload-snapshot",
+  "rollbackApproved": false,
+  "rollbackNeeded": false,
+  "targetBms": {
+    "BM-052": {
+      "renderBefore": "FAIL (binding fidelity, recipients.personLine6 no slot)",
+      "renderAfter": "PASS (current render evidence)",
+      "lockedContractDiff": true,
+      "normalizedDocxDiff": true,
+      "compiledV2Diff": true,
+      "approvalEvidence": {
+        "found": true,
+        "files": [
+          "docs/audit/docx-placeholder-renormalization/BM-052/approved/decisions.approved.json",
+          "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/decisions.approved.json",
+          "docs/audit/docx-placeholder-renormalization/BM-052/backups/2026-06-28T06-33-06-063Z/decisions.approved.json"
+        ],
+        "scope": "Partial — signature footer only approved, but full DOCX contract mutations applied beyond scope"
+      },
+      "boardStatus": "LEGAL_REVIEW / BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "blockerPreserved": true,
+      "classification": "AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "explanation": "BM-052 has two approved apply scripts: (1) BM-052 approved/ with decisions for decision.decisionLine2->person.fullName (2 occurrences) and recipients.personLine6->person.idNumber/temporaryAddress; (2) BM-052 approved-signature/ with decision for recipients.personLine6 occurrence 3 -> signature.signerName. Both scripts were approved and applied. However, the DOCX diff shows recipients.personLine6 remaining in 3 body cell occurrences that were NOT covered by any approval — they remain in the blocker category. The blocker status remains LEGAL_REVIEW/BLOCKED correctly.",
+      "renderGateChangedBecause": "Contract was modified per approved decisions. The blocked remaining occurrences are in blocker ledger.",
+      "recommendation": "BLOCKER_PRESERVED — No action needed. Board correctly shows LEGAL_REVIEW/BLOCKED. The 3 remaining recipients.personLine6 body occurrences are correctly blocked."
+    },
+    "BM-062": {
+      "renderBefore": "FAIL (binding fidelity, recipients.personLine5 no slot)",
+      "renderAfter": "PASS (current render evidence)",
+      "lockedContractDiff": true,
+      "normalizedDocxDiff": true,
+      "compiledV2Diff": true,
+      "approvalEvidence": {
+        "found": true,
+        "files": [
+          "docs/audit/docx-placeholder-renormalization/BM-062/approved-signature/decisions.approved.json"
+        ],
+        "scope": "recipients.personLine5 occurrence 4 -> signature.signerName footer only"
+      },
+      "boardStatus": "LEGAL_REVIEW / BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "blockerPreserved": true,
+      "classification": "AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "explanation": "BM-062 has one approved apply script for signature footer placeholder rename. This was approved and applied. The render-gating-binding-repair-v1.mjs also added recipients.personLine5 slot and signature.signerName slot, plus canonical fields. The blocker ledger correctly shows LEGAL_REVIEW/BLOCKED. The blocker is about document.fullDocumentCode4 (not yet fixed), not about signature.",
+      "renderGateChangedBecause": "Contract modified. signature.signerName slot was added per approved decision. The remaining blocker (document.fullDocumentCode4) is separate.",
+      "recommendation": "BLOCKER_PRESERVED — No action needed. Board correctly shows LEGAL_REVIEW/BLOCKED for the unresolved document.fullDocumentCode4 issue."
+    },
+    "BM-063": {
+      "renderBefore": "FAIL (binding fidelity, undefined literals 8)",
+      "renderAfter": "PASS (current render evidence, 0 undefined literals)",
+      "lockedContractDiff": true,
+      "normalizedDocxDiff": false,
+      "compiledV2Diff": true,
+      "approvalEvidence": {
+        "found": false,
+        "files": [],
+        "scope": "NONE — no decisions.approved.json found for BM-063"
+      },
+      "boardStatus": "LEGAL_REVIEW / BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "blockerPreserved": true,
+      "classification": "UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED",
+      "explanation": "render-binding-repair-v1.mjs ran with --write and modified BM-063 contract without any approved decisions. Changes: renamed document.fullDocumentCode slot to recipients.personLine5, added document.fullDocumentCode8 slot, updated bindings. This is NOT the same as fixing the blocker. The blocker was about document.fullDocumentCode8 (8 ambiguous occurrences) and recipients.personLine5 (5 ambiguous table cells) being DEFERRED. The contract mutation did NOT fix the deferred occurrences — it just renamed/added slots. The blocker ledger shows BLOCKED_BY_HUMAN_DOCX_REVIEW correctly because it is based on DOCX occurrence analysis, not contract slot analysis. The blocker remains valid.",
+      "renderGateChangedBecause": "Contract was modified by unauthorized apply script. But blocker is preserved in board because blocker ledger reads DOCX occurrence analysis, not render status.",
+      "recommendation": "AUTHORIZED_CONFLICT — Board blocker is correct. Contract was mutated without approval. Surgical rollback of BM-063 locked contract change is RECOMMENDED, but blocker remains valid regardless. Rollback restores contract integrity but does not affect blocker status."
+    },
+    "BM-066": {
+      "renderBefore": "FAIL (binding fidelity, undefined literals 4)",
+      "renderAfter": "PASS (current render evidence, 0 undefined literals)",
+      "lockedContractDiff": true,
+      "normalizedDocxDiff": false,
+      "compiledV2Diff": true,
+      "approvalEvidence": {
+        "found": false,
+        "files": [],
+        "scope": "NONE — no decisions.approved.json found for BM-066"
+      },
+      "boardStatus": "LEGAL_REVIEW / BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "blockerPreserved": true,
+      "classification": "UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED",
+      "explanation": "render-binding-repair-v1.mjs ran with --write and modified BM-066 contract without any approved decisions. Changes: added recipients.personLine4 slot and canonical field. The blocker ledger identified recipients.personLine4 as DEFER_AMBIGUOUS_PERSON_TABLE_CELL (4 occurrences). Adding the slot made render pass, but did NOT resolve the semantic ambiguity. The blocker ledger correctly shows LEGAL_REVIEW/BLOCKED because it reads DOCX occurrence analysis. The contract mutation bypasses the blocker mechanism.",
+      "renderGateChangedBecause": "Contract was modified by unauthorized apply script. Blocker ledger still correctly shows BLOCKED because it reads DOCX, not contract slots.",
+      "recommendation": "AUTHORIZED_CONFLICT — Board blocker is correct. Contract was mutated without approval. Surgical rollback of BM-066 locked contract change is RECOMMENDED to restore blocker integrity."
+    }
+  },
+  "globalConclusion": "PARTIALLY_CONFIRMED — BM-052 and BM-062 have partial approval (signature footer only) but full mutations were applied. BM-063 and BM-066 have NO approval but contracts were modified. ALL blockers are preserved in board status (LEGAL_REVIEW/BLOCKED). The render evidence shows PASS but board correctly reads blocker ledger. The real issue is: unauthorized/in-scope-violation mutations to locked contracts, NOT board blocker status. Rollback of BM-063 and BM-066 contracts is recommended to restore contract integrity, but blocker status remains correct regardless.",
+  "nextPlannerDecisionNeeded": "APPROVED_NEXT: ROLLBACK_BM063_BM066_CONTRACTS (surgical, locked contracts only). NOT_APPROVED_YET: full rollback, new remediation, DB publish. FOR_INFORMATION: BM-052/BM-062 blockers are preserved despite partial approval scope violation."
+}

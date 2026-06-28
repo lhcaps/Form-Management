@@ -1,0 +1,76 @@
+{
+  "task": "BM136_REMAINING_PATH_DOMAIN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-136",
+  "title": "BB đối chất",
+  "sourceId": "BM-136__f7c2e28ddd12",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-136.pathDomainGenericFields",
+      "count": 14,
+      "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+      "reason": "BM-136 render-fidelity passes, but remaining generic path-domain evidence is weak, placeholder-only, or domain-conflicting. Do not mutate without human DOCX/legal review."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 28,
+    "failCount": 28,
+    "reviewCount": 0,
+    "issueCounts": {
+      "BAD_LABEL": 14,
+      "GENERIC_FIELD_CANONICALIZATION": 14
+    }
+  },
+  "remainingPaths": [
+    "agency.diaDanh",
+    "agency.dongDia",
+    "document.chuThe",
+    "document.lyDo",
+    "document.ngayBan",
+    "document.soQuyet",
+    "document.soTien",
+    "document.tenVu",
+    "person.tenBi",
+    "person.toiDanh",
+    "recipients.luuHo",
+    "signature.cheDo",
+    "signature.chucVu",
+    "signature.nguoiKy"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "AUTO_REMAP_ALL_BM136_GENERIC_FIELDS",
+      "reason": "The remaining evidence mixes document/person/agency/signature/recipient paths and several unlabeled adjacent placeholders. Batch mutation would be semantic guessing."
+    },
+    {
+      "option": "MARK_BM136_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render fidelity is clean, but semantic/path-domain contract metadata remains unresolved."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "What official TT-03-2026-VKSTC label and semantic path corresponds to each BM-136 generic field?",
+    "Which address-like occurrences should map to person/address payload paths rather than document paths?",
+    "Which role/procedure occurrences should map to participant role fields rather than signature or document fields?",
+    "Are adjacent person.field and document.field placeholders independent fields or split text from one legal phrase?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-136/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-136/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-136/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-136/planner-handoff.latest.json"
+  },
+  "createdAt": "deterministic-current-state",
+  "createdBy": "BM136_PATH_DOMAIN_BINDING_EVIDENCE task"
+}

@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-052",
+  "title": "QĐ huỷ bỏ biện pháp đặt tiền để bảo đảm",
+  "sourceBatch": "docs/audit/213-docx-fidelity-board/contract-repair-batch-1.latest.json",
+  "canApplyRunNow": false,
+  "baselineFindings": [
+    "EXTRACTION_HASH_MISMATCH",
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "REVIEW_REQUIRED_REMAINS"
+  ],
+  "rootCause": {
+    "fieldCount": 8,
+    "issueCount": 6,
+    "failCount": 2,
+    "reviewCount": 4,
+    "issueCounts": {
+      "SOURCE_MISMATCH": 1,
+      "REQUIRED_SUSPICIOUS": 3,
+      "BAD_LABEL": 1,
+      "GENERIC_FIELD_CANONICALIZATION": 1
+    }
+  },
+  "docx": {
+    "normalizedPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-052\\BM-052_normalized.docx",
+    "exists": true,
+    "error": null,
+    "placeholders": {
+      "total": 10,
+      "unique": [
+        "agency.name",
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress",
+        "recipients.personLine",
+        "recipients.personLine6",
+        "signature.signerName"
+      ],
+      "duplicates": [
+        {
+          "placeholder": "person.fullName",
+          "count": 2
+        },
+        {
+          "placeholder": "recipients.personLine6",
+          "count": 3
+        }
+      ],
+      "items": [
+        {
+          "placeholder": "agency.name",
+          "count": 1,
+          "context": "VIỆN KIỂM SÁT … {{agency.name}} 541655 34290 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 1699260 -445770 Mẫu số 52/HS (Ban hành theo Thông t ư",
+          "occurrenceContexts": [
+            "VIỆN KIỂM SÁT … {{agency.name}} 541655 34290 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 1699260 -445770 Mẫu số 52/HS (Ban hành theo Thông t ư"
+          ]
+        },
+        {
+          "placeholder": "person.fullName",
+          "count": 2,
+          "context": "t Tư pháp người chưa thành niên ; Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của … đối với {{person.fullName}} Xét thấy {{person.fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipi",
+          "occurrenceContexts": [
+            "t Tư pháp người chưa thành niên ; Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của … đối với {{person.fullName}} Xét thấy {{person.fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipi",
+            "ên ; Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của … đối với {{person.fullName}} Xét thấy {{person.fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipient"
+          ]
+        },
+        {
+          "placeholder": "person.idNumber",
+          "count": 1,
+          "context": "ents.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddress}} bị khởi tố về tội … quy định tại khoản … Điều … của Bộ luật Hì",
+          "occurrenceContexts": [
+            "ents.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddress}} bị khởi tố về tội … quy định tại khoản … Điều … của Bộ luật Hì"
+          ]
+        },
+        {
+          "placeholder": "person.temporaryAddress",
+          "count": 1,
+          "context": "ecipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddress}} bị khởi tố về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu cơ quan, người có thẩm quyền 7 và",
+          "occurrenceContexts": [
+            "ecipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddress}} bị khởi tố về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu cơ quan, người có thẩm quyền 7 và"
+          ]
+        },
+        {
+          "placeholder": "recipients.personLine",
+          "count": 1,
+          "context": "llName}} Xét thấy {{person.fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/H",
+          "occurrenceContexts": [
+            "llName}} Xét thấy {{person.fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/H"
+          ]
+        },
+        {
+          "placeholder": "recipients.personLine6",
+          "count": 3,
+          "context": ".fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}",
+          "occurrenceContexts": [
+            ".fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}",
+            "u 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm t",
+            "iền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddre"
+          ]
+        },
+        {
+          "placeholder": "signature.signerName",
+          "count": 1,
+          "context": "nh của Bộ luật Tố tụng hình sự./. Nơi nhận: - 7 …; - 10 …; - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )",
+          "occurrenceContexts": [
+            "nh của Bộ luật Tố tụng hình sự./. Nơi nhận: - 7 …; - 10 …; - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )"
+          ]
+        }
+      ],
+      "risks": {
+        "duplicateSemantic": [
+          {
+            "placeholder": "recipients.personLine6",
+            "count": 3,
+            "severity": "HIGH",
+            "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+            "anchors": [
+              "fullName",
+              "idNumber",
+              "job",
+              "permanentAddress",
+              "temporaryAddress"
+            ],
+            "occurrenceContexts": [
+              ".fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}",
+              "u 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm t",
+              "iền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddre"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "contract": {
+    "file": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-052__9919ecdb3971.contract.locked.json",
+    "sourceId": "BM-052__9919ecdb3971",
+    "status": "locked",
+    "reviewKind": "human",
+    "canonicalFields": [
+      {
+        "path": "agency.name",
+        "label": "Tên cơ quan",
+        "source": "agencyConfig",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.fullDocumentCode",
+        "label": "Số văn bản",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "recipients.personLine",
+        "label": "Người bị áp dụng",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.fullDocumentCode2",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.fullName",
+        "label": "Họ tên",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.idNumber",
+        "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "rawPattern": null
+      },
+      {
+        "path": "person.temporaryAddress",
+        "label": "Nơi tạm trú",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": true,
+        "rawPattern": null
+      },
+      {
+        "path": "signature.signerName",
+        "label": "Người ký",
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      }
+    ],
+    "docxSlots": [
+      {
+        "slotId": "agency.name",
+        "label": "Tên cơ quan",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "VIỆN KIỂM SÁT … {{document.field1}}"
+      },
+      {
+        "slotId": "document.fullDocumentCode",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": true,
+        "context": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với{{decision.field2}}"
+      },
+      {
+        "slotId": "recipients.personLine",
+        "label": "Người bị áp dụng",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Họ tên:8{{recipients.personLine}}"
+      },
+      {
+        "slotId": "document.fullDocumentCode2",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": true,
+        "context": "{{document.field5}}"
+      },
+      {
+        "slotId": "person.fullName",
+        "label": "Họ tên",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": true,
+        "context": "/> {{person.fullName}} <w:rFonts w:ascii=\"Ti"
+      },
+      {
+        "slotId": "person.idNumber",
+        "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": true,
+        "context": "ew Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.idNumber}} <w:tab w:val=\"right\" w:pos"
+      },
+      {
+        "slotId": "person.temporaryAddress",
+        "label": "Nơi tạm trú",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": true,
+        "context": "n\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.temporaryAddress}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Ro"
+      },
+      {
+        "slotId": "signature.signerName",
+        "label": "Người ký",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu ) <w:textD"
+      }
+    ],
+    "renderBindings": [
+      {
+        "slotId": "agency.name",
+        "from": "agency.name",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.fullDocumentCode",
+        "from": "document.fullDocumentCode",
+        "transform": "identity",
+        "reviewRequired": true
+      },
+      {
+        "slotId": "recipients.personLine",
+        "from": "recipients.personLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.fullDocumentCode2",
+        "from": "document.fullDocumentCode2",
+        "transform": "identity",
+        "reviewRequired": true
+      },
+      {
+        "slotId": "person.fullName",
+        "from": "person.fullName",
+        "transform": "identity",
+        "reviewRequired": true
+      },
+      {
+        "slotId": "person.idNumber",
+        "from": "person.idNumber",
+        "transform": "identity",
+        "reviewRequired": true
+      },
+      {
+        "slotId": "person.temporaryAddress",
+        "from": "person.temporaryAddress",
+        "transform": "identity",
+        "reviewRequired": true
+      },
+      {
+        "slotId": "signature.signerName",
+        "from": "signature.signerName",
+        "transform": "identity",
+        "reviewRequired": false
+      }
+    ]
+  },
+  "structuralMismatches": {
+    "templatePlaceholdersWithoutSlots": [
+      "recipients.personLine6"
+    ],
+    "contractSlotsWithoutTemplatePlaceholders": [
+      "document.fullDocumentCode",
+      "document.fullDocumentCode2"
+    ],
+    "bindingsWithoutTemplatePlaceholders": [
+      "document.fullDocumentCode",
+      "document.fullDocumentCode2"
+    ],
+    "slotsWithoutBindings": [],
+    "bindingsWithoutSlots": [],
+    "slotsWithoutCanonicalFields": [],
+    "fieldsWithoutSlots": [],
+    "duplicateSemanticPlaceholders": [
+      "recipients.personLine6"
+    ],
+    "reviewRequired": {
+      "slots": [
+        "document.fullDocumentCode",
+        "document.fullDocumentCode2",
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress"
+      ],
+      "fields": [
+        "person.idNumber",
+        "person.temporaryAddress"
+      ],
+      "bindings": [
+        "document.fullDocumentCode",
+        "document.fullDocumentCode2",
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress"
+      ]
+    }
+  },
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  }
+}

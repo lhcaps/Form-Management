@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "DOCX_ATLAS_V1_PHASE0_PREFLIGHT_AND_MODULES",
+  "mode": "READ_ONLY_FOUNDATION_BUILD",
+  "generatedAt": "2026-06-28T14:02:00.000Z",
+  "canProceedToAtlasBuild": true,
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "dbSyncClean": true,
+  "preflight": {
+    "normalizedDocxDirectoryCount": 213,
+    "lockedContractCount": 213,
+    "dbSyncResult": "213/0/0 PASS",
+    "renderGateBm001": "FAIL (pre-existing, gate works correctly)",
+    "boardRows": 213,
+    "blockersPreserved": 12,
+    "nextCandidatesTop20": ["BM-211","BM-126","BM-186","BM-196","BM-162","BM-163","BM-075","BM-077","BM-082","BM-065","BM-068","BM-067","BM-051","BM-064","BM-080","BM-060","BM-061","BM-001","BM-002","BM-073"]
+  },
+  "modulesCreated": [
+    {
+      "file": "scripts/audit/lib/ooxml-context-extractor.mjs",
+      "exports": ["parseDocxBuffer","extractOoxmlParts","extractTextNodesFromPart","findPlaceholderOccurrences","extractPlaceholderOccurrencesFromDocx","detectVietnameseLabels","isRiskyPlaceholderFamily","buildContextSignature","classifyDocxRiskForPlaceholderGroup"],
+      "tests": 6
+    },
+    {
+      "file": "scripts/audit/lib/contract-structural-mismatches.mjs",
+      "exports": ["slotId","bindingSlotId","simplifySlot","simplifyField","simplifyBinding","buildStructuralMismatches","summarizeStructuralMismatches","loadLockedContract"],
+      "tests": 4
+    },
+    {
+      "file": "scripts/audit/lib/render-gate-cache.mjs",
+      "exports": ["renderDiffPath","normalizedDocxPath","findLockedContractFile","isRenderDiffFresh","readRenderDiff","runRenderGate","runRenderGateBatch","getRenderGateResult"],
+      "tests": 3
+    },
+    {
+      "file": "scripts/audit/lib/smart-remediation-classifier.mjs",
+      "exports": ["BUCKETS","BUCKET_PRECEDENCE","isExistingBlocked","hasRenderFailure","hasHighDocxOccurrenceRisk","isRiskyPlaceholderFamily","hasDuplicateMultiContextRisk","hasTableBlankAmbiguity","isDocxSafeRenderPassPolicyBlocker","isRenderFailRepair","isDocxOccurrenceReview","isPlannerReviewCandidate","classifyBmForSmartQueue","classifyQueue"],
+      "tests": 9
+    }
+  ],
+  "tests": {
+    "file": "test/docx-atlas-phase0-modules.test.mjs",
+    "total": 22,
+    "passed": 22,
+    "failed": 0,
+    "command": "node --test test/docx-atlas-phase0-modules.test.mjs"
+  },
+  "forbiddenDiffs": {
+    "normalizedDocx": "PRE_EXISTING (BM-052, BM-062 DOCX changes from prior work)",
+    "lockedContracts": "PRE_EXISTING (9 contract files modified from prior work)",
+    "compiledV2": "PRE_EXISTING (9 compiled files modified from prior work)",
+    "noNewForbiddenChanges": true
+  },
+  "artifactsCreated": [
+    "docs/audit/docx-atlas-v1/phase0-preflight.latest.json",
+    "docs/audit/docx-atlas-v1/phase0-preflight.latest.md",
+    "docs/audit/docx-atlas-v1/phase0-codegraph.findings.md",
+    "docs/audit/docx-atlas-v1/phase0-planner-handoff.latest.json",
+    "docs/audit/docx-atlas-v1/phase0-planner-handoff.latest.md"
+  ],
+  "safetyAssertions": {
+    "noMutationToNormalizedDocx": true,
+    "noMutationToLockedContracts": true,
+    "noMutationToCompiledV2": true,
+    "noDbPublish": true,
+    "noRendererMutation": true,
+    "noDecisionsApproved": true,
+    "noApplyRunner": true,
+    "noNewBlockerLedgers": true,
+    "noMarkDone": true,
+    "noCommit": true
+  },
+  "nextPlannerDecisionNeeded": "Approve Phase 1-4 Atlas build or fix any module failure",
+  "recommendation": {
+    "phase0status": "COMPLETE",
+    "modulesReady": true,
+    "testsPassing": true,
+    "recommendedNextStep": "PROCEED_TO_PHASE1_4_BUILD",
+    "caveat": "Pre-existing diffs in forbidden directories confirmed as prior work, not Phase 0 changes"
+  }
+}

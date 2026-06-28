@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_COMBINED_DESTRUCTIVE_LANE_CLOSURE",
+  "generatedAt": "2026-06-27T04:50:00.000Z",
+  "status": "CLOSED",
+  "summary": {
+    "totalRemovalsPlanned": 10,
+    "totalRemovalsApplied": 10,
+    "totalRemovalsSkipped": 0,
+    "totalRemovalsFailed": 0,
+    "layersApplied": 3,
+    "contractsMutated": 7,
+    "keepDeferredTracked": 8
+  },
+  "layerSummary": {
+    "layerA": {
+      "status": "APPLIED",
+      "items": 4,
+      "contracts": 1,
+      "templateCodes": ["BM-073"],
+      "backup": "docs/audit/docx-path-binding-layer-a-approved/backups/2026-06-26T20-55-28-529Z",
+      "closure": "docs/audit/docx-path-binding-layer-a-closure/closure.latest.json"
+    },
+    "layerB": {
+      "status": "APPLIED",
+      "items": 3,
+      "contracts": 3,
+      "templateCodes": ["BM-080", "BM-063", "BM-064"],
+      "backup": "docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z",
+      "closure": "docs/audit/docx-path-binding-layer-b-closure/closure.latest.json"
+    },
+    "layerC": {
+      "status": "APPLIED",
+      "items": 3,
+      "contracts": 3,
+      "templateCodes": ["BM-052", "BM-062", "BM-066"],
+      "backup": "docs/audit/docx-path-binding-layer-c-approved/backups/2026-06-26T21-32-43-625Z",
+      "closure": "docs/audit/docx-path-binding-layer-c-closure/closure.latest.json"
+    }
+  },
+  "allAppliedRemovals": [
+    { "decisionId": "DOCX-REMOVE-001", "layer": "A", "templateCode": "BM-073", "sourceId": "e412fccad227", "path": "person.dateOfBirth" },
+    { "decisionId": "DOCX-REMOVE-002", "layer": "A", "templateCode": "BM-073", "sourceId": "e412fccad227", "path": "person.idNumber" },
+    { "decisionId": "DOCX-REMOVE-003", "layer": "B", "templateCode": "BM-080", "sourceId": "a7aa64d4b889", "path": "person.personFullName" },
+    { "decisionId": "DOCX-REMOVE-004", "layer": "B", "templateCode": "BM-063", "sourceId": "54b73110a34f", "path": "document.fullDocumentCode8" },
+    { "decisionId": "DOCX-REMOVE-005", "layer": "B", "templateCode": "BM-064", "sourceId": "4d8cebc3515b", "path": "document.issueDate4" },
+    { "decisionId": "DOCX-REMOVE-006", "layer": "A", "templateCode": "BM-073", "sourceId": "e412fccad227", "path": "document.fullDocumentCode" },
+    { "decisionId": "DOCX-REMOVE-007", "layer": "A", "templateCode": "BM-073", "sourceId": "e412fccad227", "path": "document.issueDate" },
+    { "decisionId": "DOCX-REMOVE-008", "layer": "C", "templateCode": "BM-052", "sourceId": "9919ecdb3971", "path": "recipients.personLine6" },
+    { "decisionId": "DOCX-REMOVE-009", "layer": "C", "templateCode": "BM-062", "sourceId": "110961a781fa", "path": "recipients.personLine5" },
+    { "decisionId": "DOCX-REMOVE-010", "layer": "C", "templateCode": "BM-066", "sourceId": "e3bc56081554", "path": "recipients.personLine4" }
+  ],
+  "allBackups": [
+    {
+      "layer": "A",
+      "backupPath": "docs/audit/docx-path-binding-layer-a-approved/backups/2026-06-26T20-55-28-529Z",
+      "contracts": [{ "templateCode": "BM-073", "sourceId": "e412fccad227" }]
+    },
+    {
+      "layer": "B",
+      "backupPath": "docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z",
+      "contracts": [
+        { "templateCode": "BM-080", "sourceId": "a7aa64d4b889" },
+        { "templateCode": "BM-063", "sourceId": "54b73110a34f" },
+        { "templateCode": "BM-064", "sourceId": "4d8cebc3515b" }
+      ]
+    },
+    {
+      "layer": "C",
+      "backupPath": "docs/audit/docx-path-binding-layer-c-approved/backups/2026-06-26T21-32-43-625Z",
+      "contracts": [
+        { "templateCode": "BM-052", "sourceId": "9919ecdb3971" },
+        { "templateCode": "BM-062", "sourceId": "110961a781fa" },
+        { "templateCode": "BM-066", "sourceId": "e3bc56081554" }
+      ]
+    }
+  ],
+  "safety": {
+    "lockedContractsMutated": 7,
+    "docxTouched": 0,
+    "sourceUnchanged": true,
+    "domainModelPathsAdded": 0,
+    "compiledArtifactsHandEdited": 0,
+    "keepDeferredTracked": 8,
+    "keepDeferredPathsUntouched": true
+  },
+  "deferredTracking": {
+    "totalDeferred": 8,
+    "note": "These 8 items require separate approval tracks and were NOT affected by this lane.",
+    "items": [
+      { "investigationId": "W2R-013", "templateCode": "BM-069", "sourceId": "3a67d1a2e298", "path": "document.fullDocumentCode", "reason": "FALSE_HEADER_SLOT without replacement" },
+      { "investigationId": "W2R-029", "templateCode": "BM-075", "sourceId": "dc493cfb5fd3", "path": "document.fullDocumentCode", "reason": "FALSE_HEADER_SLOT without replacement" },
+      { "investigationId": "W2R-033", "templateCode": "BM-077", "sourceId": "99d7843f9f9e", "path": "document.fullDocumentCode", "reason": "FALSE_HEADER_SLOT without replacement" },
+      { "investigationId": "W2R-040", "templateCode": "BM-082", "sourceId": "44cc2b043383", "path": "document.fullDocumentCode", "reason": "FALSE_HEADER_SLOT without replacement" },
+      { "investigationId": "PRIOR-DXR-006", "templateCode": "BM-063", "sourceId": "54b73110a34f", "path": "recipients.personLine5", "reason": "Body continuation, KEEP_DEFERRED" },
+      { "investigationId": "PRIOR-DXR-007", "templateCode": "BM-065", "sourceId": "4a64c8d7e96c", "path": "recipients.personLine3", "reason": "Body continuation, KEEP_DEFERRED" },
+      { "investigationId": "PRIOR-DXR-009", "templateCode": "BM-061", "sourceId": "ec44550246e9", "path": "recipients.personLine3", "reason": "Body continuation, KEEP_DEFERRED" },
+      { "investigationId": "PRIOR-DXR-012", "templateCode": "BM-067", "sourceId": "0f7607122f29", "path": "recipients.personLine3", "reason": "Body continuation, KEEP_DEFERRED" }
+    ]
+  },
+  "validation": {
+    "typecheck": "exit 0",
+    "note": "Run pnpm typecheck to verify"
+  },
+  "next": "NONE — Combined destructive lane closed. Safe to begin per-form render-accurate remediation."
+}

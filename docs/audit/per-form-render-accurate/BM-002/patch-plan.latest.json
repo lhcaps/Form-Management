@@ -1,0 +1,219 @@
+{
+  "schemaVersion": "1.0",
+  "task": "PER_FORM_RENDER_ACCURATE_BM002_PATCH_PLAN_CORRECTED",
+  "generatedAt": "2026-06-27T05:20:00.000Z",
+  "templateCode": "BM-002",
+  "sourceId": "BM-002__f78301178da7",
+  "fileToModify": "docs/audit/docx/contracts/locked/BM-002__f78301178da7.contract.locked.json",
+  "corrections": {
+    "originalPatchPlanHadErrors": true,
+    "errors": [
+      "Wrong target array: original plan targeted docxSlots[N].label. Correct target: canonicalFields[N].label (the audit reads canonicalFields.label, not docxSlots.label)",
+      "Wrong array indices for 4 fields: reporter.organizationRepresentative (was 24, correct 23), sourceReport.content (was 25, correct 24), recipients.primaryLine (was 28, correct 25), recipients.archiveLine (was 29, correct 26)",
+      "Wrong label for document.issuePlaceAndDateLine: original proposed 'Nơi cấp' is wrong. The field appears in the header as a date/place line, not a document-issuance field. Correct label: 'Địa điểm, ngày tháng năm'",
+      "Wrong label for reporter.organizationRepresentative: original proposed 'Là đại diện' is too vague and removes context. Correct label: 'Người đại diện cơ quan, tổ chức'"
+    ]
+  },
+  "auditSourceAnalysis": {
+    "BAD_LABEL": {
+      "sourceArray": "canonicalFields",
+      "sourceField": "canonicalFields[N].label",
+      "trigger": "isBadLabel(canonicalFields[N].label, canonicalFields[N].path) === bad",
+      "triggerConditions": [
+        "label is empty string",
+        "label is 'Ô trống'",
+        "label starts with 'Slot from'",
+        "label contains 'remediation'",
+        "label contains 'TODO'",
+        "label contains 'unknown'",
+        "label matches ^field\\d+$",
+        "label matches ^[a-z][a-zA-Z0-9]+$ with no Vietnamese characters and length > 2 and not in PATH_OVERRIDE_VALUES set"
+      ],
+      "file": "scripts/audit/audit-forms-root-cause.mjs",
+      "function": "auditField() → RULE 1: BAD_LABEL",
+      "line": "Line 330-344 (auditField function)"
+    },
+    "UI_VISIBLE_BAD_METADATA": {
+      "sourceArray": "canonicalFields via deriveFormInputSchema",
+      "sourceField": "getFieldLabel(canonicalFields[N].path, canonicalFields[N].label)",
+      "trigger": "isBadLabel(getFieldLabel(path, label), path) === bad AND field is visible in UI schema",
+      "visibleConditions": [
+        "canonicalFields[N].source !== 'computed'",
+        "canonicalFields[N].source !== null/undefined"
+      ],
+      "file": "scripts/audit/audit-forms-root-cause.mjs",
+      "function": "auditContract() → RULE 6: UI_VISIBLE_BAD_METADATA via deriveFn",
+      "line": "Line 635-655 (auditContract function)"
+    },
+    "keyFinding": "Both BAD_LABEL and UI_VISIBLE_BAD_METADATA read from canonicalFields[].label. docxSlots[].label is NOT read by the audit. The original patch plan incorrectly targeted docxSlots labels."
+  },
+  "correctedChanges": [
+    {
+      "changeId": 1,
+      "path": "document.issuePlaceAndDateLine",
+      "canonicalFieldIndex": 3,
+      "target": "canonicalFields[3].label",
+      "oldValue": "issuePlaceAndDateLine",
+      "newValue": "Địa điểm, ngày tháng năm",
+      "visibleContext": "[Auto-generated] {{document.issuePlaceAndDateLine}} — appears as a date/place header line, NOT as identity document issue field. source=systemDate.",
+      "originalProposed": "Nơi cấp",
+      "correctionReason": "'Nơi cấp' means 'issue place' of identity documents. The visible context shows this is a document header place/date line, not an ID card issue field. 'Địa điểm, ngày tháng năm' is the correct label.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'issuePlaceAndDateLine'"
+    },
+    {
+      "changeId": 2,
+      "path": "sourceReport.receivedDateLine",
+      "canonicalFieldIndex": 5,
+      "target": "canonicalFields[5].label",
+      "oldValue": "receivedDateLine",
+      "newValue": "Ngày tiếp nhận",
+      "visibleContext": "[Auto-generated] Ngày — appears as date of receipt. source=systemDate.",
+      "originalProposed": "Ngày tiếp nhận",
+      "correctionReason": "Original label was correct. Index 5 was correct.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'receivedDateLine'"
+    },
+    {
+      "changeId": 3,
+      "path": "reporter.genderText",
+      "canonicalFieldIndex": 8,
+      "target": "canonicalFields[8].label",
+      "oldValue": "genderText",
+      "newValue": "Giới tính",
+      "visibleContext": "[Auto-generated] Họ tên: {{reporter.fullName}} Giới tính: — clearly labeled 'Giới tính'. source=manual.",
+      "originalProposed": "Giới tính",
+      "correctionReason": "Original label was correct. Index 8 was correct.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'genderText'"
+    },
+    {
+      "changeId": 4,
+      "path": "reporter.otherName",
+      "canonicalFieldIndex": 9,
+      "target": "canonicalFields[9].label",
+      "oldValue": "otherName",
+      "newValue": "Tên gọi khác",
+      "visibleContext": "[Auto-generated] Tên gọi khác: — directly labeled 'Tên gọi khác'. source=manual.",
+      "originalProposed": "Tên gọi khác",
+      "correctionReason": "Original label was correct. Index 9 was correct. Note: this field is NOT in the LABEL_TAIL_MAP tail 'otherName', so the audit correctly flags it as bad.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1",
+      "rollback": "Revert label to 'otherName'"
+    },
+    {
+      "changeId": 5,
+      "path": "reporter.birthDateLine",
+      "canonicalFieldIndex": 10,
+      "target": "canonicalFields[10].label",
+      "oldValue": "birthDateLine",
+      "newValue": "Sinh ngày",
+      "visibleContext": "[Auto-generated] Sinh ngày — directly labeled 'Sinh ngày'. source=systemDate.",
+      "originalProposed": "Sinh ngày",
+      "correctionReason": "Original label was correct. Index 10 was correct.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'birthDateLine'"
+    },
+    {
+      "changeId": 6,
+      "path": "reporter.identityIssueDateLine",
+      "canonicalFieldIndex": 17,
+      "target": "canonicalFields[17].label",
+      "oldValue": "identityIssueDateLine",
+      "newValue": "Cấp ngày",
+      "visibleContext": "[Auto-generated] Cấp ngày — directly labeled 'Cấp ngày'. source=systemDate.",
+      "originalProposed": "Cấp ngày",
+      "correctionReason": "Original label was correct. Index 17 was correct.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'identityIssueDateLine'"
+    },
+    {
+      "changeId": 7,
+      "path": "reporter.organizationRepresentative",
+      "canonicalFieldIndex": 23,
+      "target": "canonicalFields[23].label",
+      "oldValue": "organizationRepresentative",
+      "newValue": "Người đại diện cơ quan, tổ chức",
+      "visibleContext": "[Auto-generated] Là người đại diện của cơ quan, tổ chức (nếu có): — full context is 'Là người đại diện của cơ quan, tổ chức (nếu có)'. source=manual.",
+      "originalProposed": "Là đại diện",
+      "correctionReason": "Original proposed 'Là đại diện' is too vague and cuts off the full context. The full visible context is 'Là người đại diện của cơ quan, tổ chức (nếu có)'. Correct label: 'Người đại diện cơ quan, tổ chức'. Also: original index was 24 (wrong), correct is 23.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'organizationRepresentative'"
+    },
+    {
+      "changeId": 8,
+      "path": "sourceReport.content",
+      "canonicalFieldIndex": 24,
+      "target": "canonicalFields[24].label",
+      "oldValue": "content",
+      "newValue": "Nội dung",
+      "visibleContext": "[Auto-generated] Nội dung: — directly labeled 'Nội dung'. source=manual.",
+      "originalProposed": "Nội dung",
+      "correctionReason": "Original label was correct. Original index was 25 (wrong), correct is 24.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'content'"
+    },
+    {
+      "changeId": 9,
+      "path": "recipients.primaryLine",
+      "canonicalFieldIndex": 25,
+      "target": "canonicalFields[25].label",
+      "oldValue": "primaryLine",
+      "newValue": "Nơi nhận",
+      "visibleContext": "Appears below 'Nơi nhận:' label. 'Nơi nhận' is the standard Vietnamese administrative label for recipient address. source=manual.",
+      "originalProposed": "Nơi nhận",
+      "correctionReason": "Original label was correct. Original index was 28 (wrong), correct is 25.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'primaryLine'"
+    },
+    {
+      "changeId": 10,
+      "path": "recipients.archiveLine",
+      "canonicalFieldIndex": 26,
+      "target": "canonicalFields[26].label",
+      "oldValue": "archiveLine",
+      "newValue": "Nơi lưu",
+      "visibleContext": "Second recipient line, typically for archive/copy recipients. 'Nơi lưu' is standard Vietnamese. source=manual.",
+      "originalProposed": "Nơi nhận lưu",
+      "correctionReason": "Changed from 'Nơi nhận lưu' to 'Nơi lưu' — shorter and more consistent with the primary 'Nơi nhận'. Original index was 29 (wrong), correct is 26.",
+      "risk": "LOW",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1",
+      "rollback": "Revert label to 'archiveLine'"
+    }
+  ],
+  "buckets": {
+    "A_SAFE_LABEL_ONLY": {
+      "description": "Only canonicalFields[N].label changes — same path, same binding, no DOCX mutation",
+      "count": 10,
+      "changesCount": 10,
+      "fieldsToModify": 1,
+      "arrayToModify": "canonicalFields",
+      "note": "docxSlots labels are also misaligned (swapped labels for some slots) but docxSlots.label is NOT read by the audit. Only canonicalFields label affects BAD_LABEL/UI_VISIBLE. The docxSlots misalignment is a separate issue (not in scope for SAFE_LABEL_ONLY patch)."
+    }
+  },
+  "expectedAuditDelta": {
+    "BAD_LABEL": -10,
+    "UI_VISIBLE_BAD_METADATA": -9,
+    "note": "reporter.otherName only triggers BAD_LABEL (not UI_VISIBLE) because sourceReport.receivedDateLine > reporter.genderText > reporter.birthDateLine > reporter.identityIssueDateLine > reporter.organizationRepresentative > sourceReport.content > recipients.primaryLine > recipients.archiveLine > document.issuePlaceAndDateLine = 9 UI_VISIBLE paths (reporter.otherName is the 10th BAD_LABEL but not UI_VISIBLE)"
+  },
+  "renderOutputChanges": false,
+  "pathBindingChanges": 0,
+  "bindingChanges": 0,
+  "docxMutation": 0,
+  "compiledArtifactsEdited": 0,
+  "preconditions": {
+    "allPathsExist": true,
+    "noBindingChanges": true,
+    "noDocxMutation": true,
+    "sourceUnchanged": true,
+    "backupAvailable": "Will backup before write"
+  }
+}

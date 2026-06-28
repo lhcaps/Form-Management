@@ -1,0 +1,96 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_3_4_CONTRACT_OOXML",
+  "generated": "2026-06-28T16:25:00.000Z",
+  "contract_structural_cleanup": {
+    "task": "APPLY_CONTRACT_STRUCTURAL_CLEANUP_V1",
+    "changed": ["BM-021", "BM-065", "BM-067"],
+    "changes": {
+      "BM-021": {
+        "contractChanged": true,
+        "docxChanged": true,
+        "reason": "Remove hidden run-property agency.nameUpper placeholder and matching invisible contract slot",
+        "slotsRemoved": ["agency.nameUpper"],
+        "docxRunsRemoved": 1
+      },
+      "BM-065": {
+        "contractChanged": true,
+        "docxChanged": false,
+        "reason": "Remove orphan slots no longer present in DOCX and clear reviewed visible slots",
+        "slotsRemoved": ["decision.decisionLine", "document.fullDocumentCode"],
+        "reviewCleared": ["document.fullDocumentCode8", "recipients.personLine3"]
+      },
+      "BM-067": {
+        "contractChanged": true,
+        "docxChanged": false,
+        "reason": "Remove orphan slots no longer present in DOCX and clear reviewed visible slots",
+        "slotsRemoved": ["decision.decisionLine", "document.fullDocumentCode"],
+        "reviewCleared": ["document.fullDocumentCode8", "recipients.personLine3"]
+      }
+    },
+    "assessment": "CLEANUP_LEGITIMATE — These are legitimate contract structural cleanup removing orphan/obsolete slots, not semantic mutations."
+  },
+  "ooxml_stray_brace_repair": {
+    "task": "APPLY_OOXML_STRAY_BRACE_REPAIR_V1",
+    "changed": ["BM-031", "BM-044", "BM-056"],
+    "totalTemplates": 3,
+    "removedRuns": 3,
+    "backupDir": "docs/audit/docx-atlas-v1/ooxml-stray-brace-repair-v1/backups/2026-06-28T15-44-37-594Z",
+    "assessment": "CLEAN — Only stray closing brace runs removed, no content mutation"
+  },
+  "critical_mutation_findings": {
+    "severity": "CRITICAL",
+    "type": "BLOCKED_CONTRACT_MUTATION",
+    "description": "Blocked BM contracts (BM-052, BM-062) were mutated to add slots/bindings that made render pass. This violates the legal/policy blocker preservation requirement.",
+    "affected_bms": ["BM-052", "BM-062", "BM-063", "BM-066"],
+    "root_cause": {
+      "BM-052": {
+        "blocked_render_status_reason": "recipients.personLine6 had no slot, no binding — blocked by human-review-blocker.latest.json",
+        "what_happened": "Locked contract was modified to ADD recipients.personLine6 slot and binding",
+        "evidence": {
+          "slotAdded": "recipients.personLine6",
+          "bindingAdded": "recipients.personLine6 -> recipients.personLine6",
+          "contract_mutated": true,
+          "docx_mutated": true
+        },
+        "git_diff_summary": "document.fullDocumentCode slot REMOVED; decision.decisionLine2 mutated to person.idNumber, person.temporaryAddress; new slots added"
+      },
+      "BM-062": {
+        "docx_mutated": true,
+        "diff": "recipients.personLine5 replaced with signature.signerName"
+      },
+      "BM-063": {
+        "docx_mutated": false,
+        "contract_mutated": true,
+        "note": "Render from FAIL to PASS due to contract slot change"
+      },
+      "BM-066": {
+        "docx_mutated": false,
+        "contract_mutated": true,
+        "note": "Render from FAIL to PASS due to contract slot change"
+      }
+    },
+    "impact": {
+      "test_t9": "FAILED — 4 blockers now render PASS when they should remain FAIL",
+      "blocker_preservation": "VIOLATED — blocked contracts were mutated without planner approval",
+      "semantic_correctness": "RISK — mutations may be semantically incorrect (e.g., recipients.personLine6 as idNumber)"
+    }
+  },
+  "flags": [
+    {
+      "severity": "CRITICAL",
+      "type": "BLOCKED_CONTRACT_MUTATION",
+      "bm": ["BM-052", "BM-062", "BM-063", "BM-066"],
+      "description": "These blockers' contracts were mutated to make render pass. This defeats the purpose of the legal/policy blocker system.",
+      "requires_rollback": true,
+      "rollback_target": "Restore locked contracts and normalized DOCX for BM-052, BM-062, BM-063, BM-066 to pre-Codex state"
+    },
+    {
+      "severity": "WARNING",
+      "type": "DOCX_SIZE_REDUCTION_UNEXPLAINED",
+      "bm": ["BM-031", "BM-052", "BM-062"],
+      "description": "BM-031 (76.7%), BM-052 (83.7%), BM-062 (85.9%) have massive DOCX size reduction. BM-052/062 are from mutation. BM-031 is unexplained.",
+      "requires_investigation": true
+    }
+  ]
+}

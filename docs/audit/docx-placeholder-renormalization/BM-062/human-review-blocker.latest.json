@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM062_SIGNATURE_FOOTER_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY",
+  "mode": "APPROVED_FOR_APPLY_WITH_PREFLIGHT_GATES",
+  "templateCode": "BM-062",
+  "createdAt": "2026-06-28T09:25:00.000Z",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "blockedPlaceholders": [
+    {
+      "placeholder": "decision.decisionLine11",
+      "count": 11,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "reason": "11 occurrences — namespace mismatch, ambiguous semantic context. Human review required."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "count": 4,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "4 body occurrences — person table blank cells. Cannot merge into one field."
+    }
+  ],
+  "applyOutcome": {
+    "approvedDecisionId": "BM062-SIG-FOOTER-001",
+    "approvedChange": "recipients.personLine5 occ 4 → signature.signerName",
+    "appliedAt": "2026-06-28T09:20:37.405Z",
+    "backupDir": "docs/audit/docx-placeholder-renormalization/BM-062/approved-signature/backups/2026-06-28T09-20-37-405Z",
+    "applyResult": "APPLIED"
+  },
+  "blockedOccurrences": [
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrences": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "count": 11,
+      "reason": "Namespace mismatch: decision.decisionLine11 maps to decision.* canonical fields but appears 11 times in DOCX with only 1 slot. Ambiguous semantic context — some may be person-table cells, some may be decision lines. Cannot bind as single field without DOCX/legal review.",
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "visibleLabels": ["Nơi nhận:", "Cơ quan quản lý đăng ký", "cơ quan có thẩm quyền"],
+      "requires": "Human DOCX/legal review to determine per-occurrence semantics",
+      "canMergeToOneField": false,
+      "riskIfForcedMerge": "Incorrect semantic binding across unrelated document sections"
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrences": [0, 1, 2, 3],
+      "count": 4,
+      "reason": "Person table blank cells: body recipients.personLine5 occurrences 0-3 are blank cells in person-table rows. Each may represent different person roles (người lập biên bản, người vi phạm, etc.). Cannot merge 4 distinct person slots into single signature.signerName.",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "visibleLabels": ["Họ tên", "Nghề nghiệp", "Địa điểm", "ngày lập"],
+      "requires": "Human DOCX/legal review to determine per-cell role and appropriate semantic field",
+      "canMergeToOneField": false,
+      "riskIfForcedMerge": "Four distinct person-table cells would collapse to one field"
+    }
+  ],
+  "totalDeferred": 15,
+  "renderGateStatus": {
+    "status": "FAIL",
+    "reason": "recipients.personLine5 has 4 remaining occurrences without slots/bindings; decision.decisionLine11 namespace mismatch persists",
+    "renderReport": "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json"
+  },
+  "nextAction": "Human DOCX/legal review required for 15 deferred occurrences. Select next BM from 213 board after recording blocker.",
+  "appliedFooter": {
+    "placeholder": "recipients.personLine5",
+    "occurrence": 4,
+    "finalPlaceholder": "signature.signerName",
+    "confidence": "MEDIUM",
+    "visibleLabel": "(Ký, ghi rõ họ tên, đóng dấu)"
+  }
+}

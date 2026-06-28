@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0",
+  "task": "PER_FORM_RENDER_ACCURATE_BM002_CLOSURE",
+  "generatedAt": "2026-06-27T16:15:00.000Z",
+  "status": "CLOSED",
+  "templateCode": "BM-002",
+  "sourceId": "BM-002__f78301178da7",
+  "patchType": "SAFE_LABEL_ONLY",
+  "approvalCommand": "APPROVE_RENDER_ACCURATE_FORM BM-002 f78301178da7 SAFE_LABEL_ONLY",
+  "applyStatus": "SUCCESS",
+  "summary": {
+    "labelsChanged": 10,
+    "docxSlotsChanged": 0,
+    "renderBindingsChanged": 0,
+    "pathsChanged": 0,
+    "fieldsAdded": 0,
+    "fieldsRemoved": 0,
+    "docxTouched": 0,
+    "sourceTouched": 0,
+    "compiledArtifactsEdited": 0,
+    "backupPath": "docs/audit/per-form-render-accurate/BM-002/backups/2026-06-27T09-10-56"
+  },
+  "auditDeltas": {
+    "BM-002": {
+      "BAD_LABEL": { "before": 10, "after": 0, "delta": -10 },
+      "UI_VISIBLE_BAD_METADATA": { "before": 9, "after": 0, "delta": -9 },
+      "totalIssues": { "before": 51, "after": 42, "delta": -9 }
+    }
+  },
+  "validation": {
+    "renderFidelity": "PASS",
+    "renderFidelityDetail": "textLengthRatio=0.979, unreplacedPlaceholders=0, missingAnchors=0",
+    "bindingCorrectness": "PASS",
+    "bindingCorrectnessDetail": "BM-002 in 212 PASS cohort",
+    "typecheck": "exit 0"
+  },
+  "scopeConstraints": {
+    "docxSlotsLabelsNotModified": true,
+    "docxSlotsMisalignmentTracked": "separate consistency cleanup task needed",
+    "renderBindingsUnchanged": true,
+    "noPathChanges": true,
+    "noFieldCountChanges": true,
+    "noDocxMutation": true,
+    "noSourceMutation": true,
+    "noCompiledArtifactEdits": true
+  },
+  "deferred": {
+    "docxSlotsLabelMisalignment": "6 docxSlots fields have misaligned/swap labels. Tracked for separate consistency cleanup task."
+  },
+  "pilot": {
+    "isFirst": true,
+    "rationale": "Highest UI_VISIBLE_BAD_METADATA count (9) in corpus. All 10 BAD_LABEL fields had unambiguous Vietnamese visible context.",
+    "pilotDeltasConfirmed": "BAD_LABEL -10 ✅, UI_VISIBLE_BAD_METADATA -9 ✅"
+  },
+  "nextRecommended": {
+    "task": "SELECT_NEXT_PER_FORM_RENDER_ACCURATE_BM",
+    "topCandidate": "BM-001",
+    "reason": "Rank 2 in priority queue. Score 20. UI_VISIBLE=5, BAD_LABEL=5. Status=READY_FOR_RENDER_REVIEW. No legal/domain-model/DOCX blocks."
+  }
+}

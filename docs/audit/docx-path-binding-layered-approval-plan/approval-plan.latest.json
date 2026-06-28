@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYERED_APPROVAL_PLAN",
+  "generatedAt": "2026-06-26T21:51:15.813Z",
+  "mode": "APPROVAL_PLAN_ALL_LAYERS_APPLIED",
+  "applyAllowed": true,
+  "approvalRequired": false,
+  "summary": {
+    "totalDecisionItems": 10,
+    "layers": 3,
+    "approvedLayers": 3,
+    "approvedItems": 10,
+    "recommendedFirstLayer": "A"
+  },
+  "layers": [
+    {
+      "layer": "A",
+      "title": "BM-073 only",
+      "risk": "LOWEST",
+      "blastRadius": {
+        "contracts": 1,
+        "items": 4,
+        "templateCodes": [
+          "BM-073"
+        ]
+      },
+      "decisionIds": [
+        "DOCX-REMOVE-001",
+        "DOCX-REMOVE-002",
+        "DOCX-REMOVE-006",
+        "DOCX-REMOVE-007"
+      ],
+      "items": [
+        {
+          "decisionId": "DOCX-REMOVE-001",
+          "investigationId": "W2R-027",
+          "templateCode": "BM-073",
+          "sourceId": "e412fccad227",
+          "path": "person.dateOfBirth",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-002",
+          "investigationId": "W2R-028",
+          "templateCode": "BM-073",
+          "sourceId": "e412fccad227",
+          "path": "person.idNumber",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-006",
+          "investigationId": "W2R-025",
+          "templateCode": "BM-073",
+          "sourceId": "e412fccad227",
+          "path": "document.fullDocumentCode",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-007",
+          "investigationId": "W2R-026",
+          "templateCode": "BM-073",
+          "sourceId": "e412fccad227",
+          "path": "document.issueDate",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        }
+      ],
+      "approvalStatus": "APPLIED",
+      "applyAllowed": true,
+      "approvalCommands": [
+        "APPROVE_LAYER_A_DESTRUCTIVE_REMOVE DOCX-REMOVE-001 BM-073 e412fccad227 person.dateOfBirth",
+        "APPROVE_LAYER_A_DESTRUCTIVE_REMOVE DOCX-REMOVE-002 BM-073 e412fccad227 person.idNumber",
+        "APPROVE_LAYER_A_DESTRUCTIVE_REMOVE DOCX-REMOVE-006 BM-073 e412fccad227 document.fullDocumentCode",
+        "APPROVE_LAYER_A_DESTRUCTIVE_REMOVE DOCX-REMOVE-007 BM-073 e412fccad227 document.issueDate",
+        "APPROVE_DESTRUCTIVE_LAYER A BM-073 e412fccad227 DOCX-REMOVE-001 DOCX-REMOVE-002 DOCX-REMOVE-006 DOCX-REMOVE-007"
+      ]
+    },
+    {
+      "layer": "B",
+      "title": "P0 non-BM-073",
+      "risk": "LOW",
+      "blastRadius": {
+        "contracts": 3,
+        "items": 3,
+        "templateCodes": [
+          "BM-080",
+          "BM-063",
+          "BM-064"
+        ]
+      },
+      "decisionIds": [
+        "DOCX-REMOVE-003",
+        "DOCX-REMOVE-004",
+        "DOCX-REMOVE-005"
+      ],
+      "items": [
+        {
+          "decisionId": "DOCX-REMOVE-003",
+          "investigationId": "W2R-036",
+          "templateCode": "BM-080",
+          "sourceId": "a7aa64d4b889",
+          "path": "person.personFullName",
+          "confidence": "HIGH",
+          "domainModelNote": true,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-004",
+          "investigationId": "PRIOR-DXR-001",
+          "templateCode": "BM-063",
+          "sourceId": "54b73110a34f",
+          "path": "document.fullDocumentCode8",
+          "confidence": "HIGH",
+          "domainModelNote": true,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-005",
+          "investigationId": "PRIOR-DXR-002",
+          "templateCode": "BM-064",
+          "sourceId": "4d8cebc3515b",
+          "path": "document.issueDate4",
+          "confidence": "HIGH",
+          "domainModelNote": true,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        }
+      ],
+      "approvalStatus": "APPLIED",
+      "applyAllowed": true,
+      "approvalCommands": [
+        "APPROVE_LAYER_B_DESTRUCTIVE_REMOVE DOCX-REMOVE-003 BM-080 a7aa64d4b889 person.personFullName",
+        "APPROVE_LAYER_B_DESTRUCTIVE_REMOVE DOCX-REMOVE-004 BM-063 54b73110a34f document.fullDocumentCode8",
+        "APPROVE_LAYER_B_DESTRUCTIVE_REMOVE DOCX-REMOVE-005 BM-064 4d8cebc3515b document.issueDate4",
+        "APPROVE_DESTRUCTIVE_LAYER B BM-080 BM-063 BM-064 a7aa64d4b889 54b73110a34f 4d8cebc3515b DOCX-REMOVE-003 DOCX-REMOVE-004 DOCX-REMOVE-005"
+      ]
+    },
+    {
+      "layer": "C",
+      "title": "P1 recipients footer suffix",
+      "risk": "MEDIUM",
+      "blastRadius": {
+        "contracts": 3,
+        "items": 3,
+        "templateCodes": [
+          "BM-052",
+          "BM-062",
+          "BM-066"
+        ]
+      },
+      "decisionIds": [
+        "DOCX-REMOVE-008",
+        "DOCX-REMOVE-009",
+        "DOCX-REMOVE-010"
+      ],
+      "items": [
+        {
+          "decisionId": "DOCX-REMOVE-008",
+          "investigationId": "PRIOR-DXR-008",
+          "templateCode": "BM-052",
+          "sourceId": "9919ecdb3971",
+          "path": "recipients.personLine6",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-009",
+          "investigationId": "PRIOR-DXR-010",
+          "templateCode": "BM-062",
+          "sourceId": "110961a781fa",
+          "path": "recipients.personLine5",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        },
+        {
+          "decisionId": "DOCX-REMOVE-010",
+          "investigationId": "PRIOR-DXR-011",
+          "templateCode": "BM-066",
+          "sourceId": "e3bc56081554",
+          "path": "recipients.personLine4",
+          "confidence": "HIGH",
+          "domainModelNote": false,
+          "approvalStatus": "APPROVED_FOR_APPLY"
+        }
+      ],
+      "approvalStatus": "APPLIED",
+      "applyAllowed": true,
+      "approvalCommands": [
+        "APPROVE_LAYER_C_DESTRUCTIVE_REMOVE DOCX-REMOVE-008 BM-052 9919ecdb3971 recipients.personLine6",
+        "APPROVE_LAYER_C_DESTRUCTIVE_REMOVE DOCX-REMOVE-009 BM-062 110961a781fa recipients.personLine5",
+        "APPROVE_LAYER_C_DESTRUCTIVE_REMOVE DOCX-REMOVE-010 BM-066 e3bc56081554 recipients.personLine4",
+        "APPROVE_DESTRUCTIVE_LAYER C BM-052 BM-062 BM-066 9919ecdb3971 110961a781fa e3bc56081554 DOCX-REMOVE-008 DOCX-REMOVE-009 DOCX-REMOVE-010"
+      ]
+    }
+  ],
+  "gates": {
+    "requiresExplicitApproval": true,
+    "allowPartialLayerApproval": false,
+    "requireLayerCompleteBeforeApply": true,
+    "requireBackupBeforeApply": true,
+    "requireDryRunBeforeWrite": true,
+    "requirePostApplyAudit": true
+  },
+  "recommendedNext": "REVIEW_LAYER_C_CLOSURE_AND_COMBINED_DESTRUCTIVE_LANE_CLOSURE"
+}

@@ -1,0 +1,201 @@
+{
+  "task": "POST_ROLLBACK_INFRA_COMMIT_READINESS_AUDIT",
+  "mode": "READ_ONLY_COMMIT_PLANNING",
+  "generated": "2026-06-29T00:15:00.000Z",
+  "summary": {
+    "canCommitInfrastructure": false,
+    "reason": "compiled-v2 compiled artifacts stale after rollback — BM-063 and BM-066 compiled-v2 contain bindings to slots that no longer exist in locked contracts",
+    "canApplyRunNow": false,
+    "canMarkDone": false,
+    "dbSyncClean": true,
+    "dbSyncResult": "213 matched / 0 missing / 0 stale",
+    "blockersPreserved": true,
+    "blockerCount": 12,
+    "normalizedDocxClean": true,
+    "riskNotes": [
+      {
+        "severity": "HIGH",
+        "item": "BM-063 compiled-v2 stale",
+        "detail": "binding-5 targets document.fullDocumentCode8 slot that does not exist in rolled-back locked contract. Runtime will fail if this compiled artifact is used."
+      },
+      {
+        "severity": "HIGH",
+        "item": "BM-066 compiled-v2 stale",
+        "detail": "binding-6 targets recipients.personLine4 slot that was removed by rollback. Runtime will fail if this compiled artifact is used."
+      },
+      {
+        "severity": "MEDIUM",
+        "item": "T9 blocker board test false positive",
+        "detail": "BM-052 and BM-062 render PASS with partial approval. T9 assertion expects FAIL. Not our task to fix."
+      },
+      {
+        "severity": "LOW",
+        "item": "API test suite pre-existing failures",
+        "detail": "docx-slot-inventory.spec.ts hardcoded totalDocxSlots:2453 stale; contract-sync.guard.spec.ts Jest/node--test incompatibility. Pre-existing."
+      }
+    ]
+  },
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "clean": true,
+    "compileNeeded": false,
+    "dbPublishNeeded": false
+  },
+  "renderAtlas": {
+    "total": 213,
+    "pass": 211,
+    "fail": 2,
+    "error": 0,
+    "cacheHits": 213,
+    "failBMs": ["BM-063", "BM-066"],
+    "failReason": "binding fidelity fail (expected after rollback)"
+  },
+  "contractAtlas": {
+    "totalTemplates": 213,
+    "locked": 213,
+    "candidateRepairExists": 2,
+    "reviewRequired": 16,
+    "totalStructuralMismatches": 4
+  },
+  "smartQueue": {
+    "total": 213,
+    "buckets": {
+      "DO_NOT_TOUCH_ALREADY_BLOCKED": 12,
+      "RENDER_FAIL_REQUIRES_REPAIR": 0,
+      "DOCX_REQUIRES_OCCURRENCE_REVIEW": 74,
+      "PLANNER_REVIEW_CANDIDATE": 0,
+      "DOCX_SAFE_RENDER_PASS_POLICY_BLOCKER": 34,
+      "LOW_PRIORITY_RENDER_PASS_SEMANTIC_REVIEW": 93
+    },
+    "preservedBlockers": 12,
+    "bm063Bucket": "DO_NOT_TOUCH_ALREADY_BLOCKED",
+    "bm066Bucket": "DO_NOT_TOUCH_ALREADY_BLOCKED"
+  },
+  "testMatrix": {
+    "node_tests": {
+      "render-form-fidelity-gate.test.mjs": { "tests": 3, "pass": 3, "fail": 0 },
+      "ooxml-stray-brace-repair.test.mjs": { "tests": 4, "pass": 4, "fail": 0 },
+      "contract-render-binding-repair.test.mjs": { "tests": 9, "pass": 9, "fail": 0 },
+      "docx-atlas-v1-builders.test.mjs": { "tests": 12, "pass": 12, "fail": 0 },
+      "docx-placeholder-renormalization-plan.test.mjs": { "tests": 11, "pass": 11, "fail": 0 },
+      "docx-atlas-phase0-modules.test.mjs": { "tests": 10, "pass": 10, "fail": 0 },
+      "rollback-bm063-bm066-contracts.test.mjs": { "tests": 11, "pass": 11, "fail": 0 },
+      "bm066-reopen-evidence-after-rollback.test.mjs": { "tests": 18, "pass": 18, "fail": 0 },
+      "human-review-blockers-board.test.mjs": { "tests": 121, "pass": 119, "fail": 2, "failReason": "T9 false positive BM-052/062 render PASS" }
+    },
+    "pnpm_api_tests": {
+      "suites": "45 passed, 1 failed (pre-existing)",
+      "tests": "283 passed, 2 failed (pre-existing)",
+      "failures": [
+        "docx-slot-inventory.spec.ts: hardcoded totalDocxSlots:2453 stale (pre-existing)",
+        "contract-sync.guard.spec.ts: Jest/node--test incompatibility (pre-existing)"
+      ]
+    }
+  },
+  "diffSafety": {
+    "normalizedDocx": {
+      "changed": ["BM-021", "BM-031", "BM-044", "BM-052", "BM-056", "BM-062"],
+      "bm063Touched": false,
+      "bm066Touched": false,
+      "status": "CLEAN - BM-063/066 NOT touched"
+    },
+    "lockedContracts": {
+      "bm063Restored": true,
+      "bm066Restored": true,
+      "bm063066SameAsBackup": true,
+      "bm052bm062NotRestored": true,
+      "bm021bm065bm067NotRestored": true,
+      "status": "CLEAN"
+    },
+    "compiledV2": {
+      "bm063Stale": true,
+      "bm066Stale": true,
+      "bm063HasWrongBinding": "document.fullDocumentCode8 slot (does not exist in locked)",
+      "bm066HasWrongBinding": "recipients.personLine4 slot (removed by rollback)",
+      "preExistingFromCodexMutation": true,
+      "notFromThisTask": true,
+      "status": "STALE - must be regenerated before use"
+    },
+    "infraFiles": {
+      "documentPdfService": "INFRA_CHANGED - PDF EOF/PDF-header guards added",
+      "contractSyncGuard": "INFRA_CHANGED - path resolution refactored",
+      "legacyRendererCapabilities": "INFRA_CHANGED - BM-213 removed from GENERIC_LEGACY_RENDERERS",
+      "renderFidelityGate": "NO DIFF",
+      "auditContractSync": "NO DIFF",
+      "docxtemplaterEngine": "NO DIFF",
+      "contractRenderBindingRepair": "NO DIFF",
+      "ooxmlStrayBraceRepair": "NO DIFF"
+    }
+  },
+  "compiledV2Recommendation": {
+    "mustRegenerateBeforeUse": ["BM-063", "BM-066"],
+    "reason": "compiled-v2 bindings target slots removed by rollback",
+    "doNotCommitCompiledV2AsIs": true,
+    "recommendation": "Either: (A) Do NOT commit compiled-v2 for BM-063/066 until regenerated from clean locked contract, OR (B) Regenerate compiled-v2 for BM-063/066 from current locked contracts before commit"
+  },
+  "commitProposal": {
+    "recommendation": "SPLIT INTO 2 PHASES",
+    "phaseA": {
+      "description": "Commit infrastructure changes (safe to commit now)",
+      "files": [
+        "apps/api/src/modules/documents/document-pdf.service.ts",
+        "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts",
+        "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts",
+        "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.spec.ts",
+        "scripts/audit/render-form-fidelity-gate.mjs",
+        "scripts/audit/audit-contract-sync.mjs",
+        "scripts/audit/lib/contract-render-binding-repair.mjs",
+        "scripts/audit/lib/ooxml-stray-brace-repair.mjs",
+        "test/render-form-fidelity-gate.test.mjs",
+        "test/ooxml-stray-brace-repair.test.mjs",
+        "test/contract-render-binding-repair.test.mjs"
+      ],
+      "status": "READY_TO_COMMIT"
+    },
+    "phaseB": {
+      "description": "Commit rollback + evidence artifacts (safe to commit now)",
+      "files": [
+        "docs/audit/blocked-bm-forensics/rollback-bm063-bm066/",
+        "test/rollback-bm063-bm066-contracts.test.mjs",
+        "test/bm066-reopen-evidence-after-rollback.test.mjs",
+        "docs/audit/docx-placeholder-renormalization/BM-066/evidence.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-066/evidence.latest.md",
+        "docs/audit/docx-placeholder-renormalization/BM-066/patch-plan.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-066/patch-plan.latest.md",
+        "docs/audit/docx-placeholder-renormalization/BM-066/planner-handoff.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-066/planner-handoff.latest.md"
+      ],
+      "status": "READY_TO_COMMIT"
+    },
+    "doNotCommitYet": {
+      "compiledV2": "BM-063.compiled.json and BM-066.compiled.json contain stale bindings. Do NOT commit without regenerating from current locked contracts.",
+      "normalizedDocxChanges": "BM-021, BM-031, BM-044, BM-052, BM-056, BM-062 normalized DOCX changes — pre-existing Codex/Codex-era work, not reviewed by this task",
+      "applyRunners": "apply-*.mjs scripts in scripts/audit/ — pre-existing, require separate review"
+    }
+  },
+  "risks": [
+    {
+      "severity": "HIGH",
+      "type": "compiled_v2_stale",
+      "description": "BM-063 and BM-066 compiled-v2 artifacts contain bindings to slots that were removed by rollback. If used at runtime, will cause render failures."
+    },
+    {
+      "severity": "MEDIUM",
+      "type": "worktree_complexity",
+      "description": "Worktree has 55 modified files + many untracked. Multiple phases of Codex work mixed. Commit proposal must be clean."
+    },
+    {
+      "severity": "LOW",
+      "type": "pre_existing_test_failures",
+      "description": "2 API test failures pre-exist. Not introduced by this task."
+    },
+    {
+      "severity": "LOW",
+      "type": "t9_false_positive",
+      "description": "human-review-blockers-board.test.mjs T9 expects render FAIL for all blockers. BM-052/062 render PASS with partial approval. Not our task to fix."
+    }
+  ],
+  "nextPlannerDecisionNeeded": "APPROVED_TO_COMMIT_INFRASTRUCTURE_CHANGES_AND_ROLLBACK_ARTIFACTS = YES/NO? Compiled-v2 BM-063/066 MUST be excluded or regenerated. Normalized DOCX pre-existing changes (BM-021/031/044/052/056/062) are pre-Codex-era and should be reviewed separately."
+}

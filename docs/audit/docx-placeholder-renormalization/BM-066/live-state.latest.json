@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM066_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "2026-06-28T11:30:07.023Z",
+  "templateCode": "BM-066",
+  "title": "Lệnh phong toả tài khoản",
+  "sourceId": "BM-066__e3bc56081554",
+  "gitState": {
+    "branch": "fix/documents-canonical-render-payload-snapshot",
+    "modifiedFiles": [
+      "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts",
+      "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.spec.ts"
+    ]
+  },
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "status": "CLEAN"
+  },
+  "renderGate": {
+    "status": "FAIL",
+    "bindingFidelity": "FAIL",
+    "literalFidelity": "FAIL",
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS",
+    "templatePlaceholdersWithoutSlots": ["recipients.personLine4"],
+    "templatePlaceholdersWithoutBindings": ["recipients.personLine4"],
+    "undefinedOrNullLiterals": 4,
+    "nextAction": "Repair template placeholders without bindings before claiming render fidelity."
+  },
+  "boardLane": "CONTRACT_REPAIR",
+  "boardStatus": "NEEDS_REMEDIATION",
+  "duplicateSemanticRisks": {
+    "recipients.personLine4": {
+      "count": 4,
+      "severity": "HIGH",
+      "reason": "generic-numbered placeholder with >= 3 occurrences"
+    },
+    "document.fullDocumentCode4": {
+      "count": 4,
+      "severity": "HIGH",
+      "reason": "generic-numbered placeholder with >= 3 occurrences"
+    }
+  },
+  "blockedBms": {
+    "BM-052": { "lane": "LEGAL_REVIEW", "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW", "done": false, "preserved": true },
+    "BM-062": { "lane": "LEGAL_REVIEW", "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW", "done": false, "preserved": true },
+    "BM-063": { "lane": "LEGAL_REVIEW", "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW", "done": false, "preserved": true }
+  },
+  "legalReviewLaneCount": 3,
+  "worktreeMixed": true
+}

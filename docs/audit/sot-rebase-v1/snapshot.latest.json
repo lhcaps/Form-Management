@@ -1,0 +1,34 @@
+{
+  "generated": "2026-06-28T17:38:00.000Z",
+  "branch": "fix/documents-canonical-render-payload-snapshot",
+  "aheadBehind": "ahead 1",
+  "worktreeChanges": {
+    "totalFilesChanged": 52,
+    "netInsertions": 2168,
+    "netDeletions": 1341,
+    "categories": [
+      "compiled-v2/*.compiled.json (all 213)",
+      "contracts/locked/*.contract.locked.json (all 213)",
+      "normalized-docx (6 files)",
+      "legacy-renderer-capabilities.generated.ts",
+      "audit docs (new)"
+    ]
+  },
+  "auditResults": {
+    "auditContractSync": { "matched": 213, "missing": 0, "stale": 0, "note": "FALSE GREEN — compares compiled-v2 vs DB only" },
+    "refresh213FidelityBoard": { "rows": 213, "rootCauseIssues": 1469, "contractRepairRequired": 22 },
+    "renderFidelityGate": { "bm063": "FAIL", "bm066": "FAIL", "note": "binding fidelity failures due to stale compiled-v2" }
+  },
+  "sotRebaseAudit": {
+    "totalBms": 213,
+    "totalIssues": 4500,
+    "critical": 3,
+    "high": 2734,
+    "medium": 1763,
+    "classifications": {
+      "COMPILED_V2_STALE_VS_LOCKED": 2,
+      "LOCKED_CONTRACT_EVIDENCE_INCONSISTENT": 203,
+      "LOCKED_CONTRACT_STRUCTURALLY_MATCHED": 8
+    }
+  }
+}

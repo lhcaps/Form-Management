@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_BM162_BM163_REVIEW",
+  "generatedAt": "2026-06-26T16:25:00.000Z",
+  "mode": "manual-review",
+  "priority": "MEDIUM",
+  "sourceEvidence": "Original DOC text extracted from .cache/f2-rendered-docx/BM-162.bin and BM-163.bin (DOCX XML). BM-162 is Giấy mời, BM-163 is Giấy triệu tập. Both are from TT 03-2026-VKSTC Phase 5 (Giai đoạn truy tố).",
+  "totalItems": 16,
+  "items": [
+    {
+      "reviewItemId": "W2R-041",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Extracted text: 'Số: …/GM-VKS…-  __DOCUMENT_FULLDOCUMENTCODE__'. Document code line visible with 'Số:' prefix. Label approved as 'Số/Ký hiệu văn bản'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-042",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "approvedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Extracted text shows 'ngày … tháng … năm 20…  __DOCUMENT_ISSUEDATE__'. Standard document date format in form header. Approved as 'Ngày tháng năm'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-043",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-044",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "approvedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Kính mời ông/bà",
+        "evidenceNotes": "Extracted text: 'Kính mời ông/bà: __DOCUMENT_ISSUEDATE__'. The greeting line 'Kính mời ông/bà:' directly precedes the name field. Standard Giấy mời form. Approved as 'Họ tên'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-045",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện nay",
+      "approvedLabel": "Nơi ở hiện nay",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi ở hiện nay",
+        "evidenceNotes": "Extracted text: 'Nơ ở hiện nay: __PERSON_CURRENTADDRESS__'. Clear visible label 'Nơi ở hiện nay'. Matched exact DOC wording."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-046",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "approvedLabel": "Nghề nghiệp",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Nghề nghiệp",
+        "evidenceNotes": "Extracted text includes 'để: __PERSON_OCCUPATION__ Khi đến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. The structure follows the standard Giấy mời form. Approved as 'Nghề nghiệp'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-047",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "templateTitle": "Giấy mời",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "approvedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Extracted text: 'Khi đến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp __PERSON_IDNUMBER__'. Visible ID type list confirms 'Số CCCD/CMND' canonical label."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-048",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Extracted text: 'Số: …/GTT-VKS…-  __DOCUMENT_FULLDOCUMENTCODE__'. Document code line visible with 'Số:' prefix, matching BM-162 structure. Approved as 'Số/Ký hiệu văn bản'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-049",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "approvedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Extracted text shows 'ngày … tháng … năm 20…  __DOCUMENT_ISSUEDATE__'. Same standard document date format as BM-162. Approved as 'Ngày tháng năm'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-050",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "BM-163 extracted text does not show a clear 'Sinh ngày ...' or 'Ngày sinh:' label near the __PERSON_DATEOFBIRTH__ field code. No visible date-of-birth label found in extracted text. DEFER to confirm."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-051",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "approvedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Yêu cầu ông/bà",
+        "evidenceNotes": "Extracted text: 'Yêu cầu ông/bà: __DOCUMENT_ISSUEDATE__ __PERSON_DATEOFBIRTH__ __PERSON_PERSONFULLNAME__'. The greeting line 'Yêu cầu ông/bà:' directly precedes the person name field. Standard Giấy triệu tập form. Approved as 'Họ tên'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-052",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "Extracted text shows '__PERSON_PERSONFULLNAME__ Nơi ở hiện nay: __PERSON_CURRENTADDRESS__ Là __PERSON_OCCUPATION__ __PERSON_WARD__'. The 'Là' token appears between currentAddress and occupation but does not constitute a visible label. No 'Nghề nghiệp:' visible label found. DEFER."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-053",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.ward",
+      "placeholder": "{{person.ward}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Phường/Xã",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "__PERSON_WARD__ field code appears in extracted text but no visible label 'Phường/Xã:' is present in the extracted content. DEFER to confirm."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-054",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.province",
+      "placeholder": "{{person.province}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Tỉnh/Thành phố",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "__PERSON_PROVINCE__ field code appears after ward. No visible label 'Tỉnh/Thành phố:' found in extracted text. DEFER to confirm."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-055",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "approvedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Extracted text: 'Khi đến mang theo Giấy triệu tập này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp __CASE_CASENUMBER__'. The __PERSON_IDNUMBER__ field is in the same context as the ID type list. Approved as 'Số CCCD/CMND'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-056",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "templateTitle": "Giấy triệu tập",
+      "path": "case.caseNumber",
+      "placeholder": "{{case.caseNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số hồ sơ vụ án",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": false,
+        "evidenceNotes": "__CASE_CASENUMBER__ is used for case/docket number. This is a legal/procedural field. The extracted text does not show a clear visible label for this field. DEFER to avoid incorrect legal labeling."
+      },
+      "risk": "high"
+    }
+  ]
+}

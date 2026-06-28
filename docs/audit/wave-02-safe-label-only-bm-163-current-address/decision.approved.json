@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "task": "WAVE_02_SAFE_LABEL_ONLY_MICRO_APPLY_BM_163_CURRENT_ADDRESS",
+  "generatedAt": "2026-06-26T14:45:00.000Z",
+  "decisions": [
+    {
+      "reviewGroupId": "W2-MICRO-001",
+      "templateCode": "BM-163",
+      "sourceId": "BM-163__61941122b9e4",
+      "section": "person",
+      "path": "person.currentAddress",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "proposedLabel": "Nơi ở hiện nay",
+      "decision": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "rationale": "Label-only fix. DOCX evidence: static Vietnamese text 'Nơi ở hiện nay:' appears directly before placeholder {{person.currentAddress}} in BM-163 word/document.xml. Path and placeholder are already correct. Only canonicalFields label is wrong. Source='manual' unchanged. Binding unchanged.",
+      "risk": "low",
+      "applyEligible": true,
+      "action": "UPDATE_LABEL",
+      "issueCodes": ["BAD_LABEL"],
+      "source": "manual",
+      "evidence": {
+        "sourceReport": "DOCX_WAVE_02_PLACEHOLDER_FIX_PLANNING",
+        "reportPath": "docs/audit/docx-wave-02-placeholder-fix-planning/placeholder-context.latest.json",
+        "staticText": "Nơi ở hiện nay:",
+        "placeholder": "{{person.currentAddress}}",
+        "rawTextBefore": "s=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> Nơi ở hiện nay: {{person.currentAddress}}",
+        "confidence": "strong"
+      }
+    }
+  ]
+}

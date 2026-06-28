@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0",
+  "task": "SAFE_LABEL_ONLY_RUNNER_DESIGN",
+  "generatedAt": "2026-06-27T16:45:00.000Z",
+  "pilot": {
+    "bm": "BM-002",
+    "sourceId": "BM-002__f78301178da7",
+    "appliedAt": "2026-06-27T09:10:56.000Z",
+    "actualDeltas": {
+      "BAD_LABEL": { "before": 10, "after": 0, "delta": -10 },
+      "UI_VISIBLE_BAD_METADATA": { "before": 9, "after": 0, "delta": -9 }
+    },
+    "patternValidated": true
+  },
+  "design": {
+    "name": "SAFE_LABEL_ONLY One-BM Runner",
+    "principle": "One BM per invocation. Reads approved decisions. Dry-run default. Explicit --write.",
+    "architecture": {
+      "entryPoint": "scripts/audit/apply-safe-label-only.mjs",
+      "readsApprovedDecisionsFrom": "docs/audit/per-form-render-accurate/<BM>/approved/decisions.approved.json",
+      "generatesApplyReport": "docs/audit/per-form-render-accurate/<BM>/apply-reports/apply.latest.json",
+      "generatesClosure": "docs/audit/per-form-render-accurate/<BM>/closure/closure.latest.json",
+      "createsBackup": "docs/audit/per-form-render-accurate/<BM>/backups/<timestamp>/"
+    },
+    "hygiene": {
+      "sourceIdGuard": "exact match against approved decisions sourceId field",
+      "arrayCountLogging": "dynamic — log actual contract counts, never hardcoded literals",
+      "countGuards": "assert actual parsed counts match approved decision expected counts",
+      "unusedImports": "none — all imports must be used",
+      "dynamicLogging": "all array counts, field counts, and deltas logged from actual parsed data"
+    },
+    "guards": [
+      {
+        "guard": "templateCode exact match",
+        "field": "approved.templateCode",
+        "check": "contract.templateCode === approved.templateCode"
+      },
+      {
+        "guard": "sourceId exact match",
+        "field": "approved.sourceId",
+        "check": "contract.sourceId === approved.sourceId",
+        "note": "Approved decision sourceId must use full form: 'BM-XXX__<sha256>'"
+      },
+      {
+        "guard": "canonicalFields expected count",
+        "field": "approved.decisions.expectedCounts.canonicalFields",
+        "check": "preParsedContract.canonicalFields.length === approved.decisions.expectedCounts.canonicalFields"
+      },
+      {
+        "guard": "docxSlots count unchanged",
+        "check": "contract.docxSlots.length === pre-apply count (from manifest or pre-read)"
+      },
+      {
+        "guard": "renderBindings count unchanged",
+        "check": "contract.renderBindings.length === pre-apply count"
+      },
+      {
+        "guard": "No path changes",
+        "check": "every canonicalFields[N].path === approved path for that index"
+      },
+      {
+        "guard": "No old label mismatch",
+        "check": "every canonicalFields[N].label === approved.oldValue for that index"
+      },
+      {
+        "guard": "Only label fields changed",
+        "check": "proposed JSON === original JSON except canonicalFields[N].label"
+      },
+      {
+        "guard": "No fields added/removed/reordered",
+        "check": "contract.canonicalFields.length === pre-apply count AND all paths match"
+      }
+    ],
+    "inputs": {
+      "required": [
+        "BM code as positional argument: node apply-safe-label-only.mjs BM-001",
+        "Approved decision file: docs/audit/per-form-render-accurate/<BM>/approved/decisions.approved.json",
+        "Pre-read contract for count comparison"
+      ],
+      "optional": [
+        "--dry-run (default)",
+        "--write (explicit apply)",
+        "--verbose (detailed per-field logging)"
+      ]
+    },
+    "outputs": {
+      "dryRun": "No file writes. Console summary only.",
+      "write": [
+        "Modified contract",
+        "Backup directory with manifest",
+        "apply.latest.json",
+        "apply.latest.md",
+        "closure.latest.json",
+        "closure.latest.md"
+      ]
+    },
+    "backup": {
+      "location": "docs/audit/per-form-render-accurate/<BM>/backups/<ISO-timestamp>/",
+      "manifestFields": [
+        "templateCode",
+        "sourceId (full form)",
+        "originalContract path",
+        "backupFile path",
+        "backupSha256",
+        "timestamp",
+        "approvedCommand",
+        "expectedChangesCount",
+        "changes list with index, path, before, after"
+      ]
+    },
+    "validation": {
+      "preWrite": "All guards pass",
+      "postWrite": [
+        "Written contract re-parses without error",
+        "templateCode matches",
+        "sourceId matches exactly",
+        "canonicalFields count matches",
+        "Every changed label equals approved.newValue",
+        "All unchanged fields match original"
+      ]
+    },
+    "deltaReporting": {
+      "approach": "Run post-apply audit for the specific BM only",
+      "auditCommands": [
+        "node scripts/audit/audit-rendered-text-fidelity.mjs --template-code <BM>",
+        "node scripts/audit/audit-forms-root-cause.mjs --template-code <BM>"
+      ],
+      "reportDeltas": [
+        "expected BAD_LABEL delta",
+        "expected UI_VISIBLE delta",
+        "actual BAD_LABEL delta (from post-apply audit)",
+        "actual UI_VISIBLE delta"
+      ]
+    },
+    "constraints": {
+      "noBulkMode": "One BM per invocation. No loops.",
+      "noDryRunInWrite": "If --write is set, --dry-run must not also be set",
+      "noDocxSlotsModification": "Runner aborts if any approved decision includes docxSlots changes",
+      "noRenderBindingsModification": "Runner aborts if any approved decision includes renderBindings changes",
+      "noPathChanges": "Runner aborts if any canonicalFields[N].path differs from approved",
+      "noFieldCountChanges": "Runner aborts if canonicalFields.length !== pre-apply count"
+    },
+    "errorHandling": {
+      "guardFailure": "Abort with exact guard name and expected vs actual values",
+      "parseError": "Abort with file path and error message",
+      "missingApprovedDecision": "Abort with expected path",
+      "preWriteGuardFailure": "No file writes; clean exit with error"
+    }
+  },
+  "migration": {
+    "from": "apply-bm002-safe-label-only-render-accurate.mjs (BM-002 only, hardcoded)",
+    "to": "apply-safe-label-only.mjs (generic, decision-driven)",
+    "bm002ScriptStatus": "Preserve as-is (already applied). Do not modify logic. Only hygiene fixes allowed.",
+    "futureBms": "All future SAFE_LABEL_ONLY applies use the generic runner.",
+    "approvedDecisionFormat": "Must include: templateCode, sourceId (full form), patchType, expectedCounts object (canonicalFields, docxSlots, renderBindings), exact changes with canonicalFieldIndex, oldValue, newValue, expectedDeltas"
+  }
+}

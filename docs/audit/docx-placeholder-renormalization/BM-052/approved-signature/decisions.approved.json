@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "mode": "APPROVED_FOR_APPLY_WITH_PREFLIGHT_GATES",
+  "task": "BM052_SIGNATURE_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY",
+  "templateCode": "BM-052",
+  "decisions": [
+    {
+      "templateCode": "BM-052",
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 3,
+      "finalNewPlaceholder": "signature.signerName",
+      "semanticFieldPath": "signature.signerName",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml"
+      },
+      "requiredContext": [
+        "Ký",
+        "ghi rõ họ tên",
+        "đóng dấu"
+      ],
+      "confidence": "HIGH",
+      "reason": "Footer signature line after Noi nhan is signer metadata, not recipient body data. Body occurrences remain deferred for separate semantic review."
+    }
+  ]
+}

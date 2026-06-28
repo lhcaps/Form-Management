@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "mode": "PROPOSED_ONLY_NOT_APPROVED",
+  "templateCode": "BM-052",
+  "title": "QĐ huỷ bỏ biện pháp đặt tiền để bảo đảm",
+  "canApplyRunNow": false,
+  "approvedDecisions": [],
+  "baselineFindings": [
+    "EXTRACTION_HASH_MISMATCH",
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "REVIEW_REQUIRED_REMAINS"
+  ],
+  "mismatchSummary": {
+    "total": 18,
+    "templatePlaceholdersWithoutSlots": 1,
+    "contractSlotsWithoutTemplatePlaceholders": 2,
+    "bindingsWithoutTemplatePlaceholders": 2,
+    "duplicateSemanticPlaceholders": 1,
+    "reviewRequired": 12
+  },
+  "proposedActions": [
+    {
+      "action": "REVIEW_RENORMALIZE_DUPLICATE_DOCX_PLACEHOLDER",
+      "placeholder": "recipients.personLine6",
+      "approved": false,
+      "severity": "HIGH",
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+      "anchors": [
+        "fullName",
+        "idNumber",
+        "job",
+        "permanentAddress",
+        "temporaryAddress"
+      ]
+    },
+    {
+      "action": "REVIEW_ORPHAN_CONTRACT_SLOT",
+      "slotId": "document.fullDocumentCode",
+      "approved": false,
+      "reason": "Contract slot has no matching same-BM normalized DOCX placeholder."
+    },
+    {
+      "action": "REVIEW_ORPHAN_CONTRACT_SLOT",
+      "slotId": "document.fullDocumentCode2",
+      "approved": false,
+      "reason": "Contract slot has no matching same-BM normalized DOCX placeholder."
+    },
+    {
+      "action": "REVIEW_BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+      "slotId": "document.fullDocumentCode",
+      "approved": false,
+      "reason": "Render binding targets a slot that is not present as a same-BM DOCX placeholder."
+    },
+    {
+      "action": "REVIEW_BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+      "slotId": "document.fullDocumentCode2",
+      "approved": false,
+      "reason": "Render binding targets a slot that is not present as a same-BM DOCX placeholder."
+    }
+  ],
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  },
+  "plannerDecisionNeeded": {
+    "requested": true,
+    "reason": "Evidence is prepared only. A human/planner must approve exact structural mutations per BM before any apply runner is created."
+  }
+}

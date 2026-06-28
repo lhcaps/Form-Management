@@ -1,0 +1,42 @@
+{
+  "generatedAt": "2026-06-26T15:03:37.491Z",
+  "task": "WAVE_02_SAFE_LABEL_ONLY_MICRO_APPLY_BM_163_CURRENT_ADDRESS",
+  "mode": "write",
+  "planned": 1,
+  "applied": 0,
+  "failed": 0,
+  "skipped": 1,
+  "mutation": {
+    "templateCode": "BM-163",
+    "sourceId": "BM-163__61941122b9e4",
+    "path": "person.currentAddress",
+    "action": "UPDATE_LABEL",
+    "labelBefore": "Slot from Wave 02 DOCX remediation",
+    "labelAfter": "Nơi ở hiện nay"
+  },
+  "contracts": [
+    {
+      "templateCode": "BM-163",
+      "file": "BM-163__61941122b9e4.contract.locked.json",
+      "changed": true,
+      "skippedReason": "SKIPPED_IDEMPOTENT: BM-163::person.currentAddress already has label \"Nơi ở hiện nay\""
+    }
+  ],
+  "issueDelta": {
+    "note": "Actual delta depends on audit run after write. dry-run cannot compute audit delta."
+  },
+  "safety": {
+    "lockedContractMutated": false,
+    "docxTouched": false,
+    "sourceUnchanged": true,
+    "pathUnchanged": true,
+    "bindingUnchanged": true,
+    "backupCreated": false
+  },
+  "evidence": {
+    "source": "DOCX_WAVE_02_PLACEHOLDER_FIX_PLANNING",
+    "report": "docs/audit/docx-wave-02-placeholder-fix-planning/placeholder-context.latest.json",
+    "staticText": "Nơi ở hiện nay:",
+    "confidence": "strong"
+  }
+}

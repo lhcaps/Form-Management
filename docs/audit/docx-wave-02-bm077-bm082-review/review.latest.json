@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_BM077_BM082_REVIEW",
+  "generatedAt": "2026-06-26T17:04:00.000Z",
+  "mode": "manual-review",
+  "priority": "MEDIUM",
+  "sourceEvidence": "Rendered DOCX XML from .cache/f2-rendered-docx/BM-077.bin and BM-082.bin. BM-077 is Yeu cau/De nghi cu nguoi bao chua. BM-082 is Thong bao cho nguoi bao chua ve thoi gian dia diem tien hanh hoat dong to tung.",
+  "totalItems": 2,
+  "items": [
+    {
+      "reviewItemId": "W2R-033",
+      "templateCode": "BM-077",
+      "sourceId": "99d7843f9f9e",
+      "templateTitle": "Yêu cầu/Đề nghị cử người bào chữa",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:04:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-077.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-040",
+      "templateCode": "BM-082",
+      "sourceId": "44cc2b043383",
+      "templateTitle": "Thông báo cho người bào chữa về thời gian, địa điểm tiến hành hoạt động tố tụng",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:04:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-082.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header has 'Số: …/TB-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in body context: '… sẽ tiến hành … đối với __DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát 2 … thông báo cho người bào chữa biết'. This is procedural/case reference text, not a document code field. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+      },
+      "risk": "medium"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-06-26T21:17:21.344Z",
+  "task": "DOCX_PATH_BINDING_LAYER_B_APPLY",
+  "mode": "write",
+  "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER B BM-080 BM-063 BM-064 a7aa64d4b889 54b73110a34f 4d8cebc3515b DOCX-REMOVE-003 DOCX-REMOVE-004 DOCX-REMOVE-005",
+  "layer": "B",
+  "plannedItems": 3,
+  "contracts": [
+    {
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "file": "BM-080__a7aa64d4b889.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "person.personFullName"
+      ]
+    },
+    {
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "file": "BM-063__54b73110a34f.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "document.fullDocumentCode8"
+      ]
+    },
+    {
+      "templateCode": "BM-064",
+      "sourceId": "4d8cebc3515b",
+      "file": "BM-064__4d8cebc3515b.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "document.issueDate4"
+      ]
+    }
+  ],
+  "safety": {
+    "lockedContractsMutated": 3,
+    "docxTouched": false,
+    "sourceUnchanged": true,
+    "domainModelPathsAdded": false,
+    "backupCreated": true,
+    "backupPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-path-binding-layer-b-approved\\backups\\2026-06-26T21-17-21-338Z"
+  },
+  "dryRun": {
+    "wouldRemove": [
+      {
+        "contract": "BM-080",
+        "docxSlots": [
+          "person.personFullName"
+        ],
+        "canonicalFields": [
+          "person.personFullName"
+        ],
+        "renderBindings": [
+          "person.personFullName"
+        ]
+      },
+      {
+        "contract": "BM-063",
+        "docxSlots": [
+          "document.fullDocumentCode8"
+        ],
+        "canonicalFields": [
+          "document.fullDocumentCode8"
+        ],
+        "renderBindings": [
+          "document.fullDocumentCode8"
+        ]
+      },
+      {
+        "contract": "BM-064",
+        "docxSlots": [
+          "document.issueDate4"
+        ],
+        "canonicalFields": [
+          "document.issueDate4"
+        ],
+        "renderBindings": [
+          "document.issueDate4"
+        ]
+      }
+    ]
+  },
+  "errors": [],
+  "next": "REVIEW_LAYER_B_CLOSURE_BEFORE_LAYER_C"
+}

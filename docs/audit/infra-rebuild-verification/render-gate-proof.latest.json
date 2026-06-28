@@ -1,0 +1,102 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_2_RENDER_GATE",
+  "generated": "2026-06-28T16:20:00.000Z",
+  "build_render_atlas": {
+    "command": "node scripts/audit/build-render-atlas-v1.mjs",
+    "exitCode": 0,
+    "result": { "total": 213, "pass": 213, "fail": 0, "error": 0, "cacheHits": 213 },
+    "pass": true
+  },
+  "unit_tests": {
+    "render_gate_tests": {
+      "command": "node --test test/render-form-fidelity-gate.test.mjs",
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        { "name": "render fidelity gate passes when every DOCX placeholder has a binding", "status": "PASS" },
+        { "name": "render fidelity gate preserves static text split around rendered values", "status": "PASS" },
+        { "name": "render fidelity gate fails and reports DOCX placeholders missing bindings", "status": "PASS" }
+      ]
+    },
+    "ooxml_repair_tests": {
+      "command": "node --test test/ooxml-stray-brace-repair.test.mjs",
+      "passed": 4,
+      "failed": 0
+    },
+    "contract_repair_tests": {
+      "command": "node --test test/contract-render-binding-repair.test.mjs",
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "t9_human_review_blocker_tests": {
+    "command": "node --test test/human-review-blockers-board.test.mjs",
+    "passed": 121,
+    "failed": 4,
+    "failed_tests": [
+      {
+        "bm": "BM-052",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "reason": "CRITICAL: DOCX was mutated — {{recipients.personLine6}} replaced with {{person.idNumber}}, {{person.temporaryAddress}}, {{signature.signerName}}. Not OOXML repair."
+      },
+      {
+        "bm": "BM-062",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "reason": "Same pattern — DOCX placeholder replaced/mutated"
+      },
+      {
+        "bm": "BM-063",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "reason": "Same pattern — DOCX placeholder replaced/mutated"
+      },
+      {
+        "bm": "BM-066",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "reason": "Same pattern — DOCX placeholder replaced/mutated"
+      }
+    ],
+    "root_cause": "RENDER_FAIL_BLOCKED_BMS (BM-052/062/063/066) had render gate FAIL due to missing slots/bindings for {{recipients.personLine6}}. Codex replaced these placeholders with different semantic paths in the DOCX itself, making render pass. This is a contract mutation, not infrastructure fix."
+  },
+  "render_gate_fix_assessment": {
+    "splitStaticAnchorFragments": {
+      "exists": true,
+      "tested": true,
+      "pass": true,
+      "notes": "Fix correctly handles static text split around rendered values"
+    },
+    "hasStaticAnchor": {
+      "exists": true,
+      "used_in": "textFidelity check",
+      "pass": true
+    },
+    "false_fail_fixed": {
+      "confirmed": true,
+      "mechanism": "Fragments now checked individually instead of requiring full anchor string match"
+    }
+  },
+  "flags": [
+    {
+      "severity": "CRITICAL",
+      "type": "DOCX_CONTENT_MUTATION",
+      "bm": ["BM-052", "BM-062", "BM-063", "BM-066"],
+      "description": "Normalized DOCX files were mutated (placeholder content replaced), not just OOXML structure repaired. This is a contract-level change disguised as OOXML repair.",
+      "evidence": {
+        "BM-052": {
+          "size_reduction": "83.7%",
+          "changes": [
+            "{{decision.decisionLine2}} → {{person.fullName}}",
+            "{{recipients.personLine6}} → {{person.idNumber}}",
+            "{{recipients.personLine6}} → {{person.temporaryAddress}}",
+            "{{recipients.personLine6}} → {{signature.signerName}}"
+          ]
+        }
+      },
+      "impact": "T9 tests fail because the blockers' render status changed from FAIL to PASS due to DOCX mutation, not infrastructure fix. render-fidelity gate is working correctly — the DOCX was changed to make it pass."
+    }
+  ]
+}

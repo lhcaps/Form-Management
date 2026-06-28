@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM066_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "2026-06-28T16:55:00.118Z",
+  "templateCode": "BM-066",
+  "patchCandidates": [],
+  "deferredItems": [
+    {
+      "placeholder": "recipients.personLine4",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 0: Blank cell in person/organization table row. No visible label. Cannot merge into one field."
+    },
+    {
+      "placeholder": "recipients.personLine4",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 1: Blank cell in person/organization table row. No visible label. Cannot merge into one field."
+    },
+    {
+      "placeholder": "recipients.personLine4",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_ACCOUNT_FIELD",
+      "confidence": "LOW",
+      "reason": "Occurrence 2: Appears in bank/account freeze context. Should NOT be recipients.personLine4."
+    },
+    {
+      "placeholder": "recipients.personLine4",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 3: Nơi nhận / Lưu: distribution footer with \"(Ký, ghi rõ họ tên, đóng dấu)\" — administrative boilerplate. NOT a formal signer slot. Field is labeled \"Người nhận\". Semantic requires human DOCX/legal review: is the recipient also the signer, or a separate organization/custodian?"
+    },
+    {
+      "placeholder": "document.fullDocumentCode4",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "reason": "Occurrence 0: Appears in bank/account/organization context (Lệnh phong tỏa tài khoản). NOT the formal document code. Should NOT bind to document.fullDocumentCode. Semantic requires human DOCX/legal review — likely a legal basis/account reference line."
+    },
+    {
+      "placeholder": "document.fullDocumentCode4",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "reason": "Occurrence 1: Appears in bank/account/organization context (Lệnh phong tỏa tài khoản). NOT the formal document code. Should NOT bind to document.fullDocumentCode. Semantic requires human DOCX/legal review — likely a legal basis/account reference line."
+    },
+    {
+      "placeholder": "document.fullDocumentCode4",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "reason": "Occurrence 2: Appears in body procedural context (căn cứ, lệnh, yêu cầu). NOT the formal document code. Semantic requires human DOCX/legal review against TT-03-2026-VKSTC."
+    },
+    {
+      "placeholder": "document.fullDocumentCode4",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "confidence": "LOW",
+      "reason": "Occurrence 3: Appears in bank/account/organization context (Lệnh phong tỏa tài khoản). NOT the formal document code. Should NOT bind to document.fullDocumentCode. Semantic requires human DOCX/legal review — likely a legal basis/account reference line."
+    }
+  ],
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "canApplyRunNow": false
+  }
+}

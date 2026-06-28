@@ -1,0 +1,101 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "mode": "READ_ONLY_VERIFICATION_WITH_COMMIT_PROPOSAL",
+  "generated": "2026-06-28T16:28:00.000Z",
+  "branch": "fix/documents-canonical-render-payload-snapshot",
+  "baseBranch": "origin/fix/documents-canonical-render-payload-snapshot",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "dbSyncClean": true,
+  "renderAtlas": {
+    "total": 213,
+    "pass": 213,
+    "fail": 0,
+    "error": 0
+  },
+  "contractAtlas": {
+    "locked": 213,
+    "structuralMismatch": 0,
+    "repairCandidates": 0,
+    "reviewRequired": 16
+  },
+  "smartQueue": {
+    "doNotTouchAlreadyBlocked": 12,
+    "docxRequiresOccurrenceReview": 74,
+    "docxSafeRenderPassPolicyBlocker": 34,
+    "lowPriorityRenderPassSemanticReview": 93
+  },
+  "tests": {
+    "render_gate_fix": { "passed": 3, "failed": 0 },
+    "ooxml_repair": { "passed": 4, "failed": 0 },
+    "contract_repair": { "passed": 4, "failed": 0 },
+    "atlas_builders": { "passed": 26, "failed": 0 },
+    "human_review_blockers": { "passed": 121, "failed": 4 }
+  },
+  "proofArtifacts": {
+    "worktree_inventory": "docs/audit/infra-rebuild-verification/worktree-inventory.latest.json",
+    "baseline": "docs/audit/infra-rebuild-verification/baseline.latest.json",
+    "render_gate_proof": "docs/audit/infra-rebuild-verification/render-gate-proof.latest.json",
+    "contract_cleanup_proof": "docs/audit/infra-rebuild-verification/contract-cleanup-proof.latest.json",
+    "ooxml_repair_proof": "docs/audit/infra-rebuild-verification/ooxml-repair-proof.latest.json",
+    "contract_render_binding_repair_proof": "docs/audit/infra-rebuild-verification/contract-render-binding-repair-proof.latest.json",
+    "pdf_integrity_proof": "docs/audit/infra-rebuild-verification/pdf-integrity-proof.latest.json",
+    "contract_sync_proof": "docs/audit/infra-rebuild-verification/contract-sync-proof.latest.json",
+    "docxtemplater_fallback_proof": "docs/audit/infra-rebuild-verification/docxtemplater-fallback-proof.latest.json",
+    "test_matrix": "docs/audit/infra-rebuild-verification/test-matrix.latest.json",
+    "diff_classification": "docs/audit/infra-rebuild-verification/diff-classification.latest.json"
+  },
+  "diffClassification": {
+    "infrastructure_files": 12,
+    "contract_mutation_intentional": 15,
+    "contract_mutation_forbidden": 4,
+    "contract_mutation_unexplained": 1,
+    "safe_intentional": 3
+  },
+  "risks": [
+    {
+      "severity": "CRITICAL",
+      "type": "BLOCKED_CONTRACT_MUTATION",
+      "bm": ["BM-052", "BM-062", "BM-063", "BM-066"],
+      "description": "These 4 blockers' locked contracts were mutated to make render pass. The render gate fix is legitimate, but the blockers were modified without planner/legal approval.",
+      "evidence": "T9 human-review-blockers-board tests FAILED: expected render status FAIL but got PASS",
+      "rollback_needed": true
+    },
+    {
+      "severity": "WARNING",
+      "type": "UNEXPLAINED_DOCX_SIZE",
+      "bm": ["BM-031"],
+      "description": "BM-031 has 76.7% size reduction (82KB -> 19KB). OOXML repair claimed only 1 stray run removed. This is disproportionate.",
+      "rollback_needed": false,
+      "investigation_needed": true
+    },
+    {
+      "severity": "MEDIUM",
+      "type": "DOCXTEMPLATER_FALLBACK_NO_TELEMETRY",
+      "description": "Fallback enhancement fills unbound placeholders from formData but does not record fallbackUsed/fallbackFilledSlots in audit trail",
+      "rollback_needed": false,
+      "hardening_needed": true
+    }
+  ],
+  "hardeningRecommendations": [
+    {
+      "priority": "MEDIUM",
+      "description": "Add fallbackUsed/fallbackFilledSlots telemetry to DocxtemplaterContractRenderEngine shadow manifest"
+    },
+    {
+      "priority": "LOW",
+      "description": "Document when render gate was last run fresh (not cache) vs cache hit to ensure freshness"
+    }
+  ],
+  "verdict": "NOT_VERIFIED",
+  "verdict_reason": "CRITICAL: 4 blocked BM contracts were mutated without planner/legal approval. Rollback required before commit.",
+  "canCommit": false,
+  "rollbackRequired": true,
+  "rollbackTarget": {
+    "BM-052": "Restore locked contract and DOCX to pre-Codex state (before BM-052 renormalization apply)",
+    "BM-062": "Restore locked contract and DOCX to pre-Codex state",
+    "BM-063": "Restore locked contract to pre-Codex state",
+    "BM-066": "Restore locked contract to pre-Codex state"
+  },
+  "nextPlannerDecisionNeeded": "APPROVED_NEXT: ROLLBACK_BLOCKED_CONTRACTS. NOT_APPROVED_YET: commit infrastructure, semantic/legal review, new BM remediation, DB publish, mark DONE. After rollback, re-run T9 tests. If pass, infrastructure can be committed."
+}

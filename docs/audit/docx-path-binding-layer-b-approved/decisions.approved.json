@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_B_APPROVED",
+  "generatedAt": "2026-06-27T04:14:00.000Z",
+  "mode": "APPROVED_FOR_APPLY",
+  "approvalRequired": false,
+  "applyAllowed": true,
+  "layer": "B",
+  "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER B BM-080 BM-063 BM-064 a7aa64d4b889 54b73110a34f 4d8cebc3515b DOCX-REMOVE-003 DOCX-REMOVE-004 DOCX-REMOVE-005",
+  "summary": {
+    "totalItems": 3,
+    "targetContracts": ["BM-080", "BM-063", "BM-064"],
+    "targetSourceIds": ["a7aa64d4b889", "54b73110a34f", "4d8cebc3515b"],
+    "risk": "LOW",
+    "domainModelNotes": 3
+  },
+  "items": [
+    {
+      "decisionId": "DOCX-REMOVE-003",
+      "investigationId": "W2R-036",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "person.personFullName",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "B",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "defender.cardLicenseNumber",
+        "note": "Tentative path \"defender.cardLicenseNumber\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless. This approval does NOT implement the tentative path."
+      },
+      "sourceBatch": "P0",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "evidence": {
+        "renderedParagraphs": ["[021]"],
+        "paragraphSnippets": ["[021] Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\n__PERSON_PERSONFULLNAME__"],
+        "canonicalEquivalent": null,
+        "reason": "Paragraph [021]: __PERSON_PERSONFULLNAME__ is directly under \"Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\" — this is a CARD/LICENSE NUMBER context, not a person name. The path person.personFullName was assigned incorrectly. Confidence HIGH — card number context is unambiguous. REMOVE from contract."
+      },
+      "rollbackRequirement": "Backup locked contracts before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-004",
+      "investigationId": "PRIOR-DXR-001",
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "path": "document.fullDocumentCode8",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "B",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "antecedentDocument.fullDocumentCode",
+        "note": "Tentative path \"antecedentDocument.fullDocumentCode\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless. This approval does NOT implement the tentative path."
+      },
+      "sourceBatch": "P0",
+      "placeholder": "__DOCUMENT_FULLDOCUMENTCODE8__",
+      "currentLabel": "Slot from DOCX remediation",
+      "blockId": null,
+      "preimageNote": "BM-063 has BOTH document.fullDocumentCode (legitimate, blockId=P0033, label=Số văn bản) AND document.fullDocumentCode8 (orphan, blockId=null). The apply script removes only document.fullDocumentCode8 — the _8 suffix path is distinct and safe to remove.",
+      "evidence": {
+        "renderedParagraphs": ["[011]", "[013]", "[014]", "[015]", "[016]", "[017]", "[033]"],
+        "paragraphSnippets": [
+          "[011] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …__DOCUMENT_ISSUEPLACEANDDATELINE__ __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[013] Ông/Bà: … Kiểm sát viên của Viện kiểm sát2__DOCUMENT_FULLDOCUMENTCODE8__",
+          "[014] __DOCUMENT_FULLDOCUMENTCODE8__y ban nhân dân cấp xã",
+          "[015] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[016] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[017] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[033] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …."
+        ],
+        "canonicalEquivalent": "document.fullDocumentCode — \"Số văn bản\" — legitimate, blockId=P0033",
+        "reason": "document.fullDocumentCode8 appears 7 times in BM-063 body/signature context as antecedent document references. The legitimate document.fullDocumentCode (Số văn bản, blockId=P0033) already exists. The _8 suffix was added during prior remediation to mark antecedent slots, but blockId=null makes them orphan. REMOVE document.fullDocumentCode8 only — the legitimate blockId=P0033 field is unaffected."
+      },
+      "rollbackRequirement": "Backup locked contracts before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-005",
+      "investigationId": "PRIOR-DXR-002",
+      "templateCode": "BM-064",
+      "sourceId": "4d8cebc3515b",
+      "path": "document.issueDate4",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "B",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "antecedentDocument.issueDate",
+        "note": "Tentative path \"antecedentDocument.issueDate\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless. This approval does NOT implement the tentative path."
+      },
+      "sourceBatch": "P0",
+      "placeholder": "__DOCUMENT_ISSUEDATE4__",
+      "currentLabel": "Slot from DOCX remediation",
+      "blockId": null,
+      "preimageNote": "BM-064 has document.issueDate4 (orphan, blockId=null) and document.fullDocumentCode (legitimate, blockId=P0024). The apply script removes only document.issueDate4. The _4 suffix path is distinct and safe to remove.",
+      "evidence": {
+        "renderedParagraphs": ["[016]", "[017]", "[020]", "[026]"],
+        "paragraphSnippets": [
+          "[016] Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với__DOCUMENT_ISSUEDATE4__",
+          "[017] Xét thấy__DOCUMENT_ISSUEDATE4__",
+          "[020] Điều 2. Yêu cầu 7 và 8__DOCUMENT_ISSUEDATE4__thực hiện Quyết định này",
+          "[026] 10__DOCUMENT_ISSUEDATE4__ (Nơi nhận suffix)"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "document.issueDate4 appears 4 times in BM-064 procedural/antecedent context. None are issuance date positions. blockId=null confirms orphan slots. REMOVE from contract — this is not a date field, it is a procedural/antecedent date reference filler."
+      },
+      "rollbackRequirement": "Backup locked contracts before any future apply. Rollback = restore from backup."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "task": "BM118_REMAINING_PATH_DOMAIN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-118",
+  "title": "QĐ phục hồi điều tra VA đối với bị can",
+  "sourceId": "BM-118__7d13f5eae86d",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-118.pathDomainGenericFields",
+      "count": 10,
+      "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+      "reason": "BM-118 render-fidelity passes, but ten path-domain issue groups remain non-apply-safe and require human DOCX/legal review."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 21,
+    "failCount": 20,
+    "reviewCount": 1,
+    "issueCounts": {
+      "BAD_LABEL": 10,
+      "GENERIC_FIELD_CANONICALIZATION": 10,
+      "SOURCE_MISMATCH": 1
+    }
+  },
+  "remainingPaths": [
+    "agency.diaDanh",
+    "agency.dongDia",
+    "document.chuThe",
+    "document.donVi",
+    "document.lyDo",
+    "document.ngayBan",
+    "document.soQd",
+    "document.soQuyet",
+    "document.tenVu",
+    "person.toiDanh"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "AUTO_APPLY_LABEL_ONLY_FIXES_FOR_O_TRONG",
+      "reason": "The current fix-plan marks all BM-118 items applySafe=false; several fields are placeholder-only or path-domain conflicting, so label-only mutation would hide semantic debt."
+    },
+    {
+      "option": "AUTO_REMAP_RESIDENCE_CONTEXT_FIELDS",
+      "reason": "Nơi thường trú/Nơi tạm trú contexts indicate likely domain mismatch, but exact path split and semantic ownership require same-BM DOCX/legal review."
+    },
+    {
+      "option": "MARK_BM118_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render fidelity is clean, but path-domain and source metadata remain unresolved."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "Which official labels and semantic paths should replace the ten \"Ô trống\" generic fields?",
+    "Are the Nơi thường trú placeholders split address fields or a combined person/current/permanent address line?",
+    "Should legalBasis.field3 stay manual, become a legal-basis/procedural reference, or be sourced from a prior decision payload?",
+    "Which document/agency fields are constants from agency config versus manual user inputs in BM-118?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-118/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-118/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-118/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-118/planner-handoff.latest.json"
+  },
+  "createdAt": "deterministic-current-state",
+  "createdBy": "BM118_PATH_DOMAIN_BINDING_EVIDENCE task"
+}

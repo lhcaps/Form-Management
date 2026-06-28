@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM052_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "status": "COMPLETE",
+  "canApplyRunNow": false,
+  "templateCode": "BM-052",
+  "sourcePair": {
+    "normalizedDocx": "storage/templates/normalized-docx/BM-052/BM-052_normalized.docx",
+    "lockedContract": null
+  },
+  "duplicateSemanticPlaceholders": [
+    {
+      "placeholder": "decision.decisionLine2",
+      "count": 2,
+      "anchors": [
+        "dateLine",
+        "decisionBasis",
+        "documentNumber",
+        "fullName"
+      ],
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize before contract repair."
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "count": 6,
+      "anchors": [
+        "fullName",
+        "job",
+        "idNumber",
+        "permanentAddress",
+        "temporaryAddress",
+        "signature",
+        "recipientFooter"
+      ],
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize before contract repair."
+    }
+  ],
+  "occurrenceEvidence": [
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 0,
+      "anchors": [
+        "fullName",
+        "job",
+        "idNumber"
+      ],
+      "context": ".fullName}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}",
+      "inferredSemantic": "person.personExtra",
+      "preciseSemantic": "person.personExtra",
+      "confidence": "LOW",
+      "needsNewPlaceholder": false,
+      "proposedNewPlaceholderId": null,
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+      "reason": "Occurrence 0: blank cell in person table header row. Cannot determine exact semantic (alias, date of birth, ethnicity, or another name field) without column header context. Blank cells have no visible label. Classified DEFER_AMBIGUOUS_PERSON_NAME — defer to human DOCX review.",
+      "keepCurrentPlaceholder": false,
+      "changeType": "NONE",
+      "reviewRequiredCleared": false,
+      "changeTypeNote": "Blank cell with no visible label — cannot determine semantic safely; defer to human DOCX review"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 1,
+      "anchors": [
+        "fullName",
+        "job",
+        "idNumber",
+        "permanentAddress"
+      ],
+      "context": "u 1. Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm t",
+      "inferredSemantic": "person.personExtra",
+      "preciseSemantic": "person.personExtra",
+      "confidence": "LOW",
+      "needsNewPlaceholder": false,
+      "proposedNewPlaceholderId": null,
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+      "reason": "Occurrence 1: blank cell in person table header row. Cannot determine exact semantic (alias, date of birth, ethnicity, or another name field) without column header context. Blank cells have no visible label. Classified DEFER_AMBIGUOUS_PERSON_NAME — defer to human DOCX review.",
+      "keepCurrentPlaceholder": false,
+      "changeType": "NONE",
+      "reviewRequiredCleared": false,
+      "changeTypeNote": "Blank cell with no visible label — cannot determine semantic safely; defer to human DOCX review"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 2,
+      "anchors": [
+        "fullName",
+        "job",
+        "idNumber",
+        "permanentAddress",
+        "temporaryAddress"
+      ],
+      "context": "iền để bảo đảm đối với bị can Họ tên: 8 {{recipients.personLine}} {{recipients.personLine6}} {{recipients.personLine6}} {{recipients.personLine6}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.idNumber}} Nơi thường trú: Nơi tạm trú: {{person.temporaryAddre",
+      "inferredSemantic": "person.personExtra",
+      "preciseSemantic": "person.personExtra",
+      "confidence": "LOW",
+      "needsNewPlaceholder": false,
+      "proposedNewPlaceholderId": null,
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+      "reason": "Occurrence 2: blank cell in person table header row. Cannot determine exact semantic (alias, date of birth, ethnicity, or another name field) without column header context. Blank cells have no visible label. Classified DEFER_AMBIGUOUS_PERSON_NAME — defer to human DOCX review.",
+      "keepCurrentPlaceholder": false,
+      "changeType": "NONE",
+      "reviewRequiredCleared": false,
+      "changeTypeNote": "Blank cell with no visible label — cannot determine semantic safely; defer to human DOCX review"
+    }
+  ],
+  "proposedOccurrenceSplits": [],
+  "collisionChecks": [],
+  "classificationCounts": {
+    "DEFER_AMBIGUOUS_PERSON_NAME": 3
+  },
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true,
+    "codeGraphUsedForCodeOnly": true
+  },
+  "validation": {
+    "scriptName": "scripts/audit/plan-bm052-docx-placeholder-renormalization.mjs",
+    "testFile": "test/bm052-docx-placeholder-renormalization.test.mjs",
+    "expectedCanApplyRunNow": false
+  },
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "For each proposed occurrence split in BM-052, approve or reject the proposed new placeholder id and the change type (DOCX+CONTRACT or CONTRACT_ONLY), based on whether the DOCX renormalization is warranted for that specific occurrence."
+  }
+}

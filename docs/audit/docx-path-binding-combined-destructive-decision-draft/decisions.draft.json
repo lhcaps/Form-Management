@@ -1,0 +1,454 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_COMBINED_DESTRUCTIVE_DECISION_DRAFT",
+  "generatedAt": "2026-06-26T21:38:26.048Z",
+  "mode": "DRAFT_REVIEW_REQUIRED",
+  "approvalRequired": true,
+  "applyAllowed": false,
+  "totalItems": 10,
+  "summary": {
+    "REMOVE_FIELD_FROM_CONTRACT": 10,
+    "DOMAIN_MODEL_REVIEW": 3,
+    "APPROVED_FOR_APPLY": 0,
+    "KEEP_DEFERRED_TRACKED": 8,
+    "_liveApprovalProgress": {
+      "APPROVED_FOR_APPLY": 10,
+      "PENDING_APPROVAL": 0
+    }
+  },
+  "items": [
+    {
+      "decisionId": "DOCX-REMOVE-001",
+      "investigationId": "W2R-027",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.dateOfBirth",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "placeholder": "{{document.field3}}",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[018]"
+        ],
+        "paragraphSnippets": [
+          "[018] Thủ trưởng Cơ quan (hoặc người có thẩm quyền)… phân công5__PERSON_DATEOFBIRTH__… để tiếp tục thực hiện nhiệm vụ…"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 is a Yêu cầu thay đổi nhân sự form. It does not contain personal DOB fields. Paragraph [018] shows __PERSON_DATEOFBIRTH__ in a \"phân công\" (assignment/commission) sentence, preceded by footnote 5 which describes the authority/agency that issued the assignment decision. The path person.dateOfBirth was set incorrectly. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup.",
+      "sourceBatch": "P0",
+      "layer": "A"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-002",
+      "investigationId": "W2R-028",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.idNumber",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "placeholder": "{{document.field5}}",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[022]"
+        ],
+        "paragraphSnippets": [
+          "[022] __PERSON_IDNUMBER__.. after \"Lưu: HSVV/HSVA, HSKS, VP.\" — standalone reference marker after document footer items."
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 does not contain CMND/CCCD/ID number fields. Paragraph [022] shows __PERSON_IDNUMBER__ as a standalone marker after the Lưu: footer. This is a footnote reference marker, not an ID number. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup.",
+      "sourceBatch": "P0",
+      "layer": "A"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-003",
+      "investigationId": "W2R-036",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "person.personFullName",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "placeholder": "{{person.personFullName}}",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[021]"
+        ],
+        "paragraphSnippets": [
+          "[021] Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\n__PERSON_PERSONFULLNAME__"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "Paragraph [021]: __PERSON_PERSONFULLNAME__ is directly under \"Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\" — this is a CARD/LICENSE NUMBER context, not a person name. The path person.personFullName was assigned incorrectly. The correct semantic is a lawyer/legal-aid card number field. Tentative path: defender.cardLicenseNumber. The slot itself should be REMOVE_FIELD_FROM_CONTRACT (current path) and a new defender.cardLicenseNumber field should be considered in a separate semantic modeling task. Confidence HIGH — card number context is unambiguous."
+      },
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "defender.cardLicenseNumber",
+        "note": "Tentative path \"defender.cardLicenseNumber\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup.",
+      "sourceBatch": "P0",
+      "layer": "B"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-004",
+      "investigationId": "PRIOR-DXR-001",
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "path": "document.fullDocumentCode8",
+      "currentLabel": "Slot from DOCX remediation",
+      "placeholder": "__DOCUMENT_FULLDOCUMENTCODE8__",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[011]",
+          "[013]",
+          "[014]",
+          "[015]",
+          "[016]",
+          "[017]",
+          "[033]"
+        ],
+        "paragraphSnippets": [
+          "[011] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …__DOCUMENT_ISSUEPLACEANDDATELINE__ __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[013] Ông/Bà: … Kiểm sát viên của Viện kiểm sát2__DOCUMENT_FULLDOCUMENTCODE8__",
+          "[014] __DOCUMENT_FULLDOCUMENTCODE8__y ban nhân dân cấp xã",
+          "[015] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[016] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[017] __DOCUMENT_FULLDOCUMENTCODE8__",
+          "[033] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …."
+        ],
+        "canonicalEquivalent": "document.fullDocumentCode — \"Số văn bản\" — legitimate, blockId=P0033",
+        "reason": "document.fullDocumentCode8 appears 7 times in BM-063 body/signature context: antecedent date reference [011], Kiểm sát viên reference [013], UBND cấp xã reference [014]-[017], closing reference [033]. All reference the underlying Lệnh kê biên tài sản document (antecedent). The legitimate document.fullDocumentCode (Số văn bản, blockId=P0033) already exists for the current biên bản. The _8 suffix was added during prior DOCX remediation to mark antecedent slots, but blockId=null makes them orphan orphans. The correct remediation is REMOVE these orphan antecedent slots — they are not part of the current document metadata. The antecedentDocument path is a domain-model design question, not a contract fix question at this stage."
+      },
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "antecedentDocument.fullDocumentCode",
+        "note": "Tentative path \"antecedentDocument.fullDocumentCode\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup.",
+      "sourceBatch": "P0",
+      "layer": "B"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-005",
+      "investigationId": "PRIOR-DXR-002",
+      "templateCode": "BM-064",
+      "sourceId": "4d8cebc3515b",
+      "path": "document.issueDate4",
+      "currentLabel": "Slot from DOCX remediation",
+      "placeholder": "__DOCUMENT_ISSUEDATE4__",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[016]",
+          "[017]",
+          "[020]",
+          "[026]"
+        ],
+        "paragraphSnippets": [
+          "[016] Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với__DOCUMENT_ISSUEDATE4__",
+          "[017] Xét thấy__DOCUMENT_ISSUEDATE4__",
+          "[020] Điều 2. Yêu cầu 7 và 8__DOCUMENT_ISSUEDATE4__thực hiện Quyết định này",
+          "[026] 10__DOCUMENT_ISSUEDATE4__ (Nơi nhận suffix)"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "document.issueDate4 appears 4 times: [016] inside \"Căn cứ Lệnh kê biên tài sản số…\" (antecedent procedural citation), [017] in \"Xét thấy\" body clause, [020] in \"Điều 2. Yêu cầu\" procedural text, [026] in Nơi nhận suffix. None of these are issuance date positions. The _4 suffix was added during prior remediation. blockId=null confirms orphan slots. REMOVE from contract — this is not a date field, it is a procedural/antecedent date reference filler."
+      },
+      "domainModelNote": {
+        "needsReview": true,
+        "tentativePath": "antecedentDocument.issueDate",
+        "note": "Tentative path \"antecedentDocument.issueDate\" is a domain-model proposal only. Requires separate DOMAIN_MODEL_REVIEW before being added. The current wrong path must still be removed regardless."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup.",
+      "sourceBatch": "P0",
+      "layer": "B"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-006",
+      "sourceBatch": "P1_BATCH_1",
+      "investigationId": "W2R-025",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[012]"
+        ],
+        "paragraphSnippets": [
+          "[009] Số: …/YC-VKS…-… (visible header, NO slot)",
+          "[012] Thay đổi__DOCUMENT_FULLDOCUMENTCODE__ (body title — slot in procedural title context)"
+        ],
+        "canonicalEquivalent": "document.fullDocumentCode — legitimate, blockId=P0033 (label=\"Số văn bản\")",
+        "reason": "BM-073 has a LEGITIMATE document.fullDocumentCode at blockId=P0033 (label=\"Số văn bản\"). The __DOCUMENT_FULLDOCUMENTCODE__ slot at [012] \"Thay đổi__DOCUMENT_FULLDOCUMENTCODE__\" is in the body title for \"Thay đổi\" (change) procedural context, NOT in the header. This is identical to the W2R-027/028 pattern: path was set incorrectly, orphan slot. HIGH confidence REMOVE candidate. Same BM-073 family as P0 items."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-007",
+      "sourceBatch": "P1_BATCH_1",
+      "investigationId": "W2R-026",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[016]"
+        ],
+        "paragraphSnippets": [
+          "[010] …, ngày … tháng … năm 20… (visible date header, NO slot)",
+          "[016] Xét thấy__DOCUMENT_ISSUEDATE__ (body reasoning clause — procedural, NOT issuance date)"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 has NO legitimate document.issueDate canonical field. The __DOCUMENT_ISSUEDATE__ slot at [016] \"Xét thấy__DOCUMENT_ISSUEDATE__\" is in the body reasoning clause, NOT at the date header position. This is a procedural date filler slot, not an issuance date. The path name \"issueDate\" is semantically wrong for a \"Xét thấy\" clause. Same BM-073 family as P0 items W2R-027/028. HIGH confidence REMOVE candidate. Confidence note: removing this would leave BM-073 with no date field, but the path is wrong regardless — the slot should not exist at all in this form as document.issueDate."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-008",
+      "sourceBatch": "P1_BATCH_2",
+      "investigationId": "PRIOR-DXR-008",
+      "templateCode": "BM-052",
+      "sourceId": "9919ecdb3971",
+      "path": "recipients.personLine6",
+      "placeholder": "RECIPIENTS_PERSONLINE6",
+      "currentLabel": "Slot from DOCX remediation",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[019]",
+          "[020]",
+          "[021]",
+          "[024]",
+          "[027]",
+          "[035]"
+        ],
+        "paragraphSnippets": [
+          "[019] Họ tên:8__RECIPIENTS_PERSONLINE__",
+          "[020] __RECIPIENTS_PERSONLINE6__",
+          "[021] __RECIPIENTS_PERSONLINE6__",
+          "[024] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+          "[027] Nơi tạm trú:",
+          "[035] 11__RECIPIENTS_PERSONLINE6__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-052 recipients.personLine6 appears 6 times: [020][021] as body continuation, [024] between fields, [027] after \"Nơi tạm trú:\", and [035] as Nơi nhận suffix after \"Lưu: HSVA...\" with footnote marker 11. The Nơi nhận suffix [035] is a pure footer artifact — Nơi nhận already lists the main recipients (7, 10, 8) and the \"11\" footnote marker is a signer title placeholder. The body continuation lines [020][021][024][027] are free-text fill, but BM-052 has no legitimate repeat/array person model. HIGH confidence REMOVE — the Nơi nhận suffix is sufficient evidence on its own. The body continuation lines are secondary."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-009",
+      "sourceBatch": "P1_BATCH_2",
+      "investigationId": "PRIOR-DXR-010",
+      "templateCode": "BM-062",
+      "sourceId": "110961a781fa",
+      "path": "recipients.personLine5",
+      "placeholder": "RECIPIENTS_PERSONLINE5",
+      "currentLabel": "Slot from DOCX remediation",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[021]",
+          "[022]",
+          "[023]",
+          "[037]"
+        ],
+        "paragraphSnippets": [
+          "[021] __RECIPIENTS_PERSONLINE5__",
+          "[022] __RECIPIENTS_PERSONLINE5__",
+          "[023] __RECIPIENTS_PERSONLINE5____RECIPIENTS_PERSONLINE5__ (merged line)",
+          "[037] 16__RECIPIENTS_PERSONLINE5__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-062 recipients.personLine5 appears 4 times: [021][022][023] as body continuation (some merged with duplicate), and [037] as Nơi nhận suffix with footnote marker 16. The Nơi nhận suffix [037] is a pure footer artifact — Nơi nhận already lists main recipients (12, 13, 15). The \"16\" marker is a signer title placeholder. HIGH confidence REMOVE — the Nơi nhận suffix is sufficient evidence."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-010",
+      "sourceBatch": "P1_BATCH_2",
+      "investigationId": "PRIOR-DXR-011",
+      "templateCode": "BM-066",
+      "sourceId": "e3bc56081554",
+      "path": "recipients.personLine4",
+      "placeholder": "RECIPIENTS_PERSONLINE4",
+      "currentLabel": "Slot from DOCX remediation",
+      "blockId": null,
+      "proposedAction": "REMOVE_FIELD_FROM_CONTRACT",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "applyAllowed": false,
+      "risk": "HIGH",
+      "confidence": "HIGH",
+      "evidence": {
+        "renderedParagraphs": [
+          "[023]",
+          "[024]",
+          "[031]",
+          "[038]"
+        ],
+        "paragraphSnippets": [
+          "[023] __RECIPIENTS_PERSONLINE4__",
+          "[024] __RECIPIENTS_PERSONLINE4__",
+          "[031] __RECIPIENTS_PERSONLINE4__. (after \"Yêu cầu 12 và 14\")",
+          "[038] 15__RECIPIENTS_PERSONLINE4__ (Nơi nhận suffix — after \"Lưu: HSVA...\")"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-066 recipients.personLine4 appears 4 times: [023][024] as body continuation between \"Tên gọi khác:\" and \"Nghề nghiệp:\", [031] as Điều 2 clause continuation, and [038] as Nơi nhận suffix with footnote marker 15. The Nơi nhận suffix [038] is a pure footer artifact — \"15\" is a signer title placeholder. HIGH confidence REMOVE. The Điều 2 clause [031] is also anomalous (Yêu cầu clause, not recipient continuation)."
+      },
+      "domainModelNote": {
+        "needsReview": false,
+        "tentativePath": null,
+        "note": null
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    }
+  ],
+  "deferredItems": [
+    {
+      "investigationId": "W2R-013",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.fullDocumentCode",
+      "reason": "BM-069 has no legitimate document.fullDocumentCode canonical field (blockId=null for both fullDocumentCode and all other fields). The \"Số:\" header exists but the slot is in the body. This is a FALSE_HEADER_SLOT but with no replacement field — removing it would leave BM-069 with no current document code field. The question is orphan-vs-missing, not orphan-vs-duplicate. KEEP_DEFERRED. Confidence MEDIUM because no legitimate equivalent exists to compare against.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "W2R-029",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "path": "document.fullDocumentCode",
+      "reason": "BM-075 has NO legitimate document.fullDocumentCode canonical field (blockId=null). The visible \"Số:\" header exists but the slot is in \"Xét thấy\" procedural body context. FALSE_HEADER_SLOT confirmed. However, unlike W2R-025 (BM-073), BM-075 has NO legitimate fullDocumentCode to replace the slot. Removing this orphan would leave BM-075 with no current document code field. The choice is between keeping the orphan (wrong label) or creating a new field. Cannot safely remove without replacing. Confidence MEDIUM. Recommend KEEP_DEFERRED pending decision on whether to create a legitimate field for BM-075.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "W2R-033",
+      "templateCode": "BM-077",
+      "sourceId": "99d7843f9f9e",
+      "path": "document.fullDocumentCode",
+      "reason": "BM-077 has NO legitimate document.fullDocumentCode canonical field. The visible \"Số:\" header exists but the slot is in the Nơi nhận footer with footnote marker 10 — an anomalous structural position. FALSE_HEADER_SLOT confirmed. Same structural issue as BM-075 W2R-029: removing orphan would leave BM-077 with no current document code field. Confidence MEDIUM. Recommend KEEP_DEFERRED.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "W2R-040",
+      "templateCode": "BM-082",
+      "sourceId": "44cc2b043383",
+      "path": "document.fullDocumentCode",
+      "reason": "BM-082 has NO legitimate document.fullDocumentCode canonical field. The visible \"Số:\" header exists but the slot is in a procedural \"đối với __DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát\" body context — a case reference, not a document metadata field. FALSE_HEADER_SLOT confirmed. Removing orphan would leave BM-082 with no current document code. Confidence MEDIUM. Recommend KEEP_DEFERRED.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "PRIOR-DXR-006",
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "path": "recipients.personLine5",
+      "reason": "BM-063 recipients.personLine5 appears 5 times: as body continuation between \"Tên gọi khác:\" and \"Số CMND\" AND inside Điều 1 \"tài sản\" clause. The Điều 1 occurrences ([030][031]) are continuation lines for tài sản description, not person/recipient data. However, removing these could affect data-capture capacity. The [021][022][025] occurrences are free-text continuation for recipient details. KEEP_DEFERRED — a future domain-model review should clarify whether these continuation lines should become a repeat/array model or be removed.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "PRIOR-DXR-007",
+      "templateCode": "BM-065",
+      "sourceId": "4a64c8d7e96c",
+      "path": "recipients.personLine3",
+      "reason": "BM-065 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation for recipient details. No Nơi nhận suffix. Removing these could reduce data-capture capacity. KEEP_DEFERRED.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "PRIOR-DXR-009",
+      "templateCode": "BM-061",
+      "sourceId": "ec44550246e9",
+      "path": "recipients.personLine3",
+      "reason": "BM-061 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation. No Nơi nhận suffix. KEEP_DEFERRED.",
+      "nextAction": "KEEP_DEFERRED"
+    },
+    {
+      "investigationId": "PRIOR-DXR-012",
+      "templateCode": "BM-067",
+      "sourceId": "0f7607122f29",
+      "path": "recipients.personLine3",
+      "reason": "BM-067 recipients.personLine3 appears 3 times: body continuation between \"Tên gọi khác:\" and \"Số CMND\". Pure free-text continuation for recipient details. No Nơi nhận suffix. KEEP_DEFERRED.",
+      "nextAction": "KEEP_DEFERRED"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "generatedAt": "2026-06-26T19:41:31.322Z",
+  "sourceIds": {
+    "BM-073": "e412fccad227",
+    "BM-080": "a7aa64d4b889",
+    "BM-063": "54b73110a34f",
+    "BM-064": "4d8cebc3515b"
+  },
+  "findings": [
+    {
+      "investigationId": "W2R-027",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[018]"
+      ],
+      "paragraphSnippets": [
+        "[018] Thủ trưởng Cơ quan (hoặc người có thẩm quyền)… phân công5__PERSON_DATEOFBIRTH__… để tiếp tục thực hiện nhiệm vụ…"
+      ],
+      "nearbyFields": "No legitimate person.* fields in this contract. BM-073 is a personnel change form (Yêu cầu thay đổi nhân sự). Footnote 5 = \"Ghi cơ quan, người có thẩm quyền ra Quyết định phân công\".",
+      "canonicalEquivalent": null,
+      "slotUiVisible": false,
+      "rootCauseFinding": "WRONG_PATH_IN_CONTRACT",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-073 is a Yêu cầu thay đổi nhân sự form. It does not contain personal DOB fields. Paragraph [018] shows __PERSON_DATEOFBIRTH__ in a \"phân công\" (assignment/commission) sentence, preceded by footnote 5 which describes the authority/agency that issued the assignment decision. The path person.dateOfBirth was set incorrectly. blockId=null confirms orphan slot. REMOVE from contract."
+    },
+    {
+      "investigationId": "W2R-028",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[022]"
+      ],
+      "paragraphSnippets": [
+        "[022] __PERSON_IDNUMBER__.. after \"Lưu: HSVV/HSVA, HSKS, VP.\" — standalone reference marker after document footer items."
+      ],
+      "nearbyFields": "No legitimate person.* fields in this contract. Footnote 5 = \"Ghi cơ quan, người có thẩm quyền ra Quyết định phân công\".",
+      "canonicalEquivalent": null,
+      "slotUiVisible": false,
+      "rootCauseFinding": "WRONG_PATH_IN_CONTRACT",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-073 does not contain CMND/CCCD/ID number fields. Paragraph [022] shows __PERSON_IDNUMBER__ as a standalone marker after the Lưu: footer. This is a footnote reference marker, not an ID number. blockId=null confirms orphan slot. REMOVE from contract."
+    },
+    {
+      "investigationId": "W2R-036",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[021]"
+      ],
+      "paragraphSnippets": [
+        "[021] Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\n__PERSON_PERSONFULLNAME__"
+      ],
+      "nearbyFields": "document.fullDocumentCode (Số/Ký hiệu văn bản), document.issueDate (Ngày tháng năm) — legitimate. person.dateOfBirth (orphan), person.currentAddress (orphan). The real person's name under \"Ông/Bà:\" uses document.fullDocumentCode placeholder (anomaly).",
+      "canonicalEquivalent": null,
+      "slotUiVisible": true,
+      "rootCauseFinding": "WRONG_PATH_IN_CONTRACT",
+      "recommendedRemediation": "CREATE_NEW_SEMANTIC_PATH",
+      "tentativeNewPath": "defender.cardLicenseNumber",
+      "confidence": "HIGH",
+      "reason": "Paragraph [021]: __PERSON_PERSONFULLNAME__ is directly under \"Số thẻ luật sư/thẻ trợ giúp viên pháp lý:\" — this is a CARD/LICENSE NUMBER context, not a person name. The path person.personFullName was assigned incorrectly. The correct semantic is a lawyer/legal-aid card number field. Tentative path: defender.cardLicenseNumber. The slot itself should be REMOVE_FIELD_FROM_CONTRACT (current path) and a new defender.cardLicenseNumber field should be considered in a separate semantic modeling task. Confidence HIGH — card number context is unambiguous."
+    },
+    {
+      "investigationId": "PRIOR-DXR-001",
+      "templateCode": "BM-063",
+      "sourceId": "54b73110a34f",
+      "path": "document.fullDocumentCode8",
+      "placeholder": "__DOCUMENT_FULLDOCUMENTCODE8__",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[011]",
+        "[013]",
+        "[014]",
+        "[015]",
+        "[016]",
+        "[017]",
+        "[033]"
+      ],
+      "paragraphSnippets": [
+        "[011] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …__DOCUMENT_ISSUEPLACEANDDATELINE__ __DOCUMENT_FULLDOCUMENTCODE8__",
+        "[013] Ông/Bà: … Kiểm sát viên của Viện kiểm sát2__DOCUMENT_FULLDOCUMENTCODE8__",
+        "[014] __DOCUMENT_FULLDOCUMENTCODE8__y ban nhân dân cấp xã",
+        "[015] __DOCUMENT_FULLDOCUMENTCODE8__",
+        "[016] __DOCUMENT_FULLDOCUMENTCODE8__",
+        "[017] __DOCUMENT_FULLDOCUMENTCODE8__",
+        "[033] __DOCUMENT_FULLDOCUMENTCODE8__ngày … tháng … năm …."
+      ],
+      "nearbyFields": "Legitimate document.fullDocumentCode (label=\"Số văn bản\", blockId=P0033). The _8 slots reference the underlying Lệnh kê biên tài sản document being reported on.",
+      "canonicalEquivalent": "document.fullDocumentCode — \"Số văn bản\" — legitimate, blockId=P0033",
+      "slotUiVisible": false,
+      "rootCauseFinding": "ANTECEDENT_REFERENCE_NEEDS_NEW_PATH",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "tentativeNewPath": "antecedentDocument.fullDocumentCode",
+      "confidence": "HIGH",
+      "reason": "document.fullDocumentCode8 appears 7 times in BM-063 body/signature context: antecedent date reference [011], Kiểm sát viên reference [013], UBND cấp xã reference [014]-[017], closing reference [033]. All reference the underlying Lệnh kê biên tài sản document (antecedent). The legitimate document.fullDocumentCode (Số văn bản, blockId=P0033) already exists for the current biên bản. The _8 suffix was added during prior DOCX remediation to mark antecedent slots, but blockId=null makes them orphan orphans. The correct remediation is REMOVE these orphan antecedent slots — they are not part of the current document metadata. The antecedentDocument path is a domain-model design question, not a contract fix question at this stage."
+    },
+    {
+      "investigationId": "PRIOR-DXR-002",
+      "templateCode": "BM-064",
+      "sourceId": "4d8cebc3515b",
+      "path": "document.issueDate4",
+      "placeholder": "__DOCUMENT_ISSUEDATE4__",
+      "currentLabel": "Slot from DOCX remediation",
+      "priorCategory": "DOCX_REAUTHOR_REQUIRED",
+      "renderedParagraphs": [
+        "[016]",
+        "[017]",
+        "[020]",
+        "[026]"
+      ],
+      "paragraphSnippets": [
+        "[016] Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với__DOCUMENT_ISSUEDATE4__",
+        "[017] Xét thấy__DOCUMENT_ISSUEDATE4__",
+        "[020] Điều 2. Yêu cầu 7 và 8__DOCUMENT_ISSUEDATE4__thực hiện Quyết định này",
+        "[026] 10__DOCUMENT_ISSUEDATE4__ (Nơi nhận suffix)"
+      ],
+      "nearbyFields": "document.fullDocumentCode (Số văn bản, blockId=P0024 — legitimate). document.issueDate4 is the only date field in this contract.",
+      "canonicalEquivalent": null,
+      "slotUiVisible": false,
+      "rootCauseFinding": "ANTECEDENT_REFERENCE_NEEDS_NEW_PATH",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "tentativeNewPath": "antecedentDocument.issueDate",
+      "confidence": "HIGH",
+      "reason": "document.issueDate4 appears 4 times: [016] inside \"Căn cứ Lệnh kê biên tài sản số…\" (antecedent procedural citation), [017] in \"Xét thấy\" body clause, [020] in \"Điều 2. Yêu cầu\" procedural text, [026] in Nơi nhận suffix. None of these are issuance date positions. The _4 suffix was added during prior remediation. blockId=null confirms orphan slots. REMOVE from contract — this is not a date field, it is a procedural/antecedent date reference filler."
+    }
+  ],
+  "counts": {
+    "byFinding": {
+      "WRONG_PATH_IN_CONTRACT": 3,
+      "ANTECEDENT_REFERENCE_NEEDS_NEW_PATH": 2
+    },
+    "byRemediation": {
+      "REMOVE_FIELD_FROM_CONTRACT": 4,
+      "CREATE_NEW_SEMANTIC_PATH": 1
+    }
+  },
+  "destructiveCandidates": [
+    {
+      "id": "W2R-027",
+      "bm": "BM-073",
+      "path": "person.dateOfBirth",
+      "finding": "WRONG_PATH_IN_CONTRACT",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "W2R-028",
+      "bm": "BM-073",
+      "path": "person.idNumber",
+      "finding": "WRONG_PATH_IN_CONTRACT",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "W2R-036",
+      "bm": "BM-080",
+      "path": "person.personFullName",
+      "finding": "WRONG_PATH_IN_CONTRACT",
+      "remediation": "CREATE_NEW_SEMANTIC_PATH",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "PRIOR-DXR-001",
+      "bm": "BM-063",
+      "path": "document.fullDocumentCode8",
+      "finding": "ANTECEDENT_REFERENCE_NEEDS_NEW_PATH",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "PRIOR-DXR-002",
+      "bm": "BM-064",
+      "path": "document.issueDate4",
+      "finding": "ANTECEDENT_REFERENCE_NEEDS_NEW_PATH",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    }
+  ],
+  "domainModelCandidates": [
+    {
+      "bm": "BM-080",
+      "currentPath": "person.personFullName",
+      "tentativeNewPath": "defender.cardLicenseNumber"
+    },
+    {
+      "bm": "BM-063",
+      "currentPath": "document.fullDocumentCode8",
+      "tentativeNewPath": "antecedentDocument.fullDocumentCode"
+    },
+    {
+      "bm": "BM-064",
+      "currentPath": "document.issueDate4",
+      "tentativeNewPath": "antecedentDocument.issueDate"
+    }
+  ],
+  "inconclusive": []
+}

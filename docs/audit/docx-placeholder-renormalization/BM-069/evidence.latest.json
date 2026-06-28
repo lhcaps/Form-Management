@@ -1,0 +1,1883 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM069_CONTRACT_REPAIR_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-069",
+  "title": "BB về việc hủy bỏ biện pháp phong tỏa tài khoản",
+  "sourceId": "BM-069__3a67d1a2e298",
+  "lockedContract": "docs/audit/docx/contracts/locked/BM-069__3a67d1a2e298.contract.locked.json",
+  "renderGate": {
+    "status": "PASS",
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS",
+    "clean": true
+  },
+  "rootCause": {
+    "issueCount": 24,
+    "failCount": 15,
+    "reviewCount": 9,
+    "issueCounts": {
+      "BAD_LABEL": 5,
+      "GENERIC_FIELD_CANONICALIZATION": 5,
+      "REMEDIATION_LEAK": 5,
+      "REQUIRED_SUSPICIOUS": 4,
+      "UI_VISIBLE_BAD_METADATA": 5
+    }
+  },
+  "contract": {
+    "status": "locked",
+    "reviewKind": "human",
+    "fieldCount": 14,
+    "slotCount": 14,
+    "bindingCount": 14,
+    "reviewRequired": {
+      "fields": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber",
+        "document.reasonLine",
+        "document.reasonLine2",
+        "person.personFullName",
+        "person.currentAddress",
+        "person.currentAddress2",
+        "decision.decisionLine",
+        "person.occupation",
+        "document.summaryLine"
+      ],
+      "slots": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber",
+        "document.reasonLine",
+        "document.reasonLine2",
+        "person.personFullName",
+        "person.currentAddress",
+        "person.currentAddress2",
+        "decision.decisionLine",
+        "person.occupation",
+        "document.summaryLine"
+      ],
+      "bindings": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber",
+        "document.reasonLine",
+        "document.reasonLine2",
+        "person.personFullName",
+        "person.currentAddress",
+        "person.currentAddress2",
+        "decision.decisionLine",
+        "person.occupation",
+        "document.summaryLine"
+      ]
+    }
+  },
+  "fixPlan": {
+    "total": 31,
+    "applySafeTrue": 0,
+    "allApplySafeFalse": true
+  },
+  "occurrenceCount": 8,
+  "issueGroups": [
+    {
+      "path": "decision.decisionLine",
+      "slotId": "decision.decisionLine",
+      "rawPattern": "{{document.field8}}",
+      "rawKey": "document.field8",
+      "rawDomain": "document",
+      "rawTail": "field8",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "oản theo {{document.field8}} <w:lang w",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field8}}\" mapped to \"decision.decisionLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_LEGAL_REVIEW",
+      "reason": "decision.decisionLine is parked by same-BM path-binding evidence as LEGAL_REVIEW. Do not rename the slot or bind it without legal/form review.",
+      "contractField": {
+        "path": "decision.decisionLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "decision.decisionLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "oản theo {{document.field8}} <w:lang w",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "oản theo {{document.field8}} <w:lang w",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "decision.decisionLine",
+        "from": "decision.decisionLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "slotId": "document.fullDocumentCode",
+      "rawPattern": "{{document.field1}}",
+      "rawKey": "document.field1",
+      "rawDomain": "document",
+      "rawTail": "field1",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REQUIRED_SUSPICIOUS",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "REVIEW",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field1}}\" mapped to \"document.fullDocumentCode\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Field looks required (identity/key field likely required) but required=false.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.fullDocumentCode still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.fullDocumentCode",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.fullDocumentCode",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+          "textAfter": "",
+          "rawPattern": "{{document.field1}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.fullDocumentCode",
+        "from": "document.fullDocumentCode",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issueDate",
+      "slotId": "document.issueDate",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Ngày lập biên bản",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (date field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.issueDate has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "document.issueDate",
+        "type": "string",
+        "label": "Ngày lập biên bản",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.issueDate",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+        "label": "Ngày lập biên bản",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+          "textAfter": "",
+          "rawPattern": "{{document.field2}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.issueDate",
+        "from": "document.issueDate",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.reasonLine",
+      "slotId": "document.reasonLine",
+      "rawPattern": "{{document.field6}}",
+      "rawKey": "document.field6",
+      "rawDomain": "document",
+      "rawTail": "field6",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field6}}\" mapped to \"document.reasonLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.reasonLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.reasonLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.reasonLine",
+        "from": "document.reasonLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.reasonLine2",
+      "slotId": "document.reasonLine2",
+      "rawPattern": "{{document.field7}}",
+      "rawKey": "document.field7",
+      "rawDomain": "document",
+      "rawTail": "field7",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field7}}\" mapped to \"document.reasonLine2\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine2 still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.reasonLine2",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.reasonLine2",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.reasonLine2",
+        "from": "document.reasonLine2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.summaryLine",
+      "slotId": "document.summaryLine",
+      "rawPattern": "{{document.field12}}",
+      "rawKey": "document.field12",
+      "rawDomain": "document",
+      "rawTail": "field12",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "/w:rPr> {{document.field12}} </",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field12}}\" mapped to \"document.summaryLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.summaryLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.summaryLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.summaryLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "/w:rPr> {{document.field12}} </",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "/w:rPr> {{document.field12}} </",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.summaryLine",
+        "from": "document.summaryLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "person.idNumber",
+      "slotId": "person.idNumber",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Số CCCD/CMND",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (ID field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"person.idNumber\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.idNumber has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "person.idNumber",
+        "type": "string",
+        "label": "Số CCCD/CMND",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "person.idNumber",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "28\"/> {{document.field5}} <w:",
+        "label": "Số CCCD/CMND",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "28\"/> {{document.field5}} <w:",
+          "textAfter": "",
+          "rawPattern": "{{document.field5}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "person.idNumber",
+        "from": "person.idNumber",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "person.occupation",
+      "slotId": "person.occupation",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Nghề nghiệp",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (person info field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"person.occupation\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.occupation has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "person.occupation",
+        "type": "string",
+        "label": "Nghề nghiệp",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "person.occupation",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"superscript\"/> 2 {{document.field10}} <",
+        "label": "Nghề nghiệp",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"superscript\"/> 2 {{document.field10}} <",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "person.occupation",
+        "from": "person.occupation",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    }
+  ],
+  "candidates": [],
+  "deferred": [
+    {
+      "path": "decision.decisionLine",
+      "slotId": "decision.decisionLine",
+      "rawPattern": "{{document.field8}}",
+      "rawKey": "document.field8",
+      "rawDomain": "document",
+      "rawTail": "field8",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "oản theo {{document.field8}} <w:lang w",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field8}}\" mapped to \"decision.decisionLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_LEGAL_REVIEW",
+      "reason": "decision.decisionLine is parked by same-BM path-binding evidence as LEGAL_REVIEW. Do not rename the slot or bind it without legal/form review.",
+      "contractField": {
+        "path": "decision.decisionLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "decision.decisionLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "oản theo {{document.field8}} <w:lang w",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "oản theo {{document.field8}} <w:lang w",
+          "textAfter": "",
+          "rawPattern": "{{document.field8}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "decision.decisionLine",
+        "from": "decision.decisionLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "slotId": "document.fullDocumentCode",
+      "rawPattern": "{{document.field1}}",
+      "rawKey": "document.field1",
+      "rawDomain": "document",
+      "rawTail": "field1",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REQUIRED_SUSPICIOUS",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "REVIEW",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field1}}\" mapped to \"document.fullDocumentCode\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Field looks required (identity/key field likely required) but required=false.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_REQUIRED."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was AUTO_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.fullDocumentCode still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.fullDocumentCode",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.fullDocumentCode",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+          "textAfter": "",
+          "rawPattern": "{{document.field1}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.fullDocumentCode",
+        "from": "document.fullDocumentCode",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.issueDate",
+      "slotId": "document.issueDate",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Ngày lập biên bản",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (date field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.issueDate has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "document.issueDate",
+        "type": "string",
+        "label": "Ngày lập biên bản",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.issueDate",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+        "label": "Ngày lập biên bản",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+          "textAfter": "",
+          "rawPattern": "{{document.field2}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.issueDate",
+        "from": "document.issueDate",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.reasonLine",
+      "slotId": "document.reasonLine",
+      "rawPattern": "{{document.field6}}",
+      "rawKey": "document.field6",
+      "rawDomain": "document",
+      "rawTail": "field6",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field6}}\" mapped to \"document.reasonLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.reasonLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.reasonLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+          "textAfter": "",
+          "rawPattern": "{{document.field6}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.reasonLine",
+        "from": "document.reasonLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.reasonLine2",
+      "slotId": "document.reasonLine2",
+      "rawPattern": "{{document.field7}}",
+      "rawKey": "document.field7",
+      "rawDomain": "document",
+      "rawTail": "field7",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field7}}\" mapped to \"document.reasonLine2\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine2 still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.reasonLine2",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.reasonLine2",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+          "textAfter": "",
+          "rawPattern": "{{document.field7}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.reasonLine2",
+        "from": "document.reasonLine2",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "document.summaryLine",
+      "slotId": "document.summaryLine",
+      "rawPattern": "{{document.field12}}",
+      "rawKey": "document.field12",
+      "rawDomain": "document",
+      "rawTail": "field12",
+      "label": "Slot from Wave 02 DOCX remediation",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "/w:rPr> {{document.field12}} </",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "severities": [
+        "REVIEW",
+        "FAIL",
+        "FAIL",
+        "FAIL"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Canonical field label is \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\"). This will appear in UI.",
+        "Generic raw pattern \"{{document.field12}}\" mapped to \"document.summaryLine\" but has problems (label=\"Slot from Wave 02 DOCX remediation\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+        "Slot label \"Slot from Wave 02 DOCX remediation\" contains remediation metadata. This leaks internal process language into user-facing UI.",
+        "Visible field resolves to bad label \"Slot from Wave 02 DOCX remediation\" (starts with \"Slot from\") after full label resolution chain. This WILL appear in UI."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "BAD_LABEL"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "GENERIC_FIELD_CANONICALIZATION"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was MANUAL_LEGAL_REVIEW / MANUAL_REVIEW."
+        },
+        {
+          "issueCodes": [
+            "REMEDIATION_LEAK"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was BLOCKED_BY_DOCX_AUTHORING / DOCX_REAUTHOR."
+        },
+        {
+          "issueCodes": [
+            "UI_VISIBLE_BAD_METADATA"
+          ],
+          "classification": "BLOCKED_BY_DOCX_AUTHORING",
+          "action": "KEEP_DEFERRED",
+          "applySafe": false,
+          "keepDeferred": true,
+          "reason": "KEEP_DEFERRED closure guard: BM/path is on KEEP_DEFERRED closure track. Prior classifier result was REVIEW_FIX_CANDIDATE / UPDATE_LABEL."
+        }
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.summaryLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe.",
+      "contractField": {
+        "path": "document.summaryLine",
+        "type": "string",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "document.summaryLine",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "/w:rPr> {{document.field12}} </",
+        "label": "Slot from Wave 02 DOCX remediation",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "/w:rPr> {{document.field12}} </",
+          "textAfter": "",
+          "rawPattern": "{{document.field12}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "document.summaryLine",
+        "from": "document.summaryLine",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "person.idNumber",
+      "slotId": "person.idNumber",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Số CCCD/CMND",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (ID field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"person.idNumber\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.idNumber has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "person.idNumber",
+        "type": "string",
+        "label": "Số CCCD/CMND",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "person.idNumber",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "28\"/> {{document.field5}} <w:",
+        "label": "Số CCCD/CMND",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "28\"/> {{document.field5}} <w:",
+          "textAfter": "",
+          "rawPattern": "{{document.field5}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "person.idNumber",
+        "from": "person.idNumber",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    },
+    {
+      "path": "person.occupation",
+      "slotId": "person.occupation",
+      "rawPattern": null,
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Nghề nghiệp",
+      "source": "manual",
+      "required": null,
+      "reviewRequired": null,
+      "context": "",
+      "confidence": "MEDIUM",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "severities": [
+        "REVIEW"
+      ],
+      "requiresHumanReview": true,
+      "reasons": [
+        "Field looks required (person info field likely required) but required=false."
+      ],
+      "fixPlan": [
+        {
+          "issueCodes": [
+            "REQUIRED_SUSPICIOUS"
+          ],
+          "classification": "REVIEW_FIX_CANDIDATE",
+          "action": "UPDATE_REQUIRED",
+          "applySafe": false,
+          "keepDeferred": false,
+          "reason": "REQUIRED_SUSPICIOUS: field \"person.occupation\" looks required but required=false. Review to determine correct required value."
+        }
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.occupation has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review.",
+      "contractField": {
+        "path": "person.occupation",
+        "type": "string",
+        "label": "Nghề nghiệp",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": true
+      },
+      "docxSlot": {
+        "slotId": "person.occupation",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": null,
+          "tableCellId": null
+        },
+        "context": "al=\"superscript\"/> 2 {{document.field10}} <",
+        "label": "Nghề nghiệp",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "al=\"superscript\"/> 2 {{document.field10}} <",
+          "textAfter": "",
+          "rawPattern": "{{document.field10}}"
+        },
+        "reviewRequired": true
+      },
+      "renderBinding": {
+        "slotId": "person.occupation",
+        "from": "person.occupation",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": true
+      },
+      "proposedLabel": null,
+      "proposedPath": null,
+      "proposedRequired": null,
+      "proposedReviewRequired": null,
+      "canApply": false
+    }
+  ],
+  "priorEvidence": {
+    "sources": [
+      "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+      "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+      "docs/audit/docx-path-binding-p1-investigation-batch-1/investigation.latest.json"
+    ],
+    "decisions": [
+      {
+        "source": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+        "id": "W2R-013",
+        "path": "document.fullDocumentCode",
+        "decision": "DEFER",
+        "approvedLabel": null,
+        "evidenceSummary": "BM-069 is a biên bản. No visible Số:/document code line found in original DOC extract. DEFER without stronger evidence."
+      },
+      {
+        "source": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+        "id": "W2R-014",
+        "path": "document.issueDate",
+        "decision": "APPROVED_LABEL",
+        "approvedLabel": "Ngày lập biên bản",
+        "evidenceSummary": "BM-069 biên bản body begins with 'Hồi ... giờ ... ngày ... tháng ... năm ... tại ...'. Record creation timestamp, not QĐ issuance. Label: 'Ngày lập biên bản'."
+      },
+      {
+        "source": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+        "id": "W2R-019",
+        "path": "person.personFullName",
+        "decision": "APPROVED_LABEL",
+        "approvedLabel": "Họ tên",
+        "evidenceSummary": "Original DOC BM-069 has visible label 'Họ tên:' in account-holder personal information section."
+      },
+      {
+        "source": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+        "id": "W2R-020",
+        "path": "person.currentAddress",
+        "decision": "APPROVED_LABEL",
+        "approvedLabel": "Nơi ở hiện tại",
+        "evidenceSummary": "Original DOC BM-069 has visible label 'Nơi ở hiện tại:'."
+      },
+      {
+        "source": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+        "id": "W2R-021",
+        "path": "person.currentAddress2",
+        "decision": "APPROVED_LABEL",
+        "approvedLabel": "Nơi ở hiện tại",
+        "evidenceSummary": "Continuation of 'Nơi ở hiện tại' address field."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+        "id": "W2R-013",
+        "path": "document.fullDocumentCode",
+        "decision": "PATH_BINDING_INVESTIGATE",
+        "rootCauseHypothesis": "FALSE_HEADER_SLOT",
+        "risk": "MEDIUM",
+        "evidenceSummary": "BM-069 là biên bản. Header Số: tồn tại nhưng không có slot. DOCX slot ở body biên bản procedural context. False-header pattern: slot không nằm ở header dù path là document.fullDocumentCode."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+        "id": "W2R-022",
+        "path": "decision.decisionLine",
+        "decision": "LEGAL_REVIEW",
+        "rootCauseHypothesis": "LEGAL_DECISION_PARKED",
+        "risk": "HIGH",
+        "evidenceSummary": "Procedural decision/command context involving Lệnh/Quyết định phong tỏa."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+        "id": "W2R-017",
+        "path": "document.reasonLine",
+        "decision": "KEEP_DEFERRED",
+        "rootCauseHypothesis": "BODY_PROCEDURAL_REFERENCE",
+        "risk": "MEDIUM",
+        "evidenceSummary": "[017] body-line slot no visible label. Body procedural text."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+        "id": "W2R-018",
+        "path": "document.reasonLine2",
+        "decision": "KEEP_DEFERRED",
+        "rootCauseHypothesis": "BODY_PROCEDURAL_REFERENCE",
+        "risk": "MEDIUM",
+        "evidenceSummary": "[018] sentence-trailing slot in thi-hành Quyết định clause."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+        "id": "W2R-024",
+        "path": "document.summaryLine",
+        "decision": "KEEP_DEFERRED",
+        "rootCauseHypothesis": "BODY_PROCEDURAL_REFERENCE",
+        "risk": "MEDIUM",
+        "evidenceSummary": "[031] slot at end of clause 2 — account-info enumeration completion."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-p1-investigation-batch-1/investigation.latest.json",
+        "id": "W2R-013",
+        "path": "document.fullDocumentCode",
+        "decision": "KEEP_DEFERRED",
+        "rootCauseFinding": "FALSE_HEADER_SLOT",
+        "confidence": "MEDIUM",
+        "evidenceSummary": "BM-069 has no legitimate document.fullDocumentCode canonical field (blockId=null for both fullDocumentCode and all other fields). The \"Số:\" header exists but the slot is in the body. This is a FALSE_HEADER_SLOT but with no replacement field — removing it would leave BM-069 with no current document code field. The question is orphan-vs-missing, not orphan-vs-duplicate. KEEP_DEFERRED. Confidence MEDIUM because no legitimate equivalent exists to compare against."
+      },
+      {
+        "source": "docs/audit/docx-path-binding-p1-investigation-batch-1/investigation.latest.json",
+        "id": "W2R-013",
+        "path": "document.fullDocumentCode",
+        "decision": "KEEP_DEFERRED",
+        "rootCauseFinding": "FALSE_HEADER_SLOT",
+        "confidence": "MEDIUM",
+        "evidenceSummary": null
+      }
+    ],
+    "keyFindings": {
+      "w2r013KeepDeferred": true,
+      "w2r022LegalReview": true
+    }
+  },
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "canMarkDone": false,
+    "noContractMutation": true,
+    "noDocxMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "renderPassDoesNotCloseReview": true
+  }
+}

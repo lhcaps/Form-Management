@@ -1,0 +1,119 @@
+{
+  "reviewId": "PRIOR_DOCX_REMEDIATION_GENERIC_SLOT_EVIDENCE_BATCH_1",
+  "generatedAt": "2026-06-26T18:56:00.225Z",
+  "sourcePlan": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\prior-docx-remediation-generic-slot-review-plan\\plan.latest.json",
+  "batch": [
+    {
+      "templateCode": "BM-063",
+      "path": "document.fullDocumentCode8"
+    },
+    {
+      "templateCode": "BM-063",
+      "path": "recipients.personLine5"
+    },
+    {
+      "templateCode": "BM-065",
+      "path": "document.fullDocumentCode8"
+    },
+    {
+      "templateCode": "BM-065",
+      "path": "recipients.personLine3"
+    }
+  ],
+  "counts": {
+    "total": 4,
+    "approved": 0,
+    "deferred": 4,
+    "legalReview": 0,
+    "docxReauthor": 2
+  },
+  "items": [
+    {
+      "id": "BM-063/document.fullDocumentCode8",
+      "templateCode": "BM-063",
+      "sourceId": "BM-063__54b73110a34f",
+      "path": "document.fullDocumentCode8",
+      "currentLabel": "Slot from DOCX remediation",
+      "decision": "DEFER",
+      "category": "DOCX_REAUTHOR_REQUIRED",
+      "hasVisibleLabel": false,
+      "suggestedLabel": null,
+      "slotRole": "body_procedural_reference",
+      "evidenceParagraphs": [
+        "[011]",
+        "[013]",
+        "[014]",
+        "[015]",
+        "[016]",
+        "[017]",
+        "[033]"
+      ],
+      "reason": "Body/procedural reference slot. Appears in paragraphs [011][013][014][015][016][017][033] with context like \"ngày … tháng … năm …\", \"Kiểm sát viên …2\", \"UBND cấp xã\". References the underlying Lệnh kê biên tài sản (procedural antecedent), not the current biên bản's document code. No visible Vietnamese label. Legitimate document.fullDocumentCode already exists in contract with label \"Số văn bản\". Path name is semantically wrong. Label-only fix insufficient.",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "BM-063/recipients.personLine5",
+      "templateCode": "BM-063",
+      "sourceId": "BM-063__54b73110a34f",
+      "path": "recipients.personLine5",
+      "currentLabel": "Slot from DOCX remediation",
+      "decision": "DEFER",
+      "category": "DEFER_NO_CONTEXT",
+      "hasVisibleLabel": false,
+      "suggestedLabel": null,
+      "slotRole": "body_recipient_filler",
+      "evidenceParagraphs": [
+        "[021]",
+        "[022]",
+        "[025]",
+        "[030]",
+        "[031]"
+      ],
+      "reason": "Body slot. Appears in paragraphs [021][022][025][030][031] interleaved with legitimate recipient fields (Tên gọi khác, Nghề nghiệp, blank placeholder lines). Appears empty or as a secondary blank line in the recipient data block. No visible label. No confident semantic mapping. Multiple instances suggest generic filler slots from DOCX remediation. Cannot approve without understanding what \"Tên gọi khác\" or \"Nghề nghiệp\" lines should contain.",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "BM-065/document.fullDocumentCode8",
+      "templateCode": "BM-065",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "path": "document.fullDocumentCode8",
+      "currentLabel": "Slot from DOCX remediation",
+      "decision": "DEFER",
+      "category": "DOCX_REAUTHOR_REQUIRED",
+      "hasVisibleLabel": false,
+      "suggestedLabel": null,
+      "slotRole": "body_procedural_reference",
+      "evidenceParagraphs": [
+        "[011]",
+        "[013]",
+        "[014]",
+        "[015]",
+        "[016]",
+        "[017]",
+        "[029]",
+        "[030]"
+      ],
+      "reason": "Body/procedural reference slot. Appears in paragraphs [011][013][014][015][016][017][029][030] at structural positions with context referencing Kiểm sát viên superscript, UBND cấp xã, and \"Ngay sau khi nhận được\". References the underlying Lệnh kê biên tài sản / Quyết định hủy bỏ that this biên bản is reporting on — not the current biên bản's own document number. No visible label. Legitimate document.fullDocumentCode already exists with label \"Số văn bản\". Path name is semantically wrong. DOCX_REAUTHOR_REQUIRED.",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "BM-065/recipients.personLine3",
+      "templateCode": "BM-065",
+      "sourceId": "BM-065__4a64c8d7e96c",
+      "path": "recipients.personLine3",
+      "currentLabel": "Slot from DOCX remediation",
+      "decision": "DEFER",
+      "category": "DEFER_NO_CONTEXT",
+      "hasVisibleLabel": false,
+      "suggestedLabel": null,
+      "slotRole": "body_recipient_filler",
+      "evidenceParagraphs": [
+        "[021]",
+        "[022]",
+        "[025]"
+      ],
+      "reason": "Body slot. Appears in paragraphs [021][022][025] at the same structural positions as BM-063 recipients.personLine5. Interleaved with legitimate recipient fields (Tên gọi khác, Nghề nghiệp, blank lines). No visible label. Multiple instances suggest generic filler slots from DOCX remediation, not actual recipient person data. Cannot approve without understanding semantic purpose of each filler position.",
+      "risk": "MEDIUM"
+    }
+  ]
+}

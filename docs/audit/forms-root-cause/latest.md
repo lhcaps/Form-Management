@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-28T19:33:07.912Z
+Generated: 2026-06-28T20:35:53.579Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -7,9 +7,9 @@ Audit version: v2 (rule independence: true)
 | Metric | Value |
 |--------|-------|
 | totalContracts | 213 |
-| totalFields | 2464 |
-| totalIssues | 1463 |
-| **FAIL** | **1142** |
+| totalFields | 2460 |
+| totalIssues | 1465 |
+| **FAIL** | **1144** |
 | REVIEW | 321 |
 
 ### Issue Counts by Category
@@ -17,10 +17,10 @@ Audit version: v2 (rule independence: true)
 | Issue Code | Count |
 |------------|-------|
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
-| BAD_LABEL | 349 |
-| GENERIC_FIELD_CANONICALIZATION | 348 |
-| REQUIRED_SUSPICIOUS | 116 |
-| SOURCE_MISMATCH | 114 |
+| BAD_LABEL | 350 |
+| GENERIC_FIELD_CANONICALIZATION | 349 |
+| SOURCE_MISMATCH | 115 |
+| REQUIRED_SUSPICIOUS | 115 |
 | SHOULD_BE_READONLY | 42 |
 | COMPILED_DRIFT | 37 |
 | UI_VISIBLE_BAD_METADATA | 15 |
@@ -106,7 +106,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
   - Reason: Field looks required (ID field likely required) but required=false.
   - Confidence: MEDIUM | requiresHumanReview: true
 
-### BAD_LABEL (349)
+### BAD_LABEL (350)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -150,6 +150,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-049 | `agency.coQuan` | `Ô trống` | document | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.coQuan` | `Ô trống` | decision | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
+| BM-052 | `document.fullDocumentCode2` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | document | field3 | computed | FAIL | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
@@ -209,8 +210,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `agency.dongDia` | `Ô trống` | document | field7 | agencyConfig | FAIL | MEDIUM |
 | BM-096 | `document.chuThe` | `Ô trống` | document | field8 | manual | FAIL | MEDIUM |
 | BM-096 | `legalBasis.canCu` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
-| BM-096 | `document.tenVu` | `Ô trống` | document | field10 | manual | FAIL | MEDIUM |
-| ... | | | | | | | 249 more |
+| ... | | | | | | | 250 more |
 
 ### RAW_PATTERN_DOMAIN_MISMATCH (10)
 
@@ -227,7 +227,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-036 | `recipients.executionAgencyLine` | `Nội dung quyết định (${"t` | decision | decisionLine | manual | FAIL | HIGH |
 | BM-041 | `agency.issuePlace` | `Số quyết định` | document | documentCode | computed | FAIL | HIGH |
 
-### SOURCE_MISMATCH (114)
+### SOURCE_MISMATCH (115)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -276,6 +276,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-047 | `guaranteeApproval.assignmentLine` | `Điều 1 - Nhiệm vụ của bị ` | unknown | assignmentLine | manual | REVIEW | MEDIUM |
 | BM-047 | `guaranteeApproval.article2Line` | `Điều 2 - Giao nhiệm vụ gi` | unknown | article2Line | manual | REVIEW | MEDIUM |
 | BM-051 | `document.fullDocumentCode` | `Số văn bản` | document | field2 | manual | REVIEW | MEDIUM |
+| BM-052 | `document.fullDocumentCode` | `Số văn bản` | decision | field2 | manual | REVIEW | MEDIUM |
 | BM-053 | `measure.article2Line` | `Điều 2 - Nội dung quyết đ` | measure | article2Line | manual | REVIEW | MEDIUM |
 | BM-053 | `monitoring.article3Line` | `Điều 3 - Yêu cầu` | monitoring | article3Line | manual | REVIEW | MEDIUM |
 | BM-055 | `measure.preventiveMeasureOrderLegalBasisLine` | `Căn cứ lệnh/quyết định áp` | measure | preventiveMeasureOrderLegalBasisLine | manual | REVIEW | MEDIUM |
@@ -330,8 +331,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-150 | `prosecutionCaseTermination.article4Line` | `Điều 4 - Khiếu nại` | unknown | article4Line | manual | REVIEW | MEDIUM |
 | BM-153 | `document.ngayBan` | `Ô trống` | unknown | field5 | manual | REVIEW | MEDIUM |
 | BM-154 | `document.ngayBan` | `Ô trống` | document | field5 | manual | REVIEW | MEDIUM |
-| BM-155 | `document.dieu1` | `Ô trống` | document | field15 | manual | REVIEW | MEDIUM |
-| ... | | | | | | | 14 more |
+| ... | | | | | | | 15 more |
 
 ### REMEDIATION_LEAK (10)
 
@@ -454,7 +454,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-187 | `recipients.personLine13` | `Người nhận (dòng 13)` | recipients | personLine13 | manual | FAIL | HIGH |
 | ... | | | | | | | 322 more |
 
-### GENERIC_FIELD_CANONICALIZATION (348)
+### GENERIC_FIELD_CANONICALIZATION (349)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -495,6 +495,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-049 | `agency.coQuan` | `Ô trống` | document | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.coQuan` | `Ô trống` | decision | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
+| BM-052 | `document.fullDocumentCode2` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | document | field3 | computed | FAIL | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
@@ -557,8 +558,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `document.tenVu` | `Ô trống` | document | field10 | manual | FAIL | MEDIUM |
 | BM-096 | `person.toiDanh` | `Ô trống` | document | field11 | manual | FAIL | MEDIUM |
 | BM-096 | `person.hoTen` | `Ô trống` | document | field12 | manual | FAIL | MEDIUM |
-| BM-096 | `document.namSinh` | `Ô trống` | document | field13 | manual | FAIL | MEDIUM |
-| ... | | | | | | | 248 more |
+| ... | | | | | | | 249 more |
 
 ### SHOULD_BE_READONLY (42)
 
@@ -607,7 +607,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | - | - | manual | REVIEW | MEDIUM |
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | agency | parentName | manual | REVIEW | HIGH |
 
-### REQUIRED_SUSPICIOUS (116)
+### REQUIRED_SUSPICIOUS (115)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -618,8 +618,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-035 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
 | BM-036 | `person.fullName` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-051 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
-| BM-052 | `person.fullName` | `Họ tên` | - | - | manual | REVIEW | MEDIUM |
-| BM-052 | `person.idNumber` | `Số CMND/Thẻ CCCD/Thẻ CC/H` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-060 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-061 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-062 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
@@ -711,7 +710,8 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-199 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-199 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
 | BM-200 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
-| ... | | | | | | | 16 more |
+| BM-201 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
+| ... | | | | | | | 15 more |
 
 ### COMPILED_DRIFT (37)
 
@@ -778,7 +778,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 ## Proposed Fix Plan
 
 - **HIGH confidence auto-fix candidates**: 21
-- **MEDIUM confidence / requires review (FAIL)**: 1121
+- **MEDIUM confidence / requires review (FAIL)**: 1123
 - **REVIEW only (not auto-fix)**: 321
 
 ### Auto-fix Candidates (HIGH confidence, no human review needed)

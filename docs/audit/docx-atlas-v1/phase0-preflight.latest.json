@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "DOCX_ATLAS_V1_PHASE0_PREFLIGHT",
+  "generatedAt": "2026-06-28T14:00:00.000Z",
+  "mode": "READ_ONLY_FOUNDATION_BUILD",
+  "canProceedToAtlasBuild": true,
+  "preflight": {
+    "normalizedDocxDirectoryCount": 213,
+    "lockedContractCount": 213,
+    "dbSync": {
+      "matched": 213,
+      "missingInDb": 0,
+      "stale": 0,
+      "status": "PASS"
+    },
+    "renderGate": {
+      "bm001": {
+        "templateCode": "BM-001",
+        "status": "FAIL",
+        "exitCode": 1,
+        "bindingFidelity": "FAIL",
+        "literalFidelity": "FAIL",
+        "textFidelity": "FAIL",
+        "structureFidelity": "PASS",
+        "packageIntegrity": "PASS",
+        "render": "PASS",
+        "undefinedNullLiterals": 5,
+        "unreplacedPlaceholders": 0,
+        "missingSlots": 11,
+        "note": "BM-001 FAIL is pre-existing (reception.* slots missing). Gate itself works correctly."
+      }
+    },
+    "boardRefresh": {
+      "rows": 213,
+      "rootCauseIssues": 1469,
+      "contractRepairRequired": 22,
+      "contractRepairBatchItems": 5,
+      "blockersPatched": 12,
+      "status": "PASS"
+    },
+    "blockerPreservation": {
+      "total": 12,
+      "preserved": 12,
+      "missing": 0,
+      "status": "PASS",
+      "details": [
+        { "templateCode": "BM-052", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-062", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-063", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-066", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-069", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-096", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-117", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-118", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-136", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-155", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-203", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" },
+        { "templateCode": "BM-212", "primaryLane": "LEGAL_REVIEW", "completionStatus": "BLOCKED_BY_HUMAN_DOCX_REVIEW" }
+      ]
+    },
+    "nextCandidatesTop20": [
+      "BM-211", "BM-126", "BM-186", "BM-196", "BM-162", "BM-163",
+      "BM-075", "BM-077", "BM-082", "BM-065", "BM-068", "BM-067",
+      "BM-051", "BM-064", "BM-080", "BM-060", "BM-061", "BM-001",
+      "BM-002", "BM-073"
+    ]
+  },
+  "stopReasons": [],
+  "criticalFailures": [],
+  "safetyAssertions": {
+    "noMutationToNormalizedDocx": true,
+    "noMutationToLockedContracts": true,
+    "noMutationToCompiledV2": true,
+    "noDbPublish": true,
+    "noRendererMutation": true,
+    "noDecisionsApproved": true,
+    "noApplyRunner": true,
+    "noNewBlockerLedgers": true,
+    "noMarkDone": true,
+    "noCommit": true
+  }
+}

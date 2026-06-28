@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM155_PATH_DOMAIN_BINDING_PATCH_PLAN",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-155",
+  "patchCandidates": [],
+  "deferredItems": [
+    {
+      "path": "agency.diaDanh",
+      "rawPattern": "{{document.field4}}",
+      "classification": "DEFER_LABEL_ONLY_WEAK_EVIDENCE",
+      "reason": "agency.diaDanh has an audit suggestion, but BM-155 evidence is still label/context-only and not enough for an approved mutation."
+    },
+    {
+      "path": "document.chuThe",
+      "rawPattern": "{{document.field7}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.chuThe has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.dieu1",
+      "rawPattern": "{{document.field15}}",
+      "classification": "DEFER_SOURCE_POLICY_CONFLICT",
+      "reason": "document.dieu1 has SOURCE_MISMATCH plus UI-visible bad metadata. Source/path policy must be reviewed before changing contract metadata."
+    },
+    {
+      "path": "document.dieu2",
+      "rawPattern": "{{document.field16}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.dieu2 has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.lyDo",
+      "rawPattern": "{{person.field14}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.lyDo has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.ngayBan",
+      "rawPattern": "{{document.field5}}",
+      "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+      "reason": "document.ngayBan remains a generic field/path-domain issue that needs human DOCX/legal review."
+    },
+    {
+      "path": "document.ngayQd",
+      "rawPattern": "{{person.field11}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.ngayQd has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.soQd",
+      "rawPattern": "{{document.field10}}",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.soQd appears near an address label, but the current path/domain is not an address semantic. This requires same-BM legal/DOCX review before remap."
+    },
+    {
+      "path": "document.soQuyet",
+      "rawPattern": "{{document.field3}}",
+      "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+      "reason": "document.soQuyet remains a generic field/path-domain issue that needs human DOCX/legal review."
+    },
+    {
+      "path": "document.tenVu",
+      "rawPattern": "{{person.field13}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.tenVu has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "legalBasis.canCu",
+      "rawPattern": "{{document.field8}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "legalBasis.canCu has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "person.tenBi",
+      "rawPattern": "{{person.field12}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "person.tenBi has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "recipients.noiNhan",
+      "rawPattern": "{{document.field17}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "recipients.noiNhan has only placeholder-neighborhood evidence and no stable visible Vietnamese label. Do not infer a semantic path from position alone."
+    }
+  ],
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "requiresPlannerApproval": true,
+    "requiresHumanDocxLegalReview": true
+  }
+}

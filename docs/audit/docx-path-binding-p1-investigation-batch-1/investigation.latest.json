@@ -1,0 +1,244 @@
+{
+  "generatedAt": "2026-06-26T19:53:40.296Z",
+  "sourceIds": {
+    "BM-069": "3a67d1a2e298",
+    "BM-073": "e412fccad227",
+    "BM-075": "dc493cfb5fd3",
+    "BM-077": "99d7843f9f9e",
+    "BM-082": "44cc2b043383"
+  },
+  "findings": [
+    {
+      "investigationId": "W2R-013",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[011]"
+      ],
+      "paragraphSnippets": [
+        "[011] __DOCUMENT_FULLDOCUMENTCODE__ (on its own line in biên bản body)"
+      ],
+      "visibleHeader": "[009]-[010] \"Số: …/BB-VKS…\" header line present in DOCX XML",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[011] — body position",
+      "canonicalEquivalent": null,
+      "blockId": null,
+      "rootCauseFinding": "FALSE_HEADER_SLOT",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-069 has no legitimate document.fullDocumentCode canonical field (blockId=null for both fullDocumentCode and all other fields). The \"Số:\" header exists but the slot is in the body. This is a FALSE_HEADER_SLOT but with no replacement field — removing it would leave BM-069 with no current document code field. The question is orphan-vs-missing, not orphan-vs-duplicate. KEEP_DEFERRED. Confidence MEDIUM because no legitimate equivalent exists to compare against."
+    },
+    {
+      "investigationId": "W2R-025",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[012]"
+      ],
+      "paragraphSnippets": [
+        "[009] Số: …/YC-VKS…-… (visible header, NO slot)",
+        "[012] Thay đổi__DOCUMENT_FULLDOCUMENTCODE__ (body title — slot in procedural title context)"
+      ],
+      "visibleHeader": "[009] \"Số: …/YC-VKS…-…\" — visible but slot NOT placed here",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[012] — body title \"Thay đổi__DOCUMENT_FULLDOCUMENTCODE__\"",
+      "canonicalEquivalent": "document.fullDocumentCode — legitimate, blockId=P0033 (label=\"Số văn bản\")",
+      "blockId": null,
+      "rootCauseFinding": "FALSE_HEADER_SLOT_CONFIRMED",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-073 has a LEGITIMATE document.fullDocumentCode at blockId=P0033 (label=\"Số văn bản\"). The __DOCUMENT_FULLDOCUMENTCODE__ slot at [012] \"Thay đổi__DOCUMENT_FULLDOCUMENTCODE__\" is in the body title for \"Thay đổi\" (change) procedural context, NOT in the header. This is identical to the W2R-027/028 pattern: path was set incorrectly, orphan slot. HIGH confidence REMOVE candidate. Same BM-073 family as P0 items."
+    },
+    {
+      "investigationId": "W2R-026",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[016]"
+      ],
+      "paragraphSnippets": [
+        "[010] …, ngày … tháng … năm 20… (visible date header, NO slot)",
+        "[016] Xét thấy__DOCUMENT_ISSUEDATE__ (body reasoning clause — procedural, NOT issuance date)"
+      ],
+      "visibleHeader": "[010] date header visible but slot NOT placed here",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[016] — \"Xét thấy\" body reasoning clause",
+      "canonicalEquivalent": null,
+      "blockId": null,
+      "rootCauseFinding": "BODY_PROCEDURAL_REFERENCE_CONFIRMED",
+      "recommendedRemediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH",
+      "reason": "BM-073 has NO legitimate document.issueDate canonical field. The __DOCUMENT_ISSUEDATE__ slot at [016] \"Xét thấy__DOCUMENT_ISSUEDATE__\" is in the body reasoning clause, NOT at the date header position. This is a procedural date filler slot, not an issuance date. The path name \"issueDate\" is semantically wrong for a \"Xét thấy\" clause. Same BM-073 family as P0 items W2R-027/028. HIGH confidence REMOVE candidate. Confidence note: removing this would leave BM-073 with no date field, but the path is wrong regardless — the slot should not exist at all in this form as document.issueDate."
+    },
+    {
+      "investigationId": "W2R-029",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[015]"
+      ],
+      "paragraphSnippets": [
+        "[009] Số: …/CV-VKS…-… (visible header, NO slot)",
+        "[015] Xét thấy__DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ: (body — procedural Xét thấy context)"
+      ],
+      "visibleHeader": "[009] \"Số: …/CV-VKS…-…\" — visible but slot NOT at header",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[015] — \"Xét thấy__DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:\" procedural body",
+      "canonicalEquivalent": null,
+      "blockId": null,
+      "rootCauseFinding": "FALSE_HEADER_SLOT",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-075 has NO legitimate document.fullDocumentCode canonical field (blockId=null). The visible \"Số:\" header exists but the slot is in \"Xét thấy\" procedural body context. FALSE_HEADER_SLOT confirmed. However, unlike W2R-025 (BM-073), BM-075 has NO legitimate fullDocumentCode to replace the slot. Removing this orphan would leave BM-075 with no current document code field. The choice is between keeping the orphan (wrong label) or creating a new field. Cannot safely remove without replacing. Confidence MEDIUM. Recommend KEEP_DEFERRED pending decision on whether to create a legitimate field for BM-075."
+    },
+    {
+      "investigationId": "W2R-033",
+      "templateCode": "BM-077",
+      "sourceId": "99d7843f9f9e",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[021]"
+      ],
+      "paragraphSnippets": [
+        "[009] Số: …/YC/ĐN-VKS…- (visible header, NO slot)",
+        "[021] - 10__DOCUMENT_FULLDOCUMENTCODE__ — Nơi nhận footer, footnote marker 10"
+      ],
+      "visibleHeader": "[009] \"Số: …/YC/ĐN-VKS…-\" — visible but slot NOT at header",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[021] — Nơi nhận footer with footnote marker 10",
+      "canonicalEquivalent": null,
+      "blockId": null,
+      "rootCauseFinding": "FALSE_HEADER_SLOT",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-077 has NO legitimate document.fullDocumentCode canonical field. The visible \"Số:\" header exists but the slot is in the Nơi nhận footer with footnote marker 10 — an anomalous structural position. FALSE_HEADER_SLOT confirmed. Same structural issue as BM-075 W2R-029: removing orphan would leave BM-077 with no current document code field. Confidence MEDIUM. Recommend KEEP_DEFERRED."
+    },
+    {
+      "investigationId": "W2R-040",
+      "templateCode": "BM-082",
+      "sourceId": "44cc2b043383",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "priorCategory": "DEFER",
+      "renderedParagraphs": [
+        "[016]"
+      ],
+      "paragraphSnippets": [
+        "[009] Số: …/TB-VKS…- (visible header, NO slot)",
+        "[016] đối với__DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát… — procedural reference in notification body"
+      ],
+      "visibleHeader": "[009] \"Số: …/TB-VKS…-\" — visible but slot NOT at header",
+      "headerHasSlot": false,
+      "actualSlotParagraph": "[016] — procedural reference in body \"đối với__DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát\"",
+      "canonicalEquivalent": null,
+      "blockId": null,
+      "rootCauseFinding": "FALSE_HEADER_SLOT",
+      "recommendedRemediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM",
+      "reason": "BM-082 has NO legitimate document.fullDocumentCode canonical field. The visible \"Số:\" header exists but the slot is in a procedural \"đối với __DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát\" body context — a case reference, not a document metadata field. FALSE_HEADER_SLOT confirmed. Removing orphan would leave BM-082 with no current document code. Confidence MEDIUM. Recommend KEEP_DEFERRED."
+    }
+  ],
+  "counts": {
+    "byFinding": {
+      "FALSE_HEADER_SLOT": 4,
+      "FALSE_HEADER_SLOT_CONFIRMED": 1,
+      "BODY_PROCEDURAL_REFERENCE_CONFIRMED": 1
+    },
+    "byRemediation": {
+      "KEEP_DEFERRED": 4,
+      "REMOVE_FIELD_FROM_CONTRACT": 2
+    }
+  },
+  "removeCandidates": [
+    {
+      "id": "W2R-025",
+      "bm": "BM-073",
+      "path": "document.fullDocumentCode",
+      "finding": "FALSE_HEADER_SLOT_CONFIRMED",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    },
+    {
+      "id": "W2R-026",
+      "bm": "BM-073",
+      "path": "document.issueDate",
+      "finding": "BODY_PROCEDURAL_REFERENCE_CONFIRMED",
+      "remediation": "REMOVE_FIELD_FROM_CONTRACT",
+      "confidence": "HIGH"
+    }
+  ],
+  "keepDeferred": [
+    {
+      "id": "W2R-013",
+      "bm": "BM-069",
+      "path": "document.fullDocumentCode",
+      "finding": "FALSE_HEADER_SLOT",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "W2R-029",
+      "bm": "BM-075",
+      "path": "document.fullDocumentCode",
+      "finding": "FALSE_HEADER_SLOT",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "W2R-033",
+      "bm": "BM-077",
+      "path": "document.fullDocumentCode",
+      "finding": "FALSE_HEADER_SLOT",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    },
+    {
+      "id": "W2R-040",
+      "bm": "BM-082",
+      "path": "document.fullDocumentCode",
+      "finding": "FALSE_HEADER_SLOT",
+      "remediation": "KEEP_DEFERRED",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "inconclusive": [],
+  "patternComparisonWithP0": {
+    "samePattern": [
+      "W2R-025",
+      "W2R-026"
+    ],
+    "weakerThanP0": [
+      "W2R-013",
+      "W2R-029",
+      "W2R-033",
+      "W2R-040"
+    ],
+    "domainModel": [],
+    "stayDeferred": [
+      "W2R-013",
+      "W2R-029",
+      "W2R-033",
+      "W2R-040"
+    ]
+  }
+}

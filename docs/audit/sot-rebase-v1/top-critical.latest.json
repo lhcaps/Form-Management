@@ -1,0 +1,492 @@
+{
+  "critical": [
+    {
+      "severity": "CRITICAL",
+      "type": "COMPILED_V2_STALE_VS_LOCKED",
+      "field": "compiled.renderPlan.bindings",
+      "bindingId": "binding-5",
+      "targetSlotId": "document.fullDocumentCode8",
+      "sourceFieldKey": "document.fullDocumentCode",
+      "reason": "compiled binding \"binding-5\" targets slot \"document.fullDocumentCode8\" NOT in locked docxSlots — BM-063/BM-066 style stale"
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "COMPILED_V2_STALE_VS_LOCKED",
+      "field": "compiled.renderPlan.bindings",
+      "bindingId": "binding-6",
+      "targetSlotId": "recipients.personLine4",
+      "sourceFieldKey": "recipients.personLine4",
+      "reason": "compiled binding \"binding-6\" targets slot \"recipients.personLine4\" NOT in locked docxSlots — BM-063/BM-066 style stale"
+    },
+    {
+      "severity": "CRITICAL",
+      "type": "COMPILED_V2_STALE_VS_LOCKED",
+      "field": "compiled.renderPlan.bindings",
+      "bindingId": "binding-6",
+      "targetSlotId": "recipients.personLine4",
+      "sourceFieldKey": "recipients.personLine4",
+      "reason": "compiled binding \"binding-6\" sources from \"recipients.personLine4\" NOT in locked canonicalFields"
+    }
+  ],
+  "high": [
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "document.vietTat",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"document.vietTat\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "agency.diaDanh",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"agency.diaDanh\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "document.vietTat",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"document.vietTat\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "agency.diaDanh",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"agency.diaDanh\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.vienKiem",
+      "expected": "{{agency.vienKiem}}",
+      "actual": "{{document.field1}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.vienKiem\" evidence.rawPattern=\"{{document.field1}}\" ≠ slotId (expected \"{{agency.vienKiem}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.vienKiem",
+      "expected": "{{agency.vienKiem}}",
+      "actual": "{{document.field1}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.vienKiem\" reviewEvidence.rawPattern=\"{{document.field1}}\" ≠ slotId (expected \"{{agency.vienKiem}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.tenCo",
+      "expected": "{{agency.tenCo}}",
+      "actual": "{{document.field3}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.tenCo\" evidence.rawPattern=\"{{document.field3}}\" ≠ slotId (expected \"{{agency.tenCo}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.tenCo",
+      "expected": "{{agency.tenCo}}",
+      "actual": "{{document.field3}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.tenCo\" reviewEvidence.rawPattern=\"{{document.field3}}\" ≠ slotId (expected \"{{agency.tenCo}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "document.vietTat",
+      "expected": "{{document.vietTat}}",
+      "actual": "{{document.field4}}",
+      "generic": true,
+      "reason": "docxSlot \"document.vietTat\" evidence.rawPattern=\"{{document.field4}}\" ≠ slotId (expected \"{{document.vietTat}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "document.vietTat",
+      "expected": "{{document.vietTat}}",
+      "actual": "{{document.field4}}",
+      "generic": true,
+      "reason": "docxSlot \"document.vietTat\" reviewEvidence.rawPattern=\"{{document.field4}}\" ≠ slotId (expected \"{{document.vietTat}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.diaDanh",
+      "expected": "{{agency.diaDanh}}",
+      "actual": "{{document.field9}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.diaDanh\" evidence.rawPattern=\"{{document.field9}}\" ≠ slotId (expected \"{{agency.diaDanh}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.diaDanh",
+      "expected": "{{agency.diaDanh}}",
+      "actual": "{{document.field9}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.diaDanh\" reviewEvidence.rawPattern=\"{{document.field9}}\" ≠ slotId (expected \"{{agency.diaDanh}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field1",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field1\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field2",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field2\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field3",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field3\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field4",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field4\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field9",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field9\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "agency.tenCo",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"agency.tenCo\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "document.vietTat",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"document.vietTat\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "agency.diaDanh",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"agency.diaDanh\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "document.ngayBan",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"document.ngayBan\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "document.soVan",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"document.soVan\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "agency.tenCo",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"agency.tenCo\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "document.vietTat",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"document.vietTat\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "agency.diaDanh",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"agency.diaDanh\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "document.ngayBan",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"document.ngayBan\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "document.soVan",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"document.soVan\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.vienKiem",
+      "expected": "{{agency.vienKiem}}",
+      "actual": "{{document.field1}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.vienKiem\" evidence.rawPattern=\"{{document.field1}}\" ≠ slotId (expected \"{{agency.vienKiem}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.vienKiem",
+      "expected": "{{agency.vienKiem}}",
+      "actual": "{{document.field1}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.vienKiem\" reviewEvidence.rawPattern=\"{{document.field1}}\" ≠ slotId (expected \"{{agency.vienKiem}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.tenCo",
+      "expected": "{{agency.tenCo}}",
+      "actual": "{{document.field3}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.tenCo\" evidence.rawPattern=\"{{document.field3}}\" ≠ slotId (expected \"{{agency.tenCo}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.tenCo",
+      "expected": "{{agency.tenCo}}",
+      "actual": "{{document.field3}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.tenCo\" reviewEvidence.rawPattern=\"{{document.field3}}\" ≠ slotId (expected \"{{agency.tenCo}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "document.vietTat",
+      "expected": "{{document.vietTat}}",
+      "actual": "{{document.field4}}",
+      "generic": true,
+      "reason": "docxSlot \"document.vietTat\" evidence.rawPattern=\"{{document.field4}}\" ≠ slotId (expected \"{{document.vietTat}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "document.vietTat",
+      "expected": "{{document.vietTat}}",
+      "actual": "{{document.field4}}",
+      "generic": true,
+      "reason": "docxSlot \"document.vietTat\" reviewEvidence.rawPattern=\"{{document.field4}}\" ≠ slotId (expected \"{{document.vietTat}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.diaDanh",
+      "expected": "{{agency.diaDanh}}",
+      "actual": "{{document.field5}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.diaDanh\" evidence.rawPattern=\"{{document.field5}}\" ≠ slotId (expected \"{{agency.diaDanh}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "agency.diaDanh",
+      "expected": "{{agency.diaDanh}}",
+      "actual": "{{document.field5}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.diaDanh\" reviewEvidence.rawPattern=\"{{document.field5}}\" ≠ slotId (expected \"{{agency.diaDanh}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "document.soVan",
+      "expected": "{{document.soVan}}",
+      "actual": "{{document.field7}}",
+      "generic": true,
+      "reason": "docxSlot \"document.soVan\" evidence.rawPattern=\"{{document.field7}}\" ≠ slotId (expected \"{{document.soVan}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.reviewEvidence.rawPattern",
+      "slotId": "document.soVan",
+      "expected": "{{document.soVan}}",
+      "actual": "{{document.field7}}",
+      "generic": true,
+      "reason": "docxSlot \"document.soVan\" reviewEvidence.rawPattern=\"{{document.field7}}\" ≠ slotId (expected \"{{document.soVan}}\")"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field1",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field1\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field3",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field3\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field4",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field4\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field5",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field5\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "FORM_INPUT_HINTS_STALE",
+      "field": "formInputHints.suggestedControls",
+      "path": "document.field7",
+      "control": "text",
+      "reason": "formInputHints suggests \"document.field7\" not in canonicalFields — stale post-semanticization"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "agency.issuePlace",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"agency.issuePlace\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "document.documentCode",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"document.documentCode\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "decision.summaryLine",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"decision.summaryLine\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "docxSlot",
+      "slotId": "decision.decisionLine",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "docxSlot \"decision.decisionLine\" has label \"Ô trống\" with reviewRequired=false — was auto-approved without human review"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "agency.issuePlace",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"agency.issuePlace\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "decision.summaryLine",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"decision.summaryLine\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "OTRONG_AUTOAPPROVED",
+      "field": "canonicalField",
+      "path": "decision.decisionLine",
+      "label": "Ô trống",
+      "reviewRequired": false,
+      "reason": "canonicalField \"decision.decisionLine\" has label \"Ô trống\" with reviewRequired=false"
+    },
+    {
+      "severity": "HIGH",
+      "type": "RAW_PATTERN_MISMATCH",
+      "field": "docxSlot.evidence.rawPattern",
+      "slotId": "agency.parentNameUpper",
+      "expected": "{{agency.parentNameUpper}}",
+      "actual": "{{document.field1}}",
+      "generic": true,
+      "reason": "docxSlot \"agency.parentNameUpper\" evidence.rawPattern=\"{{document.field1}}\" ≠ slotId (expected \"{{agency.parentNameUpper}}\")"
+    }
+  ]
+}

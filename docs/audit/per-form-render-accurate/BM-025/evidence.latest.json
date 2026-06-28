@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-025",
+  "title": "QĐ bổ sung QĐ khởi tố vụ án hình sự",
+  "sourceBatch": "docs/audit/213-docx-fidelity-board/contract-repair-batch-1.latest.json",
+  "canApplyRunNow": false,
+  "baselineFindings": [
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+  ],
+  "rootCause": {
+    "fieldCount": 3,
+    "issueCount": 7,
+    "failCount": 4,
+    "reviewCount": 3,
+    "issueCounts": {
+      "SOURCE_MISMATCH": 2,
+      "REQUIRED_SUSPICIOUS": 1,
+      "BAD_LABEL": 1,
+      "GENERIC_FIELD_CANONICALIZATION": 1,
+      "COMPILED_DRIFT": 2
+    }
+  },
+  "docx": {
+    "normalizedPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-025\\BM-025_normalized.docx",
+    "exists": true,
+    "error": null,
+    "placeholders": {
+      "total": 3,
+      "unique": [
+        "agency.issuePlace",
+        "agency.nameUpper",
+        "agency.parentNameUpper"
+      ],
+      "duplicates": [],
+      "items": [
+        {
+          "placeholder": "agency.issuePlace",
+          "count": 1,
+          "context": "5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. 6 {{agency.issuePlace}} ( Ký, ghi rõ họ tên, đóng dấu )"
+        },
+        {
+          "placeholder": "agency.nameUpper",
+          "count": 1,
+          "context": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165"
+        },
+        {
+          "placeholder": "agency.parentNameUpper",
+          "count": 1,
+          "context": "2 6 /TT-VKSTC ngày / /202 6 ) Mẫu số 25 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) VIỆN KIỂM SÁT … {{agency.parentNameUpper}} 537210 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày …"
+        }
+      ]
+    }
+  },
+  "contract": {
+    "file": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-025__5dcf0eb7f481.contract.locked.json",
+    "sourceId": "BM-025__5dcf0eb7f481",
+    "status": "locked",
+    "reviewKind": "human",
+    "canonicalFields": [
+      {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.issuePlace",
+        "label": "Ô trống",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      }
+    ],
+    "docxSlots": [
+      {
+        "slotId": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165"
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "VIỆN KIỂM SÁT … {{document.field1}}"
+      },
+      {
+        "slotId": "agency.issuePlace",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "6{{document.field3}}"
+      }
+    ],
+    "renderBindings": [
+      {
+        "slotId": "agency.nameUpper",
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "from": "agency.parentNameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.issuePlace",
+        "from": "agency.issuePlace",
+        "transform": "identity",
+        "reviewRequired": false
+      }
+    ]
+  },
+  "structuralMismatches": {
+    "templatePlaceholdersWithoutSlots": [],
+    "contractSlotsWithoutTemplatePlaceholders": [],
+    "bindingsWithoutTemplatePlaceholders": [],
+    "slotsWithoutBindings": [],
+    "bindingsWithoutSlots": [],
+    "slotsWithoutCanonicalFields": [],
+    "fieldsWithoutSlots": [],
+    "reviewRequired": {
+      "slots": [],
+      "fields": [],
+      "bindings": []
+    }
+  },
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  }
+}

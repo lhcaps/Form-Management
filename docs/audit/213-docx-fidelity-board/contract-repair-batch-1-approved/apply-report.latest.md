@@ -1,0 +1,28 @@
+# Contract Repair Batch 1 Approved Apply Report
+
+Mode: WRITE
+
+| Metric | Count |
+|---|---:|
+| Decisions | 14 |
+| Planned | 0 |
+| Applied | 8 |
+| Skipped idempotent | 6 |
+| Failed | 0 |
+
+| Decision | BM | Action | Status | Target | Source field |
+|---|---|---|---|---|---|
+| BM-096-SLOT-TARGET-RELINK-001 | BM-096 | RELINK_SLOT_TARGET_TO_DOCX_PLACEHOLDER | SKIPPED_IDEMPOTENT | document.diaChi | person.idNumber |
+| BM-003-ADD-OFFICIAL-ISSUER-TITLE | BM-003 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | SKIPPED_IDEMPOTENT | official.issuerTitle | official.issuerTitle |
+| BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-1-LINE | BM-003 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | SKIPPED_IDEMPOTENT | sourceAssignment.article1Line | sourceAssignment.article1Line |
+| BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-2-LINE | BM-003 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | SKIPPED_IDEMPOTENT | sourceAssignment.article2Line | sourceAssignment.article2Line |
+| BM-003-ADD-SOURCE-ASSIGNMENT-ARTICLE-3-LINE | BM-003 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | SKIPPED_IDEMPOTENT | sourceAssignment.article3Line | sourceAssignment.article3Line |
+| BM-036-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE | BM-036 | REMOVE_ORPHAN_FIELD_SLOT_BINDING | SKIPPED_IDEMPOTENT | document.issueDate | document.issueDate |
+| BM-021-ADD-AGENCY-NAME-UPPER | BM-021 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | APPLIED | agency.nameUpper | agency.nameUpper |
+| BM-021-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE | BM-021 | REMOVE_ORPHAN_FIELD_SLOT_BINDING | APPLIED | document.issueDate | document.issueDate |
+| BM-025-ADD-AGENCY-NAME-UPPER | BM-025 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | APPLIED | agency.nameUpper | agency.nameUpper |
+| BM-025-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE | BM-025 | REMOVE_ORPHAN_FIELD_SLOT_BINDING | APPLIED | document.issueDate | document.issueDate |
+| BM-032-ADD-AGENCY-NAME-UPPER | BM-032 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | APPLIED | agency.nameUpper | agency.nameUpper |
+| BM-032-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE | BM-032 | REMOVE_ORPHAN_FIELD_SLOT_BINDING | APPLIED | document.issueDate | document.issueDate |
+| BM-022-ADD-AGENCY-NAME-UPPER | BM-022 | ADD_TEMPLATE_PLACEHOLDER_SLOT_FIELD_BINDING | APPLIED | agency.nameUpper | agency.nameUpper |
+| BM-022-REMOVE-ORPHAN-DOCUMENT-ISSUE-DATE | BM-022 | REMOVE_ORPHAN_FIELD_SLOT_BINDING | APPLIED | document.issueDate | document.issueDate |

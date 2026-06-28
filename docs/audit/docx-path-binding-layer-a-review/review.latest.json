@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_A_REVIEW",
+  "generatedAt": "2026-06-27T04:04:00.000Z",
+  "reviewTask": "REVIEW_LAYER_A_CLOSURE_BEFORE_LAYER_B",
+  "layer": "A",
+  "status": "PASS_WITH_STALE_HINTS_TRACKED",
+
+  "preimage": {
+    "backupPath": "docs/audit/docx-path-binding-layer-a-approved/backups/2026-06-26T20-55-28-529Z",
+    "file": "BM-073__e412fccad227.contract.locked.json",
+    "docxSlots_count": 5,
+    "canonicalFields_count": 5,
+    "renderBindings_count": 5,
+    "totalEntries": 15,
+    "agencyName_preserved": true
+  },
+
+  "postimage": {
+    "contractPath": "docs/audit/docx/contracts/locked/BM-073__e412fccad227.contract.locked.json",
+    "docxSlots_count": 1,
+    "canonicalFields_count": 1,
+    "renderBindings_count": 1,
+    "totalEntries": 3,
+    "agencyName_preserved": true
+  },
+
+  "diff": {
+    "docxSlots_removed": 4,
+    "canonicalFields_removed": 4,
+    "renderBindings_removed": 4,
+    "totalRemoved": 12,
+    "agencyName_preserved": true,
+    "untouchedEntries": 3,
+    "unexpectedRemovals": 0
+  },
+
+  "removedPaths": [
+    { "path": "person.dateOfBirth", "decisionId": "DOCX-REMOVE-001", "array": "docxSlots, canonicalFields, renderBindings", "label": "Slot from Wave 02 DOCX remediation", "blockId": null, "approved": true },
+    { "path": "person.idNumber",    "decisionId": "DOCX-REMOVE-002", "array": "docxSlots, canonicalFields, renderBindings", "label": "Slot from Wave 02 DOCX remediation", "blockId": null, "approved": true },
+    { "path": "document.fullDocumentCode", "decisionId": "DOCX-REMOVE-006", "array": "docxSlots, canonicalFields, renderBindings", "label": "Slot from Wave 02 DOCX remediation", "blockId": null, "approved": true },
+    { "path": "document.issueDate", "decisionId": "DOCX-REMOVE-007", "array": "docxSlots, canonicalFields, renderBindings", "label": "Slot from Wave 02 DOCX remediation", "blockId": null, "approved": true }
+  ],
+
+  "fullDocumentCodeAnalysis": {
+    "concernRaised": "Evidence said canonicalEquivalent='document.fullDocumentCode — legitimate, blockId=P0033 (label=Số văn bản)' but post-apply contract has only agency.name",
+    "investigation": {
+      "preimage_docxSlots_withPath_document_fullDocumentCode": [
+        {
+          "slotId": "document.fullDocumentCode",
+          "label": "Slot from Wave 02 DOCX remediation",
+          "blockId": null,
+          "reviewRequired": true
+        }
+      ],
+      "preimage_canonicalFields_withPath_document_fullDocumentCode": [
+        {
+          "path": "document.fullDocumentCode",
+          "label": "Slot from Wave 02 DOCX remediation",
+          "source": "manual",
+          "reviewRequired": true
+        }
+      ],
+      "P0033_reference_in_evidence": "Mentioned in W2R-025 evidence text as canonicalEquivalent comparison — refers to a DIFFERENT (legitimate) field that exists in BM-073 header, NOT the orphan slot being removed. blockId=P0033 is the legitimate 'Số văn bản' field. The orphan slot had blockId=null.",
+      "conclusion": "SAFE. Only the orphan slot (blockId=null, label='Slot from Wave 02 DOCX remediation') was removed. No legitimate blockId=P0033 field existed in the locked contract preimage."
+    },
+    "verdict": "PASS"
+  },
+
+  "formInputHintsAnalysis": {
+    "concernRaised": "Post-apply contract still contains formInputHints.suggestedControls referencing document.field1, document.field2, document.field3, document.field5, document.field6 — some pointing to removed fields",
+    "investigation": {
+      "runtime_priority_rules": "PLAN.md v2.3 §B1: canonicalFields=priority1, renderBindings/docxSlots=priority2, formInputHints=priority3",
+      "formInputHints_mustNever": "create field existence (source: derive-form-input-schema.ts lines 9-11)",
+      "stale_hints_behavior": "silently ignored if path not in canonicalFields or fallback arrays",
+      "after_Layer_A_removal": "document.field1/field2/field3/field5/field6 are NOT in canonicalFields (removed), NOT in docxSlots (removed), NOT in renderBindings (removed)",
+      "conclusion": "Stale hints exist but are harmless. They will be silently ignored by the form schema generator."
+    },
+    "verdict": "PASS_STALE_HINTS_TRACKED",
+    "recommendation": "Clean formInputHints in a separate approval-gated task. Do NOT clean them in this review."
+  },
+
+  "reportConsistency": {
+    "decisions_draft_summary_live": { "APPROVED_FOR_APPLY": 4, "PENDING_APPROVAL": 6 },
+    "decisions_draft_item_status": {
+      "DOCX-REMOVE-001": "APPLIED",
+      "DOCX-REMOVE-002": "APPLIED",
+      "DOCX-REMOVE-003": "PENDING_APPROVAL",
+      "DOCX-REMOVE-004": "PENDING_APPROVAL",
+      "DOCX-REMOVE-005": "PENDING_APPROVAL",
+      "DOCX-REMOVE-006": "APPLIED",
+      "DOCX-REMOVE-007": "APPLIED",
+      "DOCX-REMOVE-008": "PENDING_APPROVAL",
+      "DOCX-REMOVE-009": "PENDING_APPROVAL",
+      "DOCX-REMOVE-010": "PENDING_APPROVAL"
+    },
+    "approval_plan_layer_a": "APPLIED",
+    "approval_plan_layer_b": "PENDING_APPROVAL",
+    "approval_plan_layer_c": "PENDING_APPROVAL",
+    "generator_script_fixed": true,
+    "markdown_regenerated": true,
+    "generator_script_fix": "Added approval plan lookup to inherit approvalStatus from approval-plan.latest.json; added _liveApprovalProgress to summary; fixed _liveApprovalProgress filter to include both APPROVED_FOR_APPLY and APPLIED statuses"
+  },
+
+  "safety": {
+    "lockedContractsMutated": 1,
+    "docxTouched": 0,
+    "sourcePathBindingTouchedDirectly": 0,
+    "compiledArtifactsHandEdited": 0,
+    "layerBTouched": 0,
+    "layerCTouched": 0,
+    "backupCreated": 1
+  },
+
+  "validation": {
+    "pnpm_typecheck": "exit 0"
+  },
+
+  "recommendation": "LAYER_A_REVIEW_PASS_WITH_STALE_HINTS_TRACKED",
+  "recommendationReason": "Layer A removed only orphan slots (blockId=null, label='Slot from Wave 02 DOCX remediation'). No legitimate fields were removed. No rollback needed. Stale formInputHints are harmless per PLAN.md v2.3 §B1. Generator script fixed and reports regenerated.",
+  "nextTask": "WAIT_FOR_LAYER_B_APPROVAL"
+}

@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM069_CONTRACT_REPAIR_PATCH_PLAN",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-069",
+  "patchCandidates": [],
+  "deferredItems": [
+    {
+      "path": "decision.decisionLine",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "classification": "DEFER_LEGAL_REVIEW",
+      "reason": "decision.decisionLine is parked by same-BM path-binding evidence as LEGAL_REVIEW. Do not rename the slot or bind it without legal/form review."
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REQUIRED_SUSPICIOUS",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.fullDocumentCode still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe."
+    },
+    {
+      "path": "document.issueDate",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "document.issueDate has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review."
+    },
+    {
+      "path": "document.reasonLine",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe."
+    },
+    {
+      "path": "document.reasonLine2",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.reasonLine2 still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe."
+    },
+    {
+      "path": "document.summaryLine",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION",
+        "REMEDIATION_LEAK",
+        "UI_VISIBLE_BAD_METADATA"
+      ],
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "document.summaryLine still carries DOCX-remediation/generic-field debt. Same-BM prior evidence keeps this deferred; label-only/path-only mutation is not safe."
+    },
+    {
+      "path": "person.idNumber",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.idNumber has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review."
+    },
+    {
+      "path": "person.occupation",
+      "issueCodes": [
+        "REQUIRED_SUSPICIOUS"
+      ],
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW",
+      "reason": "person.occupation has REQUIRED_SUSPICIOUS. required=true changes runtime/legal validation behavior and needs explicit human policy review."
+    }
+  ],
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "requiresPlannerApproval": true,
+    "requiresHumanDocxLegalReview": true,
+    "noApprovedDecisions": true
+  }
+}

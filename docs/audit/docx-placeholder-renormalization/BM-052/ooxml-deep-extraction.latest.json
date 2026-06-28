@@ -1,0 +1,492 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM052_DEEP_OOXML_OCCURRENCE_EXTRACTION",
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-052",
+  "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-052\\BM-052_normalized.docx",
+  "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-052__9919ecdb3971.contract.locked.json",
+  "ooxmlStats": {
+    "totalBodyParagraphs": 29,
+    "totalTableParagraphs": 20,
+    "totalTables": 2
+  },
+  "targetPlaceholders": [
+    "decision.decisionLine2",
+    "recipients.personLine6"
+  ],
+  "occurrences": {
+    "decision.decisionLine2": [
+      {
+        "placeholder": "decision.decisionLine2",
+        "occurrenceIndex": 0,
+        "charPosition": 84,
+        "paraIndex": 11,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với{{decision.decisionLine2}}",
+        "allPlaceholdersInPara": [
+          "decision.decisionLine2"
+        ],
+        "before500": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với",
+        "after500": "",
+        "textBeforeToken": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với",
+        "textAfterToken": "",
+        "anchors": [
+          {
+            "name": "decisionBasis",
+            "count": 1
+          },
+          {
+            "name": "ofFor",
+            "count": 1
+          }
+        ],
+        "anchorNames": [
+          "decisionBasis",
+          "ofFor"
+        ],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 1,
+          "ofFor": 1
+        },
+        "preciseSemantic": "person.personFullName",
+        "preciseConfidence": "HIGH",
+        "proposedNewPlaceholderId": "person.personFullName2a",
+        "classification": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "changeType": "DOCX+CONTRACT",
+        "reason": "Confirmed HIGH confidence: occurrence 0 appears after \"của... đối với\" in decision basis clause. \"đối với\" = \"about/for\" + person name. The namespace `decision.decisionLine2` is WRONG. The contract label \"Địa điểm, ngày lập\" is also WRONG. Propose renaming DOCX placeholder to `person.personFullName2a` and updating contract slot/binding. This occurrence (basis clause) is distinct from occ 1 (decision clause).",
+        "namespaceCorrect": false,
+        "needsNewPlaceholder": true,
+        "keepExisting": false,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Namespace mismatch confirmed — DOCX placeholder semantically holds person name, not decision date.",
+        "collisions": []
+      },
+      {
+        "placeholder": "decision.decisionLine2",
+        "occurrenceIndex": 1,
+        "charPosition": 8,
+        "paraIndex": 12,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "Xét thấy{{decision.decisionLine2}}",
+        "allPlaceholdersInPara": [
+          "decision.decisionLine2"
+        ],
+        "before500": "Xét thấy",
+        "after500": "",
+        "textBeforeToken": "Xét thấy",
+        "textAfterToken": "",
+        "anchors": [
+          {
+            "name": "decisionBasis",
+            "count": 1
+          }
+        ],
+        "anchorNames": [
+          "decisionBasis"
+        ],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 1,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.personFullName",
+        "preciseConfidence": "HIGH",
+        "proposedNewPlaceholderId": "person.personFullName2b",
+        "classification": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "changeType": "DOCX+CONTRACT",
+        "reason": "Confirmed HIGH confidence: occurrence 1 appears after \"Xét thấy\" before \"QUYẾT ĐỊNH:\". \"Xét thấy [PERSON_NAME] QUYẾT ĐỊNH\" — person name in decision clause. The namespace `decision.decisionLine2` is WRONG. Propose renaming DOCX placeholder to `person.personFullName2b` and updating contract slot/binding. This occurrence (decision clause) is distinct from occ 0 (basis clause).",
+        "namespaceCorrect": false,
+        "needsNewPlaceholder": true,
+        "keepExisting": false,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Namespace mismatch confirmed — DOCX placeholder semantically holds person name, not decision date.",
+        "collisions": []
+      }
+    ],
+    "recipients.personLine6": [
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 0,
+        "charPosition": 0,
+        "paraIndex": 16,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "",
+        "after500": "",
+        "textBeforeToken": "",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.personExtra",
+        "preciseConfidence": "LOW",
+        "proposedNewPlaceholderId": null,
+        "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "changeType": "NONE",
+        "reason": "Occurrence 0 is in the person header table row as a blank cell after \"Họ tên:8{{recipients.personLine}}\". Cannot determine exact semantic (alias, date of birth, ethnicity, or another name field) without column header context. The cell is blank with no visible label. Defer to human DOCX review.",
+        "namespaceCorrect": null,
+        "needsNewPlaceholder": false,
+        "keepExisting": true,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Ambiguous — blank cell with no visible label in person table header.",
+        "collisions": []
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 1,
+        "charPosition": 0,
+        "paraIndex": 17,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "",
+        "after500": "",
+        "textBeforeToken": "",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.personExtra",
+        "preciseConfidence": "LOW",
+        "proposedNewPlaceholderId": null,
+        "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "changeType": "NONE",
+        "reason": "Occurrence 1 is another blank cell in the person header table row. Cannot determine exact semantic without column header context. Defer to human DOCX review.",
+        "namespaceCorrect": null,
+        "needsNewPlaceholder": false,
+        "keepExisting": true,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Ambiguous — blank cell with no visible label in person table header.",
+        "collisions": []
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 2,
+        "charPosition": 0,
+        "paraIndex": 18,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "",
+        "after500": "",
+        "textBeforeToken": "",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.personExtra",
+        "preciseConfidence": "LOW",
+        "proposedNewPlaceholderId": null,
+        "classification": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "changeType": "NONE",
+        "reason": "Occurrence 2 is the third blank cell in the person header table row. Cannot determine exact semantic without column header context. Defer to human DOCX review.",
+        "namespaceCorrect": null,
+        "needsNewPlaceholder": false,
+        "keepExisting": true,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Ambiguous — blank cell with no visible label in person table header.",
+        "collisions": []
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 3,
+        "charPosition": 0,
+        "paraIndex": 21,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "",
+        "after500": "",
+        "textBeforeToken": "",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.idNumber",
+        "preciseConfidence": "HIGH",
+        "proposedNewPlaceholderId": "person.idNumber6",
+        "classification": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "changeType": "DOCX+CONTRACT",
+        "reason": "Confirmed HIGH confidence: occurrence 3 appears directly after \"Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:\" label. This is the person ID number cell. Propose renaming DOCX placeholder to `person.idNumber6` and adding/updating contract slot/binding.",
+        "namespaceCorrect": false,
+        "needsNewPlaceholder": true,
+        "keepExisting": false,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Namespace mismatch — generic personLine6 placeholder should be specific to ID number.",
+        "collisions": []
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 4,
+        "charPosition": 0,
+        "paraIndex": 24,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "fullParagraphPlain": "{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "",
+        "after500": "",
+        "textBeforeToken": "",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "person.addressTemporary",
+        "preciseConfidence": "HIGH",
+        "proposedNewPlaceholderId": "person.addressTemporary6",
+        "classification": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "changeType": "DOCX+CONTRACT",
+        "reason": "Confirmed HIGH confidence: occurrence 4 appears after \"Nơi tạm trú:\" label (para 36) within the same cell. The \"Nơi thường trú:\" paragraph (para 35) has NO placeholder after it — permanent address cell is blank. occ 4 is the TEMPORARY ADDRESS placeholder, NOT permanent address. IMPORTANT: Do NOT map occ 4 to `person.addressPermanent6`. It is `person.addressTemporary6`. Propose renaming DOCX placeholder to `person.addressTemporary6` and updating contract slot/binding.",
+        "namespaceCorrect": false,
+        "needsNewPlaceholder": true,
+        "keepExisting": false,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Namespace mismatch — occ 4 is temporary address, NOT permanent. \"Nơi thường trú:\" cell is blank.",
+        "collisions": []
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "occurrenceIndex": 5,
+        "charPosition": 2,
+        "paraIndex": 18,
+        "inTable": true,
+        "tableIndex": 1,
+        "rowIndex": 0,
+        "cellIndex": 1,
+        "fullParagraphPlain": "11{{recipients.personLine6}}",
+        "allPlaceholdersInPara": [
+          "recipients.personLine6"
+        ],
+        "before500": "11",
+        "after500": "",
+        "textBeforeToken": "11",
+        "textAfterToken": "",
+        "anchors": [],
+        "anchorNames": [],
+        "anchorCounts": {
+          "fullName": 0,
+          "alias": 0,
+          "job": 0,
+          "idNumber": 0,
+          "permanentAddress": 0,
+          "temporaryAddress": 0,
+          "signature": 0,
+          "recipientFooter": 0,
+          "decisionBasis": 0,
+          "ofFor": 0
+        },
+        "preciseSemantic": "recipients.footerSignature",
+        "preciseConfidence": "HIGH",
+        "proposedNewPlaceholderId": "recipients.footerSignature6",
+        "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+        "changeType": "NONE",
+        "reason": "Confirmed HIGH confidence: occurrence 5 is in TABLE 1 (Nơi nhận distribution list), CELL 1. The placeholder is \"11{{recipients.personLine6}} (Ký, ghi rõ họ tên, đóng dấu)\" — recipient footer signature. This is NOT a person field; it is the distribution/signature block of the recipient table. The table \"Nơi nhận\" (recipients/distribution list) is separate from the person information table. CodeGraph should be used to check if `recipients.signatureLine*` or similar patterns exist in the contract model. If no safe pattern exists, defer to human DOCX/legal review.",
+        "namespaceCorrect": false,
+        "needsNewPlaceholder": false,
+        "keepExisting": true,
+        "reviewRequired": true,
+        "reviewRequiredReason": "Footer signature in distribution table — requires CodeGraph check for model support before naming.",
+        "collisions": []
+      }
+    ]
+  },
+  "summary": {
+    "decision_decisionLine2": [
+      {
+        "occ": 0,
+        "para": 11,
+        "semantic": "person.personFullName",
+        "confidence": "HIGH",
+        "proposed": "person.personFullName2a",
+        "class": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "reason": "Confirmed HIGH confidence: occurrence 0 appears after \"của... đối với\" in decision basis clause. \"đối với\" = \"about/for\" + person name. The namespace "
+      },
+      {
+        "occ": 1,
+        "para": 12,
+        "semantic": "person.personFullName",
+        "confidence": "HIGH",
+        "proposed": "person.personFullName2b",
+        "class": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "reason": "Confirmed HIGH confidence: occurrence 1 appears after \"Xét thấy\" before \"QUYẾT ĐỊNH:\". \"Xét thấy [PERSON_NAME] QUYẾT ĐỊNH\" — person name in decision c"
+      }
+    ],
+    "recipients_personLine6": [
+      {
+        "occ": 0,
+        "para": 16,
+        "inTable": false,
+        "semantic": "person.personExtra",
+        "confidence": "LOW",
+        "proposed": null,
+        "class": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "reason": "Occurrence 0 is in the person header table row as a blank cell after \"Họ tên:8{{recipients.personLine}}\". Cannot determine exact semantic (alias, date"
+      },
+      {
+        "occ": 1,
+        "para": 17,
+        "inTable": false,
+        "semantic": "person.personExtra",
+        "confidence": "LOW",
+        "proposed": null,
+        "class": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "reason": "Occurrence 1 is another blank cell in the person header table row. Cannot determine exact semantic without column header context. Defer to human DOCX "
+      },
+      {
+        "occ": 2,
+        "para": 18,
+        "inTable": false,
+        "semantic": "person.personExtra",
+        "confidence": "LOW",
+        "proposed": null,
+        "class": "DEFER_AMBIGUOUS_PERSON_NAME",
+        "reason": "Occurrence 2 is the third blank cell in the person header table row. Cannot determine exact semantic without column header context. Defer to human DOC"
+      },
+      {
+        "occ": 3,
+        "para": 21,
+        "inTable": false,
+        "semantic": "person.idNumber",
+        "confidence": "HIGH",
+        "proposed": "person.idNumber6",
+        "class": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "reason": "Confirmed HIGH confidence: occurrence 3 appears directly after \"Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:\" label. This is the person ID number cell. Propose r"
+      },
+      {
+        "occ": 4,
+        "para": 24,
+        "inTable": false,
+        "semantic": "person.addressTemporary",
+        "confidence": "HIGH",
+        "proposed": "person.addressTemporary6",
+        "class": "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT",
+        "reason": "Confirmed HIGH confidence: occurrence 4 appears after \"Nơi tạm trú:\" label (para 36) within the same cell. The \"Nơi thường trú:\" paragraph (para 35) h"
+      },
+      {
+        "occ": 5,
+        "para": 18,
+        "inTable": true,
+        "semantic": "recipients.footerSignature",
+        "confidence": "HIGH",
+        "proposed": "recipients.footerSignature6",
+        "class": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+        "reason": "Confirmed HIGH confidence: occurrence 5 is in TABLE 1 (Nơi nhận distribution list), CELL 1. The placeholder is \"11{{recipients.personLine6}} (Ký, ghi "
+      }
+    ]
+  },
+  "classificationCounts": {
+    "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT": 4,
+    "DEFER_AMBIGUOUS_PERSON_NAME": 3,
+    "DEFER_REQUIRES_HUMAN_DOCX_REVIEW": 1
+  },
+  "meta": {
+    "generatedAt": "2026-06-27T23:26:30.050Z",
+    "canApplyRunNow": false,
+    "forbiddenActionsBlocked": [
+      "storage/templates/normalized-docx",
+      "docs/audit/docx/contracts/locked",
+      "docs/audit/docx/compiled-v2"
+    ]
+  }
+}

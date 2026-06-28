@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_PLACEHOLDER_FIX_PLANNING",
+  "generatedAt": "2026-06-26T14:15:00.000Z",
+  "mode": "planning-only",
+  "decision": "NO_APPLY_TASK",
+  "rationale": "Zero W2_SAFE_DOCX_RENAME candidates. All 57 items lack static text evidence. No automatic DOCX rename is safe.",
+  "ifSafeCandidatesExisted": {
+    "description": "If safe candidates existed, the apply task would:",
+    "steps": [
+      "1. Backup each touched normalized DOCX (git stash or copy to .backup/)",
+      "2. Modify only normalized DOCX word/document.xml: rename placeholder from generic {{document.fieldN}} to semantic {{path}} where path is unambiguous",
+      "3. Re-run extraction pipeline to regenerate locked contracts with new labels",
+      "4. Verify no binding count mismatch (total slots unchanged)",
+      "5. Verify no placeholder count mismatch in DOCX slot inventory",
+      "6. Run pnpm audit:forms-root-cause and compare BAD_LABEL delta",
+      "7. Run pnpm audit:docx-slot-inventory to verify PASS count unchanged",
+      "8. Verify docx-fidelity: rendered output matches original DOCX layout"
+    ]
+  },
+  "automaticFixSafetyCheck": {
+    "W2_SAFE_DOCX_RENAME": {
+      "criteria": "Static Vietnamese text appears before placeholder OR table cell label OR section heading + unambiguous slot order across BMs",
+      "itemsMeetingCriteria": 0,
+      "whyZero": "All 57 items have only font/style XML in textBefore. Zero have static Vietnamese label text."
+    }
+  },
+  "nextRecommendedTask": {
+    "task": "DOCX_WAVE_02_MANUAL_AUTHORING_REVIEW",
+    "rationale": "All 57 Wave 02 items lack DOCX context for automatic rename. Requires opening original .doc source files and inspecting actual placeholder surrounding text to determine correct field names. This is a human/manual authoring task, not an automated pipeline task.",
+    "scope": "All 57 Wave 02 items across 9 BMs",
+    "priority": "Medium — these 57 items represent 13% of the 432 BAD_LABEL total, but cannot be auto-fixed",
+    "parallelization": "Can be split by BM for parallel human review"
+  },
+  "safetyMetrics": {
+    "lockedContractsMutated": false,
+    "docxTouched": false,
+    "compiledArtifactsHandEdited": false,
+    "noBindingLoss": true,
+    "noPlaceholderCountMismatch": true
+  }
+}

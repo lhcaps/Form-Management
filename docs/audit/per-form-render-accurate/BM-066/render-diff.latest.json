@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "task": "FORM_RENDER_FIDELITY_GATE",
+  "generatedAt": "2026-06-28T17:27:35.543Z",
+  "templateCode": "BM-066",
+  "sourceId": "BM-066__e3bc56081554",
+  "paths": {
+    "normalizedDocx": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-066\\BM-066_normalized.docx",
+    "lockedContract": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-066__e3bc56081554.contract.locked.json",
+    "reportJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\BM-066\\render-diff.latest.json",
+    "reportMarkdown": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\per-form-render-accurate\\BM-066\\render-diff.latest.md"
+  },
+  "sourcePlaceholders": {
+    "items": [
+      {
+        "placeholder": "agency.name",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "document.fullDocumentCode4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "agency.name",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "document.fullDocumentCode",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "decision.decisionLine",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "document.fullDocumentCode4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "recipients.personLine",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "recipients.personLine4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "recipients.personLine4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "document.fullDocumentCode4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "document.fullDocumentCode4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "recipients.personLine4",
+        "partName": "word/document.xml"
+      },
+      {
+        "placeholder": "recipients.personLine4",
+        "partName": "word/document.xml"
+      }
+    ],
+    "unique": [
+      "agency.name",
+      "decision.decisionLine",
+      "document.fullDocumentCode",
+      "document.fullDocumentCode4",
+      "recipients.personLine",
+      "recipients.personLine4"
+    ],
+    "counts": {
+      "agency.name": 2,
+      "document.fullDocumentCode4": 4,
+      "document.fullDocumentCode": 1,
+      "decision.decisionLine": 1,
+      "recipients.personLine": 1,
+      "recipients.personLine4": 4
+    }
+  },
+  "bindingFidelity": {
+    "status": "FAIL",
+    "templatePlaceholdersWithoutSlots": [
+      "recipients.personLine4"
+    ],
+    "templatePlaceholdersWithoutBindings": [
+      "recipients.personLine4"
+    ],
+    "bindingsWithoutCanonicalFields": []
+  },
+  "render": {
+    "status": "PASS",
+    "error": null
+  },
+  "textFidelity": {
+    "status": "PASS",
+    "sourceTextLength": 3846,
+    "renderedTextLength": 3778,
+    "textLengthRatio": 0.9823,
+    "unreplacedPlaceholders": 0,
+    "unreplaced": [],
+    "staticAnchorCount": 73,
+    "missingStaticAnchors": 0,
+    "missingAnchors": []
+  },
+  "literalFidelity": {
+    "status": "FAIL",
+    "undefinedOrNullLiterals": 4,
+    "issues": [
+      {
+        "partName": "word/document.xml",
+        "preview": "undefined"
+      },
+      {
+        "partName": "word/document.xml",
+        "preview": "undefined"
+      },
+      {
+        "partName": "word/document.xml",
+        "preview": "undefined"
+      },
+      {
+        "partName": "word/document.xml",
+        "preview": "undefined"
+      }
+    ]
+  },
+  "structureFidelity": {
+    "status": "PASS",
+    "source": {
+      "paragraphCount": 96,
+      "tableCount": 2,
+      "rowCount": 2,
+      "cellCount": 4,
+      "headerCount": 0,
+      "footerCount": 0
+    },
+    "rendered": {
+      "paragraphCount": 96,
+      "tableCount": 2,
+      "rowCount": 2,
+      "cellCount": 4,
+      "headerCount": 0,
+      "footerCount": 0
+    },
+    "deltas": {
+      "paragraphCount": 0,
+      "tableCount": 0,
+      "rowCount": 0,
+      "cellCount": 0,
+      "headerCount": 0,
+      "footerCount": 0
+    }
+  },
+  "packageIntegrity": {
+    "status": "PASS",
+    "hasContentTypes": true,
+    "hasDocumentXml": true
+  },
+  "status": "FAIL",
+  "clean": false,
+  "nextAction": "Repair template placeholders without bindings before claiming render fidelity."
+}

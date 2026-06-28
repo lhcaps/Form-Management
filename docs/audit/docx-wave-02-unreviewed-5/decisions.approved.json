@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_UNREVIEWED_5_CLASSIFY",
+  "generatedAt": "2026-06-26T17:30:00.000Z",
+  "type": "decisions-approved",
+  "mode": "REVIEWED",
+  "source": "Wave 02 unreviewed-5 batch by Le Huy on 2026-06-26. All 5 IDs classified DEFER. No APPROVED_LABEL items — apply-write is intentionally skipped.",
+  "totalItems": 5,
+  "summary": {
+    "APPROVED_LABEL": 0,
+    "DEFER": 5,
+    "LEGAL_REVIEW": 0,
+    "DOCX_REAUTHOR_REQUIRED": 0
+  },
+  "items": [
+    {
+      "reviewItemId": "W2R-017",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.reasonLine",
+      "placeholder": "{{document.field6}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Lý do",
+      "decision": "DEFER",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:30:00.000Z",
+      "evidenceNotes": "BM-069 paragraph [017] is a standalone body line containing __DOCUMENT_REASONLINE__ with no visible Vietnamese label. Body-procedural slot without label — DEFER pending path/binding investigation."
+    },
+    {
+      "reviewItemId": "W2R-018",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.reasonLine2",
+      "placeholder": "{{document.field7}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Lý do (dòng 2)",
+      "decision": "DEFER",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:30:00.000Z",
+      "evidenceNotes": "BM-069 paragraph [018] embeds __DOCUMENT_REASONLINE2__ at the END of a thi-hành Quyết định procedural sentence. Sentence-trailing body slot without visible label — DEFER."
+    },
+    {
+      "reviewItemId": "W2R-024",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.summaryLine",
+      "placeholder": "{{document.field12}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Tóm tắt nội dung",
+      "decision": "DEFER",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:30:00.000Z",
+      "evidenceNotes": "BM-069 paragraph [031] is clause 2 of the biên bản body enumerating account-info fields. __DOCUMENT_SUMMARYLINE__ is a free-form body completion. 'Tóm tắt nội dung' mismatches the procedural enumeration context — DEFER."
+    },
+    {
+      "reviewItemId": "W2R-025",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "DEFER",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:30:00.000Z",
+      "evidenceNotes": "BM-073 has visible 'Số: …/YC-VKS…-…' header at paragraph [009] but the slot sits in the title body line 'Thay đổi __DOCUMENT_FULLDOCUMENTCODE__' at paragraph [012] (Thay đổi = change). Same systemic false-header pattern as W2R-029/033/040/013 (closure report §1) — DEFER for path/binding investigation."
+    },
+    {
+      "reviewItemId": "W2R-026",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày ban hành",
+      "decision": "DEFER",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T17:30:00.000Z",
+      "evidenceNotes": "BM-073 has visible '…, ngày … tháng … năm 20…' date header at paragraph [010] but the slot sits in the body sentence 'Xét thấy __DOCUMENT_ISSUEDATE__' at paragraph [016] (Xét thấy = considering that). Slot is a reasoning clause, not the issuance date header — DEFER."
+    }
+  ],
+  "applyWriteTriggered": false,
+  "mergedToGlobalApproved": false,
+  "mergeReason": "0 APPROVED_LABEL items — per task rules, do not merge DEFER/LEGAL_REVIEW/DOCX_REAUTHOR_REQUIRED into the global decisions.approved.json (which is the apply-write input). Apply-write intentionally not executed."
+}

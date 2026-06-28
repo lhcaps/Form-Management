@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_A_APPROVED",
+  "generatedAt": "2026-06-27T03:52:00.000Z",
+  "mode": "APPROVED_FOR_APPLY",
+  "approvalRequired": false,
+  "applyAllowed": true,
+  "layer": "A",
+  "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER A BM-073 e412fccad227 DOCX-REMOVE-001 DOCX-REMOVE-002 DOCX-REMOVE-006 DOCX-REMOVE-007",
+  "summary": {
+    "totalItems": 4,
+    "targetTemplateCode": "BM-073",
+    "targetSourceId": "e412fccad227",
+    "risk": "LOWEST",
+    "domainModelNotes": 0
+  },
+  "items": [
+    {
+      "decisionId": "DOCX-REMOVE-001",
+      "investigationId": "W2R-027",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.dateOfBirth",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "A",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": false,
+      "sourceBatch": "P0",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "evidence": {
+        "renderedParagraphs": ["[018]"],
+        "paragraphSnippets": [
+          "[018] Thủ trưởng Cơ quan (hoặc người có thẩm quyền)… phân công5__PERSON_DATEOFBIRTH__… để tiếp tục thực hiện nhiệm vụ…"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 is a Yêu cầu thay đổi nhân sự form. It does not contain personal DOB fields. Paragraph [018] shows __PERSON_DATEOFBIRTH__ in a phân công sentence, preceded by footnote 5. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-002",
+      "investigationId": "W2R-028",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "person.idNumber",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "A",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": false,
+      "sourceBatch": "P0",
+      "placeholder": "{{document.field5}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "evidence": {
+        "renderedParagraphs": ["[022]"],
+        "paragraphSnippets": [
+          "[022] __PERSON_IDNUMBER__.. after Lưu: HSVV/HSVA, HSKS, VP. — standalone reference marker after document footer items."
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 does not contain CMND/CCCD/ID number fields. Paragraph [022] shows __PERSON_IDNUMBER__ as a standalone marker after the Lưu: footer. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-006",
+      "investigationId": "W2R-025",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.fullDocumentCode",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "A",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": false,
+      "sourceBatch": "P1_BATCH_1",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "evidence": {
+        "renderedParagraphs": ["[012]"],
+        "paragraphSnippets": [
+          "[009] Số: …/YC-VKS…-… (visible header, NO slot)",
+          "[012] Thay đổi__DOCUMENT_FULLDOCUMENTCODE__ (body title — slot in procedural title context)"
+        ],
+        "canonicalEquivalent": "document.fullDocumentCode — legitimate, blockId=P0033 (label=Số văn bản)",
+        "reason": "BM-073 has a LEGITIMATE document.fullDocumentCode at blockId=P0033 (label=Số văn bản). The __DOCUMENT_FULLDOCUMENTCODE__ slot at [012] is in the body title for Thay đổi procedural context, NOT in the header. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    },
+    {
+      "decisionId": "DOCX-REMOVE-007",
+      "investigationId": "W2R-026",
+      "templateCode": "BM-073",
+      "sourceId": "e412fccad227",
+      "path": "document.issueDate",
+      "action": "REMOVE_FIELD_FROM_CONTRACT",
+      "layer": "A",
+      "approvalStatus": "APPROVED_FOR_APPLY",
+      "confidence": "HIGH",
+      "domainModelNote": false,
+      "sourceBatch": "P1_BATCH_1",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "blockId": null,
+      "evidence": {
+        "renderedParagraphs": ["[016]"],
+        "paragraphSnippets": [
+          "[010] …, ngày … tháng … năm 20… (visible date header, NO slot)",
+          "[016] Xét thấy__DOCUMENT_ISSUEDATE__ (body reasoning clause — procedural, NOT issuance date)"
+        ],
+        "canonicalEquivalent": null,
+        "reason": "BM-073 has NO legitimate document.issueDate canonical field. The __DOCUMENT_ISSUEDATE__ slot at [016] is in the body reasoning clause, NOT at the date header position. blockId=null confirms orphan slot. REMOVE from contract."
+      },
+      "rollbackRequirement": "Backup locked contract before any future apply. Rollback = restore from backup."
+    }
+  ]
+}

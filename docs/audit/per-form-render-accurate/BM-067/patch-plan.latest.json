@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "mode": "PROPOSED_ONLY_NOT_APPROVED",
+  "templateCode": "BM-067",
+  "title": "Biên bản phong tỏa tài khoản",
+  "canApplyRunNow": false,
+  "approvedDecisions": [],
+  "baselineFindings": [
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "REVIEW_REQUIRED_REMAINS"
+  ],
+  "mismatchSummary": {
+    "total": 2,
+    "templatePlaceholdersWithoutSlots": 0,
+    "contractSlotsWithoutTemplatePlaceholders": 0,
+    "bindingsWithoutTemplatePlaceholders": 0,
+    "duplicateSemanticPlaceholders": 2,
+    "reviewRequired": 0
+  },
+  "proposedActions": [
+    {
+      "action": "REVIEW_RENORMALIZE_DUPLICATE_DOCX_PLACEHOLDER",
+      "placeholder": "document.fullDocumentCode6",
+      "approved": false,
+      "severity": "HIGH",
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+      "anchors": [
+        "dateLine",
+        "documentNumber",
+        "fullName",
+        "prosecutor"
+      ]
+    },
+    {
+      "action": "REVIEW_RENORMALIZE_DUPLICATE_DOCX_PLACEHOLDER",
+      "placeholder": "recipients.personLine3",
+      "approved": false,
+      "severity": "HIGH",
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+      "anchors": [
+        "alias",
+        "currentAddress",
+        "dateLine",
+        "documentNumber",
+        "fullName",
+        "idNumber",
+        "job",
+        "permanentAddress",
+        "temporaryAddress"
+      ]
+    }
+  ],
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  },
+  "plannerDecisionNeeded": {
+    "requested": true,
+    "reason": "Evidence is prepared only. A human/planner must approve exact structural mutations per BM before any apply runner is created."
+  }
+}

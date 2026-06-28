@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_B_REVIEW",
+  "generatedAt": "2026-06-27T04:25:00.000Z",
+  "reviewTask": "REVIEW_LAYER_B_CLOSURE_BEFORE_LAYER_C",
+  "layer": "B",
+  "status": "PASS_WITH_STALE_HINTS_TRACKED",
+
+  "preimage_vs_postimage": {
+    "BM-080": {
+      "preimage_docxSlots_count": 7,
+      "postimage_docxSlots_count": 6,
+      "preimage_canonicalFields_count": 7,
+      "postimage_canonicalFields_count": 6,
+      "preimage_renderBindings_count": 7,
+      "postimage_renderBindings_count": 6,
+      "removed_path": "person.personFullName",
+      "docxSlots_removed": ["person.personFullName"],
+      "canonicalFields_removed": ["person.personFullName"],
+      "renderBindings_removed": ["person.personFullName"],
+      "remaining_preserved": ["agency.name", "document.fullDocumentCode", "document.issueDate", "person.dateOfBirth", "person.currentAddress", "legalBasis.legalBasisLine"],
+      "out_of_scope_remaining": ["document.fullDocumentCode (orphan)", "document.issueDate (orphan)", "person.dateOfBirth (orphan)", "person.currentAddress (orphan)", "legalBasis.legalBasisLine (orphan)"],
+      "total_removed": 3
+    },
+    "BM-063": {
+      "preimage_docxSlots_count": 6,
+      "postimage_docxSlots_count": 5,
+      "preimage_canonicalFields_count": 6,
+      "postimage_canonicalFields_count": 5,
+      "preimage_renderBindings_count": 6,
+      "postimage_renderBindings_count": 5,
+      "removed_path": "document.fullDocumentCode8",
+      "docxSlots_removed": ["document.fullDocumentCode8"],
+      "canonicalFields_removed": ["document.fullDocumentCode8"],
+      "renderBindings_removed": ["document.fullDocumentCode8"],
+      "legitimate_preserved": {
+        "document.fullDocumentCode": { "blockId": "P0033", "label": "Số văn bản", "preserved": true },
+        "recipients.personLine": { "blockId": "P0031", "label": "Người bị áp dụng", "preserved": true },
+        "recipients.personLine5": "KEEP_DEFERRED, preserved"
+      },
+      "total_removed": 3
+    },
+    "BM-064": {
+      "preimage_docxSlots_count": 3,
+      "postimage_docxSlots_count": 2,
+      "preimage_canonicalFields_count": 3,
+      "postimage_canonicalFields_count": 2,
+      "preimage_renderBindings_count": 3,
+      "postimage_renderBindings_count": 2,
+      "removed_path": "document.issueDate4",
+      "docxSlots_removed": ["document.issueDate4"],
+      "canonicalFields_removed": ["document.issueDate4"],
+      "renderBindings_removed": ["document.issueDate4"],
+      "legitimate_preserved": {
+        "document.fullDocumentCode": { "blockId": "P0024", "label": "Số văn bản", "preserved": true }
+      },
+      "total_removed": 3
+    }
+  },
+
+  "diff_summary": {
+    "total_contracts_mutated": 3,
+    "total_entries_removed": 9,
+    "unexpected_removals": 0,
+    "legitimate_fields_preserved": 3
+  },
+
+  "domainModelVerification": {
+    "defender_cardLicenseNumber": { "added": false, "locations_checked": ["BM-080 docxSlots", "BM-080 canonicalFields", "BM-080 renderBindings", "BM-080 formInputHints"], "verdict": "NOT implemented" },
+    "antecedentDocument_fullDocumentCode": { "added": false, "locations_checked": ["BM-063 docxSlots", "BM-063 canonicalFields", "BM-063 renderBindings", "BM-063 formInputHints"], "verdict": "NOT implemented" },
+    "antecedentDocument_issueDate": { "added": false, "locations_checked": ["BM-064 docxSlots", "BM-064 canonicalFields", "BM-064 renderBindings", "BM-064 formInputHints"], "verdict": "NOT implemented" }
+  },
+
+  "keepDeferredPreservation": {
+    "BM-063_recipients_personLine5": "KEEP_DEFERRED. NOT in Layer B removal list. Preserved correctly. Not touched by Layer B."
+  },
+
+  "crossLayerScriptChange": {
+    "file": "scripts/audit/apply-docx-path-binding-layer-a-approved.mjs",
+    "change": "Added [...new Set(removed.map(r => r.path || r.slotId))] deduplication to removedPaths to prevent cosmetic duplicates in reports",
+    "impact_on_layer_a": "NONE — Layer A contracts already written, no re-run needed",
+    "impact_on_layer_a_reports": "NONE — all reports regenerated after Layer A apply",
+    "impact_on_layer_b": "NONE — Layer B uses a separate script",
+    "safety": "SAFE — cosmetic/safety-hygiene change only",
+    "affects_audit_trail": false
+  },
+
+  "formInputHintsAnalysis": {
+    "BM-080_stale_hints": {
+      "paths": ["document.field1", "document.field2", "person.field3", "document.field4", "document.field5", "legalBasis.field6", "agency.field7", "document.field8"],
+      "all_stale": true,
+      "runtime_behavior": "silently ignored per PLAN.md v2.3 §B1 priority 3 rule",
+      "verdict": "harmless — tracked"
+    },
+    "BM-063_stale_hints": {
+      "paths": ["document.field10", "document.field11", "document.field12", "document.field13", "legalBasis.field14", "document.field15"],
+      "all_stale": true,
+      "runtime_behavior": "silently ignored per PLAN.md v2.3 §B1 priority 3 rule",
+      "verdict": "harmless — tracked"
+    },
+    "BM-064_stale_hints": {
+      "paths": ["document.field2", "document.field4", "agency.field5", "document.field6"],
+      "all_stale": true,
+      "runtime_behavior": "silently ignored per PLAN.md v2.3 §B1 priority 3 rule",
+      "verdict": "harmless — tracked"
+    }
+  },
+
+  "reportConsistency": {
+    "decisions_draft_item_status": {
+      "DOCX-REMOVE-001": "APPLIED",
+      "DOCX-REMOVE-002": "APPLIED",
+      "DOCX-REMOVE-003": "APPLIED",
+      "DOCX-REMOVE-004": "APPLIED",
+      "DOCX-REMOVE-005": "APPLIED",
+      "DOCX-REMOVE-006": "APPLIED",
+      "DOCX-REMOVE-007": "APPLIED",
+      "DOCX-REMOVE-008": "PENDING_APPROVAL",
+      "DOCX-REMOVE-009": "PENDING_APPROVAL",
+      "DOCX-REMOVE-010": "PENDING_APPROVAL"
+    },
+    "approval_plan": {
+      "layerA": "APPLIED",
+      "layerB": "APPLIED",
+      "layerC": "PENDING_APPROVAL"
+    },
+    "live_counts": { "APPLIED": 7, "PENDING_APPROVAL": 3 },
+    "cross_layer_script_safe": true
+  },
+
+  "safety": {
+    "lockedContractsMutated": 3,
+    "docxTouched": 0,
+    "sourcePathBindingTouchedDirectly": 0,
+    "compiledArtifactsHandEdited": 0,
+    "layerATouched": 0,
+    "layerCTouched": 0,
+    "domainModelPathsAdded": 0
+  },
+
+  "validation": {
+    "pnpm_typecheck": "exit 0"
+  },
+
+  "recommendation": "LAYER_B_REVIEW_PASS_WITH_STALE_HINTS_TRACKED",
+  "recommendationReason": "Layer B removed exactly 3 orphan paths from 3 contracts. Legitimate fields preserved. KEEP_DEFERRED items untouched. No domain-model paths implemented. Stale formInputHints are harmless per PLAN.md v2.3 §B1. Cross-layer script change is cosmetic hygiene only. Reports consistent.",
+  "nextTask": "WAIT_FOR_LAYER_C_APPROVAL"
+}

@@ -1,0 +1,54 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_10_DIFF_CLASSIFICATION",
+  "generated": "2026-06-28T16:27:00.000Z",
+  "normalized_docx_diffs": {
+    "BM-021": {
+      "safety": "SAFE_INTENTIONAL",
+      "reason": "OOXML repair — removed 1 stray run, not content mutation"
+    },
+    "BM-031": {
+      "safety": "UNEXPLAINED",
+      "reason": "76.7% size reduction (82KB->19KB). OOXML repair claimed only 1 run removed. This size reduction is disproportionate. Requires investigation."
+    },
+    "BM-044": {
+      "safety": "SAFE_INTENTIONAL",
+      "reason": "OOXML repair — removed 1 stray run, not content mutation"
+    },
+    "BM-052": {
+      "safety": "MUTATION_FORBIDDEN",
+      "reason": "Content mutated — placeholder paths replaced. This is a contract mutation, not OOXML repair. BLOCKED_CONTRACT_MUTATION.",
+      "changes": ["decision.decisionLine2 -> person.fullName", "recipients.personLine6 -> person.idNumber/temporaryAddress/signature.signerName"]
+    },
+    "BM-056": {
+      "safety": "SAFE_INTENTIONAL",
+      "reason": "OOXML repair — removed 1 stray run, not content mutation"
+    },
+    "BM-062": {
+      "safety": "MUTATION_FORBIDDEN",
+      "reason": "Content mutated — recipient.personLine5 replaced with signature.signerName. BLOCKED_CONTRACT_MUTATION."
+    }
+  },
+  "contract_locked_diffs": {
+    "BM-052": { "safety": "MUTATION_FORBIDDEN", "reason": "Slot/binding mutated to make render pass" },
+    "BM-062": { "safety": "MUTATION_FORBIDDEN", "reason": "Slot/binding mutated to make render pass" },
+    "BM-063": { "safety": "MUTATION_FORBIDDEN", "reason": "Slot/binding mutated to make render pass" },
+    "BM-066": { "safety": "MUTATION_FORBIDDEN", "reason": "Slot/binding mutated to make render pass" },
+    "BM-021": { "safety": "SAFE_INTENTIONAL", "reason": "Legitimate cleanup — agency.nameUpper slot removed" },
+    "BM-065": { "safety": "SAFE_INTENTIONAL", "reason": "Legitimate cleanup — orphan slots removed" },
+    "BM-067": { "safety": "SAFE_INTENTIONAL", "reason": "Legitimate cleanup — orphan slots removed" },
+    "BM-001/002/003/022/025/032/036": { "safety": "SAFE_INTENTIONAL", "reason": "Field/slot/binding additions from prior remediation" },
+    "BM-064/073/080/167": { "safety": "SAFE_INTENTIONAL", "reason": "Slot additions from prior remediation" },
+    "BM-096": { "safety": "SAFE_INTENTIONAL", "reason": "Path-domain binding fix from BM-096 single candidate" }
+  },
+  "compiled_v2_diffs": {
+    "safety": "FOLLOW_CONTRACT_LOCKED",
+    "note": "All compiled-v2 changes follow from locked contract changes"
+  },
+  "classification_summary": {
+    "intentional_structural_cleanup": 15,
+    "forbidden_mutation": 4,
+    "unexplained": 1,
+    "safe_intentional": 3
+  }
+}

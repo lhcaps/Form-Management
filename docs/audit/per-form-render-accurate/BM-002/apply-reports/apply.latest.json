@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0",
+  "task": "APPLY_BM002_SAFE_LABEL_ONLY_APPLY_REPORT",
+  "generatedAt": "2026-06-27T16:12:00.000Z",
+  "approvalCommand": "APPROVE_RENDER_ACCURATE_FORM BM-002 f78301178da7 SAFE_LABEL_ONLY",
+  "applyStatus": "SUCCESS",
+  "templateCode": "BM-002",
+  "sourceId": "BM-002__f78301178da7",
+  "patchType": "SAFE_LABEL_ONLY",
+  "dryRun": {
+    "mode": "DRY-RUN",
+    "logicalLabelFixes": 10,
+    "physicalEdits": 10,
+    "targetArray": "canonicalFields",
+    "docxSlotsChanged": 0,
+    "renderBindingsChanged": 0,
+    "pathsChanged": 0,
+    "fieldsAdded": 0,
+    "fieldsRemoved": 0,
+    "docxTouched": 0,
+    "sourceTouched": 0,
+    "compiledEdited": 0,
+    "errors": 0
+  },
+  "write": {
+    "mode": "WRITE",
+    "fileModified": "docs/audit/docx/contracts/locked/BM-002__f78301178da7.contract.locked.json",
+    "changes": 10,
+    "targetArray": "canonicalFields",
+    "backupPath": "docs/audit/per-form-render-accurate/BM-002/backups/2026-06-27T09-10-56/BM-002__f78301178da7.contract.locked.json",
+    "originalSha256": "a956610c79fb55f77945fe9cdb5a3d4350cb00060154944dd16c6be58f54ebf8",
+    "newSha256": "558e962050fcf70f6c8f0b9f8560c8a8493f6a297583fd97fa80e8b3cd18c925",
+    "postWriteVerification": "PASSED"
+  },
+  "labelChanges": [
+    { "index": 3, "path": "document.issuePlaceAndDateLine", "before": "issuePlaceAndDateLine", "after": "Địa điểm, ngày tháng năm" },
+    { "index": 5, "path": "sourceReport.receivedDateLine", "before": "receivedDateLine", "after": "Ngày tiếp nhận" },
+    { "index": 8, "path": "reporter.genderText", "before": "genderText", "after": "Giới tính" },
+    { "index": 9, "path": "reporter.otherName", "before": "otherName", "after": "Tên gọi khác" },
+    { "index": 10, "path": "reporter.birthDateLine", "before": "birthDateLine", "after": "Sinh ngày" },
+    { "index": 17, "path": "reporter.identityIssueDateLine", "before": "identityIssueDateLine", "after": "Cấp ngày" },
+    { "index": 23, "path": "reporter.organizationRepresentative", "before": "organizationRepresentative", "after": "Người đại diện cơ quan, tổ chức" },
+    { "index": 24, "path": "sourceReport.content", "before": "content", "after": "Nội dung" },
+    { "index": 25, "path": "recipients.primaryLine", "before": "primaryLine", "after": "Nơi nhận" },
+    { "index": 26, "path": "recipients.archiveLine", "before": "archiveLine", "after": "Nơi lưu" }
+  ],
+  "safety": {
+    "docxSlotsChanged": 0,
+    "renderBindingsChanged": 0,
+    "pathsChanged": 0,
+    "fieldsAdded": 0,
+    "fieldsRemoved": 0,
+    "docxTouched": 0,
+    "sourceTouched": 0,
+    "compiledArtifactsEdited": 0
+  },
+  "deferredNote": "docxSlots label misalignment NOT fixed in this task. Tracked for separate consistency cleanup.",
+  "auditDeltas": {
+    "BM-002": {
+      "BAD_LABEL": { "before": 10, "after": 0, "delta": -10 },
+      "UI_VISIBLE_BAD_METADATA": { "before": 9, "after": 0, "delta": -9 },
+      "totalIssues": { "before": 51, "after": 42, "delta": -9 }
+    }
+  },
+  "validation": {
+    "renderFidelity": "PASS (textLengthRatio=0.979, 0 unreplaced placeholders, 0 missing anchors)",
+    "bindingCorrectness": "PASS (BM-002 in 212 PASS cohort)",
+    "typecheck": "exit 0"
+  }
+}
