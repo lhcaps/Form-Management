@@ -1,0 +1,62 @@
+{
+  "task": "REPO_CLEAN_TO_ZERO_BEFORE_213_REMEDIATION_V1",
+  "phase": 0,
+  "mode": "CONTROLLED_REPO_CLEANROOM",
+  "generatedAt": "2026-06-29T02:58:00.000+07:00",
+  "headCommit": "85960dcb",
+  "precleanSnapshot": {
+    "totalModifiedTracked": 51,
+    "totalUntracked": 145,
+    "lockedContractsModified": [
+      "BM-001","BM-002","BM-003","BM-021","BM-022","BM-025",
+      "BM-032","BM-036","BM-052","BM-062","BM-063","BM-064",
+      "BM-065","BM-066","BM-067","BM-073","BM-080","BM-096","BM-167"
+    ],
+    "compiledV2Modified": [
+      "BM-001","BM-002","BM-003","BM-021","BM-022","BM-025",
+      "BM-032","BM-036","BM-052","BM-062","BM-064","BM-065",
+      "BM-067","BM-073","BM-080","BM-096","BM-167"
+    ],
+    "normalizedDocxModified": [
+      "BM-021","BM-031","BM-044","BM-052","BM-056","BM-062"
+    ],
+    "infraGenerated": [
+      "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts",
+      "docs/audit/docx-slot-inventory/latest.json",
+      "docs/audit/docx-slot-inventory/latest.md",
+      "docs/audit/docx/reports/FORM-CONTRACT-DB-PUBLISH.md",
+      "docs/audit/form-authoring-baselines/audited.md",
+      "docs/audit/form-authoring-baselines/matrix.csv",
+      "docs/audit/forms-root-cause/latest.json",
+      "docs/audit/forms-root-cause/latest.md"
+    ]
+  },
+  "classification": {
+    "COMMIT_APPROVED_SET": ["BM-001","BM-002","BM-003","BM-021","BM-022","BM-025","BM-032","BM-036","BM-064","BM-065","BM-067","BM-073","BM-080","BM-096","BM-167"],
+    "KEEP_DIRTY": ["BM-052","BM-062","BM-063","BM-066"],
+    "DOCX_COMMIT_CANDIDATES": ["BM-031","BM-021","BM-044","BM-056"],
+    "ROLLBACK_REQUIRED": ["BM-063","BM-066"]
+  },
+  "phases": {
+    "0_SNAPSHOT": "IN_PROGRESS",
+    "1_COMMIT_REPORTS": "PENDING",
+    "2_COMMIT_DOCX": "PENDING",
+    "3_ROLLBACK": "PENDING",
+    "4_PARK": "PENDING",
+    "5_COMMIT_APPROVED": "PENDING",
+    "6_CLEAN_UNTRACKED": "PENDING",
+    "7_VALIDATE": "PENDING"
+  },
+  "hardForbidden": [
+    "Do not start 213 BM semantic remediation",
+    "Do not auto-fix form semantics",
+    "Do not mutate locked contracts except explicit rollback",
+    "Do not mutate compiled-v2 unless official compiler requires",
+    "Do not publish DB",
+    "Do not delete evidence without manifest",
+    "Do not use git add .",
+    "Do not use git add -A"
+  ],
+  "safetyBranch": "safety/preclean-sot-dirty-snapshot",
+  "target": "git status --short is empty"
+}

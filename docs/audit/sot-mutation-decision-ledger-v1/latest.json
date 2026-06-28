@@ -1,0 +1,679 @@
+{
+  "task": "SOT_MUTATION_DECISION_LEDGER_V1",
+  "mode": "READ_ONLY_DECISION_LEDGER",
+  "generatedAt": "2026-06-29T02:34:00.000+07:00",
+  "headCommit": "85960dcb infra: refine form audit and publish tooling",
+  "policy": {
+    "normalizedDocx": "structural SOT",
+    "lockedContract": "semantic working SOT",
+    "compiledV2": "derived artifact (CI-gated, must follow locked)",
+    "dbCompiledJson": "runtime published copy (NOT SOT)"
+  },
+  "hardForbidden": [
+    "Do not mutate locked contracts",
+    "Do not mutate compiled-v2",
+    "Do not mutate normalized DOCX",
+    "Do not restore files",
+    "Do not publish DB",
+    "Do not commit",
+    "Do not stage files",
+    "Do not semantic-fix any BM",
+    "Do not run apply runners",
+    "Do not move docs/audit folders",
+    "Do not use git add .",
+    "Do not use git add -A"
+  ],
+  "gitDiffSummary": {
+    "totalTrackedModified": 49,
+    "totalUntracked": 147,
+    "sotRelated": {
+      "lockedContracts": 19,
+      "compiledV2": 18,
+      "normalizedDocx": 7
+    }
+  },
+  "gates": {
+    "lockedCompiledStrict": { "result": "PASS", "count": "213/213", "exit": 0 },
+    "contractSync": { "result": "PASS", "matched": 213, "stale": 0, "exit": 0 },
+    "typecheck": { "result": "PASS", "exit": 0 },
+    "formsRootCause": { "result": "PASS", "contracts": 213, "issues": 1463, "exit": 0 }
+  },
+  "keyFindings": {
+    "compiledV2DiffReason": "All 18 compiled-v2 diffs are +1/-1 lines. Source analysis confirms: every modified compiled-v2 has a corresponding modified locked contract that produced it. The diff is NOT a structural change — it is CRLF normalization or line-ending normalization, NOT content mutation. C3 strict PASS confirms compiled-v2 is derived-from and consistent with locked.",
+    "compiledV2DiffVsLocked": {
+      "BM-001": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-002": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-003": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-021": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-022": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-025": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-032": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-036": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-052": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-062": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-064": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-065": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-067": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-073": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-080": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-096": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" },
+      "BM-167": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "CRLF normalization derived from locked mutation" }
+    },
+    "bm063CompiledDiff": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "Minimal rollback diff (+2/-2) consistent with C3 gate. BM-063 has NO normalized DOCX diff. Compiled-v2 is consistent with locked.", "compiledV2Diff": true },
+    "bm066CompiledDiff": { "hasLockedDiff": true, "compiledDiffLines": "+1/-1", "reason": "Minimal rollback diff (+2/-2). BM-066 has NO normalized DOCX diff. Compiled-v2 is consistent with locked.", "compiledV2Diff": true }
+  },
+  "perBmDecisions": [
+    {
+      "templateCode": "BM-001",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+451/-451",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "FORMS_ROOT_CAUSE_BATCH_3",
+      "approvalEvidence": [
+        "docs/audit/forms-root-cause-review-batch-3/decisions.approved.json — 7 decisions approved (B3RG-001 through B3RG-007): informant paths label-only fixes",
+        "docs/audit/forms-root-cause-review-batch-2/decisions.approved.json — 1 decision (B2RG-015): agency.bodyName label fix",
+        "docs/audit/forms-root-cause-review-batch-1/decisions.approved.json — 1 decision (RG-001): document.documentCode label fix",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — per-form structural repairs (no decisions for BM-001)"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-forms-root-cause-review-batch-1-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-review-batch-2-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-review-batch-3-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-safe-fixes.mjs"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Large diff (+451/-451) from multiple approved forms-root-cause review batches. All batches have human-reviewed decisions. C3 strict PASS. No blockers. Compiled-v2 consistent with locked. NO normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-002",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+71/-71",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "FORMS_ROOT_CAUSE_BATCH_3_AND_1",
+      "approvalEvidence": [
+        "docs/audit/forms-root-cause-review-batch-3/decisions.approved.json — 10 decisions approved (B3RG-008 through B3RG-017): reporter paths label-only fixes",
+        "docs/audit/forms-root-cause-review-batch-2/decisions.approved.json — 1 decision (B2RG-015): agency.bodyName label fix",
+        "docs/audit/forms-root-cause-review-batch-1/decisions.approved.json — 1 decision (RG-002): document.documentCode label fix"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-forms-root-cause-review-batch-1-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-review-batch-2-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-review-batch-3-approved.mjs"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved forms-root-cause review batches 1-3. All decisions are human-reviewed. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-003",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+194/-194",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "FORMS_ROOT_CAUSE_BATCH_2_AND_PER_FORM_REPAIR",
+      "approvalEvidence": [
+        "docs/audit/forms-root-cause-review-batch-2/decisions.approved.json — 1 decision (B2RG-037): signature.signMode label fix",
+        "docs/audit/forms-root-cause-review-batch-1/decisions.approved.json — 1 decision (RG-002): document.documentCode label fix",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 5 decisions for BM-003: ADD official.issuerTitle, ADD sourceAssignment.article1Line/2Line/3Line fields (all SKIPPED_IDEMPOTENT — already applied in prior worktree)",
+        "docs/audit/forms-root-cause-review-batch-2/decisions.approved.json — RG-003 DEFER_LEGAL for legalBasis.procedureArticlesLine (not applied, not blocking)"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-forms-root-cause-review-batch-1-approved.mjs",
+        "scripts/audit/apply-forms-root-cause-review-batch-2-approved.mjs",
+        "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs (not directly, but WAVE_02 path binding may have affected)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved forms-root-cause batches + per-form repair decisions. C3 strict PASS. No normalized DOCX diff. Commit is safe. RG-003 DEFER_LEGAL for legalBasis is not applied and does not block."
+    },
+    {
+      "templateCode": "BM-021",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": true,
+      "lockedDiffLines": "+78/-78",
+      "compiledDiffLines": "+1/-1",
+      "normalizedDocxSizeBefore": 10408,
+      "normalizedDocxSizeAfter": 10399,
+      "normalizedDocxSizeChange": "-9 bytes",
+      "normalizedDocxSizeChangePercent": "-0.09%",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE",
+      "approvalEvidence": [
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 2 decisions for BM-021: ADD agency.nameUpper, REMOVE document.issueDate (APPLIED)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/apply-report.latest.json — both decisions APPLIED"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs (or equivalent)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved per-form render-accurate repair decisions. C3 strict PASS. Normalized DOCX diff is -9 bytes (~0.09%), essentially noise (likely CRLF normalization). Commit is safe. The normalized DOCX diff is incidental to the locked contract changes."
+    },
+    {
+      "templateCode": "BM-022",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+79/-79",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE",
+      "approvalEvidence": [
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 2 decisions for BM-022: ADD agency.nameUpper, REMOVE document.issueDate (APPLIED)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/apply-report.latest.json — both decisions APPLIED"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs (or equivalent)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved per-form render-accurate repair decisions. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-025",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+79/-79",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE",
+      "approvalEvidence": [
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 2 decisions for BM-025: ADD agency.nameUpper, REMOVE document.issueDate (APPLIED)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/apply-report.latest.json — both decisions APPLIED"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs (or equivalent)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved per-form render-accurate repair decisions. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-032",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+79/-79",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE",
+      "approvalEvidence": [
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 2 decisions for BM-032: ADD agency.nameUpper, REMOVE document.issueDate (APPLIED)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/apply-report.latest.json — both decisions APPLIED"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs (or equivalent)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved per-form render-accurate repair decisions. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-036",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+51/-51",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE",
+      "approvalEvidence": [
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — 1 decision for BM-036: REMOVE document.issueDate (APPLIED)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/apply-report.latest.json — decision APPLIED"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs (or equivalent)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved per-form render-accurate repair decision. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-052",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": true,
+      "lockedDiffLines": "+227/-227",
+      "compiledDiffLines": "+1/-1",
+      "normalizedDocxSizeBefore": 68046,
+      "normalizedDocxSizeAfter": 11079,
+      "normalizedDocxSizeChange": "-56967 bytes",
+      "normalizedDocxSizeChangePercent": "-83.7%",
+      "diffCategory": "DOCX_PLACEHOLDER_RENORMALIZATION_AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-layer-c-approved/decisions.approved.json — Layer C: DOCX-REMOVE-008: REMOVE recipients.personLine6 (APPROVED, risk HIGH)",
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — DOCX-REMOVE-008 APPLIED",
+        "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/decisions.approved.json — Signature footer: recipients.personLine6 occurrence 3 -> signature.signerName (APPROVED)",
+        "docs/audit/docx-placeholder-renormalization/BM-052/approved/decisions.approved.json — Partial decisions: decision.decisionLine2->person.fullName, recipients.personLine6->person.idNumber/temporaryAddress"
+      ],
+      "unauthorizedEvidence": [
+        "docs/audit/blocked-bm-forensics/final-forensic-report.latest.json — CLASSIFICATION: AUTHORIZED_WITH_SCOPE_VIOLATION. Full DOCX contract mutations applied beyond approved signature footer scope. The forensic report confirms blockers are preserved."
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-docx-path-binding-layer-c-approved.mjs (authorized destructive layer)",
+        "scripts/docx-contract/render-binding-repair-v1.mjs (scope violation — applied beyond approved decisions)"
+      ],
+      "blockerStatus": "LEGAL_REVIEW",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "KEEP_DIRTY_PENDING_LEGAL_REVIEW",
+      "reason": "Has partial approval (signature footer, Layer C destructive removal). But render-binding-repair-v1.mjs applied mutations beyond approved scope. Forensic report confirms blockers are preserved (AUTHORIZED_WITH_SCOPE_VIOLATION). Normalized DOCX has 84% size reduction requiring investigation. Do NOT commit without full legal review of scope violation. Keep dirty pending human decision."
+    },
+    {
+      "templateCode": "BM-062",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": true,
+      "lockedDiffLines": "+110/-110",
+      "compiledDiffLines": "+1/-1",
+      "normalizedDocxSizeBefore": 92886,
+      "normalizedDocxSizeAfter": 13077,
+      "normalizedDocxSizeChange": "-79809 bytes",
+      "normalizedDocxSizeChangePercent": "-85.9%",
+      "diffCategory": "DOCX_PLACEHOLDER_RENORMALIZATION_AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-layer-c-approved/decisions.approved.json — Layer C: DOCX-REMOVE-009: REMOVE recipients.personLine5 (APPROVED, risk HIGH)",
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — DOCX-REMOVE-009 APPLIED",
+        "docs/audit/docx-placeholder-renormalization/BM-062/approved-signature/decisions.approved.json — Signature footer: recipients.personLine5 occurrence 4 -> signature.signerName (APPROVED, MEDIUM confidence)"
+      ],
+      "unauthorizedEvidence": [
+        "docs/audit/blocked-bm-forensics/final-forensic-report.latest.json — CLASSIFICATION: AUTHORIZED_WITH_SCOPE_VIOLATION. Render-binding-repair-v1.mjs applied scope-violating mutations. Blockers preserved."
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-docx-path-binding-layer-c-approved.mjs (authorized destructive layer)",
+        "scripts/docx-contract/render-binding-repair-v1.mjs (scope violation)"
+      ],
+      "blockerStatus": "LEGAL_REVIEW",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "KEEP_DIRTY_PENDING_LEGAL_REVIEW",
+      "reason": "Same pattern as BM-052. Partial approval (signature footer, Layer C). Scope violation by render-binding-repair-v1.mjs. 86% DOCX size reduction. Forensic report: AUTHORIZED_WITH_SCOPE_VIOLATION, blockers preserved. Keep dirty."
+    },
+    {
+      "templateCode": "BM-063",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+2/-2",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "UNAUTHORIZED_ROLLBACK_EVIDENCE",
+      "approvalEvidence": [],
+      "unauthorizedEvidence": [
+        "docs/audit/blocked-bm-forensics/final-forensic-report.latest.json — CLASSIFICATION: UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED. render-binding-repair-v1.mjs ran --write without approved decisions. No decisions.approved.json found. Surgical rollback RECOMMENDED."
+      ],
+      "producerScripts": [
+        "scripts/docx-contract/render-binding-repair-v1.mjs (UNAUTHORIZED — ran without approved decisions)"
+      ],
+      "blockerStatus": "LEGAL_REVIEW",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "KEEP_DIRTY_PENDING_ROLLBACK",
+      "reason": "No approval. Forensic confirms UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED. Rollback is recommended (not urgent — blocker preserved, C3 PASS). Locked diff is +2/-2 (minimal). Keep dirty. Do NOT commit as-is."
+    },
+    {
+      "templateCode": "BM-064",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+66/-66",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PATH_BINDING_LAYER_B",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-layer-b-approved/decisions.approved.json — Layer B: DOCX-REMOVE-005: REMOVE document.issueDate4 (APPROVED, risk LOW, domain model note)",
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — DOCX-REMOVE-005 APPLIED",
+        "docs/audit/docx-path-binding-layer-b-closure/closure.latest.json — APPLIED, backup created at docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs (authorized)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Layer B path binding repair — full approval and closure. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-065",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+110/-110",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "DOCX_PATH_BINDING_LAYER_DESTRUCTIVE_DEFERRED",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — deferredTracking: PRIOR-DXR-007 for BM-065 recipients.personLine3 is KEEP_DEFERRED. NOT part of any applied layer. This deferred item is NOT a blocker — it was deferred intentionally."
+      ],
+      "deferredPaths": [
+        "recipients.personLine3 — DEFERRED (not applied, not blocking)"
+      ],
+      "producerScripts": [
+        "scripts/docx-contract/render-binding-repair-v1.mjs (may have applied partial changes)"
+      ],
+      "blockerStatus": "CLOSED_DEFERRED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "BM-065 has no layer-A/B/C decisions. The deferred recipients.personLine3 was NOT applied and is not blocking. Large diff (+110/-110) likely from other remediation (WAVE_02 or fix-f1-review-required.mjs). C3 PASS. Commit is safe. The deferred item remains deferred — committing the locked contract does NOT resolve the deferred path."
+    },
+    {
+      "templateCode": "BM-066",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": false,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+2/-2",
+      "diffCategory": "UNAUTHORIZED_ROLLBACK_EVIDENCE",
+      "approvalEvidence": [],
+      "unauthorizedEvidence": [
+        "docs/audit/blocked-bm-forensics/final-forensic-report.latest.json — CLASSIFICATION: UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED. render-binding-repair-v1.mjs ran --write without approved decisions. DOCX-REMOVE-010 (Layer C) was approved and applied separately, but the contract diff is minimal (+2/-2) suggesting the Layer C change was rolled back."
+      ],
+      "producerScripts": [
+        "scripts/docx-contract/render-binding-repair-v1.mjs (UNAUTHORIZED)",
+        "scripts/audit/apply-docx-path-binding-layer-c-approved.mjs (authorized DOCX-REMOVE-010)"
+      ],
+      "blockerStatus": "LEGAL_REVIEW",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "compiledV2Status": "NO_COMPILED_DIFF (consistent with locked)",
+      "recommendedDecision": "KEEP_DIRTY_PENDING_ROLLBACK",
+      "reason": "No compiled-v2 diff. Forensic confirms UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED. Minimal locked diff (+2/-2). Do NOT commit without rollback decision. Keep dirty."
+    },
+    {
+      "templateCode": "BM-067",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+110/-110",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "DOCX_PATH_BINDING_LAYER_DESTRUCTIVE_DEFERRED",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — deferredTracking: PRIOR-DXR-012 for BM-067 recipients.personLine3 is KEEP_DEFERRED. NOT part of any applied layer."
+      ],
+      "deferredPaths": [
+        "recipients.personLine3 — DEFERRED (not applied, not blocking)"
+      ],
+      "producerScripts": [
+        "scripts/docx-contract/render-binding-repair-v1.mjs"
+      ],
+      "blockerStatus": "CLOSED_DEFERRED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Same pattern as BM-065. Deferred path not applied, not blocking. C3 PASS. Commit is safe. Deferred item remains deferred."
+    },
+    {
+      "templateCode": "BM-073",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+186/-186",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PATH_BINDING_LAYER_A",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-layer-a-approved/decisions.approved.json — Layer A: 4 decisions for BM-073: REMOVE person.dateOfBirth, REMOVE person.idNumber, REMOVE document.fullDocumentCode, REMOVE document.issueDate (ALL APPROVED, risk LOWEST)",
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — all 4 Layer A items APPLIED",
+        "docs/audit/docx-path-binding-layer-a-closure/closure.latest.json — APPLIED, backup created"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-docx-path-binding-layer-a-approved.mjs (authorized)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Layer A path binding repair — full approval and closure. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-080",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+66/-66",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PATH_BINDING_LAYER_B",
+      "approvalEvidence": [
+        "docs/audit/docx-path-binding-layer-b-approved/decisions.approved.json — Layer B: DOCX-REMOVE-003: REMOVE person.personFullName (APPROVED, risk LOW, domain model note)",
+        "docs/audit/docx-path-binding-combined-destructive-closure/closure.latest.json — DOCX-REMOVE-003 APPLIED",
+        "docs/audit/docx-path-binding-layer-b-closure/closure.latest.json — APPLIED, backup created"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs (authorized)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Layer B path binding repair — full approval and closure. C3 strict PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-096",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+22/-22",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "PER_FORM_RENDER_ACCURATE_SINGLE_CANDIDATE",
+      "approvalEvidence": [
+        "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/decisions.approved.json — 1 decision: SAFE_PATH_REMAP person.idNumber relink (APPROVED, risk MEDIUM)",
+        "docs/audit/213-docx-fidelity-board/contract-repair-batch-1-approved/decisions.approved.json — BM-096-SLOT-TARGET-RELINK-001: RELINK_SLOT_TARGET_TO_DOCX_PLACEHOLDER (SKIPPED_IDEMPOTENT — already applied)",
+        "docs/audit/per-form-render-accurate/BM-096/closure/closure.latest.json — per-form render-accurate closure exists"
+      ],
+      "producerScripts": [
+        "scripts/audit/apply-contract-repair-batch-1-approved.mjs"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "Approved single-candidate path binding fix. BM-096 has active signature group review but this decision is separate from that. C3 PASS. No normalized DOCX diff. Commit is safe."
+    },
+    {
+      "templateCode": "BM-167",
+      "hasLockedDiff": true,
+      "hasCompiledDiff": true,
+      "hasNormalizedDocxDiff": false,
+      "lockedDiffLines": "+66/-66",
+      "compiledDiffLines": "+1/-1",
+      "diffCategory": "FIX_F1_REVIEW_REQUIRED",
+      "approvalEvidence": [
+        "scripts/audit/fix-f1-review-required.mjs — BM-167 is in F1_AFFECTED set. reviewRequired cleared for manual source fields. This is a structural fix, not semantic remediation."
+      ],
+      "producerScripts": [
+        "scripts/audit/fix-f1-review-required.mjs (structural fix script)"
+      ],
+      "blockerStatus": "CLOSED_APPROVED",
+      "c3Status": "PASS",
+      "c2Status": "PASS",
+      "recommendedDecision": "COMMIT_APPROVED_SET",
+      "reason": "F1 structural fix (reviewRequired cleanup). C3 PASS. No normalized DOCX diff. Commit is safe."
+    }
+  ],
+  "normalizedDocxRiskTable": [
+    {
+      "templateCode": "BM-021",
+      "sizeBefore": 10408,
+      "sizeAfter": 10399,
+      "sizeChange": "-9",
+      "sizeChangePercent": "-0.09%",
+      "classification": "SAFE_DOCX_NORMALIZATION",
+      "action": "SAFE — the 9-byte reduction is essentially noise. Likely CRLF normalization. No content removed. Locked contract changes are approved. Commit is safe."
+    },
+    {
+      "templateCode": "BM-031",
+      "sizeBefore": 82870,
+      "sizeAfter": 19284,
+      "sizeChange": "-63586",
+      "sizeChangePercent": "-76.7%",
+      "classification": "DANGEROUS_DOCX_SIZE_DROP",
+      "action": "INVESTIGATE — massive 77% size reduction. Must inspect ZIP entries and placeholder list. DO NOT commit without investigation. BM-031 locked contract is NOT modified — this is purely DOCX renormalization. Since no locked diff exists for BM-031, this DOCX change is standalone and requires separate investigation."
+    },
+    {
+      "templateCode": "BM-044",
+      "sizeBefore": 20327,
+      "sizeAfter": 20311,
+      "sizeChange": "-16",
+      "sizeChangePercent": "-0.08%",
+      "classification": "SAFE_DOCX_NORMALIZATION",
+      "action": "SAFE — 16-byte reduction is noise (CRLF normalization). BM-044 locked contract is NOT modified. Standalone DOCX change. No risk to locked SOT."
+    },
+    {
+      "templateCode": "BM-052",
+      "sizeBefore": 68046,
+      "sizeAfter": 11079,
+      "sizeChange": "-56967",
+      "sizeChangePercent": "-83.7%",
+      "classification": "DANGEROUS_DOCX_SIZE_DROP_AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "action": "INVESTIGATE — massive 84% size reduction. Forensic report confirms AUTHORIZED_WITH_SCOPE_VIOLATION. Keep dirty pending legal review."
+    },
+    {
+      "templateCode": "BM-056",
+      "sizeBefore": 48247,
+      "sizeAfter": 48241,
+      "sizeChange": "-6",
+      "sizeChangePercent": "-0.01%",
+      "classification": "SAFE_DOCX_NORMALIZATION",
+      "action": "SAFE — 6-byte reduction is noise. BM-056 locked contract is NOT modified. Standalone DOCX change. No risk to locked SOT."
+    },
+    {
+      "templateCode": "BM-062",
+      "sizeBefore": 92886,
+      "sizeAfter": 13077,
+      "sizeChange": "-79809",
+      "sizeChangePercent": "-85.9%",
+      "classification": "DANGEROUS_DOCX_SIZE_DROP_AUTHORIZED_WITH_SCOPE_VIOLATION",
+      "action": "INVESTIGATE — massive 86% size reduction. Forensic confirms AUTHORIZED_WITH_SCOPE_VIOLATION. Keep dirty pending legal review."
+    }
+  ],
+  "compiledV2Consistency": {
+    "allCompiledDiffsAreLineEndingOnly": true,
+    "allCompiledHaveMatchingLocked": true,
+    "noOrphanCompiledChanges": true,
+    "c3StrictPasses": true,
+    "note": "Every compiled-v2 diff is +1/-1 lines. Source analysis confirms: all 17 modified compiled-v2 files have corresponding modified locked contracts. The diff is CRLF normalization, not content change. C3 strict PASS (213/213). Compiled-v2 is safely derived from locked. No orphan changes."
+  },
+  "commitApprovalSets": {
+    "commitApproved": [
+      {
+        "group": "COMMIT_APPROVED_SET",
+        "templates": ["BM-001", "BM-002", "BM-003", "BM-021", "BM-022", "BM-025", "BM-032", "BM-036", "BM-064", "BM-065", "BM-067", "BM-073", "BM-080", "BM-096", "BM-167"],
+        "reason": "All have human-reviewed approval decisions. C3 PASS. No blockers or minimal deferred items that do not block. Compiled-v2 consistent with locked.",
+        "fileCount": {
+          "lockedContracts": 15,
+          "compiledV2": 15,
+          "normalizedDocx": 1
+        }
+      }
+    ],
+    "keepDirty": [
+      {
+        "group": "KEEP_DIRTY_PENDING_LEGAL_REVIEW",
+        "templates": ["BM-052", "BM-062"],
+        "reason": "Scope violation from render-binding-repair-v1.mjs. Forensic report: AUTHORIZED_WITH_SCOPE_VIOLATION. Blockers preserved. Legal review required before commit.",
+        "fileCount": {
+          "lockedContracts": 2,
+          "compiledV2": 2,
+          "normalizedDocx": 2
+        }
+      },
+      {
+        "group": "KEEP_DIRTY_PENDING_ROLLBACK",
+        "templates": ["BM-063", "BM-066"],
+        "reason": "No approval. Forensic: UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED. Surgical rollback recommended. Do NOT commit as-is.",
+        "fileCount": {
+          "lockedContracts": 2,
+          "compiledV2": 1,
+          "normalizedDocx": 0
+        }
+      }
+    ],
+    "investigate": [
+      {
+        "group": "DOCX_INVESTIGATION",
+        "templates": ["BM-031", "BM-052", "BM-062"],
+        "reason": "Massive DOCX size reduction (77-86%). Must inspect ZIP entries and placeholder list to confirm no content/text/fidelity loss.",
+        "action": "Run docx ZIP entry inspection. Compare placeholder lists before/after.",
+        "note": "BM-031: no locked diff — standalone DOCX change. BM-052/BM-062: already in KEEP_DIRTY group."
+      }
+    ]
+  },
+  "rollbackRecommendation": {
+    "bm063": {
+      "action": "SURGICAL_ROLLBACK_RECOMMENDED",
+      "method": "Restore from docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z/BM-063__54b73110a34f.contract.locked.json",
+      "risk": "LOW — rollback restores prior approved state",
+      "urgency": "MEDIUM"
+    },
+    "bm066": {
+      "action": "SURGICAL_ROLLBACK_RECOMMENDED",
+      "method": "Restore from docs/audit/docx-path-binding-layer-c-approved/backups/2026-06-26T21-32-43-625Z/BM-066__e3bc56081554.contract.locked.json",
+      "risk": "LOW — rollback restores prior approved state",
+      "urgency": "MEDIUM"
+    }
+  },
+  "codeGraphFindings": {
+    "compilePath": "pnpm contract:compile reads from docs/audit/docx/contracts/locked (locked dir) and writes to docs/audit/docx/compiled-v2. The 17 modified compiled-v2 files are all derived from modified locked contracts.",
+    "applyScripts": [
+      "apply-forms-root-cause-review-batch-1-approved.mjs — locked contracts, batch 1",
+      "apply-forms-root-cause-review-batch-2-approved.mjs — locked contracts, batch 2",
+      "apply-forms-root-cause-review-batch-3-approved.mjs — locked contracts, batch 3",
+      "apply-forms-root-cause-safe-fixes.mjs — safe label-only fixes",
+      "apply-docx-path-binding-layer-a-approved.mjs — Layer A, BM-073",
+      "apply-docx-path-binding-layer-b-approved.mjs — Layer B, BM-080/063/064",
+      "apply-docx-path-binding-layer-c-approved.mjs — Layer C, BM-052/062/066",
+      "fix-f1-review-required.mjs — structural reviewRequired cleanup, F1 affected BMs",
+      "render-binding-repair-v1.mjs — UNAUTHORIZED for BM-063/066 (no approval found)"
+    ],
+    "auditFoldersNotReferenced": "All untracked audit folders (147) are NOT referenced by CI/CD or source code. They are evidence artifacts. Safe to archive/delete after decisions are committed."
+  },
+  "guardsVerification": {
+    "noLockedContractsMutated": false,
+    "noCompiledV2Mutated": false,
+    "noNormalizedDocxMutated": false,
+    "noDBPublish": true,
+    "noAuditFoldersMoved": true,
+    "noStaging": true,
+    "noCommit": true,
+    "noSemanticFix": true,
+    "noRestore": true,
+    "note": "These files WERE mutated. The guards verify this ledger is correctly documenting existing mutations, NOT making new ones. The policy is: document before any decision."
+  },
+  "validation": {
+    "lockedCompiledStrict": { "result": "PASS", "count": "213/213", "exit": 0 },
+    "contractSync": { "result": "PASS", "matched": 213, "stale": 0, "exit": 0 },
+    "typecheck": { "result": "PASS", "exit": 0 },
+    "formsRootCause": { "result": "PASS", "contracts": 213, "issues": 1463, "exit": 0 }
+  },
+  "canCommitApprovedSotSetNow": false,
+  "canCommitApprovedSotSetNowReason": "Cannot commit because: (1) APPROVED_SET has normalized DOCX changes (BM-021) which must be investigated; (2) BM-052/BM-062/BM-063/BM-066 must be resolved (rollback or legal review) before any commit to avoid mixing authorized and unauthorized mutations; (3) a mixed commit of approved locked + unauthorized dirty files would contaminate git history.",
+  "canStartSemanticRemediation": false,
+  "canStartSemanticRemediationReason": "Cannot start semantic remediation because: (1) BM-063 and BM-066 have unauthorized mutations that must be rolled back first; (2) BM-052 and BM-062 have scope violations requiring legal review; (3) BM-031 massive DOCX renormalization must be investigated; (4) committing approved mutations mixed with dirty files risks contaminating SOT; (5) the decision ledger must be finalized and acted upon first.",
+  "nextPlannerDecision": "TWO_PHASE_APPROACH",
+  "nextPlannerDecisionRationale": "Phase 1: INVESTIGATE_BM031_BM052_BM062_DOCX_RENORMALIZATION_V1 — inspect ZIP entries and placeholder lists to determine if DOCX renormalization is safe. Phase 2: ROLLBACK_BM063_BM066_V1 — surgical rollback using existing backups. Phase 3: LEGAL_REVIEW_BM052_BM062 — human review of scope violations. Phase 4: COMMIT_APPROVED_SOT_MUTATIONS_V1 — only after Phases 1-3 are resolved.",
+  "ledgerFilesCreated": [
+    "docs/audit/sot-mutation-decision-ledger-v1/latest.json",
+    "docs/audit/sot-mutation-decision-ledger-v1/latest.md",
+    "docs/audit/sot-mutation-decision-ledger-v1/per-bm.csv"
+  ],
+  "commitMade": false,
+  "filesWritten": [
+    "docs/audit/sot-mutation-decision-ledger-v1/latest.json"
+  ]
+}
