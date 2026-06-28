@@ -108,14 +108,21 @@ test("evaluateRemediationReadiness: C2 fail blocks everything", () => {
   assert.equal(verdict.blockers[0].code, "C2_CONTRACT_DB_SYNC_FAILED");
 });
 
-test("evaluateRemediationReadiness: git dirty blocks full-213 only, not non-blocked", () => {
+test("evaluateRemediationReadiness: unexpected git dirty blocks full-213 only, not non-blocked", () => {
   const verdict = evaluateRemediationReadiness(makeInput({ gitStatusShort: " M file.txt" }));
 
   assert.equal(verdict.ready, false);
-  assert.equal(verdict.remediationScope.canStartFull213Remediation, false);
-  // git dirty is a full-213-only blocker — non-blocked remediation is still allowed
+  // non-blocked remediation ignores git dirtiness
   assert.equal(verdict.remediationScope.canStartNonBlockedRemediation, true);
-  assert.deepEqual(verdict.blockers.map((b) => b.code), ["GIT_STATUS_DIRTY"]);
+  // full-213 remediation requires worktree to be acceptable
+  assert.equal(verdict.remediationScope.canStartFull213Remediation, false);
+  // raw git state is dirty
+  assert.equal(verdict.git.rawGitClean, false);
+  assert.equal(verdict.git.rawGitStatusCount, 1);
+  // worktree is NOT acceptable because "M file.txt" is not an expected dirty path
+  assert.equal(verdict.git.worktreeAcceptableForActiveBatch, false);
+  // blocked by unexpected dirty file
+  assert.deepEqual(verdict.blockers.map((b) => b.code), ["GIT_STATUS_UNEXPECTED_DIRTY"]);
 });
 
 test("evaluateRemediationReadiness: unknown render fail blocks non-blocked remediation", () => {
