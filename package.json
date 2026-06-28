@@ -94,6 +94,7 @@
     "audit:locked-compiled": "node scripts/audit/audit-locked-compiled-consistency.mjs",
     "audit:locked-compiled:strict": "node scripts/audit/audit-locked-compiled-consistency.mjs --strict",
     "audit:213-remediation-readiness": "node scripts/audit/check-213-remediation-readiness.mjs",
+    "audit:active-remediation-blockers": "node scripts/audit/build-active-remediation-blocker-pack.mjs",
     "audit:sot-gates": "pnpm audit:locked-compiled && node scripts/audit/audit-sot-rebase-v1.mjs",
     "audit:sot-gates:strict": "pnpm audit:locked-compiled:strict",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
