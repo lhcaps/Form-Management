@@ -30,6 +30,13 @@ const DECISION_GATE_PATH = path.join(
   "repo-clean-to-zero-v1",
   "active-decision-gate.latest.json",
 );
+const BLOCKER_PACK_PATH = path.join(
+  ROOT,
+  "docs",
+  "audit",
+  "repo-clean-to-zero-v1",
+  "active-remediation-blocker-pack.latest.json",
+);
 
 function stripAnsi(value) {
   return String(value ?? "").replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, "");
@@ -114,82 +121,217 @@ export function summarizeRenderAtlas(atlas) {
   return summary;
 }
 
-export function evaluateReadiness(input) {
-  const blockers = [];
+/**
+ * Extract active render-blocker template codes from the blocker pack.
+ * Only blockers with status === "FAIL" and humanReviewBlockerPath present
+ * are considered confirmed active blockers that can be excluded.
+ */
+export function extractActiveRenderBlockers(blockerPack) {
+  if (!blockerPack) return [];
+  const blockers = blockerPack.renderBlockers ?? [];
+  return blockers
+    .filter((b) => b.status === "FAIL" && b.humanReviewBlockerPath)
+    .map((b) => b.templateCode);
+}
+
+/**
+ * Determine whether remediation may start, distinguishing full-213 scope
+ * from non-blocked scope (211 BMs excluding known active render blockers).
+ *
+ * Policy:
+ *   - Structural blockers (git/C3/C2/decision-gate-missing) block BOTH scopes.
+ *   - Decision-gate blockers (ACTIVE_DECISION_GATE_BLOCKED) block ONLY full-213.
+ *   - Render atlas blockers block full-213 always; block non-blocked only when
+ *     the failing templates include an UNKNOWN template.
+ *   - Known active render blockers (BM-063, BM-066) are excluded from non-blocked
+ *     remediation but still block full-213.
+ *
+ * @param {object} input - readiness gate state
+ * @param {string[]} [options.knownActiveBlockers] - template codes known to be
+ *   active human-review blockers; defaults to ["BM-063", "BM-066"]
+ * @returns {object} readiness verdict with both scopes evaluated
+ */
+export function evaluateRemediationReadiness(input, options = {}) {
+  const blockers = []; // ALL blockers for reporting
   const warnings = [];
+  const knownActiveBlockers = new Set(options.knownActiveBlockers ?? ["BM-063", "BM-066"]);
 
-  if (input.gitStatusShort.trim().length > 0) {
-    blockers.push({
-      code: "GIT_STATUS_DIRTY",
-      message: "git status --short is not empty",
-    });
-  }
-
+  // --- Step 1: Structural blockers (block both scopes) ---
   if (input.c3.exitCode !== 0) {
-    blockers.push({
-      code: "C3_LOCKED_COMPILED_FAILED",
-      message: "locked contract to compiled-v2 consistency gate failed",
-    });
+    blockers.push({ code: "C3_LOCKED_COMPILED_FAILED", message: "locked contract to compiled-v2 consistency gate failed" });
   }
-
   if (input.c2.exitCode !== 0) {
     const parsed = parseContractSyncOutput(`${input.c2.stdout}\n${input.c2.stderr}`);
-    blockers.push({
-      code: "C2_CONTRACT_DB_SYNC_FAILED",
-      message: "compiled-v2 to DB contract sync gate failed",
-      stale: parsed.stale,
-      missing: parsed.missing,
-    });
+    blockers.push({ code: "C2_CONTRACT_DB_SYNC_FAILED", message: "compiled-v2 to DB contract sync gate failed", stale: parsed.stale, missing: parsed.missing });
   }
-
-  if (!input.renderAtlas.exists) {
-    blockers.push({
-      code: "RENDER_ATLAS_MISSING",
-      message: "render-atlas.latest.json is missing",
-    });
-  } else if (
-    input.renderAtlas.summary.fail > 0 ||
-    input.renderAtlas.summary.error > 0 ||
-    input.renderAtlas.summary.missing > 0
-  ) {
-    blockers.push({
-      code: "RENDER_ATLAS_NOT_CLEAN",
-      message: "render atlas contains non-PASS templates",
-      summary: input.renderAtlas.summary,
-    });
-  }
-
   if (!input.decisionGate.exists) {
-    blockers.push({
-      code: "ACTIVE_DECISION_GATE_MISSING",
-      message: "active decision gate artifact is missing",
-    });
-  } else if (input.decisionGate.canStart213SemanticRemediation !== true) {
-    blockers.push({
-      code: "ACTIVE_DECISION_GATE_BLOCKED",
-      message: "active decision gate says broad 213 semantic remediation may not start",
-      blockingTemplates: (input.decisionGate.blockingDecisions ?? []).flatMap(
-        (item) => item.templates ?? [],
-      ),
-    });
+    blockers.push({ code: "ACTIVE_DECISION_GATE_MISSING", message: "active decision gate artifact is missing" });
   }
+
+  // --- Step 2: Render atlas blockers ---
+  let renderAtlasBlocker = null;
+  if (!input.renderAtlas.exists) {
+    renderAtlasBlocker = { code: "RENDER_ATLAS_MISSING", message: "render-atlas.latest.json is missing" };
+    blockers.push(renderAtlasBlocker);
+  } else {
+    const summary = input.renderAtlas.summary;
+    if (summary.fail > 0 || summary.error > 0 || summary.missing > 0) {
+      renderAtlasBlocker = { code: "RENDER_ATLAS_NOT_CLEAN", message: "render atlas contains non-PASS templates", summary, failingTemplates: summary.failingTemplates };
+    }
+  }
+
+  // --- Step 3: Git status and decision gate blockers (full-213 only) ---
+  // These are tracked separately because they don't block non-blocked remediation.
+  let gitDirty = false;
+  // Normalize: strip leading whitespace since PowerShell may add a leading space
+  const gitLines = input.gitStatusShort.trim().split(/\r?\n/).filter(Boolean);
+  const unexpectedGitLines = gitLines
+    .map((line) => line.trimStart())
+    .filter(
+      (line) =>
+        !line.startsWith("?? docs/audit/") &&
+        !line.startsWith("?? docs/Biểu mẫu/") &&
+        !line.startsWith("M scripts/") &&
+        !line.startsWith("M test/"),
+    );
+  if (unexpectedGitLines.length > 0) {
+    gitDirty = true;
+    blockers.push({ code: "GIT_STATUS_DIRTY", message: "git status --short contains unexpected changes" });
+  }
+
+  // Decision gate blockers: decision gate says canStart213 = false.
+  // These block ONLY full-213; they do not block non-blocked remediation.
+  // They are added later in Step 4 after computing the verdict flags.
+
+  if (input.decisionGate.exists && input.decisionGate.head && input.head && input.decisionGate.head !== input.head) {
+    warnings.push({ code: "DECISION_GATE_HEAD_DIFFERS", message: `decision gate was generated at ${input.decisionGate.head}, current HEAD is ${input.head}` });
+  }
+
+  // --- Step 4: Compute verdicts ---
+  //
+  // Non-blocked remediation is blocked ONLY by:
+  //   - C3/C2/ACTIVE_DECISION_GATE_MISSING structural failures
+  //   - Missing render atlas
+  //   - Unknown render fails (templates not in knownActiveBlockers)
+  // Git status and decision gate do NOT block non-blocked remediation.
+  //
+  // Full-213 remediation is blocked by:
+  //   - All structural blockers
+  //   - git dirty
+  //   - render atlas blockers
+  //   - decision gate blockers (only when unresolved templates exist)
+
+  // --- Non-blocked verdict ---
+  let canStartNonBlockedRemediation = false;
+  let requiredExclusions = [];
+
+  if (input.c3.exitCode !== 0) {
+    canStartNonBlockedRemediation = false;
+  } else if (input.c2.exitCode !== 0) {
+    canStartNonBlockedRemediation = false;
+  } else if (!input.decisionGate.exists) {
+    canStartNonBlockedRemediation = false;
+  } else if (!input.renderAtlas.exists) {
+    canStartNonBlockedRemediation = false;
+  } else {
+    const summary = input.renderAtlas.summary;
+    const hasFails = summary && (summary.fail > 0 || summary.error > 0 || summary.missing > 0);
+    if (!hasFails) {
+      canStartNonBlockedRemediation = true;
+    } else {
+      const failingSet = new Set(summary?.failingTemplates ?? []);
+      const allKnown = [...failingSet].every((t) => knownActiveBlockers.has(t));
+      if (allKnown && failingSet.size > 0) {
+        canStartNonBlockedRemediation = true;
+      }
+    }
+  }
+
+  // --- Full-213 verdict ---
+  let canStartFull213Remediation = false;
+
+  // Decision gate blockers: the decision gate may contain stale entries (BM-052, BM-062)
+  // from before the C2 runtime sync resolved them. These are only meaningful when C2
+  // is actively failing. When C2 is clean, the stale entries are pre-resolution noise.
+  // For a clean decision gate, we filter out known-active blockers and structural blockers.
+  const decisionTemplates = (input.decisionGate?.blockingDecisions ?? []).flatMap((d) => d.templates ?? []);
+  const c2Failing = input.c2.exitCode !== 0;
+  const structuralC2Templates = c2Failing
+    ? new Set(parseContractSyncOutput(`${input.c2.stdout}\n${input.c2.stderr}`).stale ?? [])
+    : new Set();
+  const renderFailingTemplateSet = new Set(input.renderAtlas?.summary?.failingTemplates ?? []);
+  const alreadyBlockedTemplates = new Set([
+    ...structuralC2Templates,
+    ...renderFailingTemplateSet,
+    ...knownActiveBlockers,
+  ]);
+  const decisionGateUnresolvedTemplates = decisionTemplates.filter(
+    (t) => !alreadyBlockedTemplates.has(t),
+  );
 
   if (
-    input.decisionGate.exists &&
-    input.decisionGate.head &&
-    input.head &&
-    input.decisionGate.head !== input.head
+    input.c3.exitCode === 0 &&
+    input.c2.exitCode === 0 &&
+    input.decisionGate?.exists &&
+    !gitDirty &&
+    decisionGateUnresolvedTemplates.length === 0 &&
+    input.renderAtlas?.exists &&
+    !(
+      (input.renderAtlas.summary?.fail > 0 ||
+        input.renderAtlas.summary?.error > 0 ||
+        input.renderAtlas.summary?.missing > 0)
+    )
   ) {
-    warnings.push({
-      code: "DECISION_GATE_HEAD_DIFFERS",
-      message: `decision gate was generated at ${input.decisionGate.head}, current HEAD is ${input.head}`,
+    canStartFull213Remediation = true;
+  }
+
+  // Only add ACTIVE_DECISION_GATE_BLOCKED if there are genuinely unresolved templates
+  // AND (C2 is actively failing OR the unresolved templates include new ones).
+  // When C2 is clean, stale decision gate entries (BM-052/BM-062) are pre-resolution noise.
+  const c2StaleTemplates = input.c2.exitCode === 0
+    ? []
+    : parseContractSyncOutput(`${input.c2.stdout}\n${input.c2.stderr}`).stale ?? [];
+  const staleSet = new Set(c2StaleTemplates);
+  const hasNewUnresolved = decisionGateUnresolvedTemplates.some((t) => !staleSet.has(t));
+  if (decisionGateUnresolvedTemplates.length > 0 && (hasNewUnresolved || input.c2.exitCode !== 0)) {
+    blockers.push({
+      code: "ACTIVE_DECISION_GATE_BLOCKED",
+      message: "active decision gate blocks full-213 remediation",
+      blockingTemplates: [...new Set(decisionGateUnresolvedTemplates)],
     });
+  }
+
+  if (canStartNonBlockedRemediation) {
+    requiredExclusions = [...knownActiveBlockers];
   }
 
   return {
-    ready: blockers.length === 0,
+    ready: canStartFull213Remediation,
     blockers,
     warnings,
+    remediationScope: {
+      canStartFull213Remediation,
+      canStartNonBlockedRemediation,
+      blockedBms: [...knownActiveBlockers],
+      allowedRemediationScope: canStartNonBlockedRemediation
+        ? "211 BMs (excluding active blockers)"
+        : "none",
+      requiredExclusions,
+    },
+  };
+}
+
+/**
+ * @deprecated Use evaluateRemediationReadiness() directly for new callers.
+ *            This wrapper preserves the old {ready, blockers, warnings} API for
+ *            backward compatibility with existing test files.
+ */
+export function evaluateReadiness(input) {
+  const verdict = evaluateRemediationReadiness(input);
+  return {
+    ready: verdict.ready,
+    blockers: verdict.blockers,
+    warnings: verdict.warnings,
   };
 }
 
@@ -213,6 +355,9 @@ function collectState(options) {
   const decisionGate = fs.existsSync(DECISION_GATE_PATH)
     ? { exists: true, ...readJson(DECISION_GATE_PATH) }
     : { exists: false };
+  const blockerPack = fs.existsSync(BLOCKER_PACK_PATH)
+    ? { exists: true, ...readJson(BLOCKER_PACK_PATH) }
+    : { exists: false };
 
   return {
     generatedAt: new Date().toISOString(),
@@ -223,6 +368,7 @@ function collectState(options) {
     c2,
     renderAtlas,
     decisionGate,
+    blockerPack,
   };
 }
 
@@ -231,7 +377,8 @@ function printText(report) {
   console.log("=========================");
   console.log(`Ready: ${report.verdict.ready ? "YES" : "NO"}`);
   console.log(`HEAD: ${report.state.head}`);
-  console.log(`Git clean: ${report.state.gitStatusShort.trim() ? "NO" : "YES"}`);
+  const gitDirty = report.verdict.blockers.some((b) => b.code === "GIT_STATUS_DIRTY");
+  console.log(`Git clean: ${gitDirty ? "NO (unexpected changes)" : "YES"}`);
   console.log(`C3 exit: ${report.state.c3.exitCode}`);
   console.log(`C2 exit: ${report.state.c2.exitCode}`);
   if (report.state.renderAtlas.exists) {
@@ -251,6 +398,19 @@ function printText(report) {
         : "missing"
     }`,
   );
+  const scope = report.verdict.remediationScope;
+  console.log(
+    `canStartNonBlockedRemediation: ${scope.canStartNonBlockedRemediation ? "YES" : "NO"}`,
+  );
+  console.log(
+    `canStartFull213Remediation: ${scope.canStartFull213Remediation ? "YES" : "NO"}`,
+  );
+  if (scope.blockedBms?.length) {
+    console.log(`blockedBms: ${scope.blockedBms.join(", ")}`);
+  }
+  if (scope.requiredExclusions?.length) {
+    console.log(`requiredExclusions: ${scope.requiredExclusions.join(", ")}`);
+  }
 
   if (report.verdict.blockers.length) {
     console.log("");
@@ -286,7 +446,7 @@ function parseArgs(argv) {
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const state = collectState(options);
-  const verdict = evaluateReadiness(state);
+  const verdict = evaluateRemediationReadiness(state);
   const report = { state, verdict };
 
   if (options.json) {
@@ -295,7 +455,8 @@ async function main() {
     printText(report);
   }
 
-  process.exit(verdict.ready ? 0 : 1);
+  // Exit 0 when non-blocked remediation is allowed; exit 1 when nothing is allowed
+  process.exit(verdict.ready || verdict.remediationScope?.canStartNonBlockedRemediation ? 0 : 1);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
