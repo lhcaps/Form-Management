@@ -334,28 +334,28 @@
       }
     },
     {
-      "slotId": "person.idNumber",
+      "slotId": "document.diaChi",
       "location": {
         "partName": "word/document.xml",
         "blockId": "P0033",
         "tableCellId": null
       },
-      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}",
+      "context": "ocument.tenVu}} {{person.toiDanh}} {{person.hoTen}} Nghề nghiệp: {{document.namSinh}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.diaChi}} C {{document.lyDo}} {{recipients.luuHo}} Nơi thường trú: {{signature.cheDo}} {{signature.chucVu}} Nơi tạm trú: {{signat",
       "label": "Số CCCD/CMND",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
-        "textAfter": "",
-        "rawPattern": "{{person.field14}}"
+        "textBefore": "ocument.tenVu}} {{person.toiDanh}} {{person.hoTen}} Nghề nghiệp: {{document.namSinh}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textAfter": "C {{document.lyDo}} {{recipients.luuHo}} Nơi thường trú: {{signature.cheDo}} {{signature.chucVu}} Nơi tạm trú: {{signat",
+        "rawPattern": "{{document.diaChi}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
-        "textAfter": "",
-        "rawPattern": "{{person.field14}}",
-        "context": "[Auto-generated] Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textBefore": "ocument.tenVu}} {{person.toiDanh}} {{person.hoTen}} Nghề nghiệp: {{document.namSinh}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "textAfter": "C {{document.lyDo}} {{recipients.luuHo}} Nơi thường trú: {{signature.cheDo}} {{signature.chucVu}} Nơi tạm trú: {{signat",
+        "rawPattern": "{{document.diaChi}}",
+        "context": "ocument.tenVu}} {{person.toiDanh}} {{person.hoTen}} Nghề nghiệp: {{document.namSinh}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.diaChi}} C {{document.lyDo}} {{recipients.luuHo}} Nơi thường trú: {{signature.cheDo}} {{signature.chucVu}} Nơi tạm trú: {{signat",
         "blockId": "P0033"
       }
     },
@@ -866,7 +866,7 @@
       "reviewRequired": false
     },
     {
-      "slotId": "person.idNumber",
+      "slotId": "document.diaChi",
       "from": "person.idNumber",
       "transform": "identity",
       "fallback": "",

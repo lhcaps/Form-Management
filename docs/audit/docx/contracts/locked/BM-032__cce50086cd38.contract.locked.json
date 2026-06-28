@@ -22,6 +22,32 @@
   "status": "locked",
   "docxSlots": [
     {
+      "slotId": "agency.nameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "NameUpper}} 484505 15240 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 921385 26670 … {{agency.nameUpper}} QUYẾT ĐỊNH KHÔNG PHÊ CHUẨN LỆNH BẮT NGƯỜI BỊ GIỮ TRONG TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điề",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "NameUpper}} 484505 15240 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 921385 26670 …",
+        "textAfter": "QUYẾT ĐỊNH KHÔNG PHÊ CHUẨN LỆNH BẮT NGƯỜI BỊ GIỮ TRONG TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điề",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "NameUpper}} 484505 15240 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 921385 26670 …",
+        "textAfter": "QUYẾT ĐỊNH KHÔNG PHÊ CHUẨN LỆNH BẮT NGƯỜI BỊ GIỮ TRONG TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điề",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "NameUpper}} 484505 15240 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 921385 26670 … {{agency.nameUpper}} QUYẾT ĐỊNH KHÔNG PHÊ CHUẨN LỆNH BẮT NGƯỜI BỊ GIỮ TRONG TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điề",
+        "blockId": null
+      }
+    },
+    {
       "slotId": "agency.parentNameUpper",
       "location": {
         "partName": "word/document.xml",
@@ -45,32 +71,6 @@
         "rawPattern": "{{document.field1}}",
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
-      }
-    },
-    {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0022",
-        "tableCellId": null
-      },
-      "context": "…{{document.issueDate}}",
-      "label": "Ngày ban hành",
-      "slotType": "date",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "…",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "…",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
-        "context": "[Auto-generated] …",
-        "blockId": "P0022"
       }
     },
     {
@@ -128,6 +128,21 @@
   ],
   "canonicalFields": [
     {
+      "path": "agency.nameUpper",
+      "type": "string",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewEvidence": {
+        "context": "NameUpper}} 484505 15240 Số: …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 921385 26670 … {{agency.nameUpper}} QUYẾT ĐỊNH KHÔNG PHÊ CHUẨN LỆNH BẮT NGƯỜI BỊ GIỮ TRONG TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điề",
+        "blockId": null
+      }
+    },
+    {
       "path": "agency.parentNameUpper",
       "type": "string",
       "label": "Tên cơ quan",
@@ -141,22 +156,6 @@
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0013"
-      }
-    },
-    {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "agencyConfig",
-      "required": false,
-      "uiComponent": "date",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "context": "[Auto-generated] …",
-        "blockId": "P0022"
       }
     },
     {
@@ -194,15 +193,15 @@
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentNameUpper",
-      "from": "agency.parentNameUpper",
+      "slotId": "agency.nameUpper",
+      "from": "agency.nameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
     },
     {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false

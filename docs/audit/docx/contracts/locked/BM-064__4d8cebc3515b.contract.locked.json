@@ -65,6 +65,25 @@
         "rawPattern": "{{document.field3}}"
       },
       "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.issueDate4}}",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate4}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -92,6 +111,17 @@
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "systemDate",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thông tin văn bản",
+      "reviewRequired": false,
+      "transform": "identity"
     }
   ],
   "renderBindings": [
@@ -108,6 +138,13 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": true
+    },
+    {
+      "slotId": "document.issueDate4",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
@@ -181,7 +218,28 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.667Z",
-  "reviewedBy": "Le Huy (wave-01 auto-fix)",
-  "reviewedAt": "2026-06-25T14:39:20.667Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:42:22.044Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:42:22.044Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "BM-064 DOCX uses suffixed issueDate4 slot.",
+    "changes": {
+      "addedFields": [
+        "document.issueDate"
+      ],
+      "addedSlots": [
+        "document.issueDate4"
+      ],
+      "addedBindings": [
+        "document.issueDate4"
+      ],
+      "updatedBindings": [],
+      "removedFields": [],
+      "removedSlots": [],
+      "removedBindings": [],
+      "removedRejectedCandidates": []
+    }
+  }
 }

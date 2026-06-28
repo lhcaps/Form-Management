@@ -48,25 +48,6 @@
       }
     },
     {
-      "slotId": "document.fullDocumentCode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0020",
-        "tableCellId": null
-      },
-      "context": "{{document.field2}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field2}}"
-      },
-      "reviewRequired": true
-    },
-    {
       "slotId": "recipients.personLine",
       "location": {
         "partName": "word/document.xml",
@@ -93,25 +74,6 @@
       }
     },
     {
-      "slotId": "document.fullDocumentCode2",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
-        "tableCellId": null
-      },
-      "context": "{{document.field9}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field9}}"
-      },
-      "reviewRequired": true
-    },
-    {
       "slotId": "document.fullDocumentCode6",
       "location": {
         "partName": "word/document.xml",
@@ -128,7 +90,7 @@
         "textAfter": "",
         "rawPattern": "{{document.fullDocumentCode6}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "recipients.personLine3",
@@ -147,7 +109,7 @@
         "textAfter": "",
         "rawPattern": "{{recipients.personLine3}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -168,15 +130,6 @@
       }
     },
     {
-      "path": "document.fullDocumentCode",
-      "type": "string",
-      "label": "Số văn bản",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false
-    },
-    {
       "path": "recipients.personLine",
       "type": "string",
       "label": "Người bị áp dụng",
@@ -191,15 +144,6 @@
         "context": "[Auto-generated] Họ tên:",
         "blockId": "P0028"
       }
-    },
-    {
-      "path": "document.fullDocumentCode2",
-      "type": "string",
-      "label": "Ô trống",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false
     },
     {
       "path": "document.fullDocumentCode6",
@@ -229,13 +173,6 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.fullDocumentCode",
-      "from": "document.fullDocumentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
       "slotId": "recipients.personLine",
       "from": "recipients.personLine",
       "transform": "identity",
@@ -243,25 +180,18 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.fullDocumentCode2",
-      "from": "document.fullDocumentCode2",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
       "slotId": "document.fullDocumentCode6",
       "from": "document.fullDocumentCode6",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
       "slotId": "recipients.personLine3",
       "from": "recipients.personLine3",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
@@ -356,7 +286,31 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.700Z",
-  "reviewedBy": "Le Huy (wave-01 auto-fix)",
-  "reviewedAt": "2026-06-25T14:39:20.700Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:52:52.478Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:52:52.478Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "Remove orphan document code slots no longer present in DOCX and clear reviewed visible slots.",
+    "changes": {
+      "addedFields": [],
+      "addedSlots": [],
+      "addedBindings": [],
+      "updatedBindings": [],
+      "removedFields": [
+        "document.fullDocumentCode",
+        "document.fullDocumentCode2"
+      ],
+      "removedSlots": [
+        "document.fullDocumentCode",
+        "document.fullDocumentCode2"
+      ],
+      "removedBindings": [
+        "document.fullDocumentCode",
+        "document.fullDocumentCode2"
+      ],
+      "removedRejectedCandidates": []
+    }
+  }
 }

@@ -48,32 +48,6 @@
       }
     },
     {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0020",
-        "tableCellId": null
-      },
-      "context": "…, ngày … tháng … năm 20{{document.issueDate}}",
-      "label": "Ngày ban hành",
-      "slotType": "date",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "…, ngày … tháng … năm 20",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "…, ngày … tháng … năm 20",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
-        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
-      }
-    },
-    {
       "slotId": "agency.issuePlace",
       "location": {
         "partName": "word/document.xml",
@@ -248,22 +222,6 @@
       }
     },
     {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "computed",
-      "required": false,
-      "uiComponent": "date",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
-      }
-    },
-    {
       "path": "agency.issuePlace",
       "type": "string",
       "label": "Ô trống",
@@ -364,13 +322,6 @@
     {
       "slotId": "agency.parentNameUpper",
       "from": "agency.parentNameUpper",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": false
-    },
-    {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -498,7 +449,28 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.376Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-25T14:39:20.376Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:52:52.478Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:52:52.478Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "Remove hidden run-property agency.nameUpper placeholder and matching invisible contract slot.",
+    "changes": {
+      "addedFields": [],
+      "addedSlots": [],
+      "addedBindings": [],
+      "updatedBindings": [],
+      "removedFields": [
+        "agency.nameUpper"
+      ],
+      "removedSlots": [
+        "agency.nameUpper"
+      ],
+      "removedBindings": [
+        "agency.nameUpper"
+      ],
+      "removedRejectedCandidates": []
+    }
+  }
 }

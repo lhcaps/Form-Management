@@ -22,6 +22,32 @@
   "status": "locked",
   "docxSlots": [
     {
+      "slotId": "agency.nameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng",
+        "textAfter": "QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng",
+        "textAfter": "QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165",
+        "blockId": null
+      }
+    },
+    {
       "slotId": "agency.parentNameUpper",
       "location": {
         "partName": "word/document.xml",
@@ -45,32 +71,6 @@
         "rawPattern": "{{document.field1}}",
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0010"
-      }
-    },
-    {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0017",
-        "tableCellId": null
-      },
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "label": "Ngày ban hành",
-      "slotType": "date",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "…, ngày … tháng",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "…, ngày … tháng",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
-        "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0017"
       }
     },
     {
@@ -102,6 +102,21 @@
   ],
   "canonicalFields": [
     {
+      "path": "agency.nameUpper",
+      "type": "string",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewEvidence": {
+        "context": "0 87630 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1086485 38735 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 156, 161 và 165",
+        "blockId": null
+      }
+    },
+    {
       "path": "agency.parentNameUpper",
       "type": "string",
       "label": "Tên cơ quan",
@@ -115,22 +130,6 @@
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0010"
-      }
-    },
-    {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "agencyConfig",
-      "required": false,
-      "uiComponent": "date",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0017"
       }
     },
     {
@@ -152,15 +151,15 @@
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentNameUpper",
-      "from": "agency.parentNameUpper",
+      "slotId": "agency.nameUpper",
+      "from": "agency.nameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
     },
     {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false

@@ -774,6 +774,25 @@
         "context": "[Auto-generated] {{signature.signerName}}",
         "blockId": "P0047"
       }
+    },
+    {
+      "slotId": "sourceTransfer.attachedItemsDescription",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{sourceTransfer.attachedItemsDescription}}",
+      "label": "Tài liệu, đồ vật kèm theo",
+      "slotType": "multilineText",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{sourceTransfer.attachedItemsDescription}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -1269,6 +1288,17 @@
         "context": "[Auto-generated] {{signature.signerName}}",
         "blockId": "P0047"
       }
+    },
+    {
+      "path": "sourceTransfer.attachedItemsDescription",
+      "type": "string",
+      "label": "Tài liệu, đồ vật kèm theo",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "textarea",
+      "section": "Chuyển nguồn tin",
+      "reviewRequired": false,
+      "transform": "identity"
     }
   ],
   "renderBindings": [
@@ -1474,14 +1504,16 @@
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
-    }
-  ],
-  "rejectedCandidates": [
+    },
     {
       "slotId": "sourceTransfer.attachedItemsDescription",
-      "reason": "Namespace \"sourceTransfer\" không thuộc field-taxonomy"
+      "from": "sourceTransfer.attachedItemsDescription",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
     }
   ],
+  "rejectedCandidates": [],
   "unresolvedQuestions": [],
   "warnings": [],
   "productMetadata": {
@@ -1524,7 +1556,30 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-23T07:24:45.470Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:42:22.044Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:42:22.044Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "BM-002 render gate missing source-transfer attachment binding.",
+    "changes": {
+      "addedFields": [
+        "sourceTransfer.attachedItemsDescription"
+      ],
+      "addedSlots": [
+        "sourceTransfer.attachedItemsDescription"
+      ],
+      "addedBindings": [
+        "sourceTransfer.attachedItemsDescription"
+      ],
+      "updatedBindings": [],
+      "removedFields": [],
+      "removedSlots": [],
+      "removedBindings": [],
+      "removedRejectedCandidates": [
+        1
+      ]
+    }
+  }
 }

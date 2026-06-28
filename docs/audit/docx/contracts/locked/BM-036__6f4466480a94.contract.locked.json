@@ -74,32 +74,6 @@
       }
     },
     {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0029",
-        "tableCellId": null
-      },
-      "context": "Nhận thấy{{document.field5}},",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Nhận thấy",
-        "textAfter": ",",
-        "rawPattern": "{{document.field5}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "Nhận thấy",
-        "textAfter": ",",
-        "rawPattern": "{{document.field5}}",
-        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
-      }
-    },
-    {
       "slotId": "document.issuePlaceAndDateLine",
       "location": {
         "partName": "word/document.xml",
@@ -316,22 +290,6 @@
       }
     },
     {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "computed",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
-      }
-    },
-    {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
       "label": "Họ tên người bị áp dụng",
@@ -455,13 +413,6 @@
     {
       "slotId": "document.documentCode",
       "from": "document.documentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": false
-    },
-    {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
