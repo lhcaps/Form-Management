@@ -1,0 +1,99 @@
+# QLLaw Contract Remediation Rules
+
+> Project-specific rules for form contract path-domain binding remediation.
+> These override general coding rules when working on corpus mutation tasks.
+
+## Non-negotiable rules
+
+- **Never** mutate locked contracts without an approved decisions file.
+- **Never** use cross-BM evidence to approve a field.
+- **Never** approve if `rawPattern` is empty and `textBefore` only contains `{{document.fieldN}}`.
+- **Never** treat label-only cleanup as safe when label domain does not match current path domain.
+- **Never** manually edit `compiled-v2`. Always regenerate via official compiler.
+- **Never** publish DB before `validate` + `compile` + `audit` pass.
+- **Never** allow `COMPILED_DRIFT` to increase above current baseline unless separately investigated.
+- **Never** apply broad batches. Prefer one BM or one field group at a time.
+
+## Source of truth hierarchy
+
+1. Source DOC/DOCX evidence decides semantics.
+2. Locked contract JSON is the reviewed corpus.
+3. `canonicalFields.label` is UI/form label authority.
+4. `docxSlots` are DOCX evidence, not UI label authority.
+5. `compiled-v2` is generated only.
+6. DB `form_contract_versions` is runtime publication only.
+
+## Required gates after any mutation
+
+- `contract validate`
+- `contract compile`
+- `root-cause audit`
+- `master plan refresh`
+- DB publish with `OFFICIAL_ID=1` only
+- DB contract sync: `matched=213, missing=0, stale=0`
+
+## Current state (do not forget)
+
+```
+BM-096: NOT APPLIED
+Excluded candidates:
+  - signature.cheDo → Nơi thường trú (DEFER_PATH_DOMAIN_MISMATCH)
+  - signature.nguoiKy → Nơi tạm trú (DEFER_PATH_DOMAIN_MISMATCH)
+
+Active candidate only:
+  - document.diaChi → person.idNumber (PENDING REVIEW)
+
+Global metrics baseline:
+  totalIssues: 1477
+  REMEDIATION_LEAK: 10 (BLOCKED)
+  COMPILED_DRIFT: 37
+```
+
+## CodeGraph usage
+
+Use CodeGraph to understand dependency and collision. NOT to guess fields.
+
+| Task | Use CodeGraph for |
+|------|-------------------|
+| Explore schema | canonicalFields, docxSlots, renderBindings |
+| Explore apply runners | Clone safety pattern |
+| Explore audit rules | Understand issue flags |
+| Trace BM field path | Avoid duplicate/collision |
+| Trace compiler | Ensure no manual compiled-v2 edit |
+
+## Skill selection for corpus work
+
+| Skill | When to use |
+|-------|-------------|
+| `review-bugbot` | Review plan/apply runner before write |
+| `unittest-skill` | Write tests for guard/apply runner |
+| `babysit` | Keep branch/commit clean, merge-ready |
+| `output-skill` | Prevent report truncation |
+
+## Apply workflow (single candidate)
+
+```
+1. review packet → proposed decision
+2. human approve
+3. apply 1 mutation
+4. validate
+5. compile
+6. audit
+7. publish
+8. sync
+```
+
+## Safety gates (ABS brakes)
+
+Check before any mutation:
+
+1. No cross-BM evidence
+2. No label-only if domain label ≠ domain path
+3. No approved decision risk > MEDIUM without reviewer approval
+4. No rawPattern EMPTY approved
+5. No textBefore only `{{document.fieldN}}` approved
+6. No compiled-v2 manual edit
+7. No locked contract mutation outside approved decisions
+8. COMPILED_DRIFT not increased
+9. SOURCE_MISMATCH not increased
+10. totalIssues not increased

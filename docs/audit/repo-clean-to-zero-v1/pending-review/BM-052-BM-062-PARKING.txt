@@ -1,0 +1,44 @@
+REPO CLEAN TO ZERO — PHASE 4: BM-052 BM-062 PARKED
+Generated: 2026-06-29T03:02:00+07:00
+
+BM-052 and BM-062 are PARKING (not committed) pending human review.
+
+REASON FOR PARKING:
+- BM-052: SCOPE VIOLATION confirmed by forensic investigation
+  Three recipients.personLine6 body occurrences modified beyond approved scope.
+  Locked contract diff: +227/-227 lines
+  Forensic: docs/audit/docx-renormalization-forensic-v1/latest.json
+  Blocked since: prior remediation wave
+  Decision: KEEP_DIRTY_PENDING_REVIEW
+
+- BM-062: SCOPE VIOLATION confirmed by forensic investigation
+  document.fullDocumentCode4 blocker unresolved.
+  Locked contract diff: +110/-110 lines
+  Forensic: docs/audit/docx-renormalization-forensic-v1/latest.json
+  Blocked since: prior remediation wave
+  Decision: KEEP_DIRTY_PENDING_REVIEW
+
+PARKING ACTION:
+- Restoring worktree files to HEAD (clean) state
+- Creating pending-review patch files for evidence preservation
+- NOT committing to main branch
+
+ROLLBACK DECISIONS:
+BM-052 locked contract: RESTORED to HEAD (git checkout)
+BM-052 compiled-v2: RESTORED to HEAD
+BM-052 normalized DOCX: RESTORED to HEAD (git checkout)
+BM-062 locked contract: RESTORED to HEAD (git checkout)
+BM-062 compiled-v2: RESTORED to HEAD
+BM-062 normalized DOCX: RESTORED to HEAD
+
+PATCH FILES CREATED:
+- docs/audit/repo-clean-to-zero-v1/pending-review/BM-052.pending-review.patch
+- docs/audit/repo-clean-to-zero-v1/pending-review/BM-062.pending-review.patch
+
+HOW TO REAPPLY:
+1. Human reviews scope-violation changes
+2. If approved: apply patches + commit
+3. If rejected: patches remain archived, no reapplication
+
+REOPEN TRIGGER:
+When human review approves BM-052 and/or BM-062 scope resolution.
