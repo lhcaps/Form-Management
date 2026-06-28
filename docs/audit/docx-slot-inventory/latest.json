@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-06-26T21:55:53.007Z",
+  "generatedAt": "2026-06-28T19:49:12.473Z",
   "status": "PASS",
   "summary": {
     "totalContracts": 213,
     "totalTemplatesFound": 213,
     "totalTemplatesMissing": 0,
-    "totalDocxSlots": 2443,
-    "totalRenderBindings": 2443,
-    "totalCanonicalFields": 2443,
+    "totalDocxSlots": 2464,
+    "totalRenderBindings": 2464,
+    "totalCanonicalFields": 2464,
     "malformedPlaceholdersCount": 0,
     "passCount": 213,
     "failCount": 0,
@@ -236,8 +236,10 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-001\\BM-001_normalized.docx",
       "docxSha256": "e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77",
-      "totalDocxSlots": 28,
+      "totalDocxSlots": 39,
       "boundSlots": [
+        "crimeReport.attachedItemsDescription",
+        "crimeReport.content",
         "document.issuePlaceDateLine",
         "informant.birthDay",
         "informant.birthMonth",
@@ -265,6 +267,15 @@
         "receiver.fullName",
         "receiver.positionTitle",
         "receiver.signerName",
+        "reception.endedAtDay",
+        "reception.endedAtMonth",
+        "reception.endedAtTimeText",
+        "reception.endedAtYear",
+        "reception.locationName",
+        "reception.startedAtDay",
+        "reception.startedAtMonth",
+        "reception.startedAtTimeText",
+        "reception.startedAtYear",
         "recipients.archiveLine"
       ],
       "canonicalPaths": [
@@ -295,9 +306,22 @@
         "informant.representedOrganization",
         "informant.signerName",
         "receiver.signerName",
-        "recipients.archiveLine"
+        "recipients.archiveLine",
+        "reception.startedAtTimeText",
+        "reception.startedAtDay",
+        "reception.startedAtMonth",
+        "reception.startedAtYear",
+        "reception.locationName",
+        "crimeReport.content",
+        "crimeReport.attachedItemsDescription",
+        "reception.endedAtTimeText",
+        "reception.endedAtDay",
+        "reception.endedAtMonth",
+        "reception.endedAtYear"
       ],
       "renderBindings": [
+        "crimeReport.attachedItemsDescription",
+        "crimeReport.content",
         "document.issuePlaceDateLine",
         "informant.birthDay",
         "informant.birthMonth",
@@ -325,12 +349,21 @@
         "receiver.fullName",
         "receiver.positionTitle",
         "receiver.signerName",
+        "reception.endedAtDay",
+        "reception.endedAtMonth",
+        "reception.endedAtTimeText",
+        "reception.endedAtYear",
+        "reception.locationName",
+        "reception.startedAtDay",
+        "reception.startedAtMonth",
+        "reception.startedAtTimeText",
+        "reception.startedAtYear",
         "recipients.archiveLine"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
       "slotsWithoutBinding": [],
-      "rejectedCandidatesCount": 11,
+      "rejectedCandidatesCount": 0,
       "rejectedWithoutReason": [],
       "rejectedCandidateReasonMissing": false,
       "malformedPlaceholders": [],
@@ -343,7 +376,7 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-002\\BM-002_normalized.docx",
       "docxSha256": "c3164f9f4fd074bf7cefed649f947bce2005540035a0c3c8ab0934a1af417b5c",
-      "totalDocxSlots": 29,
+      "totalDocxSlots": 30,
       "boundSlots": [
         "agency.bodyName",
         "agency.name",
@@ -373,7 +406,8 @@
         "signature.positionTitle",
         "signature.signerName",
         "sourceReport.content",
-        "sourceReport.receivedDateLine"
+        "sourceReport.receivedDateLine",
+        "sourceTransfer.attachedItemsDescription"
       ],
       "canonicalPaths": [
         "agency.parentName",
@@ -404,7 +438,8 @@
         "recipients.primaryLine",
         "recipients.archiveLine",
         "signature.positionTitle",
-        "signature.signerName"
+        "signature.signerName",
+        "sourceTransfer.attachedItemsDescription"
       ],
       "renderBindings": [
         "agency.bodyName",
@@ -435,12 +470,13 @@
         "signature.positionTitle",
         "signature.signerName",
         "sourceReport.content",
-        "sourceReport.receivedDateLine"
+        "sourceReport.receivedDateLine",
+        "sourceTransfer.attachedItemsDescription"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
       "slotsWithoutBinding": [],
-      "rejectedCandidatesCount": 1,
+      "rejectedCandidatesCount": 0,
       "rejectedWithoutReason": [],
       "rejectedCandidateReasonMissing": false,
       "malformedPlaceholders": [],
@@ -453,18 +489,22 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-003\\BM-003_normalized.docx",
       "docxSha256": "1a5baf6739edc3d7769853a6b8d8d3be80a72e4ca105c7850278590ca4e31128",
-      "totalDocxSlots": 10,
+      "totalDocxSlots": 14,
       "boundSlots": [
         "agency.name",
         "agency.parentName",
         "document.documentCode",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine",
+        "official.issuerTitle",
         "recipients.archiveLine",
         "recipients.primaryLine",
         "signature.positionTitle",
         "signature.signMode",
-        "signature.signerName"
+        "signature.signerName",
+        "sourceAssignment.article1Line",
+        "sourceAssignment.article2Line",
+        "sourceAssignment.article3Line"
       ],
       "canonicalPaths": [
         "agency.parentName",
@@ -472,11 +512,15 @@
         "document.documentCode",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine",
+        "official.issuerTitle",
         "recipients.primaryLine",
         "recipients.archiveLine",
         "signature.signMode",
         "signature.positionTitle",
-        "signature.signerName"
+        "signature.signerName",
+        "sourceAssignment.article1Line",
+        "sourceAssignment.article2Line",
+        "sourceAssignment.article3Line"
       ],
       "renderBindings": [
         "agency.name",
@@ -484,11 +528,15 @@
         "document.documentCode",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine",
+        "official.issuerTitle",
         "recipients.archiveLine",
         "recipients.primaryLine",
         "signature.positionTitle",
         "signature.signMode",
-        "signature.signerName"
+        "signature.signerName",
+        "sourceAssignment.article1Line",
+        "sourceAssignment.article2Line",
+        "sourceAssignment.article3Line"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -1709,21 +1757,19 @@
       "fileName": "BM-021__772319486f41.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-021\\BM-021_normalized.docx",
-      "docxSha256": "985a3ab4fe8762d5be9bea9d594d32af64f17505b17d0b427b9a9da1aa347cfb",
-      "totalDocxSlots": 8,
+      "docxSha256": "cef83a88ef38db03449383e5395763117008e64135066d1813f35d4b7620a9f4",
+      "totalDocxSlots": 7,
       "boundSlots": [
         "agency.issuePlace",
         "agency.parentNameUpper",
         "decision.decisionLine",
         "decision.summaryLine",
         "document.documentCode",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine"
       ],
       "canonicalPaths": [
         "agency.parentNameUpper",
-        "document.issueDate",
         "agency.issuePlace",
         "document.documentCode",
         "document.issuePlaceAndDateLine",
@@ -1737,7 +1783,6 @@
         "decision.decisionLine",
         "decision.summaryLine",
         "document.documentCode",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine"
       ],
@@ -1759,20 +1804,20 @@
       "docxSha256": "9d0ead3e409a0cbca5cac34ceb09fec04be58dc795d098efe6ca0bc708f3018b",
       "totalDocxSlots": 4,
       "boundSlots": [
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "person.fullName"
       ],
       "canonicalPaths": [
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "person.fullName"
       ],
       "renderBindings": [
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "person.fullName"
       ],
@@ -1904,18 +1949,18 @@
       "totalDocxSlots": 3,
       "boundSlots": [
         "agency.issuePlace",
-        "agency.parentNameUpper",
-        "document.issueDate"
+        "agency.nameUpper",
+        "agency.parentNameUpper"
       ],
       "canonicalPaths": [
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.issueDate",
         "agency.issuePlace"
       ],
       "renderBindings": [
         "agency.issuePlace",
-        "agency.parentNameUpper",
-        "document.issueDate"
+        "agency.nameUpper",
+        "agency.parentNameUpper"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -2149,7 +2194,7 @@
       "fileName": "BM-031__ec3276d1eebe.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-031\\BM-031_normalized.docx",
-      "docxSha256": "fdc647309ee15410607f94c0c4e4684330db2ccb6beb9abe448f7a6b8e2d6cbd",
+      "docxSha256": "8d73dee0ec3978c10a10ec80e408ecfdffef0f8dde488461c955d8c22c30ab23",
       "totalDocxSlots": 16,
       "boundSlots": [
         "agency.bodyName",
@@ -2224,21 +2269,21 @@
       "totalDocxSlots": 4,
       "boundSlots": [
         "agency.issuePlace",
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.documentCode",
-        "document.issueDate"
+        "document.documentCode"
       ],
       "canonicalPaths": [
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.issueDate",
         "agency.issuePlace",
         "document.documentCode"
       ],
       "renderBindings": [
         "agency.issuePlace",
+        "agency.nameUpper",
         "agency.parentNameUpper",
-        "document.documentCode",
-        "document.issueDate"
+        "document.documentCode"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -2409,12 +2454,11 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-036\\BM-036_normalized.docx",
       "docxSha256": "c5f7460d38b6342f08c5ff58e22b889ced9bc1477c533a43a4783e11864ccc7e",
-      "totalDocxSlots": 10,
+      "totalDocxSlots": 9,
       "boundSlots": [
         "agency.parentNameUpper",
         "decision.summaryLine",
         "document.documentCode",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine",
         "person.fullName",
@@ -2425,7 +2469,6 @@
       "canonicalPaths": [
         "agency.parentNameUpper",
         "document.documentCode",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "person.fullName",
         "legalBasis.procedureArticlesLine",
@@ -2438,7 +2481,6 @@
         "agency.parentNameUpper",
         "decision.summaryLine",
         "document.documentCode",
-        "document.issueDate",
         "document.issuePlaceAndDateLine",
         "legalBasis.procedureArticlesLine",
         "person.fullName",
@@ -3054,7 +3096,7 @@
       "fileName": "BM-044__8552b13c78ff.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-044\\BM-044_normalized.docx",
-      "docxSha256": "c06802e63411fce050157996958e29987345f29df89d8adf961e6866fa475f6d",
+      "docxSha256": "5b904e2b017f7f7ea4de5a05627812e8589d9aacc498fb4a99f61a43814d4ca8",
       "totalDocxSlots": 21,
       "boundSlots": [
         "agency.nameUpper",
@@ -3571,28 +3613,34 @@
       "fileName": "BM-052__9919ecdb3971.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-052\\BM-052_normalized.docx",
-      "docxSha256": "eedb54218935bf3b88e634657dab2fbfc7bc8bfd1ed9b678712233f17b5ec716",
-      "totalDocxSlots": 5,
+      "docxSha256": "9ebb45f70e0e49df34fe832d7ab42f18b20fa31cce4642522ab384121f383dec",
+      "totalDocxSlots": 7,
       "boundSlots": [
         "agency.name",
-        "decision.decisionLine2",
-        "document.fullDocumentCode",
-        "document.fullDocumentCode2",
-        "recipients.personLine"
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress",
+        "recipients.personLine",
+        "recipients.personLine6",
+        "signature.signerName"
       ],
       "canonicalPaths": [
         "agency.name",
-        "document.fullDocumentCode",
         "recipients.personLine",
-        "document.fullDocumentCode2",
-        "decision.decisionLine2"
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress",
+        "signature.signerName",
+        "recipients.personLine6"
       ],
       "renderBindings": [
         "agency.name",
-        "decision.decisionLine2",
-        "document.fullDocumentCode",
-        "document.fullDocumentCode2",
-        "recipients.personLine"
+        "person.fullName",
+        "person.idNumber",
+        "person.temporaryAddress",
+        "recipients.personLine",
+        "recipients.personLine6",
+        "signature.signerName"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -3963,7 +4011,7 @@
       "fileName": "BM-056__eea9a3391f5f.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-056\\BM-056_normalized.docx",
-      "docxSha256": "5721faf5f11bf2d1ab5ad4acdeaf56b8a4b97ff0686f57bcfa71bf3d23268600",
+      "docxSha256": "af8cb2e3139ab4273ab7d247cd75be0eccf1dc3c30226b78f709bd0e54614791",
       "totalDocxSlots": 29,
       "boundSlots": [
         "agency.name",
@@ -4521,28 +4569,34 @@
       "fileName": "BM-062__110961a781fa.contract.locked.json",
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-062\\BM-062_normalized.docx",
-      "docxSha256": "2852f38fc5d6c954c142076fd5b5dcf928878add48a77a0452c57228bd6bd686",
-      "totalDocxSlots": 5,
+      "docxSha256": "6e719e58a7f2d8403c7f6730e9c5f2349838242bc311e612f6dd468790963162",
+      "totalDocxSlots": 7,
       "boundSlots": [
         "agency.name",
         "decision.decisionLine",
         "decision.decisionLine11",
         "document.fullDocumentCode",
-        "recipients.personLine"
+        "recipients.personLine",
+        "recipients.personLine5",
+        "signature.signerName"
       ],
       "canonicalPaths": [
         "agency.name",
         "decision.decisionLine",
         "recipients.personLine",
         "document.fullDocumentCode",
-        "decision.decisionLine11"
+        "decision.decisionLine11",
+        "signature.signerName",
+        "recipients.personLine5"
       ],
       "renderBindings": [
         "agency.name",
         "decision.decisionLine",
         "decision.decisionLine11",
         "document.fullDocumentCode",
-        "recipients.personLine"
+        "recipients.personLine",
+        "recipients.personLine5",
+        "signature.signerName"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -4598,18 +4652,21 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-064\\BM-064_normalized.docx",
       "docxSha256": "24443811d254bf2e15156c17bd285cd26f9266bc8937b9d7f759ac1328b4328b",
-      "totalDocxSlots": 2,
+      "totalDocxSlots": 3,
       "boundSlots": [
         "agency.name",
-        "document.fullDocumentCode"
+        "document.fullDocumentCode",
+        "document.issueDate4"
       ],
       "canonicalPaths": [
         "agency.name",
-        "document.fullDocumentCode"
+        "document.fullDocumentCode",
+        "document.issueDate"
       ],
       "renderBindings": [
         "agency.name",
-        "document.fullDocumentCode"
+        "document.fullDocumentCode",
+        "document.issueDate4"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -4627,27 +4684,21 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-065\\BM-065_normalized.docx",
       "docxSha256": "aac1b5bb311ccd76fde39c3a3b954af5e44c2d16781286ed8c4e41ad84279210",
-      "totalDocxSlots": 6,
+      "totalDocxSlots": 4,
       "boundSlots": [
         "agency.name",
-        "decision.decisionLine",
-        "document.fullDocumentCode",
         "document.fullDocumentCode8",
         "recipients.personLine",
         "recipients.personLine3"
       ],
       "canonicalPaths": [
         "agency.name",
-        "decision.decisionLine",
         "recipients.personLine",
-        "document.fullDocumentCode",
         "document.fullDocumentCode8",
         "recipients.personLine3"
       ],
       "renderBindings": [
         "agency.name",
-        "decision.decisionLine",
-        "document.fullDocumentCode",
         "document.fullDocumentCode8",
         "recipients.personLine",
         "recipients.personLine3"
@@ -4706,27 +4757,21 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-067\\BM-067_normalized.docx",
       "docxSha256": "6bc359658744f62608da29cb708f83208bc4cce10565f914ce603997a083e37b",
-      "totalDocxSlots": 6,
+      "totalDocxSlots": 4,
       "boundSlots": [
         "agency.name",
-        "document.fullDocumentCode",
-        "document.fullDocumentCode2",
         "document.fullDocumentCode6",
         "recipients.personLine",
         "recipients.personLine3"
       ],
       "canonicalPaths": [
         "agency.name",
-        "document.fullDocumentCode",
         "recipients.personLine",
-        "document.fullDocumentCode2",
         "document.fullDocumentCode6",
         "recipients.personLine3"
       ],
       "renderBindings": [
         "agency.name",
-        "document.fullDocumentCode",
-        "document.fullDocumentCode2",
         "document.fullDocumentCode6",
         "recipients.personLine",
         "recipients.personLine3"
@@ -5069,15 +5114,27 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-073\\BM-073_normalized.docx",
       "docxSha256": "fcdc35d2acead8db4941084137247a0b18900a95f8030e4952f6333d31ea1c14",
-      "totalDocxSlots": 1,
+      "totalDocxSlots": 5,
       "boundSlots": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
       ],
       "canonicalPaths": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
       ],
       "renderBindings": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -5296,14 +5353,15 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-080\\BM-080_normalized.docx",
       "docxSha256": "0ce387630c6198ab1a1c17b82d16ac589d9b741d1249209bf575dfa01e3cdd0c",
-      "totalDocxSlots": 6,
+      "totalDocxSlots": 7,
       "boundSlots": [
         "agency.name",
         "document.fullDocumentCode",
         "document.issueDate",
         "legalBasis.legalBasisLine",
         "person.currentAddress",
-        "person.dateOfBirth"
+        "person.dateOfBirth",
+        "person.personFullName"
       ],
       "canonicalPaths": [
         "agency.name",
@@ -5311,7 +5369,8 @@
         "document.issueDate",
         "person.dateOfBirth",
         "person.currentAddress",
-        "legalBasis.legalBasisLine"
+        "legalBasis.legalBasisLine",
+        "person.fullName"
       ],
       "renderBindings": [
         "agency.name",
@@ -5319,7 +5378,8 @@
         "document.issueDate",
         "legalBasis.legalBasisLine",
         "person.currentAddress",
-        "person.dateOfBirth"
+        "person.dateOfBirth",
+        "person.personFullName"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],
@@ -6010,7 +6070,7 @@
         "person.toiDanh",
         "person.hoTen",
         "document.namSinh",
-        "document.diaChi",
+        "person.idNumber",
         "document.lyDo",
         "recipients.luuHo",
         "signature.cheDo",
@@ -9481,15 +9541,18 @@
       "docxPresent": true,
       "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-167\\BM-167_normalized.docx",
       "docxSha256": "471eeb43866d67efa9b8e2586db553dc57ae78319ee3463ed4124b9ee050036d",
-      "totalDocxSlots": 1,
+      "totalDocxSlots": 2,
       "boundSlots": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode2"
       ],
       "canonicalPaths": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode"
       ],
       "renderBindings": [
-        "agency.name"
+        "agency.name",
+        "document.fullDocumentCode2"
       ],
       "duplicateCanonicalPaths": [],
       "orphanRenderBindings": [],

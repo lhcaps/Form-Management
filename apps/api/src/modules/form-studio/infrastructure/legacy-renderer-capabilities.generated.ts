@@ -68,7 +68,6 @@ const GENERIC_LEGACY_RENDERERS = new Set([
   'BM-210',
   'BM-211',
   'BM-212',
-  'BM-213',
 ]);
 
 export function legacyRendererKind(

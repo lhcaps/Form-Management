@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-27T21:04:56.072Z
+Generated: 2026-06-28T19:33:07.912Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -7,20 +7,20 @@ Audit version: v2 (rule independence: true)
 | Metric | Value |
 |--------|-------|
 | totalContracts | 213 |
-| totalFields | 2443 |
-| totalIssues | 1476 |
-| **FAIL** | **1154** |
-| REVIEW | 322 |
+| totalFields | 2464 |
+| totalIssues | 1463 |
+| **FAIL** | **1142** |
+| REVIEW | 321 |
 
 ### Issue Counts by Category
 
 | Issue Code | Count |
 |------------|-------|
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
-| BAD_LABEL | 352 |
-| GENERIC_FIELD_CANONICALIZATION | 351 |
-| SOURCE_MISMATCH | 121 |
+| BAD_LABEL | 349 |
+| GENERIC_FIELD_CANONICALIZATION | 348 |
 | REQUIRED_SUSPICIOUS | 116 |
+| SOURCE_MISMATCH | 114 |
 | SHOULD_BE_READONLY | 42 |
 | COMPILED_DRIFT | 37 |
 | UI_VISIBLE_BAD_METADATA | 15 |
@@ -106,7 +106,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
   - Reason: Field looks required (ID field likely required) but required=false.
   - Confidence: MEDIUM | requiresHumanReview: true
 
-### BAD_LABEL (352)
+### BAD_LABEL (349)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -150,12 +150,9 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-049 | `agency.coQuan` | `Ô trống` | document | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.coQuan` | `Ô trống` | decision | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
-| BM-052 | `document.fullDocumentCode2` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | document | field3 | computed | FAIL | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-065 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-067 | `document.fullDocumentCode2` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | REVIEW | MEDIUM |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | document | field6 | manual | REVIEW | MEDIUM |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | document | field7 | manual | REVIEW | MEDIUM |
@@ -210,7 +207,10 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `agency.diaDanh` | `Ô trống` | document | field4 | agencyConfig | FAIL | MEDIUM |
 | BM-096 | `document.ngayBan` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-096 | `agency.dongDia` | `Ô trống` | document | field7 | agencyConfig | FAIL | MEDIUM |
-| ... | | | | | | | 252 more |
+| BM-096 | `document.chuThe` | `Ô trống` | document | field8 | manual | FAIL | MEDIUM |
+| BM-096 | `legalBasis.canCu` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
+| BM-096 | `document.tenVu` | `Ô trống` | document | field10 | manual | FAIL | MEDIUM |
+| ... | | | | | | | 249 more |
 
 ### RAW_PATTERN_DOMAIN_MISMATCH (10)
 
@@ -227,7 +227,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-036 | `recipients.executionAgencyLine` | `Nội dung quyết định (${"t` | decision | decisionLine | manual | FAIL | HIGH |
 | BM-041 | `agency.issuePlace` | `Số quyết định` | document | documentCode | computed | FAIL | HIGH |
 
-### SOURCE_MISMATCH (121)
+### SOURCE_MISMATCH (114)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -244,19 +244,13 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-014 | `sourceDirectInspection.article4Line` | `Điều 4 - kế hoạch kèm the` | unknown | article4Line | manual | REVIEW | MEDIUM |
 | BM-020 | `initiationRequest.article1Line` | `Nội dung Điều 1` | unknown | article1Line | manual | REVIEW | MEDIUM |
 | BM-020 | `initiationRequest.article2Line` | `Nội dung Điều 2` | unknown | article2Line | manual | REVIEW | MEDIUM |
-| BM-022 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
-| BM-022 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
 | BM-023 | `investigation.article2Line` | `Nội dung Điều 2` | investigation | article2Line | manual | REVIEW | MEDIUM |
-| BM-025 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
-| BM-025 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
 | BM-026 | `agency.nameUpper` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
 | BM-028 | `legalBasis.canCu` | `Ô trống` | unknown | field6 | manual | REVIEW | MEDIUM |
 | BM-028 | `document.soQd` | `Ô trống` | unknown | field7 | manual | REVIEW | MEDIUM |
 | BM-028 | `document.ngayQd` | `Ô trống` | unknown | field8 | manual | REVIEW | MEDIUM |
 | BM-031 | `measure.article1Line` | `Nội dung Điều 1` | measure | article1Line | manual | REVIEW | MEDIUM |
 | BM-031 | `measure.article2Line` | `Nội dung Điều 2` | measure | article2Line | manual | REVIEW | MEDIUM |
-| BM-032 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
-| BM-032 | `document.issueDate` | `Ngày ban hành` | document | issueDate | agencyConfig | FAIL | HIGH |
 | BM-033 | `custody.approvalArticle1Line` | `Nội dung Điều 1` | unknown | approvalArticle1Line | manual | REVIEW | MEDIUM |
 | BM-033 | `custody.executionRequestLine` | `Nội dung Điều 2` | unknown | executionRequestLine | manual | REVIEW | MEDIUM |
 | BM-037 | `measure.article1Line` | `Điều 1 - Nội dung quyết đ` | measure | article1Line | manual | REVIEW | MEDIUM |
@@ -282,7 +276,6 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-047 | `guaranteeApproval.assignmentLine` | `Điều 1 - Nhiệm vụ của bị ` | unknown | assignmentLine | manual | REVIEW | MEDIUM |
 | BM-047 | `guaranteeApproval.article2Line` | `Điều 2 - Giao nhiệm vụ gi` | unknown | article2Line | manual | REVIEW | MEDIUM |
 | BM-051 | `document.fullDocumentCode` | `Số văn bản` | document | field2 | manual | REVIEW | MEDIUM |
-| BM-052 | `document.fullDocumentCode` | `Số văn bản` | decision | field2 | manual | REVIEW | MEDIUM |
 | BM-053 | `measure.article2Line` | `Điều 2 - Nội dung quyết đ` | measure | article2Line | manual | REVIEW | MEDIUM |
 | BM-053 | `monitoring.article3Line` | `Điều 3 - Yêu cầu` | monitoring | article3Line | manual | REVIEW | MEDIUM |
 | BM-055 | `measure.preventiveMeasureOrderLegalBasisLine` | `Căn cứ lệnh/quyết định áp` | measure | preventiveMeasureOrderLegalBasisLine | manual | REVIEW | MEDIUM |
@@ -331,7 +324,14 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-148 | `suspension.article1Line` | `Điều 1 - Nội dung quyết đ` | unknown | article1Line | manual | REVIEW | MEDIUM |
 | BM-148 | `suspension.article2ActionLine` | `Điều 2 - Hành động` | unknown | article2ActionLine | manual | REVIEW | MEDIUM |
 | BM-148 | `suspension.executionRequestLine` | `Điều 3 - Yêu cầu` | unknown | executionRequestLine | manual | REVIEW | MEDIUM |
-| ... | | | | | | | 21 more |
+| BM-150 | `prosecutionCaseTermination.article1Line` | `Điều 1 - Nội dung quyết đ` | unknown | article1Line | manual | REVIEW | MEDIUM |
+| BM-150 | `prosecutionCaseTermination.article2Line` | `Điều 2 - Hậu quả pháp lý` | unknown | article2Line | manual | REVIEW | MEDIUM |
+| BM-150 | `prosecutionCaseTermination.article3Line` | `Điều 3 - Thông báo` | unknown | article3Line | manual | REVIEW | MEDIUM |
+| BM-150 | `prosecutionCaseTermination.article4Line` | `Điều 4 - Khiếu nại` | unknown | article4Line | manual | REVIEW | MEDIUM |
+| BM-153 | `document.ngayBan` | `Ô trống` | unknown | field5 | manual | REVIEW | MEDIUM |
+| BM-154 | `document.ngayBan` | `Ô trống` | document | field5 | manual | REVIEW | MEDIUM |
+| BM-155 | `document.dieu1` | `Ô trống` | document | field15 | manual | REVIEW | MEDIUM |
+| ... | | | | | | | 14 more |
 
 ### REMEDIATION_LEAK (10)
 
@@ -454,7 +454,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-187 | `recipients.personLine13` | `Người nhận (dòng 13)` | recipients | personLine13 | manual | FAIL | HIGH |
 | ... | | | | | | | 322 more |
 
-### GENERIC_FIELD_CANONICALIZATION (351)
+### GENERIC_FIELD_CANONICALIZATION (348)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -495,12 +495,9 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-049 | `agency.coQuan` | `Ô trống` | document | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.coQuan` | `Ô trống` | decision | field2 | agencyConfig | FAIL | MEDIUM |
 | BM-050 | `agency.diaDanh` | `Ô trống` | document | field3 | agencyConfig | FAIL | MEDIUM |
-| BM-052 | `document.fullDocumentCode2` | `Ô trống` | document | field5 | manual | FAIL | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | document | field3 | computed | FAIL | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-065 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | document | field2 | computed | FAIL | MEDIUM |
-| BM-067 | `document.fullDocumentCode2` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | document | field1 | manual | FAIL | MEDIUM |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | document | field6 | manual | FAIL | MEDIUM |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | document | field7 | manual | FAIL | MEDIUM |
@@ -558,7 +555,10 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-096 | `document.chuThe` | `Ô trống` | document | field8 | manual | FAIL | MEDIUM |
 | BM-096 | `legalBasis.canCu` | `Ô trống` | document | field9 | manual | FAIL | MEDIUM |
 | BM-096 | `document.tenVu` | `Ô trống` | document | field10 | manual | FAIL | MEDIUM |
-| ... | | | | | | | 251 more |
+| BM-096 | `person.toiDanh` | `Ô trống` | document | field11 | manual | FAIL | MEDIUM |
+| BM-096 | `person.hoTen` | `Ô trống` | document | field12 | manual | FAIL | MEDIUM |
+| BM-096 | `document.namSinh` | `Ô trống` | document | field13 | manual | FAIL | MEDIUM |
+| ... | | | | | | | 248 more |
 
 ### SHOULD_BE_READONLY (42)
 
@@ -611,27 +611,22 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
-| BM-021 | `document.issueDate` | `Ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
-| BM-022 | `document.issueDate` | `Ngày ban hành` | - | - | agencyConfig | REVIEW | MEDIUM |
 | BM-022 | `person.fullName` | `Họ tên` | - | - | manual | REVIEW | MEDIUM |
 | BM-024 | `document.issueDate` | `Số quyết định` | - | - | systemDate | REVIEW | MEDIUM |
-| BM-025 | `document.issueDate` | `Ngày ban hành` | - | - | agencyConfig | REVIEW | MEDIUM |
 | BM-026 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
-| BM-032 | `document.issueDate` | `Ngày ban hành` | - | - | agencyConfig | REVIEW | MEDIUM |
 | BM-034 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
 | BM-035 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
-| BM-036 | `document.issueDate` | `Ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
 | BM-036 | `person.fullName` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-051 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
-| BM-052 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `person.fullName` | `Họ tên` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `person.idNumber` | `Số CMND/Thẻ CCCD/Thẻ CC/H` | - | - | manual | REVIEW | MEDIUM |
 | BM-060 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-061 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-062 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-063 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-064 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
-| BM-065 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-064 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
 | BM-066 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
-| BM-067 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-068 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-068 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-068 | `person.occupation` | `Nghề nghiệp` | - | - | manual | REVIEW | MEDIUM |
@@ -640,10 +635,14 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-069 | `document.issueDate` | `Ngày lập biên bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-069 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-069 | `person.occupation` | `Nghề nghiệp` | - | - | manual | REVIEW | MEDIUM |
+| BM-073 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-073 | `document.issueDate` | `Ngày ban hành` | - | - | systemDate | REVIEW | MEDIUM |
+| BM-073 | `person.idNumber` | `Số CMND/Thẻ CCCD/Thẻ CC/H` | - | - | manual | REVIEW | MEDIUM |
 | BM-075 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | REVIEW | MEDIUM |
 | BM-077 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | REVIEW | MEDIUM |
 | BM-080 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-080 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
+| BM-080 | `person.fullName` | `Họ tên` | - | - | manual | REVIEW | MEDIUM |
 | BM-082 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | REVIEW | MEDIUM |
 | BM-096 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-139 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
@@ -657,6 +656,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-163 | `person.idNumber` | `Số CCCD/CMND` | - | - | manual | REVIEW | MEDIUM |
 | BM-164 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
 | BM-165 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
+| BM-167 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-174 | `person.idNumber` | `Số CMND / CCCD` | - | - | manual | REVIEW | MEDIUM |
 | BM-174 | `person.occupation` | `Nghề nghiệp` | - | - | manual | REVIEW | MEDIUM |
 | BM-174 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
@@ -718,15 +718,17 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
 | BM-021 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-021 | `document.issueDate` | `Ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
 | BM-021 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-021 | `decision.summaryLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
+| BM-022 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
 | BM-022 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
 | BM-024 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
 | BM-024 | `agency.issuePlace` | `Viện kiểm sát ban hành` | - | - | computed | REVIEW | MEDIUM |
+| BM-025 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
 | BM-025 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
 | BM-025 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-026 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
+| BM-032 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
 | BM-032 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
 | BM-032 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-033 | `agency.parentNameUpper` | `Cơ quan cấp trên` | - | - | computed | REVIEW | MEDIUM |
@@ -734,7 +736,6 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-034 | `agency.issuePlace` | `Nội dung quyết định (${"k` | - | - | computed | REVIEW | MEDIUM |
 | BM-035 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
 | BM-036 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-036 | `document.issueDate` | `Ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
 | BM-036 | `decision.summaryLine` | `Cơ quan cấp trên` | - | - | computed | REVIEW | MEDIUM |
 | BM-038 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
 | BM-039 | `agency.parentNameUpper` | `Cơ quan cấp trên (IN HOA)` | - | - | computed | REVIEW | MEDIUM |
@@ -748,7 +749,6 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-058 | `measure.detentionToDateText` | `Tạm giam đến ngày` | - | - | computed | REVIEW | MEDIUM |
 | BM-062 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-065 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-066 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
 | BM-126 | `decision.summaryLine` | `Tóm tắt hồ sơ` | - | - | computed | REVIEW | MEDIUM |
 | BM-213 | `document.issuePlaceAndDateLine` | `Địa danh, ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
@@ -777,9 +777,9 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 
 ## Proposed Fix Plan
 
-- **HIGH confidence auto-fix candidates**: 27
-- **MEDIUM confidence / requires review (FAIL)**: 1127
-- **REVIEW only (not auto-fix)**: 322
+- **HIGH confidence auto-fix candidates**: 21
+- **MEDIUM confidence / requires review (FAIL)**: 1121
+- **REVIEW only (not auto-fix)**: 321
 
 ### Auto-fix Candidates (HIGH confidence, no human review needed)
 
@@ -787,14 +787,8 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 |--------------|------|---------------|---------------|--------|
 | BM-021 | `document.issuePlaceAndDateLine` | `legalBasis.procedureArticlesLine` | - | rawPattern domain "legalBasis" ({{legalBasis.procedureArticlesLine}}) does not m |
 | BM-021 | `legalBasis.procedureArticlesLine` | `agency.nameUpper` | - | rawPattern domain "agency" ({{agency.nameUpper}}) does not match canonical path  |
-| BM-022 | `document.issueDate` | - | - | source="agencyConfig" but path="document.issueDate" is a document field. agencyC |
-| BM-022 | `document.issueDate` | - | - | source="agencyConfig" but rawPattern "{{document.issueDate}}" is from "document" |
-| BM-025 | `document.issueDate` | - | - | source="agencyConfig" but path="document.issueDate" is a document field. agencyC |
-| BM-025 | `document.issueDate` | - | - | source="agencyConfig" but rawPattern "{{document.issueDate}}" is from "document" |
 | BM-026 | `agency.nameUpper` | `document.issueDate` | - | rawPattern domain "document" ({{document.issueDate}}) does not match canonical p |
 | BM-026 | `agency.nameUpper` | - | - | source="agencyConfig" but rawPattern "{{document.issueDate}}" is from "document" |
-| BM-032 | `document.issueDate` | - | - | source="agencyConfig" but path="document.issueDate" is a document field. agencyC |
-| BM-032 | `document.issueDate` | - | - | source="agencyConfig" but rawPattern "{{document.issueDate}}" is from "document" |
 | BM-034 | `agency.issuePlace` | `decision.decisionLine` | - | rawPattern domain "decision" ({{decision.decisionLine}}) does not match canonica |
 | BM-036 | `document.documentCode` | `agency.nameUpper` | - | rawPattern domain "agency" ({{agency.nameUpper}}) does not match canonical path  |
 | BM-036 | `document.issuePlaceAndDateLine` | `person.fullName` | - | rawPattern domain "person" ({{person.fullName}}) does not match canonical path d |
@@ -839,13 +833,13 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-018 | `legalBasis.procedureArticlesLine` | SHOULD_BE_READONLY | Field appears to be a computed/agency/official field (fixed legal text). source= |
 | BM-020 | `initiationRequest.article1Line` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
 | BM-020 | `initiationRequest.article2Line` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
-| BM-021 | `document.issueDate` | REQUIRED_SUSPICIOUS | Field looks required (date field likely required) but required=false. |
 | BM-021 | `legalBasis.procedureArticlesLine` | SHOULD_BE_READONLY | Field appears to be a computed/agency/official field (fixed legal text). source= |
 | BM-021 | `agency.parentNameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
-| BM-021 | `document.issueDate` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
 | BM-021 | `agency.issuePlace` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
 | BM-021 | `decision.summaryLine` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
-| BM-022 | `document.issueDate` | REQUIRED_SUSPICIOUS | Field looks required (date field likely required) but required=false. |
 | BM-022 | `person.fullName` | REQUIRED_SUSPICIOUS | Field looks required (identity/key field likely required) but required=false. |
-| ... | | | 292 more |
+| BM-022 | `agency.nameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
+| BM-022 | `agency.parentNameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
+| BM-023 | `legalBasis.procedureArticlesLine` | SHOULD_BE_READONLY | Field appears to be a computed/agency/official field (fixed legal text). source= |
+| ... | | | 291 more |
 

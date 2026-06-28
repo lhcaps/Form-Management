@@ -1,6 +1,6 @@
 # Form Contract DB Publish Report
 
-Generated: 2026-06-27 16:58:24
+Generated: 2026-06-28 18:56:37
 Hash mode: stable-semantic-v1
 Total locked contracts: 213
 Ready to publish: 213
@@ -17,9 +17,9 @@ _No forms skipped._
 
 | BM | Contract Hash | Template Hash | Normalized DOCX |
 |---|---|---|---|
-| BM-001 | 6c0ab9413b44a567... | e2d1a2c60be3a25d... | yes |
-| BM-002 | be71334c0b3c04d9... | c3164f9f4fd074bf... | yes |
-| BM-003 | 9e1e21e09166f6ae... | 1a5baf6739edc3d7... | yes |
+| BM-001 | 79f1df946bf614f9... | e2d1a2c60be3a25d... | yes |
+| BM-002 | da284131495ea59e... | c3164f9f4fd074bf... | yes |
+| BM-003 | 6916510d7db03356... | 1a5baf6739edc3d7... | yes |
 | BM-004 | 5de6a2141a5371fa... | 1a1ace3d7f315338... | yes |
 | BM-005 | 88dc2b61862585b1... | fba44bdd233aeeb9... | yes |
 | BM-006 | 3992ea3b3632e6cb... | c990b43a7604832f... | yes |
@@ -37,22 +37,22 @@ _No forms skipped._
 | BM-018 | 73250b1feb5a1efd... | 37c6ffc105e66056... | yes |
 | BM-019 | 562ca9d5c365008d... | 84169120d2a94668... | yes |
 | BM-020 | 60418902699493cb... | 636e5e38bf1ff683... | yes |
-| BM-021 | 90f3248005179996... | 985a3ab4fe8762d5... | yes |
-| BM-022 | 8ff3ced5a2ca324c... | 9d0ead3e409a0cbc... | yes |
+| BM-021 | 850200723445130c... | 985a3ab4fe8762d5... | yes |
+| BM-022 | 9c379f293d03017c... | 9d0ead3e409a0cbc... | yes |
 | BM-023 | ca0b2368eee3eb65... | 760346fba10094d0... | yes |
 | BM-024 | 5eda11ff576a51fa... | c6c0bb8e4fe8c570... | yes |
-| BM-025 | fd58fbeb03a8e28b... | 5b55dadf5084333c... | yes |
+| BM-025 | 22ef2e342b9c9bf6... | 5b55dadf5084333c... | yes |
 | BM-026 | d1eff8445f13b15a... | 68c14ae34cf768b6... | yes |
 | BM-027 | 41929a273923e923... | 21cf64c165ccefbc... | yes |
 | BM-028 | 0865e692dffa853c... | 80e099f5d7a1e483... | yes |
 | BM-029 | c46119f38f2e63c2... | 0631aa008f74eb2f... | yes |
 | BM-030 | 3ed0a4f1ddc1bcf5... | 5fd54470481fcea2... | yes |
 | BM-031 | c6ce67362bbc714f... | fdc647309ee15410... | yes |
-| BM-032 | 0e599561d9d7aab1... | f3a6aff9f38f26bb... | yes |
+| BM-032 | b904ba0253cef769... | f3a6aff9f38f26bb... | yes |
 | BM-033 | 813059cdb8534acf... | 89c6bc116e15e12c... | yes |
 | BM-034 | 3e78705f831cdc64... | 1dfb680d8d8e47d9... | yes |
 | BM-035 | 5309526e722e136c... | 549f38862899b5cf... | yes |
-| BM-036 | 2e1561ac692130de... | c5f7460d38b6342f... | yes |
+| BM-036 | c4a6a75317b58beb... | c5f7460d38b6342f... | yes |
 | BM-037 | 05bbdbf2f2078fa3... | af5691b80cac8c5b... | yes |
 | BM-038 | c42bc03a048888a7... | 7e62defd5f54921d... | yes |
 | BM-039 | 20ed672fb4c49030... | 638f77b17089c583... | yes |
@@ -67,8 +67,8 @@ _No forms skipped._
 | BM-048 | c6bdad19ab32ad11... | c7f00ae0d19322b6... | yes |
 | BM-049 | 0dc5e3de3847c13c... | 4d8b42b216a922ee... | yes |
 | BM-050 | 1d3a231dc0e9519d... | 1aba6730aabc9a43... | yes |
-| BM-051 | 23d6dbe3081519cb... | 42b0d16707110e02... | yes |
-| BM-052 | 8ade32ac53a1ed1e... | eedb54218935bf3b... | yes |
+| BM-051 | b21d4d60331e3517... | 42b0d16707110e02... | yes |
+| BM-052 | d365adc36d765165... | eedb54218935bf3b... | yes |
 | BM-053 | 939ae695b0b14bc7... | 8ed7c44137fd9498... | yes |
 | BM-054 | 610084e878225089... | 8994733f834cd27b... | yes |
 | BM-055 | d14bca44c258a122... | 9395591b85a72003... | yes |
@@ -76,27 +76,27 @@ _No forms skipped._
 | BM-057 | a52deb6b86213a98... | 4aa92cf8ac8a8bed... | yes |
 | BM-058 | f2cb204569c01611... | 18a4e058ae013dac... | yes |
 | BM-059 | 6c2894bf0a7c1c56... | 95a505a0822c6079... | yes |
-| BM-060 | d13dfe345c7fd37b... | 80e99f37ceb4fb9b... | yes |
-| BM-061 | bb4c4047ec5ee3e8... | e1d2026e0411ddd4... | yes |
-| BM-062 | b651a59f6e91c0f2... | 2852f38fc5d6c954... | yes |
-| BM-063 | e5e1712437c4bc3a... | 0c0aef8c70f41506... | yes |
-| BM-064 | 94454a68cfe871e2... | 24443811d254bf2e... | yes |
-| BM-065 | b55229c228562e9e... | aac1b5bb311ccd76... | yes |
-| BM-066 | d22e2999b4999736... | 4261d3f3d94a765d... | yes |
-| BM-067 | b70b08a46bb3e5af... | 6bc359658744f626... | yes |
-| BM-068 | 79f201c6e740257d... | faeddab571047a8b... | yes |
-| BM-069 | 1899292005aabe85... | 0f4d95ab1b7cb403... | yes |
+| BM-060 | 6ecede4c57120430... | 80e99f37ceb4fb9b... | yes |
+| BM-061 | 60d2da816a81f60e... | e1d2026e0411ddd4... | yes |
+| BM-062 | c634debeedf3c1b5... | 2852f38fc5d6c954... | yes |
+| BM-063 | 9e7514cc1c08f0dc... | 0c0aef8c70f41506... | yes |
+| BM-064 | 5a326ec404f94af9... | 24443811d254bf2e... | yes |
+| BM-065 | 3b4f6d0dd8267839... | aac1b5bb311ccd76... | yes |
+| BM-066 | 34ec12bd077529af... | 4261d3f3d94a765d... | yes |
+| BM-067 | 6e240f8fde4b7ead... | 6bc359658744f626... | yes |
+| BM-068 | 2d6d50b652483ddb... | faeddab571047a8b... | yes |
+| BM-069 | cd23b28f1551100c... | 0f4d95ab1b7cb403... | yes |
 | BM-070 | a5a2487331b9acb2... | b6d45ccc1620b102... | yes |
 | BM-071 | 1459ec459dbd5466... | bb31e78d732e90ad... | yes |
 | BM-072 | cb147d7707d15790... | 361f296c07d718af... | yes |
-| BM-073 | 6bb314a093f52535... | fcdc35d2acead8db... | yes |
+| BM-073 | a5e2ecb20a22011d... | fcdc35d2acead8db... | yes |
 | BM-074 | c5568c21de977212... | 4f787ad8d204fd96... | yes |
-| BM-075 | e4f26f0ce2c0031b... | f1a2a65989946f76... | yes |
+| BM-075 | 521be415992c57d9... | f1a2a65989946f76... | yes |
 | BM-076 | ba5525d3a9ac6b36... | 5df0e2bc86a95617... | yes |
 | BM-077 | 261742aab30b1fb0... | 1225894feed0859a... | yes |
 | BM-078 | 424dda8b69608b1f... | 1f07ab82bdb10770... | yes |
 | BM-079 | cefa58dd0e659aaa... | 3bba3af33434757a... | yes |
-| BM-080 | a21682c7bb9a074d... | 0ce387630c6198ab... | yes |
+| BM-080 | d554074bb205c16a... | 0ce387630c6198ab... | yes |
 | BM-081 | bddfebd3524ca149... | bb1ea549c5354076... | yes |
 | BM-082 | 213a911c73d27acc... | 2fe73601f1b2f0dd... | yes |
 | BM-083 | ac51ce463dab14d3... | 68bc00bf25611f8b... | yes |
@@ -112,7 +112,7 @@ _No forms skipped._
 | BM-093 | 13f45a5f4651312a... | 094ab6bc1748dae4... | yes |
 | BM-094 | 390916f4f83b7007... | eeb14dd685e24aaf... | yes |
 | BM-095 | 175ca064ea8468f9... | 26db68c0c62ca6a7... | yes |
-| BM-096 | 75b03a7dbf3af2a1... | 60d7b59ad62d23d2... | yes |
+| BM-096 | 7726127ef86f1b28... | 60d7b59ad62d23d2... | yes |
 | BM-097 | 56827c08b9d42e60... | 8b667d5129f35aa3... | yes |
 | BM-098 | f828ade18191c80d... | 04a1ce2d1ae5d9bb... | yes |
 | BM-099 | e16f18779c8c3a24... | 5a004cf4b8e98642... | yes |
@@ -178,12 +178,12 @@ _No forms skipped._
 | BM-159 | 6b083abb15db7253... | 39172e9b00bc4d7c... | yes |
 | BM-160 | 9bfec7e27be05abe... | 714074ddca4a8d05... | yes |
 | BM-161 | c0218c8116c6e966... | a74375f2d89bdcc7... | yes |
-| BM-162 | 1feceecb5f62f498... | ef1c77c1a7ca7019... | yes |
-| BM-163 | 8497968da1edf6cd... | 6368ed5659f10281... | yes |
+| BM-162 | 2d90fdc98a36b630... | ef1c77c1a7ca7019... | yes |
+| BM-163 | b60055b249275695... | 6368ed5659f10281... | yes |
 | BM-164 | 0e5125c9e762595e... | 4134e5dba99a91cb... | yes |
 | BM-165 | c118c247ce55dd85... | 96fdc0a74d500a4c... | yes |
 | BM-166 | 63560206207909e7... | da576a8778e44927... | yes |
-| BM-167 | 6ff913e6d164f176... | 471eeb43866d67ef... | yes |
+| BM-167 | ce35d198162e7107... | 471eeb43866d67ef... | yes |
 | BM-168 | 6d65e916f95d10a0... | a6820df65409e4a0... | yes |
 | BM-169 | 917d5f36378c6b9e... | ff3d0e99ad14618c... | yes |
 | BM-170 | 4d011e40cce0bfae... | df691e4ef0c45dba... | yes |
