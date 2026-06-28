@@ -1,0 +1,81 @@
+{
+  "task": "CLEAN_GENERATED_AUDIT_ARTIFACTS_V1",
+  "phase": "EXECUTION",
+  "generatedAt": "2026-06-29T02:25:00.000+07:00",
+  "executedAt": "2026-06-29T02:25:00.000+07:00",
+  "inputReport": "docs/audit/worktree-forensic-v1/latest.json",
+  "planFile": "docs/audit/cleanup-generated-artifacts-v1/plan.latest.json",
+  "planMdFile": "docs/audit/cleanup-generated-artifacts-v1/plan.latest.md",
+  "execution": {
+    "deleted": [
+      {
+        "path": "docs/audit/docx-atlas-v1/pdf-export-smoke/BM-001_normalized.pdf",
+        "type": "file",
+        "reason": "PDF smoke test artifact. Not referenced by any test or CI.",
+        "deleteResult": "SUCCESS"
+      },
+      {
+        "path": "docs/audit/compiled-v2-reconciliation/",
+        "type": "folder",
+        "contents": "BM-063-BM-066/final-reconciliation-plan.latest.json, BM-063-BM-066/final-reconciliation-plan.latest.md",
+        "reason": "BM-063/BM-066 are resolved and published. Folder is stale. No test references it.",
+        "deleteResult": "SUCCESS"
+      }
+    ],
+    "skipped": [
+      {
+        "path": "Windows temp Office file (~$-QĐ...)",
+        "reason": "File already gone at execution time — was transient and cleaned since forensic phase."
+      }
+    ]
+  },
+  "gates": {
+    "lockedCompiledStrict": { "result": "PASS", "count": "213/213", "exit": 0 },
+    "contractSync": { "result": "PASS", "matched": 213, "stale": 0, "exit": 0 },
+    "typecheck": { "result": "PASS", "exit": 0 }
+  },
+  "gitStatus": {
+    "preCleanup": {
+      "modifiedTracked": 51,
+      "untracked": 147,
+      "total": 198
+    },
+    "postCleanup": {
+      "modifiedTracked": 51,
+      "untracked": 145,
+      "total": 196,
+      "note": "Count decreased by 2 (deleted PDF + folder, temp Office file was already gone)"
+    }
+  },
+  "sotProof": {
+    "lockedContractsChanged": false,
+    "compiledV2Changed": false,
+    "normalizedDocxChanged": false,
+    "trackedCodeChanged": false,
+    "proof": "Only untracked generated artifacts were deleted. No tracked files, SOT files, or derived artifacts were touched."
+  },
+  "safetyCheck": {
+    "noSOTMutated": true,
+    "noCompiledV2Mutated": true,
+    "noNormalizedDocxMutated": true,
+    "noDBPublish": true,
+    "noAuditFoldersMoved": true,
+    "noStaging": true,
+    "noCommit": true,
+    "noSemanticFix": true,
+    "noRestore": true
+  },
+  "keptForReview": {
+    "totalFolders": 39,
+    "totalScripts": 70,
+    "totalTests": 25,
+    "totalOther": 8,
+    "note": "All KEEP_FOR_REVIEW items left untouched. These require individual review before deletion."
+  },
+  "newUntrackedFiles": [
+    "docs/audit/cleanup-generated-artifacts-v1/plan.latest.json",
+    "docs/audit/cleanup-generated-artifacts-v1/plan.latest.md",
+    "docs/audit/cleanup-generated-artifacts-v1/latest.json",
+    "docs/audit/cleanup-generated-artifacts-v1/latest.md"
+  ]
+}

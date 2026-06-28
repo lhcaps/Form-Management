@@ -34,8 +34,10 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { stableContractHash } from "./lib/stable-contract-hash.mjs";
-import { adaptV1Contract } from "../../packages/form-contracts/src/v1-adapter.ts";
-import { compileContract } from "../../packages/form-contracts/src/compiler.ts";
+import {
+  adaptV1Contract,
+  compileContract,
+} from "../../packages/form-contracts/dist/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
