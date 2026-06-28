@@ -1,0 +1,151 @@
+{
+  "generated": "2026-06-29T00:00:00.000Z",
+  "task": "REPO_HYGIENE_AND_SOT_GATES_V1",
+  "phase": "C",
+  "currentGitignore": {
+    "path": ".gitignore",
+    "totalRules": 37,
+    "auditRelevantRules": [
+      {
+        "rule": "# Generated test artifacts (do not commit)",
+        "pattern": "storage/generated/",
+        "assessment": "SAFE — generated artifact storage, can be regenerated",
+        "safeToAdd": null
+      },
+      {
+        "rule": "# Debug / local audit artifacts",
+        "pattern": "audit_renders/",
+        "assessment": "SAFE — temp render outputs",
+        "safeToAdd": null
+      },
+      {
+        "rule": "# Harness local state",
+        "pattern": ".harness/",
+        "assessment": "SAFE — harness local state",
+        "safeToAdd": null
+      },
+      {
+        "rule": "# Local build/cache directories",
+        "pattern": ".cache/",
+        "pattern2": ".gsd/",
+        "pattern3": ".planning/",
+        "assessment": "SAFE — local build artifacts",
+        "safeToAdd": null
+      },
+      {
+        "rule": "# CodeGraph (local knowledge graph - per-machine)",
+        "pattern": ".codegraph/",
+        "pattern2": ".codegraph-*/",
+        "assessment": "SAFE — per-machine codegraph index",
+        "safeToAdd": null
+      }
+    ]
+  },
+  "reviewResults": {
+    "neverIgnore": [
+      {
+        "path": "docs/audit/docx/contracts/locked/",
+        "rationale": "Semantic SOT — locked contracts. Losing these means losing the canonical data.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      },
+      {
+        "path": "docs/audit/docx/compiled-v2/",
+        "rationale": "Derived artifact from locked contracts. Must be committed to track stale compiled artifacts (BM-063, BM-066).",
+        "status": "FORBIDDEN — do NOT add to .gitignore unless project formally decides otherwise"
+      },
+      {
+        "path": "docs/audit/docx/",
+        "rationale": "Contains both canonical data and generated artifacts. Cannot ignore the whole tree.",
+        "status": "FORBIDDEN — partial paths must be checked"
+      },
+      {
+        "path": "docs/audit/form-authoring-baselines/",
+        "rationale": "Human-reviewed evidence ledger. Do NOT lose.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      },
+      {
+        "path": "docs/audit/sot-rebase-v1/",
+        "rationale": "SOT gate output with CRITICAL findings. Required for review.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      },
+      {
+        "path": "docs/audit/sot-gates-v1/",
+        "rationale": "New SOT gate created by this task. Required for review.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      },
+      {
+        "path": "docs/audit/forms-root-cause/",
+        "rationale": "Active remediation gate. Required for review.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      },
+      {
+        "path": "docs/audit/docx-atlas-v1/",
+        "rationale": "Active structural atlas. Required for wave-02 work.",
+        "status": "FORBIDDEN — do NOT add to .gitignore"
+      }
+    ],
+    "safeToIgnoreAfterMove": [
+      {
+        "path": "docs/audit/per-form-render-accurate/",
+        "rationale": "Render fidelity outputs. Regeneratable by render-form-fidelity-gate.mjs. Large (525 files, 2.19MB).",
+        "condition": "MUST move first to docs/audit/_archive/per-form-render-accurate/",
+        "gitignoreProposal": "docs/audit/_archive/",
+        "priority": "MEDIUM"
+      },
+      {
+        "path": "docs/audit/compiled-v2-reconciliation/",
+        "rationale": "One-off snapshot. No script reference. Tiny (2 files, 0.02MB).",
+        "condition": "MUST move first",
+        "gitignoreProposal": "docs/audit/_archive/",
+        "priority": "LOW"
+      },
+      {
+        "path": "docs/audit/infra-rebuild-verification/",
+        "rationale": "One-off verification. No script reference. Tiny (13 files, 0.05MB).",
+        "condition": "MUST move first",
+        "gitignoreProposal": "docs/audit/_archive/",
+        "priority": "LOW"
+      }
+    ],
+    "notRecommended": [
+      {
+        "path": "docs/audit/_archive/",
+        "rationale": "Cannot ignore this yet because no _archive directory exists and all audit folders are still at their original paths.",
+        "status": "NOT YET — create _archive dir and move folders first"
+      }
+    ]
+  },
+  "proposedAdditions": {
+    "notRecommendedNow": [
+      {
+        "pattern": "docs/audit/_archive/",
+        "rationale": "Cannot add until _archive directory is created and folders are moved. Must be done in a separate task.",
+        "requiresPlannerApproval": true,
+        "requiresFolderMove": true
+      }
+    ],
+    "alreadyCovered": [
+      {
+        "pattern": "audit_renders/",
+        "note": "Already in .gitignore — covers ad-hoc render outputs"
+      },
+      {
+        "pattern": "storage/generated/",
+        "note": "Already in .gitignore — covers generated test artifacts"
+      },
+      {
+        "pattern": ".cache/",
+        "note": "Already in .gitignore — covers local caches"
+      }
+    ]
+  },
+  "decision": {
+    "changeGitignore": false,
+    "reason": "No safe .gitignore changes available yet. All audit artifacts are either canonical (never ignore) or GENERATED_REPORT (must move first before ignoring). The only safe future addition is docs/audit/_archive/ once folders are moved there.",
+    "nextSteps": [
+      "1. Planner task: move all GENERATED_REPORT folders to docs/audit/_archive/{name}/",
+      "2. Update hardcoded paths in 12 scripts",
+      "3. Then add 'docs/audit/_archive/' to .gitignore"
+    ]
+  }
+}
