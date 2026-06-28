@@ -342,7 +342,6 @@ function buildMarkdown(report) {
   lines.push("- locked contract mutation for BM-052, BM-062, BM-063, or BM-066");
   lines.push("- source DOCX mutation for BM-063 or BM-066");
   lines.push("- auto slot/binding repair for BM-063 or BM-066");
-  lines.push("");
   return `${lines.join("\n")}\n`;
 }
 
