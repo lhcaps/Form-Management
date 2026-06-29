@@ -177,7 +177,7 @@ function analyzeContract(templateCode, locked, compiled) {
   for (const ctrl of (locked.formInputHints?.suggestedControls || [])) {
     if (!canonicalPaths.has(ctrl.path) && isGenericPath(ctrl.path)) {
       issues.push({
-        severity: "HIGH", type: "FORM_INPUT_HINTS_STALE",
+        severity: "MEDIUM", type: "FORM_INPUT_HINTS_STALE",
         field: "formInputHints.suggestedControls", path: ctrl.path, control: ctrl.control,
         reason: `formInputHints suggests "${ctrl.path}" not in canonicalFields — stale post-semanticization`,
       });
