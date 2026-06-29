@@ -321,3 +321,15 @@ test("evaluateRemediationReadiness: sot-gates and decision-gate dirty paths are 
   assert.equal(verdict.ready, true);
   assert.equal(verdict.blockers.length, 0);
 });
+
+test("evaluateRemediationReadiness: render-atlas dirty path is expected", () => {
+  const verdict = evaluateRemediationReadiness(
+    makeInput({
+      gitStatusShort:
+        "M docs/audit/docx-atlas-v1/render-atlas.latest.json\nM docs/audit/docx-atlas-v1/render-atlas.latest.md",
+    }),
+  );
+
+  assert.equal(verdict.ready, true);
+  assert.equal(verdict.blockers.length, 0);
+});
