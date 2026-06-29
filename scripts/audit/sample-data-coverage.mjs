@@ -143,6 +143,32 @@ const ALL_DEFAULTS = {
     "case.investigationUnit": "Cơ quan điều tra Viện Kiểm sát khu vực 7",
     "case.investigationPeriod": "02 tháng",
   },
+  indictment: {
+    "indictment.caseCode": "VK-2026-001",
+    "indictment.indictmentDate": "2026-01-15",
+    "indictment.prosecutorName": "Võ Thị F",
+    "indictment.prosecutorTitle": "Kiểm sát viên",
+  },
+  detentionArrest: {
+    "detentionArrest.accusedName": "Trần Văn B",
+    "detentionArrest.birthDay": "15",
+    "detentionArrest.birthMonth": "03",
+    "detentionArrest.birthYear": "1985",
+    "detentionArrest.genderLabel": "Nam",
+    "detentionArrest.identityNo": "079085000002",
+    "detentionArrest.currentAddress": "Quận 4, TP. Hồ Chí Minh",
+    "detentionArrest.occupation": "Kinh doanh",
+    "detentionArrest.detentionDate": "2026-01-15",
+    "detentionArrest.detentionReason": "Tạm giữ theo Điều 110 Bộ luật Tố tụng hình sự",
+  },
+  prosecution: {
+    "prosecution.caseCode": "VK-2026-001",
+    "prosecution.prosecutionDate": "2026-01-15",
+    "prosecution.prosecutorName": "Võ Thị F",
+    "prosecution.prosecutorTitle": "Kiểm sát viên",
+    "prosecution.investigatorName": "Đặng Văn G",
+    "prosecution.investigatorTitle": "Điều tra viên",
+  },
 };
 
 const D_DATE = "01";
@@ -168,7 +194,9 @@ function isDatePart(key) {
 }
 
 function isNumericOrCode(key) {
-  const prefixes = ["number", "code", "count", "quantity", "amount", "age", "phone", "identityNo"];
+  const prefixes = ["number", "code", "count", "quantity", "amount", "age", "phone", "identityNo",
+    // Vietnamese số-prefixed fields
+    "soQuyet", "soYeu", "soThong", "soDanh", "soBien", "soKien", "soVan", "soPhieu", "so"];
   return prefixes.some(p => key.toLowerCase().includes(p));
 }
 
@@ -219,9 +247,32 @@ function generateFieldValue(fieldKey, fieldLabel, isRequired) {
   if (l.includes("ngày")) return "01";
   if (l.includes("tháng")) return "01";
   if (l.includes("năm")) return "2026";
+  // Extended label heuristics for optional fields
+  if (l.includes("ghi chú") || l.includes("note")) return "Ghi chú mẫu cho biểu mẫu.";
+  if (l.includes("tài liệu") || l.includes("đồ vật")) return "Tài liệu, đồ vật kèm theo theo quy định.";
+  if (l.includes("vấn đề") || l.includes("nội dung bổ sung")) return "Nội dung bổ sung theo quy định.";
+  if (l.includes("lý do") || l.includes("xét thấy")) return "Xét thấy cần thiết áp dụng biện pháp theo quy định.";
+  if (l.includes("tài sản")) return "Tài sản theo quy định pháp luật.";
+  if (l.includes("số quyết") || l.includes("số yêu") || l.includes("số thông") || l.includes("số định")) return "01/QĐ-VKS";
+  if (l.includes("quyết định") && l.includes("số")) return "01/QĐ-VKS";
+  if (l.includes("yêu cầu") && l.includes("số")) return "01/YĐ-VKS";
+  if (l.includes("thông báo") && l.includes("số")) return "01/TB-VKS";
+  if (l.includes("biên bản") && l.includes("số")) return "01/BB-VKS";
+  if (l.includes("cáo trạng") && l.includes("số")) return "01/CT-VKS";
+  if (l.includes("phiếu") && l.includes("số")) return "01/PC-VKS";
+  if (l.includes("chủ thể")) return "Cá nhân/Tổ chức theo quy định.";
+  if (l.includes("đơn vị")) return "Đơn vị theo quy định.";
+  if (l.includes("thời hạn")) return "Thời hạn theo quy định pháp luật.";
+  if (l.includes("số tiền")) return "10000000";
+  if (l.includes("bắt đầu") && l.includes("lúc")) return "08:00";
+  if (l.includes("kết thúc") && l.includes("lúc")) return "10:00";
+  if (l.includes("bắt đầu") || l.includes("kết thúc")) return "08:00 - 10:00";
+  if (l.includes("kèm theo")) return "Tài liệu, đồ vật kèm theo.";
+  if (l.includes("vật") && l.includes("thứ")) return "Tài liệu bổ sung.";
+  if (l.includes("bổ sung")) return "Nội dung bổ sung theo quy định.";
 
-  if (isRequired) return deterministicFill("required", fieldKey);
-  return "";
+  // Unknown field — deterministic fill
+  return deterministicFill("field", fieldKey);
 }
 
 function generateSampleFromFields(fields) {

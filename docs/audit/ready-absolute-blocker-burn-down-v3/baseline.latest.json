@@ -1,0 +1,145 @@
+{
+  "phase": 0,
+  "generatedAt": "2026-06-30T21:44:00.000Z",
+  "branch": "fix/documents-canonical-render-payload-snapshot",
+  "gitStatus": {
+    "dirtyFiles": [
+      "apps/web/src/app/reports/page.tsx",
+      "docs/audit/docx-atlas-v1/render-atlas.latest.json",
+      "docs/audit/docx-atlas-v1/render-atlas.latest.md",
+      "docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.json",
+      "docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.md",
+      "docs/audit/repo-clean-to-zero-v1/active-remediation-blocker-pack.latest.json",
+      "docs/audit/repo-clean-to-zero-v1/active-remediation-blocker-pack.latest.md",
+      "docs/audit/sample-data-coverage-v1/latest.json",
+      "docs/audit/sample-data-coverage-v1/latest.md",
+      "docs/audit/sot-gates-v1/latest.json",
+      "docs/audit/sot-gates-v1/latest.md",
+      "docs/audit/website-requirement-acceptance-v1/latest.json",
+      "docs/audit/website-requirement-acceptance-v1/latest.md",
+      "docs/audit/website-requirement-acceptance-v1/matrix.csv",
+      "package.json",
+      "scripts/audit/build-website-requirement-acceptance-v1.mjs",
+      "tests/e2e/bm001-print-layout.spec.ts",
+      "tests/e2e/document-form-save.spec.ts",
+      "tests/e2e/full-flow.spec.ts"
+    ],
+    "dirtyGeneratedArtifacts": [
+      "docs/audit/sot-gates-v1/latest.json",
+      "docs/audit/sot-gates-v1/latest.md",
+      "docs/audit/website-requirement-acceptance-v1/latest.json",
+      "docs/audit/website-requirement-acceptance-v1/latest.md",
+      "docs/audit/website-requirement-acceptance-v1/matrix.csv",
+      "docs/audit/sample-data-coverage-v1/latest.json",
+      "docs/audit/sample-data-coverage-v1/latest.md",
+      "docs/audit/docx-atlas-v1/render-atlas.latest.json",
+      "docs/audit/docx-atlas-v1/render-atlas.latest.md"
+    ],
+    "untrackedFiles": [
+      "apps/web/src/lib/reports-export.test.ts",
+      "apps/web/src/lib/reports-export.ts",
+      "docs/audit/HANDOFF-213-FORM-REMEDIATION-COMPLETE.md",
+      "docs/audit/website-requirement-acceptance-v1/workflow-e2e.latest.json",
+      "scripts/audit/lib/website-requirement-acceptance-evidence.mjs",
+      "scripts/audit/run-primary-form-export-workflow-e2e.mjs",
+      "test/website-requirement-acceptance-evidence.test.mjs",
+      "tests/e2e/helpers/"
+    ]
+  },
+  "gateResults": {
+    "audit:locked-compiled": {
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "213/213 consistent",
+      "output": "C3 STRICT=false JSON_ONLY=false — 213/213 consistent"
+    },
+    "audit:contract-sync": {
+      "exitCode": 0,
+      "result": "PASS",
+      "summary": "213 matched, 0 missing, 0 stale",
+      "output": "DATABASE_URL resolved — DB_COMPARE strategy: 213 matched, 0 missing, 0 stale"
+    },
+    "audit:213-remediation-readiness": {
+      "exitCode": 0,
+      "result": "NO",
+      "summary": "Ready=NO, canStartNonBlockedRemediation=YES, canStartFull213Remediation=NO",
+      "blockers": ["GIT_STATUS_UNEXPECTED_DIRTY: git status --short has 16 unexpected change(s)"],
+      "warnings": ["DECISION_GATE_HEAD_DIFFERS: decision gate was generated at 1bca3912, current HEAD is ee2cfa6e"]
+    }
+  },
+  "typecheck": {
+    "exitCode": 0,
+    "result": "PASS"
+  },
+  "formContractsTests": {
+    "exitCode": 0,
+    "result": "PASS",
+    "tests": 52,
+    "passed": 52,
+    "failed": 0
+  },
+  "blockerCounts": {
+    "SAMPLE_DATA": {
+      "description": "SAMPLE-DATA-FULL-FILL",
+      "manualFieldsTotal": 1735,
+      "manualFieldsFilled": 1576,
+      "manualFieldsMissing": 159,
+      "coverage": 91,
+      "formsFullyCovered": 109,
+      "formsPartiallyCovered": 96,
+      "formsZeroCoverage": 8,
+      "status": "FAIL"
+    },
+    "DOCX_SEMANTIC_FIDELITY": {
+      "description": "DOCX-SEMANTIC-FIDELITY",
+      "notFinalReviewReady": 200,
+      "contractRepairRequired": 22,
+      "renderFailures": 2,
+      "renderAtlas": "213 PASS, 0 FAIL, 0 ERROR",
+      "status": "FAIL"
+    },
+    "SOT_SEMANTIC": {
+      "description": "SOT-SEMANTIC-ISSUES",
+      "totalIssues": 4500,
+      "critical": 3,
+      "high": 2734,
+      "medium": 1763,
+      "status": "FAIL"
+    }
+  },
+  "acceptanceMatrix": {
+    "total": 57,
+    "PASS": 51,
+    "PARTIAL": 0,
+    "FAIL": 3,
+    "NOT_DETECTABLE": 3,
+    "NOT_TESTED": 0,
+    "overall": "NOT_READY"
+  },
+  "websiteRequirementAcceptance": {
+    "source": "docs/audit/website-requirement-acceptance-v1/latest.json",
+    "overallStatus": "NOT_READY",
+    "failingGates": [
+      "SAMPLE-DATA-FULL-FILL",
+      "DOCX-SEMANTIC-FIDELITY",
+      "SOT-SEMANTIC-ISSUES"
+    ],
+    "passingGate": "E2E-PRIMARY-WORKFLOW"
+  },
+  "knownGeneratedDirtyFiles": [
+    "docs/audit/sot-gates-v1/latest.json",
+    "docs/audit/sot-gates-v1/latest.md",
+    "docs/audit/website-requirement-acceptance-v1/latest.json",
+    "docs/audit/website-requirement-acceptance-v1/latest.md",
+    "docs/audit/website-requirement-acceptance-v1/matrix.csv",
+    "docs/audit/website-requirement-acceptance-v1/workflow-e2e.latest.json",
+    "docs/audit/sample-data-coverage-v1/latest.json",
+    "docs/audit/sample-data-coverage-v1/latest.md",
+    "docs/audit/docx-atlas-v1/render-atlas.latest.json",
+    "docs/audit/docx-atlas-v1/render-atlas.latest.md",
+    "docs/audit/213-docx-fidelity-board/latest.json",
+    "docs/audit/213-docx-fidelity-board/latest.md",
+    "docs/audit/sot-rebase-v1/latest.json",
+    "docs/audit/sot-rebase-v1/latest.md"
+  ]
+}
