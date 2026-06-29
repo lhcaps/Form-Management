@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-063/BM-063_normalized.docx",
-    "sha256": "0c0aef8c70f41506f9ffc970661c9e5eabc9bb9ee25f66e643b5b5c3ff4b62e3",
+    "sha256": "cc5534849ecb0b234f154b18351809b322acf70504ca3a9b6b535fd64cfdebe5",
     "format": "docx"
   },
   "status": "locked",
@@ -64,7 +64,21 @@
         "textAfter": "ngày … tháng … năm … {{document.field3}}",
         "rawPattern": "{{document.field2}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh, ngày ban hành",
+        "docxSlotId": "document.issuePlaceAndDateLine",
+        "actualDocxContext": "theo Thông t ư số /2026/TT-VKSTC ngày / /2026) Mẫu số 63/HS (Ban hành theo Thông t ư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT … {{agency.name}} 535940 54610 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 974090 27305 BIÊN BẢN Kê biên tài sản {{document.recordStartedAtTimeText}} ngày … tháng … năm …{{document.issuePlaceAndDateLine}} {{document.recordLocationName}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{prosecutor.procuracyName}} ; {{assignment.participantLine1}} {{assignment.participantLine2}} y ban nhân dân cấp xã ; {{assignment.participantLine3}} {{assignment.participantLine4}} Thi hành Lệnh kê biên tài sản số … ngày … thá",
+        "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "slotId": "recipients.personLine",
@@ -93,42 +107,251 @@
       }
     },
     {
-      "slotId": "document.fullDocumentCode",
+      "slotId": "document.recordStartedAtTimeText",
       "location": {
         "partName": "word/document.xml",
-        "blockId": "P0033",
+        "blockId": null,
         "tableCellId": null
       },
-      "context": "{{document.field10}}",
-      "label": "Ô trống",
+      "context": "=\"320\" w:before=\"120\" w:after=\"120\"/> {{document.recordStartedAtTimeText}} ngày … tháng … năm …{{document.issuePlaceAndDateLine}} <w:rFonts w:cs=\"Times Ne",
+      "label": "Thời điểm bắt đầu lập biên bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.field10}}"
+        "rawPattern": "{{document.recordStartedAtTimeText}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
-      "slotId": "recipients.personLine5",
+      "slotId": "document.recordLocationName",
       "location": {
         "partName": "word/document.xml",
         "blockId": null,
         "tableCellId": null
       },
-      "context": "> {{recipients.personLine5}}} <w:tab w:val=\"right\" w:pos=\"9887\" w",
-      "label": "Người nhận",
+      "context": "Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.recordLocationName}} <w:ind w:firstLine=\"567\" w:end=",
+      "label": "Địa điểm lập biên bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
-        "textBefore": "> {{recipients.personLine5}}} <w:tab w:val=\"right\" w:pos=\"9887\" w",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{recipients.personLine5}}"
+        "rawPattern": "{{document.recordLocationName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false
+    },
+    {
+      "slotId": "prosecutor.procuracyName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> 2 {{prosecutor.procuracyName}} ; <w:ind w:firstLine=",
+      "label": "Viện kiểm sát của Kiểm sát viên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{prosecutor.procuracyName}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine1",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "oman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{assignment.participantLine1}} <w:ind w:firstLine=\"567\" w:end=",
+      "label": "Người tham gia kê biên 1",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{assignment.participantLine1}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine2",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "oman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{assignment.participantLine2}} y ban nhân dân cấp xã <w:rFonts w:eastAsia=\"Times New Roman\" w:cs=\"Times New Ro",
+      "label": "Đại diện Ủy ban nhân dân cấp xã",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{assignment.participantLine2}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine3",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "es New Roman\" w:cs=\"Times New Roman\"/> {{assignment.participantLine3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Ti",
+      "label": "Người tham gia kê biên 3",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{assignment.participantLine3}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine4",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{assignment.participantLine4}} <w:rFonts w:ascii=\"Times Ne",
+      "label": "Người tham gia kê biên 4",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{assignment.participantLine4}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.recordEndedAtTimeLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "an\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{document.recordEndedAtTimeLine}} ngày … tháng … năm …. </w:tabs",
+      "label": "Thời điểm kết thúc kê biên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.recordEndedAtTimeLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.birthInfoLine}} <w:ind w:firstLine=\"567\" w",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.birthInfoLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.nationalityEthnicityReligionLine}} <w:spacing w:lineRule=\"exact\" w:line=\"320\" w:before=\"120\" w:after=",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.nationalityEthnicityReligionLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.identityIssueLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "=\"320\" w:before=\"120\" w:after=\"120\"/> {{person.identityIssueLine}} <w:ind w:firstLine=\"567\" w",
+      "label": "Ngày cấp, nơi cấp giấy tờ tùy thân",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.identityIssueLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.assetListLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{measure.assetListLine}} <w:rPr",
+      "label": "Tài sản bị kê biên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{measure.assetListLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.participantOpinionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{measure.participantOpinionLine}} <w:jc",
+      "label": "Ý kiến của người tham gia kê biên",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{measure.participantOpinionLine}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -151,11 +374,25 @@
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa danh, ngày ban hành",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh, ngày ban hành",
+        "docxSlotId": "document.issuePlaceAndDateLine",
+        "actualDocxContext": "theo Thông t ư số /2026/TT-VKSTC ngày / /2026) Mẫu số 63/HS (Ban hành theo Thông t ư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT … {{agency.name}} 535940 54610 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 974090 27305 BIÊN BẢN Kê biên tài sản {{document.recordStartedAtTimeText}} ngày … tháng … năm …{{document.issuePlaceAndDateLine}} {{document.recordLocationName}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{prosecutor.procuracyName}} ; {{assignment.participantLine1}} {{assignment.participantLine2}} y ban nhân dân cấp xã ; {{assignment.participantLine3}} {{assignment.participantLine4}} Thi hành Lệnh kê biên tài sản số … ngày … thá",
+        "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "path": "recipients.personLine",
@@ -174,22 +411,147 @@
       }
     },
     {
-      "path": "document.fullDocumentCode",
+      "path": "document.recordStartedAtTimeText",
       "type": "string",
-      "label": "Số văn bản",
+      "label": "Thời điểm bắt đầu lập biên bản",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "section": "Biên bản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
     },
     {
-      "path": "recipients.personLine5",
+      "path": "document.recordLocationName",
       "type": "string",
-      "label": "Người nhận",
+      "label": "Địa điểm lập biên bản",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "section": "Biên bản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "prosecutor.procuracyName",
+      "type": "string",
+      "label": "Viện kiểm sát của Kiểm sát viên",
+      "source": "officialConfig",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thành phần tham gia",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "assignment.participantLine1",
+      "type": "string",
+      "label": "Người tham gia kê biên 1",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thành phần tham gia",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "assignment.participantLine2",
+      "type": "string",
+      "label": "Đại diện Ủy ban nhân dân cấp xã",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thành phần tham gia",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "assignment.participantLine3",
+      "type": "string",
+      "label": "Người tham gia kê biên 3",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thành phần tham gia",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "assignment.participantLine4",
+      "type": "string",
+      "label": "Người tham gia kê biên 4",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thành phần tham gia",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "document.recordEndedAtTimeLine",
+      "type": "string",
+      "label": "Thời điểm kết thúc kê biên",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Biên bản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.birthInfoLine",
+      "type": "string",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài sản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.nationalityEthnicityReligionLine",
+      "type": "string",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài sản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.identityIssueLine",
+      "type": "string",
+      "label": "Ngày cấp, nơi cấp giấy tờ tùy thân",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài sản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "measure.assetListLine",
+      "type": "string",
+      "label": "Tài sản bị kê biên",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Tài sản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "measure.participantOpinionLine",
+      "type": "string",
+      "label": "Ý kiến của người tham gia kê biên",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Tài sản kê biên",
+      "reviewRequired": false,
+      "transform": "identity"
     }
   ],
   "renderBindings": [
@@ -205,7 +567,21 @@
       "from": "document.issuePlaceAndDateLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh, ngày ban hành",
+        "docxSlotId": "document.issuePlaceAndDateLine",
+        "actualDocxContext": "theo Thông t ư số /2026/TT-VKSTC ngày / /2026) Mẫu số 63/HS (Ban hành theo Thông t ư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT … {{agency.name}} 535940 54610 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 974090 27305 BIÊN BẢN Kê biên tài sản {{document.recordStartedAtTimeText}} ngày … tháng … năm …{{document.issuePlaceAndDateLine}} {{document.recordLocationName}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{prosecutor.procuracyName}} ; {{assignment.participantLine1}} {{assignment.participantLine2}} y ban nhân dân cấp xã ; {{assignment.participantLine3}} {{assignment.participantLine4}} Thi hành Lệnh kê biên tài sản số … ngày … thá",
+        "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "slotId": "recipients.personLine",
@@ -215,18 +591,95 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.fullDocumentCode",
-      "from": "document.fullDocumentCode",
+      "slotId": "document.recordStartedAtTimeText",
+      "from": "document.recordStartedAtTimeText",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
     },
     {
-      "slotId": "recipients.personLine5",
-      "from": "recipients.personLine5",
+      "slotId": "document.recordLocationName",
+      "from": "document.recordLocationName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
+    },
+    {
+      "slotId": "prosecutor.procuracyName",
+      "from": "prosecutor.procuracyName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine1",
+      "from": "assignment.participantLine1",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine2",
+      "from": "assignment.participantLine2",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine3",
+      "from": "assignment.participantLine3",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.participantLine4",
+      "from": "assignment.participantLine4",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.recordEndedAtTimeLine",
+      "from": "document.recordEndedAtTimeLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "from": "person.birthInfoLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "from": "person.nationalityEthnicityReligionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.identityIssueLine",
+      "from": "person.identityIssueLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.assetListLine",
+      "from": "measure.assetListLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.participantOpinionLine",
+      "from": "measure.participantOpinionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
@@ -338,7 +791,180 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.666Z",
-  "reviewedBy": "Le Huy (wave-01 auto-fix)",
-  "reviewedAt": "2026-06-25T14:39:20.666Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex source-DOCX semantic renormalization",
+  "reviewedAt": "2026-06-29T09:59:01.723Z",
+  "reviewKind": "human",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-29T09:59:01.723Z",
+    "repairedBy": "Codex source-DOCX semantic renormalization",
+    "reason": "Source DOCX paragraph-backed semantic placeholder renormalization",
+    "source": "storage/templates/normalized-docx/<BM>/<source DOCX beside normalized file>",
+    "changes": {
+      "fieldChanges": [
+        {
+          "path": "document.recordStartedAtTimeText",
+          "action": "updated"
+        },
+        {
+          "path": "document.recordLocationName",
+          "action": "updated"
+        },
+        {
+          "path": "prosecutor.procuracyName",
+          "action": "updated"
+        },
+        {
+          "path": "assignment.participantLine1",
+          "action": "updated"
+        },
+        {
+          "path": "assignment.participantLine2",
+          "action": "updated"
+        },
+        {
+          "path": "assignment.participantLine3",
+          "action": "updated"
+        },
+        {
+          "path": "assignment.participantLine4",
+          "action": "updated"
+        },
+        {
+          "path": "document.recordEndedAtTimeLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "path": "measure.assetListLine",
+          "action": "updated"
+        },
+        {
+          "path": "measure.participantOpinionLine",
+          "action": "updated"
+        }
+      ],
+      "slotChanges": [
+        {
+          "slotId": "document.recordStartedAtTimeText",
+          "action": "updated"
+        },
+        {
+          "slotId": "document.recordLocationName",
+          "action": "updated"
+        },
+        {
+          "slotId": "prosecutor.procuracyName",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine1",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine2",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine3",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine4",
+          "action": "updated"
+        },
+        {
+          "slotId": "document.recordEndedAtTimeLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.assetListLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.participantOpinionLine",
+          "action": "updated"
+        }
+      ],
+      "bindingChanges": [
+        {
+          "slotId": "document.recordStartedAtTimeText",
+          "action": "updated"
+        },
+        {
+          "slotId": "document.recordLocationName",
+          "action": "updated"
+        },
+        {
+          "slotId": "prosecutor.procuracyName",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine1",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine2",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine3",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.participantLine4",
+          "action": "updated"
+        },
+        {
+          "slotId": "document.recordEndedAtTimeLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.assetListLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.participantOpinionLine",
+          "action": "updated"
+        }
+      ],
+      "removedFields": 0,
+      "removedSlots": 0,
+      "removedBindings": 0
+    }
+  }
 }

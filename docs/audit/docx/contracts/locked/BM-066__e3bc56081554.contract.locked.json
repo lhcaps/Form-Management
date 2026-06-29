@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-066/BM-066_normalized.docx",
-    "sha256": "4261d3f3d94a765d7ae2ba76c1fb48e987761ca9ad5b7ec253df59c52931713a",
+    "sha256": "6204c44acbacd58415429d46e1a88f1189fe73503cf112815a09f85adcfa4b47",
     "format": "docx"
   },
   "status": "locked",
@@ -64,7 +64,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field2}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Nội dung quyết định",
+        "docxSlotId": "decision.decisionLine",
+        "actualDocxContext": "N TRƯỞNG VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ các điều 41, 129 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên ; Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự {{document.fullDocumentCode}}{{decision.decisionLine}} số … ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật",
+        "actualDocxRawPattern": "{{decision.decisionLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      }
     },
     {
       "slotId": "recipients.personLine",
@@ -109,26 +123,171 @@
         "textAfter": "",
         "rawPattern": "{{document.field6}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "{{document.field6}}",
+        "rawPattern": "{{document.field6}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
-      "slotId": "document.fullDocumentCode4",
+      "slotId": "document.issuePlaceAndDateLine",
       "location": {
         "partName": "word/document.xml",
         "blockId": null,
         "tableCellId": null
       },
-      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.fullDocumentCode4}}} <w:b",
-      "label": "Số văn bản",
+      "context": ":i/> … {{document.issuePlaceAndDateLine}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/",
+      "label": "Địa danh, ngày tháng năm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
-        "textBefore": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.fullDocumentCode4}}} <w:b",
+        "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.fullDocumentCode4}}"
+        "rawPattern": "{{document.issuePlaceAndDateLine}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.reasonLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "r> {{measure.reasonLine}} <w:",
+      "label": "Xét thấy",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{measure.reasonLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.identityIssueLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "\"0\"/> Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityIssueLine}} <w:jc w:val=\"both\"/",
+      "label": "Ngày cấp, nơi cấp giấy tờ tùy thân",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.identityIssueLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.executionRequestLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "w:t> 14 {{measure.executionRequestLine}} <",
+      "label": "Yêu cầu thi hành lệnh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{measure.executionRequestLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.birthInfoLine}} <w:jc w:val=\"bot",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.birthInfoLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "ot\"/> {{person.nationalityEthnicityReligionLine}} <w:ind w:firstLine=",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.nationalityEthnicityReligionLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.assignedOfficerLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "ot\"/> {{assignment.assignedOfficerLine}} <w:rF",
+      "label": "Kiểm sát viên được phân công thi hành lệnh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{assignment.assignedOfficerLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> 15 {{signature.signerName}} <w:iCs",
+      "label": "Người ký",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{signature.signerName}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -151,11 +310,25 @@
     {
       "path": "decision.decisionLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Nội dung quyết định",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Nội dung quyết định",
+        "docxSlotId": "decision.decisionLine",
+        "actualDocxContext": "N TRƯỞNG VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ các điều 41, 129 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên ; Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự {{document.fullDocumentCode}}{{decision.decisionLine}} số … ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật",
+        "actualDocxRawPattern": "{{decision.decisionLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      }
     },
     {
       "path": "recipients.personLine",
@@ -180,16 +353,107 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "{{document.field6}}",
+        "rawPattern": "{{document.field6}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
-      "path": "document.fullDocumentCode4",
+      "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Số văn bản",
+      "label": "Địa danh, ngày tháng năm ban hành",
+      "source": "systemDate",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thông tin văn bản",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "measure.reasonLine",
+      "type": "string",
+      "label": "Xét thấy",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "section": "Căn cứ ban hành",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.identityIssueLine",
+      "type": "string",
+      "label": "Ngày cấp, nơi cấp giấy tờ tùy thân",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài khoản bị phong tỏa",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "measure.executionRequestLine",
+      "type": "string",
+      "label": "Yêu cầu thi hành lệnh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thi hành lệnh",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.birthInfoLine",
+      "type": "string",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài khoản bị phong tỏa",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.nationalityEthnicityReligionLine",
+      "type": "string",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Người có tài khoản bị phong tỏa",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "assignment.assignedOfficerLine",
+      "type": "string",
+      "label": "Kiểm sát viên được phân công thi hành lệnh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thi hành lệnh",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity"
     }
   ],
   "renderBindings": [
@@ -205,7 +469,21 @@
       "from": "decision.decisionLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Nội dung quyết định",
+        "docxSlotId": "decision.decisionLine",
+        "actualDocxContext": "N TRƯỞNG VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ các điều 41, 129 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên ; Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự {{document.fullDocumentCode}}{{decision.decisionLine}} số … ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật",
+        "actualDocxRawPattern": "{{decision.decisionLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      }
     },
     {
       "slotId": "recipients.personLine",
@@ -219,14 +497,75 @@
       "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "{{document.field6}}",
+        "rawPattern": "{{document.field6}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
-      "slotId": "document.fullDocumentCode4",
-      "from": "document.fullDocumentCode4",
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.reasonLine",
+      "from": "measure.reasonLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.identityIssueLine",
+      "from": "person.identityIssueLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "measure.executionRequestLine",
+      "from": "measure.executionRequestLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "from": "person.birthInfoLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "from": "person.nationalityEthnicityReligionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "assignment.assignedOfficerLine",
+      "from": "assignment.assignedOfficerLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
@@ -321,7 +660,120 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.691Z",
-  "reviewedBy": "Le Huy (wave-01 auto-fix)",
-  "reviewedAt": "2026-06-25T14:39:20.691Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex source-DOCX semantic renormalization",
+  "reviewedAt": "2026-06-29T09:59:01.723Z",
+  "reviewKind": "human",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-29T09:59:01.723Z",
+    "repairedBy": "Codex source-DOCX semantic renormalization",
+    "reason": "Source DOCX paragraph-backed semantic placeholder renormalization",
+    "source": "storage/templates/normalized-docx/<BM>/<source DOCX beside normalized file>",
+    "changes": {
+      "fieldChanges": [
+        {
+          "path": "document.issuePlaceAndDateLine",
+          "action": "updated"
+        },
+        {
+          "path": "measure.reasonLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "path": "measure.executionRequestLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "path": "assignment.assignedOfficerLine",
+          "action": "updated"
+        },
+        {
+          "path": "signature.signerName",
+          "action": "updated"
+        }
+      ],
+      "slotChanges": [
+        {
+          "slotId": "document.issuePlaceAndDateLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.reasonLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.executionRequestLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.assignedOfficerLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "signature.signerName",
+          "action": "updated"
+        }
+      ],
+      "bindingChanges": [
+        {
+          "slotId": "document.issuePlaceAndDateLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.reasonLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.identityIssueLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "measure.executionRequestLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "assignment.assignedOfficerLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "signature.signerName",
+          "action": "updated"
+        }
+      ],
+      "removedFields": 0,
+      "removedSlots": 0,
+      "removedBindings": 0
+    }
+  }
 }

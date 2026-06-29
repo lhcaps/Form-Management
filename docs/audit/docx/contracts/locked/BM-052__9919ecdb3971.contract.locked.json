@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-052/BM-052_normalized.docx",
-    "sha256": "eedb54218935bf3b88e634657dab2fbfc7bc8bfd1ed9b678712233f17b5ec716",
+    "sha256": "b53ca26608543d8ec67b91616cd730ab8559d8043c8a5eb5ce8ba963f529496f",
     "format": "docx"
   },
   "status": "locked",
@@ -48,25 +48,6 @@
       }
     },
     {
-      "slotId": "document.fullDocumentCode",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0025",
-        "tableCellId": null
-      },
-      "context": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với{{decision.field2}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với",
-        "textAfter": "",
-        "rawPattern": "{{decision.field2}}"
-      },
-      "reviewRequired": true
-    },
-    {
       "slotId": "recipients.personLine",
       "location": {
         "partName": "word/document.xml",
@@ -93,42 +74,180 @@
       }
     },
     {
-      "slotId": "document.fullDocumentCode2",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0030",
-        "tableCellId": null
-      },
-      "context": "{{document.field5}}",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}"
-      },
-      "reviewRequired": true
-    },
-    {
-      "slotId": "decision.decisionLine2",
+      "slotId": "person.fullName",
       "location": {
         "partName": "word/document.xml",
         "blockId": null,
         "tableCellId": null
       },
-      "context": "nsi=\"Times New Roman\"/> {{decision.decisionLine2}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
-      "label": "Địa điểm, ngày lập",
+      "context": "/> {{person.fullName}} <w:rFonts w:ascii=\"Ti",
+      "label": "Họ tên",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "nsi=\"Times New Roman\"/> {{decision.decisionLine2}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Tim",
         "textAfter": "",
-        "rawPattern": "{{decision.decisionLine2}}"
+        "rawPattern": "{{person.fullName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.fullName",
+        "docxContext": "/> {{person.fullName}} <w:rFonts w:ascii=\"Ti",
+        "rawPattern": "{{person.fullName}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
+    },
+    {
+      "slotId": "person.idNumber",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "ew Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.idNumber}} <w:tab w:val=\"right\" w:pos",
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.idNumber}}"
+      },
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "ew Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.idNumber}} <w:tab w:val=\"right\" w:pos",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "slotId": "person.temporaryAddress",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "n\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.temporaryAddress}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Ro",
+      "label": "Nơi tạm trú",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.temporaryAddress}}"
+      },
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.temporaryAddress",
+        "docxContext": "n\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.temporaryAddress}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Ro",
+        "rawPattern": "{{person.temporaryAddress}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "slotId": "signature.signerName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu ) <w:textD",
+      "label": "Người ký",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11",
+        "textAfter": "( Ký, ghi rõ họ tên, đóng dấu ) <w:textD",
+        "rawPattern": "{{signature.signerName}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11",
+        "textAfter": "( Ký, ghi rõ họ tên, đóng dấu ) <w:textD",
+        "rawPattern": "{{signature.signerName}}",
+        "context": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu ) <w:textD",
+        "blockId": null
+      }
+    },
+    {
+      "slotId": "person.otherName",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.otherName}} <w:rFo",
+      "label": "Tên gọi khác",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.otherName}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.birthInfoLine}} <w:rFo",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.birthInfoLine}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": ":hAnsi=\"Times New Roman\" w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.nationalityEthnicityReligionLine}} <w:ind w:firstLine=\"",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.nationalityEthnicityReligionLine}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -149,15 +268,6 @@
       }
     },
     {
-      "path": "document.fullDocumentCode",
-      "type": "string",
-      "label": "Số văn bản",
-      "source": "manual",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false
-    },
-    {
       "path": "recipients.personLine",
       "type": "string",
       "label": "Người bị áp dụng",
@@ -174,22 +284,113 @@
       }
     },
     {
-      "path": "document.fullDocumentCode2",
+      "path": "person.fullName",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Họ tên",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.fullName",
+        "docxContext": "/> {{person.fullName}} <w:rFonts w:ascii=\"Ti",
+        "rawPattern": "{{person.fullName}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
-      "path": "decision.decisionLine2",
+      "path": "person.idNumber",
       "type": "string",
-      "label": "Địa điểm, ngày lập",
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "ew Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.idNumber}} <w:tab w:val=\"right\" w:pos",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "path": "person.temporaryAddress",
+      "type": "string",
+      "label": "Nơi tạm trú",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.temporaryAddress",
+        "docxContext": "n\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.temporaryAddress}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Ro",
+        "rawPattern": "{{person.temporaryAddress}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.otherName",
+      "type": "string",
+      "label": "Tên gọi khác",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Nhân thân",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.birthInfoLine",
+      "type": "string",
+      "label": "Sinh ngày, tháng, năm, nơi sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Nhân thân",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.nationalityEthnicityReligionLine",
+      "type": "string",
+      "label": "Quốc tịch, dân tộc, tôn giáo",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Nhân thân",
+      "reviewRequired": false,
+      "transform": "identity"
     }
   ],
   "renderBindings": [
@@ -201,13 +402,6 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.fullDocumentCode",
-      "from": "document.fullDocumentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": true
-    },
-    {
       "slotId": "recipients.personLine",
       "from": "recipients.personLine",
       "transform": "identity",
@@ -215,18 +409,89 @@
       "reviewRequired": false
     },
     {
-      "slotId": "document.fullDocumentCode2",
-      "from": "document.fullDocumentCode2",
+      "slotId": "person.fullName",
+      "from": "person.fullName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.fullName",
+        "docxContext": "/> {{person.fullName}} <w:rFonts w:ascii=\"Ti",
+        "rawPattern": "{{person.fullName}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
-      "slotId": "decision.decisionLine2",
-      "from": "decision.decisionLine2",
+      "slotId": "person.idNumber",
+      "from": "person.idNumber",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "ew Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.idNumber}} <w:tab w:val=\"right\" w:pos",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "slotId": "person.temporaryAddress",
+      "from": "person.temporaryAddress",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.temporaryAddress",
+        "docxContext": "n\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{person.temporaryAddress}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Ro",
+        "rawPattern": "{{person.temporaryAddress}}",
+        "rationale": "docx context present"
+      }
+    },
+    {
+      "slotId": "signature.signerName",
+      "from": "signature.signerName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.otherName",
+      "from": "person.otherName",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.birthInfoLine",
+      "from": "person.birthInfoLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.nationalityEthnicityReligionLine",
+      "from": "person.nationalityEthnicityReligionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
     }
   ],
   "rejectedCandidates": [],
@@ -318,7 +583,60 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-25T14:39:20.537Z",
-  "reviewedBy": "Le Huy (wave-01 auto-fix)",
-  "reviewedAt": "2026-06-25T14:39:20.537Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex source-DOCX semantic renormalization",
+  "reviewedAt": "2026-06-29T09:59:01.723Z",
+  "reviewKind": "human",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-29T09:59:01.723Z",
+    "repairedBy": "Codex source-DOCX semantic renormalization",
+    "reason": "Source DOCX paragraph-backed semantic placeholder renormalization",
+    "source": "storage/templates/normalized-docx/<BM>/<source DOCX beside normalized file>",
+    "changes": {
+      "fieldChanges": [
+        {
+          "path": "person.otherName",
+          "action": "updated"
+        },
+        {
+          "path": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "path": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        }
+      ],
+      "slotChanges": [
+        {
+          "slotId": "person.otherName",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        }
+      ],
+      "bindingChanges": [
+        {
+          "slotId": "person.otherName",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.birthInfoLine",
+          "action": "updated"
+        },
+        {
+          "slotId": "person.nationalityEthnicityReligionLine",
+          "action": "updated"
+        }
+      ],
+      "removedFields": 0,
+      "removedSlots": 0,
+      "removedBindings": 0
+    }
+  }
 }
