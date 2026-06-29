@@ -1,6 +1,6 @@
 # BM-034 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:05.650Z
+Generated: 2026-06-29T15:28:44.611Z
 Status: **PASS**
 
 | Gate | Status |

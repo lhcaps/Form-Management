@@ -1,6 +1,6 @@
 # BM-114 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:15.640Z
+Generated: 2026-06-29T15:22:34.459Z
 Status: **PASS**
 
 | Gate | Status |

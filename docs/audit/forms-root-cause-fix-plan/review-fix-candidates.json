@@ -90,69 +90,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-003",
-    "path": "document.issuePlaceAndDateLine",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "issuePlaceAndDateLine",
-      "path": "document.issuePlaceAndDateLine",
-      "source": "systemDate",
-      "canonicalLabel": "issuePlaceAndDateLine"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"document.issuePlaceAndDateLine\" with label \"issuePlaceAndDateLine\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-003",
-    "path": "recipients.primaryLine",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "primaryLine",
-      "path": "recipients.primaryLine",
-      "source": "manual",
-      "canonicalLabel": "primaryLine"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"recipients.primaryLine\" with label \"primaryLine\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-003",
-    "path": "recipients.archiveLine",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "archiveLine",
-      "path": "recipients.archiveLine",
-      "source": "manual",
-      "canonicalLabel": "archiveLine"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"recipients.archiveLine\" with label \"archiveLine\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-004",
     "path": "document.vietTat",
     "issueCodes": [
@@ -420,27 +357,6 @@
   },
   {
     "templateCode": "BM-021",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "computed",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-021",
     "path": "agency.issuePlace",
     "issueCodes": [
       "BAD_LABEL"
@@ -578,157 +494,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-021",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-021",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "computed",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-021",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-021",
-    "path": "decision.summaryLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "decision.summaryLine",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-022",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-022",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-022",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-022",
     "path": "person.fullName",
     "issueCodes": [
@@ -745,27 +510,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "REQUIRED_SUSPICIOUS: field \"person.fullName\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-022",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -836,115 +580,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-024",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-024",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Viện kiểm sát ban hành",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Viện kiểm sát ban hành"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-025",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-025",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-025",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-025",
     "path": "agency.issuePlace",
     "issueCodes": [
@@ -963,48 +598,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "Bad label \"Ô trống\" on path \"agency.issuePlace\"; context=\"6{{document.field3}}\" — needs review to determine correct label",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-025",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-025",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1074,27 +667,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-026",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1443,73 +1015,6 @@
   },
   {
     "templateCode": "BM-032",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…{{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-032",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "SOURCE_MISMATCH"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "rawPattern": "{{document.issueDate}}",
-      "context": "…{{document.issueDate}}",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_SOURCE"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "SOURCE_MISMATCH: source=\"agencyConfig\" on path=\"document.issueDate\" (document domain). Needs review to determine correct source.",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-032",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "agencyConfig",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-032",
     "path": "agency.issuePlace",
     "issueCodes": [
       "BAD_LABEL"
@@ -1532,48 +1037,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-032",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-032",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-033",
     "path": "legalBasis.procedureArticlesLine",
     "issueCodes": [
@@ -1590,27 +1053,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY on path=\"legalBasis.procedureArticlesLine\" with source=\"officialConfig\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-033",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1660,48 +1102,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-034",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-034",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-035",
     "path": "document.issueDate",
     "issueCodes": [
@@ -1718,27 +1118,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-035",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -1786,27 +1165,6 @@
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY: path=\"document.documentCode\" looks computed/system but source=\"manual\". Needs review to determine correct source.",
     "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-036",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "computed",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -1997,69 +1355,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-036",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-036",
-    "path": "document.issueDate",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ngày ban hành",
-      "path": "document.issueDate",
-      "source": "computed",
-      "canonicalLabel": "Ngày ban hành"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-036",
-    "path": "decision.summaryLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên",
-      "path": "decision.summaryLine",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-038",
     "path": "legalBasis.procedureArticlesLine",
     "issueCodes": [
@@ -2081,27 +1376,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-038",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên (viết hoa)"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-039",
     "path": "legalBasis.procedureArticlesLine",
     "issueCodes": [
@@ -2118,27 +1392,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY on path=\"legalBasis.procedureArticlesLine\" with source=\"officialConfig\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-039",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên (IN HOA)",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên (IN HOA)"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -2165,48 +1418,6 @@
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "RAW_PATTERN_DOMAIN_MISMATCH suggested known path \"document.documentCode\" for \"agency.issuePlace\". Path rewrite needs human validation before apply.",
     "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-041",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tên cơ quan",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Tên cơ quan"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-041",
-    "path": "agency.issuePlace",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Số quyết định",
-      "path": "agency.issuePlace",
-      "source": "computed",
-      "canonicalLabel": "Số quyết định"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -2254,27 +1465,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-044",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên (viết hoa)"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-045",
     "path": "legalBasis.procedureArticlesLine",
     "issueCodes": [
@@ -2291,27 +1481,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY on path=\"legalBasis.procedureArticlesLine\" with source=\"officialConfig\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-045",
-    "path": "agency.parentNameUpper",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "path": "agency.parentNameUpper",
-      "source": "computed",
-      "canonicalLabel": "Cơ quan cấp trên (viết hoa)"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -2587,29 +1756,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-051",
-    "path": "decision.decisionLine3",
-    "issueCodes": [
-      "REMEDIATION_LEAK"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "decision.decisionLine3",
-      "source": "manual",
-      "rawPattern": "{{decision.decisionLine3}}",
-      "context": "\" w:hAnsi=\"Times New Roman\"/> 8 {{decision.decisionLine3}}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times Ne",
-      "canonicalLabel": "Slot from DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REMEDIATION_LEAK \"Slot from DOCX remediation\" on path=\"decision.decisionLine3\" — needs review",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-052",
     "path": "document.fullDocumentCode",
     "issueCodes": [
@@ -2655,24 +1801,43 @@
   },
   {
     "templateCode": "BM-052",
-    "path": "decision.decisionLine2",
+    "path": "person.fullName",
     "issueCodes": [
-      "REMEDIATION_LEAK"
+      "REQUIRED_SUSPICIOUS"
     ],
     "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "decision.decisionLine2",
+      "label": "Họ tên",
+      "path": "person.fullName",
       "source": "manual",
-      "rawPattern": "{{decision.decisionLine2}}",
-      "context": "nsi=\"Times New Roman\"/> {{decision.decisionLine2}}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New",
-      "canonicalLabel": "Slot from DOCX remediation"
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
-      "action": "UPDATE_LABEL"
+      "action": "UPDATE_REQUIRED"
     },
     "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REMEDIATION_LEAK \"Slot from DOCX remediation\" on path=\"decision.decisionLine2\" — needs review",
-    "confidence": "HIGH",
+    "reason": "REQUIRED_SUSPICIOUS: field \"person.fullName\" looks required but required=false. Review to determine correct required value.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-052",
+    "path": "person.idNumber",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "path": "person.idNumber",
+      "source": "manual",
+      "canonicalLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu"
+    },
+    "proposed": {
+      "action": "UPDATE_REQUIRED"
+    },
+    "classification": "REVIEW_FIX_CANDIDATE",
+    "reason": "REQUIRED_SUSPICIOUS: field \"person.idNumber\" looks required but required=false. Review to determine correct required value.",
+    "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -2852,90 +2017,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-058",
-    "path": "document.issuePlaceAndDateLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Địa danh, ngày ban hành",
-      "path": "document.issuePlaceAndDateLine",
-      "source": "computed",
-      "canonicalLabel": "Địa danh, ngày ban hành"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-058",
-    "path": "person.dateOfBirthText",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ngày sinh",
-      "path": "person.dateOfBirthText",
-      "source": "computed",
-      "canonicalLabel": "Ngày sinh"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-058",
-    "path": "measure.detentionFromDateText",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tạm giam từ ngày",
-      "path": "measure.detentionFromDateText",
-      "source": "computed",
-      "canonicalLabel": "Tạm giam từ ngày"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-058",
-    "path": "measure.detentionToDateText",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tạm giam đến ngày",
-      "path": "measure.detentionToDateText",
-      "source": "computed",
-      "canonicalLabel": "Tạm giam đến ngày"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-059",
     "path": "legalBasis.procedureArticlesLine",
     "issueCodes": [
@@ -2996,29 +2077,6 @@
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-060",
-    "path": "decision.decisionLine10",
-    "issueCodes": [
-      "REMEDIATION_LEAK"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "decision.decisionLine10",
-      "source": "manual",
-      "rawPattern": "{{decision.decisionLine10}}",
-      "context": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
-      "canonicalLabel": "Slot from DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REMEDIATION_LEAK \"Slot from DOCX remediation\" on path=\"decision.decisionLine10\" — needs review",
-    "confidence": "HIGH",
     "requiresHumanReview": true,
     "applySafe": false
   },
@@ -3088,50 +2146,6 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-062",
-    "path": "decision.decisionLine11",
-    "issueCodes": [
-      "REMEDIATION_LEAK"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "decision.decisionLine11",
-      "source": "manual",
-      "rawPattern": "{{decision.decisionLine11}}",
-      "context": "si=\"Times New Roman\"/> {{decision.decisionLine11}}} <w:szCs w:va",
-      "canonicalLabel": "Slot from DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REMEDIATION_LEAK \"Slot from DOCX remediation\" on path=\"decision.decisionLine11\" — needs review",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-062",
-    "path": "decision.decisionLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "decision.decisionLine",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
     "templateCode": "BM-063",
     "path": "document.fullDocumentCode",
     "issueCodes": [
@@ -3174,22 +2188,22 @@
     "applySafe": false
   },
   {
-    "templateCode": "BM-065",
-    "path": "document.fullDocumentCode",
+    "templateCode": "BM-064",
+    "path": "document.issueDate",
     "issueCodes": [
       "REQUIRED_SUSPICIOUS"
     ],
     "current": {
-      "label": "Số văn bản",
-      "path": "document.fullDocumentCode",
-      "source": "manual",
-      "canonicalLabel": "Số văn bản"
+      "label": "Ngày ban hành",
+      "path": "document.issueDate",
+      "source": "systemDate",
+      "canonicalLabel": "Ngày ban hành"
     },
     "proposed": {
       "action": "UPDATE_REQUIRED"
     },
     "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value.",
+    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -3219,71 +2233,6 @@
   },
   {
     "templateCode": "BM-066",
-    "path": "document.fullDocumentCode",
-    "issueCodes": [
-      "REQUIRED_SUSPICIOUS"
-    ],
-    "current": {
-      "label": "Số văn bản",
-      "path": "document.fullDocumentCode",
-      "source": "manual",
-      "canonicalLabel": "Số văn bản"
-    },
-    "proposed": {
-      "action": "UPDATE_REQUIRED"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value.",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-066",
-    "path": "document.fullDocumentCode4",
-    "issueCodes": [
-      "REMEDIATION_LEAK"
-    ],
-    "current": {
-      "label": "Slot from DOCX remediation",
-      "path": "document.fullDocumentCode4",
-      "source": "manual",
-      "rawPattern": "{{document.fullDocumentCode4}}",
-      "context": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.fullDocumentCode4}}} <w:b",
-      "canonicalLabel": "Slot from DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "REMEDIATION_LEAK \"Slot from DOCX remediation\" on path=\"document.fullDocumentCode4\" — needs review",
-    "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-066",
-    "path": "decision.decisionLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ô trống",
-      "path": "decision.decisionLine",
-      "source": "computed",
-      "canonicalLabel": "Ô trống"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-067",
     "path": "document.fullDocumentCode",
     "issueCodes": [
       "REQUIRED_SUSPICIOUS"
@@ -3492,6 +2441,69 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "Bad label \"Ô trống\" on path \"document.soQuyet\"; context=\"{{document.field7}}\" — needs review to determine correct label",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-073",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Số văn bản",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Số văn bản"
+    },
+    "proposed": {
+      "action": "UPDATE_REQUIRED"
+    },
+    "classification": "REVIEW_FIX_CANDIDATE",
+    "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-073",
+    "path": "document.issueDate",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Ngày ban hành",
+      "path": "document.issueDate",
+      "source": "systemDate",
+      "canonicalLabel": "Ngày ban hành"
+    },
+    "proposed": {
+      "action": "UPDATE_REQUIRED"
+    },
+    "classification": "REVIEW_FIX_CANDIDATE",
+    "reason": "REQUIRED_SUSPICIOUS: field \"document.issueDate\" looks required but required=false. Review to determine correct required value.",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-073",
+    "path": "person.idNumber",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "path": "person.idNumber",
+      "source": "manual",
+      "canonicalLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu"
+    },
+    "proposed": {
+      "action": "UPDATE_REQUIRED"
+    },
+    "classification": "REVIEW_FIX_CANDIDATE",
+    "reason": "REQUIRED_SUSPICIOUS: field \"person.idNumber\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -3770,63 +2782,21 @@
   },
   {
     "templateCode": "BM-080",
-    "path": "person.dateOfBirth",
+    "path": "person.fullName",
     "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
+      "REQUIRED_SUSPICIOUS"
     ],
     "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.dateOfBirth",
+      "label": "Họ tên",
+      "path": "person.fullName",
       "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+      "canonicalLabel": "Họ tên"
     },
     "proposed": {
-      "action": "UPDATE_LABEL"
+      "action": "UPDATE_REQUIRED"
     },
     "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"person.dateOfBirth\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-080",
-    "path": "person.currentAddress",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.currentAddress",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"person.currentAddress\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-080",
-    "path": "legalBasis.legalBasisLine",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "legalBasis.legalBasisLine",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"legalBasis.legalBasisLine\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
+    "reason": "REQUIRED_SUSPICIOUS: field \"person.fullName\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -4795,23 +3765,21 @@
   },
   {
     "templateCode": "BM-096",
-    "path": "document.diaChi",
+    "path": "person.idNumber",
     "issueCodes": [
-      "BAD_LABEL"
+      "REQUIRED_SUSPICIOUS"
     ],
     "current": {
-      "label": "Ô trống",
-      "path": "document.diaChi",
+      "label": "Số CCCD/CMND",
+      "path": "person.idNumber",
       "source": "manual",
-      "rawPattern": "{{person.field14}}",
-      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}",
-      "canonicalLabel": "Ô trống"
+      "canonicalLabel": "Số CCCD/CMND"
     },
     "proposed": {
-      "action": "UPDATE_LABEL"
+      "action": "UPDATE_REQUIRED"
     },
     "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "Bad label \"Ô trống\" on path \"document.diaChi\"; context=\"Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}\" — needs review to determine correct label",
+    "reason": "REQUIRED_SUSPICIOUS: field \"person.idNumber\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -7405,27 +6373,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "Bad label \"Ô trống\" on path \"person.toiDanh\"; context=\"{{document.field12}}\" — needs review to determine correct label",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-126",
-    "path": "decision.summaryLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Tóm tắt hồ sơ",
-      "path": "decision.summaryLine",
-      "source": "computed",
-      "canonicalLabel": "Tóm tắt hồ sơ"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -10861,10 +9808,10 @@
       "REQUIRED_SUSPICIOUS"
     ],
     "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Nghề nghiệp",
       "path": "person.occupation",
       "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
+      "canonicalLabel": "Nghề nghiệp"
     },
     "proposed": {
       "action": "UPDATE_REQUIRED"
@@ -10913,90 +9860,6 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "UI_VISIBLE_BAD_METADATA on path \"person.dateOfBirth\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.occupation",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.occupation",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"person.occupation\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.ward",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.ward",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"person.ward\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "person.province",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "person.province",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"person.province\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-163",
-    "path": "case.caseNumber",
-    "issueCodes": [
-      "UI_VISIBLE_BAD_METADATA"
-    ],
-    "current": {
-      "label": "Slot from Wave 02 DOCX remediation",
-      "path": "case.caseNumber",
-      "source": "manual",
-      "canonicalLabel": "Slot from Wave 02 DOCX remediation"
-    },
-    "proposed": {
-      "action": "UPDATE_LABEL"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "UI_VISIBLE_BAD_METADATA on path \"case.caseNumber\" with label \"Slot from Wave 02 DOCX remediation\" — needs review",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -11221,6 +10084,27 @@
     },
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY on path=\"legalBasis.procedureArticlesLine\" with source=\"officialConfig\" — needs review",
+    "confidence": "MEDIUM",
+    "requiresHumanReview": true,
+    "applySafe": false
+  },
+  {
+    "templateCode": "BM-167",
+    "path": "document.fullDocumentCode",
+    "issueCodes": [
+      "REQUIRED_SUSPICIOUS"
+    ],
+    "current": {
+      "label": "Số văn bản",
+      "path": "document.fullDocumentCode",
+      "source": "manual",
+      "canonicalLabel": "Số văn bản"
+    },
+    "proposed": {
+      "action": "UPDATE_REQUIRED"
+    },
+    "classification": "REVIEW_FIX_CANDIDATE",
+    "reason": "REQUIRED_SUSPICIOUS: field \"document.fullDocumentCode\" looks required but required=false. Review to determine correct required value.",
     "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
@@ -22225,69 +21109,6 @@
     "classification": "REVIEW_FIX_CANDIDATE",
     "reason": "SHOULD_BE_READONLY: path=\"agency.parentName\" looks computed/system but source=\"manual\". Needs review to determine correct source.",
     "confidence": "HIGH",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-213",
-    "path": "document.issuePlaceAndDateLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Địa danh, ngày ban hành",
-      "path": "document.issuePlaceAndDateLine",
-      "source": "computed",
-      "canonicalLabel": "Địa danh, ngày ban hành"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-213",
-    "path": "person.dateOfBirthText",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ngày sinh",
-      "path": "person.dateOfBirthText",
-      "source": "computed",
-      "canonicalLabel": "Ngày sinh"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
-    "requiresHumanReview": true,
-    "applySafe": false
-  },
-  {
-    "templateCode": "BM-213",
-    "path": "person.identityIssueLine",
-    "issueCodes": [
-      "COMPILED_DRIFT"
-    ],
-    "current": {
-      "label": "Ngày cấp và nơi cấp giấy tờ",
-      "path": "person.identityIssueLine",
-      "source": "computed",
-      "canonicalLabel": "Ngày cấp và nơi cấp giấy tờ"
-    },
-    "proposed": {
-      "action": "NO_OP"
-    },
-    "classification": "REVIEW_FIX_CANDIDATE",
-    "reason": "COMPILED_DRIFT needs review to determine if locked or compiled is correct",
-    "confidence": "MEDIUM",
     "requiresHumanReview": true,
     "applySafe": false
   }

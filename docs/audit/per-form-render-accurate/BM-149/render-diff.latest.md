@@ -1,6 +1,6 @@
 # BM-149 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:19.991Z
+Generated: 2026-06-29T15:22:36.898Z
 Status: **PASS**
 
 | Gate | Status |

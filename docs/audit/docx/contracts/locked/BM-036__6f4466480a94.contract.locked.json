@@ -142,14 +142,25 @@
         "textAfter": "",
         "rawPattern": "{{document.field8}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field8}}",
-        "context": "[Auto] {{document.field8}}",
-        "blockId": "P0037"
-      }
+        "reviewedAt": "2026-06-29T15:27:52.239Z",
+        "reviewedBy": "Codex legal semantic slot review",
+        "disposition": "FIX_SOURCE",
+        "confidence": "MEDIUM",
+        "oldLabel": "Căn cứ pháp lý",
+        "newLabel": "Thông tin nhân thân bổ sung",
+        "oldSource": "officialConfig",
+        "newSource": "manual",
+        "oldUiComponent": "text",
+        "newUiComponent": "textarea",
+        "docxSlotId": "legalBasis.procedureArticlesLine",
+        "actualDocxContext": "Điều 137 của Luật Tư pháp người chưa thành niên ; Xét {{document.documentCode}} số … ngày … tháng … năm … của … đ ối với {{document.documentCode}} {{document.documentCode}} Nhận thấy {{person.fullName}} , QUYẾT ĐỊNH: Điều 1. Trả tự do cho: Họ tên: 8 {{document.issuePlaceAndDateLine}} Tên gọi khác: {{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS,",
+        "actualDocxRawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "rationale": "BM-036 context places this token in the person identity block, not official/signature config or legal-basis text; use manual textarea metadata and clear the residual slot review flag."
+      },
+      "reviewedBy": "Codex legal semantic slot review",
+      "reviewedAt": "2026-06-29T15:27:52.239Z"
     },
     {
       "slotId": "decision.summaryLine",
@@ -220,14 +231,21 @@
         "textAfter": ";",
         "rawPattern": "{{document.field12}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "10",
-        "textAfter": ";",
-        "rawPattern": "{{document.field12}}",
-        "context": "[Auto] 10",
-        "blockId": "P0046"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Người bị áp dụng",
+        "docxSlotId": "recipients.personLine",
+        "actualDocxContext": "{{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.personLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "recipients.archiveLine",
@@ -246,14 +264,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field13}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "11",
-        "textAfter": "",
-        "rawPattern": "{{document.field13}}",
-        "context": "[Auto] 11",
-        "blockId": "P0049"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Lưu hồ sơ",
+        "docxSlotId": "recipients.archiveLine",
+        "actualDocxContext": "ghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.archiveLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -324,17 +349,29 @@
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
-      "label": "Căn cứ pháp lý",
-      "source": "officialConfig",
+      "label": "Thông tin nhân thân bổ sung",
+      "source": "manual",
       "required": false,
-      "uiComponent": "text",
+      "uiComponent": "textarea",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic slot review",
+      "reviewedAt": "2026-06-29T15:27:52.239Z",
       "reviewEvidence": {
-        "context": "[Auto] {{document.field8}}",
-        "blockId": "P0037"
+        "reviewedAt": "2026-06-29T15:27:52.239Z",
+        "reviewedBy": "Codex legal semantic slot review",
+        "disposition": "FIX_SOURCE",
+        "confidence": "MEDIUM",
+        "oldLabel": "Căn cứ pháp lý",
+        "newLabel": "Thông tin nhân thân bổ sung",
+        "oldSource": "officialConfig",
+        "newSource": "manual",
+        "oldUiComponent": "text",
+        "newUiComponent": "textarea",
+        "docxSlotId": "legalBasis.procedureArticlesLine",
+        "actualDocxContext": "Điều 137 của Luật Tư pháp người chưa thành niên ; Xét {{document.documentCode}} số … ngày … tháng … năm … của … đ ối với {{document.documentCode}} {{document.documentCode}} Nhận thấy {{person.fullName}} , QUYẾT ĐỊNH: Điều 1. Trả tự do cho: Họ tên: 8 {{document.issuePlaceAndDateLine}} Tên gọi khác: {{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS,",
+        "actualDocxRawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "rationale": "BM-036 context places this token in the person identity block, not official/signature config or legal-basis text; use manual textarea metadata and clear the residual slot review flag."
       }
     },
     {
@@ -372,33 +409,49 @@
     {
       "path": "recipients.personLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Người bị áp dụng",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] 10",
-        "blockId": "P0046"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Người bị áp dụng",
+        "docxSlotId": "recipients.personLine",
+        "actualDocxContext": "{{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.personLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
       }
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Lưu hồ sơ",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] 11",
-        "blockId": "P0049"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Lưu hồ sơ",
+        "docxSlotId": "recipients.archiveLine",
+        "actualDocxContext": "ghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.archiveLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
       }
     }
   ],

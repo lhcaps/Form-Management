@@ -1,6 +1,6 @@
 # BM-140 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:18.935Z
+Generated: 2026-06-29T15:22:36.347Z
 Status: **PASS**
 
 | Gate | Status |

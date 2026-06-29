@@ -2,21 +2,21 @@
   "auditVersion": "v2",
   "repairedFrom": "AUDIT_FORMS_ROOT_CAUSE",
   "ruleIndependence": true,
-  "generatedAt": "2026-06-28T23:04:37.915Z",
+  "generatedAt": "2026-06-29T03:39:17.139Z",
   "totalContracts": 213,
-  "totalFields": 2460,
-  "totalIssues": 1465,
-  "failCount": 1144,
-  "reviewCount": 321,
+  "totalFields": 2464,
+  "totalIssues": 1427,
+  "failCount": 1141,
+  "reviewCount": 286,
   "issueCounts": {
     "BAD_LABEL": 350,
     "RAW_PATTERN_DOMAIN_MISMATCH": 10,
     "SOURCE_MISMATCH": 115,
     "WEAK_EVIDENCE_AUTO_LOCKED": 422,
     "GENERIC_FIELD_CANONICALIZATION": 349,
-    "UI_VISIBLE_BAD_METADATA": 15,
-    "COMPILED_DRIFT": 37,
-    "REQUIRED_SUSPICIOUS": 115,
+    "UI_VISIBLE_BAD_METADATA": 12,
+    "COMPILED_DRIFT": 0,
+    "REQUIRED_SUSPICIOUS": 117,
     "SHOULD_BE_READONLY": 42,
     "REMEDIATION_LEAK": 10
   },
@@ -90,51 +90,6 @@
       "context": "{{recipients.archiveLine}}",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-003",
-      "sourceId": "BM-003__bb64990bc49b",
-      "path": "document.issuePlaceAndDateLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "issuePlaceAndDateLine",
-      "source": "systemDate",
-      "issueCode": "UI_VISIBLE_BAD_METADATA",
-      "severity": "FAIL",
-      "reason": "Visible field resolves to bad label \"issuePlaceAndDateLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": false
-    },
-    {
-      "templateCode": "BM-003",
-      "sourceId": "BM-003__bb64990bc49b",
-      "path": "recipients.primaryLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "primaryLine",
-      "source": "manual",
-      "issueCode": "UI_VISIBLE_BAD_METADATA",
-      "severity": "FAIL",
-      "reason": "Visible field resolves to bad label \"primaryLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": false
-    },
-    {
-      "templateCode": "BM-003",
-      "sourceId": "BM-003__bb64990bc49b",
-      "path": "recipients.archiveLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "archiveLine",
-      "source": "manual",
-      "issueCode": "UI_VISIBLE_BAD_METADATA",
-      "severity": "FAIL",
-      "reason": "Visible field resolves to bad label \"archiveLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": false
     },
     {
       "templateCode": "BM-004",
@@ -873,51 +828,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-021",
-      "sourceId": "BM-021__772319486f41",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-021",
-      "sourceId": "BM-021__772319486f41",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-021",
-      "sourceId": "BM-021__772319486f41",
-      "path": "decision.summaryLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-022",
       "sourceId": "BM-022__13d342bdfc56",
       "path": "person.fullName",
@@ -929,36 +839,6 @@
       "issueCode": "REQUIRED_SUSPICIOUS",
       "severity": "REVIEW",
       "reason": "Field looks required (identity/key field likely required) but required=false.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-022",
-      "sourceId": "BM-022__13d342bdfc56",
-      "path": "agency.nameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan ban hành viết hoa",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-022",
-      "sourceId": "BM-022__13d342bdfc56",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -1048,36 +928,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-024",
-      "sourceId": "BM-024__575a6d8e9173",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-024",
-      "sourceId": "BM-024__575a6d8e9173",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Viện kiểm sát ban hành",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-025",
       "sourceId": "BM-025__5dcf0eb7f481",
       "path": "agency.issuePlace",
@@ -1110,51 +960,6 @@
       "severity": "FAIL",
       "reason": "Generic raw pattern \"{{document.field3}}\" mapped to \"agency.issuePlace\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
       "context": "6{{document.field3}}",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-025",
-      "sourceId": "BM-025__5dcf0eb7f481",
-      "path": "agency.nameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan ban hành viết hoa",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-025",
-      "sourceId": "BM-025__5dcf0eb7f481",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-025",
-      "sourceId": "BM-025__5dcf0eb7f481",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -1208,21 +1013,6 @@
       "issueCode": "REQUIRED_SUSPICIOUS",
       "severity": "REVIEW",
       "reason": "Field looks required (date field likely required) but required=false.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-026",
-      "sourceId": "BM-026__6e339663e320",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -1871,51 +1661,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-032",
-      "sourceId": "BM-032__cce50086cd38",
-      "path": "agency.nameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan ban hành viết hoa",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-032",
-      "sourceId": "BM-032__cce50086cd38",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-032",
-      "sourceId": "BM-032__cce50086cd38",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-033",
       "sourceId": "BM-033__51058a699877",
       "path": "legalBasis.procedureArticlesLine",
@@ -1968,21 +1713,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-033",
-      "sourceId": "BM-033__51058a699877",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-034",
       "sourceId": "BM-034__e02f842b6038",
       "path": "agency.issuePlace",
@@ -2017,36 +1747,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-034",
-      "sourceId": "BM-034__e02f842b6038",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-034",
-      "sourceId": "BM-034__e02f842b6038",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-035",
       "sourceId": "BM-035__be0035952622",
       "path": "document.issueDate",
@@ -2058,21 +1758,6 @@
       "issueCode": "REQUIRED_SUSPICIOUS",
       "severity": "REVIEW",
       "reason": "Field looks required (date field likely required) but required=false.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-035",
-      "sourceId": "BM-035__be0035952622",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -2294,36 +1979,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-036",
-      "sourceId": "BM-036__6f4466480a94",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-036",
-      "sourceId": "BM-036__6f4466480a94",
-      "path": "decision.summaryLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-037",
       "sourceId": "BM-037__1fa31d43251e",
       "path": "measure.article1Line",
@@ -2412,21 +2067,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-038",
-      "sourceId": "BM-038__7a37ca9c9d8e",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-039",
       "sourceId": "BM-039__733f9ddd4783",
       "path": "legalBasis.procedureArticlesLine",
@@ -2475,21 +2115,6 @@
       "severity": "REVIEW",
       "reason": "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Điều 3. Yêu cầu {{detentionArrest.detentionFacilityName}} tạm giam bị can {{dete\"",
       "context": "Điều 3. Yêu cầu {{detentionArrest.detentionFacilityName}} tạm giam bị can {{detentionArrest.accusedName}} cho đến khi có Lệnh/Quyết định mới./.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-039",
-      "sourceId": "BM-039__733f9ddd4783",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên (IN HOA)",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -2547,36 +2172,6 @@
       "suggestedPath": "document.documentCode",
       "confidence": "HIGH",
       "requiresHumanReview": false
-    },
-    {
-      "templateCode": "BM-041",
-      "sourceId": "BM-041__9a027eeceb3a",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tên cơ quan",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-041",
-      "sourceId": "BM-041__9a027eeceb3a",
-      "path": "agency.issuePlace",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Số quyết định",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
     },
     {
       "templateCode": "BM-042",
@@ -2757,21 +2352,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-044",
-      "sourceId": "BM-044__8552b13c78ff",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-045",
       "sourceId": "BM-045__13efe0d94756",
       "path": "legalBasis.procedureArticlesLine",
@@ -2820,21 +2400,6 @@
       "severity": "REVIEW",
       "reason": "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Điều 2. {{bailApproval.article2Line}}\"",
       "context": "Điều 2. {{bailApproval.article2Line}}",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-045",
-      "sourceId": "BM-045__13efe0d94756",
-      "path": "agency.parentNameUpper",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Cơ quan cấp trên (viết hoa)",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -3389,6 +2954,36 @@
       "requiresHumanReview": true
     },
     {
+      "templateCode": "BM-052",
+      "sourceId": "BM-052__9919ecdb3971",
+      "path": "person.fullName",
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Họ tên",
+      "source": "manual",
+      "issueCode": "REQUIRED_SUSPICIOUS",
+      "severity": "REVIEW",
+      "reason": "Field looks required (identity/key field likely required) but required=false.",
+      "confidence": "MEDIUM",
+      "requiresHumanReview": true
+    },
+    {
+      "templateCode": "BM-052",
+      "sourceId": "BM-052__9919ecdb3971",
+      "path": "person.idNumber",
+      "rawKey": null,
+      "rawDomain": null,
+      "rawTail": null,
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "source": "manual",
+      "issueCode": "REQUIRED_SUSPICIOUS",
+      "severity": "REVIEW",
+      "reason": "Field looks required (ID field likely required) but required=false.",
+      "confidence": "MEDIUM",
+      "requiresHumanReview": true
+    },
+    {
       "templateCode": "BM-053",
       "sourceId": "BM-053__0a5a43238f28",
       "path": "measure.article2Line",
@@ -3654,66 +3249,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-058",
-      "sourceId": "BM-058__6de8f0022bff",
-      "path": "document.issuePlaceAndDateLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Địa danh, ngày ban hành",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-058",
-      "sourceId": "BM-058__6de8f0022bff",
-      "path": "person.dateOfBirthText",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ngày sinh",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-058",
-      "sourceId": "BM-058__6de8f0022bff",
-      "path": "measure.detentionFromDateText",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tạm giam từ ngày",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-058",
-      "sourceId": "BM-058__6de8f0022bff",
-      "path": "measure.detentionToDateText",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tạm giam đến ngày",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-059",
       "sourceId": "BM-059__4cdec41fdb1d",
       "path": "legalBasis.procedureArticlesLine",
@@ -3865,21 +3400,6 @@
       "requiresHumanReview": true
     },
     {
-      "templateCode": "BM-062",
-      "sourceId": "BM-062__110961a781fa",
-      "path": "decision.decisionLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
       "templateCode": "BM-063",
       "sourceId": "BM-063__54b73110a34f",
       "path": "document.issuePlaceAndDateLine",
@@ -3927,21 +3447,6 @@
       "issueCode": "REQUIRED_SUSPICIOUS",
       "severity": "REVIEW",
       "reason": "Field looks required (identity/key field likely required) but required=false.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-063",
-      "sourceId": "BM-063__54b73110a34f",
-      "path": "document.issuePlaceAndDateLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -4041,21 +3546,6 @@
       "issueCode": "REQUIRED_SUSPICIOUS",
       "severity": "REVIEW",
       "reason": "Field looks required (identity/key field likely required) but required=false.",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-066",
-      "sourceId": "BM-066__e3bc56081554",
-      "path": "decision.decisionLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ô trống",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -11356,21 +10846,6 @@
       "severity": "FAIL",
       "reason": "Generic raw pattern \"{{document.field12}}\" mapped to \"person.toiDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
       "context": "{{document.field12}}",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-126",
-      "sourceId": "BM-126__2d8c3d38368b",
-      "path": "decision.summaryLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Tóm tắt hồ sơ",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
       "confidence": "MEDIUM",
       "requiresHumanReview": true
     },
@@ -26078,51 +25553,6 @@
       "suggestedSource": "agencyConfig",
       "confidence": "HIGH",
       "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-213",
-      "sourceId": "BM-213__33383be18132",
-      "path": "document.issuePlaceAndDateLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Địa danh, ngày ban hành",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-213",
-      "sourceId": "BM-213__33383be18132",
-      "path": "person.dateOfBirthText",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ngày sinh",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
-    },
-    {
-      "templateCode": "BM-213",
-      "sourceId": "BM-213__33383be18132",
-      "path": "person.identityIssueLine",
-      "rawKey": null,
-      "rawDomain": null,
-      "rawTail": null,
-      "label": "Ngày cấp và nơi cấp giấy tờ",
-      "source": "computed",
-      "issueCode": "COMPILED_DRIFT",
-      "severity": "REVIEW",
-      "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-      "confidence": "MEDIUM",
-      "requiresHumanReview": true
     }
   ],
   "byTemplate": [
@@ -26148,8 +25578,8 @@
       "templateCode": "BM-003",
       "title": "QĐ phân công THQCT, KS việc tiếp nhận, giải quyết nguồn tin về tội phạm",
       "fieldCount": 14,
-      "issueCount": 7,
-      "failCount": 3,
+      "issueCount": 4,
+      "failCount": 0,
       "reviewCount": 4,
       "allIssues": [
         {
@@ -26221,51 +25651,6 @@
           "context": "{{recipients.archiveLine}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-003",
-          "sourceId": "BM-003__bb64990bc49b",
-          "path": "document.issuePlaceAndDateLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "issuePlaceAndDateLine",
-          "source": "systemDate",
-          "issueCode": "UI_VISIBLE_BAD_METADATA",
-          "severity": "FAIL",
-          "reason": "Visible field resolves to bad label \"issuePlaceAndDateLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": false
-        },
-        {
-          "templateCode": "BM-003",
-          "sourceId": "BM-003__bb64990bc49b",
-          "path": "recipients.primaryLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "primaryLine",
-          "source": "manual",
-          "issueCode": "UI_VISIBLE_BAD_METADATA",
-          "severity": "FAIL",
-          "reason": "Visible field resolves to bad label \"primaryLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": false
-        },
-        {
-          "templateCode": "BM-003",
-          "sourceId": "BM-003__bb64990bc49b",
-          "path": "recipients.archiveLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "archiveLine",
-          "source": "manual",
-          "issueCode": "UI_VISIBLE_BAD_METADATA",
-          "severity": "FAIL",
-          "reason": "Visible field resolves to bad label \"archiveLine\" (raw camelCase no Vietnamese) after full label resolution chain. This WILL appear in UI.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": false
         }
       ]
     },
@@ -27010,9 +26395,9 @@
       "templateCode": "BM-021",
       "title": "QĐ không khởi tố vụ án hình sự",
       "fieldCount": 7,
-      "issueCount": 12,
+      "issueCount": 9,
       "failCount": 8,
-      "reviewCount": 4,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-021",
@@ -27175,51 +26560,6 @@
           "context": "{{document.field9}}{{document.field10}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-021",
-          "sourceId": "BM-021__772319486f41",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-021",
-          "sourceId": "BM-021__772319486f41",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-021",
-          "sourceId": "BM-021__772319486f41",
-          "path": "decision.summaryLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -27227,9 +26567,9 @@
       "templateCode": "BM-022",
       "title": "QĐ huỷ bỏ QĐ không khởi tố vụ án hình sự",
       "fieldCount": 4,
-      "issueCount": 3,
+      "issueCount": 1,
       "failCount": 0,
-      "reviewCount": 3,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-022",
@@ -27243,36 +26583,6 @@
           "issueCode": "REQUIRED_SUSPICIOUS",
           "severity": "REVIEW",
           "reason": "Field looks required (identity/key field likely required) but required=false.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-022",
-          "sourceId": "BM-022__13d342bdfc56",
-          "path": "agency.nameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan ban hành viết hoa",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-022",
-          "sourceId": "BM-022__13d342bdfc56",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -27326,9 +26636,9 @@
       "templateCode": "BM-024",
       "title": "QĐ thay đổi QĐ khởi tố vụ án hình sự",
       "fieldCount": 4,
-      "issueCount": 5,
+      "issueCount": 3,
       "failCount": 2,
-      "reviewCount": 3,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-024",
@@ -27380,36 +26690,6 @@
           "context": "6{{document.field6}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-024",
-          "sourceId": "BM-024__575a6d8e9173",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-024",
-          "sourceId": "BM-024__575a6d8e9173",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Viện kiểm sát ban hành",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -27417,9 +26697,9 @@
       "templateCode": "BM-025",
       "title": "QĐ bổ sung QĐ khởi tố vụ án hình sự",
       "fieldCount": 3,
-      "issueCount": 5,
+      "issueCount": 2,
       "failCount": 2,
-      "reviewCount": 3,
+      "reviewCount": 0,
       "allIssues": [
         {
           "templateCode": "BM-025",
@@ -27456,51 +26736,6 @@
           "context": "6{{document.field3}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-025",
-          "sourceId": "BM-025__5dcf0eb7f481",
-          "path": "agency.nameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan ban hành viết hoa",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-025",
-          "sourceId": "BM-025__5dcf0eb7f481",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-025",
-          "sourceId": "BM-025__5dcf0eb7f481",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -27508,9 +26743,9 @@
       "templateCode": "BM-026",
       "title": "QĐ huỷ bỏ QĐ khởi tố vụ án hình sự",
       "fieldCount": 4,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 2,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-026",
@@ -27562,21 +26797,6 @@
           "issueCode": "REQUIRED_SUSPICIOUS",
           "severity": "REVIEW",
           "reason": "Field looks required (date field likely required) but required=false.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-026",
-          "sourceId": "BM-026__6e339663e320",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -28244,9 +27464,9 @@
       "templateCode": "BM-032",
       "title": "QĐ không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp",
       "fieldCount": 4,
-      "issueCount": 5,
+      "issueCount": 2,
       "failCount": 2,
-      "reviewCount": 3,
+      "reviewCount": 0,
       "allIssues": [
         {
           "templateCode": "BM-032",
@@ -28283,51 +27503,6 @@
           "context": "Nhận thấy8{{document.field3}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-032",
-          "sourceId": "BM-032__cce50086cd38",
-          "path": "agency.nameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan ban hành viết hoa",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-032",
-          "sourceId": "BM-032__cce50086cd38",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-032",
-          "sourceId": "BM-032__cce50086cd38",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28335,9 +27510,9 @@
       "templateCode": "BM-033",
       "title": "QĐ phê chuẩn QĐ gia hạn tạm giữ",
       "fieldCount": 21,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 0,
-      "reviewCount": 4,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-033",
@@ -28390,21 +27565,6 @@
           "context": "Điều 2. {{custody.executionRequestLine}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-033",
-          "sourceId": "BM-033__51058a699877",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28412,9 +27572,9 @@
       "templateCode": "BM-034",
       "title": "QĐ không phê chuẩn QĐ gia hạn tạm giữ",
       "fieldCount": 4,
-      "issueCount": 4,
+      "issueCount": 2,
       "failCount": 1,
-      "reviewCount": 3,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-034",
@@ -28449,36 +27609,6 @@
           "reason": "Field looks required (date field likely required) but required=false.",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-034",
-          "sourceId": "BM-034__e02f842b6038",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-034",
-          "sourceId": "BM-034__e02f842b6038",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28486,9 +27616,9 @@
       "templateCode": "BM-035",
       "title": "QĐ huỷ bỏ QĐ tạm giữ, quyết định gia hạn tạm giữ",
       "fieldCount": 3,
-      "issueCount": 2,
+      "issueCount": 1,
       "failCount": 0,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-035",
@@ -28504,21 +27634,6 @@
           "reason": "Field looks required (date field likely required) but required=false.",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-035",
-          "sourceId": "BM-035__be0035952622",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28526,9 +27641,9 @@
       "templateCode": "BM-036",
       "title": "QĐ trả tự do cho người bị tạm giữ",
       "fieldCount": 9,
-      "issueCount": 14,
+      "issueCount": 12,
       "failCount": 9,
-      "reviewCount": 5,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-036",
@@ -28746,36 +27861,6 @@
           "context": "11{{document.field13}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-036",
-          "sourceId": "BM-036__6f4466480a94",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-036",
-          "sourceId": "BM-036__6f4466480a94",
-          "path": "decision.summaryLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28829,9 +27914,9 @@
       "templateCode": "BM-038",
       "title": "QĐ không phê chuẩn Lệnh bắt bị can để tạm giam",
       "fieldCount": 20,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 0,
-      "reviewCount": 4,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-038",
@@ -28884,21 +27969,6 @@
           "context": "Điều 2. {{arrestNonApproval.article2Line}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-038",
-          "sourceId": "BM-038__7a37ca9c9d8e",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên (viết hoa)",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -28906,9 +27976,9 @@
       "templateCode": "BM-039",
       "title": "Lệnh bắt bị can bị tạm giam",
       "fieldCount": 40,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 0,
-      "reviewCount": 4,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-039",
@@ -28959,21 +28029,6 @@
           "severity": "REVIEW",
           "reason": "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Điều 3. Yêu cầu {{detentionArrest.detentionFacilityName}} tạm giam bị can {{dete\"",
           "context": "Điều 3. Yêu cầu {{detentionArrest.detentionFacilityName}} tạm giam bị can {{detentionArrest.accusedName}} cho đến khi có Lệnh/Quyết định mới./.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-039",
-          "sourceId": "BM-039__733f9ddd4783",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên (IN HOA)",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -29029,9 +28084,9 @@
       "templateCode": "BM-041",
       "title": "QĐ không phê chuẩn Lệnh tạm giam",
       "fieldCount": 3,
-      "issueCount": 3,
+      "issueCount": 1,
       "failCount": 1,
-      "reviewCount": 2,
+      "reviewCount": 0,
       "allIssues": [
         {
           "templateCode": "BM-041",
@@ -29051,36 +28106,6 @@
           "suggestedPath": "document.documentCode",
           "confidence": "HIGH",
           "requiresHumanReview": false
-        },
-        {
-          "templateCode": "BM-041",
-          "sourceId": "BM-041__9a027eeceb3a",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tên cơ quan",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-041",
-          "sourceId": "BM-041__9a027eeceb3a",
-          "path": "agency.issuePlace",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Số quyết định",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -29216,9 +28241,9 @@
       "templateCode": "BM-044",
       "title": "QĐ thay thế biện pháp tạm giam",
       "fieldCount": 21,
-      "issueCount": 5,
+      "issueCount": 4,
       "failCount": 1,
-      "reviewCount": 4,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-044",
@@ -29289,21 +28314,6 @@
           "context": "Điều 2. {{detentionReplacement.article2Line}}",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-044",
-          "sourceId": "BM-044__8552b13c78ff",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên (viết hoa)",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -29311,9 +28321,9 @@
       "templateCode": "BM-045",
       "title": "QĐ phê chuẩn QĐ về việc bảo lĩnh",
       "fieldCount": 20,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 0,
-      "reviewCount": 4,
+      "reviewCount": 3,
       "allIssues": [
         {
           "templateCode": "BM-045",
@@ -29364,21 +28374,6 @@
           "severity": "REVIEW",
           "reason": "source=\"manual\" but context contains fixed legal text. Verify this really needs user input. context=\"Điều 2. {{bailApproval.article2Line}}\"",
           "context": "Điều 2. {{bailApproval.article2Line}}",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-045",
-          "sourceId": "BM-045__13efe0d94756",
-          "path": "agency.parentNameUpper",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Cơ quan cấp trên (viết hoa)",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -29928,10 +28923,10 @@
     {
       "templateCode": "BM-052",
       "title": "QĐ huỷ bỏ biện pháp đặt tiền để bảo đảm",
-      "fieldCount": 5,
-      "issueCount": 4,
+      "fieldCount": 8,
+      "issueCount": 6,
       "failCount": 2,
-      "reviewCount": 2,
+      "reviewCount": 4,
       "allIssues": [
         {
           "templateCode": "BM-052",
@@ -29999,6 +28994,36 @@
           "severity": "FAIL",
           "reason": "Generic raw pattern \"{{document.field5}}\" mapped to \"document.fullDocumentCode2\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
           "context": "{{document.field5}}",
+          "confidence": "MEDIUM",
+          "requiresHumanReview": true
+        },
+        {
+          "templateCode": "BM-052",
+          "sourceId": "BM-052__9919ecdb3971",
+          "path": "person.fullName",
+          "rawKey": null,
+          "rawDomain": null,
+          "rawTail": null,
+          "label": "Họ tên",
+          "source": "manual",
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "severity": "REVIEW",
+          "reason": "Field looks required (identity/key field likely required) but required=false.",
+          "confidence": "MEDIUM",
+          "requiresHumanReview": true
+        },
+        {
+          "templateCode": "BM-052",
+          "sourceId": "BM-052__9919ecdb3971",
+          "path": "person.idNumber",
+          "rawKey": null,
+          "rawDomain": null,
+          "rawTail": null,
+          "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+          "source": "manual",
+          "issueCode": "REQUIRED_SUSPICIOUS",
+          "severity": "REVIEW",
+          "reason": "Field looks required (ID field likely required) but required=false.",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -30237,9 +29262,9 @@
       "templateCode": "BM-058",
       "title": "Lệnh tạm giam",
       "fieldCount": 36,
-      "issueCount": 9,
+      "issueCount": 5,
       "failCount": 0,
-      "reviewCount": 9,
+      "reviewCount": 5,
       "allIssues": [
         {
           "templateCode": "BM-058",
@@ -30324,66 +29349,6 @@
           "severity": "REVIEW",
           "reason": "Field appears to be a computed/agency/official field (fixed legal text). source=\"officialConfig\" is likely wrong.",
           "suggestedSource": "agencyConfig",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-058",
-          "sourceId": "BM-058__6de8f0022bff",
-          "path": "document.issuePlaceAndDateLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Địa danh, ngày ban hành",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-058",
-          "sourceId": "BM-058__6de8f0022bff",
-          "path": "person.dateOfBirthText",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ngày sinh",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-058",
-          "sourceId": "BM-058__6de8f0022bff",
-          "path": "measure.detentionFromDateText",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tạm giam từ ngày",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-058",
-          "sourceId": "BM-058__6de8f0022bff",
-          "path": "measure.detentionToDateText",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tạm giam đến ngày",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -30522,10 +29487,10 @@
     {
       "templateCode": "BM-062",
       "title": "Lệnh kê biên tài sản",
-      "fieldCount": 5,
-      "issueCount": 4,
+      "fieldCount": 6,
+      "issueCount": 3,
       "failCount": 2,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-062",
@@ -30577,21 +29542,6 @@
           "reason": "Field looks required (identity/key field likely required) but required=false.",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-062",
-          "sourceId": "BM-062__110961a781fa",
-          "path": "decision.decisionLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
         }
       ]
     },
@@ -30599,9 +29549,9 @@
       "templateCode": "BM-063",
       "title": "Biên bản kê biên tài sản",
       "fieldCount": 5,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 2,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-063",
@@ -30651,21 +29601,6 @@
           "issueCode": "REQUIRED_SUSPICIOUS",
           "severity": "REVIEW",
           "reason": "Field looks required (identity/key field likely required) but required=false.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-063",
-          "sourceId": "BM-063__54b73110a34f",
-          "path": "document.issuePlaceAndDateLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -30742,9 +29677,9 @@
       "templateCode": "BM-066",
       "title": "Lệnh phong toả tài khoản",
       "fieldCount": 5,
-      "issueCount": 4,
+      "issueCount": 3,
       "failCount": 2,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-066",
@@ -30794,21 +29729,6 @@
           "issueCode": "REQUIRED_SUSPICIOUS",
           "severity": "REVIEW",
           "reason": "Field looks required (identity/key field likely required) but required=false.",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-066",
-          "sourceId": "BM-066__e3bc56081554",
-          "path": "decision.decisionLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ô trống",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -38358,9 +37278,9 @@
       "templateCode": "BM-126",
       "title": "QĐ trưng cầu giám định",
       "fieldCount": 11,
-      "issueCount": 20,
+      "issueCount": 19,
       "failCount": 18,
-      "reviewCount": 2,
+      "reviewCount": 1,
       "allIssues": [
         {
           "templateCode": "BM-126",
@@ -38705,21 +37625,6 @@
           "severity": "FAIL",
           "reason": "Generic raw pattern \"{{document.field12}}\" mapped to \"person.toiDanh\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
           "context": "{{document.field12}}",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-126",
-          "sourceId": "BM-126__2d8c3d38368b",
-          "path": "decision.summaryLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Tóm tắt hồ sơ",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
           "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
@@ -54256,9 +53161,9 @@
       "templateCode": "BM-213",
       "title": "Yêu cầu áp dụng các biện pháp kỹ thuật để bảo vệ NCTN",
       "fieldCount": 28,
-      "issueCount": 5,
+      "issueCount": 2,
       "failCount": 0,
-      "reviewCount": 5,
+      "reviewCount": 2,
       "allIssues": [
         {
           "templateCode": "BM-213",
@@ -54293,51 +53198,6 @@
           "context": "{{agency.parentName}} {{agency.name}}",
           "suggestedSource": "agencyConfig",
           "confidence": "HIGH",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-213",
-          "sourceId": "BM-213__33383be18132",
-          "path": "document.issuePlaceAndDateLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Địa danh, ngày ban hành",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-213",
-          "sourceId": "BM-213__33383be18132",
-          "path": "person.dateOfBirthText",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ngày sinh",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
-          "requiresHumanReview": true
-        },
-        {
-          "templateCode": "BM-213",
-          "sourceId": "BM-213__33383be18132",
-          "path": "person.identityIssueLine",
-          "rawKey": null,
-          "rawDomain": null,
-          "rawTail": null,
-          "label": "Ngày cấp và nơi cấp giấy tờ",
-          "source": "computed",
-          "issueCode": "COMPILED_DRIFT",
-          "severity": "REVIEW",
-          "reason": "dataSource drift: locked=\"computed\" vs compiled=\"MANUAL\".",
-          "confidence": "MEDIUM",
           "requiresHumanReview": true
         }
       ]

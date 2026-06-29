@@ -1,6 +1,6 @@
 # BM-120 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:16.366Z
+Generated: 2026-06-29T15:22:34.904Z
 Status: **PASS**
 
 | Gate | Status |

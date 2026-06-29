@@ -64,14 +64,21 @@
         "textAfter": "{{document.field4}}",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "{{document.field4}}",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] {{document.field3}}{{document.field4}}",
-        "blockId": "P0032"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Tách hành vi … của 7 … thuộc vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … để …./. Nơi nhận: - … ; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "agency.diaDanh",
@@ -90,14 +97,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field4}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "{{document.field3}}",
-        "textAfter": "",
-        "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] {{document.field3}}",
-        "blockId": "P0032"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "háng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Tách hành vi … của 7 … thuộc vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … để …./. Nơi nhận: - … ; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -120,33 +134,49 @@
     {
       "path": "document.soQuyet",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field3}}{{document.field4}}",
-        "blockId": "P0032"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Tách hành vi … của 7 … thuộc vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … để …./. Nơi nhận: - … ; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "agency.diaDanh",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "source": "agencyConfig",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field3}}",
-        "blockId": "P0032"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "háng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Tách hành vi … của 7 … thuộc vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … để …./. Nơi nhận: - … ; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],

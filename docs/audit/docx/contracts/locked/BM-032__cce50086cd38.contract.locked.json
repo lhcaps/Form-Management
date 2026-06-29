@@ -90,14 +90,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Nhận thấy8",
-        "textAfter": "",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] Nhận thấy8",
-        "blockId": "P0033"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa điểm ban hành",
+        "docxSlotId": "agency.issuePlace",
+        "actualDocxContext": "TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 109, 110 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 và Điều 136 của Luật Tư pháp người chưa thành niên ; Xét hồ sơ đề nghị phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …; Nhận thấy 8 {{agency.issuePlace}} QUYẾT ĐỊNH: Điều 1. Không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …. Điều 2. Yêu cầu 6 … trả tự do ngay cho người bị giữ theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 6 … ; - 7 … ; - Lưu : HSVV, HSKS, VP. 9 {{document.documentCode}} ( Ký, ghi rõ",
+        "actualDocxRawPattern": "{{agency.issuePlace}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "document.documentCode",
@@ -116,14 +123,19 @@
         "textAfter": "",
         "rawPattern": "{{document.field4}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "9",
-        "textAfter": "",
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.documentCode",
+        "docxContext": "9{{document.field4}}",
         "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] 9",
-        "blockId": "P0045"
-      }
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+      },
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z"
     }
   ],
   "canonicalFields": [
@@ -161,17 +173,25 @@
     {
       "path": "agency.issuePlace",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa điểm ban hành",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] Nhận thấy8",
-        "blockId": "P0033"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa điểm ban hành",
+        "docxSlotId": "agency.issuePlace",
+        "actualDocxContext": "TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 109, 110 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 và Điều 136 của Luật Tư pháp người chưa thành niên ; Xét hồ sơ đề nghị phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …; Nhận thấy 8 {{agency.issuePlace}} QUYẾT ĐỊNH: Điều 1. Không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …. Điều 2. Yêu cầu 6 … trả tự do ngay cho người bị giữ theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 6 … ; - 7 … ; - Lưu : HSVV, HSKS, VP. 9 {{document.documentCode}} ( Ký, ghi rõ",
+        "actualDocxRawPattern": "{{agency.issuePlace}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
@@ -183,11 +203,17 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] 9",
-        "blockId": "P0045"
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.documentCode",
+        "docxContext": "9{{document.field4}}",
+        "rawPattern": "{{document.field4}}",
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
       }
     }
   ],

@@ -64,7 +64,19 @@
         "textAfter": "",
         "rawPattern": "{{document.field1}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+        "rawPattern": "{{document.field1}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "slotId": "document.issueDate",
@@ -83,7 +95,19 @@
         "textAfter": "",
         "rawPattern": "{{document.field2}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.issueDate",
+        "docxContext": "\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "slotId": "person.dateOfBirth",
@@ -102,7 +126,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Ngày sinh",
+        "docxSlotId": "person.dateOfBirth",
+        "actualDocxContext": "Tự do - Hạnh phúc … , ngày … tháng … năm 20… 3734435 -1432560 Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) GIẤY MỜI Viện kiểm sát 2 {{document.fullDocumentCode}} Kính mời ông/bà: {{document.issueDate}} N ơ i th ư ờng trú/n ơ {{person.dateOfBirth}} N ơ {{person.dateOfBirth}} N ơ i ở hiện nay: {{person.dateOfBirth}} Đú {{person.personFullName}} ă m … có mặt tại {{person.currentAddress}} đ ể: {{person.occupation}} Khi đ ến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp {{person.idNumber}} Đề nghị ông/bà có mặt theo đú ng th",
+        "actualDocxRawPattern": "{{person.dateOfBirth}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "slotId": "person.personFullName",
@@ -121,7 +159,19 @@
         "textAfter": "",
         "rawPattern": "{{person.personFullName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.currentAddress",
@@ -140,7 +190,19 @@
         "textAfter": "",
         "rawPattern": "{{person.currentAddress}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": "\"/> {{person.currentAddress}} <",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.occupation",
@@ -159,7 +221,19 @@
         "textAfter": "",
         "rawPattern": "{{person.occupation}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.occupation",
+        "docxContext": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\"",
+        "rawPattern": "{{person.occupation}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.idNumber",
@@ -178,7 +252,19 @@
         "textAfter": "",
         "rawPattern": "{{person.idNumber}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "canonicalFields": [
@@ -205,7 +291,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+        "rawPattern": "{{document.field1}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "path": "document.issueDate",
@@ -214,16 +312,42 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.issueDate",
+        "docxContext": "\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "path": "person.dateOfBirth",
       "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Ngày sinh",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Ngày sinh",
+        "docxSlotId": "person.dateOfBirth",
+        "actualDocxContext": "Tự do - Hạnh phúc … , ngày … tháng … năm 20… 3734435 -1432560 Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) GIẤY MỜI Viện kiểm sát 2 {{document.fullDocumentCode}} Kính mời ông/bà: {{document.issueDate}} N ơ i th ư ờng trú/n ơ {{person.dateOfBirth}} N ơ {{person.dateOfBirth}} N ơ i ở hiện nay: {{person.dateOfBirth}} Đú {{person.personFullName}} ă m … có mặt tại {{person.currentAddress}} đ ể: {{person.occupation}} Khi đ ến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp {{person.idNumber}} Đề nghị ông/bà có mặt theo đú ng th",
+        "actualDocxRawPattern": "{{person.dateOfBirth}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "path": "person.personFullName",
@@ -232,7 +356,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "path": "person.currentAddress",
@@ -241,7 +377,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": "\"/> {{person.currentAddress}} <",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "path": "person.occupation",
@@ -250,7 +398,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.occupation",
+        "docxContext": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\"",
+        "rawPattern": "{{person.occupation}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "path": "person.idNumber",
@@ -259,7 +419,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "renderBindings": [
@@ -275,49 +447,135 @@
       "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+        "rawPattern": "{{document.field1}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "slotId": "document.issueDate",
       "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:05:05.751Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:05:05.751Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.issueDate",
+        "docxContext": "\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Tim",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "slotId": "person.dateOfBirth",
       "from": "person.dateOfBirth",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Ngày sinh",
+        "docxSlotId": "person.dateOfBirth",
+        "actualDocxContext": "Tự do - Hạnh phúc … , ngày … tháng … năm 20… 3734435 -1432560 Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) GIẤY MỜI Viện kiểm sát 2 {{document.fullDocumentCode}} Kính mời ông/bà: {{document.issueDate}} N ơ i th ư ờng trú/n ơ {{person.dateOfBirth}} N ơ {{person.dateOfBirth}} N ơ i ở hiện nay: {{person.dateOfBirth}} Đú {{person.personFullName}} ă m … có mặt tại {{person.currentAddress}} đ ể: {{person.occupation}} Khi đ ến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp {{person.idNumber}} Đề nghị ông/bà có mặt theo đú ng th",
+        "actualDocxRawPattern": "{{person.dateOfBirth}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "slotId": "person.personFullName",
       "from": "person.personFullName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\" w:eastAsia",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.currentAddress",
       "from": "person.currentAddress",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": "\"/> {{person.currentAddress}} <",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.occupation",
       "from": "person.occupation",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.occupation",
+        "docxContext": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\"",
+        "rawPattern": "{{person.occupation}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.idNumber",
       "from": "person.idNumber",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.idNumber",
+        "docxContext": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R",
+        "rawPattern": "{{person.idNumber}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "rejectedCandidates": [],

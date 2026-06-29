@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "task": "FORM_RENDER_FIDELITY_GATE",
-  "generatedAt": "2026-06-28T17:27:34.689Z",
+  "generatedAt": "2026-06-29T15:22:29.977Z",
   "templateCode": "BM-063",
   "sourceId": "BM-063__54b73110a34f",
   "paths": {
@@ -17,7 +17,7 @@
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "document.recordStartedAtTimeText",
         "partName": "word/document.xml"
       },
       {
@@ -25,27 +25,27 @@
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "document.recordLocationName",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "prosecutor.procuracyName",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "assignment.participantLine1",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "assignment.participantLine2",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "assignment.participantLine3",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "assignment.participantLine4",
         "partName": "word/document.xml"
       },
       {
@@ -53,53 +53,71 @@
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "recipients.personLine5",
+        "placeholder": "person.birthInfoLine",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "recipients.personLine5",
+        "placeholder": "person.nationalityEthnicityReligionLine",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "recipients.personLine5",
+        "placeholder": "person.identityIssueLine",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "recipients.personLine5",
+        "placeholder": "measure.assetListLine",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "recipients.personLine5",
+        "placeholder": "measure.participantOpinionLine",
         "partName": "word/document.xml"
       },
       {
-        "placeholder": "document.fullDocumentCode8",
+        "placeholder": "document.recordEndedAtTimeLine",
         "partName": "word/document.xml"
       }
     ],
     "unique": [
       "agency.name",
-      "document.fullDocumentCode8",
+      "assignment.participantLine1",
+      "assignment.participantLine2",
+      "assignment.participantLine3",
+      "assignment.participantLine4",
       "document.issuePlaceAndDateLine",
-      "recipients.personLine",
-      "recipients.personLine5"
+      "document.recordEndedAtTimeLine",
+      "document.recordLocationName",
+      "document.recordStartedAtTimeText",
+      "measure.assetListLine",
+      "measure.participantOpinionLine",
+      "person.birthInfoLine",
+      "person.identityIssueLine",
+      "person.nationalityEthnicityReligionLine",
+      "prosecutor.procuracyName",
+      "recipients.personLine"
     ],
     "counts": {
       "agency.name": 1,
-      "document.fullDocumentCode8": 8,
+      "document.recordStartedAtTimeText": 1,
       "document.issuePlaceAndDateLine": 1,
+      "document.recordLocationName": 1,
+      "prosecutor.procuracyName": 1,
+      "assignment.participantLine1": 1,
+      "assignment.participantLine2": 1,
+      "assignment.participantLine3": 1,
+      "assignment.participantLine4": 1,
       "recipients.personLine": 1,
-      "recipients.personLine5": 5
+      "person.birthInfoLine": 1,
+      "person.nationalityEthnicityReligionLine": 1,
+      "person.identityIssueLine": 1,
+      "measure.assetListLine": 1,
+      "measure.participantOpinionLine": 1,
+      "document.recordEndedAtTimeLine": 1
     }
   },
   "bindingFidelity": {
-    "status": "FAIL",
-    "templatePlaceholdersWithoutSlots": [
-      "document.fullDocumentCode8"
-    ],
-    "templatePlaceholdersWithoutBindings": [
-      "document.fullDocumentCode8"
-    ],
+    "status": "PASS",
+    "templatePlaceholdersWithoutSlots": [],
+    "templatePlaceholdersWithoutBindings": [],
     "bindingsWithoutCanonicalFields": []
   },
   "render": {
@@ -108,9 +126,9 @@
   },
   "textFidelity": {
     "status": "PASS",
-    "sourceTextLength": 2491,
-    "renderedTextLength": 2323,
-    "textLengthRatio": 0.9326,
+    "sourceTextLength": 2528,
+    "renderedTextLength": 2528,
+    "textLengthRatio": 1,
     "unreplacedPlaceholders": 0,
     "unreplaced": [],
     "staticAnchorCount": 49,
@@ -118,42 +136,9 @@
     "missingAnchors": []
   },
   "literalFidelity": {
-    "status": "FAIL",
-    "undefinedOrNullLiterals": 8,
-    "issues": [
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      },
-      {
-        "partName": "word/document.xml",
-        "preview": "undefined"
-      }
-    ]
+    "status": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "issues": []
   },
   "structureFidelity": {
     "status": "PASS",
@@ -187,7 +172,7 @@
     "hasContentTypes": true,
     "hasDocumentXml": true
   },
-  "status": "FAIL",
-  "clean": false,
-  "nextAction": "Repair template placeholders without bindings before claiming render fidelity."
+  "status": "PASS",
+  "clean": true,
+  "nextAction": "Render fidelity clean; proceed to board refresh and next remediation gate."
 }

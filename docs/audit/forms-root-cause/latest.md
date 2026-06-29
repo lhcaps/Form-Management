@@ -1,5 +1,5 @@
 # AUDIT_FORMS_ROOT_CAUSE v2 - Form Metadata Root-Cause Audit (Repaired)
-Generated: 2026-06-28T23:04:37.915Z
+Generated: 2026-06-29T03:39:17.139Z
 Audit version: v2 (rule independence: true)
 
 ## Executive Summary
@@ -7,10 +7,10 @@ Audit version: v2 (rule independence: true)
 | Metric | Value |
 |--------|-------|
 | totalContracts | 213 |
-| totalFields | 2460 |
-| totalIssues | 1465 |
-| **FAIL** | **1144** |
-| REVIEW | 321 |
+| totalFields | 2464 |
+| totalIssues | 1427 |
+| **FAIL** | **1141** |
+| REVIEW | 286 |
 
 ### Issue Counts by Category
 
@@ -19,11 +19,10 @@ Audit version: v2 (rule independence: true)
 | WEAK_EVIDENCE_AUTO_LOCKED | 422 |
 | BAD_LABEL | 350 |
 | GENERIC_FIELD_CANONICALIZATION | 349 |
+| REQUIRED_SUSPICIOUS | 117 |
 | SOURCE_MISMATCH | 115 |
-| REQUIRED_SUSPICIOUS | 115 |
 | SHOULD_BE_READONLY | 42 |
-| COMPILED_DRIFT | 37 |
-| UI_VISIBLE_BAD_METADATA | 15 |
+| UI_VISIBLE_BAD_METADATA | 12 |
 | RAW_PATTERN_DOMAIN_MISMATCH | 10 |
 | REMEDIATION_LEAK | 10 |
 
@@ -39,9 +38,9 @@ Audit version: v2 (rule independence: true)
 | BM-118 | QĐ phục hồi điều tra VA đối với bị can | 20 | 1 | 21 |
 | BM-203 | Thông báo về hoạt động tố tụng | 19 | 2 | 21 |
 | BM-211 | Thông báo về việc thụ lý vụ án | 19 | 2 | 21 |
-| BM-126 | QĐ trưng cầu giám định | 18 | 2 | 20 |
 | BM-186 | Thông báo áp dụng thủ tục xử lý chuyển hướng | 18 | 2 | 20 |
 | BM-196 | Quyết định mở phiên họp xem xét, áp dụng biện pháp | 18 | 2 | 20 |
+| BM-126 | QĐ trưng cầu giám định | 18 | 1 | 19 |
 | BM-106 | Yêu cầu truy nã bị can | 18 | 0 | 18 |
 | BM-190 | Đề nghị Tòa án xem xét, quyết định áp dụng biện ph | 17 | 2 | 19 |
 | BM-199 | Kiến nghị về quyết định áp dụng BPXLCH của Tòa án  | 17 | 2 | 19 |
@@ -607,7 +606,7 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | - | - | manual | REVIEW | MEDIUM |
 | BM-213 | `agency.parentName` | `Cơ quan cấp trên` | agency | parentName | manual | REVIEW | HIGH |
 
-### REQUIRED_SUSPICIOUS (115)
+### REQUIRED_SUSPICIOUS (117)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
@@ -619,6 +618,8 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-036 | `person.fullName` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-051 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-052 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `person.fullName` | `Họ tên` | - | - | manual | REVIEW | MEDIUM |
+| BM-052 | `person.idNumber` | `Số CMND/Thẻ CCCD/Thẻ CC/H` | - | - | manual | REVIEW | MEDIUM |
 | BM-060 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-061 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
 | BM-062 | `document.fullDocumentCode` | `Số văn bản` | - | - | manual | REVIEW | MEDIUM |
@@ -709,59 +710,12 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-198 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
 | BM-199 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
 | BM-199 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
-| BM-200 | `document.fullDocumentCode` | `Số văn bản / quyết định` | - | - | manual | REVIEW | MEDIUM |
-| BM-201 | `document.issueDate` | `Ngày ban hành` | - | - | manual | REVIEW | MEDIUM |
-| ... | | | | | | | 15 more |
+| ... | | | | | | | 17 more |
 
-### COMPILED_DRIFT (37)
+### UI_VISIBLE_BAD_METADATA (12)
 
 | templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
 |--------------|------|-------|----------|---------|--------|----------|------------|
-| BM-021 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-021 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-021 | `decision.summaryLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-022 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
-| BM-022 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-024 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-024 | `agency.issuePlace` | `Viện kiểm sát ban hành` | - | - | computed | REVIEW | MEDIUM |
-| BM-025 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
-| BM-025 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-025 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-026 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-032 | `agency.nameUpper` | `Tên cơ quan ban hành viết` | - | - | computed | REVIEW | MEDIUM |
-| BM-032 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-032 | `agency.issuePlace` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-033 | `agency.parentNameUpper` | `Cơ quan cấp trên` | - | - | computed | REVIEW | MEDIUM |
-| BM-034 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-034 | `agency.issuePlace` | `Nội dung quyết định (${"k` | - | - | computed | REVIEW | MEDIUM |
-| BM-035 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-036 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-036 | `decision.summaryLine` | `Cơ quan cấp trên` | - | - | computed | REVIEW | MEDIUM |
-| BM-038 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
-| BM-039 | `agency.parentNameUpper` | `Cơ quan cấp trên (IN HOA)` | - | - | computed | REVIEW | MEDIUM |
-| BM-041 | `agency.parentNameUpper` | `Tên cơ quan` | - | - | computed | REVIEW | MEDIUM |
-| BM-041 | `agency.issuePlace` | `Số quyết định` | - | - | computed | REVIEW | MEDIUM |
-| BM-044 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
-| BM-045 | `agency.parentNameUpper` | `Cơ quan cấp trên (viết ho` | - | - | computed | REVIEW | MEDIUM |
-| BM-058 | `document.issuePlaceAndDateLine` | `Địa danh, ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
-| BM-058 | `person.dateOfBirthText` | `Ngày sinh` | - | - | computed | REVIEW | MEDIUM |
-| BM-058 | `measure.detentionFromDateText` | `Tạm giam từ ngày` | - | - | computed | REVIEW | MEDIUM |
-| BM-058 | `measure.detentionToDateText` | `Tạm giam đến ngày` | - | - | computed | REVIEW | MEDIUM |
-| BM-062 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-063 | `document.issuePlaceAndDateLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-066 | `decision.decisionLine` | `Ô trống` | - | - | computed | REVIEW | MEDIUM |
-| BM-126 | `decision.summaryLine` | `Tóm tắt hồ sơ` | - | - | computed | REVIEW | MEDIUM |
-| BM-213 | `document.issuePlaceAndDateLine` | `Địa danh, ngày ban hành` | - | - | computed | REVIEW | MEDIUM |
-| BM-213 | `person.dateOfBirthText` | `Ngày sinh` | - | - | computed | REVIEW | MEDIUM |
-| BM-213 | `person.identityIssueLine` | `Ngày cấp và nơi cấp giấy ` | - | - | computed | REVIEW | MEDIUM |
-
-### UI_VISIBLE_BAD_METADATA (15)
-
-| templateCode | path | label | rawDomain | rawTail | source | severity | confidence |
-|--------------|------|-------|----------|---------|--------|----------|------------|
-| BM-003 | `document.issuePlaceAndDateLine` | `issuePlaceAndDateLine` | - | - | systemDate | FAIL | MEDIUM |
-| BM-003 | `recipients.primaryLine` | `primaryLine` | - | - | manual | FAIL | MEDIUM |
-| BM-003 | `recipients.archiveLine` | `archiveLine` | - | - | manual | FAIL | MEDIUM |
 | BM-069 | `document.fullDocumentCode` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-069 | `document.reasonLine` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
 | BM-069 | `document.reasonLine2` | `Slot from Wave 02 DOCX re` | - | - | manual | FAIL | MEDIUM |
@@ -778,8 +732,8 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 ## Proposed Fix Plan
 
 - **HIGH confidence auto-fix candidates**: 21
-- **MEDIUM confidence / requires review (FAIL)**: 1123
-- **REVIEW only (not auto-fix)**: 321
+- **MEDIUM confidence / requires review (FAIL)**: 1120
+- **REVIEW only (not auto-fix)**: 286
 
 ### Auto-fix Candidates (HIGH confidence, no human review needed)
 
@@ -834,12 +788,12 @@ Total: 4 issues (0 FAIL, 4 REVIEW)
 | BM-020 | `initiationRequest.article1Line` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
 | BM-020 | `initiationRequest.article2Line` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
 | BM-021 | `legalBasis.procedureArticlesLine` | SHOULD_BE_READONLY | Field appears to be a computed/agency/official field (fixed legal text). source= |
-| BM-021 | `agency.parentNameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
-| BM-021 | `agency.issuePlace` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
-| BM-021 | `decision.summaryLine` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
 | BM-022 | `person.fullName` | REQUIRED_SUSPICIOUS | Field looks required (identity/key field likely required) but required=false. |
-| BM-022 | `agency.nameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
-| BM-022 | `agency.parentNameUpper` | COMPILED_DRIFT | dataSource drift: locked="computed" vs compiled="MANUAL". |
 | BM-023 | `legalBasis.procedureArticlesLine` | SHOULD_BE_READONLY | Field appears to be a computed/agency/official field (fixed legal text). source= |
-| ... | | | 291 more |
+| BM-023 | `investigation.article2Line` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
+| BM-024 | `document.issueDate` | REQUIRED_SUSPICIOUS | Field looks required (date field likely required) but required=false. |
+| BM-026 | `document.issueDate` | REQUIRED_SUSPICIOUS | Field looks required (date field likely required) but required=false. |
+| BM-028 | `legalBasis.canCu` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
+| BM-028 | `document.soQd` | SOURCE_MISMATCH | source="manual" but context contains fixed legal text. Verify this really needs  |
+| ... | | | 256 more |
 

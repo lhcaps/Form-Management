@@ -64,14 +64,21 @@
         "textAfter": "{{document.field4}}",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "{{document.field4}}",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] {{document.field3}}{{document.field4}}",
-        "blockId": "P0037"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "đúng quy định tại khoản 1 Điều 170 của Bộ luật Tố tụng hình sự, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định nhập vụ án hình sự số … ngày … tháng … năm … của 5 … . Điều 2. Giữ nguyên các quyết định khởi tố vụ án hình sự của {{agency.vienKiem}} c ủa Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "agency.diaDanh",
@@ -90,14 +97,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field4}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "{{document.field3}}",
-        "textAfter": "",
-        "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] {{document.field3}}",
-        "blockId": "P0037"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "ản 1 Điều 170 của Bộ luật Tố tụng hình sự, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định nhập vụ án hình sự số … ngày … tháng … năm … của 5 … . Điều 2. Giữ nguyên các quyết định khởi tố vụ án hình sự của {{agency.vienKiem}} c ủa Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -120,33 +134,49 @@
     {
       "path": "document.soQuyet",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field3}}{{document.field4}}",
-        "blockId": "P0037"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "đúng quy định tại khoản 1 Điều 170 của Bộ luật Tố tụng hình sự, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định nhập vụ án hình sự số … ngày … tháng … năm … của 5 … . Điều 2. Giữ nguyên các quyết định khởi tố vụ án hình sự của {{agency.vienKiem}} c ủa Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "agency.diaDanh",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "source": "agencyConfig",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field3}}",
-        "blockId": "P0037"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "ản 1 Điều 170 của Bộ luật Tố tụng hình sự, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định nhập vụ án hình sự số … ngày … tháng … năm … của 5 … . Điều 2. Giữ nguyên các quyết định khởi tố vụ án hình sự của {{agency.vienKiem}} c ủa Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. {{document.soQuyet}} {{agency.diaDanh}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],

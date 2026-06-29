@@ -1,6 +1,6 @@
 # BM-068 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:09.994Z
+Generated: 2026-06-29T15:06:53.918Z
 Status: **PASS**
 
 | Gate | Status |

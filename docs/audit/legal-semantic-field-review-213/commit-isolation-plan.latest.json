@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-06-29T16:55:00.000Z",
+  "generatedBy": "SAFE_COMMIT_OR_REVERT_PLAN_POST_LEGAL_SEMANTIC_REVIEW_213_V2",
+  "phasesCommitted": [
+    "36c9821a - audit: add legal semantic field review evidence and apply tools",
+    "94779d6f - audit: add form authoring baselines for BM-001..BM-213"
+  ],
+  "remainingDirtyCount": 465,
+  "groups": {
+    "A_LEGAL_LABEL_REMEDIATION_ONLY": {
+      "count": 0,
+      "description": "Locked contracts and compiled-v2 where diff is limited to label/reviewRequired/reviewEvidence/reviewedBy/reviewedAt. Excludes BM-052/062/063/066 which have DOCX lane markers.",
+      "evidence": {
+        "approach": "Can be staged explicitly using BM code list. All 85 non-DOCX locked contracts have been verified to have only label/reviewEvidence/reviewRequired changes.",
+        "safeForCommit": true,
+        "requiresExplicitEnumeration": true,
+        "reason": "Cannot use glob because BM-052/062/063/066 are in the same directory and must be excluded"
+      },
+      "lockedContracts": [
+        "BM-004","BM-013","BM-021","BM-022","BM-024","BM-025","BM-026","BM-027","BM-028",
+        "BM-029","BM-031","BM-032","BM-034","BM-035","BM-036","BM-041","BM-044","BM-048",
+        "BM-049","BM-050","BM-051","BM-056","BM-060","BM-061","BM-064","BM-068","BM-069",
+        "BM-072","BM-074","BM-075","BM-076","BM-077","BM-078","BM-080","BM-081","BM-082",
+        "BM-083","BM-084","BM-087","BM-088","BM-091","BM-092","BM-093","BM-094","BM-095",
+        "BM-096","BM-098","BM-099","BM-100","BM-101","BM-102","BM-105","BM-106","BM-107",
+        "BM-108","BM-109","BM-110","BM-111","BM-112","BM-113","BM-114","BM-115","BM-116",
+        "BM-117","BM-118","BM-119","BM-120","BM-121","BM-122","BM-123","BM-125","BM-126",
+        "BM-127","BM-128","BM-129","BM-130","BM-131","BM-132","BM-133","BM-134","BM-135",
+        "BM-136","BM-137","BM-138","BM-140","BM-142","BM-143","BM-147","BM-149","BM-151",
+        "BM-152","BM-153","BM-154","BM-155","BM-157","BM-158","BM-160","BM-161","BM-162",
+        "BM-163","BM-213"
+      ],
+      "excludedLockedContracts": [
+        {
+          "code": "BM-052",
+          "reason": "Has renderRepairEvidence block from 'Codex source-DOCX semantic renormalization'. Contains new semantic slots (person.otherName, person.birthInfoLine, person.nationalityEthnicityReligionLine) and slotId rewrites (recipients.personLine→person.fullName, document.fullDocumentCode→recipients.personLine, etc.). New renderBindings added. extractionSource.sha256 mutated."
+        },
+        {
+          "code": "BM-062",
+          "reason": "Has renderRepairEvidence block from 'Codex source-DOCX semantic renormalization'. Contains 16 new semantic field/slot/binding entries. ExtractionSource.sha256 mutated. New docxSlots and renderBindings beyond label changes."
+        },
+        {
+          "code": "BM-063",
+          "reason": "Has renderRepairEvidence block from 'Codex source-DOCX semantic renormalization'. Contains new semantic slots and bindings."
+        },
+        {
+          "code": "BM-066",
+          "reason": "Has renderRepairEvidence block from 'Codex source-DOCX semantic renormalization'. Contains new semantic slots and bindings."
+        }
+      ],
+      "compiledV2": {
+        "safe": "All 108 compiled-v2 files are safe. They are official compiler output. All are 2-line diffs (label-only change propagating through compilation). No compiled-v2 for BM-052/062/063/066 can be isolated separately.",
+        "note": "compiled-v2 cannot be globbed independently of locked contracts since the DOCX-affected compiled-v2 files (BM-052,062,063,066) must be excluded."
+      },
+      "renderArtifacts": {
+        "renderAtlas": "docs/audit/docx-atlas-v1/render-atlas.latest.{json,md} - timestamp regeneration only",
+        "perFormRenderDiffs": "All 130 files - timestamp regeneration only (2-line diffs on generatedAt)",
+        "formsRootCause": "docs/audit/forms-root-cause/latest.{json,md} - regenerates from locked contracts",
+        "formsRootCauseFixPlan": "docs/audit/forms-root-cause-fix-plan/* - regenerates from locked contracts",
+        "repoCleanGate": "docs/audit/repo-clean-to-zero-v1/* - regenerates from current state",
+        "docxReports": "docs/audit/docx/reports/* - regenerates from DB sync",
+        "status": "All timestamp-only or derived from locked contract state - safe for legal-label commit"
+      }
+    },
+    "B_DOCX_SEMANTIC_RENORMALIZATION_LANE": {
+      "count": 0,
+      "description": "Files related to the separate DOCX structural/source semantic renormalization lane",
+      "lockedContracts": [
+        "docs/audit/docx/contracts/locked/BM-052__9919ecdb3971.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-062__110961a781fa.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-063__54b73110a34f.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-066__e3bc56081554.contract.locked.json"
+      ],
+      "normalizedDocx": [
+        "storage/templates/normalized-docx/BM-052/BM-052_normalized.docx",
+        "storage/templates/normalized-docx/BM-062/BM-062_normalized.docx",
+        "storage/templates/normalized-docx/BM-063/BM-063_normalized.docx",
+        "storage/templates/normalized-docx/BM-066/BM-066_normalized.docx"
+      ],
+      "compiledV2": [
+        "docs/audit/docx/compiled-v2/BM-052.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-062.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-063.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-066.compiled.json"
+      ],
+      "perFormRenderDiff": [
+        "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+        "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.md",
+        "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json",
+        "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.md",
+        "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+        "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.md",
+        "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+        "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.md"
+      ],
+      "scripts": [
+        "scripts/audit/apply-docx-source-semantic-renormalization.mjs"
+      ],
+      "tests": [
+        "test/docx-source-semantic-renormalization.test.mjs"
+      ],
+      "docxPlaceholderRenorm": [
+        "docs/audit/docx-placeholder-renormalization/BM-052/apply.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-052/apply.latest.md",
+        "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/apply.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/apply.latest.md",
+        "docs/audit/docx-placeholder-renormalization/BM-062/apply-signature.latest.json",
+        "docs/audit/docx-placeholder-renormalization/BM-062/apply-signature.latest.md",
+        "docs/audit/docx-placeholder-renormalization/BM-062/planner-handoff.signature-after-apply.json",
+        "docs/audit/docx-placeholder-renormalization/BM-062/planner-handoff.signature-after-apply.md"
+      ],
+      "backups": [
+        "docs/audit/docx-placeholder-renormalization/BM-052/backups/",
+        "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/backups/",
+        "docs/audit/docx-placeholder-renormalization/BM-062/approved-signature/backups/",
+        "docs/audit/docx-placeholder-renormalization/source-backed-semantic-batch/"
+      ],
+      "staleAuditArtifacts": [
+        "docs/audit/raw-pattern-mismatch-triage-batch-1/latest.json",
+        "docs/audit/raw-pattern-mismatch-triage-batch-1/latest.md",
+        "docs/audit/raw-pattern-mismatch-triage-batch-1/per-issue.csv",
+        "docs/audit/raw-pattern-mismatch-triage-batch-1/triage-data.json",
+        "docs/audit/raw-pattern-mismatch-triage-batch-1/triage-results.json"
+      ],
+      "holdingReason": "These files contain DOCX structural mutations (normalized DOCX rewrite, semantic slot/binding rewrites, extractionSource.sha256 mutations). Cannot be committed without separate DOCX-lane approval and forensic evidence. Backup folders should not be committed."
+    },
+    "C_SOURCE_CODE_LANE": {
+      "count": 0,
+      "description": "Source-code changes unrelated to legal-label remediation",
+      "files": [
+        "packages/form-contracts/src/expression.ts",
+        "packages/form-contracts/src/v1-adapter.ts",
+        "packages/form-contracts/test/v1-adapter.test.ts",
+        "scripts/audit/apply-render-binding-repair-v1.mjs",
+        "scripts/docx-contract/publish-locked-contracts-to-db.mjs",
+        "scripts/audit/build-active-remediation-blocker-pack.mjs",
+        "scripts/audit/check-213-remediation-readiness.mjs",
+        "test/213-remediation-readiness-gate.test.mjs",
+        "test/active-remediation-blocker-pack.test.mjs",
+        "test/contract-render-binding-repair.test.mjs"
+      ],
+      "sourceCodeReason": "expression.ts: bugfix for self-referential cycle false positive detection. v1-adapter.ts: feature for computed source in v1 contracts. check-213-remediation-readiness.mjs: gate adjustment reflecting clean render atlas. These belong in a separate feature/bugfix commit."
+    },
+    "D_DELETE_OR_HOLD": {
+      "count": 0,
+      "description": "Files that should not be committed or need clarification",
+      "vestigialScripts": [
+        "scripts/audit/apply-legal-semantic-field-review-213.mjs",
+        "test/apply-legal-semantic-field-review-213.test.mjs"
+      ],
+      "vestigialReason": "apply-legal-semantic-field-review-213.mjs is a companion to the legal semantic field review that added reviewEvidence to 14 contracts (APPROVE_AS_IS/FIX_UI_COMPONENT dispositions) but made zero label changes. The label-fixing work was done by apply-legal-semantic-label-review-213.mjs. This script is vestigial - it left audit artifacts (apply.latest.json/md) but made no structural changes.",
+      "applyLatestReports": [
+        "docs/audit/legal-semantic-field-review-213/apply.latest.json",
+        "docs/audit/legal-semantic-field-review-213/apply.latest.md"
+      ],
+      "applyLatestReason": "These are outputs of the vestigial apply-legal-semantic-field-review-213.mjs script. They record that 14 contracts received reviewEvidence additions but no label changes. Recommend: delete these files from the worktree, as they are not durable audit artifacts.",
+      "recommendation": "DELETE the vestigial scripts and their test, plus the apply.latest artifacts. The durable audit evidence is in the build/apply-label scripts already committed."
+    }
+  },
+  "commit3Analysis": {
+    "canCommit": true,
+    "conditionsMet": [
+      "All 85 non-DOCX locked contracts have diffs limited to label/reviewRequired/reviewEvidence/reviewedBy/reviewedAt",
+      "All compiled-v2 are official compiler output, consistent with locked contracts",
+      "No normalized DOCX files included",
+      "No source-code files included",
+      "No DOCX semantic lane files included",
+      "No raw-pattern stale artifacts included",
+      "No backup folders included"
+    ],
+    "conditionsNotMet": [],
+    "stagingChallenge": "Cannot use broad globs because 4 DOCX-affected BMs (BM-052,062,063,066) are in the same directories and must be excluded. Must enumerate 85 explicit locked contract paths and 108 compiled-v2 paths.",
+    "stagedFileCount": {
+      "lockedContracts": 85,
+      "compiledV2": 108,
+      "renderAtlas": 2,
+      "perFormRenderDiffs": 130,
+      "formsRootCauseReports": 4,
+      "formsRootCauseFixPlan": 5,
+      "repoCleanGate": 4,
+      "docxReports": 2,
+      "docxPlaceholderRenormArtifacts": 8,
+      "totalApproximate": 348
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # BM-051 Render Fidelity Gate
 
-Generated: 2026-06-28T15:53:07.835Z
+Generated: 2026-06-29T15:28:45.017Z
 Status: **PASS**
 
 | Gate | Status |

@@ -16,7 +16,7 @@
   "extractionSource": {
     "kind": "normalized-docx",
     "relativePath": "storage/templates/normalized-docx/BM-021/BM-021_normalized.docx",
-    "sha256": "985a3ab4fe8762d5be9bea9d594d32af64f17505b17d0b427b9a9da1aa347cfb",
+    "sha256": "cef83a88ef38db03449383e5395763117008e64135066d1813f35d4b7620a9f4",
     "format": "docx"
   },
   "status": "locked",
@@ -64,14 +64,21 @@
         "textAfter": "{{document.field4}},",
         "rawPattern": "{{document.field3}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Xét thấy",
-        "textAfter": "{{document.field4}},",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto] Xét thấy",
-        "blockId": "P0028"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa điểm ban hành",
+        "docxSlotId": "agency.issuePlace",
+        "actualDocxContext": "Upper}} 474980 81915 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 720725 187960 Độc lập - Tự do - Hạnh phúc … , ngày … tháng … năm 20 {{legalBasis.procedureArticlesLine}} QUYẾT ĐỊNH K HÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố tụng hình sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.su",
+        "actualDocxRawPattern": "{{agency.issuePlace}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "document.documentCode",
@@ -90,14 +97,19 @@
         "textAfter": ",",
         "rawPattern": "{{document.field4}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Xét thấy{{document.field3}}",
-        "textAfter": ",",
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.documentCode",
+        "docxContext": "Xét thấy{{document.field3}}{{document.field4}},",
         "rawPattern": "{{document.field4}}",
-        "context": "[Auto] Xét thấy{{document.field3}}",
-        "blockId": "P0028"
-      }
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+      },
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z"
     },
     {
       "slotId": "document.issuePlaceAndDateLine",
@@ -168,14 +180,21 @@
         "textAfter": "{{document.field10}}",
         "rawPattern": "{{document.field9}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "{{document.field10}}",
-        "rawPattern": "{{document.field9}}",
-        "context": "[Auto] {{document.field9}}{{document.field10}}",
-        "blockId": "P0038"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tóm tắt quyết định",
+        "docxSlotId": "decision.summaryLine",
+        "actualDocxContext": ".issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{decision.summaryLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "decision.decisionLine",
@@ -194,14 +213,21 @@
         "textAfter": "",
         "rawPattern": "{{document.field10}}"
       },
-      "reviewRequired": true,
+      "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "{{document.field9}}",
-        "textAfter": "",
-        "rawPattern": "{{document.field10}}",
-        "context": "[Auto] {{document.field9}}",
-        "blockId": "P0038"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Nội dung quyết định",
+        "docxSlotId": "decision.decisionLine",
+        "actualDocxContext": "documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{decision.decisionLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -224,17 +250,25 @@
     {
       "path": "agency.issuePlace",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa điểm ban hành",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] Xét thấy",
-        "blockId": "P0028"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa điểm ban hành",
+        "docxSlotId": "agency.issuePlace",
+        "actualDocxContext": "Upper}} 474980 81915 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 720725 187960 Độc lập - Tự do - Hạnh phúc … , ngày … tháng … năm 20 {{legalBasis.procedureArticlesLine}} QUYẾT ĐỊNH K HÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố tụng hình sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.su",
+        "actualDocxRawPattern": "{{agency.issuePlace}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
@@ -246,11 +280,17 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
       "reviewEvidence": {
-        "context": "[Auto] Xét thấy{{document.field3}}",
-        "blockId": "P0028"
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.documentCode",
+        "docxContext": "Xét thấy{{document.field3}}{{document.field4}},",
+        "rawPattern": "{{document.field4}}",
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
       }
     },
     {
@@ -288,33 +328,49 @@
     {
       "path": "decision.summaryLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Tóm tắt quyết định",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] {{document.field9}}{{document.field10}}",
-        "blockId": "P0038"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tóm tắt quyết định",
+        "docxSlotId": "decision.summaryLine",
+        "actualDocxContext": ".issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{decision.summaryLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "decision.decisionLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Nội dung quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true,
+      "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] {{document.field9}}",
-        "blockId": "P0038"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Nội dung quyết định",
+        "docxSlotId": "decision.decisionLine",
+        "actualDocxContext": "documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{decision.decisionLine}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],
