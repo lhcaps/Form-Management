@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { adaptV1Contract, buildRenderPayload } from "../src/index.js";
+import {
+  adaptV1Contract,
+  buildRenderPayload,
+  compileContract,
+} from "../src/index.js";
 
 test("v1 adapter preserves binding semantics and payload values", () => {
   const adapted = adaptV1Contract({
@@ -90,5 +94,59 @@ test("v1 adapter uses canonical field labels before docx slot labels", () => {
   assert.equal(
     adapted.fields.find((field) => field.key === "person.fullName")?.label,
     "Họ tên",
+  );
+});
+
+test("v1 adapter preserves computed source semantics", () => {
+  const adapted = adaptV1Contract({
+    schemaVersion: "1.0",
+    sourceId: "BM-999__computed",
+    templateCode: "BM-999",
+    templateTitle: "Synthetic computed contract",
+    documentKind: "form",
+    status: "locked",
+    extractionSource: { sha256: "template-sha" },
+    docxSlots: [
+      {
+        slotId: "decision.summaryLine",
+        required: false,
+        reviewRequired: false,
+        label: "Tóm tắt",
+      },
+    ],
+    canonicalFields: [
+      {
+        path: "decision.summaryLine",
+        type: "string",
+        label: "Tóm tắt",
+        source: "computed",
+        uiComponent: "text",
+        section: "Quyết định",
+        required: false,
+      },
+    ],
+    renderBindings: [
+      {
+        slotId: "decision.summaryLine",
+        from: "decision.summaryLine",
+        transform: "identity",
+        fallback: "",
+      },
+    ],
+  });
+
+  assert.equal(
+    adapted.fields.find((field) => field.key === "decision.summaryLine")
+      ?.dataSource.kind,
+    "COMPUTED",
+  );
+  assert.equal(compileContract(adapted).ok, true);
+  assert.deepEqual(
+    buildRenderPayload(adapted, {
+      decision: { summaryLine: "Giữ nguyên giá trị computed đã cấp" },
+    }),
+    {
+      decision: { summaryLine: "Giữ nguyên giá trị computed đã cấp" },
+    },
   );
 });

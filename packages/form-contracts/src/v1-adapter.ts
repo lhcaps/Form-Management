@@ -25,7 +25,7 @@ function controlFromV1(value: string | undefined): ControlType {
   }
 }
 
-function sourceFromV1(value: string | undefined): FieldDataSource {
+function sourceFromV1(value: string | undefined, path: string): FieldDataSource {
   switch (value) {
     case "agencyConfig":
       return { kind: "AGENCY", path: "agency" };
@@ -37,6 +37,8 @@ function sourceFromV1(value: string | undefined): FieldDataSource {
       return { kind: "SYSTEM", value: "CURRENT_DATE" };
     case "constantFromDocx":
       return { kind: "CONSTANT", value: "" };
+    case "computed":
+      return { kind: "COMPUTED", expression: { op: "field", path } };
     default:
       return { kind: "MANUAL" };
   }
@@ -99,7 +101,7 @@ export function adaptV1Contract(
       order: index,
       width: 6 as 6,
       required: Boolean(field.required),
-      dataSource: sourceFromV1(field.source),
+      dataSource: sourceFromV1(field.source, field.path),
     };
     if (control === "SELECT" && field.options) {
       return { ...fieldBase, options: field.options };
