@@ -21,9 +21,13 @@ const apiRequire = createRequire(path.join(ROOT, "apps", "api", "package.json"))
 const OUT_DIR = path.join(ROOT, "docs", "audit", "repo-clean-to-zero-v1");
 const OUT_JSON = path.join(OUT_DIR, "active-remediation-blocker-pack.latest.json");
 const OUT_MD = path.join(OUT_DIR, "active-remediation-blocker-pack.latest.md");
+const ACTIVE_GATE_JSON = path.join(OUT_DIR, "active-decision-gate.latest.json");
+const ACTIVE_GATE_MD = path.join(OUT_DIR, "active-decision-gate.latest.md");
 const REPORT_OUTPUTS = new Set([
   path.relative(ROOT, OUT_JSON).replaceAll("\\", "/"),
   path.relative(ROOT, OUT_MD).replaceAll("\\", "/"),
+  path.relative(ROOT, ACTIVE_GATE_JSON).replaceAll("\\", "/"),
+  path.relative(ROOT, ACTIVE_GATE_MD).replaceAll("\\", "/"),
 ]);
 const ENV_FILE = path.join(ROOT, ".env");
 const COMPILED_V2_DIR = path.join(ROOT, "docs", "audit", "docx", "compiled-v2");
@@ -34,16 +38,24 @@ const HUMAN_BLOCKER_DIR = path.join(
   "audit",
   "docx-placeholder-renormalization",
 );
-const ACTIVE_GATE_JSON = path.join(
-  ROOT,
-  "docs",
-  "audit",
-  "repo-clean-to-zero-v1",
-  "active-decision-gate.latest.json",
-);
-
 const RUNTIME_SYNC_CODES = ["BM-052", "BM-062"];
-const RENDER_BLOCKER_CODES = ["BM-063", "BM-066"];
+const RENDER_BLOCKER_CODES = ["BM-052", "BM-062", "BM-063", "BM-066"];
+const RENDER_BLOCKER_DECISIONS = {
+  "BM-052": [
+    "Decide occurrence semantics for remaining recipients.personLine6 placeholders",
+  ],
+  "BM-062": [
+    "Decide occurrence semantics for remaining recipients.personLine5 placeholders",
+  ],
+  "BM-063": [
+    "Decide occurrence semantics for document.fullDocumentCode8",
+    "Decide occurrence semantics for recipients.personLine5",
+  ],
+  "BM-066": [
+    "Decide occurrence semantics for recipients.personLine4",
+    "Decide occurrence semantics for document.fullDocumentCode4",
+  ],
+};
 
 function readJsonIfExists(filePath) {
   if (!fs.existsSync(filePath)) return null;
@@ -156,16 +168,9 @@ function loadRenderBlocker(templateCode) {
     humanReviewBlockerPath: fs.existsSync(blockerMd)
       ? path.relative(ROOT, blockerMd).replaceAll("\\", "/")
       : null,
-    requiredDecision:
-      templateCode === "BM-063"
-        ? [
-            "Decide occurrence semantics for document.fullDocumentCode8",
-            "Decide occurrence semantics for recipients.personLine5",
-          ]
-        : [
-            "Decide occurrence semantics for recipients.personLine4",
-            "Decide occurrence semantics for document.fullDocumentCode4",
-          ],
+    requiredDecision: RENDER_BLOCKER_DECISIONS[templateCode] ?? [
+      "Decide occurrence semantics for remaining render blockers",
+    ],
     forbiddenWithoutApproval: [
       "auto slot or binding repair",
       "source DOCX mutation",
@@ -207,6 +212,50 @@ export function buildRuntimeSyncDecision(templateCode, compiled, versions) {
       "contract mutation",
       "treating C2 drift as safe",
     ],
+  };
+}
+
+export function isRuntimeSyncBlocker(decision) {
+  return decision?.latestDbVersion?.matchesRepo !== true;
+}
+
+export function isActiveRenderBlocker(item) {
+  const status = String(item?.status ?? "MISSING").toUpperCase();
+  return item?.clean !== true || status === "FAIL" || status === "ERROR" || status === "MISSING";
+}
+
+function buildDecisionGate(report) {
+  const blockingDecisions = [];
+  if (report.runtimeSyncBlockers.length > 0) {
+    blockingDecisions.push({
+      id: "RUNTIME_SYNC_BLOCKERS",
+      type: "RUNTIME_SYNC",
+      templates: report.runtimeSyncBlockers.map((item) => item.templateCode),
+      reason: "Latest published GLOBAL DB contract does not match repo compiled contract",
+    });
+  }
+  if (report.renderBlockers.length > 0) {
+    blockingDecisions.push({
+      id: "RENDER_FIDELITY_BLOCKERS",
+      type: "RENDER_FIDELITY",
+      templates: report.renderBlockers.map((item) => item.templateCode),
+      reason: "Render fidelity report is not clean",
+    });
+  }
+
+  return {
+    artifact: "active-decision-gate",
+    generatedAt: report.generatedAt,
+    head: report.head,
+    canStart213SemanticRemediation: blockingDecisions.length === 0,
+    blockingDecisions,
+    summary: {
+      runtimeSyncBlockers: report.runtimeSyncBlockers.length,
+      renderBlockers: report.renderBlockers.length,
+      runtimeSyncCandidatesChecked: report.runtimeSyncCandidates.length,
+      renderCandidatesChecked: report.renderBlockerCandidates.length,
+    },
+    evidenceInputs: report.evidenceInputs,
   };
 }
 
@@ -298,12 +347,15 @@ function buildMarkdown(report) {
   lines.push("");
   lines.push(`canStart213SemanticRemediation: ${report.canStart213SemanticRemediation ? "YES" : "NO"}`);
   lines.push("");
-  lines.push("This pack is read-only evidence for the four live blockers. It is not an approval file.");
+  lines.push("This pack is read-only evidence for active blockers. It is not an approval file.");
   lines.push("");
   lines.push("## Runtime Sync Blockers");
   lines.push("");
   lines.push("| BM | Repo hash | DB latest | Matching DB version | Required decision |");
   lines.push("| --- | --- | --- | --- | --- |");
+  if (report.runtimeSyncBlockers.length === 0) {
+    lines.push("| - | - | - | - | none |");
+  }
   for (const item of report.runtimeSyncBlockers) {
     const latest = item.latestDbVersion
       ? `v${item.latestDbVersion.versionNo} ${item.latestDbVersion.contractHash}`
@@ -322,13 +374,21 @@ function buildMarkdown(report) {
   lines.push("");
   lines.push("| BM | Binding fail | Undefined/null literals | Missing slots | Missing bindings | Human review |");
   lines.push("| --- | --- | ---: | --- | --- | --- |");
+  if (report.renderBlockers.length === 0) {
+    lines.push("| - | - | 0 | - | - | none |");
+  }
   for (const item of report.renderBlockers) {
     lines.push(
       `| ${item.templateCode} | ${item.bindingFidelityStatus ?? "unknown"} | ${item.undefinedOrNullLiterals} | ${item.placeholdersWithoutSlots.join(", ") || "-"} | ${item.placeholdersWithoutBindings.join(", ") || "-"} | ${item.humanReviewBlockerPath ?? "missing"} |`,
     );
   }
   lines.push("");
-  lines.push("Automated render, text, structure, and package checks may pass while binding/literal fidelity still fails. These BMs need occurrence-level legal/DOCX review before repair.");
+  lines.push("Automated render, text, structure, and package checks must all pass before a BM is removed from active blockers.");
+  lines.push("");
+  lines.push("## Checked Candidates");
+  lines.push("");
+  lines.push(`Runtime sync candidates checked: ${report.runtimeSyncCandidates.map((item) => item.templateCode).join(", ") || "none"}`);
+  lines.push(`Render candidates checked: ${report.renderBlockerCandidates.map((item) => item.templateCode).join(", ") || "none"}`);
   lines.push("");
   lines.push("## Evidence Inputs");
   lines.push("");
@@ -338,10 +398,48 @@ function buildMarkdown(report) {
   lines.push("");
   lines.push("## Forbidden Without Approval");
   lines.push("");
-  lines.push("- DB publish for BM-052 or BM-062");
-  lines.push("- locked contract mutation for BM-052, BM-062, BM-063, or BM-066");
-  lines.push("- source DOCX mutation for BM-063 or BM-066");
-  lines.push("- auto slot/binding repair for BM-063 or BM-066");
+  if (report.canStart213SemanticRemediation) {
+    lines.push("- none; no active blocker remains in this pack");
+  } else {
+    lines.push("- DB publish for active runtime-sync blockers");
+    lines.push("- locked contract mutation for active render blockers");
+    lines.push("- source DOCX mutation outside approved occurrence-level decisions");
+    lines.push("- auto slot/binding repair for active render blockers");
+  }
+  return `${lines.join("\n")}\n`;
+}
+
+function buildDecisionGateMarkdown(gate) {
+  const lines = [];
+  lines.push("# Active Decision Gate");
+  lines.push("");
+  lines.push(`Generated: ${gate.generatedAt}`);
+  lines.push(`HEAD: ${gate.head}`);
+  lines.push("");
+  lines.push(`canStart213SemanticRemediation: ${gate.canStart213SemanticRemediation ? "YES" : "NO"}`);
+  lines.push("");
+  lines.push("## Summary");
+  lines.push("");
+  lines.push(`- Runtime sync blockers: ${gate.summary.runtimeSyncBlockers}`);
+  lines.push(`- Render blockers: ${gate.summary.renderBlockers}`);
+  lines.push(`- Runtime sync candidates checked: ${gate.summary.runtimeSyncCandidatesChecked}`);
+  lines.push(`- Render candidates checked: ${gate.summary.renderCandidatesChecked}`);
+  lines.push("");
+  lines.push("## Blocking Decisions");
+  lines.push("");
+  if (gate.blockingDecisions.length === 0) {
+    lines.push("None.");
+  } else {
+    for (const decision of gate.blockingDecisions) {
+      lines.push(`- ${decision.id}: ${decision.templates.join(", ")} — ${decision.reason}`);
+    }
+  }
+  lines.push("");
+  lines.push("## Evidence Inputs");
+  lines.push("");
+  for (const item of gate.evidenceInputs) {
+    lines.push(`- ${item}`);
+  }
   return `${lines.join("\n")}\n`;
 }
 
@@ -356,11 +454,14 @@ export async function buildReport() {
     RUNTIME_SYNC_CODES.map((code) => [code, loadCompiledHash(code)]),
   );
 
-  const runtimeSyncBlockers = RUNTIME_SYNC_CODES.map((code) =>
+  const runtimeSyncCandidates = RUNTIME_SYNC_CODES.map((code) =>
     buildRuntimeSyncDecision(code, compiledByCode[code], db.byCode[code] ?? []),
   );
-  const renderBlockers = RENDER_BLOCKER_CODES.map(loadRenderBlocker);
-  const activeGate = readJsonIfExists(ACTIVE_GATE_JSON);
+  const runtimeSyncBlockers = runtimeSyncCandidates.filter(isRuntimeSyncBlocker);
+  const renderBlockerCandidates = RENDER_BLOCKER_CODES.map(loadRenderBlocker);
+  const renderBlockers = renderBlockerCandidates.filter(isActiveRenderBlocker);
+  const canStart213SemanticRemediation =
+    runtimeSyncBlockers.length === 0 && renderBlockers.length === 0;
 
   return {
     task: "ACTIVE_REMEDIATION_BLOCKER_PACK_V1",
@@ -371,25 +472,24 @@ export async function buildReport() {
     gitStatusClean: gitStatusShort.trim().length === 0,
     gitStatusCleanExcludingReportOutputs:
       gitStatusShortExcludingReportOutputs.trim().length === 0,
-    canStart213SemanticRemediation: false,
-    activeDecisionGate: activeGate
-      ? {
-          head: activeGate.head ?? null,
-          canStart213SemanticRemediation:
-            activeGate.canStart213SemanticRemediation ?? null,
-        }
-      : null,
+    canStart213SemanticRemediation,
     database: {
       available: db.available,
       source: db.source,
       reason: db.reason ?? null,
     },
+    runtimeSyncCandidates,
     runtimeSyncBlockers,
+    renderBlockerCandidates,
     renderBlockers,
     evidenceInputs: [
       "docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.json",
+      "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+      "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json",
       "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
       "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+      "docs/audit/docx-placeholder-renormalization/BM-052/planner-handoff.latest.md",
+      "docs/audit/docx-placeholder-renormalization/BM-062/planner-handoff.latest.md",
       "docs/audit/docx-placeholder-renormalization/BM-063/human-review-blocker.latest.md",
       "docs/audit/docx-placeholder-renormalization/BM-066/human-review-blocker.latest.md",
       "docs/audit/repo-clean-to-zero-v1/pending-review/BM-052.pending-review.patch",
@@ -400,12 +500,17 @@ export async function buildReport() {
 
 async function main() {
   const report = await buildReport();
+  const decisionGate = buildDecisionGate(report);
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(OUT_JSON, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   fs.writeFileSync(OUT_MD, buildMarkdown(report), "utf8");
+  fs.writeFileSync(ACTIVE_GATE_JSON, `${JSON.stringify(decisionGate, null, 2)}\n`, "utf8");
+  fs.writeFileSync(ACTIVE_GATE_MD, buildDecisionGateMarkdown(decisionGate), "utf8");
   console.log(`Wrote ${path.relative(ROOT, OUT_JSON).replaceAll("\\", "/")}`);
   console.log(`Wrote ${path.relative(ROOT, OUT_MD).replaceAll("\\", "/")}`);
-  console.log("canStart213SemanticRemediation=NO");
+  console.log(`Wrote ${path.relative(ROOT, ACTIVE_GATE_JSON).replaceAll("\\", "/")}`);
+  console.log(`Wrote ${path.relative(ROOT, ACTIVE_GATE_MD).replaceAll("\\", "/")}`);
+  console.log(`canStart213SemanticRemediation=${decisionGate.canStart213SemanticRemediation ? "YES" : "NO"}`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {

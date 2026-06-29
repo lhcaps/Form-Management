@@ -3,6 +3,8 @@ import test from "node:test";
 
 import {
   buildRuntimeSyncDecision,
+  isActiveRenderBlocker,
+  isRuntimeSyncBlocker,
   summarizeRenderReport,
 } from "../scripts/audit/build-active-remediation-blocker-pack.mjs";
 
@@ -60,4 +62,38 @@ test("buildRuntimeSyncDecision points to the matching historical DB version", ()
     "contract mutation",
     "treating C2 drift as safe",
   ]);
+  assert.equal(isRuntimeSyncBlocker(decision), true);
+});
+
+test("isRuntimeSyncBlocker returns false when latest DB already matches repo", () => {
+  const decision = buildRuntimeSyncDecision(
+    "BM-052",
+    {
+      contractHash: "repo-hash",
+      sourceId: "BM-052__source",
+    },
+    [
+      { versionNo: 12, contractHash: "repo-hash", publishedAt: "2026-06-29" },
+    ],
+  );
+
+  assert.equal(decision.latestDbVersion.matchesRepo, true);
+  assert.equal(isRuntimeSyncBlocker(decision), false);
+});
+
+test("isActiveRenderBlocker returns false for clean render reports", () => {
+  assert.equal(
+    isActiveRenderBlocker({
+      status: "PASS",
+      clean: true,
+    }),
+    false,
+  );
+  assert.equal(
+    isActiveRenderBlocker({
+      status: "FAIL",
+      clean: false,
+    }),
+    true,
+  );
 });

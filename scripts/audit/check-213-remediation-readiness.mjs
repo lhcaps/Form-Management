@@ -136,25 +136,27 @@ export function extractActiveRenderBlockers(blockerPack) {
 
 /**
  * Determine whether remediation may start, distinguishing full-213 scope
- * from non-blocked scope (211 BMs excluding known active render blockers).
+ * from non-blocked scope when active render blockers are explicitly supplied.
  *
  * Policy:
  *   - Structural blockers (git/C3/C2/decision-gate-missing) block BOTH scopes.
  *   - Decision-gate blockers (ACTIVE_DECISION_GATE_BLOCKED) block ONLY full-213.
  *   - Render atlas blockers block full-213 always; block non-blocked only when
  *     the failing templates include an UNKNOWN template.
- *   - Known active render blockers (BM-063, BM-066) are excluded from non-blocked
+ *   - Known active render blockers are excluded from non-blocked
  *     remediation but still block full-213.
  *
  * @param {object} input - readiness gate state
  * @param {string[]} [options.knownActiveBlockers] - template codes known to be
- *   active human-review blockers; defaults to ["BM-063", "BM-066"]
+ *   active human-review blockers; defaults to [] after render atlas is clean.
  * @returns {object} readiness verdict with both scopes evaluated
  */
 export function evaluateRemediationReadiness(input, options = {}) {
   const blockers = []; // ALL blockers for reporting
   const warnings = [];
-  const knownActiveBlockers = new Set(options.knownActiveBlockers ?? ["BM-063", "BM-066"]);
+  const knownActiveBlockers = new Set(
+    options.knownActiveBlockers ?? [],
+  );
 
   // --- Step 1: Structural blockers (block both scopes) ---
   if (input.c3.exitCode !== 0) {
@@ -360,7 +362,9 @@ export function evaluateRemediationReadiness(input, options = {}) {
       canStartNonBlockedRemediation,
       blockedBms: [...knownActiveBlockers],
       allowedRemediationScope: canStartNonBlockedRemediation
-        ? "211 BMs (excluding active blockers)"
+        ? knownActiveBlockers.size > 0
+          ? `${Math.max(0, 213 - knownActiveBlockers.size)} BMs (excluding active blockers)`
+          : "213 BMs"
         : "none",
       requiredExclusions,
     },

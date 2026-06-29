@@ -84,8 +84,9 @@ test("evaluateRemediationReadiness: no blockers → full and non-blocked both al
   assert.equal(verdict.ready, true);
   assert.equal(verdict.remediationScope.canStartFull213Remediation, true);
   assert.equal(verdict.remediationScope.canStartNonBlockedRemediation, true);
-  assert.deepEqual(verdict.remediationScope.blockedBms, ["BM-063", "BM-066"]);
-  assert.deepEqual(verdict.remediationScope.requiredExclusions, ["BM-063", "BM-066"]);
+  assert.deepEqual(verdict.remediationScope.blockedBms, []);
+  assert.deepEqual(verdict.remediationScope.requiredExclusions, []);
+  assert.equal(verdict.remediationScope.allowedRemediationScope, "213 BMs");
   assert.equal(verdict.blockers.length, 0);
 });
 
@@ -154,17 +155,17 @@ test("evaluateRemediationReadiness: unknown render fail blocks non-blocked remed
   assert.deepEqual(verdict.blockers.map((b) => b.code), []);
 });
 
-test("evaluateRemediationReadiness: known active blockers BM-063 and BM-066 allow non-blocked remediation", () => {
+test("evaluateRemediationReadiness: known active render blockers allow non-blocked remediation", () => {
   const verdict = evaluateRemediationReadiness(
     makeInput({
       renderAtlas: {
         exists: true,
         summary: {
-          pass: 211,
-          fail: 2,
+          pass: 209,
+          fail: 4,
           error: 0,
           missing: 0,
-          failingTemplates: ["BM-063", "BM-066"],
+          failingTemplates: ["BM-052", "BM-062", "BM-063", "BM-066"],
         },
       },
       decisionGate: {
@@ -177,19 +178,18 @@ test("evaluateRemediationReadiness: known active blockers BM-063 and BM-066 allo
         ],
       },
     }),
+    { knownActiveBlockers: ["BM-052", "BM-062", "BM-063", "BM-066"] },
   );
 
   assert.equal(verdict.ready, false);
   assert.equal(verdict.remediationScope.canStartFull213Remediation, false);
   assert.equal(verdict.remediationScope.canStartNonBlockedRemediation, true);
-  assert.deepEqual(verdict.remediationScope.blockedBms, ["BM-063", "BM-066"]);
-  assert.deepEqual(verdict.remediationScope.requiredExclusions, ["BM-063", "BM-066"]);
-  assert.deepEqual(verdict.remediationScope.allowedRemediationScope, "211 BMs (excluding active blockers)");
-  // ACTIVE_DECISION_GATE_BLOCKED is present because the decision gate references BM-052/BM-062
-  // as unresolved templates (pre-resolution). RENDER_ATLAS_NOT_CLEAN not in list because
-  // the non-blocked scope verdict allows remediation with known active blockers.
-  assert.deepEqual(verdict.blockers.map((b) => b.code), ["ACTIVE_DECISION_GATE_BLOCKED"]);
-  assert.deepEqual(verdict.blockers[0].blockingTemplates, ["BM-052", "BM-062"]);
+  assert.deepEqual(verdict.remediationScope.blockedBms, ["BM-052", "BM-062", "BM-063", "BM-066"]);
+  assert.deepEqual(verdict.remediationScope.requiredExclusions, ["BM-052", "BM-062", "BM-063", "BM-066"]);
+  assert.deepEqual(verdict.remediationScope.allowedRemediationScope, "209 BMs (excluding active blockers)");
+  // RENDER_ATLAS_NOT_CLEAN not in list because the non-blocked scope verdict allows
+  // remediation when every failing template is an explicit active blocker.
+  assert.deepEqual(verdict.blockers.map((b) => b.code), []);
 });
 
 test("evaluateRemediationReadiness: decision gate with unknown non-render template blocks full-213 only", () => {
@@ -198,24 +198,25 @@ test("evaluateRemediationReadiness: decision gate with unknown non-render templa
       renderAtlas: {
         exists: true,
         summary: {
-          pass: 211,
-          fail: 2,
+          pass: 209,
+          fail: 4,
           error: 0,
           missing: 0,
-          failingTemplates: ["BM-063", "BM-066"],
+          failingTemplates: ["BM-052", "BM-062", "BM-063", "BM-066"],
         },
       },
       decisionGate: {
         exists: true,
         head: "abc123",
         canStart213SemanticRemediation: false,
-        blockingDecisions: [{ templates: ["BM-063", "BM-066", "BM-001"] }],
+        blockingDecisions: [{ templates: ["BM-052", "BM-062", "BM-063", "BM-066", "BM-001"] }],
       },
     }),
+    { knownActiveBlockers: ["BM-052", "BM-062", "BM-063", "BM-066"] },
   );
 
   // Decision gate blocks full-213 via BM-001 (not a known active blocker).
-  // But non-blocked is allowed because BM-063/BM-066 are known active blockers.
+  // But non-blocked is allowed because all render failures are known active blockers.
   assert.equal(verdict.remediationScope.canStartNonBlockedRemediation, true);
   assert.equal(verdict.remediationScope.canStartFull213Remediation, false);
   assert.ok(verdict.blockers.some((b) => b.code === "ACTIVE_DECISION_GATE_BLOCKED"));
@@ -265,11 +266,11 @@ test("evaluateReadiness (deprecated wrapper): render fail + decision gate BLOCK 
       renderAtlas: {
         exists: true,
         summary: {
-          pass: 211,
-          fail: 2,
+          pass: 209,
+          fail: 4,
           error: 0,
           missing: 0,
-          failingTemplates: ["BM-063", "BM-066"],
+          failingTemplates: ["BM-052", "BM-062", "BM-063", "BM-066"],
         },
       },
       decisionGate: {
@@ -287,11 +288,11 @@ test("evaluateReadiness (deprecated wrapper): render fail + decision gate BLOCK 
     renderAtlas: {
       exists: true,
       summary: {
-        pass: 211,
-        fail: 2,
-        error: 0,
-        missing: 0,
-        failingTemplates: ["BM-063", "BM-066"],
+          pass: 209,
+          fail: 4,
+          error: 0,
+          missing: 0,
+          failingTemplates: ["BM-052", "BM-062", "BM-063", "BM-066"],
       },
     },
     decisionGate: {
@@ -306,6 +307,5 @@ test("evaluateReadiness (deprecated wrapper): render fail + decision gate BLOCK 
   }));
 
   assert.equal(result.ready, false);
-  // ACTIVE_DECISION_GATE_BLOCKED is the full-213 blocker for this input
-  assert.deepEqual(result.blockers.map((b) => b.code), ["ACTIVE_DECISION_GATE_BLOCKED"]);
+  assert.deepEqual(result.blockers.map((b) => b.code), []);
 });
