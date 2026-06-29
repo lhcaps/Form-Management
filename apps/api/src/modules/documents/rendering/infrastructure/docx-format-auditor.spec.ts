@@ -231,13 +231,30 @@ describe('docx-format-auditor', () => {
   });
 
   describe('FMT-012: Điều bold', () => {
-    it('returns warning when Điều and bold are in proximity (not_detectable across element boundaries)', () => {
-      const xml = '<w:r><w:b/><w:t>Điều 1</w:t></w:r>';
+    it('passes when Điều text is in the same run with bold', () => {
+      const xml = '<w:r><w:rPr><w:b/></w:rPr><w:t>Điều 1</w:t></w:r>';
       const parts = makeParts({ documentXml: xml });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-012');
-      // Proximity across XML elements is unreliable for a pass verdict; proximity is noted as warning.
+      // Run-level analysis: Điều run has bold → pass
+      expect(check?.status).toBe('pass');
+    });
+
+    it('warns when Điều text is found but no bold in same run', () => {
+      const xml = '<w:r><w:t>Điều 1</w:t></w:r>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-012');
+      // Điều found but no bold in same run → warning
       expect(check?.status).toBe('warning');
+    });
+
+    it('returns not_detectable when no Điều text is found', () => {
+      const xml = '<w:r><w:t>Other legal text</w:t></w:r>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-012');
+      expect(check?.status).toBe('not_detectable');
     });
   });
 
@@ -253,6 +270,76 @@ describe('docx-format-auditor', () => {
       const parts = makeParts({ documentXml: '<w:t>Some footer</w:t>' });
       const result = auditDocxFormat(parts);
       const check = result.checks.find((c) => c.id === 'FMT-013');
+      expect(check?.status).toBe('not_detectable');
+    });
+  });
+
+  describe('FMT-014: Footer recipient lines size 11', () => {
+    it('passes when sz=11 is found in the same Nơi nhận paragraph', () => {
+      const xml =
+        '<w:p>' +
+        '<w:t>Nơi nhận:</w:t>' +
+        '<w:r><w:rPr><w:sz w:val="22"/></w:rPr><w:t>Cơ quan điều tra</w:t></w:r>' +
+        '</w:p>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-014');
+      // FMT-014 upgrade: finds Nơi nhận paragraph, then sz22 in same paragraph
+      expect(check?.status).toBe('pass');
+    });
+
+    it('warns when Nơi nhận paragraph exists but no sz=11 in same paragraph', () => {
+      const xml =
+        '<w:p><w:t>Nơi nhận:</w:t></w:p>' +
+        '<w:p><w:r><w:rPr><w:sz w:val="24"/></w:rPr><w:t>Cơ quan điều tra</w:t></w:r></w:p>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-014');
+      expect(check?.status).toBe('warning');
+    });
+
+    it('returns not_detectable when no Nơi nhận paragraph found', () => {
+      const xml = '<w:p><w:t>Cơ quan điều tra</w:t></w:p>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-014');
+      expect(check?.status).toBe('not_detectable');
+    });
+  });
+
+  describe('FMT-015: Signature title bold size 14', () => {
+    it('passes when Viện trưởng run has bold and sz=14 in same run', () => {
+      const xml =
+        '<w:r><w:rPr><w:b/><w:sz w:val="28"/></w:rPr><w:t>VIỆN TRƯỞNG</w:t></w:r>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-015');
+      expect(check?.status).toBe('pass');
+    });
+
+    it('passes when Kiểm sát viên run has bold and sz=14 in same run', () => {
+      const xml =
+        '<w:r><w:rPr><w:b/><w:sz w:val="28"/></w:rPr><w:t>Kiểm sát viên</w:t></w:r>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-015');
+      expect(check?.status).toBe('pass');
+    });
+
+    it('warns when signature title found but no bold+sz14 in same run', () => {
+      const xml =
+        '<w:r><w:rPr><w:sz w:val="28"/></w:rPr><w:t>VIỆN TRƯỞNG</w:t></w:r>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-015');
+      expect(check?.status).toBe('warning');
+    });
+
+    it('returns not_detectable when no signature title found', () => {
+      const xml = '<w:p><w:t>Other text</w:t></w:p>';
+      const parts = makeParts({ documentXml: xml });
+      const result = auditDocxFormat(parts);
+      const check = result.checks.find((c) => c.id === 'FMT-015');
       expect(check?.status).toBe('not_detectable');
     });
   });
