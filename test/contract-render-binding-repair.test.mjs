@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import {
   applyRenderBindingRepair,
@@ -92,4 +93,29 @@ test('applyRenderBindingRepair binds suffixed DOCX slot from canonical field and
   assert.deepEqual(contract.renderBindings.map((binding) => [binding.slotId, binding.from]), [
     ['document.fullDocumentCode8', 'document.fullDocumentCode'],
   ]);
+});
+
+test('legacy render repair script does not carry blocked render-only shortcuts', () => {
+  const source = readFileSync('scripts/audit/apply-render-binding-repair-v1.mjs', 'utf8');
+
+  assert.equal(
+    source.includes("slotId: 'recipients.personLine6'"),
+    false,
+    'BM-052 recipients.personLine6 must be semantically split from source DOCX, not added as one repeated field',
+  );
+  assert.equal(
+    source.includes("slotId: 'recipients.personLine5'"),
+    false,
+    'BM-062 recipients.personLine5 must be semantically split from source DOCX, not added as one repeated field',
+  );
+  assert.equal(
+    source.includes("slotId: 'document.fullDocumentCode8'"),
+    false,
+    'BM-063 document.fullDocumentCode8 must not be rebound to document.fullDocumentCode',
+  );
+  assert.equal(
+    source.includes("slotId: 'recipients.personLine4'"),
+    false,
+    'BM-066 recipients.personLine4 must be semantically split from source DOCX, not added as one repeated field',
+  );
 });

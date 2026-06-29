@@ -70,37 +70,6 @@ const REPAIRS = {
       },
     ],
   },
-  'BM-052': {
-    reason: 'BM-052 render gate missing recipient row 6 and has two orphan document slots.',
-    removeSlotIds: ['document.fullDocumentCode', 'document.fullDocumentCode2'],
-    removeFieldIfUnbound: ['document.fullDocumentCode', 'document.fullDocumentCode2'],
-    add: [
-      {
-        slotId: 'recipients.personLine6',
-        field: { section: 'Người nhận', required: false },
-      },
-    ],
-  },
-  'BM-062': {
-    reason: 'BM-062 render gate missing recipient row 5.',
-    add: [
-      {
-        slotId: 'recipients.personLine5',
-        field: { section: 'Người nhận', required: false },
-      },
-    ],
-  },
-  'BM-063': {
-    reason: 'BM-063 DOCX uses suffixed fullDocumentCode8 while contract had unsuffixed slot.',
-    removeSlotIds: ['document.fullDocumentCode'],
-    add: [
-      {
-        slotId: 'document.fullDocumentCode8',
-        from: 'document.fullDocumentCode',
-        field: { section: 'Thông tin văn bản', required: false },
-      },
-    ],
-  },
   'BM-064': {
     reason: 'BM-064 DOCX uses suffixed issueDate4 slot.',
     add: [
@@ -108,15 +77,6 @@ const REPAIRS = {
         slotId: 'document.issueDate4',
         from: 'document.issueDate',
         field: { section: 'Thông tin văn bản', required: false },
-      },
-    ],
-  },
-  'BM-066': {
-    reason: 'BM-066 render gate missing recipient row 4.',
-    add: [
-      {
-        slotId: 'recipients.personLine4',
-        field: { section: 'Người nhận', required: false },
       },
     ],
   },
