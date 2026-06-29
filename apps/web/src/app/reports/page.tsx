@@ -58,6 +58,152 @@ function buildReportPath(period: ReportPeriod, anchorDate: string) {
   return `/cases/reports/summary?${params.toString()}`;
 }
 
+// ─── CSV Export ─────────────────────────────────────────────────────────────────
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function formatDateForExport(value?: string) {
+  if (!value) return "";
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+}
+
+function exportCsv(summary: ReportSummary) {
+  const rows: string[] = [];
+
+  // Header info
+  rows.push(`"Báo cáo thống kê - Viện Kiểm sát nhân dân khu vực 7"`);
+  rows.push(`"Kỳ báo cáo","${summary.period === "WEEK" ? "Tuần" : "Tháng"}"`);
+  rows.push(`"Từ ngày","${formatDateForExport(summary.range.from)}"`);
+  rows.push(`"Đến ngày","${formatDateForExport(summary.range.to)}"`);
+  rows.push(`"Tổng số hồ sơ","${summary.totalCases}"`);
+  rows.push("");
+
+  // Detail table
+  rows.push("Chi tiết theo thời gian, phường và tội danh");
+  rows.push("Thời gian,Phường,Tội danh,Số hồ sơ");
+  for (const row of summary.rows) {
+    rows.push(
+      `"${formatDateForExport(row.time)}","${row.wardName}","${row.offenseName}","${row.caseCount}"`
+    );
+  }
+  rows.push("");
+
+  // By ward
+  rows.push("Thống kê theo phường");
+  rows.push("Phường,Số hồ sơ");
+  for (const w of summary.byWard) {
+    rows.push(`"${w.wardName}","${w.caseCount}"`);
+  }
+  rows.push("");
+
+  // By offense
+  rows.push("Thống kê theo tội danh");
+  rows.push("Tội danh,Số hồ sơ");
+  for (const o of summary.byOffense) {
+    rows.push(`"${o.offenseName}","${o.caseCount}"`);
+  }
+
+  const BOM = "\uFEFF";
+  const content = BOM + rows.join("\n");
+  const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+  const filename = `bao-cao-${summary.period.toLowerCase()}-${summary.range.from}.csv`;
+  downloadBlob(blob, filename);
+}
+
+function printReport(summary: ReportSummary) {
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) return;
+
+  const wardRows = summary.byWard
+    .map(
+      (w) =>
+        `<tr><td style="padding:8px;border:1px solid #ccc">${w.wardName}</td><td style="padding:8px;border:1px solid #ccc;text-align:right">${w.caseCount}</td></tr>`
+    )
+    .join("");
+
+  const offenseRows = summary.byOffense
+    .map(
+      (o) =>
+        `<tr><td style="padding:8px;border:1px solid #ccc">${o.offenseName}</td><td style="padding:8px;border:1px solid #ccc;text-align:right">${o.caseCount}</td></tr>`
+    )
+    .join("");
+
+  const detailRows = summary.rows
+    .map(
+      (r) =>
+        `<tr><td style="padding:8px;border:1px solid #ccc">${formatDateForExport(r.time)}</td><td style="padding:8px;border:1px solid #ccc">${r.wardName}</td><td style="padding:8px;border:1px solid #ccc">${r.offenseName}</td><td style="padding:8px;border:1px solid #ccc;text-align:right">${r.caseCount}</td></tr>`
+    )
+    .join("");
+
+  printWindow.document.write(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Báo cáo thống kê</title>
+<style>
+  body { font-family: Times New Roman, serif; font-size: 13pt; padding: 20px; }
+  h1 { text-align: center; font-size: 16pt; }
+  h2 { font-size: 14pt; border-bottom: 1px solid #000; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 16px; }
+  th { background: #f0f0f0; font-weight: bold; }
+  .summary-box { background: #f9f9f9; padding: 12px; margin-bottom: 16px; }
+  .meta { margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<h1>VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7</h1>
+<h1>BÁO CÁO THỐNG KÊ HỒ SƠ VỤ ÁN</h1>
+<div class="summary-box">
+  <div class="meta"><strong>Kỳ báo cáo:</strong> ${summary.period === "WEEK" ? "Tuần" : "Tháng"}</div>
+  <div class="meta"><strong>Từ ngày:</strong> ${formatDateForExport(summary.range.from)} <strong>Đến ngày:</strong> ${formatDateForExport(summary.range.to)}</div>
+  <div class="meta"><strong>Tổng số hồ sơ:</strong> ${summary.totalCases}</div>
+  <div class="meta"><strong>Ngày lập:</strong> ${new Date().toLocaleDateString("vi-VN")}</div>
+</div>
+
+<h2>Chi tiết theo thời gian, phường và tội danh</h2>
+<table>
+  <thead><tr><th style="padding:8px;border:1px solid #ccc">Thời gian</th><th style="padding:8px;border:1px solid #ccc">Phường</th><th style="padding:8px;border:1px solid #ccc">Tội danh</th><th style="padding:8px;border:1px solid #ccc;text-align:right">Số hồ sơ</th></tr></thead>
+  <tbody>${detailRows}</tbody>
+</table>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div>
+    <h2>Thống kê theo phường</h2>
+    <table>
+      <thead><tr><th style="padding:8px;border:1px solid #ccc">Phường</th><th style="padding:8px;border:1px solid #ccc;text-align:right">Số hồ sơ</th></tr></thead>
+      <tbody>${wardRows}</tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Thống kê theo tội danh</h2>
+    <table>
+      <thead><tr><th style="padding:8px;border:1px solid #ccc">Tội danh</th><th style="padding:8px;border:1px solid #ccc;text-align:right">Số hồ sơ</th></tr></thead>
+      <tbody>${offenseRows}</tbody>
+    </table>
+  </div>
+</div>
+
+<script>window.onload=function(){window.print();}</script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
 export default function ReportsPage() {
   const [period, setPeriod] = useState<ReportPeriod>("MONTH");
   const [anchorDate, setAnchorDate] = useState(todayForInput);
@@ -159,6 +305,25 @@ export default function ReportsPage() {
             >
               {loading ? "Đang tải..." : "Tải lại"}
             </button>
+
+            {reportData ? (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => exportCsv(reportData)}
+                  className="h-10 rounded-md border border-emerald-300 bg-emerald-50 px-4 text-sm font-black text-emerald-800 transition hover:bg-emerald-100"
+                >
+                  Xuất CSV
+                </button>
+                <button
+                  type="button"
+                  onClick={() => printReport(reportData)}
+                  className="h-10 rounded-md border border-sky-300 bg-sky-50 px-4 text-sm font-black text-sky-800 transition hover:bg-sky-100"
+                >
+                  In / PDF
+                </button>
+              </div>
+            ) : null}
           </div>
         </section>
 
