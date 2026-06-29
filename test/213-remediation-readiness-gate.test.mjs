@@ -309,3 +309,15 @@ test("evaluateReadiness (deprecated wrapper): render fail + decision gate BLOCK 
   assert.equal(result.ready, false);
   assert.deepEqual(result.blockers.map((b) => b.code), []);
 });
+
+test("evaluateRemediationReadiness: sot-gates and decision-gate dirty paths are expected", () => {
+  const verdict = evaluateRemediationReadiness(
+    makeInput({
+      gitStatusShort:
+        "M docs/audit/sot-gates-v1/latest.json\nM docs/audit/sot-gates-v1/latest.md\nM docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.json\nM docs/audit/repo-clean-to-zero-v1/active-remediation-blocker-pack.latest.json",
+    }),
+  );
+
+  assert.equal(verdict.ready, true);
+  assert.equal(verdict.blockers.length, 0);
+});
