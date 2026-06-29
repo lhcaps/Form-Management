@@ -53,6 +53,7 @@ export {
 // Sample data (safe for client and server)
 export {
   getSampleData,
+  generateSampleFromFields,
   mergeWithSampleData,
   clearSampleData,
   hasUserData,
