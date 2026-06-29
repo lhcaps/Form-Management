@@ -1,6 +1,6 @@
 # C3 — Locked vs Compiled Consistency Gate
 
-**Generated:** 2026-06-29T17:50:45.204Z
+**Generated:** 2026-06-29T18:10:57.031Z
 **Strict:** false
 
 ## SOT Policy
