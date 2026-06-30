@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-29T15:28:36.489Z
+Generated: 2026-06-30T09:40:33.265Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -9,7 +9,7 @@ Files checked: 213
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
 - **Remediation: 0** (requires DOCX edit, non-blocking)
-- **Warning: 46** (metadata completeness, non-blocking)
+- **Warning: 47** (metadata completeness, non-blocking)
 
 ## Notes (Audit Policy Suppressions)
 
@@ -36,6 +36,7 @@ _but does not prevent runtime rendering._
 - ℹ️ [BM-025] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-025] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-026] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-026] Non-taxonomy source "computed": agency.nameUpper
 - ℹ️ [BM-032] Non-taxonomy source "computed": agency.nameUpper
 - ℹ️ [BM-032] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-032] Non-taxonomy source "computed": agency.issuePlace
