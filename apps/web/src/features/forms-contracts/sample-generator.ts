@@ -42,7 +42,7 @@ const DOCUMENT_DEFAULTS: Record<string, string> = {
 };
 
 const PERSON_DEFAULTS: Record<string, string> = {
-  "person.fullName": "Nguyễn Văn A",
+  "person.fullName": "Nguyễn Văn Mẫu",
   "person.birthDay": "01",
   "person.birthMonth": "01",
   "person.birthYear": "1990",
