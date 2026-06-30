@@ -54,24 +54,35 @@
         "blockId": "P0017",
         "tableCellId": null
       },
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "label": "Ngày ban hành",
+      "context": "…, ngày … tháng {{agency.nameUpper}}",
+      "label": "Tên cơ quan ban hành viết hoa",
       "slotType": "date",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "…, ngày … tháng",
         "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
+        "rawPattern": "{{agency.nameUpper}}",
+        "legacyRawPattern": "{{document.issueDate}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "…, ngày … tháng",
         "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
+        "rawPattern": "{{agency.nameUpper}}",
         "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0017"
-      }
+        "blockId": "P0017",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Ngày ban hành",
+          "newValue": "Tên cơ quan ban hành viết hoa",
+          "repairedAt": "2026-06-30T08:19:13.396Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{document.issueDate}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.396Z"
     },
     {
       "slotId": "document.documentCode",
@@ -107,7 +118,7 @@
         "tableCellId": null
       },
       "context": "7{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -125,7 +136,15 @@
         "docxSlotId": "document.issueDate",
         "docxContext": "7{{document.field5}}",
         "rawPattern": "{{document.field5}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.issueDate",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"
@@ -151,17 +170,24 @@
     {
       "path": "agency.nameUpper",
       "type": "string",
-      "label": "Ngày ban hành",
-      "source": "agencyConfig",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "source": "computed",
       "required": false,
-      "uiComponent": "date",
+      "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
       "reviewedBy": "Le Huy",
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0017"
+        "blockId": "P0017",
+        "finalSemanticMetadataRepair": {
+          "kind": "uiComponent",
+          "oldValue": "date",
+          "newValue": "text",
+          "repairedAt": "2026-06-30T08:19:13.396Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {

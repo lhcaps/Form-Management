@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Nhập vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… với vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của{{case.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "sự số … ngày … tháng … năm …, nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} , QUYẾT ĐỊNH: Nhập vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … với vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Nơi nhận: {{document.ngayBan}} - Lưu: HSVA, HSKS, VP. {{agency.dongDia}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "{{case.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "… năm …, nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} , QUYẾT ĐỊNH: Nhập vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … với vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Nơi nhận: {{document.ngayBan}} - Lưu: HSVA, HSKS, VP. {{agency.dongDia}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "… quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy {{agency.vienKiem}} , QUYẾT ĐỊNH: Nhập vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … với vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Nơi nhận: {{document.ngayBan}} - Lưu: HSVA, HSKS, VP. {{agency.dongDia}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}.",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "ình sự; Xét thấy {{agency.vienKiem}} , QUYẾT ĐỊNH: Nhập vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … với vụ án hình sự theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Nơi nhận: {{document.ngayBan}} - Lưu: HSVA, HSKS, VP. {{agency.dongDia}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

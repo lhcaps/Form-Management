@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét hồ sơ đề nghị gia hạn thời hạn điều tra vụ án hình sự của8{{case.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "(Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định phục hồi điều tra vụ án hình sự số … ngày … tháng … năm … của … (nếu có) ; Xét hồ sơ đề nghị gia hạn thời hạn điều tra vụ án hình sự của 8 {{document.soQuyet}} Nhập thấy việc đề nghị gia hạn thời hạn điều tra vụ án hình sự là không có căn cứ 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Không gia hạn thời hạn điều tra vụ án hình sự được khởi tố theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2.",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Nhập thấy việc đề nghị gia hạn thời hạn điều tra vụ án hình sự là không có căn cứ9{{case.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định phục hồi điều tra vụ án hình sự số … ngày … tháng … năm … của … (nếu có) ; Xét hồ sơ đề nghị gia hạn thời hạn điều tra vụ án hình sự của 8 {{document.soQuyet}} Nhập thấy việc đề nghị gia hạn thời hạn điều tra vụ án hình sự là không có căn cứ 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Không gia hạn thời hạn điều tra vụ án hình sự được khởi tố theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 10 … giải quyết vụ án theo đúng quy định của pháp luật./. Nơi nhận: - 1 …; - 10 …; - Lưu: HSVA",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "11{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ều 1. Không gia hạn thời hạn điều tra vụ án hình sự được khởi tố theo Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 10 … giải quyết vụ án theo đúng quy định của pháp luật./. Nơi nhận: - 1 …; - 10 …; - Lưu: HSVA, HSKS, VP. 11 {{document.ngayBan}} (Ký, ghi rõ họ tên, đó ng dấu)",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

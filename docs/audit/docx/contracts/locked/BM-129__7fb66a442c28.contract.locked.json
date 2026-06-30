@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy{{document.field3}},",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét đề nghị của ông/bà {{agency.vienKiem}} Xét Bản kết luận giám định số … ngày … tháng … năm … của …; Nhận thấy {{document.soQuyet}} , QUYẾT ĐỊNH: Điều 1. Trưng cầu {{agency.diaDanh}} 1. Mẫu vật gửi giám định bổ sung và tài liệu kèm theo: {{document.ngayBan}} 2. Nội dung yêu cầu giám định bổ sung: {{agency.dongDia}} Điều 2. Thời hạn giám định bổ sung ……ngày, kể từ ngày nhận được Quyết định này. Điều 3. Tổ chức, cá nhân tiến hành giám định phải gửi",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Điều 1. Trưng cầu{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét đề nghị của ông/bà {{agency.vienKiem}} Xét Bản kết luận giám định số … ngày … tháng … năm … của …; Nhận thấy {{document.soQuyet}} , QUYẾT ĐỊNH: Điều 1. Trưng cầu {{agency.diaDanh}} 1. Mẫu vật gửi giám định bổ sung và tài liệu kèm theo: {{document.ngayBan}} 2. Nội dung yêu cầu giám định bổ sung: {{agency.dongDia}} Điều 2. Thời hạn giám định bổ sung ……ngày, kể từ ngày nhận được Quyết định này. Điều 3. Tổ chức, cá nhân tiến hành giám định phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu gi",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "1. Mẫu vật gửi giám định bổ sung và tài liệu kèm theo:{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "… đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét đề nghị của ông/bà {{agency.vienKiem}} Xét Bản kết luận giám định số … ngày … tháng … năm … của …; Nhận thấy {{document.soQuyet}} , QUYẾT ĐỊNH: Điều 1. Trưng cầu {{agency.diaDanh}} 1. Mẫu vật gửi giám định bổ sung và tài liệu kèm theo: {{document.ngayBan}} 2. Nội dung yêu cầu giám định bổ sung: {{agency.dongDia}} Điều 2. Thời hạn giám định bổ sung ……ngày, kể từ ngày nhận được Quyết định này. Điều 3. Tổ chức, cá nhân tiến hành giám định phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định. Người giám định có quyền và nghĩa vụ theo quy định tại Điều 68 của",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "2. Nội dung yêu cầu giám định bổ sung:{{decision.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "t Hình sự (nếu có); Xét đề nghị của ông/bà {{agency.vienKiem}} Xét Bản kết luận giám định số … ngày … tháng … năm … của …; Nhận thấy {{document.soQuyet}} , QUYẾT ĐỊNH: Điều 1. Trưng cầu {{agency.diaDanh}} 1. Mẫu vật gửi giám định bổ sung và tài liệu kèm theo: {{document.ngayBan}} 2. Nội dung yêu cầu giám định bổ sung: {{agency.dongDia}} Điều 2. Thời hạn giám định bổ sung ……ngày, kể từ ngày nhận được Quyết định này. Điều 3. Tổ chức, cá nhân tiến hành giám định phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định. Người giám định có quyền và nghĩa vụ theo quy định tại Điều 68 của Bộ luật Tố tụng hình sự. Kèm theo Quyết định này là hồ sơ,",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "- 13{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "ngày nhận được Quyết định này. Điều 3. Tổ chức, cá nhân tiến hành giám định phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định. Người giám định có quyền và nghĩa vụ theo quy định tại Điều 68 của Bộ luật Tố tụng hình sự. Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận : - 13 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. {{legalBasis.canCu}} .. ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -220,7 +260,7 @@
         "tableCellId": null
       },
       "context": "{{document.field8}}..",
-      "label": "Ô trống",
+      "label": "Căn cứ pháp lý",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -240,7 +280,15 @@
         "docxSlotId": "legalBasis.canCu",
         "actualDocxContext": ", cá nhân tiến hành giám định phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định. Người giám định có quyền và nghĩa vụ theo quy định tại Điều 68 của Bộ luật Tố tụng hình sự. Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận : - 13 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. {{legalBasis.canCu}} .. ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{legalBasis.canCu}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Căn cứ pháp lý",
+          "canonicalPath": "legalBasis.canCu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

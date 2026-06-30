@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "lập – Tự do - Hạnh phúc Số: …/TB-VKS…- … … , ngày … tháng … năm 20… THÔNG BÁO Nội dung kết luận giám định/kết luận định giá tài sản VIỆN KIỂM SÁT 2 {{agency.vienKiem}} Căn cứ Điều 42 và Điều 214/Điều 222 của Bộ luật Tố tụng hình sự; Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Viện kiểm sát 2 {{document.ngayBan}} {{agency.dongDia}} Nơi nhận: - 6 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "{{decision.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "húc Số: …/TB-VKS…- … … , ngày … tháng … năm 20… THÔNG BÁO Nội dung kết luận giám định/kết luận định giá tài sản VIỆN KIỂM SÁT 2 {{agency.vienKiem}} Căn cứ Điều 42 và Điều 214/Điều 222 của Bộ luật Tố tụng hình sự; Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Viện kiểm sát 2 {{document.ngayBan}} {{agency.dongDia}} Nơi nhận: - 6 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "Viện kiểm sát2{{agency.field5}}{{agency.field6}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ng … năm 20… THÔNG BÁO Nội dung kết luận giám định/kết luận định giá tài sản VIỆN KIỂM SÁT 2 {{agency.vienKiem}} Căn cứ Điều 42 và Điều 214/Điều 222 của Bộ luật Tố tụng hình sự; Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Viện kiểm sát 2 {{document.ngayBan}} {{agency.dongDia}} Nơi nhận: - 6 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "Viện kiểm sát2{{agency.field5}}{{agency.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "O Nội dung kết luận giám định/kết luận định giá tài sản VIỆN KIỂM SÁT 2 {{agency.vienKiem}} Căn cứ Điều 42 và Điều 214/Điều 222 của Bộ luật Tố tụng hình sự; Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Viện kiểm sát 2 {{document.ngayBan}} {{agency.dongDia}} Nơi nhận: - 6 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "- 6{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "luận định giá tài sản VIỆN KIỂM SÁT 2 {{agency.vienKiem}} Căn cứ Điều 42 và Điều 214/Điều 222 của Bộ luật Tố tụng hình sự; Căn cứ Bản kết luận giám định/kết luận định giá tài sản số … ngày … tháng … năm … của {{document.soQuyet}} {{agency.diaDanh}} Viện kiểm sát 2 {{document.ngayBan}} {{agency.dongDia}} Nơi nhận: - 6 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

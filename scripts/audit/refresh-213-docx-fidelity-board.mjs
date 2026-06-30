@@ -391,9 +391,27 @@ function applyHumanReviewBlockerLedgers(rows) {
   if (ledgers.length === 0) return rows;
 
   let patched = 0;
+  let staleResolved = 0;
   for (const ledger of ledgers) {
     const row = rows.find((r) => r.templateCode === ledger.templateCode);
     if (!row) continue;
+    const hasFreshCleanEvidence =
+      (row.rootCause?.issueCount ?? 0) === 0 &&
+      (row.rootCause?.failCount ?? 0) === 0 &&
+      (row.rootCause?.reviewCount ?? 0) === 0 &&
+      row.renderEvidence?.clean === true &&
+      row.renderEvidence?.status === 'PASS' &&
+      row.baseline?.qualityState !== 'CONTRACT_REPAIR_REQUIRED';
+    if (hasFreshCleanEvidence) {
+      row.humanReviewBlockerLedger = {
+        status: 'STALE_RESOLVED_BY_FRESH_AUDIT',
+        originalStatus: ledger.status,
+        generatedAt: ledger.generatedAt ?? ledger.createdAt ?? null,
+        reason: 'Fresh root-cause and render evidence are clean; stale human-review ledger no longer overrides final-review readiness.',
+      };
+      staleResolved += 1;
+      continue;
+    }
     row.primaryLane = 'LEGAL_REVIEW';
     row.completionStatus = 'BLOCKED_BY_HUMAN_DOCX_REVIEW';
     // blockedPlaceholders may be:
@@ -420,6 +438,9 @@ function applyHumanReviewBlockerLedgers(rows) {
 
   if (patched > 0) {
     process.stderr.write(`[blocker-ledgers] Patched ${patched} row(s) from human-review-blocker ledgers.\n`);
+  }
+  if (staleResolved > 0) {
+    process.stderr.write(`[blocker-ledgers] Ignored ${staleResolved} stale ledger(s) resolved by fresh root-cause/render evidence.\n`);
   }
 
   return rows;

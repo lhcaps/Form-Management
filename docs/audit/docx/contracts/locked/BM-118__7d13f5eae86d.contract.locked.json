@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Căn cứ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can số … ngày … tháng … năm … của8 … đối với7{{case.field3}};",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can số … ngày … tháng … năm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi t",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy9 {{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "háng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can số … ngày … tháng … năm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -147,7 +163,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -167,7 +183,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can số … ngày … tháng … năm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -180,7 +204,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -200,7 +224,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "ộ luật Hình sự; Căn cứ Quyết định đình chỉ điều tra vụ án hình sự đối với bị can số … ngày … tháng … năm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. N",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -213,7 +245,7 @@
         "tableCellId": null
       },
       "context": "{{document.field8}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -233,7 +265,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "đối với bị can số … ngày … tháng … năm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{docume",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -246,7 +286,7 @@
         "tableCellId": null
       },
       "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
-      "label": "Ô trống",
+      "label": "Tên vụ án / vụ việc",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -266,7 +306,15 @@
         "docxSlotId": "document.tenVu",
         "actualDocxContext": "ăm … của 8 … đối với 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{document.lyDo}} ( Ký, ghi rõ họ tên, đóng",
         "actualDocxRawPattern": "{{document.tenVu}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên vụ án / vụ việc",
+          "canonicalPath": "document.tenVu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -279,7 +327,7 @@
         "tableCellId": null
       },
       "context": "Nơi thường trú: {{document.field9}}{{document.field10}}",
-      "label": "Ô trống",
+      "label": "Tội danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -299,7 +347,15 @@
         "docxSlotId": "person.toiDanh",
         "actualDocxContext": "i 7 {{document.soQuyet}} ; Xét thấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{document.lyDo}} ( Ký, ghi rõ họ tên, đóng dấu ) 8890 123190",
         "actualDocxRawPattern": "{{person.toiDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tội danh",
+          "canonicalPath": "person.toiDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -312,7 +368,7 @@
         "tableCellId": null
       },
       "context": "Nơi tạm trú: {{document.field11}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -332,7 +388,15 @@
         "docxSlotId": "document.soQd",
         "actualDocxContext": "hấy 9 {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Phục hồi điều tra vụ án hình sự đối với bị can: 10 Họ tên: 7 {{recipients.personLine}} Tên gọi khác: {{document.ngayBan}} {{agency.dongDia}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{document.lyDo}} ( Ký, ghi rõ họ tên, đóng dấu ) 8890 123190 12 Ghi chức danh người ký",
         "actualDocxRawPattern": "{{document.soQd}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQd",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -345,7 +409,7 @@
         "tableCellId": null
       },
       "context": "- 11{{document.field12}}",
-      "label": "Ô trống",
+      "label": "Đơn vị",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -365,7 +429,15 @@
         "docxSlotId": "document.donVi",
         "actualDocxContext": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{document.lyDo}} ( Ký, ghi rõ họ tên, đóng dấu ) 8890 123190 12 Ghi chức danh người ký",
         "actualDocxRawPattern": "{{document.donVi}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Đơn vị",
+          "canonicalPath": "document.donVi",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -378,7 +450,7 @@
         "tableCellId": null
       },
       "context": "12{{document.field13}}",
-      "label": "Ô trống",
+      "label": "Lý do",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -398,7 +470,15 @@
         "docxSlotId": "document.lyDo",
         "actualDocxContext": "chuThe}} Nơi thường trú: {{document.tenVu}} {{person.toiDanh}} Nơi tạm trú: {{document.soQd}} Nơi ở hiện tại: về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 11 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 11 {{document.donVi}} - Lưu: HSVA, HSKS, VP. 12 {{document.lyDo}} ( Ký, ghi rõ họ tên, đóng dấu ) 8890 123190 12 Ghi chức danh người ký",
         "actualDocxRawPattern": "{{document.lyDo}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Lý do",
+          "canonicalPath": "document.lyDo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

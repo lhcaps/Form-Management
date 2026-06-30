@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.fullDocumentCode",
         "docxContext": "Căn cứ Lệnh kê biên tài sản số … ngày … tháng … năm … của… đối với{{document.field3}}",
         "rawPattern": "{{document.field3}}",
-        "rationale": "docx context present; actual DOCX token present"
+        "rationale": "docx context present; actual DOCX token present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       }
     },
     {
@@ -141,11 +149,22 @@
       "type": "string",
       "label": "Ngày ban hành",
       "source": "systemDate",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
       "section": "Thông tin văn bản",
       "reviewRequired": false,
-      "transform": "identity"
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     }
   ],
   "renderBindings": [

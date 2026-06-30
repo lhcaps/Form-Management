@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy8{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Địa điểm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -101,7 +101,15 @@
         "docxSlotId": "agency.issuePlace",
         "actualDocxContext": "TRƯỜNG HỢP KHẨN CẤP VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 109, 110 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 và Điều 136 của Luật Tư pháp người chưa thành niên ; Xét hồ sơ đề nghị phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …; Nhận thấy 8 {{agency.issuePlace}} QUYẾT ĐỊNH: Điều 1. Không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp số … ngày … tháng … năm … của 6 … đối với 7 …. Điều 2. Yêu cầu 6 … trả tự do ngay cho người bị giữ theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 6 … ; - 7 … ; - Lưu : HSVV, HSKS, VP. 9 {{document.documentCode}} ( Ký, ghi rõ",
         "actualDocxRawPattern": "{{agency.issuePlace}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa điểm ban hành",
+          "canonicalPath": "agency.issuePlace",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -114,7 +122,7 @@
         "tableCellId": null
       },
       "context": "9{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -132,7 +140,15 @@
         "docxSlotId": "document.documentCode",
         "docxContext": "9{{document.field4}}",
         "rawPattern": "{{document.field4}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.documentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"

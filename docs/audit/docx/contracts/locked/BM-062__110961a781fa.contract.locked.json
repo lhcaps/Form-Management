@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy {{document.field3}}",
-      "label": "Ô trống",
+      "label": "Nội dung quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -77,7 +77,15 @@
         "docxSlotId": "decision.decisionLine",
         "actualDocxContext": "… năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét thấy{{decision.decisionLine}} {{measure.reasonLine}} RA LỆNH: Điều 1. Kê biên tài sản: 11 {{measure.assetListLine}} Họ tên: 12 {{recipients.personLine}} {{person.otherName}} {{person.birthInfoLine}} {{person.nationality}} {{person.ethnicityReligionLine}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.identityNo}} {{p",
         "actualDocxRawPattern": "{{decision.decisionLine}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Nội dung quyết định",
+          "canonicalPath": "decision.decisionLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -114,7 +122,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -134,7 +142,15 @@
         "docxSlotId": "document.fullDocumentCode",
         "docxContext": "{{document.field6}}",
         "rawPattern": "{{document.field6}}",
-        "rationale": "docx context present; actual DOCX token present"
+        "rationale": "docx context present; actual DOCX token present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       }
     },
     {
@@ -287,14 +303,25 @@
       "context": "mes New Roman\" w:cs=\"Times New Roman\"/> Nghề nghiệp: {{person.occupation}} <w:rFonts",
       "label": "Nghề nghiệp",
       "slotType": "text",
-      "required": false,
+      "required": true,
       "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
         "rawPattern": "{{person.occupation}}"
       },
-      "reviewRequired": false
+      "reviewRequired": false,
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.398Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.398Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     },
     {
       "slotId": "person.identityNo",
@@ -608,11 +635,22 @@
       "type": "string",
       "label": "Nghề nghiệp",
       "source": "manual",
-      "required": false,
+      "required": true,
       "uiComponent": "text",
       "section": "Người có tài sản kê biên",
       "reviewRequired": false,
-      "transform": "identity"
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.398Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.398Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     },
     {
       "path": "person.identityNo",

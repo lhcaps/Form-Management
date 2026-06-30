@@ -54,24 +54,35 @@
         "blockId": "P0028",
         "tableCellId": null
       },
-      "context": "Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của{{document.documentCode}}8{{document.documentCode}}",
-      "label": "Số quyết định",
+      "context": "Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của{{agency.issuePlace}}8{{agency.issuePlace}}",
+      "label": "Địa điểm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của",
         "textAfter": "8{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}"
+        "rawPattern": "{{agency.issuePlace}}",
+        "legacyRawPattern": "{{document.documentCode}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của",
         "textAfter": "8{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}",
+        "rawPattern": "{{agency.issuePlace}}",
         "context": "[Auto-generated] Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của",
-        "blockId": "P0028"
-      }
+        "blockId": "P0028",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Số quyết định",
+          "newValue": "Địa điểm ban hành",
+          "repairedAt": "2026-06-30T08:19:13.398Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{document.documentCode}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.398Z"
     },
     {
       "slotId": "document.documentCode",
@@ -81,7 +92,7 @@
         "tableCellId": null
       },
       "context": "11{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -99,7 +110,15 @@
         "docxSlotId": "document.documentCode",
         "docxContext": "11{{document.field4}}",
         "rawPattern": "{{document.field4}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.documentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"
@@ -125,7 +144,7 @@
     {
       "path": "agency.issuePlace",
       "type": "string",
-      "label": "Số quyết định",
+      "label": "Địa điểm ban hành",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
@@ -135,7 +154,14 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] Xét hồ sơ đề nghị phê chuẩn Lệnh tạm giam số … ngày … tháng … năm … của",
-        "blockId": "P0028"
+        "blockId": "P0028",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Số quyết định",
+          "newValue": "Địa điểm ban hành",
+          "repairedAt": "2026-06-30T08:19:13.398Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {

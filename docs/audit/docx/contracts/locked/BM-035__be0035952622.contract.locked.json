@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "10{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -99,7 +99,15 @@
         "docxSlotId": "document.issueDate",
         "docxContext": "10{{document.field5}}",
         "rawPattern": "{{document.field5}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.issueDate",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"

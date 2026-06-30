@@ -107,7 +107,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -127,7 +127,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "BẢN ĐỐI CHẤT Vào hồi … giờ … phút, ngày … tháng … năm … tại Chúng tôi gồm: Ông/Bà {{signature.positionTitle}} Ông/Bà: {{signature.positionTitle}} Căn cứ Điều 178 và Điều 189 của Bộ luật Tố tụng hình sự, tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -140,7 +148,7 @@
         "tableCellId": null
       },
       "context": "{{document.field8}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -160,7 +168,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "i gồm: Ông/Bà {{signature.positionTitle}} Ông/Bà: {{signature.positionTitle}} Căn cứ Điều 178 và Điều 189 của Bộ luật Tố tụng hình sự, tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{docum",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -173,7 +189,7 @@
         "tableCellId": null
       },
       "context": "Nơi tạm trú: {{document.field9}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -193,7 +209,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": ": {{signature.positionTitle}} Căn cứ Điều 178 và Điều 189 của Bộ luật Tố tụng hình sự, tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -206,7 +230,7 @@
         "tableCellId": null
       },
       "context": "{{person.field10}}{{person.field11}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -226,7 +250,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "nTitle}} Căn cứ Điều 178 và Điều 189 của Bộ luật Tố tụng hình sự, tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -239,7 +271,7 @@
         "tableCellId": null
       },
       "context": "{{person.field10}}{{person.field11}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -259,7 +291,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "u 178 và Điều 189 của Bộ luật Tố tụng hình sự, tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -272,7 +312,7 @@
         "tableCellId": null
       },
       "context": "Tư cách tham gia tố tụng:{{document.field12}}",
-      "label": "Ô trống",
+      "label": "Tên bị can / bị cáo",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -292,7 +332,15 @@
         "docxSlotId": "person.tenBi",
         "actualDocxContext": "tiến hành đối chất giữa: 1. {{recipients.personLine}} {{recipients.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong bu",
         "actualDocxRawPattern": "{{person.tenBi}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên bị can / bị cáo",
+          "canonicalPath": "person.tenBi",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -305,7 +353,7 @@
         "tableCellId": null
       },
       "context": "{{document.field14}}",
-      "label": "Ô trống",
+      "label": "Tên vụ án / vụ việc",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -325,7 +373,15 @@
         "docxSlotId": "document.tenVu",
         "actualDocxContext": "ents.personLine}} Tên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và nhữ",
         "actualDocxRawPattern": "{{document.tenVu}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên vụ án / vụ việc",
+          "canonicalPath": "document.tenVu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -338,7 +394,7 @@
         "tableCellId": null
       },
       "context": "{{document.field15}}",
-      "label": "Ô trống",
+      "label": "Tội danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -358,7 +414,15 @@
         "docxSlotId": "person.toiDanh",
         "actualDocxContext": "ên gọi khác: …. {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã",
         "actualDocxRawPattern": "{{person.toiDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tội danh",
+          "canonicalPath": "person.toiDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -371,7 +435,7 @@
         "tableCellId": null
       },
       "context": "{{document.field16}}",
-      "label": "Ô trống",
+      "label": "Số tiền",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -391,7 +455,15 @@
         "docxSlotId": "document.soTien",
         "actualDocxContext": "ệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luậ",
         "actualDocxRawPattern": "{{document.soTien}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số tiền",
+          "canonicalPath": "document.soTien",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -404,7 +476,7 @@
         "tableCellId": null
       },
       "context": "Nơi tạm trú: {{document.field17}}",
-      "label": "Ô trống",
+      "label": "Lý do",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -424,7 +496,15 @@
         "docxSlotId": "document.lyDo",
         "actualDocxContext": "aDanh}} Nơi thường trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luật Tố tụng hình sự theo tư cách tham gia tố tụng",
         "actualDocxRawPattern": "{{document.lyDo}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Lý do",
+          "canonicalPath": "document.lyDo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -437,7 +517,7 @@
         "tableCellId": null
       },
       "context": "{{person.field18}}{{person.field19}}",
-      "label": "Ô trống",
+      "label": "Lưu hồ sơ",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -457,7 +537,15 @@
         "docxSlotId": "recipients.luuHo",
         "actualDocxContext": "trú: Nơi tạm trú: {{document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luật Tố tụng hình sự theo tư cách tham gia tố tụng của họ. HỎI VÀ TRẢ L",
         "actualDocxRawPattern": "{{recipients.luuHo}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Lưu hồ sơ",
+          "canonicalPath": "recipients.luuHo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -470,7 +558,7 @@
         "tableCellId": null
       },
       "context": "{{person.field18}}{{person.field19}}",
-      "label": "Ô trống",
+      "label": "Địa chỉ cư trú",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -490,7 +578,15 @@
         "docxSlotId": "signature.cheDo",
         "actualDocxContext": "document.ngayBan}} {{agency.dongDia}} {{document.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luật Tố tụng hình sự theo tư cách tham gia tố tụng của họ. HỎI VÀ TRẢ LỜI Việc đối chất kết",
         "actualDocxRawPattern": "{{signature.cheDo}}",
-        "rationale": "Template-specific DOCX context places this token in the residence block before procedural status."
+        "rationale": "Template-specific DOCX context places this token in the residence block before procedural status.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa chỉ cư trú",
+          "canonicalPath": "signature.cheDo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -503,7 +599,7 @@
         "tableCellId": null
       },
       "context": "Tư cách tham gia tố tụng:{{document.field20}}",
-      "label": "Ô trống",
+      "label": "Tư cách tham gia tố tụng",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -523,7 +619,15 @@
         "docxSlotId": "signature.chucVu",
         "actualDocxContext": "nt.chuThe}} Tư cách tham gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luật Tố tụng hình sự theo tư cách tham gia tố tụng của họ. HỎI VÀ TRẢ LỜI Việc đối chất kết thúc hồi … giờ … phút, ngày … tháng … năm … và",
         "actualDocxRawPattern": "{{signature.chucVu}}",
-        "rationale": "Template-specific DOCX context places this token immediately after \"Tư cách tham gia tố tụng:\"."
+        "rationale": "Template-specific DOCX context places this token immediately after \"Tư cách tham gia tố tụng:\".",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tư cách tham gia tố tụng",
+          "canonicalPath": "signature.chucVu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -536,7 +640,7 @@
         "tableCellId": null
       },
       "context": "3.{{document.field21}}",
-      "label": "Ô trống",
+      "label": "Người tham gia đối chất thứ ba",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -556,7 +660,15 @@
         "docxSlotId": "signature.nguoiKy",
         "actualDocxContext": "gia tố tụng: {{person.tenBi}} 2. {{recipients.personLine}} Tên gọi khác: …. {{document.tenVu}} {{person.toiDanh}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{document.soTien}} Nơi thường trú: Nơi tạm trú: {{document.lyDo}} {{recipients.luuHo}} {{signature.cheDo}} Tư cách tham gia tố tụng: {{signature.chucVu}} 3. {{signature.nguoiKy}} Trong buổi đối chất còn có 3 : Những người được tiến hành đối chất và những người có mặt đã được giải thích quyền và nghĩa vụ của mình theo quy định của Bộ luật Tố tụng hình sự theo tư cách tham gia tố tụng của họ. HỎI VÀ TRẢ LỜI Việc đối chất kết thúc hồi … giờ … phút, ngày … tháng … năm … và đã được ghi âm hoặc ghi",
         "actualDocxRawPattern": "{{signature.nguoiKy}}",
-        "rationale": "Template-specific DOCX context places this token after the third participant marker in the confrontation record."
+        "rationale": "Template-specific DOCX context places this token after the third participant marker in the confrontation record.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Người tham gia đối chất thứ ba",
+          "canonicalPath": "signature.nguoiKy",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

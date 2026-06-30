@@ -1,183 +1,34 @@
 {
-  "generatedAt": "2026-06-29T22:15:34.725Z",
+  "generatedAt": "2026-06-30T08:26:01.699Z",
   "summary": {
-    "totalBlockers": 9,
-    "byCategory": {
-      "SAMPLE_DATA": 1,
-      "DOCX_SEMANTIC_FIDELITY": 5,
-      "SOT_SEMANTIC": 3
-    },
-    "bySeverity": {
-      "P0": 4,
-      "P1": 5
-    },
+    "totalBlockers": 0,
+    "byCategory": {},
+    "bySeverity": {},
     "autoFixable": 0,
-    "requiresHumanReview": 1,
+    "requiresHumanReview": 0,
     "blocked": 0,
     "sampleData": {
       "manualFieldsTotal": 1735,
       "manualFieldsFilled": 1735,
-      "coverage": 100
+      "coverage": 100,
+      "partialForms": 0,
+      "zeroForms": 8
     },
     "docxFidelity": {
       "contractRepairRequired": 0,
       "renderFailures": 0,
-      "notFinalReviewReady": 1427
+      "notFinalReviewReady": 0,
+      "readyForFinalReview": 213,
+      "rootCauseIssues": 0,
+      "rootCauseFailCount": 0,
+      "rootCauseReviewCount": 0
     },
     "sotSemantic": {
-      "total": 2393,
+      "total": 0,
       "critical": 0,
-      "high": 995,
-      "medium": 1398
+      "high": 0,
+      "medium": 0
     }
   },
-  "blockers": [
-    {
-      "blockerId": "BLK-001",
-      "templateCode": null,
-      "category": "SAMPLE_DATA",
-      "severity": "P0",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/sample-data-coverage-v1/latest.json",
-      "sourceLineOrKey": "summary",
-      "rootCause": "1735/1735 manual fields filled. 0 forms partially covered (0 by prior count).",
-      "lane": "PARTIAL_SAMPLE",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Extend domain dictionaries in sample-generator.ts / sample-data.ts to cover missing field patterns. Add explicit registry entries for forms with complex fields.",
-      "touchedFilesExpected": [
-        "apps/web/src/features/forms-contracts/sample-data.ts",
-        "apps/web/src/features/forms-contracts/sample-generator.ts"
-      ]
-    },
-    {
-      "blockerId": "BLK-002",
-      "templateCode": null,
-      "category": "DOCX_SEMANTIC_FIDELITY",
-      "severity": "P0",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/213-docx-fidelity-board/latest.json",
-      "sourceLineOrKey": "summary",
-      "rootCause": "1427 root-cause issues. 0 contract repairs required. 0 render failures (render evidence clean: 213/213).",
-      "lane": "CONTRACT_REPAIR_REQUIRED",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Phase 3: Fix render failures first, then contract repairs, then remaining forms by lane.",
-      "touchedFilesExpected": []
-    },
-    {
-      "blockerId": "BLK-003",
-      "templateCode": "BM-211",
-      "category": "DOCX_SEMANTIC_FIDELITY",
-      "severity": "P1",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/213-docx-fidelity-board/latest.json",
-      "sourceLineOrKey": "BM-211",
-      "rootCause": "SOURCE_POLICY lane. HIGH risk. 21 issues. Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "lane": "SOURCE_MISMATCH",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "touchedFilesExpected": [
-        "docs/audit/docx/contracts/locked/BM-211.json",
-        "docs/audit/docx/compiled-v2/BM-211.json"
-      ]
-    },
-    {
-      "blockerId": "BLK-004",
-      "templateCode": "BM-186",
-      "category": "DOCX_SEMANTIC_FIDELITY",
-      "severity": "P1",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/213-docx-fidelity-board/latest.json",
-      "sourceLineOrKey": "BM-186",
-      "rootCause": "SOURCE_POLICY lane. HIGH risk. 20 issues. Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "lane": "SOURCE_MISMATCH",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "touchedFilesExpected": [
-        "docs/audit/docx/contracts/locked/BM-186.json",
-        "docs/audit/docx/compiled-v2/BM-186.json"
-      ]
-    },
-    {
-      "blockerId": "BLK-005",
-      "templateCode": "BM-196",
-      "category": "DOCX_SEMANTIC_FIDELITY",
-      "severity": "P1",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/213-docx-fidelity-board/latest.json",
-      "sourceLineOrKey": "BM-196",
-      "rootCause": "SOURCE_POLICY lane. HIGH risk. 20 issues. Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "lane": "SOURCE_MISMATCH",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Review source kind, readonly, required, and compiled drift policy before changing contract metadata.",
-      "touchedFilesExpected": [
-        "docs/audit/docx/contracts/locked/BM-196.json",
-        "docs/audit/docx/compiled-v2/BM-196.json"
-      ]
-    },
-    {
-      "blockerId": "BLK-006",
-      "templateCode": null,
-      "category": "SOT_SEMANTIC",
-      "severity": "P1",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/sot-rebase-v1/latest.json",
-      "sourceLineOrKey": "specificCounts.oTrongAutoApproved",
-      "rootCause": "350 docxSlots/canonicalFields have label \"Ô trống\" and reviewRequired=false. Auto-approved without human review evidence.",
-      "lane": "GENERIC_LABEL",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": true,
-      "proposedAction": "Phase 4: Review each Ô trống field. Either replace with proper Vietnamese label (if DOCX context is clear) or mark as requiring human legal review.",
-      "touchedFilesExpected": []
-    },
-    {
-      "blockerId": "BLK-007",
-      "templateCode": null,
-      "category": "SOT_SEMANTIC",
-      "severity": "P1",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/sot-rebase-v1/latest.json",
-      "sourceLineOrKey": "specificCounts.rawPatternMismatch",
-      "rootCause": "709 fields have evidence.rawPattern that does not match their slotId/path.",
-      "lane": "RAW_PATTERN_DOMAIN_MISMATCH",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Phase 4: Fix rawPattern to match slotId/path for each affected field. Auto-fix when mismatch is obvious.",
-      "touchedFilesExpected": []
-    },
-    {
-      "blockerId": "BLK-008",
-      "templateCode": null,
-      "category": "DOCX_SEMANTIC_FIDELITY",
-      "severity": "P0",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/website-requirement-acceptance-v1/latest.json",
-      "sourceLineOrKey": "DOCX-SEMANTIC-FIDELITY",
-      "rootCause": "Render PASS alone is not enough; completion, quality, and render columns must all be clean.",
-      "lane": "UNKNOWN",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Resolve underlying blockers for DOCX-SEMANTIC-FIDELITY before this gate can pass.",
-      "touchedFilesExpected": []
-    },
-    {
-      "blockerId": "BLK-009",
-      "templateCode": null,
-      "category": "SOT_SEMANTIC",
-      "severity": "P0",
-      "currentStatus": "FAIL",
-      "sourceArtifact": "docs/audit/website-requirement-acceptance-v1/latest.json",
-      "sourceLineOrKey": "SOT-SEMANTIC-ISSUES",
-      "rootCause": "Locked/compiled/runtime sync is insufficient when semantic SOT issues remain.",
-      "lane": "UNKNOWN",
-      "safeToAutoFix": false,
-      "requiresHumanLegalReview": false,
-      "proposedAction": "Resolve underlying blockers for SOT-SEMANTIC-ISSUES before this gate can pass.",
-      "touchedFilesExpected": []
-    }
-  ]
+  "blockers": []
 }

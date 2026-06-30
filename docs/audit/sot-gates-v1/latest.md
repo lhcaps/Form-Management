@@ -1,6 +1,6 @@
 # C3 — Locked vs Compiled Consistency Gate
 
-**Generated:** 2026-06-29T18:10:57.031Z
+**Generated:** 2026-06-30T08:25:43.217Z
 **Strict:** false
 
 ## SOT Policy
@@ -38,7 +38,7 @@
 |---|----------|------|--------|
 | BM-001 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"14ee86a6593658be8f4ea28574c0f06681b |
 | BM-002 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"5a5f9f47801b3ae7abfb114f56ae99a529c |
-| BM-003 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"6a8b3e1f5da6eef445e328ce88f007a36cd |
+| BM-003 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"c93618a5dc95a0825ebabbf527f96936c50 |
 | BM-004 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"9dba29b8b0ae9b8a87ec4b4646b21a474cb |
 | BM-005 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"efef99addeb5484abb6c2f955f4c517ce88 |
 | BM-006 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"40b1e8bed8f6502501e3fbff1382972d0d8 |
@@ -56,12 +56,12 @@
 | BM-018 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"476d69d163631805fc977eaabaa2eb1c1ee |
 | BM-019 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"8d4a80c184df3e342db089fadc4e37a8e58 |
 | BM-020 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"9be691fbe66c0b3f4e80cc485b8d044c02c |
-| BM-021 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"94536e046d29b4f0d29bb5f5ae310adccfd |
+| BM-021 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"9dcdb4dfa3313b8548e2d0e000a9142e593 |
 | BM-022 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"71943ba5b71b4464023cc705ce6666d6f5e |
 | BM-023 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"c1629a1ad2103b703994af7ad9d96f48043 |
 | BM-024 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"cbdcae37a7066c2063d572e24bd6076cb37 |
 | BM-025 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"9a5c5dc85ca4a7b25530b58c185a8b29d1e |
-| BM-026 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"48ca8f1004b9d83229410f899a94e7a5b57 |
+| BM-026 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"52c11766cb3bb33f061510bc824b880dbdc |
 | BM-027 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"3fa0e80a36d8f72e6f0b9ad28e5323dd806 |
 | BM-028 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"e4271336b64e1bbf7aa11258f06a6551e2b |
 | BM-029 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"51c5684d26a33059b5deafe47aa04a6901e |
@@ -69,14 +69,14 @@
 | BM-031 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"669820e27c06873c2b1b327a02442e061fb |
 | BM-032 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"8ff8b0b27f90411001eac1384b19dd11329 |
 | BM-033 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"547ddee1bc259406a23c4c203477a7c9a69 |
-| BM-034 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"a9871fde8b3ba0c21660dc45883e83f7749 |
+| BM-034 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"4b98d8bc7623feec25e9556b4711ec2a506 |
 | BM-035 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"442dfd440900529e14dbccbdffc35075a64 |
-| BM-036 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"0b66d9ae4628193eb85a04ebd6bf15bfe02 |
+| BM-036 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"a95cdee3627b18620a677ccc5cf84866678 |
 | BM-037 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"10b1f0032faecb80d1f1fabf7616473f788 |
 | BM-038 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"c6da5d533746e6abe135d38990fb94b55b1 |
 | BM-039 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"bdbe600170686b398654842ebef19ca2756 |
 | BM-040 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"d4f5b9f6920bd2f42e7456fe8c18dd53bc6 |
-| BM-041 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"cabef1cc2b3a34629a85353fde798e6f6bf |
+| BM-041 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"c9a64b766e5a013ff2790ae3240525cef88 |
 | BM-042 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"dc00e96d1efe70eb952680c5376c8e1651f |
 | BM-043 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"0a06ddbe54f35965f30c0d3490d7f378d06 |
 | BM-044 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"930748a53fea12b3ddfa5518a0c112191b5 |
@@ -97,9 +97,9 @@
 | BM-059 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"bee47e194a5748305393d2f24f73e0c7b60 |
 | BM-060 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"84f5a86364f04c0d8f9bff2a77db0b9c76c |
 | BM-061 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"d962d038660824e9a91bdadbe3f06ef1161 |
-| BM-062 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"21ff8659344127ba89001052e3af2f933d0 |
+| BM-062 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"feb3e3091e350a4e626491b4f495cfc0268 |
 | BM-063 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"02dcef5267c6e4e2e45a34077ba698c8160 |
-| BM-064 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"719e618f09e545a7408c9f0e8acba0ed689 |
+| BM-064 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"55bca64a91cfddd1d7744cbc5f47a09f80b |
 | BM-065 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"0df86dd6fc7b2dbcb3f596bd23ab39ead8c |
 | BM-066 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"49e44d93e58078f61a5e844a68da9c60a6e |
 | BM-067 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"5609997128fe7b900a3392a6ffedf5a17a9 |
@@ -108,14 +108,14 @@
 | BM-070 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"02125d626832b65592dc70a1aaeccba45fd |
 | BM-071 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"7e24f7d4e289abcab302b56efa9ab7574c3 |
 | BM-072 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"de1c4d6fd393122310c20068b456ce1888b |
-| BM-073 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"82629c366da5a2b7113b1bebcf90a441eee |
+| BM-073 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"5fc8ba5a355ed239fb2808f664c8ea23557 |
 | BM-074 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"1108d5f6f194efa40d83592fe2d9d20fa81 |
 | BM-075 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"408cdc436c064f0f867c1175c0d8481562f |
 | BM-076 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"c797aba4b2ab14ccf41838388bfee789843 |
 | BM-077 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"f813b3ed6bb08928f7700f99b43e9f675c8 |
 | BM-078 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"18d752e2cc8ba14b75fbe502c7fe6e76ab8 |
 | BM-079 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"f7b9f065ec0e8f12de0e8acce6f2be576c8 |
-| BM-080 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"6b84b42755f6b9f99e5ce3db5a7d453d474 |
+| BM-080 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"d3c273d4c4a033661a79587c32d863d778b |
 | BM-081 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"d1557de2ddc1f858e032265af10143ec098 |
 | BM-082 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"de8de01bbd7de6edd78e08733e09ab526f1 |
 | BM-083 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"3aa130fbcb8b5f8e9a541d37314066bccab |
@@ -202,7 +202,7 @@
 | BM-164 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"4dc23100a4936d86aab76465918706386f3 |
 | BM-165 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"fd1a11d0135aadcb74622a7dae52684a288 |
 | BM-166 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"501369403c5676f7726121b04307f6e3886 |
-| BM-167 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"8166af384517ace2f40f6d55a643724109f |
+| BM-167 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"34f68af0ea0eb985f597b5afd2bc78e0f6e |
 | BM-168 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"958c378b194c06f6d133a8a015fab03982a |
 | BM-169 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"8da97632db9fb224c77f800a05eed6cbd65 |
 | BM-170 | LOW | CONTRACT_HASH_MISMATCH | {"compiledContractHash":"0820c166839b19bacab0b2e4a0f09cced1e |

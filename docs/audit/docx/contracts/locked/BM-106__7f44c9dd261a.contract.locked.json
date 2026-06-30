@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -101,7 +101,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "háng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ q",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -114,7 +122,7 @@
         "tableCellId": null
       },
       "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field5}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -134,7 +142,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "a Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -147,7 +163,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -167,7 +183,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -180,7 +204,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -200,7 +224,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "i tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./.",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -213,7 +245,7 @@
         "tableCellId": null
       },
       "context": "Nơi thường trú: {{document.field8}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -233,7 +265,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "… (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -246,7 +286,7 @@
         "tableCellId": null
       },
       "context": "Nơi tạm trú: {{document.field9}}",
-      "label": "Ô trống",
+      "label": "Tên vụ án / vụ việc",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -266,7 +306,15 @@
         "docxSlotId": "document.tenVu",
         "actualDocxContext": "uyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ",
         "actualDocxRawPattern": "{{document.tenVu}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên vụ án / vụ việc",
+          "canonicalPath": "document.tenVu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -279,7 +327,7 @@
         "tableCellId": null
       },
       "context": "Nơi ở hiện tại: {{person.field10}}",
-      "label": "Ô trống",
+      "label": "Tội danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -299,7 +347,15 @@
         "docxSlotId": "person.toiDanh",
         "actualDocxContext": "… tháng … năm … , nếu có) của … đối với: Họ tên: {{recipients.personLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{person.toiDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tội danh",
+          "canonicalPath": "person.toiDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -312,7 +368,7 @@
         "tableCellId": null
       },
       "context": "Đặc điểm nhận dạng (nếu có):{{document.field11}}",
-      "label": "Ô trống",
+      "label": "Thời hạn",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -332,7 +388,15 @@
         "docxSlotId": "document.thoiHan",
         "actualDocxContext": "onLine}} Tên gọi khác: {{agency.vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.thoiHan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Thời hạn",
+          "canonicalPath": "document.thoiHan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -345,7 +409,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy8 {{document.field12}}",
-      "label": "Ô trống",
+      "label": "Lý do",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -365,7 +429,15 @@
         "docxSlotId": "document.lyDo",
         "actualDocxContext": "vienKiem}} {{document.soQuyet}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{agency.diaDanh}} {{document.ngayBan}} {{agency.dongDia}} Nơi thường trú: {{document.chuThe}} Nơi tạm trú: {{document.tenVu}} Nơi ở hiện tại: {{person.toiDanh}} Tiền án, tiền sự: Đặc điểm nhận dạng (nếu có): {{document.thoiHan}} Xét thấy 8 {{document.lyDo}} YÊU CẦU: Cơ quan, người có thẩm quyền 9 … ra Quyết định truy nã bị can 7 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.lyDo}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Lý do",
+          "canonicalPath": "document.lyDo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

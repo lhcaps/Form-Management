@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy vụ việc{{document.field3}}{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "agency.tenCo",
         "actualDocxContext": "ngày … tháng … năm 20… QUYẾT ĐỊNH GIẢI QUYẾT TRANH CHẤP VỀ THẨM QUYỀN GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM VIỆN TR ƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 150 và 160 của Bộ luật Tố tụng hình sự; Xét đề nghị giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin về tội phạm 5 của {{agency.vienKiem}} Nhận thấy vụ việc {{agency.tenCo}} {{document.vietTat}} QUYẾT ĐỊNH: Điều 1 . Vụ việc 7 … thuộc thẩm quyền giải quyết của 8 {{agency.diaDanh}} Điều 2 . Yêu cầu 8 {{document.ngayBan}} tiếp tục giải quyết nguồn tin về tội phạm 5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu … chuyển nguồn tin về tội phạm 5 cho 8 … để giải quyết theo quy định của",
         "actualDocxRawPattern": "{{agency.tenCo}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên cơ quan",
+          "canonicalPath": "agency.tenCo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy vụ việc{{document.field3}}{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Tên viết tắt",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "document.vietTat",
         "actualDocxContext": "ăm 20… QUYẾT ĐỊNH GIẢI QUYẾT TRANH CHẤP VỀ THẨM QUYỀN GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM VIỆN TR ƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 150 và 160 của Bộ luật Tố tụng hình sự; Xét đề nghị giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin về tội phạm 5 của {{agency.vienKiem}} Nhận thấy vụ việc {{agency.tenCo}} {{document.vietTat}} QUYẾT ĐỊNH: Điều 1 . Vụ việc 7 … thuộc thẩm quyền giải quyết của 8 {{agency.diaDanh}} Điều 2 . Yêu cầu 8 {{document.ngayBan}} tiếp tục giải quyết nguồn tin về tội phạm 5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu … chuyển nguồn tin về tội phạm 5 cho 8 … để giải quyết theo quy định của Bộ luật Tố tụng hình",
         "actualDocxRawPattern": "{{document.vietTat}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên viết tắt",
+          "canonicalPath": "document.vietTat",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "Điều 1. Vụ việc7… thuộc thẩm quyền giải quyết của8{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "IỆN TR ƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 150 và 160 của Bộ luật Tố tụng hình sự; Xét đề nghị giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin về tội phạm 5 của {{agency.vienKiem}} Nhận thấy vụ việc {{agency.tenCo}} {{document.vietTat}} QUYẾT ĐỊNH: Điều 1 . Vụ việc 7 … thuộc thẩm quyền giải quyết của 8 {{agency.diaDanh}} Điều 2 . Yêu cầu 8 {{document.ngayBan}} tiếp tục giải quyết nguồn tin về tội phạm 5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu … chuyển nguồn tin về tội phạm 5 cho 8 … để giải quyết theo quy định của Bộ luật Tố tụng hình sự). /. Nơi nhận : - 6 …; - 8 …; - 9 …; - Lưu: HSVV, HSKS, VP {{document.soVan}} . (",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "Điều 2. Yêu cầu8{{case.field6}} tiếp tục giải quyết nguồn tin về tội phạm5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu… chuyển nguồn tin về tội phạm5 cho8… để giải quyết theo quy định của Bộ luật Tố tụng hình sự)./.",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ác điều 41, 150 và 160 của Bộ luật Tố tụng hình sự; Xét đề nghị giải quyết tranh chấp về thẩm quyền giải quyết nguồn tin về tội phạm 5 của {{agency.vienKiem}} Nhận thấy vụ việc {{agency.tenCo}} {{document.vietTat}} QUYẾT ĐỊNH: Điều 1 . Vụ việc 7 … thuộc thẩm quyền giải quyết của 8 {{agency.diaDanh}} Điều 2 . Yêu cầu 8 {{document.ngayBan}} tiếp tục giải quyết nguồn tin về tội phạm 5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu … chuyển nguồn tin về tội phạm 5 cho 8 … để giải quyết theo quy định của Bộ luật Tố tụng hình sự). /. Nơi nhận : - 6 …; - 8 …; - 9 …; - Lưu: HSVV, HSKS, VP {{document.soVan}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}.",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.soVan",
         "actualDocxContext": "ủa 8 {{agency.diaDanh}} Điều 2 . Yêu cầu 8 {{document.ngayBan}} tiếp tục giải quyết nguồn tin về tội phạm 5 theo quy định của Bộ luật Tố tụng hình sự (hoặc yêu cầu … chuyển nguồn tin về tội phạm 5 cho 8 … để giải quyết theo quy định của Bộ luật Tố tụng hình sự). /. Nơi nhận : - 6 …; - 8 …; - 9 …; - Lưu: HSVV, HSKS, VP {{document.soVan}} . ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.soVan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.soVan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "ếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định tạm đình chỉ (hoặc Quyết định đình chỉ) điều tra bị can số … ngày … tháng … năm … của …; Căn cứ Quyết định hủy bỏ Quyết định tạm đình chỉ (hoặc đình chỉ) điều tra bị can số … ngày … tháng … năm … của … (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: 1. Cơ quan, người có thẩm quyền 10 … ra Q uyết định phục hồi điều tra bị can 9 {{agency.diaDanh}} và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự. 2. Cơ quan, người có thẩm quyền 10 … gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát 2 {{document.ngayBan}} của Bộ luật Tố tụn",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "1. Cơ quan, người có thẩm quyền10… ra Quyết định phục hồi điều tra bị can9{{agency.field4}}và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự.",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "hỉ (hoặc Quyết định đình chỉ) điều tra bị can số … ngày … tháng … năm … của …; Căn cứ Quyết định hủy bỏ Quyết định tạm đình chỉ (hoặc đình chỉ) điều tra bị can số … ngày … tháng … năm … của … (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: 1. Cơ quan, người có thẩm quyền 10 … ra Q uyết định phục hồi điều tra bị can 9 {{agency.diaDanh}} và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự. 2. Cơ quan, người có thẩm quyền 10 … gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát 2 {{document.ngayBan}} của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 10 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "2. Cơ quan, người có thẩm quyền10… gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát2{{agency.field5}}của Bộ luật Tố tụng hình sự./.",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "(nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: 1. Cơ quan, người có thẩm quyền 10 … ra Q uyết định phục hồi điều tra bị can 9 {{agency.diaDanh}} và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự. 2. Cơ quan, người có thẩm quyền 10 … gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát 2 {{document.ngayBan}} của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 10 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "- 10{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "ó thẩm quyền 10 … ra Q uyết định phục hồi điều tra bị can 9 {{agency.diaDanh}} và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự. 2. Cơ quan, người có thẩm quyền 10 … gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát 2 {{document.ngayBan}} của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 10 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "điều tra bị can 9 {{agency.diaDanh}} và tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự. 2. Cơ quan, người có thẩm quyền 10 … gửi, thông báo Quyết định phục hồi điều tra bị can cho Viện kiểm sát 2 {{document.ngayBan}} của Bộ luật Tố tụng hình sự. /. Nơi nhận: - 10 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "6{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Địa điểm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -101,7 +101,15 @@
         "docxSlotId": "agency.issuePlace",
         "actualDocxContext": "nh sự nhưng chưa được khởi tố, QUYẾT ĐỊNH: Điều 1. Bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự. Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. 6 {{agency.issuePlace}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.issuePlace}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa điểm ban hành",
+          "canonicalPath": "agency.issuePlace",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

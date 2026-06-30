@@ -117,7 +117,7 @@
         "tableCellId": null
       },
       "context": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Ngày sinh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -139,7 +139,15 @@
         "docxSlotId": "person.dateOfBirth",
         "actualDocxContext": "Tự do - Hạnh phúc … , ngày … tháng … năm 20… 3734435 -1432560 Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 162/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) GIẤY MỜI Viện kiểm sát 2 {{document.fullDocumentCode}} Kính mời ông/bà: {{document.issueDate}} N ơ i th ư ờng trú/n ơ {{person.dateOfBirth}} N ơ {{person.dateOfBirth}} N ơ i ở hiện nay: {{person.dateOfBirth}} Đú {{person.personFullName}} ă m … có mặt tại {{person.currentAddress}} đ ể: {{person.occupation}} Khi đ ến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp {{person.idNumber}} Đề nghị ông/bà có mặt theo đú ng th",
         "actualDocxRawPattern": "{{person.dateOfBirth}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Ngày sinh",
+          "canonicalPath": "person.dateOfBirth",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {

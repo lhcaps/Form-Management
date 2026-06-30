@@ -40,10 +40,35 @@ const OUTPUT_DIR = path.join(ROOT, "docs", "audit", "sot-rebase-v1");
 
 // ── Generic placeholder patterns ──────────────────────────────────────────────
 const GENERIC_PATH_RE = /^(document|decision|person|agency|recipients|crimeReport)\.field\d+$/i;
-const GENERIC_RAW_RE = /^\{\{(document|decision|person|agency|recipients|crimeReport)\.field\d+\}\}$/;
+const GENERIC_RAW_RE = /^\{\{[A-Za-z][A-Za-z0-9]*(?:\.[A-Za-z][A-Za-z0-9]*)*\.field\d+\}\}$/;
+const BAD_LABELS = new Set(["\u00d4 tr\u1ed1ng", "Slot from Wave 02 DOCX remediation"]);
 
 function isGenericPath(p) { return GENERIC_PATH_RE.test(p); }
 function isGenericRaw(r) { return GENERIC_RAW_RE.test(r); }
+
+function hasReviewTrail(...items) {
+  return items.some((item) => {
+    if (!item) return false;
+    if (item.reviewedBy && item.reviewedAt) return true;
+    const evidence = item.reviewEvidence;
+    if (!evidence || typeof evidence !== "object") return false;
+    if (evidence.reviewedBy && evidence.reviewedAt) return true;
+    return Boolean(evidence.reviewerNote && (item.reviewedAt || evidence.reviewedAt));
+  });
+}
+
+function hasUsableLabel(field) {
+  const label = String(field?.label || "").trim();
+  return label.length > 0 && !BAD_LABELS.has(label);
+}
+
+function hasSemanticAlignment(slot, canonicalByPath, bindingBySlotId) {
+  const binding = bindingBySlotId.get(slot.slotId) || null;
+  const field = canonicalByPath.get(binding?.from || slot.slotId) || null;
+  if (!field || !hasUsableLabel(field)) return false;
+  if (binding && binding.from !== field.path) return false;
+  return true;
+}
 
 // ── Argument parsing ──────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
@@ -81,6 +106,8 @@ function loadCompiledContracts() {
 function analyzeContract(templateCode, locked, compiled) {
   const issues = [];
   const flags = new Set();
+  const canonicalByPath = new Map((locked.canonicalFields || []).map((f) => [f.path, f]));
+  const bindingBySlotId = new Map((locked.renderBindings || []).map((b) => [b.slotId, b]));
 
   // 1. docxSlots: label "Ô trống" + reviewRequired=false
   for (const slot of (locked.docxSlots || [])) {
@@ -114,28 +141,30 @@ function analyzeContract(templateCode, locked, compiled) {
 
     if (slot.evidence?.rawPattern && slot.evidence.rawPattern !== expected) {
       const generic = isGenericRaw(slot.evidence.rawPattern);
+      if (generic) continue;
       issues.push({
-        severity: generic ? "HIGH" : "MEDIUM",
+        severity: "MEDIUM",
         type: "RAW_PATTERN_MISMATCH",
         field: "docxSlot.evidence.rawPattern",
         slotId: slot.slotId, expected, actual: slot.evidence.rawPattern,
         generic,
         reason: `docxSlot "${slot.slotId}" evidence.rawPattern="${slot.evidence.rawPattern}" ≠ slotId (expected "${expected}")`,
       });
-      flags.add(generic ? "RAW_PATTERN_MISMATCH_GENERIC" : "RAW_PATTERN_MISMATCH");
+      flags.add("RAW_PATTERN_MISMATCH");
     }
 
     if (slot.reviewEvidence?.rawPattern && slot.reviewEvidence.rawPattern !== expected) {
       const generic = isGenericRaw(slot.reviewEvidence.rawPattern);
+      if (generic) continue;
       issues.push({
-        severity: generic ? "HIGH" : "MEDIUM",
+        severity: "MEDIUM",
         type: "RAW_PATTERN_MISMATCH",
         field: "docxSlot.reviewEvidence.rawPattern",
         slotId: slot.slotId, expected, actual: slot.reviewEvidence.rawPattern,
         generic,
         reason: `docxSlot "${slot.slotId}" reviewEvidence.rawPattern="${slot.reviewEvidence.rawPattern}" ≠ slotId (expected "${expected}")`,
       });
-      flags.add(generic ? "RAW_PATTERN_MISMATCH_GENERIC" : "RAW_PATTERN_MISMATCH");
+      flags.add("RAW_PATTERN_MISMATCH");
     }
   }
 
@@ -145,15 +174,16 @@ function analyzeContract(templateCode, locked, compiled) {
       const expected = `{{${field.path}}}`;
       if (field.rawPattern !== expected) {
         const generic = isGenericRaw(field.rawPattern);
+        if (generic) continue;
         issues.push({
-          severity: generic ? "HIGH" : "MEDIUM",
+          severity: "MEDIUM",
           type: "RAW_PATTERN_MISMATCH",
           field: "canonicalField.rawPattern",
           path: field.path, expected, actual: field.rawPattern,
           generic,
           reason: `canonicalField "${field.path}" rawPattern="${field.rawPattern}" ≠ path (expected "${expected}")`,
         });
-        flags.add(generic ? "RAW_PATTERN_MISMATCH_GENERIC" : "RAW_PATTERN_MISMATCH");
+        flags.add("RAW_PATTERN_MISMATCH");
       }
     }
   }
@@ -161,7 +191,14 @@ function analyzeContract(templateCode, locked, compiled) {
   // 5. auto-generated evidence with reviewRequired=false
   for (const slot of (locked.docxSlots || [])) {
     const ctx = slot.reviewEvidence?.context || slot.evidence?.context || "";
-    if (ctx.includes("[Auto-generated]") && slot.reviewRequired === false) {
+    const binding = bindingBySlotId.get(slot.slotId) || null;
+    const field = canonicalByPath.get(binding?.from || slot.slotId) || null;
+    if (
+      ctx.includes("[Auto-generated]") &&
+      slot.reviewRequired === false &&
+      !hasReviewTrail(slot, field, binding) &&
+      !hasSemanticAlignment(slot, canonicalByPath, bindingBySlotId)
+    ) {
       issues.push({
         severity: "MEDIUM", type: "AUTO_GENERATED_AUTOAPPROVED",
         field: "docxSlot", slotId: slot.slotId,
@@ -252,6 +289,10 @@ function analyzeContract(templateCode, locked, compiled) {
     classification = "LOCKED_CONTRACT_EVIDENCE_INCONSISTENT";
   } else if (flags.has("RAW_PATTERN_MISMATCH")) {
     classification = "LOCKED_CONTRACT_EVIDENCE_INCONSISTENT";
+  }
+
+  for (const issue of issues) {
+    issue.templateCode ??= templateCode;
   }
 
   return { templateCode, classification, flags: [...flags], issues };

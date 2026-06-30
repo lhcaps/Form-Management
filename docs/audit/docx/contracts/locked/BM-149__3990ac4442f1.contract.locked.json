@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát… đối với10{{agency.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} -",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "g … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{docume",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "- 1{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "- 11{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "{{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "iaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

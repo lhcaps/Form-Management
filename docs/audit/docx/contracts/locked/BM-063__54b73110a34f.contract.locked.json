@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "{{document.field2}}ngày … tháng … năm … {{document.field3}}",
-      "label": "Ô trống",
+      "label": "Địa danh, ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -77,7 +77,15 @@
         "docxSlotId": "document.issuePlaceAndDateLine",
         "actualDocxContext": "theo Thông t ư số /2026/TT-VKSTC ngày / /2026) Mẫu số 63/HS (Ban hành theo Thông t ư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT … {{agency.name}} 535940 54610 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 974090 27305 BIÊN BẢN Kê biên tài sản {{document.recordStartedAtTimeText}} ngày … tháng … năm …{{document.issuePlaceAndDateLine}} {{document.recordLocationName}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{prosecutor.procuracyName}} ; {{assignment.participantLine1}} {{assignment.participantLine2}} y ban nhân dân cấp xã ; {{assignment.participantLine3}} {{assignment.participantLine4}} Thi hành Lệnh kê biên tài sản số … ngày … thá",
         "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh, ngày ban hành",
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {

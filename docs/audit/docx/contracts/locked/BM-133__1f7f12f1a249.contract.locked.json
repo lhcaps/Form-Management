@@ -29,7 +29,7 @@
         "tableCellId": null
       },
       "context": "…{{document.field1}}",
-      "label": "Ô trống",
+      "label": "Viện kiểm sát",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -49,7 +49,15 @@
         "docxSlotId": "agency.vienKiem",
         "actualDocxContext": "3620135 -30480 Mẫu số 133/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 133/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT NHÂN DÂN TỐI CAO 1061720 12700 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 657860 213995 Độc lập - Tự do - Hạnh phúc Số: …/QĐ-VKSTC … {{agency.vienKiem}} QUYẾT ĐỊNH GIÁM ĐỊNH LẠI TRONG TRƯỜNG HỢP ĐẶC BIỆT VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN TỐI CAO Căn cứ Điều 41 và Điều 212 của Bộ luật Tố tụng hình sự; Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm …, nếu có) của …v",
         "actualDocxRawPattern": "{{agency.vienKiem}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Viện kiểm sát",
+          "canonicalPath": "agency.vienKiem",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -62,7 +70,7 @@
         "tableCellId": null
       },
       "context": "Điều 1. Trưng cầu… giám định lại những nội dung sau đây:{{decision.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -82,7 +90,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "t định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Điều 1. Trưng cầu … giám định lại những nội dung sau đây: {{document.soQuyet}} Điều 2. Thời hạn giám định lại là … ngày, kể từ ngày 6 … nhận được Quyết định này. Điều 3. Hội đồng giám định 6 {{agency.diaDanh}} phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định 6 {{document.ngayBan}} Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận:",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -95,7 +111,7 @@
         "tableCellId": null
       },
       "context": "Điều 3. Hội đồng giám định6{{agency.field4}}phải gửi bản kết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định6{{agency.field5}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -115,7 +131,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{agency.vienKiem}} QUYẾT ĐỊNH: Điều 1. Trưng cầu … giám định lại những nội dung sau đây: {{document.soQuyet}} Điều 2. Thời hạn giám định lại là … ngày, kể từ ngày 6 … nhận được Quyết định này. Điều 3. Hội đồng giám định 6 {{agency.diaDanh}} phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định 6 {{document.ngayBan}} Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận: - 6 …; - Cơ quan, người có thẩm quyền điều tra (nếu có); - Lưu: HSVV/VA, HSKS, VP. {{agency.dongDia}} ( Ký, ghi rõ họ tên , đóng dấ",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -128,7 +152,7 @@
         "tableCellId": null
       },
       "context": "Điều 3. Hội đồng giám định6{{agency.field4}}phải gửi bản kết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định6{{agency.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -148,7 +172,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "nKiem}} QUYẾT ĐỊNH: Điều 1. Trưng cầu … giám định lại những nội dung sau đây: {{document.soQuyet}} Điều 2. Thời hạn giám định lại là … ngày, kể từ ngày 6 … nhận được Quyết định này. Điều 3. Hội đồng giám định 6 {{agency.diaDanh}} phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định 6 {{document.ngayBan}} Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận: - 6 …; - Cơ quan, người có thẩm quyền điều tra (nếu có); - Lưu: HSVV/VA, HSKS, VP. {{agency.dongDia}} ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -161,7 +193,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -181,7 +213,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "Điều 3. Hội đồng giám định 6 {{agency.diaDanh}} phải gửi bản k ết luận giám định cho cơ quan đã trưng cầu giám định, Hội đồng giám định 6 {{document.ngayBan}} Kèm theo Quyết định này là hồ sơ, đối tượng trưng cầu giám định./. Nơi nhận: - 6 …; - Cơ quan, người có thẩm quyền điều tra (nếu có); - Lưu: HSVV/VA, HSKS, VP. {{agency.dongDia}} ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

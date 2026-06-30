@@ -29,7 +29,7 @@
         "tableCellId": null
       },
       "context": "VỤ ÁN:{{document.field1}}",
-      "label": "Ô trống",
+      "label": "Viện kiểm sát",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -49,7 +49,15 @@
         "docxSlotId": "agency.vienKiem",
         "actualDocxContext": "BẢN KÊ VẬT CHỨNG KÈM THEO BẢN CÁO TRẠNG 3641090 -593090 Mẫu số 157/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 157/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) VỤ ÁN: {{agency.vienKiem}} STT TÊN VẬT CHỨNG SỐ LƯỢNG ĐẶC ĐIỂM GHI CHÚ … , ngày … tháng … năm … NGƯỜI LẬP BẢNG KÊ ( Ký, ghi rõ họ tên)",
         "actualDocxRawPattern": "{{agency.vienKiem}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Viện kiểm sát",
+          "canonicalPath": "agency.vienKiem",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

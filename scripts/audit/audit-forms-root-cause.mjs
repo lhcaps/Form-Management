@@ -214,8 +214,20 @@ function containsRemediationLeak(str) {
 // WEAK EVIDENCE DETECTION
 // =============================================================================
 
-function isWeakEvidence(context, textBefore, rawPattern, reviewRequired) {
+function hasReviewTrail(...items) {
+  return items.some((item) => {
+    if (!item) return false;
+    if (item.reviewedBy && item.reviewedAt) return true;
+    const evidence = item.reviewEvidence;
+    if (!evidence || typeof evidence !== 'object') return false;
+    if (evidence.reviewedBy && evidence.reviewedAt) return true;
+    return Boolean(evidence.reviewerNote && (item.reviewedAt || evidence.reviewedAt));
+  });
+}
+
+function isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail = false) {
   if (reviewRequired) return false;
+  if (reviewTrail) return false;
   const parsed = parseRawPattern(rawPattern);
   const isAutoGen = context?.startsWith('[Auto-generated]') ?? false;
   const isShortContext = !context || context.length < 10;
@@ -364,6 +376,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
   const required = field.required ?? false;
   const slotIdForIssue = binding?.slotId ?? path;
   const isBindingAlias = Boolean(binding?.slotId && binding.slotId !== path);
+  const reviewTrail = hasReviewTrail(field, slot, binding);
 
   const parsed = slot ? parseRawPattern(slot.evidence?.rawPattern ?? '') : null;
   const rawPattern = slot?.evidence?.rawPattern ?? null;
@@ -433,7 +446,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
     }
 
     // manual source but context is fixed legal text
-    if (source === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(context)) {
+    if (!reviewTrail && source === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(context)) {
       issues.push(makeIssue({
         templateCode, sourceId, path, slotId: slotIdForIssue,
         rawPattern, label, source,
@@ -468,7 +481,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
 
   // ---- RULE 4: WEAK_EVIDENCE_AUTO_LOCKED ----
   // Always check regardless of label quality
-  if (!reviewRequired && isWeakEvidence(context, textBefore, rawPattern, reviewRequired)) {
+  if (!reviewRequired && isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail)) {
     issues.push(makeIssue({
       templateCode, sourceId, path, slotId: slotIdForIssue,
       rawPattern, label, source,
@@ -485,7 +498,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
   // Always check: generic raw mapped to semantic path (label good OR bad does not matter)
   if (parsed && !isBindingAlias && isGenericRawTail(parsed.rawTail)) {
     const { bad: labelBad } = isBadLabel(label, path);
-    const isWeak = isWeakEvidence(context, textBefore, rawPattern, reviewRequired);
+    const isWeak = isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail);
     if (labelBad || isWeak) {
       issues.push(makeIssue({
         templateCode, sourceId, path, slotId: slotIdForIssue,
@@ -502,7 +515,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
 
   // ---- RULE 8: REQUIRED_SUSPICIOUS ----
   // Always check regardless of source
-  if (!required) {
+  if (!reviewTrail && !required) {
     const reqReason = detectRequiredReason(path);
     if (reqReason) {
       issues.push(makeIssue({
@@ -520,7 +533,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
   // Always check: if path looks computed/system/agency but source is manual
   {
     const readonlyReason = detectReadonlyReason(path, source, context);
-    if (readonlyReason) {
+    if (!reviewTrail && readonlyReason) {
       issues.push(makeIssue({
         templateCode, sourceId, path,
         label, source,
@@ -534,6 +547,7 @@ function auditField({ field, slot, binding = null, contract, templateCode, sourc
 
     // Additional: manual source + rawPattern suggests system data
     if (
+      !reviewTrail &&
       source === 'manual' &&
       parsed &&
       !isBindingAlias &&
@@ -914,6 +928,23 @@ function runSmokeTests() {
     return found || 'WEAK_EVIDENCE_AUTO_LOCKED not found';
   });
 
+  test('Reviewed field with weak context does not flag WEAK_EVIDENCE_AUTO_LOCKED', () => {
+    const field = {
+      path: 'document.someField',
+      label: 'Reviewed label',
+      source: 'manual',
+      required: false,
+      reviewRequired: false,
+      reviewedBy: 'Le Huy',
+      reviewedAt: '2026-06-22T08:15:00.000+07:00',
+      reviewEvidence: { reviewerNote: 'Reviewed source and label.' },
+    };
+    const slot = { context: '', evidence: { rawPattern: '{{document.field1}}', textBefore: '11' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.WEAK_EVIDENCE_AUTO_LOCKED);
+    return !found || 'WEAK_EVIDENCE_AUTO_LOCKED should not be emitted for reviewed fields';
+  });
+
   // document.fullDocumentCode is user-entered administrative data unless
   // a contract explicitly models it as computed.
   test('manual + document.fullDocumentCode does not flag SHOULD_BE_READONLY', () => {
@@ -966,6 +997,22 @@ function runSmokeTests() {
     const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.REQUIRED_SUSPICIOUS);
     return found || 'REQUIRED_SUSPICIOUS not found';
+  });
+
+  test('reviewed required=false field does not flag REQUIRED_SUSPICIOUS', () => {
+    const field = {
+      path: 'signature.signerName',
+      label: 'Reviewed signer',
+      source: 'manual',
+      required: false,
+      reviewRequired: false,
+      reviewedBy: 'Le Huy',
+      reviewedAt: '2026-06-22T08:15:00.000+07:00',
+      reviewEvidence: { reviewerNote: 'Optional in this template.' },
+    };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.REQUIRED_SUSPICIOUS);
+    return !found || 'REQUIRED_SUSPICIOUS should not be emitted for reviewed optional fields';
   });
 
   // Empty label flags BAD_LABEL (severity FAIL)

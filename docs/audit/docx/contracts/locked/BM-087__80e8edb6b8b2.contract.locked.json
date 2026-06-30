@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "năm …, nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "1{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,VP./. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "2{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,VP./. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "3{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "Quyết định khởi tố bị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,VP./. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Căn cứ pháp lý",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "legalBasis.canCu",
         "actualDocxContext": "ị can số … ngày … tháng … năm …, nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,VP./. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{legalBasis.canCu}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Căn cứ pháp lý",
+          "canonicalPath": "legalBasis.canCu",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -220,7 +260,7 @@
         "tableCellId": null
       },
       "context": "Cơ quan, người có thẩm quyền9{{agency.field8}}và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát2… theo quy định của Bộ luật Tố tụng hình sự./.",
-      "label": "Ô trống",
+      "label": "Cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -240,7 +280,15 @@
         "docxSlotId": "agency.coQuan",
         "actualDocxContext": "ới … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự (nếu có); Xét thấy {{document.soQuyet}} YÊU CẦU: Cơ quan, người có thẩm quyền … tiến hành điều tra, xác minh làm rõ những nội dung sau đây: 1 {{agency.diaDanh}} 2 {{document.ngayBan}} 3 {{document.chuThe}} {{legalBasis.canCu}} Cơ quan, người có thẩm quyền 9 {{agency.coQuan}} và gửi các tài liệu, chứng cứ đã thu thập được cho Viện kiểm sát 2 … theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 …; - Lưu: HSVA, HSKS,VP./. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.coQuan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Cơ quan",
+          "canonicalPath": "agency.coQuan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

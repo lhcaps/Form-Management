@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "11{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "ịnh khởi tố bị can số … ngày … tháng … năm … của 7 … đối với 8 … từ tội … quy định tại khoản … Điều … của Bộ luật Hình sự sang tội … quy định tại khoản … Điều … của Bộ luật Hình sự 10 . Điều 2. Yêu cầu 7 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 7 …; - 8 …; - Lưu: HSVA, HSKS, VP. 11 {{document.soQuyet}} (Ký, ghi rõ họ tên, đó ng dấu)",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

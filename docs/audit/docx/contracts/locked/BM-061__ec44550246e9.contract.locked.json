@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -101,7 +101,15 @@
         "docxSlotId": "document.fullDocumentCode",
         "docxContext": "{{document.field3}}",
         "rawPattern": "{{document.field3}}",
-        "rationale": "docx context present; actual DOCX token present"
+        "rationale": "docx context present; actual DOCX token present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       }
     },
     {

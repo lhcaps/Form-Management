@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "……{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số kiến nghị",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soKien",
         "actualDocxContext": "vi phạm pháp luật Kính gửi: {{agency.vienKiem}} Căn cứ Điều 41 và Điều 166 của Bộ luật Tố tụng hình sự, 1. Qua kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra/ truy tố các vụ án hình sự, Viện kiểm sát 2 … nhận thấy: Trong thời gian vừa qua: 1.1. Nêu tình hình tội phạm, vi phạm pháp luật: …… {{document.soKien}} 1.2. Đánh giá về tính chất, mức độ, hậu quả của tội phạm, vi phạm pháp luật: …… {{agency.diaDanh}} 2. Để bảo đảm phòng ngừa tội phạm, vi phạm pháp luật trong lĩnh vực …, Viện kiểm sát 2 … kiến nghị 5 … thực hiện các nội dung sau đây: 2.1. Áp dụng các biện pháp sau đây để phòng ngừa tội phạm, vi phạm pháp luật: {{docum",
         "actualDocxRawPattern": "{{document.soKien}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số kiến nghị",
+          "canonicalPath": "document.soKien",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "……{{agency.field4}}2. Để bảo đảm phòng ngừa tội phạm, vi phạm pháp luật trong lĩnh vực…, Viện kiểm sát2… kiến nghị5… thực hiện các nội dung sau đây:",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "sự, 1. Qua kiểm sát việc tiếp nhận, giải quyết nguồn tin về tội phạm/khởi tố/điều tra/ truy tố các vụ án hình sự, Viện kiểm sát 2 … nhận thấy: Trong thời gian vừa qua: 1.1. Nêu tình hình tội phạm, vi phạm pháp luật: …… {{document.soKien}} 1.2. Đánh giá về tính chất, mức độ, hậu quả của tội phạm, vi phạm pháp luật: …… {{agency.diaDanh}} 2. Để bảo đảm phòng ngừa tội phạm, vi phạm pháp luật trong lĩnh vực …, Viện kiểm sát 2 … kiến nghị 5 … thực hiện các nội dung sau đây: 2.1. Áp dụng các biện pháp sau đây để phòng ngừa tội phạm, vi phạm pháp luật: {{document.ngayBan}} (nêu cụ thể các biện pháp phòng ngừa tội phạm, vi phạm pháp luật) . 2.2. Trả lời bằng",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "{{case.field5}}(nêu cụ thể các biện pháp phòng ngừa tội phạm, vi phạm pháp luật).",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "oKien}} 1.2. Đánh giá về tính chất, mức độ, hậu quả của tội phạm, vi phạm pháp luật: …… {{agency.diaDanh}} 2. Để bảo đảm phòng ngừa tội phạm, vi phạm pháp luật trong lĩnh vực …, Viện kiểm sát 2 … kiến nghị 5 … thực hiện các nội dung sau đây: 2.1. Áp dụng các biện pháp sau đây để phòng ngừa tội phạm, vi phạm pháp luật: {{document.ngayBan}} (nêu cụ thể các biện pháp phòng ngừa tội phạm, vi phạm pháp luật) . 2.2. Trả lời bằng văn bản cho Viện kiểm sát 2 … về kết quả thực hiện Kiến nghị trong thời hạn … ngày, kể từ ngày 5 … nhận được Kiến nghị./. Nơi nhận : - Như trên; - Lưu: HSVV/HSVA, HSKS, VP. {{agency.dongDia}} .. ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}..",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "phòng ngừa tội phạm, vi phạm pháp luật: {{document.ngayBan}} (nêu cụ thể các biện pháp phòng ngừa tội phạm, vi phạm pháp luật) . 2.2. Trả lời bằng văn bản cho Viện kiểm sát 2 … về kết quả thực hiện Kiến nghị trong thời hạn … ngày, kể từ ngày 5 … nhận được Kiến nghị./. Nơi nhận : - Như trên; - Lưu: HSVV/HSVA, HSKS, VP. {{agency.dongDia}} .. ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

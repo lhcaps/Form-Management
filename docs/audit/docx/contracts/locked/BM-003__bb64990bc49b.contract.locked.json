@@ -107,7 +107,7 @@
         "tableCellId": null
       },
       "context": "{{document.issuePlaceAndDateLine}}",
-      "label": "issuePlaceAndDateLine",
+      "label": "Địa điểm, ngày lập văn bản",
       "slotType": "datePart",
       "required": true,
       "confidence": 0.9,
@@ -122,8 +122,17 @@
         "textAfter": "",
         "rawPattern": "{{document.issuePlaceAndDateLine}}",
         "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
-        "blockId": "P0011"
-      }
+        "blockId": "P0011",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "issuePlaceAndDateLine",
+          "newValue": "Địa điểm, ngày lập văn bản",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.392Z"
     },
     {
       "slotId": "legalBasis.procedureArticlesLine",
@@ -185,7 +194,7 @@
         "tableCellId": null
       },
       "context": "{{recipients.primaryLine}}",
-      "label": "primaryLine",
+      "label": "Nơi nhận",
       "slotType": "text",
       "required": true,
       "confidence": 0.9,
@@ -200,8 +209,17 @@
         "textAfter": "",
         "rawPattern": "{{recipients.primaryLine}}",
         "context": "[Auto-generated] -",
-        "blockId": "P0029"
-      }
+        "blockId": "P0029",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "primaryLine",
+          "newValue": "Nơi nhận",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.392Z"
     },
     {
       "slotId": "recipients.archiveLine",
@@ -211,7 +229,7 @@
         "tableCellId": null
       },
       "context": "{{recipients.archiveLine}}",
-      "label": "archiveLine",
+      "label": "Lưu hồ sơ",
       "slotType": "text",
       "required": true,
       "confidence": 0.9,
@@ -226,8 +244,17 @@
         "textAfter": "",
         "rawPattern": "{{recipients.archiveLine}}",
         "context": "[Auto-generated] -",
-        "blockId": "P0031"
-      }
+        "blockId": "P0031",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "archiveLine",
+          "newValue": "Lưu hồ sơ",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.392Z"
     },
     {
       "slotId": "signature.signMode",
@@ -441,7 +468,7 @@
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "issuePlaceAndDateLine",
+      "label": "Địa điểm, ngày lập văn bản",
       "source": "systemDate",
       "required": true,
       "uiComponent": "text",
@@ -452,7 +479,14 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] {{document.issuePlaceAndDateLine}}",
-        "blockId": "P0011"
+        "blockId": "P0011",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "issuePlaceAndDateLine",
+          "newValue": "Địa điểm, ngày lập văn bản",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
@@ -490,7 +524,7 @@
     {
       "path": "recipients.primaryLine",
       "type": "string",
-      "label": "primaryLine",
+      "label": "Nơi nhận",
       "source": "manual",
       "required": true,
       "uiComponent": "text",
@@ -501,13 +535,20 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] -",
-        "blockId": "P0029"
+        "blockId": "P0029",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "primaryLine",
+          "newValue": "Nơi nhận",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
-      "label": "archiveLine",
+      "label": "Lưu hồ sơ",
       "source": "manual",
       "required": true,
       "uiComponent": "text",
@@ -518,7 +559,14 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] -",
-        "blockId": "P0031"
+        "blockId": "P0031",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "archiveLine",
+          "newValue": "Lưu hồ sơ",
+          "repairedAt": "2026-06-30T08:19:13.392Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {

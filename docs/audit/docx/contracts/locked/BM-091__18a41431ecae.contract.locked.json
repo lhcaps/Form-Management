@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "- 10{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "uyết định khởi tố bị can số … ngày … tháng … năm … của 10 … đối với 9 … từ tội … quy định tại khoản … Điều … của Bộ luật Hình sự sang tội … quy định tại khoản … Điều . .. của Bộ luật Hình sự 11 . Điều 2. Yêu cầu 10 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 {{agency.vienKiem}} - 10 {{document.soQuyet}} - Lưu: HSVA, HSKS, VP. 12 {{agency.diaDanh}} (Ký, ghi rõ họ tên, đóng dấu)",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "12{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "m … của 10 … đối với 9 … từ tội … quy định tại khoản … Điều … của Bộ luật Hình sự sang tội … quy định tại khoản … Điều . .. của Bộ luật Hình sự 11 . Điều 2. Yêu cầu 10 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 9 {{agency.vienKiem}} - 10 {{document.soQuyet}} - Lưu: HSVA, HSKS, VP. 12 {{agency.diaDanh}} (Ký, ghi rõ họ tên, đóng dấu)",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

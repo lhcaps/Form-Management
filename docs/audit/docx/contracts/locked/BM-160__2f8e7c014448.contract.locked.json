@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Ông/Bà:{{document.field2}}{{document.field3}}là người chứng kiến.",
-      "label": "Ô trống",
+      "label": "Số biên bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soBien",
         "actualDocxContext": "ày / /2026) BIÊN BẢN Niêm yết công khai văn bản tố tụng Hồi … giờ … phút, ngày … tháng … năm … tại Chúng tôi gồm: Ông/ B à: Của Viện kiểm sát 2 Đại diện Ủy ban nhân dân cấp xã/đại diện cơ quan, tổ chức nơi cuối cùng người được cấp/giao văn bản tố tụng cư trú/làm việc, học tập : Ông/ B à: Ông/ B à : {{agency.vienKiem}} {{document.soBien}} là người chứng kiến. Căn cứ Điều 140 của Bộ luật Tố tụng hình sự, tiến hành niêm yết công khai văn bản tố tụng : Thời hạn niêm yết công khai: kể từ … giờ … phút, ngày … tháng … năm … đến … giờ … phút, ngày … tháng … năm …. Địa điểm niêm yết công khai: Biên bản kết thúc hồi … giờ … phút, ngày … tháng … năm … và đã đọc",
         "actualDocxRawPattern": "{{document.soBien}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số biên bản",
+          "canonicalPath": "document.soBien",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

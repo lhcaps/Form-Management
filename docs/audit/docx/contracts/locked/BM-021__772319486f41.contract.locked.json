@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field3}}{{document.field4}},",
-      "label": "Ô trống",
+      "label": "Địa điểm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "agency.issuePlace",
         "actualDocxContext": "Upper}} 474980 81915 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 720725 187960 Độc lập - Tự do - Hạnh phúc … , ngày … tháng … năm 20 {{legalBasis.procedureArticlesLine}} QUYẾT ĐỊNH K HÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố tụng hình sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.su",
         "actualDocxRawPattern": "{{agency.issuePlace}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa điểm ban hành",
+          "canonicalPath": "agency.issuePlace",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field3}}{{document.field4}},",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -106,7 +114,15 @@
         "docxSlotId": "document.documentCode",
         "docxContext": "Xét thấy{{document.field3}}{{document.field4}},",
         "rawPattern": "{{document.field4}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.documentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"
@@ -118,24 +134,35 @@
         "blockId": "P0032",
         "tableCellId": null
       },
-      "context": "Điều 1. Không khởi tố vụ án hình sự đối với{{legalBasis.procedureArticlesLine}}{{legalBasis.procedureArticlesLine}}",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "context": "Điều 1. Không khởi tố vụ án hình sự đối với{{document.issuePlaceAndDateLine}}{{document.issuePlaceAndDateLine}}",
+      "label": "Địa điểm, ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Điều 1. Không khởi tố vụ án hình sự đối với",
         "textAfter": "{{legalBasis.procedureArticlesLine}}",
-        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "legacyRawPattern": "{{legalBasis.procedureArticlesLine}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Điều 1. Không khởi tố vụ án hình sự đối với",
         "textAfter": "{{legalBasis.procedureArticlesLine}}",
-        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
         "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
-        "blockId": "P0032"
-      }
+        "blockId": "P0032",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Căn cứ Bộ luật Tố tụng hình sự",
+          "newValue": "Địa điểm, ngày ban hành",
+          "repairedAt": "2026-06-30T08:19:13.394Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.394Z"
     },
     {
       "slotId": "legalBasis.procedureArticlesLine",
@@ -144,24 +171,35 @@
         "blockId": "P0033",
         "tableCellId": null
       },
-      "context": "Điều 2. Viện kiểm sát2{{agency.nameUpper}} thông báo để{{agency.nameUpper}}",
-      "label": "Viện kiểm sát ban hành",
+      "context": "Điều 2. Viện kiểm sát2{{legalBasis.procedureArticlesLine}} thông báo để{{legalBasis.procedureArticlesLine}}",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Điều 2. Viện kiểm sát2",
         "textAfter": "thông báo để{{agency.nameUpper}}",
-        "rawPattern": "{{agency.nameUpper}}"
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "legacyRawPattern": "{{agency.nameUpper}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Điều 2. Viện kiểm sát2",
         "textAfter": "thông báo để{{agency.nameUpper}}",
-        "rawPattern": "{{agency.nameUpper}}",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
         "context": "[Auto] Điều 2. Viện kiểm sát2",
-        "blockId": "P0033"
-      }
+        "blockId": "P0033",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Viện kiểm sát ban hành",
+          "newValue": "Căn cứ Bộ luật Tố tụng hình sự",
+          "repairedAt": "2026-06-30T08:19:13.394Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.394Z"
     },
     {
       "slotId": "decision.summaryLine",
@@ -171,7 +209,7 @@
         "tableCellId": null
       },
       "context": "{{document.field9}}{{document.field10}}",
-      "label": "Ô trống",
+      "label": "Tóm tắt quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -191,7 +229,15 @@
         "docxSlotId": "decision.summaryLine",
         "actualDocxContext": ".issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{decision.summaryLine}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tóm tắt quyết định",
+          "canonicalPath": "decision.summaryLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -204,7 +250,7 @@
         "tableCellId": null
       },
       "context": "{{document.field9}}{{document.field10}}",
-      "label": "Ô trống",
+      "label": "Nội dung quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -224,7 +270,15 @@
         "docxSlotId": "decision.decisionLine",
         "actualDocxContext": "documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{decision.decisionLine}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Nội dung quyết định",
+          "canonicalPath": "decision.decisionLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -296,7 +350,7 @@
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "label": "Địa điểm, ngày ban hành",
       "source": "systemDate",
       "required": false,
       "uiComponent": "textarea",
@@ -306,13 +360,20 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
-        "blockId": "P0032"
+        "blockId": "P0032",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Căn cứ Bộ luật Tố tụng hình sự",
+          "newValue": "Địa điểm, ngày ban hành",
+          "repairedAt": "2026-06-30T08:19:13.394Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
-      "label": "Viện kiểm sát ban hành",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
       "source": "officialConfig",
       "required": false,
       "uiComponent": "text",
@@ -322,7 +383,14 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] Điều 2. Viện kiểm sát2",
-        "blockId": "P0033"
+        "blockId": "P0033",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Viện kiểm sát ban hành",
+          "newValue": "Căn cứ Bộ luật Tố tụng hình sự",
+          "repairedAt": "2026-06-30T08:19:13.394Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {

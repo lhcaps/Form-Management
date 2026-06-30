@@ -81,7 +81,7 @@
         "tableCellId": null
       },
       "context": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Số văn bản / quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -103,7 +103,15 @@
         "docxSlotId": "document.fullDocumentCode",
         "actualDocxContext": "19685 Mẫu số 69/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) Mẫu số 69/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày / /2026) VIỆN KIỂM SÁT … {{agency.name}} 911225 71120 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510 224155 Độc lập - Tự do - Hạnh phúc BIÊN BẢN Về việc hủy bỏ biện pháp phong tỏa tài khoản {{document.fullDocumentCode}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{document.issueDate}} {{person.dateOfBirth}} {{person.dateOfBirth}} Đại diện Tổ chức tín dụng/Kho bạc Nhà nước {{person.idNumber}} {{document.reasonLine}} Thi hành Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng",
         "actualDocxRawPattern": "{{document.fullDocumentCode}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Số văn bản / quyết định",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -207,7 +215,7 @@
         "tableCellId": null
       },
       "context": "al=\"2\"/> {{document.field6}} <w:tab w:va",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Căn cứ / lý do",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -229,7 +237,15 @@
         "docxSlotId": "document.reasonLine",
         "actualDocxContext": "AM 905510 224155 Độc lập - Tự do - Hạnh phúc BIÊN BẢN Về việc hủy bỏ biện pháp phong tỏa tài khoản {{document.fullDocumentCode}} Chúng tôi gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{document.issueDate}} {{person.dateOfBirth}} {{person.dateOfBirth}} Đại diện Tổ chức tín dụng/Kho bạc Nhà nước {{person.idNumber}} {{document.reasonLine}} Thi hành Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng … năm … {{document.reasonLine2}} Họ tên: {{recipients.personLine}} Tên gọi khác: {{person.personFullName}} {{person.currentAddress}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.currentAddress2}} Nơi thư",
         "actualDocxRawPattern": "{{document.reasonLine}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Căn cứ / lý do",
+          "canonicalPath": "document.reasonLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -240,7 +256,7 @@
         "tableCellId": null
       },
       "context": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Căn cứ / lý do bổ sung",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -262,7 +278,15 @@
         "docxSlotId": "document.reasonLine2",
         "actualDocxContext": "i gồm: Ông/Bà: … Kiểm sát viên của Viện kiểm sát 2 {{document.issueDate}} {{person.dateOfBirth}} {{person.dateOfBirth}} Đại diện Tổ chức tín dụng/Kho bạc Nhà nước {{person.idNumber}} {{document.reasonLine}} Thi hành Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng … năm … {{document.reasonLine2}} Họ tên: {{recipients.personLine}} Tên gọi khác: {{person.personFullName}} {{person.currentAddress}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.currentAddress2}} Nơi thường trú: Nơi tạm trú: Nơi ở hiện tại: Chúng tôi đã đọc, giao Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo {{decision.decisionLine}",
         "actualDocxRawPattern": "{{document.reasonLine2}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Căn cứ / lý do bổ sung",
+          "canonicalPath": "document.reasonLine2",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -366,7 +390,7 @@
         "tableCellId": null
       },
       "context": "oản theo {{document.field8}} <w:lang w",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Nội dung quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -388,7 +412,15 @@
         "docxSlotId": "decision.decisionLine",
         "actualDocxContext": "{{document.reasonLine2}} Họ tên: {{recipients.personLine}} Tên gọi khác: {{person.personFullName}} {{person.currentAddress}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{person.currentAddress2}} Nơi thường trú: Nơi tạm trú: Nơi ở hiện tại: Chúng tôi đã đọc, giao Quyết định hủy bỏ biện pháp phong tỏa tài khoản theo {{decision.decisionLine}} 3 … và tiến hành lập biên bản về việc hủy bỏ biện pháp phong tỏa tài khoản như sau: 1. Tổ chức tín dụng/Kho bạc Nhà nước 3 … thực hiện việc phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng … năm … {{person.currentAddress}} biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng",
         "actualDocxRawPattern": "{{decision.decisionLine}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Nội dung quyết định",
+          "canonicalPath": "decision.decisionLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -430,7 +462,7 @@
         "tableCellId": null
       },
       "context": "/w:rPr> {{document.field12}} </",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Tóm tắt / liệt kê",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -452,7 +484,15 @@
         "docxSlotId": "document.summaryLine",
         "actualDocxContext": "ài khoản số … ngày … tháng … năm … {{person.currentAddress}} biện pháp phong tỏa tài khoản theo Lệnh phong tỏa tài khoản số … ngày … tháng … năm … của 2 {{person.occupation}} 4 {{person.dateOfBirth}} 2. Các thông tin về tài khoản, số lượng tài khoản, số tiền có trong tài khoản được hủy bỏ biện pháp phong tỏa tài khoản {{document.summaryLine}} Việc hủy bỏ biện pháp phong tỏa tài khoản kết thúc hồi … giờ … ngày … tháng … năm … . Biên bản này đã đọc cho những người có tên trên nghe, công nhận đúng và cùng ký tên xác nhận dưới đây. Biên bản này được lập thành 04 bản, 01 bản giao cho người có tài khoản được hủy bỏ biện pháp phong tỏa, một bản lưu tại 3 …, 02 bả",
         "actualDocxRawPattern": "{{document.summaryLine}}",
-        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Tóm tắt / liệt kê",
+          "canonicalPath": "document.summaryLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     }
   ],

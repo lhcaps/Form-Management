@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét đề nghị của ông/bà{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự ; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự 7 ; Xét đề nghị của ông/bà {{document.soQuyet}} Nhận thấy việc định giá tài sản là cần thiết, YÊU CẦU: 1. Hội đồng định giá … tiến hành định giá tài sản sau: 1. 1. Thông tin và đặc điểm của tài sản cần định giá , nơi bảo quản các tài sản này : {{agency.diaDanh}} 1. 2. Tên tài liệu có liên quan (nếu có): {{document.ngayBan}} 1. 3. Nội dung yêu cầu định giá tài sản:",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "1.1. Thông tin và đặc điểm của tài sản cần định giá, nơi bảo quản các tài sản này:{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "ó) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự 7 ; Xét đề nghị của ông/bà {{document.soQuyet}} Nhận thấy việc định giá tài sản là cần thiết, YÊU CẦU: 1. Hội đồng định giá … tiến hành định giá tài sản sau: 1. 1. Thông tin và đặc điểm của tài sản cần định giá , nơi bảo quản các tài sản này : {{agency.diaDanh}} 1. 2. Tên tài liệu có liên quan (nếu có): {{document.ngayBan}} 1. 3. Nội dung yêu cầu định giá tài sản: {{agency.dongDia}} 1. 4. Thời hạn định giá tài sản từ ngày … tháng … năm … đến ngày … tháng … năm …. 2. Hội đồng định giá tài sản phải gửi Kết luận định giá tài sản cho Viện kiểm sát 2 … Người định giá tài sản có qu",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "1.2. Tên tài liệu có liên quan (nếu có):{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ộ luật Hình sự 7 ; Xét đề nghị của ông/bà {{document.soQuyet}} Nhận thấy việc định giá tài sản là cần thiết, YÊU CẦU: 1. Hội đồng định giá … tiến hành định giá tài sản sau: 1. 1. Thông tin và đặc điểm của tài sản cần định giá , nơi bảo quản các tài sản này : {{agency.diaDanh}} 1. 2. Tên tài liệu có liên quan (nếu có): {{document.ngayBan}} 1. 3. Nội dung yêu cầu định giá tài sản: {{agency.dongDia}} 1. 4. Thời hạn định giá tài sản từ ngày … tháng … năm … đến ngày … tháng … năm …. 2. Hội đồng định giá tài sản phải gửi Kết luận định giá tài sản cho Viện kiểm sát 2 … Người định giá tài sản có quyền và nghĩa vụ theo Điều 69 của Bộ luật Tố tụng hình sự .",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "1.3. Nội dung yêu cầu định giá tài sản:{{decision.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "Nhận thấy việc định giá tài sản là cần thiết, YÊU CẦU: 1. Hội đồng định giá … tiến hành định giá tài sản sau: 1. 1. Thông tin và đặc điểm của tài sản cần định giá , nơi bảo quản các tài sản này : {{agency.diaDanh}} 1. 2. Tên tài liệu có liên quan (nếu có): {{document.ngayBan}} 1. 3. Nội dung yêu cầu định giá tài sản: {{agency.dongDia}} 1. 4. Thời hạn định giá tài sản từ ngày … tháng … năm … đến ngày … tháng … năm …. 2. Hội đồng định giá tài sản phải gửi Kết luận định giá tài sản cho Viện kiểm sát 2 … Người định giá tài sản có quyền và nghĩa vụ theo Điều 69 của Bộ luật Tố tụng hình sự . Kèm theo yêu cầu này là hồ sơ, tài liệu có liên quan./. Nơi",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "- 11{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "hạn định giá tài sản từ ngày … tháng … năm … đến ngày … tháng … năm …. 2. Hội đồng định giá tài sản phải gửi Kết luận định giá tài sản cho Viện kiểm sát 2 … Người định giá tài sản có quyền và nghĩa vụ theo Điều 69 của Bộ luật Tố tụng hình sự . Kèm theo yêu cầu này là hồ sơ, tài liệu có liên quan./. Nơi nhận : - 11 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. {{agency.coQuan}} . ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -220,7 +260,7 @@
         "tableCellId": null
       },
       "context": "{{document.field8}}.",
-      "label": "Ô trống",
+      "label": "Cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -240,7 +280,15 @@
         "docxSlotId": "agency.coQuan",
         "actualDocxContext": "ến ngày … tháng … năm …. 2. Hội đồng định giá tài sản phải gửi Kết luận định giá tài sản cho Viện kiểm sát 2 … Người định giá tài sản có quyền và nghĩa vụ theo Điều 69 của Bộ luật Tố tụng hình sự . Kèm theo yêu cầu này là hồ sơ, tài liệu có liên quan./. Nơi nhận : - 11 {{document.chuThe}} - Lưu: HSVV/VA, HSKS, VP. {{agency.coQuan}} . ( Ký, ghi rõ họ tên , đóng dấu)",
         "actualDocxRawPattern": "{{agency.coQuan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Cơ quan",
+          "canonicalPath": "agency.coQuan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

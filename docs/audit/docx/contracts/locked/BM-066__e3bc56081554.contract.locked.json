@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "…{{document.field2}}",
-      "label": "Ô trống",
+      "label": "Nội dung quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -77,7 +77,15 @@
         "docxSlotId": "decision.decisionLine",
         "actualDocxContext": "N TRƯỞNG VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ các điều 41, 129 và 165 của Bộ luật Tố tụng hình sự; Căn cứ Điều 135 của Luật Tư pháp người chưa thành niên ; Căn cứ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án hình sự {{document.fullDocumentCode}}{{decision.decisionLine}} số … ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định khởi tố bị can số … ngày … tháng … năm … (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật",
         "actualDocxRawPattern": "{{decision.decisionLine}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Nội dung quyết định",
+          "canonicalPath": "decision.decisionLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       }
     },
     {
@@ -114,7 +122,7 @@
         "tableCellId": null
       },
       "context": "{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -134,7 +142,15 @@
         "docxSlotId": "document.fullDocumentCode",
         "docxContext": "{{document.field6}}",
         "rawPattern": "{{document.field6}}",
-        "rationale": "docx context present; actual DOCX token present"
+        "rationale": "docx context present; actual DOCX token present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       }
     },
     {

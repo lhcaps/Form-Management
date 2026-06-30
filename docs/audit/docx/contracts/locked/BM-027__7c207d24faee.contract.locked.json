@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Kính gửi:{{document.field2}}",
-      "label": "Ô trống",
+      "label": "Cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "agency.coQuan",
         "actualDocxContext": "6 ) Mẫu số 27 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) VIỆN KIỂM SÁT … {{agency.tenVien}} 676275 48895 Số : …/ TB -VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510 224155 Độc lập – Tự do – Hạnh phúc …, ngày … tháng … năm 20… THÔNG BÁO V ề việc hủy bỏ Q uyết định khởi tố vụ án hình sự Kính gửi: {{agency.coQuan}} Căn cứ Điều 41 và Điều 158 của Bộ luật Tố tụng hình sự; Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì {{agency.diaDanh}} {{document.soThong}} .. {{document.ngayBan}} Viện kiểm sát 2 … đã ra Quyết định số … ngày … thá",
         "actualDocxRawPattern": "{{agency.coQuan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Cơ quan",
+          "canonicalPath": "agency.coQuan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "…, ngày … tháng … năm 20… THÔNG BÁO V ề việc hủy bỏ Q uyết định khởi tố vụ án hình sự Kính gửi: {{agency.coQuan}} Căn cứ Điều 41 và Điều 158 của Bộ luật Tố tụng hình sự; Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì {{agency.diaDanh}} {{document.soThong}} .. {{document.ngayBan}} Viện kiểm sát 2 … đã ra Quyết định số … ngày … tháng … năm … hủy bỏ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Viện kiểm sát 2 … thông báo cho 5 … biết./. Nơi nhận: - 5 … ; - Lưu: HSVA, HSKS",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
-      "label": "Ô trống",
+      "label": "Số thông báo",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.soThong",
         "actualDocxContext": "năm 20… THÔNG BÁO V ề việc hủy bỏ Q uyết định khởi tố vụ án hình sự Kính gửi: {{agency.coQuan}} Căn cứ Điều 41 và Điều 158 của Bộ luật Tố tụng hình sự; Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì {{agency.diaDanh}} {{document.soThong}} .. {{document.ngayBan}} Viện kiểm sát 2 … đã ra Quyết định số … ngày … tháng … năm … hủy bỏ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Viện kiểm sát 2 … thông báo cho 5 … biết./. Nơi nhận: - 5 … ; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN (",
         "actualDocxRawPattern": "{{document.soThong}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số thông báo",
+          "canonicalPath": "document.soThong",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì{{case.field3}}{{case.field4}}..{{case.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ệc hủy bỏ Q uyết định khởi tố vụ án hình sự Kính gửi: {{agency.coQuan}} Căn cứ Điều 41 và Điều 158 của Bộ luật Tố tụng hình sự; Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ vì {{agency.diaDanh}} {{document.soThong}} .. {{document.ngayBan}} Viện kiểm sát 2 … đã ra Quyết định số … ngày … tháng … năm … hủy bỏ Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 6 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Viện kiểm sát 2 … thông báo cho 5 … biết./. Nơi nhận: - 5 … ; - Lưu: HSVA, HSKS, VP. KIỂM SÁT VIÊN ( Ký, ghi rõ họ tên, đóng",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

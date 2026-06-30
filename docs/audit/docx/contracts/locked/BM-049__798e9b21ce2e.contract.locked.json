@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "11{{document.field2}}",
-      "label": "Ô trống",
+      "label": "Cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "agency.coQuan",
         "actualDocxContext": "ảo đảm đối với bị can 9 …, QUYẾT ĐỊNH: Điều 1. Phê chuẩn Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của 10 … đối với bị can 9 …. Điều 2. Yêu cầu 10 … thi hành Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 10 …; - 9 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{agency.coQuan}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.coQuan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Cơ quan",
+          "canonicalPath": "agency.coQuan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"

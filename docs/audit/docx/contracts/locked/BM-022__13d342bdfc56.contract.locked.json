@@ -80,7 +80,7 @@
         "blockId": "P0033",
         "tableCellId": null
       },
-      "context": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số {{document.documentCode}}ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
+      "context": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số {{document.issuePlaceAndDateLine}}ngày … tháng … năm … của5{{document.issuePlaceAndDateLine}}{{document.issuePlaceAndDateLine}}",
       "label": "Số quyết định",
       "slotType": "text",
       "required": false,
@@ -88,15 +88,17 @@
       "evidence": {
         "textBefore": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
         "textAfter": "ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}"
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "legacyRawPattern": "{{document.documentCode}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
         "textAfter": "ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
         "context": "[Auto-generated] Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
-        "blockId": "P0033"
+        "blockId": "P0033",
+        "legacyRawPattern": "{{document.documentCode}}"
       }
     },
     {
@@ -107,7 +109,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}..",
-      "label": "Ô trống",
+      "label": "Họ tên",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -125,7 +127,15 @@
         "docxSlotId": "person.fullName",
         "docxContext": "{{document.field7}}..",
         "rawPattern": "{{document.field7}}",
-        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Họ tên",
+          "canonicalPath": "person.fullName",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
       },
       "reviewedBy": "Codex legal semantic review",
       "reviewedAt": "2026-06-29T15:26:43.716Z"

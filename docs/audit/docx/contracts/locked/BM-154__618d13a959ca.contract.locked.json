@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -75,7 +75,15 @@
         "docxSlotId": "document.soQuyet",
         "actualDocxContext": "ngày … tháng … năm … , nếu có) của … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Căn cứ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của …; Căn cứ Quyết định hủy bỏ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của … (nếu có); Xét thấy {{document.soQuyet}} QUYẾT ĐỊNH: Điều 1. Phục hồi vụ án hình sự {{agency.diaDanh}} Điều 2. Xử lý {{document.ngayBan}} Điều 3. Yêu cầu … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - Bị can hoặc người đại diện của bị can; - Cơ quan, người có thẩm quyền điều tra; - Người bào chữa; - 11 {{agency.dongDia}}",
         "actualDocxRawPattern": "{{document.soQuyet}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -88,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Điều 1. Phục hồi vụ án hình sự{{case.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -108,7 +116,15 @@
         "docxSlotId": "agency.diaDanh",
         "actualDocxContext": "n … Điều … của Bộ luật Hình sự; Căn cứ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của …; Căn cứ Quyết định hủy bỏ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của … (nếu có); Xét thấy {{document.soQuyet}} QUYẾT ĐỊNH: Điều 1. Phục hồi vụ án hình sự {{agency.diaDanh}} Điều 2. Xử lý {{document.ngayBan}} Điều 3. Yêu cầu … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - Bị can hoặc người đại diện của bị can; - Cơ quan, người có thẩm quyền điều tra; - Người bào chữa; - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tê",
         "actualDocxRawPattern": "{{agency.diaDanh}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -121,7 +137,7 @@
         "tableCellId": null
       },
       "context": "Điều 2. Xử lý{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -141,7 +157,15 @@
         "docxSlotId": "document.ngayBan",
         "actualDocxContext": "ăn cứ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của …; Căn cứ Quyết định hủy bỏ Quyết định tạm đình chỉ (hoặc đình chỉ) vụ án hình sự số … ngày … tháng … năm … của … (nếu có); Xét thấy {{document.soQuyet}} QUYẾT ĐỊNH: Điều 1. Phục hồi vụ án hình sự {{agency.diaDanh}} Điều 2. Xử lý {{document.ngayBan}} Điều 3. Yêu cầu … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - Bị can hoặc người đại diện của bị can; - Cơ quan, người có thẩm quyền điều tra; - Người bào chữa; - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.ngayBan}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -154,7 +178,7 @@
         "tableCellId": null
       },
       "context": "- 11{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -174,7 +198,15 @@
         "docxSlotId": "agency.dongDia",
         "actualDocxContext": "document.soQuyet}} QUYẾT ĐỊNH: Điều 1. Phục hồi vụ án hình sự {{agency.diaDanh}} Điều 2. Xử lý {{document.ngayBan}} Điều 3. Yêu cầu … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - Bị can hoặc người đại diện của bị can; - Cơ quan, người có thẩm quyền điều tra; - Người bào chữa; - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{agency.dongDia}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
@@ -187,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -207,7 +239,15 @@
         "docxSlotId": "document.chuThe",
         "actualDocxContext": "c hồi vụ án hình sự {{agency.diaDanh}} Điều 2. Xử lý {{document.ngayBan}} Điều 3. Yêu cầu … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự. /. Nơi nhận: - Bị can hoặc người đại diện của bị can; - Cơ quan, người có thẩm quyền điều tra; - Người bào chữa; - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
         "actualDocxRawPattern": "{{document.chuThe}}",
-        "rationale": "Curated from semantic field path and actual DOCX token context."
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
       },
       "reviewedBy": "Codex legal semantic label review",
       "reviewedAt": "2026-06-29T15:21:04.768Z"
