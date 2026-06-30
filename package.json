@@ -97,6 +97,7 @@
     "audit:active-remediation-blockers": "node scripts/audit/build-active-remediation-blocker-pack.mjs",
     "audit:sot-gates": "pnpm audit:locked-compiled && node scripts/audit/audit-sot-rebase-v1.mjs",
     "audit:sot-gates:strict": "pnpm audit:locked-compiled:strict",
+    "audit:workflow:e2e": "node scripts/audit/run-primary-form-export-workflow-e2e.mjs",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
     "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
     "audit:forms:corpus": "node scripts/docx-contract/reconcile-form-corpus.mjs",

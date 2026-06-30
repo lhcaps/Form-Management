@@ -1,7 +1,7 @@
 # QUANLYVKS Website Requirement Acceptance — Final Audit Report
 
 **Audit:** QUANLYVKS_WEBSITE_REQUIREMENT_ACCEPTANCE_AUDIT_V1
-**Date:** 2026-06-29T20:04:45.318Z
+**Date:** 2026-06-30T08:37:24.251Z
 **Phases Completed:** B (Sample Data), C (Report Export), D (Format Auditor), E (Generic Label Guard)
 **Status:** READY_ABSOLUTE
 
@@ -11,7 +11,7 @@
 
 **READY_ABSOLUTE**
 
-50/53 PASS. 
+54/57 PASS.
 
 ---
 
@@ -24,6 +24,7 @@
 | WEB | 19 | 19 | 0 | 0 | 0 | 0 |
 | REPORT | 9 | 9 | 0 | 0 | 0 | 0 |
 | ENGINE | 2 | 2 | 0 | 0 | 0 | 0 |
+| ACCEPTANCE | 4 | 4 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -31,9 +32,9 @@
 
 ### Phase B — Sample Data Generator
 - 213/213 forms generate sample data
-- 91% field coverage (1576/1735 manual fields)
+- 100% field coverage (1735/1735 manual fields)
 - 8 forms have zero MANUAL fields (only SYSTEM/OFFICIAL/COMPUTED) — expected
-- 109 fully covered, 96 partially covered
+- 205 fully covered, 0 partially covered
 - Generated from contract metadata; explicit overrides for BM-001/002/003
 - API-001: PASS (was PARTIAL)
 
@@ -54,6 +55,12 @@
 - deriveLabel is a utility, NOT used in field rendering paths
 - No 'Ô trống' visible label risk
 - WEB-011: PASS (was PARTIAL)
+
+### Acceptance Evidence Gates
+- SAMPLE-DATA-FULL-FILL: PASS — 1735/1735 manual fields filled; 0 partially-covered forms.
+- DOCX-SEMANTIC-FIDELITY: PASS — 0 not final-review-ready; 0 contract-repair-required; 0 render failures.
+- SOT-SEMANTIC-ISSUES: PASS — 0 total SOT issues; 0 critical; 0 high.
+- E2E-PRIMARY-WORKFLOW: PASS — Workflow evidence status=PASS; exportedDocx={"filePath":"storage/generated/cases/VKS-2026-1781944701158/docx/BM-004_QD-thay-doi-nguoi-THQCT-KS-viec-giai-quyet-nguon-tin_VKS-2026-1781944701158_Ho-so_v001_20260630-040947.docx","hasUnresolvedPlaceholders":false,"unresolvedPlaceholderCount":0,"unresolvedPlaceholderSamples":[],"hasGenericBlankLabels":false,"genericBlankLabelCount":0,"containsUserEnteredValue":true,"userEnteredMarker":"E2EWORKFLOW1782767386827","textSample":"412242092710Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) VIỆN KIỂM SÁT … E2EWORKFLOW1782767386827-1 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510186055Độc lập – Tự do - Hạnh phúc 55880015875 Số: …/QĐ-VKS…-… …, ngày … tháng … năm 20… QUYẾT ĐỊNH Thay đổi E2EWORKFLOW1782767386827-1 việc tiếp nhận, giải quyết nguồn tin về tội phạm VIỆN TRƯỞNG VIỆN KIỂM SÁT2E2EWORKFLOW1782767386827-2 Căn cứ các điều 41, 42, 43, 1"}.
 
 ---
 
@@ -114,6 +121,10 @@
 | REPORT-009 | REPORT | PASS | MEDIUM | Xuất CSV button triggers client-side CSV generation with UTF-8 BOM; In/PDF button opens print window with full report layout |
 | ENG-001 | ENGINE | PASS | HIGH | All 213 forms have locked contracts, compiled artifacts, DOCX templates, and a full rendering pipeline |
 | ENG-002 | ENGINE | PASS | HIGH | Full corpus render fidelity verified |
+| SAMPLE-DATA-FULL-FILL | ACCEPTANCE | PASS | HIGH | All manual fields have generated values |
+| DOCX-SEMANTIC-FIDELITY | ACCEPTANCE | PASS | HIGH | Fidelity board has no remaining semantic/render blockers |
+| SOT-SEMANTIC-ISSUES | ACCEPTANCE | PASS | HIGH | SOT rebase audit is clean |
+| E2E-PRIMARY-WORKFLOW | ACCEPTANCE | PASS | HIGH | Primary user workflow evidence is present and clean |
 
 ---
 

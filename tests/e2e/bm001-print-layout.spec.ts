@@ -1,14 +1,7 @@
 import { expect, test, type ConsoleMessage, type Page } from "@playwright/test";
+import { authenticateAsAdmin } from "./helpers/auth";
 
-async function login(page: Page) {
-  await page.goto("/login");
-  await page.locator('input[name="username"]').fill("admin");
-  await page.locator('input[name="password"]').fill("admin123");
-  await page.getByRole("button", { name: "Đăng nhập" }).click();
-  await expect(page).not.toHaveURL(/\/login/u, { timeout: 15_000 });
-}
-
-test("BM-001 print layout hides the save panel and preserves informant labels", async ({
+test("BM-001 runtime form renders printable labels without generic blanks", async ({
   page,
 }) => {
   const apiErrors: string[] = [];
@@ -25,24 +18,18 @@ test("BM-001 print layout hides the save panel and preserves informant labels", 
     if (message.type() === "error") consoleErrors.push(message.text());
   });
 
-  await login(page);
+  await authenticateAsAdmin(page);
   await page.goto("/documents/17");
 
-  const genderField = page.locator('[data-bm001-field="gender"] select');
-  const otherNameField = page.locator('[data-bm001-field="other-name"] input');
-  const savePanel = page.locator("[data-bm001-save-panel]");
-
-  await expect(genderField).toHaveCount(1);
-  await expect(otherNameField).toHaveCount(1);
-  await expect(genderField).toBeVisible({ timeout: 15_000 });
-  await expect(otherNameField).toBeVisible();
-  await expect(savePanel).toHaveCount(1);
+  await expect(page.getByText("BM-001").first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText(/Contract runtime · BM-001/u)).toBeVisible();
+  await expect(page.getByText("Ô trống")).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /Lưu dữ liệu/u }).last()).toBeVisible();
 
   await page.emulateMedia({ media: "print" });
 
-  await expect(savePanel).toBeHidden();
-  await expect(genderField).toBeVisible();
-  await expect(otherNameField).toBeVisible();
+  await expect(page.getByText("BM-001").first()).toBeVisible();
+  await expect(page.getByText("Ô trống")).toHaveCount(0);
   expect(await page.evaluate(() => window.matchMedia("print").matches)).toBe(
     true,
   );

@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "generatedAt": "2026-06-29T20:04:45.318Z",
+  "generatedAt": "2026-06-30T08:37:24.251Z",
   "requirementSource": "QUANLYVKS_WEBSITE_REQUIREMENT_ACCEPTANCE_AUDIT_V1",
   "phasesCompleted": [
     "B",
@@ -9,8 +9,8 @@
     "E"
   ],
   "summary": {
-    "total": 53,
-    "PASS": 50,
+    "total": 57,
+    "PASS": 54,
     "PARTIAL": 0,
     "FAIL": 0,
     "NOT_DETECTABLE": 3,
@@ -53,6 +53,14 @@
     "ENGINE": {
       "total": 2,
       "PASS": 2,
+      "PARTIAL": 0,
+      "FAIL": 0,
+      "NOT_DETECTABLE": 0,
+      "NOT_TESTED": 0
+    },
+    "ACCEPTANCE": {
+      "total": 4,
+      "PASS": 4,
       "PARTIAL": 0,
       "FAIL": 0,
       "NOT_DETECTABLE": 0,
@@ -255,10 +263,10 @@
       "group": "API",
       "requirement": "Each form has sample data",
       "implementationLocation": "apps/web/src/features/forms-contracts/sample-data.ts + sample-generator.ts",
-      "evidence": "Phase B: 213/213 forms generate sample data; 91% field coverage (1576/1735 manual fields filled)",
+      "evidence": "Phase B: 213/213 forms generate sample data; 100% field coverage (1735/1735 manual fields filled)",
       "status": "PASS",
       "severity": "HIGH",
-      "notes": "Generated from contract metadata. 8 forms have zero MANUAL fields (only SYSTEM/OFFICIAL/COMPUTED). 109 forms fully covered, 96 partially covered. Coverage audit at docs/audit/sample-data-coverage-v1/latest.json"
+      "notes": "Generated from contract metadata. 8 forms have zero MANUAL fields (only SYSTEM/OFFICIAL/COMPUTED). 205 forms fully covered, 0 partially covered. Coverage audit at docs/audit/sample-data-coverage-v1/latest.json"
     },
     {
       "id": "API-002",
@@ -589,6 +597,46 @@
       "status": "PASS",
       "severity": "HIGH",
       "notes": "Full corpus render fidelity verified"
+    },
+    {
+      "id": "SAMPLE-DATA-FULL-FILL",
+      "group": "ACCEPTANCE",
+      "requirement": "Generated sample/default data must cover every manual field or document an explicit non-manual reason.",
+      "implementationLocation": "docs/audit/** current evidence",
+      "evidence": "1735/1735 manual fields filled; 0 partially-covered forms.",
+      "status": "PASS",
+      "severity": "HIGH",
+      "notes": "All manual fields have generated values."
+    },
+    {
+      "id": "DOCX-SEMANTIC-FIDELITY",
+      "group": "ACCEPTANCE",
+      "requirement": "All 213 DOCX forms must be semantically final-review-ready with clean render evidence.",
+      "implementationLocation": "docs/audit/** current evidence",
+      "evidence": "0 not final-review-ready; 0 contract-repair-required; 0 render failures.",
+      "status": "PASS",
+      "severity": "HIGH",
+      "notes": "Fidelity board has no remaining semantic/render blockers."
+    },
+    {
+      "id": "SOT-SEMANTIC-ISSUES",
+      "group": "ACCEPTANCE",
+      "requirement": "Source-of-truth audit must have zero critical/high semantic issues before READY_ABSOLUTE.",
+      "implementationLocation": "docs/audit/** current evidence",
+      "evidence": "0 total SOT issues; 0 critical; 0 high.",
+      "status": "PASS",
+      "severity": "HIGH",
+      "notes": "SOT rebase audit is clean."
+    },
+    {
+      "id": "E2E-PRIMARY-WORKFLOW",
+      "group": "ACCEPTANCE",
+      "requirement": "A user can choose/open a form, enter data, save, export DOCX, and the DOCX has no unresolved placeholders or generic blank labels.",
+      "implementationLocation": "docs/audit/** current evidence",
+      "evidence": "Workflow evidence status=PASS; exportedDocx={\"filePath\":\"storage/generated/cases/VKS-2026-1781944701158/docx/BM-004_QD-thay-doi-nguoi-THQCT-KS-viec-giai-quyet-nguon-tin_VKS-2026-1781944701158_Ho-so_v001_20260630-040947.docx\",\"hasUnresolvedPlaceholders\":false,\"unresolvedPlaceholderCount\":0,\"unresolvedPlaceholderSamples\":[],\"hasGenericBlankLabels\":false,\"genericBlankLabelCount\":0,\"containsUserEnteredValue\":true,\"userEnteredMarker\":\"E2EWORKFLOW1782767386827\",\"textSample\":\"412242092710Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) VIỆN KIỂM SÁT … E2EWORKFLOW1782767386827-1 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510186055Độc lập – Tự do - Hạnh phúc 55880015875 Số: …/QĐ-VKS…-… …, ngày … tháng … năm 20… QUYẾT ĐỊNH Thay đổi E2EWORKFLOW1782767386827-1 việc tiếp nhận, giải quyết nguồn tin về tội phạm VIỆN TRƯỞNG VIỆN KIỂM SÁT2E2EWORKFLOW1782767386827-2 Căn cứ các điều 41, 42, 43, 1\"}.",
+      "status": "PASS",
+      "severity": "HIGH",
+      "notes": "Primary user workflow evidence is present and clean."
     }
   ]
 }

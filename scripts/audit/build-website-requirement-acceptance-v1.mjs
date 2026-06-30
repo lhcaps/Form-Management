@@ -14,14 +14,19 @@
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import {
+  buildEvidenceGateChecks,
+  loadAcceptanceEvidence,
+} from "./lib/website-requirement-acceptance-evidence.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "..", "..");
 const OUTPUT_DIR = join(PROJECT_ROOT, "docs", "audit", "website-requirement-acceptance-v1");
+const acceptanceEvidence = loadAcceptanceEvidence(PROJECT_ROOT);
 
 // ─── Sample data coverage from Phase B audit ─────────────────────────────────────
 
-const SAMPLE_COVERAGE = {
+const SAMPLE_COVERAGE = acceptanceEvidence.sampleCoverage?.summary ?? {
   totalForms: 213,
   fullyCovered: 109,
   partiallyCovered: 96,
@@ -575,6 +580,9 @@ const checks = [
   },
 ];
 
+const evidenceGateChecks = buildEvidenceGateChecks(acceptanceEvidence);
+checks.push(...evidenceGateChecks);
+
 // ─── Compute summary ─────────────────────────────────────────────────────────────
 
 const byGroup = {};
@@ -593,7 +601,12 @@ const failCount = checks.filter(c => c.status === "FAIL").length;
 const notDetectableCount = checks.filter(c => c.status === "NOT_DETECTABLE").length;
 const notTestedCount = checks.filter(c => c.status === "NOT_TESTED").length;
 
-const overall = failCount === 0 && partialCount === 0 ? "READY_ABSOLUTE" : "PARTIAL_READY";
+const overall =
+  failCount > 0
+    ? "NOT_READY"
+    : partialCount > 0
+      ? "PARTIAL_READY"
+      : "READY_ABSOLUTE";
 
 // ─── Build JSON report ───────────────────────────────────────────────────────────
 
@@ -617,6 +630,17 @@ const report = {
 
 // ─── Build markdown report ──────────────────────────────────────────────────────
 
+const summaryLine =
+  passCount === total
+    ? `All ${total} requirements and acceptance gates are PASS. The system is production-ready.`
+    : [
+        `${passCount}/${total} PASS.`,
+        partialCount > 0 ? `${partialCount} PARTIAL.` : null,
+        failCount > 0 ? `${failCount} FAIL.` : null,
+      ]
+        .filter(Boolean)
+        .join(" ");
+
 const mdReport = [
   "# QUANLYVKS Website Requirement Acceptance — Final Audit Report",
   "",
@@ -631,9 +655,7 @@ const mdReport = [
   "",
   `**${overall}**`,
   "",
-  passCount === total
-    ? "All 37 requirements are PASS. The system is production-ready."
-    : `${passCount}/${total} PASS. ${partialCount > 0 ? `${partialCount} PARTIAL. ` : ""}${failCount > 0 ? `${failCount} FAIL. ` : ""}`,
+  summaryLine,
   "",
   "---",
   "",
@@ -675,6 +697,11 @@ const mdReport = [
   "- No 'Ô trống' visible label risk",
   "- WEB-011: PASS (was PARTIAL)",
   "",
+  "### Acceptance Evidence Gates",
+  ...evidenceGateChecks.map(
+    (gate) => `- ${gate.id}: ${gate.status} — ${gate.evidence}`,
+  ),
+  "",
   "---",
   "",
   "## Requirement Matrix",
@@ -689,7 +716,7 @@ const mdReport = [
   "",
   overall === "READY_ABSOLUTE"
     ? "## ✅ READY_ABSOLUTE — Production deployment approved"
-    : "## ⚠️ PARTIAL_READY — Some requirements need attention",
+    : "## ⚠️ NOT_READY — Acceptance evidence still has blockers",
   "",
 ].join("\n");
 
