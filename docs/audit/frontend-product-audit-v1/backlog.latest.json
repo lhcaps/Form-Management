@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "p0": [
+    {
+      "id": "BACKLOG-P0-01",
+      "title": "Add Sample Prefill UI",
+      "workflow": "Sample Prefill",
+      "category": "UX",
+      "file": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "evidence": "NO sample prefill button visible in form editor",
+      "userImpact": "CRITICAL: Users cannot prefill forms",
+      "fix": "Add 'Điền dữ liệu mẫu' button to action bar",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.5 day"
+    },
+    {
+      "id": "BACKLOG-P0-02",
+      "title": "Wire Sample Data Functions to UI",
+      "workflow": "Sample Prefill",
+      "category": "BACKEND_WIRING",
+      "file": "apps/web/src/features/forms-contracts/sample-data.ts",
+      "evidence": "getSampleData() and mergeWithSampleData() exist but not called",
+      "userImpact": "Sample data coverage is 1735/1735 but unusable",
+      "fix": "Wire functions to new UI button",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.5 day"
+    }
+  ],
+  "p1": [
+    {
+      "id": "BACKLOG-P1-01",
+      "title": "Hide Contract Runtime Debug Panel",
+      "workflow": "Open Generated Form",
+      "category": "DEBUG_LEAK",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "evidence": "Contract runtime and hash displayed",
+      "fix": "Wrap in IS_DEBUG or remove",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P1-02",
+      "title": "Clean Template Selector Stats",
+      "workflow": "Open Template Selector",
+      "category": "DEBUG_LEAK",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "evidence": "Biểu mẫu trong DB, Catalog API, sourceZip visible",
+      "fix": "Replace with Vietnamese labels, hide zip path",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.5 day"
+    },
+    {
+      "id": "BACKLOG-P1-03",
+      "title": "Replace Internal ID Display",
+      "workflow": "Open Generated Form",
+      "category": "DEBUG_LEAK",
+      "file": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "evidence": "Mã biểu mẫu #{documentId}",
+      "fix": "Remove or replace with short ID",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P1-04",
+      "title": "Clean Badge Labels",
+      "workflow": "Open Generated Form",
+      "category": "DEBUG_LEAK",
+      "file": "apps/web/src/lib/form-platform-catalog.ts",
+      "evidence": "Published contract in badges",
+      "fix": "Change to Vietnamese",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P1-05",
+      "title": "Add Sample Mode Indicator",
+      "workflow": "Sample Prefill",
+      "category": "UX",
+      "file": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "evidence": "No sample mode indicator",
+      "fix": "Add banner when sample is applied",
+      "safeToFixWithoutBackend": true,
+      "estimatedEffort": "0.25 day"
+    }
+  ],
+  "p2": [
+    {
+      "id": "BACKLOG-P2-01",
+      "title": "Create Shared PageShell Component",
+      "category": "DESIGN_CONSISTENCY",
+      "file": "New: apps/web/src/components/common/page-shell.tsx",
+      "estimatedEffort": "1 day"
+    },
+    {
+      "id": "BACKLOG-P2-02",
+      "title": "Create Shared Design Tokens",
+      "category": "DESIGN_CONSISTENCY",
+      "file": "New: apps/web/src/lib/design-tokens.ts",
+      "estimatedEffort": "0.5 day"
+    },
+    {
+      "id": "BACKLOG-P2-03",
+      "title": "Fix Form Input Labels",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "estimatedEffort": "0.5 day"
+    },
+    {
+      "id": "BACKLOG-P2-04",
+      "title": "Add Dirty State Indicator",
+      "category": "UX",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P2-05",
+      "title": "Fix Color Palette Inconsistency",
+      "category": "DESIGN_CONSISTENCY",
+      "file": "apps/web/src/app/reports/page.tsx",
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P2-06",
+      "title": "Standardize Border Radius",
+      "category": "DESIGN_CONSISTENCY",
+      "estimatedEffort": "0.5 day"
+    },
+    {
+      "id": "BACKLOG-P2-07",
+      "title": "Add Form Error Association",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "estimatedEffort": "0.25 day"
+    },
+    {
+      "id": "BACKLOG-P2-08",
+      "title": "Improve Loading States",
+      "category": "UX",
+      "estimatedEffort": "0.5 day"
+    }
+  ],
+  "p3": [
+    "Add Skip to Content Link",
+    "Implement Focus Trap for Modals",
+    "Add Keyboard Shortcuts",
+    "Add Toast Notifications",
+    "Add Admin Debug Panel",
+    "Mobile-Specific Optimizations",
+    "Add Playwright Accessibility Tests",
+    "Add Coverage Reports"
+  ],
+  "summary": {
+    "totalIssues": 23,
+    "p0": 2,
+    "p1": 5,
+    "p2": 8,
+    "p3": 8,
+    "estimatedTotalEffort": "1-2 weeks"
+  }
+}

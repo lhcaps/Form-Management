@@ -1,0 +1,100 @@
+{
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "accessibility": {
+    "keyboardNavigation": {
+      "status": "PARTIAL",
+      "issues": [
+        "No skip to content link on any page"
+      ]
+    },
+    "ariaSupport": {
+      "status": "PARTIAL",
+      "issues": [
+        "Some inputs lack explicit label elements",
+        "No aria-describedby for error messages",
+        "No focus trap for modals"
+      ]
+    },
+    "colorContrast": {
+      "status": "PASS",
+      "notes": "All text has acceptable contrast"
+    },
+    "forms": {
+      "status": "PARTIAL",
+      "issues": [
+        "Required field indication only on save",
+        "No aria-describedby for errors"
+      ]
+    }
+  },
+  "responsive": {
+    "breakpoints": {
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px"
+    },
+    "issues": [
+      {
+        "id": "RESP-01",
+        "severity": "P2",
+        "issue": "Template cards grid may show 2 columns on mobile portrait",
+        "fix": "Add sm:grid-cols-1"
+      },
+      {
+        "id": "RESP-02",
+        "severity": "P2",
+        "issue": "Form inputs h-11 may be too tall on mobile",
+        "fix": "Consider h-10 on mobile"
+      },
+      {
+        "id": "RESP-03",
+        "severity": "P3",
+        "issue": "Case picker modal max-w-2xl may overflow on small screens",
+        "fix": "Add responsive width"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "issueId": "A11Y-01",
+      "severity": "P2",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "evidence": "Inputs use only placeholder, no label elements",
+      "recommendedFix": "Add proper label elements"
+    },
+    {
+      "issueId": "A11Y-02",
+      "severity": "P3",
+      "category": "ACCESSIBILITY",
+      "file": "template-selector-workspace.tsx",
+      "evidence": "No skip to content link",
+      "recommendedFix": "Add skip link"
+    },
+    {
+      "issueId": "A11Y-03",
+      "severity": "P2",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "evidence": "No aria-describedby for error messages",
+      "recommendedFix": "Add error association"
+    },
+    {
+      "issueId": "A11Y-04",
+      "severity": "P3",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "evidence": "Modal lacks focus trap",
+      "recommendedFix": "Add focus trap to case picker"
+    },
+    {
+      "issueId": "A11Y-05",
+      "severity": "P2",
+      "category": "ACCESSIBILITY",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "evidence": "No role=\"alert\" for error messages",
+      "recommendedFix": "Add live region"
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "templateSelector": {
+    "route": "/templates",
+    "component": "template-selector-workspace.tsx",
+    "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+    "entryRoute": "/templates",
+    "componentTree": [
+      "TemplateSelectorWorkspace",
+      "  TemplateStatusBadge",
+      "  RuntimeBadge",
+      "  ErrorBanner"
+    ],
+    "dataSource": [
+      "GET /templates/db → dbTemplates",
+      "GET /form-studio/catalog → catalog"
+    ],
+    "stateOwnership": [
+      "dbTemplates: useState",
+      "catalog: useState",
+      "currentCaseId: useState",
+      "input (SuggestInput): useState"
+    ],
+    "apiCalls": [
+      "fetchDbTemplates()",
+      "listFormPlatformCatalog()",
+      "createDocumentBatch()",
+      "GET /cases?pageSize=100"
+    ],
+    "sampleDataTouchpoints": [],
+    "saveExportTouchpoints": [
+      "createBatchForCase() → POST /documents/batch"
+    ],
+    "debugLeakagePoints": [
+      "Line 852: 'Biểu mẫu trong DB' label",
+      "Line 879: 'Catalog API' label",
+      "Line 1003: {templateCatalogMeta.sourceZip} display"
+    ],
+    "testsCovering": [],
+    "missingTests": [
+      "Search/filter workflow",
+      "Open template with/without case",
+      "Debug info visibility"
+    ]
+  },
+  "generatedForm": {
+    "route": "/documents/[id]",
+    "component": "generated-document-workspace.tsx",
+    "file": "apps/web/src/components/documents/generated-document-workspace.tsx",
+    "entryRoute": "/documents/{documentId}",
+    "componentTree": [
+      "GeneratedDocumentWorkspace",
+      "  HistoryTab",
+      "  EventRow",
+      "  EventTypeIcon",
+      "  BM_PANEL_BY_CODE[templateCode]",
+      "    PublishedContractFormInputsPanel",
+      "    GenericTemplateFormInputsPanel",
+      "    Bm*-FormInputs panels",
+      "  GeneratedDocumentActionPanel",
+      "  CasePayloadProvider"
+    ],
+    "dataSource": [
+      "GET /documents/generated/{id}/render-payload"
+    ],
+    "stateOwnership": [
+      "activeTab: useState",
+      "refreshKey: useState",
+      "payload: useState",
+      "publishedRuntime: useState"
+    ],
+    "apiCalls": [
+      "GET /documents/generated/{id}/render-payload",
+      "PUT /documents/generated/{id}/contract-form-inputs",
+      "getDocumentHistory()"
+    ],
+    "sampleDataTouchpoints": [],
+    "saveExportTouchpoints": [
+      "save() → PUT contract-form-inputs",
+      "GeneratedDocumentActionPanel → DOCX/PDF export"
+    ],
+    "debugLeakagePoints": [
+      "Line 643: 'Mã biểu mẫu #{documentId}' display",
+      "Line 608: payload?.template?.renderScope with UNKNOWN_SCOPE"
+    ],
+    "testsCovering": [],
+    "missingTests": [
+      "Form save/reload persistence",
+      "Sample prefill workflow",
+      "Export DOCX/PDF flow"
+    ]
+  },
+  "reports": {
+    "route": "/reports",
+    "component": "ReportsPage",
+    "file": "apps/web/src/app/reports/page.tsx",
+    "entryRoute": "/reports",
+    "componentTree": [
+      "ReportsPage",
+      "  RankList"
+    ],
+    "dataSource": [
+      "GET /cases/reports/summary",
+      "GET /document-review-queue"
+    ],
+    "stateOwnership": [
+      "period: useState",
+      "anchorDate: useState",
+      "reportData: useState",
+      "reviewData: useState"
+    ],
+    "apiCalls": [
+      "GET /cases/reports/summary",
+      "GET /document-review-queue"
+    ],
+    "sampleDataTouchpoints": [],
+    "saveExportTouchpoints": [
+      "exportCsv() → download CSV",
+      "printReport() → window.open print"
+    ],
+    "debugLeakagePoints": [],
+    "testsCovering": [
+      "buildReportCsv()",
+      "buildReportPrintHtml()"
+    ],
+    "missingTests": [
+      "Report filter/export UI flow"
+    ]
+  }
+}
