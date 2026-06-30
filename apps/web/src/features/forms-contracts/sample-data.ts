@@ -519,15 +519,51 @@ function isEmpty(value: unknown): boolean {
   return false;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readValueByPath(data: Record<string, unknown>, path: string): unknown {
+  if (!path.includes(".")) return data[path];
+  const segments = path.split(".");
+  let cursor: unknown = data;
+  for (const segment of segments) {
+    if (!isRecord(cursor)) return undefined;
+    cursor = cursor[segment];
+  }
+  return cursor;
+}
+
+function setValueByPath(
+  data: Record<string, unknown>,
+  path: string,
+  value: unknown,
+): Record<string, unknown> {
+  if (!path.includes(".")) return { ...data, [path]: value };
+
+  const segments = path.split(".");
+  const result: Record<string, unknown> = { ...data };
+  let cursor = result;
+  for (const segment of segments.slice(0, -1)) {
+    const existing = cursor[segment];
+    const next = isRecord(existing) ? { ...existing } : {};
+    cursor[segment] = next;
+    cursor = next;
+  }
+  const leaf = segments.at(-1);
+  if (leaf) cursor[leaf] = value;
+  return result;
+}
+
 export function mergeWithSampleData(
   existing: Record<string, unknown>,
   sample: SampleData,
 ): Record<string, unknown> {
-  const result: Record<string, unknown> = { ...existing };
+  let result: Record<string, unknown> = { ...existing };
 
   for (const [key, value] of Object.entries(sample)) {
-    if (isEmpty(result[key])) {
-      result[key] = value;
+    if (isEmpty(readValueByPath(result, key))) {
+      result = setValueByPath(result, key, value);
     }
   }
 

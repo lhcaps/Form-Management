@@ -77,6 +77,29 @@ test.describe('Sample prefill workflow', () => {
     // ── Verify: amber sample mode banner appears ──────────────────────────────
     const sampleBanner = page.getByText(/Đang sử dụng dữ liệu mẫu/u);
     await expect(sampleBanner).toBeVisible();
+    await expect
+      .poll(
+        async () =>
+          page.locator('main input, main textarea, main select').evaluateAll(
+            (controls) =>
+              controls.some((control) => {
+                const element = control as
+                  | HTMLInputElement
+                  | HTMLTextAreaElement
+                  | HTMLSelectElement;
+                return (
+                  !element.disabled &&
+                  element.offsetParent !== null &&
+                  String(element.value ?? "").trim().length > 0
+                );
+              }),
+          ),
+        {
+          message: "expected sample prefill to populate at least one visible field",
+          timeout: 10_000,
+        },
+      )
+      .toBe(true);
 
     // ── Verify: section headings are localized to Vietnamese ───────────────────
     await expect(page.getByRole('heading', { name: /Thông tin văn bản/u })).toBeVisible();
