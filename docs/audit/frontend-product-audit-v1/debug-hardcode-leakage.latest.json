@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "totalIssues": 13,
+  "classification": {
+    "USER_VISIBLE_BLOCKER": 8,
+    "ADMIN_ONLY_OK": 2,
+    "TEST_ONLY_OK": 3,
+    "INTERNAL_LOG_OK": 0,
+    "REMOVE_OR_HIDE": 0,
+    "UNKNOWN": 0
+  },
+  "issues": [
+    {
+      "id": "DL-01",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "line": 852,
+      "evidence": "Biểu mẫu trong DB",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Replace with 'Đã triển khai'"
+    },
+    {
+      "id": "DL-02",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "line": 879,
+      "evidence": "Catalog API",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Replace with 'Danh mục nền tảng' or hide"
+    },
+    {
+      "id": "DL-03",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "line": 1003,
+      "evidence": "{templateCatalogMeta.sourceZip}",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Hide behind NEXT_PUBLIC_DEBUG flag"
+    },
+    {
+      "id": "DL-04",
+      "file": "apps/web/src/components/documents/template-selector-workspace.tsx",
+      "line": 788,
+      "evidence": "QUANLYVKS / TEMPLATE SELECTOR",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Replace with 'Chọn biểu mẫu pháp lý'"
+    },
+    {
+      "id": "DL-05",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "line": 117,
+      "evidence": "Contract runtime · {templateCode} · v{version}",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Hide behind debug flag"
+    },
+    {
+      "id": "DL-06",
+      "file": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "line": 120,
+      "evidence": "{contractHash} in monospace",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Remove entirely"
+    },
+    {
+      "id": "DL-07",
+      "file": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "line": "643-647",
+      "evidence": "Mã biểu mẫu #{documentId}",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Replace with 'Số định danh' or remove"
+    },
+    {
+      "id": "DL-08",
+      "file": "apps/web/src/lib/form-platform-catalog.ts",
+      "line": "83,85",
+      "evidence": "Published contract badge labels",
+      "classification": "USER_VISIBLE_BLOCKER",
+      "recommendedTreatment": "Change to Vietnamese label"
+    },
+    {
+      "id": "DL-09",
+      "file": "apps/web/src/features/forms-contracts/ContractPreviewPanel.tsx",
+      "line": "28,29,46",
+      "evidence": "debugSlotIds prop",
+      "classification": "ADMIN_ONLY_OK",
+      "recommendedTreatment": "Already behind prop, add env check"
+    },
+    {
+      "id": "DL-10",
+      "file": "apps/web/src/components/form-studio/form-studio-workspace.tsx",
+      "line": 1833,
+      "evidence": "{version.contractHash ?? 'Chưa có immutable hash'}",
+      "classification": "ADMIN_ONLY_OK",
+      "recommendedTreatment": "Hide in production mode"
+    },
+    {
+      "id": "DL-11",
+      "file": "apps/web/src/lib/api-client.test.ts",
+      "line": "11,55,74,etc",
+      "evidence": "mock.method() calls",
+      "classification": "TEST_ONLY_OK",
+      "recommendedTreatment": "Keep in tests only"
+    },
+    {
+      "id": "DL-12",
+      "file": "apps/web/src/lib/form-platform-catalog.test.ts",
+      "line": 42,
+      "evidence": "\"Published contract\" label",
+      "classification": "TEST_ONLY_OK",
+      "recommendedTreatment": "Already in test file"
+    },
+    {
+      "id": "DL-13",
+      "file": "apps/web/src/features/forms-contracts/sample-data.ts and sample-generator.ts",
+      "line": "237,239",
+      "evidence": "deterministicFill() hash function",
+      "classification": "INTERNAL_LOG_OK",
+      "recommendedTreatment": "Internal function, acceptable"
+    }
+  ]
+}

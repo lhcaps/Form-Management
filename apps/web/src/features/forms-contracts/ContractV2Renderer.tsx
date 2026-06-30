@@ -7,6 +7,7 @@ import type {
   FormContractV2,
 } from "@qllaw/form-contracts";
 import { useMemo } from "react";
+import { localizeSectionTitle } from "@/components/documents/form-section-labels";
 
 type FormData = Record<string, unknown>;
 
@@ -110,7 +111,7 @@ export function ContractV2Renderer({
             >
               <div className="mb-4 border-b border-slate-100 pb-3">
                 <h3 className="text-[15px] font-extrabold text-slate-950">
-                  {section.title}
+                  {localizeSectionTitle(section.title)}
                 </h3>
                 {section.description ? (
                   <p className="mt-1 text-sm text-slate-500">

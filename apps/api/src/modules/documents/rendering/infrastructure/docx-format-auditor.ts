@@ -308,9 +308,9 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   const dieuPatterns = [
     /Điều\s+\d+/iu,
     /^\d+\.\s/iu,
-    /^I+[\.\)]\s/iu,
-    /^II[\.\)]\s/iu,
-    /^III[\.\)]\s/iu,
+    /^I+[.)]\s/iu,
+    /^II[.)]\s/iu,
+    /^III[.)]\s/iu,
   ];
   const allRuns = extractWordElements(allXml, 'r');
   const runsWithDieu = allRuns.filter((run) => {
@@ -350,14 +350,9 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
 
   // FMT-014: Footer recipient lines size 11
   // Upgrade: find paragraphs containing "Nơi nhận", check sz=22 in the same paragraph.
-  const noiNhanParagraphs = findParagraphsContaining(
-    allXml,
-    /Nơi\s*nhận\s*:/i,
-  );
+  const noiNhanParagraphs = findParagraphsContaining(allXml, /Nơi\s*nhận\s*:/i);
   const noiNhanRunsWithSz11 = noiNhanParagraphs.flatMap((p) =>
-    extractWordElements(p, 'r').filter((r) =>
-      containsHalfPointSize(r, 22),
-    ),
+    extractWordElements(p, 'r').filter((r) => containsHalfPointSize(r, 22)),
   );
   checks.push({
     id: 'FMT-014',
@@ -389,8 +384,7 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
     return signatureTitlePatterns.some((p) => p.test(text));
   });
   const signatureRunsWithBold14 = signatureRuns.filter(
-    (run) =>
-      containsWordProperty(run, 'b') && containsHalfPointSize(run, 28),
+    (run) => containsWordProperty(run, 'b') && containsHalfPointSize(run, 28),
   );
   checks.push({
     id: 'FMT-015',

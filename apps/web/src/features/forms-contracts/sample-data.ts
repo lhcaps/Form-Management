@@ -507,18 +507,63 @@ export function getSampleData(
  * Existing (user-entered) data takes precedence.
  * Sample data only fills empty fields.
  *
+ * Empty means: undefined, null, empty string, or whitespace-only string.
+ * Preserved: 0, false, and any non-empty string.
+ *
  * This is used ONLY when the user explicitly requests to prefill with sample data.
  * It is NOT called during normal save/render flows.
  */
+function isEmpty(value: unknown): boolean {
+  if (value === undefined || value === null) return true;
+  if (typeof value === "string" && value.trim().length === 0) return true;
+  return false;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readValueByPath(data: Record<string, unknown>, path: string): unknown {
+  if (!path.includes(".")) return data[path];
+  const segments = path.split(".");
+  let cursor: unknown = data;
+  for (const segment of segments) {
+    if (!isRecord(cursor)) return undefined;
+    cursor = cursor[segment];
+  }
+  return cursor;
+}
+
+function setValueByPath(
+  data: Record<string, unknown>,
+  path: string,
+  value: unknown,
+): Record<string, unknown> {
+  if (!path.includes(".")) return { ...data, [path]: value };
+
+  const segments = path.split(".");
+  const result: Record<string, unknown> = { ...data };
+  let cursor = result;
+  for (const segment of segments.slice(0, -1)) {
+    const existing = cursor[segment];
+    const next = isRecord(existing) ? { ...existing } : {};
+    cursor[segment] = next;
+    cursor = next;
+  }
+  const leaf = segments.at(-1);
+  if (leaf) cursor[leaf] = value;
+  return result;
+}
+
 export function mergeWithSampleData(
   existing: Record<string, unknown>,
   sample: SampleData,
 ): Record<string, unknown> {
-  const result: Record<string, unknown> = { ...existing };
+  let result: Record<string, unknown> = { ...existing };
 
   for (const [key, value] of Object.entries(sample)) {
-    if (result[key] === undefined || result[key] === null || result[key] === "") {
-      result[key] = value;
+    if (isEmpty(readValueByPath(result, key))) {
+      result = setValueByPath(result, key, value);
     }
   }
 

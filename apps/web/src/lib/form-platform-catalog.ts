@@ -80,15 +80,15 @@ export function runtimeBadge(
 
   switch (source) {
     case "AGENCY_PUBLISHED":
-      return { label: "Published contract", tone: "success" };
+      return { label: "Sẵn sàng mở", tone: "success" };
     case "GLOBAL_PUBLISHED":
-      return { label: "Published contract", tone: "info" };
+      return { label: "Sẵn sàng mở", tone: "info" };
     case "LOCKED_FILE":
-      return { label: "Locked verified", tone: "warning" };
+      return { label: "Đã xác minh", tone: "warning" };
     case "LEGACY_BESPOKE":
-      return { label: "Legacy bespoke", tone: "legacy" };
+      return { label: "Tuỳ chỉnh legacy", tone: "legacy" };
     case "GENERIC_FALLBACK":
-      return { label: "Generic fallback", tone: "neutral" };
+      return { label: "Mẫu chung", tone: "neutral" };
   }
 }
 

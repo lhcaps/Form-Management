@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { SHOW_TEMPLATE_DEBUG_INFO } from "@/lib/debug";
 
 function clearTemplateSelectorTextInputs(target: EventTarget | null) {
   if (typeof window === "undefined") {
@@ -786,7 +787,7 @@ export function TemplateSelectorWorkspace() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">
-                QUANLYVKS / TEMPLATE SELECTOR
+                QUẢN LÝ HỒ SƠ VKS / CHỌN BIỂU MẪU
               </p>
               <h1 className="mt-3 text-3xl font-black text-slate-950">
                 Tìm kiếm và mở biểu mẫu
@@ -849,7 +850,7 @@ export function TemplateSelectorWorkspace() {
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs font-bold uppercase text-blue-700">
-                Biểu mẫu trong DB
+                Đã triển khai
               </p>
               <p className="mt-2 text-2xl font-black text-blue-800">
                 {dbTemplates.length}
@@ -876,7 +877,7 @@ export function TemplateSelectorWorkspace() {
 
             <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
               <p className="text-xs font-bold uppercase text-teal-700">
-                Catalog API
+                Danh mục biểu mẫu
               </p>
               <p className="mt-2 text-2xl font-black text-teal-800">
                 {catalogLoading ? "..." : catalog.length}
@@ -1000,7 +1001,7 @@ export function TemplateSelectorWorkspace() {
             </span>
 
             <span className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">
-              Nguồn danh mục: {templateCatalogMeta.sourceZip}
+              Nguồn danh mục: {SHOW_TEMPLATE_DEBUG_INFO ? templateCatalogMeta.sourceZip : "Đã tải"}
             </span>
           </div>
         </section>

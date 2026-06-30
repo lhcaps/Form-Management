@@ -1,0 +1,123 @@
+{
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "typography": {
+    "fontFamily": {
+      "current": "System default",
+      "issue": "No custom font configured"
+    },
+    "headings": {
+      "pattern": "Various sizes (text-3xl, text-4xl)",
+      "issue": "Inconsistent hierarchy"
+    },
+    "body": {
+      "pattern": "text-sm, text-base",
+      "status": "Mostly consistent"
+    }
+  },
+  "colors": {
+    "primary": {
+      "palette": "slate-950 for primary, slate-200 for borders",
+      "status": "Consistent"
+    },
+    "accent": {
+      "palette": "blue-700, emerald-700, amber-700, rose-700",
+      "status": "Consistent"
+    },
+    "inconsistencies": [
+      {
+        "file": "apps/web/src/app/reports/page.tsx",
+        "issue": "Uses zinc-* palette instead of slate-*",
+        "shouldBe": "slate-*"
+      }
+    ]
+  },
+  "layout": {
+    "maxWidth": {
+      "templateSelector": "max-w-7xl",
+      "documentWorkspace": "max-w-[1500px]",
+      "reports": "max-w-7xl"
+    },
+    "padding": {
+      "templateSelector": "px-6 py-8",
+      "documentWorkspace": "px-5 py-7 md:px-10",
+      "reports": "px-4 py-5 sm:px-6"
+    }
+  },
+  "borderRadius": {
+    "sections": "rounded-3xl",
+    "cards": "rounded-2xl / rounded-md (inconsistent)",
+    "buttons": "rounded-2xl",
+    "inputs": "rounded-2xl"
+  },
+  "components": {
+    "button": {
+      "primary": "rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white",
+      "secondary": "rounded-2xl border border-slate-200 bg-white px-4 py-2"
+    },
+    "badge": {
+      "pattern": "rounded-full px-2.5 py-1 text-xs font-black",
+      "variants": ["success", "warning", "danger", "info", "neutral"]
+    },
+    "input": {
+      "pattern": "h-11 rounded-2xl border border-slate-200 px-4",
+      "focus": "focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+    }
+  },
+  "inconsistencies": [
+    {
+      "id": "DS-01",
+      "category": "Color Palette",
+      "file": "apps/web/src/app/reports/page.tsx",
+      "current": "zinc-*",
+      "shouldBe": "slate-*"
+    },
+    {
+      "id": "DS-02",
+      "category": "Border Radius",
+      "pattern": "Mix of rounded-3xl and rounded-md",
+      "shouldBe": "Standardize on rounded-3xl for sections"
+    },
+    {
+      "id": "DS-03",
+      "category": "Padding",
+      "pattern": "p-6 vs p-7 vs p-4",
+      "shouldBe": "Standardize padding scale"
+    }
+  ],
+  "recommendedDesign": {
+    "direction": "Professional Vietnamese legal/government SaaS",
+    "style": "Clean, high-trust, document-centric",
+    "colors": {
+      "primary": "#0f172a (slate-950)",
+      "accent": "#1d4ed8 (blue-700)",
+      "success": "#166534 (emerald-800)",
+      "warning": "#b45309 (amber-700)",
+      "danger": "#be123c (rose-700)",
+      "background": "#f8fafc (slate-50)",
+      "surface": "#ffffff",
+      "border": "#e2e8f0 (slate-200)"
+    },
+    "typography": {
+      "fontFamily": "Inter, system-ui, sans-serif"
+    },
+    "spacing": {
+      "base": "4px (1rem)"
+    },
+    "borderRadius": {
+      "sm": "8px",
+      "md": "12px",
+      "lg": "16px",
+      "xl": "24px"
+    }
+  },
+  "stitchAvailability": {
+    "installed": true,
+    "mcpConfigured": false,
+    "availableSkills": [
+      "stitch::extract-design-md",
+      "stitch::extract-static-html",
+      "stitch::code-to-design",
+      "stitch::manage-design-system"
+    ]
+  }
+}

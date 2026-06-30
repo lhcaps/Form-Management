@@ -50,14 +50,6 @@ export function resolveContractSyncPaths(
   };
 }
 
-interface ContractDrift {
-  templateCode: string;
-  sourceId: string;
-  lockedHash: string;
-  dbHash: string | null;
-  status: 'MISSING_IN_DB' | 'STALE' | 'MATCHED';
-}
-
 interface GuardResult {
   strategy: 'DB_COMPARE' | 'FILE_ONLY' | 'DISABLED';
   totalLocked: number;
@@ -115,7 +107,9 @@ export class ContractSyncGuard {
         stale: [],
         driftDetected: false,
         canProceed: true,
-        warnings: ['Contract sync guard disabled via DISABLE_CONTRACT_SYNC_GUARD=1'],
+        warnings: [
+          'Contract sync guard disabled via DISABLE_CONTRACT_SYNC_GUARD=1',
+        ],
       };
     }
 
@@ -147,7 +141,9 @@ export class ContractSyncGuard {
       .map((f) => join(this.paths.lockedDir, f));
   }
 
-  private loadLockedContractsWithHashes(files: string[]): Map<
+  private loadLockedContractsWithHashes(
+    files: string[],
+  ): Map<
     string,
     { sourceId: string; compiledHash: string | null; templateCode: string }
   > {
@@ -156,7 +152,8 @@ export class ContractSyncGuard {
     for (const file of files) {
       try {
         const raw = JSON.parse(readFileSync(file, 'utf8'));
-        const templateCode = raw.templateCode || this.extractTemplateCodeFromFilename(file);
+        const templateCode =
+          raw.templateCode || this.extractTemplateCodeFromFilename(file);
         const sourceId = raw.sourceId || templateCode;
 
         // Try to load compiled artifact
@@ -171,13 +168,17 @@ export class ContractSyncGuard {
             const compiled = JSON.parse(readFileSync(compiledPath, 'utf8'));
             compiledHash = compiled.contractHash || null;
           } catch (err) {
-            this.logger.warn(`Failed to read compiled artifact for ${templateCode}: ${err.message}`);
+            this.logger.warn(
+              `Failed to read compiled artifact for ${templateCode}: ${err.message}`,
+            );
           }
         }
 
         result.set(templateCode, { sourceId, compiledHash, templateCode });
       } catch (err) {
-        this.logger.warn(`Failed to load locked contract ${file}: ${err.message}`);
+        this.logger.warn(
+          `Failed to load locked contract ${file}: ${err.message}`,
+        );
       }
     }
 
@@ -206,7 +207,10 @@ export class ContractSyncGuard {
   }
 
   private async compareWithDatabase(
-    lockedContracts: Map<string, { sourceId: string; compiledHash: string | null; templateCode: string }>,
+    lockedContracts: Map<
+      string,
+      { sourceId: string; compiledHash: string | null; templateCode: string }
+    >,
   ): Promise<GuardResult> {
     const prisma = new PrismaClient();
     const missingInDb: string[] = [];
@@ -293,7 +297,10 @@ export class ContractSyncGuard {
   }
 
   private fileOnlyGuard(
-    lockedContracts: Map<string, { sourceId: string; compiledHash: string | null; templateCode: string }>,
+    lockedContracts: Map<
+      string,
+      { sourceId: string; compiledHash: string | null; templateCode: string }
+    >,
   ): GuardResult {
     const missingCompiled: string[] = [];
 

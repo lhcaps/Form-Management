@@ -207,7 +207,11 @@ export class DbFormContractRepository extends FormContractRepository {
       const templates = await this.prisma.templates.findMany({
         include: {
           form_contract_versions: {
-            where: { status: 'PUBLISHED', scope_key: 'GLOBAL', agency_id: null },
+            where: {
+              status: 'PUBLISHED',
+              scope_key: 'GLOBAL',
+              agency_id: null,
+            },
             orderBy: { version_no: 'desc' },
             take: 1,
           },

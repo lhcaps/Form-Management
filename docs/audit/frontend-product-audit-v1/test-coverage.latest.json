@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-06-30T17:54:00+07:00",
+  "currentTests": {
+    "unit": {
+      "total": 66,
+      "files": [
+        "api-client.test.ts",
+        "central-adapter.test.mjs",
+        "bm-field-map.test.ts",
+        "form-schema-client.test.ts",
+        "form-validation-errors.test.ts",
+        "reports-export.test.ts"
+      ]
+    },
+    "integration": {
+      "total": 0,
+      "files": []
+    },
+    "e2e": {
+      "total": "unknown",
+      "files": "tests/e2e/*.spec.ts"
+    }
+  },
+  "gaps": {
+    "p0": [
+      {
+        "gap": "Sample prefill button",
+        "description": "No tests for prefill button click",
+        "recommendedTest": "Test button renders, calls mergeWithSampleData"
+      },
+      {
+        "gap": "Sample preserves user values",
+        "description": "No tests for mergeWithSampleData preserving existing",
+        "recommendedTest": "Test existing values are not overwritten"
+      },
+      {
+        "gap": "Sample prefill E2E",
+        "description": "No E2E for complete prefill flow",
+        "recommendedTest": "Playwright: click → fill → verify"
+      }
+    ],
+    "p1": [
+      {
+        "gap": "Template selector search",
+        "description": "No tests for search/filter"
+      },
+      {
+        "gap": "Template selector open",
+        "description": "No tests for open template flow"
+      },
+      {
+        "gap": "Form save/reload",
+        "description": "No tests for save → reload"
+      },
+      {
+        "gap": "Export DOCX/PDF",
+        "description": "No tests for export flow"
+      },
+      {
+        "gap": "Debug flag behavior",
+        "description": "No tests for debug vs prod mode"
+      }
+    ],
+    "p2": [
+      {
+        "gap": "Section label localization"
+      },
+      {
+        "gap": "Error states"
+      },
+      {
+        "gap": "Loading states"
+      },
+      {
+        "gap": "Empty states"
+      },
+      {
+        "gap": "Form validation"
+      }
+    ],
+    "p3": [
+      {
+        "gap": "Mobile layout"
+      },
+      {
+        "gap": "Keyboard navigation"
+      },
+      {
+        "gap": "Accessibility"
+      }
+    ]
+  }
+}

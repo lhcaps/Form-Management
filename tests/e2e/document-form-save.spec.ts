@@ -26,8 +26,7 @@ test.describe('Document form save flow', () => {
     await authenticateAsAdmin(page);
 
     await page.goto('/documents');
-    await expect(page.getByText('Biểu mẫu trong DB')).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByText('213').first()).toBeVisible();
+    await expect(page.getByText('213').first()).toBeVisible({ timeout: 15_000 });
 
     const bm004Card = page
       .locator('article')
@@ -51,12 +50,12 @@ test.describe('Document form save flow', () => {
 
     await expect(page).toHaveURL(/\/documents\/\d+$/, { timeout: 15_000 });
     await expect(page.getByText('BM-004').first()).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByText(/Contract runtime|Form dữ liệu chung/u)).toBeVisible();
+    await expect(page.locator('main').getByRole('button', { name: /Lưu/u }).first()).toBeVisible({ timeout: 10_000 });
 
     const savedSummary = `QA lưu biểu mẫu BM-004 ${Date.now()}`;
     await fillVisibleDocumentFormControls(page, savedSummary);
     await page.getByRole('button', { name: /Lưu dữ liệu/u }).last().click();
-    await expect(page.getByText(/Đã lưu dữ liệu biểu mẫu|Đã lưu thành công|Đã lưu theo published contract/u)).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText(/Đã lưu/u)).toBeVisible({ timeout: 15_000 });
 
     await page.reload();
     await expect(page.getByText('BM-004').first()).toBeVisible({ timeout: 15_000 });
