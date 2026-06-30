@@ -77,6 +77,7 @@ test.describe('Sample prefill workflow', () => {
     // ── Verify: amber sample mode banner appears ──────────────────────────────
     const sampleBanner = page.getByText(/Đang sử dụng dữ liệu mẫu/u);
     await expect(sampleBanner).toBeVisible();
+    await expect(page.getByText(/Có thay đổi chưa lưu/u)).toBeVisible();
     await expect
       .poll(
         async () =>

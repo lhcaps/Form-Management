@@ -11,6 +11,21 @@ import { localizeSectionTitle } from "@/components/documents/form-section-labels
 
 type FormData = Record<string, unknown>;
 
+const FIELD_SPAN_CLASSES: Record<number, string> = {
+  1: "md:col-span-1",
+  2: "md:col-span-2",
+  3: "md:col-span-3",
+  4: "md:col-span-4",
+  5: "md:col-span-5",
+  6: "md:col-span-6",
+  7: "md:col-span-7",
+  8: "md:col-span-8",
+  9: "md:col-span-9",
+  10: "md:col-span-10",
+  11: "md:col-span-11",
+  12: "md:col-span-12",
+};
+
 export type ContractV2RendererProps = {
   contract: FormContractV2 | CompiledFormContract;
   data: FormData;
@@ -61,6 +76,11 @@ function isVisible(
     if (rule.effect === "HIDE" && matches) visible = false;
   }
   return visible;
+}
+
+function fieldSpanClass(width: number) {
+  const normalized = Math.min(12, Math.max(1, Math.round(width || 12)));
+  return FIELD_SPAN_CLASSES[normalized] ?? FIELD_SPAN_CLASSES[12];
 }
 
 export function ContractV2Renderer({
@@ -124,7 +144,7 @@ export function ContractV2Renderer({
                   Chưa có trường dữ liệu trong phần này.
                 </div>
               ) : (
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
                   {fields.map((field) => (
                     <FieldControl
                       key={field.id}
@@ -199,18 +219,29 @@ function FieldControl({
   error?: string;
 }) {
   const common =
-    "min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-[15px] text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-500";
+    "min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-[15px] text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-500 sm:min-h-11";
   const inputId = `contract-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const descriptionText =
+    field.description ||
+    (field.control === "DATE" ? "Chọn ngày theo bộ chọn của trình duyệt." : "");
+  const descriptionId =
+    descriptionText && field.control !== "CHECKBOX"
+      ? `${inputId}-description`
+      : undefined;
+  const describedBy =
+    [descriptionId, error ? errorId : undefined]
+      .filter((value): value is string => Boolean(value))
+      .join(" ") || undefined;
   return (
     <div
       className={[
         "rounded-xl border p-3 transition",
+        fieldSpanClass(field.width),
         selected
           ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-100"
           : "border-transparent hover:border-slate-200",
       ].join(" ")}
-      style={{ gridColumn: `span ${field.width} / span ${field.width}` }}
       onClick={onSelect}
     >
       <label
@@ -224,7 +255,7 @@ function FieldControl({
         <textarea
           id={inputId}
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
+          aria-describedby={describedBy}
           className={`${common} min-h-24 py-2 ${error ? "border-rose-500" : ""}`}
           value={String(value ?? "")}
           disabled={disabled}
@@ -235,7 +266,7 @@ function FieldControl({
         <select
           id={inputId}
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
+          aria-describedby={describedBy}
           className={`${common} ${error ? "border-rose-500" : ""}`}
           value={String(value ?? "")}
           disabled={disabled}
@@ -249,7 +280,7 @@ function FieldControl({
           ))}
         </select>
       ) : field.control === "CHECKBOX" ? (
-        <label className="flex min-h-11 items-center gap-3 rounded-lg border border-slate-300 px-3 text-sm font-medium">
+        <label className="flex min-h-10 items-center gap-3 rounded-lg border border-slate-300 px-3 text-sm font-medium sm:min-h-11">
           <input
             id={inputId}
             aria-invalid={Boolean(error)}
@@ -265,7 +296,7 @@ function FieldControl({
         <input
           id={inputId}
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
+          aria-describedby={describedBy}
           className={`${common} ${error ? "border-rose-500" : ""}`}
           type={
             field.control === "NUMBER"
@@ -290,8 +321,10 @@ function FieldControl({
           }
         />
       )}
-      {field.description && field.control !== "CHECKBOX" ? (
-        <p className="mt-1.5 text-xs text-slate-500">{field.description}</p>
+      {descriptionText && field.control !== "CHECKBOX" ? (
+        <p id={descriptionId} className="mt-1.5 text-xs text-slate-500">
+          {descriptionText}
+        </p>
       ) : null}
       {error ? (
         <p id={errorId} className="mt-1.5 text-xs font-semibold text-rose-700">
@@ -340,7 +373,7 @@ function RepeaterControl({
         {items.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-12 gap-3 rounded-lg border border-slate-200 bg-white p-3"
+            className="grid grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-white p-3 md:grid-cols-12"
           >
             {fields.map((field) => {
               const leafKey = field.key.split(".").at(-1) ?? field.key;

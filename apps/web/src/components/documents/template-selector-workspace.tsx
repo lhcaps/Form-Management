@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SHOW_TEMPLATE_DEBUG_INFO } from "@/lib/debug";
 
 function clearTemplateSelectorTextInputs(target: EventTarget | null) {
@@ -475,6 +475,9 @@ export function TemplateSelectorWorkspace() {
     null,
   );
   const [caseSearch, setCaseSearch] = useState("");
+  const caseDialogRef = useRef<HTMLDivElement | null>(null);
+  const caseSearchInputRef = useRef<HTMLInputElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const [input, setInput] = useState<SuggestInput>({
     quickText: "",
@@ -679,6 +682,86 @@ export function TemplateSelectorWorkspace() {
     await loadCaseOptions();
   }
 
+  const closeCasePicker = useCallback(() => {
+    if (openingTemplateCode) {
+      return;
+    }
+
+    setCasePickerOpen(false);
+    setPendingTemplate(null);
+    setCaseSearch("");
+  }, [openingTemplateCode]);
+
+  useEffect(() => {
+    if (!casePickerOpen) {
+      return;
+    }
+
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    const focusTimer = window.setTimeout(() => {
+      caseSearchInputRef.current?.focus();
+    }, 0);
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeCasePicker();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const dialog = caseDialogRef.current;
+      if (!dialog) {
+        return;
+      }
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          [
+            "a[href]",
+            "button:not([disabled])",
+            "input:not([disabled])",
+            "select:not([disabled])",
+            "textarea:not([disabled])",
+            '[tabindex]:not([tabindex="-1"])',
+          ].join(","),
+        ),
+      ).filter((element) => element.getClientRects().length > 0);
+
+      if (focusable.length === 0) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener("keydown", handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [casePickerOpen, closeCasePicker]);
+
   async function createBatchForCase(caseId: string, item: Candidate) {
     const result = await createDocumentBatch(caseId, item.dbTemplateId ?? "", {
       targetPersonIds: [],
@@ -781,7 +864,7 @@ export function TemplateSelectorWorkspace() {
   }, [caseOptions, currentCaseId]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-8">
+    <main id="main-content" className="min-h-screen bg-slate-50 px-6 py-8">
       <div className="mx-auto max-w-7xl space-y-6">
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -1141,26 +1224,27 @@ export function TemplateSelectorWorkspace() {
 
       {casePickerOpen ? (
         <div
-          role="dialog"
-          aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4"
-          onClick={() => {
-            if (!openingTemplateCode) {
-              setCasePickerOpen(false);
-              setPendingTemplate(null);
-              setCaseSearch("");
-            }
-          }}
+          onClick={closeCasePicker}
         >
           <div
+            ref={caseDialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="case-picker-title"
+            aria-describedby="case-picker-description"
+            tabIndex={-1}
             className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="border-b border-slate-200 px-6 py-4">
-              <h2 className="text-lg font-black text-slate-950">
+              <h2
+                id="case-picker-title"
+                className="text-lg font-black text-slate-950"
+              >
                 Chọn hồ sơ để mở biểu mẫu
               </h2>
-              <p className="mt-1 text-sm text-slate-500">
+              <p id="case-picker-description" className="mt-1 text-sm text-slate-500">
                 {pendingTemplate
                   ? `Biểu mẫu ${pendingTemplate.code} sẽ được tạo document trong hồ sơ bạn chọn.`
                   : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu."}
@@ -1169,6 +1253,8 @@ export function TemplateSelectorWorkspace() {
 
             <div className="border-b border-slate-200 px-6 py-3">
               <input
+                ref={caseSearchInputRef}
+                aria-label="Tìm hồ sơ"
                 value={caseSearch}
                 onChange={(event) => setCaseSearch(event.target.value)}
                 placeholder="Tìm theo mã hồ sơ hoặc tiêu đề..."
@@ -1237,11 +1323,7 @@ export function TemplateSelectorWorkspace() {
               <button
                 type="button"
                 disabled={Boolean(openingTemplateCode)}
-                onClick={() => {
-                  setCasePickerOpen(false);
-                  setPendingTemplate(null);
-                  setCaseSearch("");
-                }}
+                onClick={closeCasePicker}
                 className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
               >
                 Đóng
