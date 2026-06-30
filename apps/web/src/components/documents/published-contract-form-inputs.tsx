@@ -82,7 +82,7 @@ export function PublishedContractFormInputsPanel({
       }
     }
     setFieldErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
+    if (Object.keys(nextErrors).length > 0 && !sampleMode) {
       setSaving(false);
       setError("Vui lòng hoàn thành các trường bắt buộc.");
       return;
