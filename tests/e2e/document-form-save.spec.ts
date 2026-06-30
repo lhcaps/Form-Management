@@ -54,8 +54,10 @@ test.describe('Document form save flow', () => {
 
     const savedSummary = `QA lưu biểu mẫu BM-004 ${Date.now()}`;
     await fillVisibleDocumentFormControls(page, savedSummary);
+    await expect(page.getByText(/Có thay đổi chưa lưu/u)).toBeVisible();
     await page.getByRole('button', { name: /Lưu dữ liệu/u }).last().click();
     await expect(page.getByText(/Đã lưu/u)).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText(/Dữ liệu đã đồng bộ/u)).toBeVisible({ timeout: 15_000 });
 
     await page.reload();
     await expect(page.getByText('BM-004').first()).toBeVisible({ timeout: 15_000 });

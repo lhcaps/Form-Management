@@ -2,15 +2,45 @@
 
 import type { CompiledFormContract } from "@qllaw/form-contracts";
 import { readPath } from "@qllaw/form-contracts/browser";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
 import { absoluteApiUrl, readApi } from "@/lib/api-client";
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+
 function record(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" && !Array.isArray(value)
-    ? (value as Record<string, unknown>)
-    : {};
+  return isRecord(value) ? value : {};
+}
+
+function stableSnapshot(value: Record<string, unknown>): string {
+  return JSON.stringify(value);
+}
+
+function PublishedContractLoadingState() {
+  return (
+    <div
+      aria-busy="true"
+      aria-label="Đang tải dữ liệu biểu mẫu"
+      className="space-y-4 rounded-xl border border-slate-200 bg-white p-5"
+    >
+      <span className="sr-only">Đang tải dữ liệu biểu mẫu</span>
+      <div className="space-y-3">
+        <div className="h-4 w-40 rounded bg-slate-200" />
+        <div className="h-3 w-64 max-w-full rounded bg-slate-100" />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="space-y-2">
+            <div className="h-3 w-24 rounded bg-slate-100" />
+            <div className="h-10 rounded-lg bg-slate-100" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export function PublishedContractFormInputsPanel({
@@ -25,29 +55,50 @@ export function PublishedContractFormInputsPanel({
   onSaved?: () => void;
 }) {
   const [data, setData] = useState<Record<string, unknown>>({});
+  const [savedData, setSavedData] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [sampleMode, setSampleMode] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const currentSnapshot = useMemo(() => stableSnapshot(data), [data]);
+  const savedSnapshot = useMemo(() => stableSnapshot(savedData), [savedData]);
+  const isDirty = !loading && currentSnapshot !== savedSnapshot;
+  const statusText = loading
+    ? "Đang tải dữ liệu biểu mẫu"
+    : saving
+      ? "Đang lưu thay đổi"
+      : isDirty
+        ? "Có thay đổi chưa lưu"
+        : "Dữ liệu đã đồng bộ";
+  const statusTone = loading || saving ? "text-blue-700" : isDirty ? "text-amber-700" : "text-emerald-700";
 
   useEffect(() => {
     let active = true;
     setLoading(true);
+    setError("");
+    setMessage("");
+    setFieldErrors({});
+    setSampleMode(false);
     void readApi<Record<string, unknown>>(
       `/documents/generated/${documentId}/render-payload`,
       { cache: "no-store" },
     )
       .then((payload) => {
         if (!active) return;
-        setData({
+        const loadedData = {
           ...record(payload.formInputs),
           ...record(payload.renderPayloadOverrides),
-        });
+        };
+        setData(loadedData);
+        setSavedData(loadedData);
       })
       .catch(() => {
-        if (active) setData({});
+        if (active) {
+          setData({});
+          setSavedData({});
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -99,10 +150,13 @@ export function PublishedContractFormInputsPanel({
           body: JSON.stringify({ contractHash, data }),
         },
       );
-      const payload = (await response.json()) as { message?: string };
+      const payload = (await response.json()) as { message?: string; data?: unknown };
       if (!response.ok) {
         throw new Error(payload.message || "Không lưu được dữ liệu biểu mẫu.");
       }
+      const nextSavedData = isRecord(payload.data) ? payload.data : data;
+      setData(nextSavedData);
+      setSavedData(nextSavedData);
       setMessage("Đã lưu dữ liệu biểu mẫu.");
       setSampleMode(false);
       onSaved?.();
@@ -123,6 +177,8 @@ export function PublishedContractFormInputsPanel({
     setData(merged);
     setSampleMode(true);
     setError("");
+    setMessage("");
+    setFieldErrors({});
   }
 
   return (
@@ -133,9 +189,7 @@ export function PublishedContractFormInputsPanel({
         </div>
       ) : null}
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
-          Đang tải dữ liệu published form…
-        </div>
+        <PublishedContractLoadingState />
       ) : (
         <ContractV2Renderer
           contract={contract}
@@ -144,6 +198,7 @@ export function PublishedContractFormInputsPanel({
           onChange={(next) => {
             setData(next);
             setFieldErrors({});
+            setMessage("");
           }}
         />
       )}
@@ -156,27 +211,40 @@ export function PublishedContractFormInputsPanel({
         </div>
       ) : null}
       {message ? (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">
+        <div
+          role="status"
+          aria-live="polite"
+          className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800"
+        >
           {message}
         </div>
       ) : null}
-      <div className="flex justify-end gap-3">
-        <button
-          type="button"
-          disabled={saving || loading}
-          onClick={() => void applySampleData()}
-          className="min-h-11 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 disabled:opacity-50"
+      <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <p
+          role="status"
+          aria-live="polite"
+          className={`text-sm font-semibold ${statusTone}`}
         >
-          Điền dữ liệu mẫu
-        </button>
-        <button
-          type="button"
-          disabled={saving || loading}
-          onClick={() => void save()}
-          className="min-h-11 rounded-xl bg-slate-950 px-5 text-sm font-extrabold text-white disabled:opacity-50"
-        >
-          {saving ? "Đang lưu…" : "Lưu dữ liệu biểu mẫu"}
-        </button>
+          {statusText}
+        </p>
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
+          <button
+            type="button"
+            disabled={saving || loading}
+            onClick={() => void applySampleData()}
+            className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 disabled:opacity-50 sm:min-h-11"
+          >
+            Điền dữ liệu mẫu
+          </button>
+          <button
+            type="button"
+            disabled={saving || loading || !isDirty}
+            onClick={() => void save()}
+            className="min-h-10 rounded-xl bg-slate-950 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
+          >
+            {saving ? "Đang lưu…" : "Lưu dữ liệu biểu mẫu"}
+          </button>
+        </div>
       </div>
     </section>
   );
