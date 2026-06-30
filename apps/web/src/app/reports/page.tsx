@@ -7,6 +7,7 @@ import {
   buildReportPrintHtml,
   type ReportSummaryForExport,
 } from "@/lib/reports-export";
+import { PageShell } from "@/components/common/page-shell";
 
 type ReportPeriod = ReportSummaryForExport["period"];
 
@@ -117,8 +118,7 @@ export default function ReportsPage() {
   );
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6">
-      <div className="mx-auto max-w-7xl space-y-5">
+    <PageShell maxWidth="default" className="bg-slate-50">
         <section className="flex flex-col gap-4 border-b border-slate-200 pb-5 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-3xl">
             <h1 className="text-2xl font-black text-slate-950">
@@ -332,8 +332,7 @@ export default function ReportsPage() {
             }))}
           />
         </section>
-      </div>
-    </main>
+    </PageShell>
   );
 }
 

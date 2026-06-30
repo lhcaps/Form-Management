@@ -18,11 +18,13 @@ interface PageShellProps extends React.HTMLAttributes<HTMLDivElement> {
 function PageShell({
   children,
   className,
+  id = "main-content",
   maxWidth = "default",
   ...props
 }: PageShellProps) {
   return (
     <main
+      id={id}
       className={cn(
         "min-h-screen bg-background",
         maxWidth === "default" && "px-6 py-8",
