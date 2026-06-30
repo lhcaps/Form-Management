@@ -68,7 +68,18 @@ test("BM-031 remediation updates the checked-in normalized template header only"
     new PizZip(remediated).file("word/document.xml")?.asText() ?? "";
 
   assert.match(documentXml, /\{\{agency\.name\}\}/u);
-  assert.match(documentXml, /\{\{agency\.bodyName\}<\/w:t>[\s\S]*?<w:t>\}/u);
+  assert.equal(
+    (documentXml.match(/\{\{agency\.name\}\}/gu) ?? []).length,
+    1,
+  );
+  assert.equal(
+    (documentXml.match(/\{\{agency\.bodyName\}\}/gu) ?? []).length,
+    1,
+  );
+  assert.doesNotMatch(
+    documentXml,
+    /\{\{agency\.bodyName\}<\/w:t>[\s\S]*?<w:t>\}/u,
+  );
 });
 
 test("BM-031 remediation CLI updates the requested DOCX without typography normalization", () => {
