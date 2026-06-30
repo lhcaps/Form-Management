@@ -11,6 +11,7 @@ import {
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import { absoluteApiUrl } from "@/lib/api-client";
+import { SHOW_INTERNAL_IDS } from "@/lib/debug";
 import {
   getDocumentHistory,
   type DocumentHistoryResponse,
@@ -605,7 +606,9 @@ export function GeneratedDocumentWorkspace({
                   </span>
 
                   <span className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-sm font-semibold text-slate-600">
-                    {payload?.template?.renderScope ?? "UNKNOWN_SCOPE"}
+                    {payload?.template?.renderScope === "UNKNOWN_SCOPE"
+                      ? "Cấp văn bản chưa xác định"
+                      : payload?.template?.renderScope ?? "Cấp văn bản chưa xác định"}
                   </span>
                 </div>
 
@@ -639,13 +642,14 @@ export function GeneratedDocumentWorkspace({
                 ) : null}
               </div>
 
-              <div className="min-w-[140px] rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base">
-                <span className="text-slate-500">Mã biểu mẫu</span>
-
-                <div className="mt-1 font-mono text-lg font-bold text-slate-950">
-                  #{documentId}
+              {SHOW_INTERNAL_IDS ? (
+                <div className="min-w-[140px] rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base">
+                  <span className="text-slate-500">Mã hồ sơ nội bộ</span>
+                  <div className="mt-1 font-mono text-lg font-bold text-slate-950">
+                    #{documentId}
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           </header>
 

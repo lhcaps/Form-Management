@@ -39,19 +39,19 @@ test("maps lifecycle states to an actionable primary command", () => {
 
 test("derives honest runtime badges independently from authoring status", () => {
   assert.deepEqual(runtimeBadge("AGENCY_PUBLISHED", true), {
-    label: "Published contract",
+    label: "Sẵn sàng mở",
     tone: "success",
   });
   assert.deepEqual(runtimeBadge("LOCKED_FILE", true), {
-    label: "Locked verified",
+    label: "Đã xác minh",
     tone: "warning",
   });
   assert.deepEqual(runtimeBadge("LEGACY_BESPOKE", true), {
-    label: "Legacy bespoke",
+    label: "Tuỳ chỉnh legacy",
     tone: "legacy",
   });
   assert.deepEqual(runtimeBadge("GENERIC_FALLBACK", true), {
-    label: "Generic fallback",
+    label: "Mẫu chung",
     tone: "neutral",
   });
   assert.deepEqual(runtimeBadge("UNAVAILABLE", false), {
