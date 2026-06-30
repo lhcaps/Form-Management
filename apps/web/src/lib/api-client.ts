@@ -3,11 +3,17 @@
  *
  * Mục đích: gom các helper fetch + unwrap + normalize mà trước đây mỗi
  * file *-api.ts tự định nghĩa, để:
- *  - Dùng nhất quán credentials: 'include' (gửi cookie session)
+ *  - Dùng nhất quán credentials: 'include' (gửi session cookie / Clerk cookie)
  *  - Single place để sửa base URL, headers, error handling
  *  - Phát hiện 401 từ bất kỳ API call nào → emit AuthEvent("unauthorized")
  *    để AuthProvider chuyển trạng thái về unauthenticated.
  *  - Code mới dùng trực tiếp; code cũ re-export cho backward-compat
+ *
+ * AUTH NOTE (PR-1):
+ *  - Current auth: session cookie (credentials: 'include').
+ *  - Clerk JWT forwarding deferred to PR-3 (API JWT Validation).
+ *  - api-client will be updated in PR-3 to forward Clerk token via
+ *    getAuth().getToken({ template: 'clerk' }) for API Bearer auth.
  */
 
 export const API_BASE_URL =

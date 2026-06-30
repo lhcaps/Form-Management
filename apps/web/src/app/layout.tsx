@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ClerkProvider } from "@clerk/nextjs";
 import { AuthProvider } from "@/lib/auth-context";
 import { AuthGate } from "@/components/auth/auth-gate";
 import "./globals.css";
@@ -23,11 +24,13 @@ export default function RootLayout({
         >
           Bỏ qua điều hướng
         </a>
-        <AuthProvider>
-          <AuthGate>
-            {children}
-          </AuthGate>
-        </AuthProvider>
+        <ClerkProvider>
+          <AuthProvider>
+            <AuthGate>
+              {children}
+            </AuthGate>
+          </AuthProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
