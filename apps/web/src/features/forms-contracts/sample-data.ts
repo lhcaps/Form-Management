@@ -507,9 +507,18 @@ export function getSampleData(
  * Existing (user-entered) data takes precedence.
  * Sample data only fills empty fields.
  *
+ * Empty means: undefined, null, empty string, or whitespace-only string.
+ * Preserved: 0, false, and any non-empty string.
+ *
  * This is used ONLY when the user explicitly requests to prefill with sample data.
  * It is NOT called during normal save/render flows.
  */
+function isEmpty(value: unknown): boolean {
+  if (value === undefined || value === null) return true;
+  if (typeof value === "string" && value.trim().length === 0) return true;
+  return false;
+}
+
 export function mergeWithSampleData(
   existing: Record<string, unknown>,
   sample: SampleData,
@@ -517,7 +526,7 @@ export function mergeWithSampleData(
   const result: Record<string, unknown> = { ...existing };
 
   for (const [key, value] of Object.entries(sample)) {
-    if (result[key] === undefined || result[key] === null || result[key] === "") {
+    if (isEmpty(result[key])) {
       result[key] = value;
     }
   }
