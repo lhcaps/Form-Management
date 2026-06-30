@@ -4,6 +4,7 @@ import type { CompiledFormContract } from "@qllaw/form-contracts";
 import { readPath } from "@qllaw/form-contracts/browser";
 import { useEffect, useState } from "react";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
+import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
 import { absoluteApiUrl, readApi } from "@/lib/api-client";
 
 function record(value: unknown): Record<string, unknown> {
@@ -26,6 +27,7 @@ export function PublishedContractFormInputsPanel({
   const [data, setData] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [sampleMode, setSampleMode] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -101,7 +103,8 @@ export function PublishedContractFormInputsPanel({
       if (!response.ok) {
         throw new Error(payload.message || "Không lưu được dữ liệu biểu mẫu.");
       }
-      setMessage("Đã lưu theo published contract.");
+      setMessage("Đã lưu dữ liệu biểu mẫu.");
+      setSampleMode(false);
       onSaved?.();
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Lưu thất bại.");
@@ -110,16 +113,25 @@ export function PublishedContractFormInputsPanel({
     }
   }
 
+  function applySampleData() {
+    const sample = getSampleData(contract.templateCode, contract.source.fields);
+    if (Object.keys(sample).length === 0) {
+      setError("Không có dữ liệu mẫu cho biểu mẫu này.");
+      return;
+    }
+    const merged = mergeWithSampleData(data, sample);
+    setData(merged);
+    setSampleMode(true);
+    setError("");
+  }
+
   return (
     <section className="space-y-4">
-      <div className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4">
-        <div className="text-sm font-black text-blue-950">
-          Contract runtime · {contract.templateCode} · v{contract.version}
+      {sampleMode ? (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          Đang sử dụng dữ liệu mẫu. Dữ liệu này chỉ được lưu khi bạn bấm Lưu dữ liệu biểu mẫu.
         </div>
-        <div className="mt-1 break-all font-mono text-xs text-blue-700">
-          {contractHash}
-        </div>
-      </div>
+      ) : null}
       {loading ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-500">
           Đang tải dữ liệu published form…
@@ -148,7 +160,15 @@ export function PublishedContractFormInputsPanel({
           {message}
         </div>
       ) : null}
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-3">
+        <button
+          type="button"
+          disabled={saving || loading}
+          onClick={() => void applySampleData()}
+          className="min-h-11 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 disabled:opacity-50"
+        >
+          Điền dữ liệu mẫu
+        </button>
         <button
           type="button"
           disabled={saving || loading}
