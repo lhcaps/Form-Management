@@ -1,7 +1,7 @@
 # QUANLYVKS Website Requirement Acceptance — Final Audit Report
 
 **Audit:** QUANLYVKS_WEBSITE_REQUIREMENT_ACCEPTANCE_AUDIT_V1
-**Date:** 2026-06-30T08:37:24.251Z
+**Date:** 2026-06-30T10:40:30.963Z
 **Phases Completed:** B (Sample Data), C (Report Export), D (Format Auditor), E (Generic Label Guard)
 **Status:** READY_ABSOLUTE
 
@@ -60,7 +60,7 @@
 - SAMPLE-DATA-FULL-FILL: PASS — 1735/1735 manual fields filled; 0 partially-covered forms.
 - DOCX-SEMANTIC-FIDELITY: PASS — 0 not final-review-ready; 0 contract-repair-required; 0 render failures.
 - SOT-SEMANTIC-ISSUES: PASS — 0 total SOT issues; 0 critical; 0 high.
-- E2E-PRIMARY-WORKFLOW: PASS — Workflow evidence status=PASS; exportedDocx={"filePath":"storage/generated/cases/VKS-2026-1781944701158/docx/BM-004_QD-thay-doi-nguoi-THQCT-KS-viec-giai-quyet-nguon-tin_VKS-2026-1781944701158_Ho-so_v001_20260630-040947.docx","hasUnresolvedPlaceholders":false,"unresolvedPlaceholderCount":0,"unresolvedPlaceholderSamples":[],"hasGenericBlankLabels":false,"genericBlankLabelCount":0,"containsUserEnteredValue":true,"userEnteredMarker":"E2EWORKFLOW1782767386827","textSample":"412242092710Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) VIỆN KIỂM SÁT … E2EWORKFLOW1782767386827-1 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510186055Độc lập – Tự do - Hạnh phúc 55880015875 Số: …/QĐ-VKS…-… …, ngày … tháng … năm 20… QUYẾT ĐỊNH Thay đổi E2EWORKFLOW1782767386827-1 việc tiếp nhận, giải quyết nguồn tin về tội phạm VIỆN TRƯỞNG VIỆN KIỂM SÁT2E2EWORKFLOW1782767386827-2 Căn cứ các điều 41, 42, 43, 1"}.
+- E2E-PRIMARY-WORKFLOW: PASS — Workflow evidence status=PASS; exportedDocx={"filePath":"storage/generated/cases/VKS-2026-1781944701158/docx/BM-004_QD-thay-doi-nguoi-THQCT-KS-viec-giai-quyet-nguon-tin_VKS-2026-1781944701158_Ho-so_v001_20260630-173159.docx","hasUnresolvedPlaceholders":false,"unresolvedPlaceholderCount":0,"unresolvedPlaceholderSamples":[],"hasGenericBlankLabels":false,"genericBlankLabelCount":0,"containsUserEnteredValue":true,"userEnteredMarker":"E2EWORKFLOW1782815518560","textSample":"412242092710Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) Mẫu số 04/HS (Ban hành theo Thông tư số /2026/TT-VKSTC ngày…/…/2026) VIỆN KIỂM SÁT … E2EWORKFLOW1782815518560-1 CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510186055Độc lập – Tự do - Hạnh phúc 55880015875 Số: …/QĐ-VKS…-… …, ngày … tháng … năm 20… QUYẾT ĐỊNH Thay đổi E2EWORKFLOW1782815518560-1 việc tiếp nhận, giải quyết nguồn tin về tội phạm VIỆN TRƯỞNG VIỆN KIỂM SÁT2E2EWORKFLOW1782815518560-2 Căn cứ các điều 41, 42, 43, 1"}.
 
 ---
 
