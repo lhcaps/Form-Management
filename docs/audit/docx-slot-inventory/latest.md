@@ -1,6 +1,6 @@
 # DOCX Slot Inventory — F1 audit
 
-Generated: 2026-06-28T19:49:12.473Z
+Generated: 2026-06-30T13:48:27.868Z
 Overall status: **PASS** (213/213 BMs PASS)
 
 ## Corpus totals
@@ -10,9 +10,9 @@ Overall status: **PASS** (213/213 BMs PASS)
 | totalContracts | 213 |
 | totalTemplatesFound | 213 |
 | totalTemplatesMissing | 0 |
-| totalDocxSlots | 2464 |
-| totalRenderBindings | 2464 |
-| totalCanonicalFields | 2464 |
+| totalDocxSlots | 2497 |
+| totalRenderBindings | 2497 |
+| totalCanonicalFields | 2497 |
 | malformedPlaceholdersCount | 0 |
 | passCount | 213 |
 | failCount | 0 |

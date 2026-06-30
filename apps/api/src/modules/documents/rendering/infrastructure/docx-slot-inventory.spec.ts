@@ -120,13 +120,13 @@ describe('F1 — DOCX slot inventory + placeholder syntax audit', () => {
     expect(report.summary.totalTemplatesMissing).toBe(0);
   });
 
-  it('reports 2453 docxSlots / 2453 canonicalFields / 2453 renderBindings', () => {
+  it('reports 2497 docxSlots / 2497 canonicalFields / 2497 renderBindings', () => {
     // These mirror E1's contract-level totals — the F1 audit walks the
     // same corpus and must agree on the shape. If this fails, either the
     // corpus shrank or the audit walked a subset.
-    expect(report.summary.totalDocxSlots).toBe(2453);
-    expect(report.summary.totalCanonicalFields).toBe(2453);
-    expect(report.summary.totalRenderBindings).toBe(2453);
+    expect(report.summary.totalDocxSlots).toBe(2497);
+    expect(report.summary.totalCanonicalFields).toBe(2497);
+    expect(report.summary.totalRenderBindings).toBe(2497);
   });
 
   it('no duplicate canonical paths across the corpus', () => {
