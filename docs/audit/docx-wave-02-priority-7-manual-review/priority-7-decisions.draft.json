@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0",
+  "task": "MANUAL_REVIEW_WAVE_02_PRIORITY_7_ITEMS",
+  "generatedAt": "2026-06-26T15:07:00.000Z",
+  "type": "decisions-draft",
+  "mode": "REVIEWED",
+  "priority": "HIGH — path/placeholder mismatch",
+  "totalItems": 7,
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+  "summary": {
+    "APPROVED_LABEL": 4,
+    "LEGAL_REVIEW": 1,
+    "DOCX_REAUTHOR_REQUIRED": 2,
+    "DEFER": 0,
+    "PENDING_REVIEW": 0
+  },
+  "items": [
+    {
+      "reviewItemId": "W2R-003",
+      "templateCode": "BM-068",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày sinh",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-068 shows personal information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'."
+    },
+    {
+      "reviewItemId": "W2R-015",
+      "templateCode": "BM-069",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày sinh",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-069 shows personal/account-holder information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'."
+    },
+    {
+      "reviewItemId": "W2R-016",
+      "templateCode": "BM-069",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-069 shows visible label: 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical UI label approved as 'Số CCCD/CMND'."
+    },
+    {
+      "reviewItemId": "W2R-022",
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "placeholder": "{{document.field8}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số QĐ",
+      "decision": "LEGAL_REVIEW",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-069 places this field in a procedural decision/command context involving Lệnh/Quyết định phong tỏa. Do not approve as 'Số QĐ' without legal review."
+    },
+    {
+      "reviewItemId": "W2R-023",
+      "templateCode": "BM-069",
+      "path": "person.occupation",
+      "placeholder": "{{document.field10}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nghề nghiệp",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-069 shows visible label: 'Nghề nghiệp:' in the personal information section."
+    },
+    {
+      "reviewItemId": "W2R-027",
+      "templateCode": "BM-073",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "decision": "DOCX_REAUTHOR_REQUIRED",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-073 has no personal date-of-birth field. The form concerns changing Thủ trưởng/Cấp trưởng/Phó Thủ trưởng/Cấp phó/Điều tra viên/cán bộ điều tra. Current semantic path person.dateOfBirth appears wrong."
+    },
+    {
+      "reviewItemId": "W2R-028",
+      "templateCode": "BM-073",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "DOCX_REAUTHOR_REQUIRED",
+      "approvedLabel": null,
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidenceNotes": "Original DOC BM-073 has no CMND/CCCD/id-number field. Footnote 5 describes the type of official/personnel role to be changed, not an identity number. Current semantic path person.idNumber appears wrong."
+    }
+  ]
+}

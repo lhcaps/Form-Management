@@ -1,0 +1,24 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_9_TEST_MATRIX",
+  "generated": "2026-06-28T16:27:00.000Z",
+  "commands": [
+    { "command": "node --test test/render-form-fidelity-gate.test.mjs test/ooxml-stray-brace-repair.test.mjs test/contract-render-binding-repair.test.mjs", "expected": "PASS", "actual": "PASS", "result": "pass", "duration_ms": 1596 },
+    { "command": "node --test test/docx-atlas-v1-builders.test.mjs test/docx-atlas-phase0-modules.test.mjs", "expected": "PASS", "actual": "PASS", "result": "pass", "duration_ms": 312 },
+    { "command": "node --test test/human-review-blockers-board.test.mjs", "expected": "PASS", "actual": "FAIL", "result": "fail", "tests_total": 125, "tests_passed": 121, "tests_failed": 4, "failed_tests": ["T9: BM-052 render must be FAIL", "T9: BM-062 render must be FAIL", "T9: BM-063 render must be FAIL", "T9: BM-066 render must be FAIL"] }
+  ],
+  "summary": {
+    "total_test_files": 3,
+    "total_tests": "125+",
+    "passed": "121+",
+    "failed": 4,
+    "reason": "T9 blocker preservation tests fail because BM-052/062/063/066 contracts were mutated"
+  },
+  "atlas_builds": [
+    { "command": "node scripts/audit/build-render-atlas-v1.mjs", "result": "213 PASS, 0 FAIL, 0 ERROR", "pass": true },
+    { "command": "node scripts/audit/audit-contract-sync.mjs", "result": "213 matched, 0 missing, 0 stale", "pass": true },
+    { "command": "node scripts/audit/refresh-213-docx-fidelity-board.mjs", "result": "213 rows, blockers patched", "pass": true }
+  ],
+  "pnpm_note": "pnpm env unstable (non-TTY purge issue). node --test used instead. This is a runner issue, not code issue.",
+  "flags": []
+}

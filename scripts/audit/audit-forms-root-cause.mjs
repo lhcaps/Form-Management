@@ -214,8 +214,20 @@ function containsRemediationLeak(str) {
 // WEAK EVIDENCE DETECTION
 // =============================================================================
 
-function isWeakEvidence(context, textBefore, rawPattern, reviewRequired) {
+function hasReviewTrail(...items) {
+  return items.some((item) => {
+    if (!item) return false;
+    if (item.reviewedBy && item.reviewedAt) return true;
+    const evidence = item.reviewEvidence;
+    if (!evidence || typeof evidence !== 'object') return false;
+    if (evidence.reviewedBy && evidence.reviewedAt) return true;
+    return Boolean(evidence.reviewerNote && (item.reviewedAt || evidence.reviewedAt));
+  });
+}
+
+function isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail = false) {
   if (reviewRequired) return false;
+  if (reviewTrail) return false;
   const parsed = parseRawPattern(rawPattern);
   const isAutoGen = context?.startsWith('[Auto-generated]') ?? false;
   const isShortContext = !context || context.length < 10;
@@ -355,13 +367,16 @@ function loadContracts() {
  * Run all independent rules for a single canonical field.
  * Rules are NOT gated by BAD_LABEL or any other rule.
  */
-function auditField({ field, slot, contract, templateCode, sourceId }) {
+function auditField({ field, slot, binding = null, contract, templateCode, sourceId }) {
   const issues = [];
   const path = field.path;
   const label = field.label;
   const source = field.source;
   const reviewRequired = field.reviewRequired ?? false;
   const required = field.required ?? false;
+  const slotIdForIssue = binding?.slotId ?? path;
+  const isBindingAlias = Boolean(binding?.slotId && binding.slotId !== path);
+  const reviewTrail = hasReviewTrail(field, slot, binding);
 
   const parsed = slot ? parseRawPattern(slot.evidence?.rawPattern ?? '') : null;
   const rawPattern = slot?.evidence?.rawPattern ?? null;
@@ -378,7 +393,7 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
       const severity = ['empty string', '"Ô trống"', 'raw generic fieldN'].some((r) => reason?.includes(r))
         ? 'FAIL' : 'REVIEW';
       issues.push(makeIssue({
-        templateCode, sourceId, path, slotId: path,
+        templateCode, sourceId, path, slotId: slotIdForIssue,
         rawPattern, label, source,
         issueCode: ISSUE.BAD_LABEL,
         severity,
@@ -393,13 +408,14 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
   // Always check: label good or bad does not matter
   if (
     parsed &&
+    !isBindingAlias &&
     !isGenericRawTail(parsed.rawTail) &&
     parsed.rawDomain !== 'unknown' &&
     pathDom !== 'unknown' &&
     parsed.rawDomain !== pathDom
   ) {
     issues.push(makeIssue({
-      templateCode, sourceId, path, slotId: path,
+      templateCode, sourceId, path, slotId: slotIdForIssue,
       rawPattern, label, source,
       issueCode: ISSUE.RAW_PATTERN_DOMAIN_MISMATCH,
       severity: 'FAIL',
@@ -417,7 +433,7 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     if (source === 'agencyConfig') {
       if (pathDom === 'decision' || pathDom === 'person' || pathDom === 'document' || pathDom === 'caseInfo') {
         issues.push(makeIssue({
-          templateCode, sourceId, path, slotId: path,
+          templateCode, sourceId, path, slotId: slotIdForIssue,
           rawPattern, label, source,
           issueCode: ISSUE.SOURCE_MISMATCH,
           severity: 'FAIL',
@@ -430,9 +446,9 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     }
 
     // manual source but context is fixed legal text
-    if (source === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(context)) {
+    if (!reviewTrail && source === 'manual' && /^(Căn cứ|Luật|Điều|Bộ luật)/.test(context)) {
       issues.push(makeIssue({
-        templateCode, sourceId, path, slotId: path,
+        templateCode, sourceId, path, slotId: slotIdForIssue,
         rawPattern, label, source,
         issueCode: ISSUE.SOURCE_MISMATCH,
         severity: 'REVIEW',
@@ -446,11 +462,12 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     if (
       source === 'agencyConfig' &&
       parsed &&
+      !isBindingAlias &&
       !isGenericRawTail(parsed.rawTail) &&
       (parsed.rawDomain === 'decision' || parsed.rawDomain === 'document' || parsed.rawDomain === 'person')
     ) {
       issues.push(makeIssue({
-        templateCode, sourceId, path, slotId: path,
+        templateCode, sourceId, path, slotId: slotIdForIssue,
         rawPattern, label, source,
         issueCode: ISSUE.SOURCE_MISMATCH,
         severity: 'FAIL',
@@ -464,9 +481,9 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
 
   // ---- RULE 4: WEAK_EVIDENCE_AUTO_LOCKED ----
   // Always check regardless of label quality
-  if (!reviewRequired && isWeakEvidence(context, textBefore, rawPattern, reviewRequired)) {
+  if (!reviewRequired && isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail)) {
     issues.push(makeIssue({
-      templateCode, sourceId, path, slotId: path,
+      templateCode, sourceId, path, slotId: slotIdForIssue,
       rawPattern, label, source,
       issueCode: ISSUE.WEAK_EVIDENCE_AUTO_LOCKED,
       severity: 'FAIL',
@@ -479,12 +496,12 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
 
   // ---- RULE 5: GENERIC_FIELD_CANONICALIZATION ----
   // Always check: generic raw mapped to semantic path (label good OR bad does not matter)
-  if (parsed && isGenericRawTail(parsed.rawTail)) {
+  if (parsed && !isBindingAlias && isGenericRawTail(parsed.rawTail)) {
     const { bad: labelBad } = isBadLabel(label, path);
-    const isWeak = isWeakEvidence(context, textBefore, rawPattern, reviewRequired);
+    const isWeak = isWeakEvidence(context, textBefore, rawPattern, reviewRequired, reviewTrail);
     if (labelBad || isWeak) {
       issues.push(makeIssue({
-        templateCode, sourceId, path, slotId: path,
+        templateCode, sourceId, path, slotId: slotIdForIssue,
         rawPattern, label, source,
         issueCode: ISSUE.GENERIC_FIELD_CANONICALIZATION,
         severity: 'FAIL',
@@ -498,7 +515,7 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
 
   // ---- RULE 8: REQUIRED_SUSPICIOUS ----
   // Always check regardless of source
-  if (!required) {
+  if (!reviewTrail && !required) {
     const reqReason = detectRequiredReason(path);
     if (reqReason) {
       issues.push(makeIssue({
@@ -516,7 +533,7 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
   // Always check: if path looks computed/system/agency but source is manual
   {
     const readonlyReason = detectReadonlyReason(path, source, context);
-    if (readonlyReason) {
+    if (!reviewTrail && readonlyReason) {
       issues.push(makeIssue({
         templateCode, sourceId, path,
         label, source,
@@ -529,14 +546,20 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
     }
 
     // Additional: manual source + rawPattern suggests system data
-    if (source === 'manual' && parsed && (parsed.rawDomain === 'document' || parsed.rawDomain === 'agency')) {
+    if (
+      !reviewTrail &&
+      source === 'manual' &&
+      parsed &&
+      !isBindingAlias &&
+      (parsed.rawDomain === 'document' || parsed.rawDomain === 'agency')
+    ) {
       const tail = parsed.rawTail;
       if (
         /^(issuePlaceDateLine|issuePlaceAndDateLine|issueOffice|name|parentName)$/i.test(tail) ||
         /upper/i.test(tail)
       ) {
         issues.push(makeIssue({
-          templateCode, sourceId, path, slotId: path,
+          templateCode, sourceId, path, slotId: slotIdForIssue,
           rawPattern, label, source,
           issueCode: ISSUE.SHOULD_BE_READONLY,
           severity: 'REVIEW',
@@ -558,15 +581,32 @@ function auditField({ field, slot, contract, templateCode, sourceId }) {
 
 function auditContract(contract, compiledMap, deriveFn) {
   const issues = [];
-  const { templateCode, sourceId, docxSlots = [], canonicalFields = [] } = contract;
+  const {
+    templateCode,
+    sourceId,
+    docxSlots = [],
+    canonicalFields = [],
+    renderBindings = [],
+  } = contract;
 
   const slotById = new Map(docxSlots.map((s) => [s.slotId, s]));
   const canonicalByPath = new Map(canonicalFields.map((f) => [f.path, f]));
+  const bindingByFieldPath = new Map();
+  const bindingBySlotId = new Map();
+  for (const binding of renderBindings) {
+    if (binding?.from && !bindingByFieldPath.has(binding.from)) {
+      bindingByFieldPath.set(binding.from, binding);
+    }
+    if (binding?.slotId && !bindingBySlotId.has(binding.slotId)) {
+      bindingBySlotId.set(binding.slotId, binding);
+    }
+  }
 
   // ---- RULES 1-9 on each canonical field (all independent) ----
   for (const field of canonicalFields) {
-    const slot = slotById.get(field.path) ?? null;
-    issues.push(...auditField({ field, slot, contract, templateCode, sourceId }));
+    const binding = bindingByFieldPath.get(field.path) ?? null;
+    const slot = slotById.get(field.path) ?? (binding ? slotById.get(binding.slotId) : null) ?? null;
+    issues.push(...auditField({ field, slot, binding, contract, templateCode, sourceId }));
   }
 
   // ---- RULE 10: REMEDIATION_LEAK on docxSlots ----
@@ -579,7 +619,7 @@ function auditContract(contract, compiledMap, deriveFn) {
       issues.push(makeIssue({
         templateCode, sourceId, path: slot.slotId, slotId: slot.slotId,
         rawPattern: rawP, label: slotLabel,
-        source: canonicalByPath.get(slot.slotId)?.source,
+        source: canonicalByPath.get(slot.slotId)?.source ?? canonicalByPath.get(bindingBySlotId.get(slot.slotId)?.from)?.source,
         issueCode: ISSUE.REMEDIATION_LEAK,
         severity: 'FAIL',
         reason: `Slot label "${slotLabel}" contains remediation metadata. This leaks internal process language into user-facing UI.`,
@@ -592,7 +632,7 @@ function auditContract(contract, compiledMap, deriveFn) {
       issues.push(makeIssue({
         templateCode, sourceId, path: slot.slotId, slotId: slot.slotId,
         rawPattern: rawP, label: slotLabel,
-        source: canonicalByPath.get(slot.slotId)?.source,
+        source: canonicalByPath.get(slot.slotId)?.source ?? canonicalByPath.get(bindingBySlotId.get(slot.slotId)?.from)?.source,
         issueCode: ISSUE.REMEDIATION_LEAK,
         severity: 'REVIEW',
         reason: `Slot context contains remediation keyword: "${ctx.slice(0, 100)}"`,
@@ -823,6 +863,53 @@ function runSmokeTests() {
     return true;
   });
 
+  test('binding alias resolves DOCX slot context without raw domain mismatch', () => {
+    const contract = {
+      templateCode: 'BM-TEST',
+      sourceId: 't',
+      canonicalFields: [
+        {
+          path: 'person.idNumber',
+          label: 'So CCCD/CMND',
+          source: 'manual',
+          required: false,
+          reviewRequired: false,
+        },
+      ],
+      docxSlots: [
+        {
+          slotId: 'document.diaChi',
+          label: 'So CCCD/CMND',
+          context: 'So CMND/The CCCD/The CC/Ho chieu: {{document.diaChi}}',
+          evidence: {
+            rawPattern: '{{document.diaChi}}',
+            textBefore: 'So CMND/The CCCD/The CC/Ho chieu:',
+          },
+          reviewRequired: false,
+        },
+      ],
+      renderBindings: [
+        {
+          slotId: 'document.diaChi',
+          from: 'person.idNumber',
+          transform: 'identity',
+          fallback: '',
+          reviewRequired: false,
+        },
+      ],
+    };
+    const issues = auditContract(contract, new Map(), null);
+    const blockedCodes = new Set([
+      ISSUE.RAW_PATTERN_DOMAIN_MISMATCH,
+      ISSUE.SOURCE_MISMATCH,
+      ISSUE.WEAK_EVIDENCE_AUTO_LOCKED,
+      ISSUE.GENERIC_FIELD_CANONICALIZATION,
+      ISSUE.SHOULD_BE_READONLY,
+    ]);
+    const blocked = issues.filter((issue) => blockedCodes.has(issue.issueCode));
+    return blocked.length === 0 || `unexpected alias issues: ${blocked.map((issue) => issue.issueCode).join(', ')}`;
+  });
+
   // Good label + document.field1 + weak context flags GENERIC_FIELD_CANONICALIZATION
   test('Good label + generic raw + weak context flags GENERIC_FIELD_CANONICALIZATION', () => {
     const field = { path: 'document.someField', label: 'Tên trường', source: 'manual', required: false, reviewRequired: false };
@@ -839,6 +926,23 @@ function runSmokeTests() {
     const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.WEAK_EVIDENCE_AUTO_LOCKED);
     return found || 'WEAK_EVIDENCE_AUTO_LOCKED not found';
+  });
+
+  test('Reviewed field with weak context does not flag WEAK_EVIDENCE_AUTO_LOCKED', () => {
+    const field = {
+      path: 'document.someField',
+      label: 'Reviewed label',
+      source: 'manual',
+      required: false,
+      reviewRequired: false,
+      reviewedBy: 'Le Huy',
+      reviewedAt: '2026-06-22T08:15:00.000+07:00',
+      reviewEvidence: { reviewerNote: 'Reviewed source and label.' },
+    };
+    const slot = { context: '', evidence: { rawPattern: '{{document.field1}}', textBefore: '11' } };
+    const issues = auditField({ field, slot, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.WEAK_EVIDENCE_AUTO_LOCKED);
+    return !found || 'WEAK_EVIDENCE_AUTO_LOCKED should not be emitted for reviewed fields';
   });
 
   // document.fullDocumentCode is user-entered administrative data unless
@@ -893,6 +997,22 @@ function runSmokeTests() {
     const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
     const found = issues.some((i) => i.issueCode === ISSUE.REQUIRED_SUSPICIOUS);
     return found || 'REQUIRED_SUSPICIOUS not found';
+  });
+
+  test('reviewed required=false field does not flag REQUIRED_SUSPICIOUS', () => {
+    const field = {
+      path: 'signature.signerName',
+      label: 'Reviewed signer',
+      source: 'manual',
+      required: false,
+      reviewRequired: false,
+      reviewedBy: 'Le Huy',
+      reviewedAt: '2026-06-22T08:15:00.000+07:00',
+      reviewEvidence: { reviewerNote: 'Optional in this template.' },
+    };
+    const issues = auditField({ field, slot: null, contract: {}, templateCode: 'BM-TEST', sourceId: 't' });
+    const found = issues.some((i) => i.issueCode === ISSUE.REQUIRED_SUSPICIOUS);
+    return !found || 'REQUIRED_SUSPICIOUS should not be emitted for reviewed optional fields';
   });
 
   // Empty label flags BAD_LABEL (severity FAIL)

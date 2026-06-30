@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "task": "BM052_SIGNATURE_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY",
+  "templateCode": "BM-052",
+  "mode": "WRITE",
+  "applied": true,
+  "backupPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-placeholder-renormalization\\BM-052\\approved-signature\\backups\\2026-06-29T03-34-30-241Z",
+  "decisions": [
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 3,
+      "finalNewPlaceholder": "signature.signerName",
+      "semanticFieldPath": "signature.signerName"
+    }
+  ],
+  "docx": {
+    "beforeCounts": {
+      "recipients.personLine6": 4,
+      "signature.signerName": 0
+    },
+    "afterCounts": {
+      "recipients.personLine6": 3,
+      "signature.signerName": 1
+    },
+    "replacements": [
+      {
+        "originalPlaceholder": "recipients.personLine6",
+        "occurrenceIndex": 3,
+        "finalNewPlaceholder": "signature.signerName",
+        "beforeContext": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{recipients.personLine6}} ( Ký, ghi rõ họ tên, đóng dấu ) <w:textD",
+        "afterContext": "> - 8 …/người thân thích của bị can; - Lưu: HSVA, HSKS, VP. 11 {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu ) <w:textD"
+      }
+    ],
+    "compiledV2Touched": false
+  },
+  "contract": {
+    "changedPaths": [
+      "canonicalFields.signature.signerName",
+      "docxSlots.signature.signerName",
+      "renderBindings.signature.signerName"
+    ],
+    "noDuplicateFieldsSlotsBindings": true,
+    "addedFieldMetadata": {
+      "path": "signature.signerName",
+      "type": "string",
+      "label": "Người ký",
+      "source": "officialConfig",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Chữ ký",
+      "reviewRequired": false,
+      "transform": "identity"
+    }
+  },
+  "plannerHandoff": {
+    "schemaVersion": 1,
+    "task": "BM052_SIGNATURE_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY",
+    "templateCode": "BM-052",
+    "applied": true,
+    "decisionsApplied": 1,
+    "footerSignaturePlaceholderBound": true,
+    "bodyOccurrencesUntouched": true,
+    "compiledV2ManuallyEdited": false,
+    "canProceedToRenderFidelity": true,
+    "nextStep": "Run validate, compile, audits, board refresh, publish DB, and contract sync."
+  }
+}

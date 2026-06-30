@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "DOCX_ATLAS_V1_PHASE1_4_BUILD",
+  "mode": "EVIDENCE_ONLY_ATLAS_BUILD",
+  "generatedAt": "2026-06-28T15:27:04.107Z",
+  "canProceedToPlannerReview": true,
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "dbSyncClean": true,
+  "dbSyncResult": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0
+  },
+  "atlasSummaries": {
+    "docx": {
+      "totalTemplates": 213,
+      "missingDocx": 0,
+      "occurrenceReviewRequired": 76,
+      "totalPlaceholders": 2724,
+      "uniquePlaceholderTotal": 2465,
+      "riskCounts": {
+        "LOW": 87,
+        "MEDIUM": 115,
+        "HIGH": 11
+      }
+    },
+    "contract": {
+      "totalTemplates": 213,
+      "statusCounts": {
+        "locked": 213
+      },
+      "candidateRepairExists": 13,
+      "reviewRequired": 18,
+      "totalStructuralMismatches": 39
+    },
+    "render": {
+      "total": 213,
+      "statusCounts": {
+        "FAIL": 34,
+        "PASS": 179
+      },
+      "pass": 179,
+      "fail": 34,
+      "error": 0,
+      "missing": 0,
+      "cacheHits": 213
+    },
+    "smartQueue": {
+      "total": 213,
+      "bucketCounts": {
+        "DO_NOT_TOUCH_ALREADY_BLOCKED": 12,
+        "RENDER_FAIL_REQUIRES_REPAIR": 30,
+        "DOCX_REQUIRES_OCCURRENCE_REVIEW": 48,
+        "PLANNER_REVIEW_CANDIDATE": 0,
+        "DOCX_SAFE_RENDER_PASS_POLICY_BLOCKER": 34,
+        "LOW_PRIORITY_RENDER_PASS_SEMANTIC_REVIEW": 89
+      },
+      "preservedBlockers": 12
+    }
+  },
+  "queueTopByBucket": {
+    "DO_NOT_TOUCH_ALREADY_BLOCKED": [
+      "BM-096",
+      "BM-155",
+      "BM-136",
+      "BM-212",
+      "BM-069",
+      "BM-117",
+      "BM-118",
+      "BM-203",
+      "BM-052",
+      "BM-062",
+      "BM-063",
+      "BM-066"
+    ],
+    "RENDER_FAIL_REQUIRES_REPAIR": [
+      "BM-058",
+      "BM-044",
+      "BM-070",
+      "BM-071",
+      "BM-172",
+      "BM-213",
+      "BM-039",
+      "BM-059",
+      "BM-148",
+      "BM-010",
+      "BM-031",
+      "BM-047",
+      "BM-055",
+      "BM-097",
+      "BM-023",
+      "BM-054",
+      "BM-056",
+      "BM-064",
+      "BM-080",
+      "BM-171"
+    ],
+    "DOCX_REQUIRES_OCCURRENCE_REVIEW": [
+      "BM-186",
+      "BM-190",
+      "BM-188",
+      "BM-191",
+      "BM-192",
+      "BM-187",
+      "BM-189",
+      "BM-193",
+      "BM-003",
+      "BM-014",
+      "BM-033",
+      "BM-038",
+      "BM-045",
+      "BM-068",
+      "BM-146",
+      "BM-150",
+      "BM-194",
+      "BM-195",
+      "BM-011",
+      "BM-042"
+    ],
+    "PLANNER_REVIEW_CANDIDATE": [],
+    "DOCX_SAFE_RENDER_PASS_POLICY_BLOCKER": [
+      "BM-205",
+      "BM-130",
+      "BM-197",
+      "BM-048",
+      "BM-087",
+      "BM-127",
+      "BM-131",
+      "BM-027",
+      "BM-094",
+      "BM-102",
+      "BM-119",
+      "BM-095",
+      "BM-164",
+      "BM-185",
+      "BM-105",
+      "BM-120",
+      "BM-024",
+      "BM-025",
+      "BM-032",
+      "BM-004"
+    ],
+    "LOW_PRIORITY_RENDER_PASS_SEMANTIC_REVIEW": [
+      "BM-211",
+      "BM-126",
+      "BM-196",
+      "BM-199",
+      "BM-106",
+      "BM-028",
+      "BM-201",
+      "BM-036",
+      "BM-134",
+      "BM-135",
+      "BM-152",
+      "BM-174",
+      "BM-184",
+      "BM-207",
+      "BM-208",
+      "BM-021",
+      "BM-206",
+      "BM-209",
+      "BM-129",
+      "BM-133"
+    ]
+  },
+  "modulesAndScripts": [
+    "scripts/audit/lib/docx-atlas-common.mjs",
+    "scripts/audit/build-docx-atlas-v1.mjs",
+    "scripts/audit/build-contract-atlas-v1.mjs",
+    "scripts/audit/build-render-atlas-v1.mjs",
+    "scripts/audit/build-smart-remediation-queue-v1.mjs",
+    "scripts/audit/lib/ooxml-context-extractor.mjs",
+    "scripts/audit/lib/smart-remediation-classifier.mjs",
+    "scripts/audit/lib/contract-structural-mismatches.mjs",
+    "scripts/audit/lib/render-gate-cache.mjs",
+    "scripts/audit/refresh-213-docx-fidelity-board.mjs"
+  ],
+  "tests": {
+    "command": "node --test test/docx-atlas-phase0-modules.test.mjs test/docx-atlas-v1-builders.test.mjs test/213-docx-fidelity-board.test.mjs test/render-form-fidelity-gate.test.mjs",
+    "result": "34 tests, 34 passed, 0 failed"
+  },
+  "checks": {
+    "auditContractSync": "PASS 213/0/0",
+    "refreshBoard": "PASS rows=213 blockersPreserved=12 renderEvidence=213 available/179 clean/0 missing",
+    "renderAtlasFullRun": "PASS command completed; 213 processed; 179 PASS, 34 FAIL, 0 ERROR",
+    "forbiddenDiffs": {
+      "normalizedDocx": [
+        "storage/templates/normalized-docx/BM-052/BM-052_normalized.docx",
+        "storage/templates/normalized-docx/BM-062/BM-062_normalized.docx"
+      ],
+      "lockedContracts": [
+        "docs/audit/docx/contracts/locked/BM-003__bb64990bc49b.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-021__772319486f41.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-022__13d342bdfc56.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-025__5dcf0eb7f481.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-032__cce50086cd38.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-036__6f4466480a94.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-052__9919ecdb3971.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-062__110961a781fa.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json"
+      ],
+      "compiledV2": [
+        "docs/audit/docx/compiled-v2/BM-003.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-021.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-022.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-025.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-032.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-036.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-052.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-062.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-096.compiled.json"
+      ],
+      "interpretation": "PRE_EXISTING at task start; this Atlas build did not intentionally mutate forbidden source artifacts."
+    },
+    "decisionsApprovedCreated": false,
+    "applyRunnerCreated": false
+  },
+  "artifacts": [
+    "docs/audit/docx-atlas-v1/docx-atlas.latest.json",
+    "docs/audit/docx-atlas-v1/docx-atlas.latest.md",
+    "docs/audit/docx-atlas-v1/contract-atlas.latest.json",
+    "docs/audit/docx-atlas-v1/contract-atlas.latest.md",
+    "docs/audit/docx-atlas-v1/render-atlas.latest.json",
+    "docs/audit/docx-atlas-v1/render-atlas.latest.md",
+    "docs/audit/docx-atlas-v1/smart-remediation-queue.latest.json",
+    "docs/audit/docx-atlas-v1/smart-remediation-queue.latest.md",
+    "docs/audit/docx-atlas-v1/phase1-4-planner-handoff.latest.json",
+    "docs/audit/docx-atlas-v1/phase1-4-planner-handoff.latest.md"
+  ],
+  "safetyAssertions": {
+    "noNormalizedDocxMutationByAtlas": true,
+    "noLockedContractMutationByAtlas": true,
+    "noCompiledV2MutationByAtlas": true,
+    "noDbPublish": true,
+    "noRendererRuntimeMutation": true,
+    "noApprovedDecisions": true,
+    "noApplyRunner": true,
+    "noMarkDone": true,
+    "noCommit": true
+  },
+  "nextPlannerDecisionNeeded": "Review smart-remediation-queue.latest.json and approve the first evidence-only repair packet. Do not apply mutations until per-BM legal/DOCX review is approved."
+}

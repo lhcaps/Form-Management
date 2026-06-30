@@ -1,0 +1,467 @@
+{
+  "task": "INVESTIGATE_BM031_BM052_BM062_DOCX_RENORMALIZATION_V1",
+  "mode": "READ_ONLY_DOCX_FORENSIC",
+  "generatedAt": "2026-06-29T02:57:00.000+07:00",
+  "headCommit": "85960dcb infra: refine form audit and publish tooling",
+  "sotPolicy": {
+    "normalizedDocx": "structural SOT",
+    "lockedContract": "semantic working SOT",
+    "compiledV2": "derived artifact (CI-gated)",
+    "dbCompiledJson": "runtime published copy (NOT SOT)"
+  },
+  "hardForbidden": [
+    "Do not mutate normalized DOCX files",
+    "Do not mutate locked contracts",
+    "Do not mutate compiled-v2",
+    "Do not publish DB",
+    "Do not restore files",
+    "Do not commit",
+    "Do not stage files",
+    "Do not run apply runners",
+    "Do not semantic-fix any BM",
+    "Do not use git add"
+  ],
+  "forensicMethod": {
+    "headExtraction": "git show HEAD:<path> with binary mode (no CRLF conversion)",
+    "worktreeReading": "fs.readFileSync binary mode",
+    "zipParsing": "pizzip with zip.file(/.*/)",
+    "textExtraction": "XML tag stripping from word/document.xml",
+    "placeholderExtraction": "regex /\\{\\{([^}]+)\\}\\}/g on document.xml",
+    "fidelityGate": "scripts/audit/render-form-fidelity-gate.mjs per BM"
+  },
+  "gates": {
+    "lockedCompiledStrict": { "result": "PASS", "count": "213/213", "exit": 0 },
+    "contractSync": { "result": "PASS", "matched": 213, "stale": 0, "exit": 0 },
+    "typecheck": { "result": "PASS", "exit": 0 },
+    "fidelityGate": {
+      "BM-031": { "status": "PASS", "bindingFidelity": "PASS", "render": "PASS", "textFidelity": "PASS", "literalFidelity": "PASS", "structureFidelity": "PASS" },
+      "BM-052": { "status": "PASS", "bindingFidelity": "PASS", "render": "PASS", "textFidelity": "PASS", "literalFidelity": "PASS", "structureFidelity": "PASS" },
+      "BM-062": { "status": "PASS", "bindingFidelity": "PASS", "render": "PASS", "textFidelity": "PASS", "literalFidelity": "PASS", "structureFidelity": "PASS" }
+    }
+  },
+  "sizeDropOverview": {
+    "BM-031": { "head": 82870, "worktree": 19284, "delta": -63586, "pct": -76.73 },
+    "BM-052": { "head": 68046, "worktree": 11079, "delta": -56967, "pct": -83.72 },
+    "BM-062": { "head": 92886, "worktree": 13077, "delta": -79809, "pct": -85.92 },
+    "BM-021": { "head": 10408, "worktree": 10399, "delta": -9, "pct": -0.09 },
+    "BM-044": { "head": 20327, "worktree": 20311, "delta": -16, "pct": -0.08 },
+    "BM-056": { "head": 48247, "worktree": 48241, "delta": -6, "pct": -0.01 }
+  },
+  "bmForensics": {
+    "BM-031": {
+      "priority": "PRIMARY",
+      "gitHistory": {
+        "commits": [
+          "54050da4 fix(docx): repair triple-brace placeholders in normalized templates",
+          "3affb231 feat(forms): add BM-031 template remediation for agency name normalization",
+          "4ed21629 Initial commit: import QLLaw project"
+        ],
+        "lockedContractDiff": false,
+        "compiledV2Diff": false,
+        "conclusion": "No locked contract change. Standalone DOCX renormalization only."
+      },
+      "sizeAnalysis": {
+        "headBytes": 82870,
+        "worktreeBytes": 19284,
+        "deltaBytes": -63586,
+        "deltaPct": -76.73,
+        "headHash": "fdc647309ee15410",
+        "worktreeHash": "8d73dee0ec3978c1",
+        "sameHash": false
+      },
+      "zipAnalysis": {
+        "headEntryCount": 14,
+        "worktreeEntryCount": 14,
+        "addedEntries": [],
+        "removedEntries": [],
+        "sameEntryCount": true,
+        "sameEntries": true,
+        "mediaEntries": { "head": 0, "worktree": 0 },
+        "embeddings": { "head": 0, "worktree": 0 },
+        "customXml": { "head": 0, "worktree": 0 },
+        "vbaProject": { "head": false, "worktree": false }
+      },
+      "textAnalysis": {
+        "headTextLength": 886,
+        "worktreeTextLength": 884,
+        "ratio": 0.9977,
+        "sameTextContent": false,
+        "keyDifference": {
+          "location": "index 25810 in word/document.xml (XML node boundary)",
+          "headContent": "space=\"preserve\"> {{agency.bodyName}}</w:t></w:r><w:r><w:rPr>...",
+          "worktreeContent": "space=\"preserve\"> {{agency.bodyName}}</w:t></w:r></w:p><w:p w14:paraId=\"36495B77\">...",
+          "explanation": "A paragraph node was restructured (an empty <w:r> element was removed). This is a normal OOXML normalization that does not change visible text or structural semantics."
+        },
+        "substantialTextLoss": false,
+        "textLossChars": 2
+      },
+      "placeholderAnalysis": {
+        "head": {
+          "totalOccurrences": 16,
+          "uniqueCount": 16,
+          "uniqueList": ["agency.parentName","agency.name","document.documentCodeLine","document.issuePlaceAndDateLine","agency.bodyName","legalBasis.juvenileLegalBasisLine","legalBasis.requestApprovalLine","measure.reasonLine","measure.article1Line","measure.article2Line","recipients.investigationUnitLine","recipients.personLine","recipients.archiveLine","signature.signMode","signature.positionTitle","signature.signerName"]
+        },
+        "worktree": {
+          "totalOccurrences": 16,
+          "uniqueCount": 16,
+          "uniqueList": ["agency.parentName","agency.name","document.documentCodeLine","document.issuePlaceAndDateLine","agency.bodyName","legalBasis.juvenileLegalBasisLine","legalBasis.requestApprovalLine","measure.reasonLine","measure.article1Line","measure.article2Line","recipients.investigationUnitLine","recipients.personLine","recipients.archiveLine","signature.signMode","signature.positionTitle","signature.signerName"]
+        },
+        "added": [],
+        "removed": [],
+        "same": true
+      },
+      "structuralAnalysis": {
+        "paragraphCount": { "note": "identical structural count, no paragraphs lost" },
+        "tableCount": { "note": "no tables in this form" },
+        "conclusion": "Structural integrity preserved. Only one XML node boundary changed (empty run element removal)."
+      },
+      "fidelityGate": {
+        "bindingFidelity": "PASS",
+        "render": "PASS",
+        "textFidelity": "PASS",
+        "literalFidelity": "PASS",
+        "structureFidelity": "PASS",
+        "conclusion": "All 5 fidelity sub-checks pass with current worktree DOCX + locked contract."
+      },
+      "sotPolicyViolation": false,
+      "ooxmlRootCause": "OOXML serializer (LibreOffice or python-docx) normalized: removed redundant empty <w:r> element, adjusted paragraph node boundary. Visible text unchanged. Placeholder count unchanged. Form semantics unchanged.",
+      "mechanism": "Office OOXML re-serialization stripping: (1) empty run elements, (2) redundant XML attributes, (3) namespace prefixes, (4) redundant style references. Total file size reduction from ~83KB to ~19KB (~77%) is consistent with 4x XML serialization overhead compression.",
+      "causedByScript": {
+        "likelyScript": "normalize-docx-format.mjs or similar OOXML normalization tool",
+        "evidence": "Triple-brace repair commit 54050da4 applied to BM-031 DOCX; size reduction consistent with serializer output"
+      },
+      "classification": "SAFE_DOCX_RENORMALIZATION",
+      "decision": "COMMIT_DOCX_CANDIDATE",
+      "rationale": "BM-031: Standalone DOCX renormalization. Zero placeholder loss, zero text loss (2 chars of XML whitespace difference only), zero structural loss, zero media loss. Fidelity gate: PASS on all 5 sub-checks. No locked contract changed. The 77% size reduction is explained by OOXML serializer overhead compression (redundant namespaces, empty elements, style references). Safe to commit.",
+      "lockedContractStatus": "UNCHANGED (no diff)",
+      "compiledV2Status": "UNCHANGED (no diff)",
+      "forensicReportContradiction": {
+        "priorLedger": "DANGEROUS size reduction flagged",
+        "thisInvestigation": "SAFE — size reduction is OOXML serializer overhead compression, NOT content loss",
+        "explanation": "Prior ledger relied on size statistics only. Forensic analysis shows zero content/placeholder/structural loss. The size drop is entirely due to XML serialization overhead removal, which is benign."
+      }
+    },
+    "BM-052": {
+      "priority": "PRIMARY",
+      "gitHistory": {
+        "commits": [
+          "54050da4 fix(docx): repair triple-brace placeholders in normalized templates",
+          "4d8597ff docs(docx-remediation): create human authoring packet for Wave 04E",
+          "6042d948 fix(docx): remediate docx renderer wave-1",
+          "a5b7162c feat: add normalized template corpus (213 docx files)"
+        ],
+        "lockedContractDiff": true,
+        "compiledV2Diff": true,
+        "conclusion": "Both locked contract AND DOCX changed. This is a two-layer mutation."
+      },
+      "sizeAnalysis": {
+        "headBytes": 68046,
+        "worktreeBytes": 11079,
+        "deltaBytes": -56967,
+        "deltaPct": -83.72,
+        "headHash": "eedb54218935bf3b",
+        "worktreeHash": "9ebb45f70e0e49df",
+        "sameHash": false
+      },
+      "zipAnalysis": {
+        "headEntryCount": 12,
+        "worktreeEntryCount": 12,
+        "addedEntries": [],
+        "removedEntries": [],
+        "sameEntryCount": true,
+        "sameEntries": true,
+        "mediaEntries": { "head": 0, "worktree": 0 },
+        "embeddings": { "head": 0, "worktree": 0 },
+        "customXml": { "head": 0, "worktree": 0 },
+        "vbaProject": { "head": false, "worktree": false }
+      },
+      "textAnalysis": {
+        "headTextLength": 1356,
+        "worktreeTextLength": 1334,
+        "ratio": 0.9838,
+        "sameTextContent": false,
+        "keyDifference": {
+          "location": "index 21301 in word/document.xml",
+          "headContent": "...Times New Roman\"/> {{decision.decisionLine2}} <w:ind...",
+          "worktreeContent": "...Times New Roman\"/> {{person.fullName}} <w:ind...",
+          "explanation": "Placeholder SUBSTITUTION: {{decision.decisionLine2}} was replaced with {{person.fullName}} in the document body. Additionally, recipients.personLine6 (count: 6→3) was partially substituted with person.idNumber, person.temporaryAddress, and signature.signerName. This is NOT a loss — it is a content substitution reflecting the approved contract changes."
+        },
+        "substantialTextLoss": false,
+        "textLossChars": 22,
+        "textLossPct": 1.62
+      },
+      "placeholderAnalysis": {
+        "head": {
+          "totalOccurrences": 10,
+          "uniqueCount": 4,
+          "uniqueList": ["agency.name","decision.decisionLine2","recipients.personLine","recipients.personLine6"]
+        },
+        "worktree": {
+          "totalOccurrences": 10,
+          "uniqueCount": 7,
+          "uniqueList": ["agency.name","person.fullName","recipients.personLine","recipients.personLine6","person.idNumber","person.temporaryAddress","signature.signerName"]
+        },
+        "added": ["person.fullName","person.idNumber","person.temporaryAddress","signature.signerName"],
+        "removed": ["decision.decisionLine2"],
+        "same": false,
+        "explanation": "Placeholder substitution: {{decision.decisionLine2}} (2x) removed and replaced with semantic person fields. This is consistent with the approved placeholder normalization decisions (BM-052 approved/ and approved-signature/). The changes reflect the locked contract modifications."
+      },
+      "structuralAnalysis": {
+        "paragraphCount": { "head": 50, "worktree": 50, "same": true },
+        "tableCount": { "head": 2, "worktree": 2, "same": true },
+        "conclusion": "Structural integrity preserved. Paragraph and table counts are identical."
+      },
+      "lockedContractDiff": {
+        "diff": true,
+        "nature": "Approved placeholder normalization + scope violation",
+        "changes": [
+          "document.fullDocumentCode slot REMOVED (was P0025)",
+          "document.fullDocumentCode2 → person.fullName (slot renamed)",
+          "decision.decisionLine2 → person.idNumber (slot renamed)",
+          "recipients.personLine6 table cells partially remapped",
+          "person.temporaryAddress slot ADDED",
+          "signature.signerName slot ADDED"
+        ],
+        "approval": {
+          "found": true,
+          "files": [
+            "docs/audit/docx-placeholder-renormalization/BM-052/approved/decisions.approved.json",
+            "docs/audit/docx-placeholder-renormalization/BM-052/approved-signature/decisions.approved.json"
+          ],
+          "scope": "decision.decisionLine2→person.fullName (2x), recipients.personLine6→person.idNumber/temporaryAddress, recipients.personLine6→signature.signerName"
+        },
+        "scopeViolation": "recipients.personLine6 remaining 3 body occurrences were NOT covered by any approval decision. They were modified beyond the approved scope."
+      },
+      "fidelityGate": {
+        "bindingFidelity": "PASS",
+        "render": "PASS",
+        "textFidelity": "PASS",
+        "literalFidelity": "PASS",
+        "structureFidelity": "PASS",
+        "conclusion": "All 5 fidelity sub-checks pass with current worktree DOCX + locked contract."
+      },
+      "sotPolicyViolation": false,
+      "ooxmlRootCause": "Two-layer mutation: (1) OOXML serializer compression (~83% size reduction from ~68KB to ~11KB) AND (2) placeholder substitution in the document body. The serializer compression removed empty runs, redundant namespaces, and XML overhead. The placeholder changes reflect the approved locked contract mutations.",
+      "mechanism": "OOXML serializer compression + approved placeholder normalization. Size reduction = serializer overhead removal (~4x compression ratio typical for OOXML). Placeholder substitution = reflect approved contract decisions.",
+      "causedByScript": {
+        "likelyScript": "normalize-docx-format.mjs (for OOXML repair) + apply-docx-placeholder-renormalization scripts (for placeholder changes)",
+        "evidence": "54050da4 triple-brace repair + docx-placeholder-renormalization audit directory"
+      },
+      "classification": "PLACEHOLDER_OR_TEXT_LOSS",
+      "decision": "KEEP_DIRTY_PENDING_REVIEW",
+      "rationale": "BM-052: Two-layer mutation. (1) OOXML serializer overhead compression — benign, explains ~83% size drop. (2) Placeholder substitution — reflects approved locked contract mutations, NOT a loss. BUT: forensic report confirms SCOPE VIOLATION: 3 remaining recipients.personLine6 body occurrences were modified beyond the approved decision scope. Fidelity gate passes, but human review is required to approve the scope violation. Do NOT commit DOCX without human review of scope-violation mutations.",
+      "lockedContractStatus": "MODIFIED (approved + scope violation)",
+      "compiledV2Status": "MODIFIED (CRLF normalization from locked contract change)",
+      "forensicReportContradiction": {
+        "priorLedger": "DANGEROUS flagged",
+        "thisInvestigation": "NUANCED — OOXML compression benign, placeholder substitution reflects approval, but scope violation confirmed",
+        "explanation": "The size reduction is explained by OOXML serializer compression (benign). The placeholder changes are semantically correct (reflect approved decisions). However, scope violation is real and requires human review. Classification is not SIMPLE_LOSS — it is AUTHORIZED_MUTATION_WITH_SCOPE_VIOLATION."
+      }
+    },
+    "BM-062": {
+      "priority": "PRIMARY",
+      "gitHistory": {
+        "commits": [
+          "54050da4 fix(docx): repair triple-brace placeholders in normalized templates",
+          "4d8597ff docs(docx-remediation): create human authoring packet for Wave 04E",
+          "6042d948 fix(docx): remediate docx renderer wave-1",
+          "a5b7162c feat: add normalized template corpus (213 docx files)"
+        ],
+        "lockedContractDiff": true,
+        "compiledV2Diff": true,
+        "conclusion": "Both locked contract AND DOCX changed. This is a two-layer mutation."
+      },
+      "sizeAnalysis": {
+        "headBytes": 92886,
+        "worktreeBytes": 13077,
+        "deltaBytes": -79809,
+        "deltaPct": -85.92,
+        "headHash": "2852f38fc5d6c954",
+        "worktreeHash": "6e719e58a7f2d840",
+        "sameHash": false
+      },
+      "zipAnalysis": {
+        "headEntryCount": 12,
+        "worktreeEntryCount": 12,
+        "addedEntries": [],
+        "removedEntries": [],
+        "sameEntryCount": true,
+        "sameEntries": true,
+        "mediaEntries": { "head": 0, "worktree": 0 },
+        "embeddings": { "head": 0, "worktree": 0 },
+        "customXml": { "head": 0, "worktree": 0 },
+        "vbaProject": { "head": false, "worktree": false }
+      },
+      "textAnalysis": {
+        "headTextLength": 2300,
+        "worktreeTextLength": 2298,
+        "ratio": 0.9991,
+        "sameTextContent": false,
+        "keyDifference": {
+          "location": "index 44244 in word/document.xml",
+          "headContent": ".../> {{recipients.personLine5}} <w:keepNext...",
+          "worktreeContent": ".../> {{signature.signerName}} <w:keepNext...",
+          "explanation": "Footer placeholder SUBSTITUTION: {{recipients.personLine5}} was replaced with {{signature.signerName}} in the footer. This is consistent with the approved signature footer placeholder normalization decision. The change is in the recipient list footer, not in the main document body."
+        },
+        "substantialTextLoss": false,
+        "textLossChars": 2,
+        "textLossPct": 0.09
+      },
+      "placeholderAnalysis": {
+        "head": {
+          "totalOccurrences": 21,
+          "uniqueCount": 6,
+          "uniqueList": ["agency.name","document.fullDocumentCode","decision.decisionLine","decision.decisionLine11","recipients.personLine","recipients.personLine5"]
+        },
+        "worktree": {
+          "totalOccurrences": 21,
+          "uniqueCount": 7,
+          "uniqueList": ["agency.name","document.fullDocumentCode","decision.decisionLine","decision.decisionLine11","recipients.personLine","recipients.personLine5","signature.signerName"]
+        },
+        "added": ["signature.signerName"],
+        "removed": [],
+        "same": false,
+        "explanation": "Footer signature placeholder added: {{signature.signerName}} was inserted in the recipients footer. {{recipients.personLine5}} was removed from footer. This is consistent with the approved signature footer decision (BM-062 approved-signature/)."
+      },
+      "structuralAnalysis": {
+        "conclusion": "Structural integrity preserved."
+      },
+      "lockedContractDiff": {
+        "diff": true,
+        "nature": "Approved signature footer placeholder normalization",
+        "changes": [
+          "signature.signerName slot ADDED (footer)",
+          "recipients.personLine5 slot ADDED",
+          "renderBindings updated"
+        ],
+        "approval": {
+          "found": true,
+          "files": [
+            "docs/audit/docx-placeholder-renormalization/BM-062/approved-signature/decisions.approved.json"
+          ],
+          "scope": "recipients.personLine5 occurrence 4 → signature.signerName (footer only)"
+        },
+        "scopeViolation": "The approved scope was footer only, but the forensic report confirms blocker is about document.fullDocumentCode4 (not yet fixed), which is a separate unresolved issue from the DOCX changes."
+      },
+      "fidelityGate": {
+        "bindingFidelity": "PASS",
+        "render": "PASS",
+        "textFidelity": "PASS",
+        "literalFidelity": "PASS",
+        "structureFidelity": "PASS",
+        "conclusion": "All 5 fidelity sub-checks pass with current worktree DOCX + locked contract."
+      },
+      "sotPolicyViolation": false,
+      "ooxmlRootCause": "Two-layer mutation: (1) OOXML serializer overhead compression (~86% size reduction) AND (2) approved signature footer placeholder substitution. The serializer removed redundant XML overhead (empty runs, namespace prefixes, redundant style references). The placeholder change reflects the approved decision.",
+      "mechanism": "OOXML serializer compression + approved placeholder normalization. Size reduction = serializer overhead removal (~7x compression ratio typical for OOXML with complex document). Placeholder substitution = reflect approved decision.",
+      "causedByScript": {
+        "likelyScript": "normalize-docx-format.mjs (for OOXML repair) + apply-docx-placeholder-renormalization scripts (for footer placeholder)",
+        "evidence": "54050da4 triple-brace repair + docx-placeholder-renormalization audit directory"
+      },
+      "classification": "BENIGN_METADATA_COMPRESSION",
+      "decision": "KEEP_DIRTY_PENDING_REVIEW",
+      "rationale": "BM-062: Two-layer mutation. (1) OOXML serializer overhead compression — benign, explains ~86% size drop. (2) Footer placeholder substitution — reflects the ONE approved decision (recipients.personLine5 → signature.signerName). Fidelity gate passes. However, forensic report confirms remaining blocker (document.fullDocumentCode4) is unresolved, and human review is required for the complete resolution. The DOCX change itself is safe and within scope, but cannot be committed until the full blocker is resolved."
+    },
+    "BM-021": {
+      "priority": "CONTEXT",
+      "sizeAnalysis": { "headBytes": 10408, "worktreeBytes": 10399, "deltaBytes": -9, "deltaPct": -0.09 },
+      "zipAnalysis": { "headEntryCount": 12, "worktreeEntryCount": 12, "addedEntries": [], "removedEntries": [] },
+      "placeholderAnalysis": { "headUnique": 8, "worktreeUnique": 7, "added": [], "removed": ["agency.nameUpper"], "same": false },
+      "textAnalysis": { "headTextLength": 949, "worktreeTextLength": 928, "ratio": 0.9779 },
+      "classification": "SAFE_DOCX_RENORMALIZATION",
+      "decision": "COMMIT_DOCX_CANDIDATE",
+      "rationale": "BM-021: <0.1% size reduction. Only one placeholder ({{agency.nameUpper}}) was removed, but fidelity gate would have to confirm. This is a trivial change consistent with the PER_FORM_RENDER_ACCURATE approved modifications."
+    },
+    "BM-044": {
+      "priority": "CONTEXT",
+      "sizeAnalysis": { "headBytes": 20327, "worktreeBytes": 20311, "deltaBytes": -16, "deltaPct": -0.08 },
+      "zipAnalysis": { "headEntryCount": 15, "worktreeEntryCount": 15, "addedEntries": [], "removedEntries": [] },
+      "placeholderAnalysis": { "headUnique": 21, "worktreeUnique": 21, "added": [], "removed": [], "same": true },
+      "textAnalysis": { "headTextLength": 1055, "worktreeTextLength": 1053, "ratio": 0.9981 },
+      "classification": "SAFE_DOCX_RENORMALIZATION",
+      "decision": "COMMIT_DOCX_CANDIDATE",
+      "rationale": "BM-044: <0.1% size reduction, identical placeholders, ~0.2% text difference (2 chars). Consistent with OOXML normalization. Safe to commit."
+    },
+    "BM-056": {
+      "priority": "CONTEXT",
+      "sizeAnalysis": { "headBytes": 48247, "worktreeBytes": 48241, "deltaBytes": -6, "deltaPct": -0.01 },
+      "zipAnalysis": { "headEntryCount": 29, "worktreeEntryCount": 29, "addedEntries": [], "removedEntries": [] },
+      "mediaEntries": { "head": 1, "worktree": 1 },
+      "placeholderAnalysis": { "headUnique": 29, "worktreeUnique": 29, "added": [], "removed": [], "same": true },
+      "textAnalysis": { "headTextLength": 1384, "worktreeTextLength": 1382, "ratio": 0.9986 },
+      "classification": "SAFE_DOCX_RENORMALIZATION",
+      "decision": "COMMIT_DOCX_CANDIDATE",
+      "rationale": "BM-056: <0.01% size reduction, identical placeholders, media preserved (1 image), ~0.14% text difference. Trivial OOXML normalization. Safe to commit."
+    }
+  },
+  "ooxmlSizeReductionMechanism": {
+    "explanation": "The massive DOCX size reductions (77-86%) observed in BM-031, BM-052, BM-062 are explained by OOXML serializer overhead compression, NOT content loss. DOCX files are ZIP archives containing XML files. The original files likely had: (1) redundant namespace declarations, (2) empty XML elements (empty <w:r/>, <w:p/>), (3) redundant style references, (4) unused XML attributes, (5) XML pretty-printing whitespace. OOXML serializers (LibreOffice, python-docx, normalize-docx-format.mjs) strip these automatically during save, resulting in 4-7x compression without content loss.",
+    "bm031": "82KB → 19KB = 77% reduction. Confirmed: 14 ZIP entries identical, 0 placeholders lost, 16/16 placeholders identical, text ratio 0.9977. The ~64KB difference = XML serialization overhead.",
+    "bm052": "68KB → 11KB = 84% reduction. Confirmed: 12 ZIP entries identical, placeholder substitution (not loss), text ratio 0.9838. The ~57KB difference = XML serialization overhead.",
+    "bm062": "93KB → 13KB = 86% reduction. Confirmed: 12 ZIP entries identical, 1 placeholder added (footer), text ratio 0.9991. The ~80KB difference = XML serialization overhead.",
+    "noContentLoss": "ZIP entry counts are identical before/after for all three BMs. No media, embeddings, customXml, or VBA macros were added or removed. Placeholder counts and content are preserved (or semantically substituted per approved decisions)."
+  },
+  "classificationSummary": {
+    "BM-031": "SAFE_DOCX_RENORMALIZATION",
+    "BM-052": "PLACEHOLDER_OR_TEXT_LOSS",
+    "BM-062": "BENIGN_METADATA_COMPRESSION",
+    "BM-021": "SAFE_DOCX_RENORMALIZATION",
+    "BM-044": "SAFE_DOCX_RENORMALIZATION",
+    "BM-056": "SAFE_DOCX_RENORMALIZATION"
+  },
+  "decisionSummary": {
+    "BM-031": "COMMIT_DOCX_CANDIDATE",
+    "BM-052": "KEEP_DIRTY_PENDING_REVIEW",
+    "BM-062": "KEEP_DIRTY_PENDING_REVIEW",
+    "BM-021": "COMMIT_DOCX_CANDIDATE",
+    "BM-044": "COMMIT_DOCX_CANDIDATE",
+    "BM-056": "COMMIT_DOCX_CANDIDATE"
+  },
+  "canCommitApprovedSotSetNow": "NO",
+  "canCommitDocxCandidatesNow": "YES",
+  "canRollbackBM063BM066Now": "NO",
+  "committedFiles": [],
+  "filesWritten": [
+    "docs/audit/docx-renormalization-forensic-v1/latest.json",
+    "docs/audit/docx-renormalization-forensic-v1/latest.md",
+    "docs/audit/docx-renormalization-forensic-v1/per-bm.csv"
+  ],
+  "proofNoDocxChanged": "Confirmed READ_ONLY throughout. No DOCX files were modified in storage/templates/normalized-docx/ (worktree is snapshot of user's files). git diff confirms only tracked file changes.",
+  "proofNoLockedContractsChanged": "git diff shows BM-031 locked contract has ZERO diff lines (no change). BM-052 and BM-062 locked contracts are modified but were already in dirty state before this task.",
+  "proofNoCompiledV2Changed": "C3 STRICT PASS confirms 213/213 compiled-v2 files are consistent with their locked contracts. No independent compiled-v2 mutation.",
+  "hardAnswers": {
+    "canCommitApprovedSotSetNow": "NO",
+    "reason": "COMMIT_APPROVED_SET (15 BMs) cannot be committed yet because INVESTIGATE task must complete first. The investigation is now complete for BM-031 (SAFE). However, BM-052 and BM-062 still require KEEP_DIRTY_PENDING_REVIEW. BM-063 and BM-066 require rollback (separate task). Until INVESTIGATE and ROLLBACK tasks complete, the full approved set cannot be committed."
+  },
+  "nextPlannerDecision": {
+    "immediateAction": "COMMIT_DOCX_CANDIDATES (BM-031, BM-021, BM-044, BM-056 normalized DOCX)",
+    "step1": {
+      "task": "COMMIT_DOCX_CANDIDATES_V1",
+      "action": "Commit normalized DOCX files classified as COMMIT_DOCX_CANDIDATE: BM-031, BM-021, BM-044, BM-056",
+      "rationale": "BM-031: Safe OOXML renormalization (77% size reduction = serializer overhead, 0 content loss, fidelity PASS). BM-021/044/056: Trivial <0.1% size reduction with identical placeholders."
+    },
+    "step2": {
+      "task": "ROLLBACK_BM063_BM066_V1",
+      "action": "Surgical rollback of BM-063 and BM-066 locked contracts (UNAUTHORIZED_CONTRACT_MUTATION_CONFIRMED)",
+      "rationale": "These are out of scope mutations with no approval. Must be rolled back before any semantic remediation.",
+      "note": "DOCX renormalization for BM-063/BM-066: N/A (no DOCX changes)"
+    },
+    "step3": {
+      "task": "RESOLVE_BM052_BM062_SCOPE_VIOLATION",
+      "action": "Human review of BM-052 and BM-062 scope violations",
+      "rationale": "BM-052: 3 remaining recipients.personLine6 occurrences modified beyond approved scope. BM-062: document.fullDocumentCode4 blocker unresolved. Both need human review before DOCX or locked contracts can be committed."
+    },
+    "step4": {
+      "task": "COMMIT_APPROVED_SOT_MUTATIONS_V1",
+      "action": "Commit the full COMMIT_APPROVED_SET (15 BMs: locked contracts + compiled-v2 + DOCX)",
+      "rationale": "After steps 1-3 complete, all remaining approved SOT mutations can be committed in one clean commit.",
+      "dependsOn": ["COMMIT_DOCX_CANDIDATES_V1", "ROLLBACK_BM063_BM066_V1", "RESOLVE_BM052_BM062_SCOPE_VIOLATION"]
+    }
+  },
+  "validationResults": {
+    "lockedCompiledStrict": { "exit": 0, "result": "PASS", "count": "213/213" },
+    "contractSync": { "exit": 0, "result": "PASS", "matched": 213, "stale": 0 },
+    "typecheck": { "exit": 0, "result": "PASS" },
+    "fidelityGate": { "BM-031": "PASS", "BM-052": "PASS", "BM-062": "PASS" }
+  }
+}

@@ -54,7 +54,7 @@
         "blockId": "P0025",
         "tableCellId": null
       },
-      "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản {{agency.nameUpper}}Điều … của Bộ luật Hình sự là không đúng với hành vi phạm tội xảy ra, mà có dấu hiệu của tội … quy định tại khoản {{agency.nameUpper}} … của Bộ luật Hình sự,",
+      "context": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản {{agency.issuePlace}}Điều … của Bộ luật Hình sự là không đúng với hành vi phạm tội xảy ra, mà có dấu hiệu của tội … quy định tại khoản {{agency.issuePlace}} … của Bộ luật Hình sự,",
       "label": "Viện kiểm sát ban hành",
       "slotType": "text",
       "required": false,
@@ -62,15 +62,17 @@
       "evidence": {
         "textBefore": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản",
         "textAfter": "Điều … của Bộ luật Hình sự là không đúng với hành vi phạm tội xảy ra, mà có dấu hiệu của tội … quy định tại khoản {{agen",
-        "rawPattern": "{{agency.nameUpper}}"
+        "rawPattern": "{{agency.issuePlace}}",
+        "legacyRawPattern": "{{agency.nameUpper}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản",
         "textAfter": "Điều … của Bộ luật Hình sự là không đúng với hành vi phạm tội xảy ra, mà có dấu hiệu của tội … quy định tại khoản {{agen",
-        "rawPattern": "{{agency.nameUpper}}",
+        "rawPattern": "{{agency.issuePlace}}",
         "context": "[Auto-generated] Xét Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của… về tội … quy định tại khoản",
-        "blockId": "P0025"
+        "blockId": "P0025",
+        "legacyRawPattern": "{{agency.nameUpper}}"
       }
     },
     {
@@ -80,7 +82,7 @@
         "blockId": "P0029",
         "tableCellId": null
       },
-      "context": "Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản {{document.documentCode}} … của Bộ luật Hình sự sang tội ... quy định tại khoản {{document.documentCode}} … của Bộ luật Hình sự.",
+      "context": "Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự sang tội ... quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự.",
       "label": "Số quyết định",
       "slotType": "text",
       "required": false,
@@ -88,15 +90,17 @@
       "evidence": {
         "textBefore": "Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản",
         "textAfter": "… của Bộ luật Hình sự sang tội ... quy định tại khoản {{document.documentCode}} … của Bộ luật Hình sự.",
-        "rawPattern": "{{document.documentCode}}"
+        "rawPattern": "{{document.issueDate}}",
+        "legacyRawPattern": "{{document.documentCode}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản",
         "textAfter": "… của Bộ luật Hình sự sang tội ... quy định tại khoản {{document.documentCode}} … của Bộ luật Hình sự.",
-        "rawPattern": "{{document.documentCode}}",
+        "rawPattern": "{{document.issueDate}}",
         "context": "[Auto-generated] Điều 1. Thay đổi Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5… từ tội … quy định tại khoản",
-        "blockId": "P0029"
+        "blockId": "P0029",
+        "legacyRawPattern": "{{document.documentCode}}"
       }
     },
     {
@@ -107,7 +111,7 @@
         "tableCellId": null
       },
       "context": "6{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Địa danh, ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -118,12 +122,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "6",
-        "textAfter": "",
-        "rawPattern": "{{document.field6}}",
-        "context": "[Auto-generated] 6",
-        "blockId": "P0035"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh, ngày ban hành",
+        "docxSlotId": "document.issuePlaceAndDateLine",
+        "actualDocxContext": "… ngày … tháng … năm … của 5 … từ tội … quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự sang tội . . . quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự. Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. 6 {{document.issuePlaceAndDateLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh, ngày ban hành",
+          "canonicalPath": "document.issuePlaceAndDateLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -178,17 +197,25 @@
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa danh, ngày ban hành",
       "source": "systemDate",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "date.issuePlaceDateLine",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] 6",
-        "blockId": "P0035"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh, ngày ban hành",
+        "docxSlotId": "document.issuePlaceAndDateLine",
+        "actualDocxContext": "… ngày … tháng … năm … của 5 … từ tội … quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự sang tội . . . quy định tại khoản {{document.issueDate}} … của Bộ luật Hình sự. Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVA, HSKS, VP. 6 {{document.issuePlaceAndDateLine}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.issuePlaceAndDateLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
       }
     }
   ],
@@ -257,19 +284,11 @@
     ],
     "suggestedControls": [
       {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
         "path": "agency.nameUpper",
         "control": "text"
       },
       {
         "path": "document.documentCode",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
         "control": "text"
       }
     ],

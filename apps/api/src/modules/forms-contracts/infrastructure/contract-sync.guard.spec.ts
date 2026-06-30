@@ -1,7 +1,11 @@
 /**
  * C1 — Contract Sync Guard Tests
  */
-import { ContractSyncGuard } from './contract-sync.guard';
+import { join, resolve } from 'node:path';
+import {
+  ContractSyncGuard,
+  resolveContractSyncPaths,
+} from './contract-sync.guard';
 
 describe('ContractSyncGuard', () => {
   let guard: ContractSyncGuard;
@@ -42,9 +46,28 @@ describe('ContractSyncGuard', () => {
   });
 
   describe('path resolution', () => {
-    it('should correctly resolve paths to locked contracts', () => {
-      // This is tested implicitly by verify() not throwing path errors
-      expect(true).toBe(true);
+    it('resolves repository contract paths from a compiled dist cwd', () => {
+      const repoRoot = resolve(__dirname, '..', '..', '..', '..', '..', '..');
+      const distCwd = join(
+        repoRoot,
+        'apps',
+        'api',
+        'dist',
+        'src',
+        'modules',
+        'forms-contracts',
+        'infrastructure',
+      );
+
+      const paths = resolveContractSyncPaths({ cwd: distCwd });
+
+      expect(paths.root).toBe(repoRoot);
+      expect(paths.lockedDir).toBe(
+        join(repoRoot, 'docs', 'audit', 'docx', 'contracts', 'locked'),
+      );
+      expect(paths.compiledV2Dir).toBe(
+        join(repoRoot, 'docs', 'audit', 'docx', 'compiled-v2'),
+      );
     });
   });
 });

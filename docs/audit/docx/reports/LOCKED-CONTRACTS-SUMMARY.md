@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-26T13:24:06.690Z
+Generated: 2026-06-30T09:40:33.265Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,96 +8,36 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
-- **Remediation: 20** (requires DOCX edit, non-blocking)
-- **Warning: 85** (metadata completeness, non-blocking)
-
-## Remediation Required (DOCX editing needed)
-
-_These are non-blocking. The DOCX template needs editing to add/rename mustache_
-_placeholders before these slots can be fully verified._
-
-- ⚠️ [BM-001] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - crimeReport.attachedItemsDescription, crimeReport.content, reception.endedAtDay, reception.endedAtMonth, reception.endedAtTimeText, reception.endedAtYear, reception.locationName, reception.startedAtDay, reception.startedAtMonth, reception.startedAtTimeText, reception.startedAtYear
-- ⚠️ [BM-002] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - sourceTransfer.attachedItemsDescription
-- ⚠️ [BM-003] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - official.issuerTitle, sourceAssignment.article1Line, sourceAssignment.article2Line, sourceAssignment.article3Line
-- ⚠️ [BM-021] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.nameUpper
-- ⚠️ [BM-021] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-021] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-022] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.nameUpper
-- ⚠️ [BM-022] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-022] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-025] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.nameUpper
-- ⚠️ [BM-025] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-025] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-032] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - agency.nameUpper
-- ⚠️ [BM-032] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-032] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.issueDate
-- ⚠️ [BM-052] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-052] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode, document.fullDocumentCode2
-- ⚠️ [BM-067] CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode2
-- ⚠️ [BM-067] BINDING_WITHOUT_TEMPLATE_PLACEHOLDER
-  - document.fullDocumentCode2
-- ⚠️ [BM-167] TEMPLATE_PLACEHOLDER_WITHOUT_SLOT
-  - document.fullDocumentCode2
+- **Remediation: 0** (requires DOCX edit, non-blocking)
+- **Warning: 47** (metadata completeness, non-blocking)
 
 ## Notes (Audit Policy Suppressions)
 
 _Items previously flagged as remediation but now accepted per active audit policies (Phase F)._
 _No DOCX changes required._
 
-- ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
-  - document.issueDate
-- ℹ️ [BM-036] ACCEPTED_METADATA_ONLY_FIELD
-  - document.issueDate
-- ℹ️ [BM-063] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
-- ℹ️ [BM-063] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
-- ℹ️ [BM-065] ACCEPTED_METADATA_ONLY_FIELD
-  - decision.decisionLine
-- ℹ️ [BM-065] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
-- ℹ️ [BM-065] ACCEPTED_METADATA_ONLY_FIELD
-  - decision.decisionLine
-- ℹ️ [BM-065] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
-- ℹ️ [BM-067] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
-- ℹ️ [BM-067] FIELD_SATISFIED_BY_ALIAS
-  - document.fullDocumentCode
 
 ## Warnings (metadata completeness)
 
 _These are non-blocking. They indicate metadata that needs human review_
 _but does not prevent runtime rendering._
 
+- ℹ️ [BM-001] HUMAN_REVIEW_NOT_APPROVED
+- ℹ️ [BM-002] HUMAN_REVIEW_NOT_APPROVED
+- ℹ️ [BM-021] HUMAN_REVIEW_NOT_APPROVED
 - ℹ️ [BM-021] Non-taxonomy source "computed": agency.parentNameUpper
-- ℹ️ [BM-021] Non-taxonomy source "computed": document.issueDate
 - ℹ️ [BM-021] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-021] Non-taxonomy source "computed": decision.summaryLine
+- ℹ️ [BM-022] Non-taxonomy source "computed": agency.nameUpper
 - ℹ️ [BM-022] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-024] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-024] Non-taxonomy source "computed": agency.issuePlace
+- ℹ️ [BM-025] Non-taxonomy source "computed": agency.nameUpper
 - ℹ️ [BM-025] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-025] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-026] Non-taxonomy source "computed": agency.parentNameUpper
+- ℹ️ [BM-026] Non-taxonomy source "computed": agency.nameUpper
+- ℹ️ [BM-032] Non-taxonomy source "computed": agency.nameUpper
 - ℹ️ [BM-032] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-032] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-033] Non-taxonomy source "computed": agency.parentNameUpper
@@ -105,7 +45,6 @@ _but does not prevent runtime rendering._
 - ℹ️ [BM-034] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-035] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-036] Non-taxonomy source "computed": agency.parentNameUpper
-- ℹ️ [BM-036] Non-taxonomy source "computed": document.issueDate
 - ℹ️ [BM-036] Non-taxonomy source "computed": decision.summaryLine
 - ℹ️ [BM-038] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-039] Non-taxonomy source "computed": agency.parentNameUpper
@@ -113,91 +52,20 @@ _but does not prevent runtime rendering._
 - ℹ️ [BM-041] Non-taxonomy source "computed": agency.issuePlace
 - ℹ️ [BM-044] Non-taxonomy source "computed": agency.parentNameUpper
 - ℹ️ [BM-045] Non-taxonomy source "computed": agency.parentNameUpper
-- ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, decision.decisionLine3
-- ℹ️ [BM-051] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine3, document.fullDocumentCode
-- ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2, decision.decisionLine2, recipients.personLine6
-- ℹ️ [BM-052] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine2, document.fullDocumentCode, document.fullDocumentCode2, recipients.personLine6
 - ℹ️ [BM-058] Non-taxonomy source "computed": document.issuePlaceAndDateLine
 - ℹ️ [BM-058] Non-taxonomy source "computed": person.dateOfBirthText
 - ℹ️ [BM-058] Non-taxonomy source "computed": measure.detentionFromDateText
 - ℹ️ [BM-058] Non-taxonomy source "computed": measure.detentionToDateText
-- ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, decision.decisionLine10
-- ℹ️ [BM-060] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine10, document.fullDocumentCode
-- ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, recipients.personLine3
-- ℹ️ [BM-061] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, recipients.personLine3
-- ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, decision.decisionLine, document.fullDocumentCode, decision.decisionLine11, recipients.personLine5
-- ℹ️ [BM-062] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, decision.decisionLine11, document.fullDocumentCode, recipients.personLine5
 - ℹ️ [BM-062] Non-taxonomy source "computed": decision.decisionLine
-- ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
-  - document.issuePlaceAndDateLine, document.issuePlaceAndDateLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine5
-- ℹ️ [BM-063] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode8, document.issuePlaceAndDateLine, recipients.personLine5
 - ℹ️ [BM-063] Non-taxonomy source "computed": document.issuePlaceAndDateLine
-- ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate4
-- ℹ️ [BM-064] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate4
-- ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
-- ℹ️ [BM-065] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode8, recipients.personLine3
-- ℹ️ [BM-065] Non-taxonomy source "computed": decision.decisionLine
-- ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
-- ℹ️ [BM-066] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, document.fullDocumentCode4, recipients.personLine4
+- ℹ️ [BM-064] HUMAN_REVIEW_NOT_APPROVED
+- ℹ️ [BM-065] HUMAN_REVIEW_NOT_APPROVED
 - ℹ️ [BM-066] Non-taxonomy source "computed": decision.decisionLine
-- ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
-- ℹ️ [BM-067] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode2, document.fullDocumentCode6, recipients.personLine3
-- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.permanentAddress, person.permanentAddress2, person.occupation, person.idNumber, person.permanentAddress3, person.occupation2, person.idNumber2, person.temporaryAddress, person.province
-- ℹ️ [BM-068] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, person.idNumber2, person.occupation, person.occupation2, person.permanentAddress, person.permanentAddress2, person.permanentAddress3, person.province, person.temporaryAddress
-- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.reasonLine, document.reasonLine2, person.personFullName, person.currentAddress, person.currentAddress2, decision.decisionLine, person.occupation, document.summaryLine
-- ℹ️ [BM-069] REVIEW_REQUIRED_REMAINS
-  - decision.decisionLine, document.fullDocumentCode, document.issueDate, document.reasonLine, document.reasonLine2, document.summaryLine, person.currentAddress, person.currentAddress2, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
-- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
-- ℹ️ [BM-073] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.idNumber
-- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress, document.fullDocumentCode, person.personFullName, person.dateOfBirth, person.currentAddress
-- ℹ️ [BM-075] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, person.currentAddress, person.dateOfBirth, person.personFullName
-- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
-- ℹ️ [BM-077] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
-- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine, document.fullDocumentCode, document.issueDate, person.personFullName, person.dateOfBirth, person.currentAddress, legalBasis.legalBasisLine
-- ℹ️ [BM-080] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, legalBasis.legalBasisLine, person.currentAddress, person.dateOfBirth, person.personFullName
-- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.fullDocumentCode
-- ℹ️ [BM-082] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode
+- ℹ️ [BM-067] HUMAN_REVIEW_NOT_APPROVED
+- ℹ️ [BM-073] HUMAN_REVIEW_NOT_APPROVED
+- ℹ️ [BM-080] HUMAN_REVIEW_NOT_APPROVED
 - ℹ️ [BM-126] Non-taxonomy source "computed": decision.summaryLine
-- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.idNumber
-- ℹ️ [BM-162] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName
-- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
-  - document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber, document.fullDocumentCode, document.issueDate, person.dateOfBirth, person.personFullName, person.currentAddress, person.occupation, person.ward, person.province, person.idNumber, case.caseNumber
-- ℹ️ [BM-163] REVIEW_REQUIRED_REMAINS
-  - case.caseNumber, document.fullDocumentCode, document.issueDate, person.currentAddress, person.dateOfBirth, person.idNumber, person.occupation, person.personFullName, person.province, person.ward
+- ℹ️ [BM-167] HUMAN_REVIEW_NOT_APPROVED
 - ℹ️ [BM-213] Non-taxonomy source "computed": document.issuePlaceAndDateLine
 - ℹ️ [BM-213] Non-taxonomy source "computed": person.dateOfBirthText
 - ℹ️ [BM-213] Non-taxonomy source "computed": person.identityIssueLine
@@ -206,9 +74,9 @@ _but does not prevent runtime rendering._
 
 | BM | Quality | Slots | Fields | Bindings | UnknownSrc | reviewReq | Generic | Unresolved |
 |---|---|---|---|---|---|---|---|---|---|
-| BM-001 | CONTRACT_REPAIR_REQUIRED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
-| BM-002 | CONTRACT_REPAIR_REQUIRED | 29 | 29 | 29 | 0 | 0 | 0 | 0 |
-| BM-003 | CONTRACT_REPAIR_REQUIRED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-001 | AUTOMATED_REVIEW_PENDING | 39 | 39 | 39 | 0 | 0 | 0 | 0 |
+| BM-002 | AUTOMATED_REVIEW_PENDING | 30 | 30 | 30 | 0 | 0 | 0 | 0 |
+| BM-003 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-004 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-005 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
 | BM-006 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
@@ -226,22 +94,22 @@ _but does not prevent runtime rendering._
 | BM-018 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-019 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-020 | VERIFIED | 13 | 13 | 13 | 0 | 0 | 0 | 0 |
-| BM-021 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
-| BM-022 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-021 | AUTOMATED_REVIEW_PENDING | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
+| BM-022 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-023 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-024 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
-| BM-025 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-025 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-026 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-027 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-028 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-029 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-030 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-031 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
-| BM-032 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-032 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-033 | VERIFIED | 21 | 21 | 21 | 0 | 0 | 0 | 0 |
 | BM-034 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-035 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-036 | CONTRACT_REPAIR_REQUIRED | 10 | 10 | 10 | 0 | 0 | 0 | 0 |
+| BM-036 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
 | BM-037 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-038 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
 | BM-039 | VERIFIED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
@@ -256,8 +124,8 @@ _but does not prevent runtime rendering._
 | BM-048 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
 | BM-049 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-050 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-051 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 4 | 0 | 0 |
-| BM-052 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 8 | 0 | 0 |
+| BM-051 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-052 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
 | BM-053 | VERIFIED | 34 | 34 | 34 | 0 | 0 | 0 | 0 |
 | BM-054 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-055 | VERIFIED | 33 | 33 | 33 | 0 | 0 | 0 | 0 |
@@ -265,29 +133,29 @@ _but does not prevent runtime rendering._
 | BM-057 | VERIFIED | 28 | 28 | 28 | 0 | 0 | 0 | 0 |
 | BM-058 | VERIFIED | 36 | 36 | 36 | 0 | 0 | 0 | 0 |
 | BM-059 | VERIFIED | 40 | 40 | 40 | 0 | 0 | 0 | 0 |
-| BM-060 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 4 | 0 | 0 |
-| BM-061 | CONTRACT_REPAIR_REQUIRED | 4 | 4 | 4 | 0 | 4 | 0 | 0 |
-| BM-062 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 9 | 0 | 0 |
-| BM-063 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 9 | 0 | 0 |
-| BM-064 | CONTRACT_REPAIR_REQUIRED | 3 | 3 | 3 | 0 | 4 | 0 | 0 |
-| BM-065 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 9 | 0 | 0 |
-| BM-066 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 9 | 0 | 0 |
-| BM-067 | CONTRACT_REPAIR_REQUIRED | 6 | 6 | 6 | 0 | 8 | 0 | 0 |
-| BM-068 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
-| BM-069 | CONTRACT_REPAIR_REQUIRED | 14 | 14 | 14 | 0 | 36 | 0 | 0 |
+| BM-060 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-061 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-062 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
+| BM-063 | VERIFIED | 16 | 16 | 16 | 0 | 0 | 0 | 0 |
+| BM-064 | AUTOMATED_REVIEW_PENDING | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
+| BM-065 | AUTOMATED_REVIEW_PENDING | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-066 | VERIFIED | 12 | 12 | 12 | 0 | 0 | 0 | 0 |
+| BM-067 | AUTOMATED_REVIEW_PENDING | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
+| BM-068 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
+| BM-069 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-070 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |
 | BM-071 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
 | BM-072 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-073 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
+| BM-073 | AUTOMATED_REVIEW_PENDING | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-074 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
-| BM-075 | CONTRACT_REPAIR_REQUIRED | 5 | 5 | 5 | 0 | 12 | 0 | 0 |
+| BM-075 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
 | BM-076 | VERIFIED | 5 | 5 | 5 | 0 | 0 | 0 | 0 |
-| BM-077 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
+| BM-077 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-078 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-079 | VERIFIED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-| BM-080 | CONTRACT_REPAIR_REQUIRED | 7 | 7 | 7 | 0 | 18 | 0 | 0 |
+| BM-080 | AUTOMATED_REVIEW_PENDING | 7 | 7 | 7 | 0 | 0 | 0 | 0 |
 | BM-081 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
-| BM-082 | CONTRACT_REPAIR_REQUIRED | 2 | 2 | 2 | 0 | 3 | 0 | 0 |
+| BM-082 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-083 | VERIFIED | 4 | 4 | 4 | 0 | 0 | 0 | 0 |
 | BM-084 | VERIFIED | 3 | 3 | 3 | 0 | 0 | 0 | 0 |
 | BM-085 | VERIFIED | 19 | 19 | 19 | 0 | 0 | 0 | 0 |
@@ -367,12 +235,12 @@ _but does not prevent runtime rendering._
 | BM-159 | VERIFIED | 15 | 15 | 15 | 0 | 0 | 0 | 0 |
 | BM-160 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-161 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
-| BM-162 | CONTRACT_REPAIR_REQUIRED | 8 | 8 | 8 | 0 | 21 | 0 | 0 |
-| BM-163 | CONTRACT_REPAIR_REQUIRED | 11 | 11 | 11 | 0 | 30 | 0 | 0 |
+| BM-162 | VERIFIED | 8 | 8 | 8 | 0 | 0 | 0 | 0 |
+| BM-163 | VERIFIED | 11 | 11 | 11 | 0 | 0 | 0 | 0 |
 | BM-164 | VERIFIED | 9 | 9 | 9 | 0 | 0 | 0 | 0 |
 | BM-165 | VERIFIED | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-166 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
-| BM-167 | CONTRACT_REPAIR_REQUIRED | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| BM-167 | AUTOMATED_REVIEW_PENDING | 2 | 2 | 2 | 0 | 0 | 0 | 0 |
 | BM-168 | VERIFIED | 14 | 14 | 14 | 0 | 0 | 0 | 0 |
 | BM-169 | VERIFIED | 20 | 20 | 20 | 0 | 0 | 0 | 0 |
 | BM-170 | VERIFIED | 17 | 17 | 17 | 0 | 0 | 0 | 0 |

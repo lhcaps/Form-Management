@@ -46,6 +46,115 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.fullDocumentCode}}",
+      "label": "Số văn bản",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode}}"
+      },
+      "reviewRequired": false,
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.issueDate}}",
+      "label": "Ngày ban hành",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      },
+      "reviewRequired": false,
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{person.dateOfBirth}}",
+      "label": "Ngày sinh",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.dateOfBirth}}"
+      },
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.idNumber",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{person.idNumber}}",
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "slotType": "text",
+      "required": true,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{person.idNumber}}"
+      },
+      "reviewRequired": false,
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     }
   ],
   "canonicalFields": [
@@ -64,12 +173,117 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "systemDate",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
+    },
+    {
+      "path": "person.dateOfBirth",
+      "type": "string",
+      "label": "Ngày sinh",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "section": "Thông tin cá nhân",
+      "reviewRequired": false,
+      "transform": "identity"
+    },
+    {
+      "path": "person.idNumber",
+      "type": "string",
+      "label": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin cá nhân",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.399Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.399Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode",
+      "from": "document.fullDocumentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.dateOfBirth",
+      "from": "person.dateOfBirth",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "person.idNumber",
+      "from": "person.idNumber",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -103,40 +317,6 @@
     "titleRules": [],
     "reviewRequired": false
   },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
-        "control": "text"
-      },
-      {
-        "path": "agency.field4",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
-    "reviewRequired": false
-  },
   "reportingHints": {
     "dimensions": [
       "time",
@@ -146,7 +326,37 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:36.964Z",
-  "reviewedBy": "Le Huy (wave-02 dedup)",
-  "reviewedAt": "2026-06-22T16:26:14.932Z",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:42:22.044Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:42:22.044Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "BM-073 contract only had agency.name; DOCX requires document/person fields.",
+    "changes": {
+      "addedFields": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
+      ],
+      "addedSlots": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
+      ],
+      "addedBindings": [
+        "document.fullDocumentCode",
+        "document.issueDate",
+        "person.dateOfBirth",
+        "person.idNumber"
+      ],
+      "updatedBindings": [],
+      "removedFields": [],
+      "removedSlots": [],
+      "removedBindings": [],
+      "removedRejectedCandidates": []
+    }
+  }
 }

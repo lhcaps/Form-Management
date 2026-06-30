@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "mode": "APPROVED_FOR_APPLY_WITH_PREFLIGHT_GATES",
+  "task": "BM052_DOCX_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY_CORRECTED_NAMES",
+  "templateCode": "BM-052",
+  "approvalScope": "BM-052 only",
+  "approvedBy": "ChatGPT planner",
+  "approvedAt": "2026-06-28T00:00:00.000Z",
+  "sourceEvidence": {
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-052/evidence.latest.json",
+    "deepOoxml": "docs/audit/docx-placeholder-renormalization/BM-052/ooxml-deep-extraction.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-052/planner-handoff.latest.json"
+  },
+  "deferredOccurrences": [
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 0,
+      "reason": "DEFER_AMBIGUOUS_PERSON_NAME"
+    },
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 1,
+      "reason": "DEFER_AMBIGUOUS_PERSON_NAME"
+    },
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 2,
+      "reason": "DEFER_AMBIGUOUS_PERSON_NAME"
+    },
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 5,
+      "reason": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW"
+    }
+  ],
+  "decisions": [
+    {
+      "templateCode": "BM-052",
+      "originalPlaceholder": "decision.decisionLine2",
+      "occurrenceIndex": 0,
+      "finalNewPlaceholder": "person.fullName",
+      "semanticFieldPath": "person.fullName",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml",
+        "paragraphIndex": 11,
+        "charPosition": 84,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "textBeforeToken": "Căn cứ Quyết định về việc đặt tiền để bảo đảm số … ngày … tháng … năm … của… đối với",
+        "textAfterToken": ""
+      },
+      "confidence": "HIGH",
+      "collisionOrReuseCheck": {
+        "allowReuse": true,
+        "finalNewPlaceholderCanRepeat": true,
+        "reason": "Both decision.decisionLine2 occurrences resolve to the same semantic source person.fullName."
+      },
+      "preservationAssertions": {
+        "noGlobalReplacement": true,
+        "noCrossBmEvidence": true,
+        "noReviewRequiredClearing": true,
+        "noCompiledV2ManualEdit": true
+      }
+    },
+    {
+      "templateCode": "BM-052",
+      "originalPlaceholder": "decision.decisionLine2",
+      "occurrenceIndex": 1,
+      "finalNewPlaceholder": "person.fullName",
+      "semanticFieldPath": "person.fullName",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml",
+        "paragraphIndex": 12,
+        "charPosition": 8,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "textBeforeToken": "Xét thấy",
+        "textAfterToken": ""
+      },
+      "confidence": "HIGH",
+      "collisionOrReuseCheck": {
+        "allowReuse": true,
+        "finalNewPlaceholderCanRepeat": true,
+        "reason": "Both decision.decisionLine2 occurrences resolve to the same semantic source person.fullName."
+      },
+      "preservationAssertions": {
+        "noGlobalReplacement": true,
+        "noCrossBmEvidence": true,
+        "noReviewRequiredClearing": true,
+        "noCompiledV2ManualEdit": true
+      }
+    },
+    {
+      "templateCode": "BM-052",
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 3,
+      "finalNewPlaceholder": "person.idNumber",
+      "semanticFieldPath": "person.idNumber",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml",
+        "paragraphIndex": 21,
+        "charPosition": 0,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "semanticContext": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu"
+      },
+      "confidence": "HIGH",
+      "collisionOrReuseCheck": {
+        "allowReuse": true,
+        "finalNewPlaceholderCanRepeat": false,
+        "reason": "The target semantic path is a standard person identity-number field, not an occurrence-suffix field."
+      },
+      "preservationAssertions": {
+        "noGlobalReplacement": true,
+        "noCrossBmEvidence": true,
+        "noReviewRequiredClearing": true,
+        "noCompiledV2ManualEdit": true
+      }
+    },
+    {
+      "templateCode": "BM-052",
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 4,
+      "finalNewPlaceholder": "person.temporaryAddress",
+      "semanticFieldPath": "person.temporaryAddress",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml",
+        "paragraphIndex": 24,
+        "charPosition": 0,
+        "inTable": false,
+        "tableIndex": null,
+        "rowIndex": null,
+        "cellIndex": null,
+        "semanticContext": "Nơi tạm trú"
+      },
+      "confidence": "HIGH",
+      "collisionOrReuseCheck": {
+        "allowReuse": true,
+        "finalNewPlaceholderCanRepeat": false,
+        "reason": "The target semantic path is a standard temporary-address field, not an occurrence-suffix field."
+      },
+      "preservationAssertions": {
+        "noGlobalReplacement": true,
+        "noCrossBmEvidence": true,
+        "noReviewRequiredClearing": true,
+        "noCompiledV2ManualEdit": true
+      }
+    }
+  ]
+}

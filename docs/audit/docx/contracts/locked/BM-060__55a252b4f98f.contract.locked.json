@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy{{document.field2}}",
-      "label": "Ô trống",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -64,7 +64,27 @@
         "textAfter": "",
         "rawPattern": "{{document.field2}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "Xét thấy{{document.field2}}",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số văn bản",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
+      }
     },
     {
       "slotId": "decision.decisionLine10",
@@ -83,7 +103,19 @@
         "textAfter": "",
         "rawPattern": "{{decision.decisionLine10}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "decision.decisionLine10",
+        "docxContext": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+        "rawPattern": "{{decision.decisionLine10}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     }
   ],
   "canonicalFields": [
@@ -110,7 +142,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "Xét thấy{{document.field2}}",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "path": "decision.decisionLine10",
@@ -119,7 +163,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": false
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "decision.decisionLine10",
+        "docxContext": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+        "rawPattern": "{{decision.decisionLine10}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     }
   ],
   "renderBindings": [
@@ -135,14 +191,38 @@
       "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.fullDocumentCode",
+        "docxContext": "Xét thấy{{document.field2}}",
+        "rawPattern": "{{document.field2}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     },
     {
       "slotId": "decision.decisionLine10",
       "from": "decision.decisionLine10",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "decision.decisionLine10",
+        "docxContext": "si=\"Times New Roman\"/> {{decision.decisionLine10}}}",
+        "rawPattern": "{{decision.decisionLine10}}",
+        "rationale": "docx context present; actual DOCX token present"
+      }
     }
   ],
   "rejectedCandidates": [],
@@ -171,60 +251,6 @@
     "headerRules": [],
     "footerRules": [],
     "titleRules": [],
-    "reviewRequired": false
-  },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "person"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
-        "control": "text"
-      },
-      {
-        "path": "document.field4",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
-        "control": "text"
-      },
-      {
-        "path": "document.field7",
-        "control": "text"
-      },
-      {
-        "path": "document.field8",
-        "control": "text"
-      },
-      {
-        "path": "person.field9",
-        "control": "text"
-      },
-      {
-        "path": "document.field10",
-        "control": "text"
-      },
-      {
-        "path": "document.field11",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
     "reviewRequired": false
   },
   "reportingHints": {

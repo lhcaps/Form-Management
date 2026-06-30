@@ -1,0 +1,245 @@
+{
+  "task": "ACTIVE_REMEDIATION_BLOCKER_PACK_V1",
+  "generatedAt": "2026-06-30T09:44:34.463Z",
+  "head": "102062e9",
+  "gitStatusShort": "",
+  "gitStatusShortExcludingReportOutputs": "",
+  "gitStatusClean": true,
+  "gitStatusCleanExcludingReportOutputs": true,
+  "canStart213SemanticRemediation": true,
+  "database": {
+    "available": true,
+    "source": ".env",
+    "reason": null
+  },
+  "runtimeSyncCandidates": [
+    {
+      "templateCode": "BM-052",
+      "repoCompiledHash": "40faf6dfec443189a6f23ce00567609c7c6212b85fa489234f2fff0aef6d3102",
+      "repoSourceId": null,
+      "latestDbVersion": {
+        "versionNo": 16,
+        "contractHash": "40faf6dfec443189a6f23ce00567609c7c6212b85fa489234f2fff0aef6d3102",
+        "publishedAt": "2026-06-30T08:21:46.000Z",
+        "matchesRepo": true
+      },
+      "matchingDbVersion": {
+        "versionNo": 16,
+        "publishedAt": "2026-06-30T08:21:46.000Z"
+      },
+      "decisionRequired": [
+        "Approve publishing the repo rollback/runtime version to DB",
+        "or approve/reapply the newer DB latest contract state into repo"
+      ],
+      "forbiddenWithoutApproval": [
+        "DB publish",
+        "contract mutation",
+        "treating C2 drift as safe"
+      ]
+    },
+    {
+      "templateCode": "BM-062",
+      "repoCompiledHash": "feb3e3091e350a4e626491b4f495cfc026830e1b1897ad552e8f24bada245174",
+      "repoSourceId": null,
+      "latestDbVersion": {
+        "versionNo": 17,
+        "contractHash": "feb3e3091e350a4e626491b4f495cfc026830e1b1897ad552e8f24bada245174",
+        "publishedAt": "2026-06-30T08:21:46.000Z",
+        "matchesRepo": true
+      },
+      "matchingDbVersion": {
+        "versionNo": 17,
+        "publishedAt": "2026-06-30T08:21:46.000Z"
+      },
+      "decisionRequired": [
+        "Approve publishing the repo rollback/runtime version to DB",
+        "or approve/reapply the newer DB latest contract state into repo"
+      ],
+      "forbiddenWithoutApproval": [
+        "DB publish",
+        "contract mutation",
+        "treating C2 drift as safe"
+      ]
+    }
+  ],
+  "runtimeSyncBlockers": [],
+  "renderBlockerCandidates": [
+    {
+      "templateCode": "BM-052",
+      "status": "PASS",
+      "clean": true,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "PASS",
+      "literalFidelityStatus": "PASS",
+      "undefinedOrNullLiterals": 0,
+      "placeholdersWithoutSlots": [],
+      "placeholdersWithoutBindings": [],
+      "sourcePlaceholderCounts": {
+        "agency.name": 1,
+        "person.fullName": 2,
+        "recipients.personLine": 1,
+        "person.otherName": 1,
+        "person.birthInfoLine": 1,
+        "person.nationalityEthnicityReligionLine": 1,
+        "person.idNumber": 1,
+        "person.temporaryAddress": 1,
+        "signature.signerName": 1
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-052/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for remaining recipients.personLine6 placeholders"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    },
+    {
+      "templateCode": "BM-062",
+      "status": "PASS",
+      "clean": true,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "PASS",
+      "literalFidelityStatus": "PASS",
+      "undefinedOrNullLiterals": 0,
+      "placeholdersWithoutSlots": [],
+      "placeholdersWithoutBindings": [],
+      "sourcePlaceholderCounts": {
+        "agency.name": 2,
+        "document.fullDocumentCode": 1,
+        "decision.decisionLine": 1,
+        "measure.reasonLine": 1,
+        "measure.assetListLine": 1,
+        "recipients.personLine": 1,
+        "person.otherName": 1,
+        "person.birthInfoLine": 1,
+        "person.nationality": 1,
+        "person.ethnicityReligionLine": 1,
+        "person.occupation": 1,
+        "person.identityNo": 1,
+        "person.identityIssueDateLine": 1,
+        "person.identityIssuePlace": 1,
+        "person.permanentAddress": 1,
+        "person.temporaryAddress": 1,
+        "person.currentAddress": 1,
+        "measure.executionAgencyLine": 1,
+        "measure.coordinationAgencyLine": 1,
+        "signature.signerName": 1
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-062/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for remaining recipients.personLine5 placeholders"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    },
+    {
+      "templateCode": "BM-063",
+      "status": "PASS",
+      "clean": true,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "PASS",
+      "literalFidelityStatus": "PASS",
+      "undefinedOrNullLiterals": 0,
+      "placeholdersWithoutSlots": [],
+      "placeholdersWithoutBindings": [],
+      "sourcePlaceholderCounts": {
+        "agency.name": 1,
+        "document.recordStartedAtTimeText": 1,
+        "document.issuePlaceAndDateLine": 1,
+        "document.recordLocationName": 1,
+        "prosecutor.procuracyName": 1,
+        "assignment.participantLine1": 1,
+        "assignment.participantLine2": 1,
+        "assignment.participantLine3": 1,
+        "assignment.participantLine4": 1,
+        "recipients.personLine": 1,
+        "person.birthInfoLine": 1,
+        "person.nationalityEthnicityReligionLine": 1,
+        "person.identityIssueLine": 1,
+        "measure.assetListLine": 1,
+        "measure.participantOpinionLine": 1,
+        "document.recordEndedAtTimeLine": 1
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-063/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for document.fullDocumentCode8",
+        "Decide occurrence semantics for recipients.personLine5"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    },
+    {
+      "templateCode": "BM-066",
+      "status": "PASS",
+      "clean": true,
+      "renderStatus": "PASS",
+      "textFidelityStatus": "PASS",
+      "structureFidelityStatus": "PASS",
+      "packageIntegrityStatus": "PASS",
+      "bindingFidelityStatus": "PASS",
+      "literalFidelityStatus": "PASS",
+      "undefinedOrNullLiterals": 0,
+      "placeholdersWithoutSlots": [],
+      "placeholdersWithoutBindings": [],
+      "sourcePlaceholderCounts": {
+        "agency.name": 2,
+        "document.issuePlaceAndDateLine": 1,
+        "document.fullDocumentCode": 1,
+        "decision.decisionLine": 1,
+        "measure.reasonLine": 1,
+        "recipients.personLine": 1,
+        "person.birthInfoLine": 1,
+        "person.nationalityEthnicityReligionLine": 1,
+        "person.identityIssueLine": 1,
+        "measure.executionRequestLine": 1,
+        "assignment.assignedOfficerLine": 1,
+        "signature.signerName": 1
+      },
+      "reportPath": "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+      "humanReviewBlockerPath": "docs/audit/docx-placeholder-renormalization/BM-066/human-review-blocker.latest.md",
+      "requiredDecision": [
+        "Decide occurrence semantics for recipients.personLine4",
+        "Decide occurrence semantics for document.fullDocumentCode4"
+      ],
+      "forbiddenWithoutApproval": [
+        "auto slot or binding repair",
+        "source DOCX mutation",
+        "locked contract mutation"
+      ]
+    }
+  ],
+  "renderBlockers": [],
+  "evidenceInputs": [
+    "docs/audit/repo-clean-to-zero-v1/active-decision-gate.latest.json",
+    "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+    "docs/audit/per-form-render-accurate/BM-062/render-diff.latest.json",
+    "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+    "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+    "docs/audit/docx-placeholder-renormalization/BM-052/planner-handoff.latest.md",
+    "docs/audit/docx-placeholder-renormalization/BM-062/planner-handoff.latest.md",
+    "docs/audit/docx-placeholder-renormalization/BM-063/human-review-blocker.latest.md",
+    "docs/audit/docx-placeholder-renormalization/BM-066/human-review-blocker.latest.md",
+    "docs/audit/repo-clean-to-zero-v1/pending-review/BM-052.pending-review.patch",
+    "docs/audit/repo-clean-to-zero-v1/pending-review/BM-062.pending-review.patch"
+  ]
+}

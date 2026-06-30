@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát… đối với10{{agency.field3}}",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -66,12 +66,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát… đối với10",
-        "textAfter": "",
-        "rawPattern": "{{agency.field3}}",
-        "context": "[Auto-generated] Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát… đối với10",
-        "blockId": "P0027"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} -",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "agency.diaDanh",
@@ -81,7 +96,7 @@
         "tableCellId": null
       },
       "context": "Nhận thấy{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -92,12 +107,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Nhận thấy",
-        "textAfter": "",
-        "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] Nhận thấy",
-        "blockId": "P0028"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "g … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{docume",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Địa danh",
+          "canonicalPath": "agency.diaDanh",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "document.ngayBan",
@@ -107,7 +137,7 @@
         "tableCellId": null
       },
       "context": "- 1{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -118,12 +148,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "- 1",
-        "textAfter": "",
-        "rawPattern": "{{document.field5}}",
-        "context": "[Auto-generated] - 1",
-        "blockId": "P0033"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Ngày ban hành",
+        "docxSlotId": "document.ngayBan",
+        "actualDocxContext": "Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.ngayBan}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.ngayBan",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "agency.dongDia",
@@ -133,7 +178,7 @@
         "tableCellId": null
       },
       "context": "- 11{{document.field6}}",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -144,12 +189,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "- 11",
-        "textAfter": "",
-        "rawPattern": "{{document.field6}}",
-        "context": "[Auto-generated] - 11",
-        "blockId": "P0034"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Dòng địa danh",
+        "docxSlotId": "agency.dongDia",
+        "actualDocxContext": "{{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.dongDia}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Dòng địa danh",
+          "canonicalPath": "agency.dongDia",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "document.chuThe",
@@ -159,7 +219,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -170,12 +230,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field7}}",
-        "context": "[Auto-generated] {{document.field7}}",
-        "blockId": "P0036"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Chủ thể liên quan",
+        "docxSlotId": "document.chuThe",
+        "actualDocxContext": "iaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.chuThe}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Chủ thể liên quan",
+          "canonicalPath": "document.chuThe",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -198,81 +273,121 @@
     {
       "path": "document.soQuyet",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát… đối với10",
-        "blockId": "P0027"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "khởi tố bị can số … ngày … tháng … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} -",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "agency.diaDanh",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Địa danh",
       "source": "agencyConfig",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] Nhận thấy",
-        "blockId": "P0028"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Địa danh",
+        "docxSlotId": "agency.diaDanh",
+        "actualDocxContext": "g … năm … (Quyết định thay đổi/bổ sung Quyết định khởi tố bị can số … ngày … tháng … năm … , nếu có) của … đối với … về tội … quy định tại khoản … Điều … của Bộ luật Hình sự; Xét Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{docume",
+        "actualDocxRawPattern": "{{agency.diaDanh}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "document.ngayBan",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] - 1",
-        "blockId": "P0033"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Ngày ban hành",
+        "docxSlotId": "document.ngayBan",
+        "actualDocxContext": "Viện kiểm sát … đối với 10 {{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.ngayBan}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "agency.dongDia",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Dòng địa danh",
       "source": "agencyConfig",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] - 11",
-        "blockId": "P0034"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Dòng địa danh",
+        "docxSlotId": "agency.dongDia",
+        "actualDocxContext": "{{document.soQuyet}} Nhận thấy {{agency.diaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{agency.dongDia}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "document.chuThe",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Chủ thể liên quan",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field7}}",
-        "blockId": "P0036"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Chủ thể liên quan",
+        "docxSlotId": "document.chuThe",
+        "actualDocxContext": "iaDanh}} QUYẾT ĐỊNH: Điều 1. Hủy bỏ Quyết định tạm đình chỉ vụ án hình sự đối với bị can số … ngày … tháng … năm … của Viện kiểm sát 11 …. Điều 2. Yêu cầu Viện kiểm sát 11 … giải quyết vụ án theo quy định của Bộ luật Tố tụng hình sự . /. Nơi nhận: - 1 {{document.ngayBan}} - 11 {{agency.dongDia}} - Lưu: HSVA, HSKS, VP. {{document.chuThe}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.chuThe}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],
@@ -346,44 +461,6 @@
     "headerRules": [],
     "footerRules": [],
     "titleRules": [],
-    "reviewRequired": false
-  },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "agency.field3",
-        "control": "text"
-      },
-      {
-        "path": "document.field4",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
-        "control": "text"
-      },
-      {
-        "path": "document.field7",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
     "reviewRequired": false
   },
   "reportingHints": {

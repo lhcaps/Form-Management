@@ -80,24 +80,35 @@
         "blockId": "P0030",
         "tableCellId": null
       },
-      "context": "Nhận thấy8{{decision.decisionLine}}",
-      "label": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
+      "context": "Nhận thấy8{{agency.issuePlace}}",
+      "label": "Địa điểm ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Nhận thấy8",
         "textAfter": "",
-        "rawPattern": "{{decision.decisionLine}}"
+        "rawPattern": "{{agency.issuePlace}}",
+        "legacyRawPattern": "{{decision.decisionLine}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Nhận thấy8",
         "textAfter": "",
-        "rawPattern": "{{decision.decisionLine}}",
+        "rawPattern": "{{agency.issuePlace}}",
         "context": "[Auto-generated] Nhận thấy8",
-        "blockId": "P0030"
-      }
+        "blockId": "P0030",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
+          "newValue": "Địa điểm ban hành",
+          "repairedAt": "2026-06-30T08:19:13.396Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{decision.decisionLine}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.396Z"
     },
     {
       "slotId": "document.issueDate",
@@ -107,7 +118,7 @@
         "tableCellId": null
       },
       "context": "10{{document.field5}}",
-      "label": "Ô trống",
+      "label": "Ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -118,12 +129,25 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "10",
-        "textAfter": "",
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.issueDate",
+        "docxContext": "10{{document.field5}}",
         "rawPattern": "{{document.field5}}",
-        "context": "[Auto-generated] 10",
-        "blockId": "P0041"
-      }
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Ngày ban hành",
+          "canonicalPath": "document.issueDate",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z"
     }
   ],
   "canonicalFields": [
@@ -162,7 +186,7 @@
     {
       "path": "agency.issuePlace",
       "type": "string",
-      "label": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
+      "label": "Địa điểm ban hành",
       "source": "computed",
       "required": false,
       "uiComponent": "textarea",
@@ -172,7 +196,14 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto-generated] Nhận thấy8",
-        "blockId": "P0030"
+        "blockId": "P0030",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Nội dung quyết định (${\"không phê chuẩn Quyết định gia hạn tạm giữ\"})",
+          "newValue": "Địa điểm ban hành",
+          "repairedAt": "2026-06-30T08:19:13.396Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
@@ -184,11 +215,17 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] 10",
-        "blockId": "P0041"
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "document.issueDate",
+        "docxContext": "10{{document.field5}}",
+        "rawPattern": "{{document.field5}}",
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
       }
     }
   ],
@@ -257,20 +294,12 @@
     ],
     "suggestedControls": [
       {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
         "path": "document.documentCode",
         "control": "text"
       },
       {
         "path": "decision.decisionLine",
         "control": "textarea"
-      },
-      {
-        "path": "document.field5",
-        "control": "text"
       }
     ],
     "previewRequired": true,

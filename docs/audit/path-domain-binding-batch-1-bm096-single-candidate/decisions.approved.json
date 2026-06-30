@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "mode": "APPROVED_FOR_APPLY",
+  "templateCode": "BM-096",
+  "approvedCount": 1,
+  "approvedBy": "Planner approval from ChatGPT + user-provided CodeGraph verified handoff",
+  "approvedAt": "2026-06-28T07:57:00.000+07:00",
+  "decisions": [
+    {
+      "decision": "APPROVED_SAFE_PATH_REMAP",
+      "templateCode": "BM-096",
+      "oldPath": "document.diaChi",
+      "newPath": "person.idNumber",
+      "oldLabel": "Ô trống",
+      "newLabel": "Số CCCD/CMND",
+      "rawPattern": "{{person.field14}}",
+      "evidenceTextBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "collisionCheck": {
+        "canonicalFields": "NO_COLLISION",
+        "docxSlots": "NO_COLLISION",
+        "renderBindings": "NO_COLLISION"
+      },
+      "allowedMutations": [
+        "UPDATE_CANONICAL_PATH",
+        "UPDATE_CANONICAL_LABEL",
+        "UPDATE_DOCX_SLOT_ID",
+        "UPDATE_DOCX_SLOT_LABEL",
+        "UPDATE_RENDER_BINDING_SLOT_ID",
+        "UPDATE_RENDER_BINDING_FROM_IF_NEEDED"
+      ],
+      "sourceMustRemainUnchanged": true,
+      "requiredMustRemainUnchanged": true,
+      "reviewRequiredMustRemainUnchanged": true,
+      "risk": "MEDIUM",
+      "approved": true
+    }
+  ]
+}

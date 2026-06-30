@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0",
+  "approvalCommand": "APPROVE_RENDER_ACCURATE_FORM BM-001 BM-001__f4c2aa3682d3 SAFE_LABEL_ONLY",
+  "approvedAt": "2026-06-27T17:25:00.000Z",
+  "approvedBy": "human-review",
+  "templateCode": "BM-001",
+  "sourceId": "BM-001__f4c2aa3682d3",
+  "sourceIdGuard": "BM-001__f4c2aa3682d3",
+  "templateCodeGuard": "BM-001",
+  "patchType": "SAFE_LABEL_ONLY",
+  "expectedCounts": {
+    "canonicalFields": 28,
+    "docxSlots": 28,
+    "renderBindings": 28
+  },
+  "expectedAuditDeltas": {
+    "BAD_LABEL": -5,
+    "UI_VISIBLE_BAD_METADATA": -5
+  },
+  "safety": {
+    "docxSlotsModified": false,
+    "renderBindingsModified": false,
+    "pathsModified": false,
+    "fieldsAddedOrRemoved": false,
+    "fieldsReordered": false,
+    "docxSourceMutated": false,
+    "compiledArtifactsEdited": false
+  },
+  "deferredCleanup": [
+    {
+      "note": "docxSlots labels are not modified in this task. docxSlots label misalignment will be tracked for a separate consistency cleanup phase."
+    }
+  ],
+  "rollbackMethod": "Restore from backup in docs/audit/per-form-render-accurate/<BM>/backups/<timestamp>/",
+  "changes": [
+    {
+      "changeId": 1,
+      "canonicalFieldIndex": 16,
+      "path": "informant.identityIssuedDay",
+      "target": "canonicalFields[16].label",
+      "oldValue": "identityIssuedDay",
+      "newValue": "Ngày cấp",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1"
+    },
+    {
+      "changeId": 2,
+      "canonicalFieldIndex": 17,
+      "path": "informant.identityIssuedMonth",
+      "target": "canonicalFields[17].label",
+      "oldValue": "identityIssuedMonth",
+      "newValue": "Tháng cấp",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1"
+    },
+    {
+      "changeId": 3,
+      "canonicalFieldIndex": 18,
+      "path": "informant.identityIssuedYear",
+      "target": "canonicalFields[18].label",
+      "oldValue": "identityIssuedYear",
+      "newValue": "Năm cấp",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1"
+    },
+    {
+      "changeId": 4,
+      "canonicalFieldIndex": 24,
+      "path": "informant.representedOrganization",
+      "target": "canonicalFields[24].label",
+      "oldValue": "representedOrganization",
+      "newValue": "Người đại diện cơ quan, tổ chức",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1"
+    },
+    {
+      "changeId": 5,
+      "canonicalFieldIndex": 27,
+      "path": "recipients.archiveLine",
+      "target": "canonicalFields[27].label",
+      "oldValue": "archiveLine",
+      "newValue": "Nơi lưu",
+      "auditDelta": "BAD_LABEL -1, UI_VISIBLE_BAD_METADATA -1"
+    }
+  ]
+}

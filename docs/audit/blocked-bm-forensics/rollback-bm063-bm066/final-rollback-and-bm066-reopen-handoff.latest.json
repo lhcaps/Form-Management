@@ -1,0 +1,77 @@
+{
+  "task": "ROLLBACK_BM063_BM066_THEN_REOPEN_BM066_EVIDENCE",
+  "mode": "SURGICAL_ROLLBACK_THEN_EVIDENCE_ONLY",
+  "generated": "2026-06-28T16:58:00.000Z",
+  "rollback": {
+    "bm063Restored": true,
+    "bm066Restored": true,
+    "scopeLimited": true,
+    "normalizedDocxTouched": false,
+    "compiledV2Touched": false,
+    "dbPublished": false,
+    "commitMade": false,
+    "bm063": {
+      "targetPath": "docs/audit/docx/contracts/locked/BM-063__54b73110a34f.contract.locked.json",
+      "backupPath": "docs/audit/docx-atlas-v1/render-binding-repair-v1/backups/2026-06-28T15-42-22-044Z/BM-063__54b73110a34f.contract.locked.json",
+      "sha256BeforeRollback": "80538531224FFEFB162C957B84063D1C7D47CADD85B44765DE50B4C3136BF528",
+      "sha256Backup": "7E647F25D0A3B32CFA4E9FB0508DA274370DF94D85B497B433B1BE80660332B5",
+      "sha256AfterRollback": "7E647F25D0A3B32CFA4E9FB0508DA274370DF94D85B497B433B1BE80660332B5",
+      "restoredSuccessfully": true,
+      "reviewedBy": "Le Huy (wave-01 auto-fix)",
+      "reviewKind": "human"
+    },
+    "bm066": {
+      "targetPath": "docs/audit/docx/contracts/locked/BM-066__e3bc56081554.contract.locked.json",
+      "backupPath": "docs/audit/docx-atlas-v1/render-binding-repair-v1/backups/2026-06-28T15-42-22-044Z/BM-066__e3bc56081554.contract.locked.json",
+      "sha256BeforeRollback": "5C69A93C420188CCBDB4799B526BF06C6B94E87640121FAB3C3CA2358DEA1174",
+      "sha256Backup": "036E58C0DF9635CC9470D7ADAB8DE7ABF6090965ADB249C84B3751A7DE716A93",
+      "sha256AfterRollback": "036E58C0DF9635CC9470D7ADAB8DE7ABF6090965ADB249C84B3751A7DE716A93",
+      "restoredSuccessfully": true,
+      "reviewedBy": "Le Huy (wave-01 auto-fix)",
+      "reviewKind": "human"
+    }
+  },
+  "validation": {
+    "bm063RenderAfterRollback": "FAIL (binding fidelity)",
+    "bm066RenderAfterRollback": "FAIL (binding fidelity, 4 undefined literals)",
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "status": "PASS"
+    },
+    "blockersPreserved": true,
+    "boardRefresh": "PASS (12 rows patched from blocker ledgers)"
+  },
+  "bm066Evidence": {
+    "totalOccurrences": 8,
+    "candidates": 0,
+    "deferred": 8,
+    "recipients_personLine4_occurrences": 4,
+    "document_fullDocumentCode4_occurrences": 4,
+    "classifications": {
+      "DEFER_AMBIGUOUS_PERSON_TABLE_CELL": 3,
+      "DEFER_AMBIGUOUS_ACCOUNT_FIELD": 1,
+      "DEFER_AMBIGUOUS_DOCUMENT_CODE": 4
+    },
+    "canApplyRunNow": false,
+    "canMarkDone": false,
+    "renderGate": {
+      "bindingFidelity": "FAIL",
+      "literalFidelity": "FAIL",
+      "textFidelity": "PASS",
+      "structureFidelity": "PASS",
+      "undefinedOrNullLiterals": 4
+    },
+    "plannerDecisionNeeded": "BM-066 must remain BLOCKED_BY_HUMAN_DOCX_REVIEW. All 8 occurrences require human DOCX/legal review. No apply available. Planner must approve exact per-occurrence decisions before any future apply."
+  },
+  "forbiddenArtifactsChecked": {
+    "decisionsApprovedJson": "NONE created",
+    "applyRunner": "NONE created for BM-063 or BM-066",
+    "bm021bm065bm067Restored": false,
+    "bm052bm062Restored": false,
+    "normalizedDocxMutated": false,
+    "compiledV2Mutated": false
+  },
+  "nextPlannerDecisionNeeded": "ROLLBACK_COMPLETE. BM-063 and BM-066 contracts restored. BM-066 evidence reopened. Board blockers preserved. APPROVED_NEXT: compile & DB sync (if planner approves infrastructure commit). FOR_INFORMATION: T9 blocker-board test false positive on BM-052/BM-062 render PASS (partial approval valid). NOT_APPROVED: new remediation, apply BM-063/BM-066, BM-063 evidence reopen."
+}

@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-021",
+  "title": "QĐ không khởi tố vụ án hình sự",
+  "sourceBatch": "docs/audit/213-docx-fidelity-board/contract-repair-batch-1.latest.json",
+  "canApplyRunNow": false,
+  "baselineFindings": [
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+  ],
+  "rootCause": {
+    "fieldCount": 8,
+    "issueCount": 14,
+    "failCount": 8,
+    "reviewCount": 6,
+    "issueCounts": {
+      "REQUIRED_SUSPICIOUS": 1,
+      "BAD_LABEL": 3,
+      "GENERIC_FIELD_CANONICALIZATION": 3,
+      "RAW_PATTERN_DOMAIN_MISMATCH": 2,
+      "SHOULD_BE_READONLY": 1,
+      "COMPILED_DRIFT": 4
+    }
+  },
+  "docx": {
+    "normalizedPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-021\\BM-021_normalized.docx",
+    "exists": true,
+    "error": null,
+    "placeholders": {
+      "total": 11,
+      "unique": [
+        "agency.issuePlace",
+        "agency.nameUpper",
+        "agency.parentNameUpper",
+        "decision.decisionLine",
+        "decision.summaryLine",
+        "document.documentCode",
+        "document.issuePlaceAndDateLine",
+        "legalBasis.procedureArticlesLine"
+      ],
+      "duplicates": [
+        {
+          "placeholder": "document.issuePlaceAndDateLine",
+          "count": 2
+        },
+        {
+          "placeholder": "legalBasis.procedureArticlesLine",
+          "count": 3
+        }
+      ],
+      "items": [
+        {
+          "placeholder": "agency.issuePlace",
+          "count": 1,
+          "context": "I TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố tụng hình sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}}"
+        },
+        {
+          "placeholder": "agency.nameUpper",
+          "count": 1,
+          "context": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,"
+        },
+        {
+          "placeholder": "agency.parentNameUpper",
+          "count": 1,
+          "context": "2 6 /TT-VKSTC ngày / /202 6 ) Mẫu số 2 1/HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) VIỆN KIỂM SÁT … {{agency.parentNameUpper}} 474980 81915 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 720725 187960 Độc lập - Tự do - Hạnh phúc … , ngày …"
+        },
+        {
+          "placeholder": "decision.decisionLine",
+          "count": 1,
+          "context": "e}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )"
+        },
+        {
+          "placeholder": "decision.summaryLine",
+          "count": 1,
+          "context": "asis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV, HSKS, VP. {{decision.summaryLine}} {{decision.decisionLine}} ( Ký, ghi rõ họ tên, đóng dấu )"
+        },
+        {
+          "placeholder": "document.documentCode",
+          "count": 1,
+          "context": "N TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố tụng hình sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDa"
+        },
+        {
+          "placeholder": "document.issuePlaceAndDateLine",
+          "count": 2,
+          "context": "sự; Xét thấy {{agency.issuePlace}} {{document.documentCode}} , QUYẾT ĐỊNH: Điều 1. Không khởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} th"
+        },
+        {
+          "placeholder": "legalBasis.procedureArticlesLine",
+          "count": 3,
+          "context": "ố : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 720725 187960 Độc lập - Tự do - Hạnh phúc … , ngày … tháng … năm 20 {{legalBasis.procedureArticlesLine}} QUYẾT ĐỊNH K HÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 157 và 158 của Bộ luật T ố t"
+        }
+      ]
+    }
+  },
+  "contract": {
+    "file": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-021__772319486f41.contract.locked.json",
+    "sourceId": "BM-021__772319486f41",
+    "status": "locked",
+    "reviewKind": "human",
+    "canonicalFields": [
+      {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.issuePlace",
+        "label": "Ô trống",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.documentCode",
+        "label": "Số văn bản",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "Căn cứ Bộ luật Tố tụng hình sự",
+        "source": "systemDate",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "label": "Viện kiểm sát ban hành",
+        "source": "officialConfig",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "decision.summaryLine",
+        "label": "Ô trống",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "decision.decisionLine",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      }
+    ],
+    "docxSlots": [
+      {
+        "slotId": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,"
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "VIỆN KIỂM SÁT … {{document.field1}}"
+      },
+      {
+        "slotId": "agency.issuePlace",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Xét thấy{{document.field3}}{{document.field4}},"
+      },
+      {
+        "slotId": "document.documentCode",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Xét thấy{{document.field3}}{{document.field4}},"
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "label": "Căn cứ Bộ luật Tố tụng hình sự",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Điều 1. Không khởi tố vụ án hình sự đối với{{legalBasis.procedureArticlesLine}}{{legalBasis.procedureArticlesLine}}"
+      },
+      {
+        "slotId": "legalBasis.procedureArticlesLine",
+        "label": "Viện kiểm sát ban hành",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Điều 2. Viện kiểm sát2{{agency.nameUpper}} thông báo để{{agency.nameUpper}}"
+      },
+      {
+        "slotId": "decision.summaryLine",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "{{document.field9}}{{document.field10}}"
+      },
+      {
+        "slotId": "decision.decisionLine",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "{{document.field9}}{{document.field10}}"
+      }
+    ],
+    "renderBindings": [
+      {
+        "slotId": "agency.nameUpper",
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "from": "agency.parentNameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.issuePlace",
+        "from": "agency.issuePlace",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.documentCode",
+        "from": "document.documentCode",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "from": "document.issuePlaceAndDateLine",
+        "transform": "date.issuePlaceDateLine",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "legalBasis.procedureArticlesLine",
+        "from": "legalBasis.procedureArticlesLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "decision.summaryLine",
+        "from": "decision.summaryLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "decision.decisionLine",
+        "from": "decision.decisionLine",
+        "transform": "identity",
+        "reviewRequired": false
+      }
+    ]
+  },
+  "structuralMismatches": {
+    "templatePlaceholdersWithoutSlots": [],
+    "contractSlotsWithoutTemplatePlaceholders": [],
+    "bindingsWithoutTemplatePlaceholders": [],
+    "slotsWithoutBindings": [],
+    "bindingsWithoutSlots": [],
+    "slotsWithoutCanonicalFields": [],
+    "fieldsWithoutSlots": [],
+    "reviewRequired": {
+      "slots": [],
+      "fields": [],
+      "bindings": []
+    }
+  },
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  }
+}

@@ -2,27 +2,15 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { readApi } from "@/lib/api-client";
+import {
+  buildReportCsv,
+  buildReportPrintHtml,
+  type ReportSummaryForExport,
+} from "@/lib/reports-export";
 
-type ReportPeriod = "WEEK" | "MONTH";
+type ReportPeriod = ReportSummaryForExport["period"];
 
-type ReportRow = {
-  time: string;
-  wardName: string;
-  offenseName: string;
-  caseCount: number;
-};
-
-type ReportSummary = {
-  period: ReportPeriod;
-  range: {
-    from: string;
-    to: string;
-  };
-  totalCases: number;
-  byWard: Array<{ wardName: string; caseCount: number }>;
-  byOffense: Array<{ offenseName: string; caseCount: number }>;
-  rows: ReportRow[];
-};
+type ReportSummary = ReportSummaryForExport;
 
 type ReviewQueueResponse = {
   summary: Record<string, number>;
@@ -56,6 +44,34 @@ function buildReportPath(period: ReportPeriod, anchorDate: string) {
     anchorDate,
   });
   return `/cases/reports/summary?${params.toString()}`;
+}
+
+// ─── CSV Export ─────────────────────────────────────────────────────────────────
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportCsv(summary: ReportSummary) {
+  const content = buildReportCsv(summary);
+  const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+  const filename = `bao-cao-${summary.period.toLowerCase()}-${summary.range.from}.csv`;
+  downloadBlob(blob, filename);
+}
+
+function printReport(summary: ReportSummary) {
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) return;
+
+  printWindow.document.write(buildReportPrintHtml(summary));
+  printWindow.document.close();
 }
 
 export default function ReportsPage() {
@@ -159,6 +175,25 @@ export default function ReportsPage() {
             >
               {loading ? "Đang tải..." : "Tải lại"}
             </button>
+
+            {reportData ? (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => exportCsv(reportData)}
+                  className="h-10 rounded-md border border-emerald-300 bg-emerald-50 px-4 text-sm font-black text-emerald-800 transition hover:bg-emerald-100"
+                >
+                  Xuất CSV
+                </button>
+                <button
+                  type="button"
+                  onClick={() => printReport(reportData)}
+                  className="h-10 rounded-md border border-sky-300 bg-sky-50 px-4 text-sm font-black text-sky-800 transition hover:bg-sky-100"
+                >
+                  In / PDF
+                </button>
+              </div>
+            ) : null}
           </div>
         </section>
 

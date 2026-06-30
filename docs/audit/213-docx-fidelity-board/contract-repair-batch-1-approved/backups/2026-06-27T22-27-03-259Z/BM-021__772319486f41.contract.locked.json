@@ -1,0 +1,552 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "BM-021__772319486f41",
+  "templateCode": "BM-021",
+  "documentKind": "form",
+  "duplicateIndex": 1,
+  "duplicateCount": 1,
+  "isDuplicateCode": false,
+  "templateTitle": "QĐ không khởi tố vụ án hình sự",
+  "docx": {
+    "sha256": "772319486f416b6dcae9a8aa8b6ae8d390979016082f95418b7860271dc8d6cd",
+    "fileName": "21-QĐ không khởi tố vụ án hình sự.doc",
+    "relativePath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. TIEP NHAN GIAI QUYET NGUON TIN VE TOI PHAM/21-QĐ không khởi tố vụ án hình sự.doc",
+    "format": "doc"
+  },
+  "extractionSource": {
+    "kind": "normalized-docx",
+    "relativePath": "storage/templates/normalized-docx/BM-021/BM-021_normalized.docx",
+    "sha256": "985a3ab4fe8762d5be9bea9d594d32af64f17505b17d0b427b9a9da1aa347cfb",
+    "format": "docx"
+  },
+  "status": "locked",
+  "docxSlots": [
+    {
+      "slotId": "agency.nameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát",
+        "textAfter": "2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát",
+        "textAfter": "2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,",
+        "blockId": null
+      }
+    },
+    {
+      "slotId": "agency.parentNameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0013",
+        "tableCellId": null
+      },
+      "context": "VIỆN KIỂM SÁT … {{document.field1}}",
+      "label": "Tên cơ quan",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "VIỆN KIỂM SÁT …",
+        "textAfter": "",
+        "rawPattern": "{{document.field1}}",
+        "context": "[Auto] VIỆN KIỂM SÁT …",
+        "blockId": "P0013"
+      }
+    },
+    {
+      "slotId": "document.issueDate",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0020",
+        "tableCellId": null
+      },
+      "context": "…, ngày … tháng … năm 20{{document.issueDate}}",
+      "label": "Ngày ban hành",
+      "slotType": "date",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "…, ngày … tháng … năm 20",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "…, ngày … tháng … năm 20",
+        "textAfter": "",
+        "rawPattern": "{{document.issueDate}}",
+        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
+      }
+    },
+    {
+      "slotId": "agency.issuePlace",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Xét thấy{{document.field3}}{{document.field4}},",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy",
+        "textAfter": "{{document.field4}},",
+        "rawPattern": "{{document.field3}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét thấy",
+        "textAfter": "{{document.field4}},",
+        "rawPattern": "{{document.field3}}",
+        "context": "[Auto] Xét thấy",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "document.documentCode",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0028",
+        "tableCellId": null
+      },
+      "context": "Xét thấy{{document.field3}}{{document.field4}},",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Xét thấy{{document.field3}}",
+        "textAfter": ",",
+        "rawPattern": "{{document.field4}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Xét thấy{{document.field3}}",
+        "textAfter": ",",
+        "rawPattern": "{{document.field4}}",
+        "context": "[Auto] Xét thấy{{document.field3}}",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0032",
+        "tableCellId": null
+      },
+      "context": "Điều 1. Không khởi tố vụ án hình sự đối với{{legalBasis.procedureArticlesLine}}{{legalBasis.procedureArticlesLine}}",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 1. Không khởi tố vụ án hình sự đối với",
+        "textAfter": "{{legalBasis.procedureArticlesLine}}",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Điều 1. Không khởi tố vụ án hình sự đối với",
+        "textAfter": "{{legalBasis.procedureArticlesLine}}",
+        "rawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
+        "blockId": "P0032"
+      }
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0033",
+        "tableCellId": null
+      },
+      "context": "Điều 2. Viện kiểm sát2{{agency.nameUpper}} thông báo để{{agency.nameUpper}}",
+      "label": "Viện kiểm sát ban hành",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "Điều 2. Viện kiểm sát2",
+        "textAfter": "thông báo để{{agency.nameUpper}}",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "Điều 2. Viện kiểm sát2",
+        "textAfter": "thông báo để{{agency.nameUpper}}",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "[Auto] Điều 2. Viện kiểm sát2",
+        "blockId": "P0033"
+      }
+    },
+    {
+      "slotId": "decision.summaryLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "{{document.field9}}{{document.field10}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "{{document.field10}}",
+        "rawPattern": "{{document.field9}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "",
+        "textAfter": "{{document.field10}}",
+        "rawPattern": "{{document.field9}}",
+        "context": "[Auto] {{document.field9}}{{document.field10}}",
+        "blockId": "P0038"
+      }
+    },
+    {
+      "slotId": "decision.decisionLine",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": "P0038",
+        "tableCellId": null
+      },
+      "context": "{{document.field9}}{{document.field10}}",
+      "label": "Ô trống",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "{{document.field9}}",
+        "textAfter": "",
+        "rawPattern": "{{document.field10}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "{{document.field9}}",
+        "textAfter": "",
+        "rawPattern": "{{document.field10}}",
+        "context": "[Auto] {{document.field9}}",
+        "blockId": "P0038"
+      }
+    }
+  ],
+  "canonicalFields": [
+    {
+      "path": "agency.nameUpper",
+      "type": "string",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewEvidence": {
+        "context": "ởi tố vụ án hình sự đối với {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Viện kiểm sát {{agency.nameUpper}} 2 {{legalBasis.procedureArticlesLine}} thông báo để {{legalBasis.procedureArticlesLine}} Nơi nhận: - 8 …; - Lưu : HSVV,",
+        "blockId": null
+      }
+    },
+    {
+      "path": "agency.parentNameUpper",
+      "type": "string",
+      "label": "Tên cơ quan",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] VIỆN KIỂM SÁT …",
+        "blockId": "P0013"
+      }
+    },
+    {
+      "path": "document.issueDate",
+      "type": "string",
+      "label": "Ngày ban hành",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "date",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "reason": "Phase D fix: inferred source \"derived\" for field \"agency.nameUpper\" (label: \"Ngày ban hành\") from draft.",
+        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
+      }
+    },
+    {
+      "path": "agency.issuePlace",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] Xét thấy",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "document.documentCode",
+      "type": "string",
+      "label": "Số văn bản",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] Xét thấy{{document.field3}}",
+        "blockId": "P0028"
+      }
+    },
+    {
+      "path": "document.issuePlaceAndDateLine",
+      "type": "string",
+      "label": "Căn cứ Bộ luật Tố tụng hình sự",
+      "source": "systemDate",
+      "required": false,
+      "uiComponent": "textarea",
+      "reviewRequired": false,
+      "transform": "date.issuePlaceDateLine",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] Điều 1. Không khởi tố vụ án hình sự đối với",
+        "blockId": "P0032"
+      }
+    },
+    {
+      "path": "legalBasis.procedureArticlesLine",
+      "type": "string",
+      "label": "Viện kiểm sát ban hành",
+      "source": "officialConfig",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] Điều 2. Viện kiểm sát2",
+        "blockId": "P0033"
+      }
+    },
+    {
+      "path": "decision.summaryLine",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] {{document.field9}}{{document.field10}}",
+        "blockId": "P0038"
+      }
+    },
+    {
+      "path": "decision.decisionLine",
+      "type": "string",
+      "label": "Ô trống",
+      "source": "manual",
+      "required": false,
+      "uiComponent": "text",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Le Huy",
+      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewEvidence": {
+        "context": "[Auto] {{document.field9}}",
+        "blockId": "P0038"
+      }
+    }
+  ],
+  "renderBindings": [
+    {
+      "slotId": "agency.nameUpper",
+      "from": "agency.nameUpper",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issueDate",
+      "from": "document.issueDate",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "agency.issuePlace",
+      "from": "agency.issuePlace",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.documentCode",
+      "from": "document.documentCode",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.issuePlaceAndDateLine",
+      "from": "document.issuePlaceAndDateLine",
+      "transform": "date.issuePlaceDateLine",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "legalBasis.procedureArticlesLine",
+      "from": "legalBasis.procedureArticlesLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "decision.summaryLine",
+      "from": "decision.summaryLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "decision.decisionLine",
+      "from": "decision.decisionLine",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    }
+  ],
+  "rejectedCandidates": [],
+  "unresolvedQuestions": [],
+  "warnings": [],
+  "productMetadata": {
+    "stage": {
+      "code": "01",
+      "label": "TIẾP NHẬN, GIẢI QUYẾT NGUỒN TIN VỀ TỘI PHẠM",
+      "suggestedBy": "path-heuristic",
+      "reviewRequired": false
+    },
+    "formNumber": "021/HS",
+    "legalBasisLine": "Ban hành theo Thông tư số 03/2026/TT-VKSTC Ngày 09/02/2026",
+    "documentNumberSuffix": null,
+    "reviewRequired": false,
+    "reviewKind": "human",
+    "reviewedBy": "Le Huy",
+    "reviewedAt": "2026-06-22T08:15:00.000+07:00"
+  },
+  "renderFormatHints": {
+    "fontFamily": "Times New Roman",
+    "baseFontSize": 13,
+    "requiresDifferentFirstPage": true,
+    "requiresPageNumberIfMoreThanPages": 2,
+    "headerRules": [],
+    "footerRules": [],
+    "titleRules": [],
+    "reviewRequired": false
+  },
+  "formInputHints": {
+    "primaryEntities": [
+      "document",
+      "legalBasis",
+      "agency"
+    ],
+    "suggestedControls": [
+      {
+        "path": "document.field1",
+        "control": "text"
+      },
+      {
+        "path": "document.issueDate",
+        "control": "date"
+      },
+      {
+        "path": "document.field3",
+        "control": "text"
+      },
+      {
+        "path": "document.field4",
+        "control": "text"
+      },
+      {
+        "path": "legalBasis.procedureArticlesLine",
+        "control": "textarea"
+      },
+      {
+        "path": "document.issueDate",
+        "control": "text"
+      },
+      {
+        "path": "document.field9",
+        "control": "text"
+      },
+      {
+        "path": "document.field10",
+        "control": "text"
+      }
+    ],
+    "previewRequired": true,
+    "reviewRequired": false
+  },
+  "reportingHints": {
+    "dimensions": [
+      "time",
+      "ward",
+      "offense"
+    ],
+    "reviewRequired": false
+  },
+  "generatedAt": "2026-06-25T14:39:20.376Z",
+  "reviewedBy": "Le Huy",
+  "reviewedAt": "2026-06-25T14:39:20.376Z",
+  "reviewKind": "human"
+}

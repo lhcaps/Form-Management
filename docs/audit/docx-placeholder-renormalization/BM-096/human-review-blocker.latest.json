@@ -1,0 +1,92 @@
+{
+  "task": "BM096_REMAINING_PATH_DOMAIN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-096",
+  "title": "Yêu cầu ra QĐ khởi tố bị can",
+  "sourceId": "BM-096__a50a08efa62f",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-096.pathDomainGenericFields",
+      "count": 15,
+      "classification": "DEFER_PATH_DOMAIN_REVIEW_REQUIRED",
+      "reason": "BM-096 render-fidelity now passes, but 15 remaining fields still have BAD_LABEL plus GENERIC_FIELD_CANONICALIZATION. Their raw patterns are generic document.fieldN placeholders with weak same-BM semantic evidence. Auto-remapping these as a batch would risk label-only or path-domain mistakes."
+    },
+    {
+      "placeholder": "person.idNumber.required",
+      "count": 1,
+      "classification": "DEFER_REQUIRED_POLICY_REVIEW_REQUIRED",
+      "reason": "The previous BM-096 single-candidate remap surfaced REQUIRED_SUSPICIOUS for person.idNumber. Whether ID number must be required in this specific form needs human DOCX/legal review before changing required=true."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 31,
+    "failCount": 30,
+    "reviewCount": 1,
+    "issueCounts": {
+      "BAD_LABEL": 15,
+      "GENERIC_FIELD_CANONICALIZATION": 15,
+      "REQUIRED_SUSPICIOUS": 1
+    },
+    "renderFidelity": "PASS"
+  },
+  "remainingPaths": [
+    "document.soYeu",
+    "agency.diaDanh",
+    "document.ngayBan",
+    "agency.dongDia",
+    "document.chuThe",
+    "legalBasis.canCu",
+    "document.tenVu",
+    "person.toiDanh",
+    "person.hoTen",
+    "document.namSinh",
+    "document.lyDo",
+    "recipients.luuHo",
+    "signature.cheDo",
+    "signature.chucVu",
+    "signature.nguoiKy",
+    "person.idNumber"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "AUTO_REMAP_ALL_GENERIC_FIELDS_FROM_LABEL_CONTEXT",
+      "reason": "The remaining paths include generic document.fieldN slots, agency fields, person fields, signature fields, and address-like contexts. Batch remap would be label-only and could repeat the old slotId/from binding-model mistake."
+    },
+    {
+      "option": "MARK_BM096_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render gate pass proves no unresolved DOCX placeholders or undefined/null literals, but BM-096 still has unresolved semantic/path-domain metadata issues. DONE requires no unresolved legal/human blocker."
+    },
+    {
+      "option": "SET_PERSON_ID_NUMBER_REQUIRED_TRUE_IMMEDIATELY",
+      "reason": "The required flag is a legal/form policy decision. It should be changed only after human DOCX/legal review confirms the field is mandatory for BM-096."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "For each generic BM-096 field, what is the official TT-03-2026-VKSTC semantic field and label?",
+    "Should address contexts currently mapped under signature.* be person permanent/temporary address fields, or are they separate legal-form authoring artifacts?",
+    "Which remaining document.fieldN raw patterns are true document metadata, person data, legal basis text, or recipient/footer data?",
+    "Is person.idNumber required for BM-096, or should it remain optional in the runtime authoring UI?",
+    "Can the remaining BM-096 fields be split into safe approved sub-batches, or should the normalized DOCX be reauthored first?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-096/render-diff.latest.json",
+    "rootCause": "docs/audit/forms-root-cause/latest.json",
+    "singleCandidateApply": "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/apply.latest.json",
+    "singleCandidateHandoff": "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/planner-handoff.after-apply.json",
+    "singleCandidateDeltaAttribution": "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/delta-attribution.latest.json"
+  },
+  "createdAt": "2026-06-28T00:00:00.000Z",
+  "createdBy": "BM096_REMAINING_PATH_DOMAIN_REVIEW_BLOCKER task"
+}

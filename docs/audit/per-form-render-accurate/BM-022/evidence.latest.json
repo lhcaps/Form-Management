@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-022",
+  "title": "QĐ huỷ bỏ QĐ không khởi tố vụ án hình sự",
+  "sourceBatch": "docs/audit/213-docx-fidelity-board/contract-repair-batch-1.latest.json",
+  "canApplyRunNow": false,
+  "baselineFindings": [
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+    "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER"
+  ],
+  "rootCause": {
+    "fieldCount": 4,
+    "issueCount": 5,
+    "failCount": 2,
+    "reviewCount": 3,
+    "issueCounts": {
+      "SOURCE_MISMATCH": 2,
+      "REQUIRED_SUSPICIOUS": 2,
+      "COMPILED_DRIFT": 1
+    }
+  },
+  "docx": {
+    "normalizedPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-022\\BM-022_normalized.docx",
+    "exists": true,
+    "error": null,
+    "placeholders": {
+      "total": 7,
+      "unique": [
+        "agency.nameUpper",
+        "agency.parentNameUpper",
+        "document.issuePlaceAndDateLine",
+        "person.fullName"
+      ],
+      "duplicates": [
+        {
+          "placeholder": "document.issuePlaceAndDateLine",
+          "count": 4
+        }
+      ],
+      "items": [
+        {
+          "placeholder": "agency.nameUpper",
+          "count": 1,
+          "context": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và"
+        },
+        {
+          "placeholder": "agency.parentNameUpper",
+          "count": 1,
+          "context": "2 6 /TT-VKSTC ngày / /202 6 ) Mẫu số 22 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) VIỆN KIỂM SÁT … {{agency.parentNameUpper}} 551180 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày …"
+        },
+        {
+          "placeholder": "document.issuePlaceAndDateLine",
+          "count": 4,
+          "context": "quy định tại khoản … Điều … của Bộ luật Hình sự, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Q uyết định không khởi tố vụ án hình sự số {{document.issuePlaceAndDateLine}} ngày … tháng … năm … c ủa 5 {{document.issuePlaceAndDateLine}} {{document.issuePlaceAndDateLine}} Điều 2. Yêu cầu 5 {{d"
+        },
+        {
+          "placeholder": "person.fullName",
+          "count": 1,
+          "context": "aceAndDateLine}} Điều 2. Yêu cầu 5 {{document.issuePlaceAndDateLine}} Nơi nhận: - 5 … ; - 1 … ; - Lưu : HSVV, HSKS, VP. {{person.fullName}} .. ( Ký, ghi rõ họ tên, đóng dấu )"
+        }
+      ]
+    }
+  },
+  "contract": {
+    "file": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-022__13d342bdfc56.contract.locked.json",
+    "sourceId": "BM-022__13d342bdfc56",
+    "status": "locked",
+    "reviewKind": "human",
+    "canonicalFields": [
+      {
+        "path": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "Số quyết định",
+        "source": "systemDate",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.fullName",
+        "label": "Họ tên",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      }
+    ],
+    "docxSlots": [
+      {
+        "slotId": "agency.nameUpper",
+        "label": "Tên cơ quan ban hành viết hoa",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và"
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "label": "Tên cơ quan",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "VIỆN KIỂM SÁT … {{document.field1}}"
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "label": "Số quyết định",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số {{document.documentCode}}ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}"
+      },
+      {
+        "slotId": "person.fullName",
+        "label": "Ô trống",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "{{document.field7}}.."
+      }
+    ],
+    "renderBindings": [
+      {
+        "slotId": "agency.nameUpper",
+        "from": "agency.nameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.parentNameUpper",
+        "from": "agency.parentNameUpper",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "from": "document.issuePlaceAndDateLine",
+        "transform": "date.issuePlaceDateLine",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.fullName",
+        "from": "person.fullName",
+        "transform": "identity",
+        "reviewRequired": false
+      }
+    ]
+  },
+  "structuralMismatches": {
+    "templatePlaceholdersWithoutSlots": [],
+    "contractSlotsWithoutTemplatePlaceholders": [],
+    "bindingsWithoutTemplatePlaceholders": [],
+    "slotsWithoutBindings": [],
+    "bindingsWithoutSlots": [],
+    "slotsWithoutCanonicalFields": [],
+    "fieldsWithoutSlots": [],
+    "reviewRequired": {
+      "slots": [],
+      "fields": [],
+      "bindings": []
+    }
+  },
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  }
+}

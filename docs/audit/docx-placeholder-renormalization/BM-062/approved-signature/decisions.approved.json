@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM062_SIGNATURE_FOOTER_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY",
+  "generatedAt": "2026-06-28T09:08:00.000Z",
+  "templateCode": "BM-062",
+  "sourceId": "BM-062__110961a781fa",
+  "decisions": [
+    {
+      "decisionId": "BM062-SIG-FOOTER-001",
+      "templateCode": "BM-062",
+      "originalPlaceholder": "recipients.personLine5",
+      "occurrenceIndex": 4,
+      "finalNewPlaceholder": "signature.signerName",
+      "semanticFieldPath": "signature.signerName",
+      "mutationType": "DOCX_OCCURRENCE_RENAME_AND_BINDING_AWARE_CONTRACT_REPAIR",
+      "visibleLabel": "(Ký, ghi rõ họ tên, đóng dấu)",
+      "confidence": "MEDIUM",
+      "approvedBy": "ChatGPT planner",
+      "approvalAt": "2026-06-28T09:08:00.000Z",
+      "approvalScope": "BM-062 footer signature occurrence only",
+      "requiredContext": [
+        "{{recipients.personLine5}}",
+        "( Ký, ghi rõ họ tên, đóng dấu )",
+        "Lưu:",
+        "16"
+      ],
+      "exactOoxmlTarget": {
+        "partName": "word/document.xml"
+      },
+      "fieldPolicy": {
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "uiComponent": "text",
+        "section": "Chữ ký"
+      },
+      "reason": "Footer signature occurrence with visible label '(Ký, ghi rõ họ tên, đóng dấu)' — matches BM-052 footer signature pattern. proposal: signature.signerName. Only footer occurrence is targeted; body person-table cells (occ 0-3) remain deferred."
+    }
+  ]
+}

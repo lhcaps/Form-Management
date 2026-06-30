@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_B_CLOSURE_REPORT",
+  "generatedAt": "2026-06-27T04:17:22.000Z",
+  "layer": "B",
+  "layerStatus": "APPLIED",
+  "summary": {
+    "layerApproved": 3,
+    "layerApplied": 3,
+    "layerFailed": 0,
+    "layerSkipped": 0
+  },
+  "targetContracts": [
+    { "templateCode": "BM-080", "sourceId": "a7aa64d4b889", "removedPath": "person.personFullName" },
+    { "templateCode": "BM-063", "sourceId": "54b73110a34f", "removedPath": "document.fullDocumentCode8" },
+    { "templateCode": "BM-064", "sourceId": "4d8cebc3515b", "removedPath": "document.issueDate4" }
+  ],
+  "removedPaths": [
+    { "decisionId": "DOCX-REMOVE-003", "path": "person.personFullName", "investigationId": "W2R-036", "templateCode": "BM-080" },
+    { "decisionId": "DOCX-REMOVE-004", "path": "document.fullDocumentCode8", "investigationId": "PRIOR-DXR-001", "templateCode": "BM-063" },
+    { "decisionId": "DOCX-REMOVE-005", "path": "document.issueDate4", "investigationId": "PRIOR-DXR-002", "templateCode": "BM-064" }
+  ],
+  "backup": {
+    "path": "docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z",
+    "timestamp": "2026-06-26T21:17:21.342Z",
+    "contracts": [
+      { "templateCode": "BM-080", "sourceId": "a7aa64d4b889", "file": "BM-080__a7aa64d4b889.contract.locked.json" },
+      { "templateCode": "BM-063", "sourceId": "54b73110a34f", "file": "BM-063__54b73110a34f.contract.locked.json" },
+      { "templateCode": "BM-064", "sourceId": "4d8cebc3515b", "file": "BM-064__4d8cebc3515b.contract.locked.json" }
+    ],
+    "manifest": "docs/audit/docx-path-binding-layer-b-approved/backups/2026-06-26T21-17-21-338Z/manifest.json"
+  },
+  "apply": {
+    "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER B BM-080 BM-063 BM-064 a7aa64d4b889 54b73110a34f 4d8cebc3515b DOCX-REMOVE-003 DOCX-REMOVE-004 DOCX-REMOVE-005",
+    "dryRunPassed": true,
+    "writePassed": true,
+    "script": "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs"
+  },
+  "safety": {
+    "lockedContractsMutated": 3,
+    "docxTouched": 0,
+    "sourcePathBindingTouchedDirectly": 0,
+    "compiledArtifactsHandEdited": 0,
+    "layerATouched": 0,
+    "layerCTouched": 0,
+    "domainModelPathsAdded": 0,
+    "backupCreated": 3
+  },
+  "domainModelConfirmation": {
+    "note": "Domain-model tentative paths were NOT implemented by this approval.",
+    "DOCX-REMOVE-003_tentativePath": "defender.cardLicenseNumber — NOT implemented",
+    "DOCX-REMOVE-004_tentativePath": "antecedentDocument.fullDocumentCode — NOT implemented",
+    "DOCX-REMOVE-005_tentativePath": "antecedentDocument.issueDate — NOT implemented"
+  },
+  "validation": {
+    "typecheck": "exit 0"
+  },
+  "layerProgress": {
+    "layerA": "APPLIED",
+    "layerB": "APPLIED",
+    "layerC": "PENDING_APPROVAL"
+  },
+  "next": "REVIEW_LAYER_B_CLOSURE_BEFORE_LAYER_C"
+}

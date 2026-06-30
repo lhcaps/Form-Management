@@ -1,0 +1,85 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM052_REMAINING_RECIPIENTS_PERSONLINE6_RENDER_BLOCKER_EVIDENCE",
+  "mode": "EVIDENCE_ONLY_RENDER_BLOCKER_INVESTIGATION",
+  "status": "COMPLETE",
+  "templateCode": "BM-052",
+  "canApplyRunNow": false,
+  "renderGateBefore": {
+    "bindingFidelity": "FAIL",
+    "literalFidelity": "FAIL",
+    "undefinedNullLiterals": 3,
+    "templatePlaceholdersWithoutSlots": [
+      "recipients.personLine6"
+    ],
+    "templatePlaceholdersWithoutBindings": [
+      "recipients.personLine6"
+    ]
+  },
+  "remainingOccurrences": [
+    {
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null
+    },
+    {
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null
+    },
+    {
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null
+    }
+  ],
+  "classificationCounts": {
+    "DEFER_AMBIGUOUS_PERSON_TABLE_CELL": 3
+  },
+  "proposedCandidates": [],
+  "deferredItems": [
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 0,
+      "reason": "Occurrence 0: standalone {{recipients.personLine6}} at text node 42. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 1,
+      "reason": "Occurrence 1: standalone {{recipients.personLine6}} at text node 43. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 2,
+      "reason": "Occurrence 2: standalone {{recipients.personLine6}} at text node 44. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL"
+    }
+  ],
+  "codeGraphFindingsPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-placeholder-renormalization\\BM-052\\codegraph.remaining-personline6-findings.md",
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true,
+    "renderGateUsed": true,
+    "codeGraphUsedForCodeOnly": true
+  },
+  "validation": {
+    "scriptName": "scripts/audit/plan-bm052-remaining-personline6-render-blocker.mjs",
+    "testFile": "test/bm052-remaining-personline6-render-blocker.test.mjs",
+    "expectedCanApplyRunNow": false
+  },
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "For the 3 remaining recipients.personLine6 occurrences in BM-052 body paragraphs, decide: (A) bind as-is with one slot+binding for recipients.personLine6 (no DOCX mutation, minimal fix, render-fidelity passes), or (B) split to distinct semantic placeholders (requires DOCX mutation + contract changes, semantics unknown)."
+  }
+}

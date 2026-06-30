@@ -1,0 +1,31 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_6_PDF_INTEGRITY",
+  "generated": "2026-06-28T16:26:00.000Z",
+  "assertDocxSourceReadyForPdf": {
+    "exists": true,
+    "file": "apps/api/src/modules/documents/document-pdf.service.ts",
+    "checks": ["placeholder", "undefined", "null"]
+  },
+  "assertPdfOutputIntegrity": {
+    "exists": true,
+    "file": "apps/api/src/modules/documents/document-pdf.service.ts",
+    "checks": ["%PDF- header", "%%EOF footer"]
+  },
+  "tests_exist": true,
+  "test_file": "apps/api/src/modules/documents/document-pdf.service.spec.ts",
+  "test_coverage": {
+    "DOCX_with_placeholder": "REJECTED — test exists",
+    "DOCX_with_undefined": "REJECTED — test exists",
+    "DOCX_valid": "ACCEPTED — test exists",
+    "PDF_missing_header": "REJECTED — test exists",
+    "PDF_missing_EOF": "REJECTED — test exists",
+    "PDF_invalid": "REJECTED — test exists",
+    "PDF_valid_transaction_guard": "test exists"
+  },
+  "negative_cases_needed": [
+    "DOCX_with_null literal in visible text — test exists (Gia tri undefined)",
+    "PDF_header_only (no EOF) — test exists"
+  ],
+  "assessment": "GOOD — test coverage for core negative cases exists"
+}

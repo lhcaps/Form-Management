@@ -1,0 +1,70 @@
+{
+  "task": "BM066_CLOSE_AS_HUMAN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-066",
+  "title": "Lệnh phong toả tài khoản",
+  "sourceId": "BM-066__e3bc56081554",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "FAIL",
+  "renderGateDetails": {
+    "bindingFidelity": "FAIL",
+    "literalFidelity": "FAIL",
+    "undefinedOrNullLiterals": 4,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "recipients.personLine4",
+      "count": 4,
+      "docxOccurrences": 4,
+      "slotCount": 0,
+      "bindingCount": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "4 occurrences are ambiguous person/account/footer cells in BM-066. Occurrences 0-1 are blank person table cells with no visible labels, occurrence 2 is in bank/account freeze context, and occurrence 3 is a distribution/footer administrative line rather than a formal signer slot. Cannot bind all 4 as one value without corrupting legal semantics."
+    },
+    {
+      "placeholder": "document.fullDocumentCode4",
+      "count": 4,
+      "docxOccurrences": 4,
+      "slotCount": 1,
+      "bindingCount": 1,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "reason": "4 occurrences are ambiguous document-code/account/procedural references. The existing slot is labeled 'Số văn bản', but the occurrence evidence places these references in bank/account and body procedural contexts, not a clearly shared formal document code. Cannot bind all 4 as one value or reuse document.fullDocumentCode without human DOCX/legal review."
+    }
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "BIND_ALL_RECIPIENTS_PERSONLINE4_AS_ONE_VALUE",
+      "reason": "Would render the same value into distinct person/account/footer contexts. BM-066 evidence does not prove a shared semantic field."
+    },
+    {
+      "option": "BIND_ALL_DOCUMENT_FULLDOCUMENTCODE4_AS_ONE_VALUE",
+      "reason": "Would merge bank/account/procedural references into one formal document-code value. Same-BM DOCX evidence does not prove they are the same legal document code."
+    },
+    {
+      "option": "TREAT_FOOTER_RECIPIENTS_PERSONLINE4_AS_SIGNATURE_SIGNER",
+      "reason": "The footer text is administrative distribution boilerplate with '(Ký, ghi rõ họ tên, đóng dấu)' and no strong evidence that it is the formal signer slot."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "What does each recipients.personLine4 occurrence represent in the official BM-066 DOCX: alias/person cell, account holder, organization, recipient, or footer signer?",
+    "Which document.fullDocumentCode4 occurrences are formal document numbers, and which are procedural/account references?",
+    "Should BM-066 account/bank/freeze fields use distinct semantic placeholders instead of recipients.personLine4 or document.fullDocumentCode4?",
+    "Is the final recipients.personLine4 footer occurrence a recipient/administrative line or a formal signer field?",
+    "What official TT-03-2026-VKSTC labels correspond to the bank/account/person cells in this form?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-066/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-066/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-066/planner-handoff.latest.json",
+    "codeGraphFindings": "docs/audit/docx-placeholder-renormalization/BM-066/codegraph.findings.md",
+    "bugbotReview": "docs/audit/docx-placeholder-renormalization/BM-066/review-bugbot.evidence-review.md"
+  },
+  "createdAt": "2026-06-28T00:00:00.000Z",
+  "createdBy": "BM066_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE task"
+}

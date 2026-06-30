@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "task": "PUBLISH_STALE_13_CONTRACTS_AND_VERIFY_RUNTIME_SYNC",
+  "phase": "pre-publish",
+  "generatedAt": "2026-06-28T03:38:00.000+07:00",
+  "dbSync": {
+    "matched": 200,
+    "missing": 0,
+    "stale": 13
+  },
+  "staleContracts": [
+    "BM-051",
+    "BM-052",
+    "BM-060",
+    "BM-061",
+    "BM-062",
+    "BM-063",
+    "BM-065",
+    "BM-066",
+    "BM-067",
+    "BM-075",
+    "BM-080",
+    "BM-096",
+    "BM-163"
+  ],
+  "staleAnalysis": {
+    "BM-096": "fresh stale from current mutation (document.diaChi -> person.idNumber remap applied 2026-06-27)",
+    "12_others": "pre-existing stale from prior batches: remediation-leak-batch-1b, batch-2a, Wave 02 DOCX review, path-domain-binding-layer-a/b/c approved"
+  },
+  "note": "Runtime state: matched=200, stale=13. This is the authoritative pre-publish state."
+}

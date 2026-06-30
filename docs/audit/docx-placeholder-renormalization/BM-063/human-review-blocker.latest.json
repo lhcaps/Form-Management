@@ -1,0 +1,70 @@
+{
+  "task": "BM063_CLOSE_AS_HUMAN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-063",
+  "title": "Biên bản kê biên tài sản",
+  "sourceId": "BM-063__54b73110a34f",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "FAIL",
+  "renderGateDetails": {
+    "bindingFidelity": "FAIL",
+    "literalFidelity": "FAIL",
+    "undefinedOrNullLiterals": 8,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "document.fullDocumentCode8",
+      "count": 8,
+      "docxOccurrences": 8,
+      "slotCount": 0,
+      "bindingCount": 0,
+      "classification": "DEFER_AMBIGUOUS_DOCUMENT_CODE",
+      "reason": "8 occurrences are ambiguous procedural antecedent/document-code references — superscript footnote numerals near Kiểm sát viên, references to Lệnh kê biên tài sản, UBND cấp xã authority. Not the formal 'Số văn bản' header. Cannot bind all 8 as one value. DOCX alone insufficient for semantic determination."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "count": 5,
+      "docxOccurrences": 5,
+      "slotCount": 1,
+      "bindingCount": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "5 occurrences are blank cells in asset seizure table rows — person name alias, ID document number, address, custodian assignment. Cannot merge 5 distinct cells into one field. Would render same value in 5 distinct locations."
+    }
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "BIND_ALL_DOCUMENT_FULLDOCUMENTCODE8_AS_ONE_VALUE",
+      "reason": "Would merge distinct procedural/document-code references into single field. Superscript footnote numerals, Lệnh references, and UBND references are semantically different — binding all as one would produce incorrect rendering."
+    },
+    {
+      "option": "BIND_ALL_RECIPIENTS_PERSONLINE5_AS_ONE_VALUE",
+      "reason": "Would render same person/asset value in 5 distinct table cells (name alias, ID, address, custodian). Would produce incorrect/meaningless output for 4 of 5 cells."
+    },
+    {
+      "option": "USE document.fullDocumentCode (singular) FOR ALL 8",
+      "reason": "The singular slot's label is 'Số văn bản' (formal document reference). Occurrences 0-1 are near this header but are actually superscript footnote numerals. Occurrences 2-7 are body references to underlying Lệnh/UBND — semantically distinct from the formal document number."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "What does each document.fullDocumentCode8 occurrence represent in the official BM-063 DOCX? Are occurrences 0-1 superscript footnote numerals (prosecutor index) rather than document codes?",
+    "Which document.fullDocumentCode8 occurrences refer to the underlying Lệnh kê biên tài sản vs. UBND cấp xã authority vs. other procedural antecedent?",
+    "What does each recipients.personLine5 table cell represent — person name alias, ID number, address, custodian, or something else?",
+    "Should document.fullDocumentCode8 occurrences be replaced with distinct semantic placeholders or removed as authoring noise?",
+    "What official TT-03-2026-VKSTC labels correspond to these cells in the asset seizure table?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-063/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-063/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-063/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-063/planner-handoff.latest.json",
+    "codeGraphFindings": "docs/audit/docx-placeholder-renormalization/BM-063/codegraph.findings.md",
+    "bugbotReview": "docs/audit/docx-placeholder-renormalization/BM-063/review-bugbot.evidence-review.md"
+  },
+  "createdAt": "2026-06-28T10:45:00.000Z",
+  "createdBy": "BM063_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE task"
+}

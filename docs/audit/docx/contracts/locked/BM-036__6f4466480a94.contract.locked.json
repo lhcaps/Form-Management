@@ -54,50 +54,35 @@
         "blockId": "P0028",
         "tableCellId": null
       },
-      "context": "Xét {{agency.nameUpper}}số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
-      "label": "Viện kiểm sát ban hành",
+      "context": "Xét {{document.documentCode}}số … ngày … tháng … năm … của… đối với{{document.documentCode}}{{document.documentCode}}",
+      "label": "Số văn bản",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Xét",
         "textAfter": "số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
-        "rawPattern": "{{agency.nameUpper}}"
+        "rawPattern": "{{document.documentCode}}",
+        "legacyRawPattern": "{{agency.nameUpper}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Xét",
         "textAfter": "số … ngày … tháng … năm … của… đối với{{agency.nameUpper}}{{agency.nameUpper}}",
-        "rawPattern": "{{agency.nameUpper}}",
+        "rawPattern": "{{document.documentCode}}",
         "context": "[Auto] Xét",
-        "blockId": "P0028"
-      }
-    },
-    {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0029",
-        "tableCellId": null
+        "blockId": "P0028",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Viện kiểm sát ban hành",
+          "newValue": "Số văn bản",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{agency.nameUpper}}"
       },
-      "context": "Nhận thấy{{document.field5}},",
-      "label": "Ô trống",
-      "slotType": "text",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "Nhận thấy",
-        "textAfter": ",",
-        "rawPattern": "{{document.field5}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "Nhận thấy",
-        "textAfter": ",",
-        "rawPattern": "{{document.field5}}",
-        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
-      }
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.397Z"
     },
     {
       "slotId": "document.issuePlaceAndDateLine",
@@ -106,24 +91,35 @@
         "blockId": "P0034",
         "tableCellId": null
       },
-      "context": "Họ tên:8{{person.fullName}}",
-      "label": "Họ tên người bị áp dụng",
+      "context": "Họ tên:8{{document.issuePlaceAndDateLine}}",
+      "label": "Địa điểm, ngày ban hành",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "Họ tên:8",
         "textAfter": "",
-        "rawPattern": "{{person.fullName}}"
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "legacyRawPattern": "{{person.fullName}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Họ tên:8",
         "textAfter": "",
-        "rawPattern": "{{person.fullName}}",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
         "context": "[Auto] Họ tên:8",
-        "blockId": "P0034"
-      }
+        "blockId": "P0034",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Họ tên người bị áp dụng",
+          "newValue": "Địa điểm, ngày ban hành",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{person.fullName}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.397Z"
     },
     {
       "slotId": "person.fullName",
@@ -132,24 +128,35 @@
         "blockId": "P0036",
         "tableCellId": null
       },
-      "context": "{{document.issueDate}}",
-      "label": "Ngày ban hành",
+      "context": "{{person.fullName}}",
+      "label": "Họ tên người bị áp dụng",
       "slotType": "date",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
+        "rawPattern": "{{person.fullName}}",
+        "legacyRawPattern": "{{document.issueDate}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
+        "rawPattern": "{{person.fullName}}",
         "context": "[Auto] {{document.issueDate}}",
-        "blockId": "P0036"
-      }
+        "blockId": "P0036",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Ngày ban hành",
+          "newValue": "Họ tên người bị áp dụng",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{document.issueDate}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.397Z"
     },
     {
       "slotId": "legalBasis.procedureArticlesLine",
@@ -159,7 +166,7 @@
         "tableCellId": null
       },
       "context": "{{document.field8}}",
-      "label": "Ô trống",
+      "label": "Thông tin nhân thân bổ sung",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -170,12 +177,31 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "",
-        "rawPattern": "{{document.field8}}",
-        "context": "[Auto] {{document.field8}}",
-        "blockId": "P0037"
-      }
+        "reviewedAt": "2026-06-29T15:27:52.239Z",
+        "reviewedBy": "Codex legal semantic slot review",
+        "disposition": "FIX_SOURCE",
+        "confidence": "MEDIUM",
+        "oldLabel": "Căn cứ pháp lý",
+        "newLabel": "Thông tin nhân thân bổ sung",
+        "oldSource": "officialConfig",
+        "newSource": "manual",
+        "oldUiComponent": "text",
+        "newUiComponent": "textarea",
+        "docxSlotId": "legalBasis.procedureArticlesLine",
+        "actualDocxContext": "Điều 137 của Luật Tư pháp người chưa thành niên ; Xét {{document.documentCode}} số … ngày … tháng … năm … của … đ ối với {{document.documentCode}} {{document.documentCode}} Nhận thấy {{person.fullName}} , QUYẾT ĐỊNH: Điều 1. Trả tự do cho: Họ tên: 8 {{document.issuePlaceAndDateLine}} Tên gọi khác: {{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS,",
+        "actualDocxRawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "rationale": "BM-036 context places this token in the person identity block, not official/signature config or legal-basis text; use manual textarea metadata and clear the residual slot review flag.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Thông tin nhân thân bổ sung",
+          "canonicalPath": "legalBasis.procedureArticlesLine",
+          "canonicalReviewedBy": "Codex legal semantic slot review",
+          "canonicalReviewedAt": "2026-06-29T15:27:52.239Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic slot review",
+      "reviewedAt": "2026-06-29T15:27:52.239Z"
     },
     {
       "slotId": "decision.summaryLine",
@@ -184,24 +210,35 @@
         "blockId": "P0040",
         "tableCellId": null
       },
-      "context": "{{agency.parentNameUpper}}",
-      "label": "Cơ quan cấp trên",
+      "context": "{{decision.summaryLine}}",
+      "label": "Tóm tắt quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{agency.parentNameUpper}}"
+        "rawPattern": "{{decision.summaryLine}}",
+        "legacyRawPattern": "{{agency.parentNameUpper}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{agency.parentNameUpper}}",
+        "rawPattern": "{{decision.summaryLine}}",
         "context": "[Auto] {{agency.parentNameUpper}}",
-        "blockId": "P0040"
-      }
+        "blockId": "P0040",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Cơ quan cấp trên",
+          "newValue": "Tóm tắt quyết định",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{agency.parentNameUpper}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.397Z"
     },
     {
       "slotId": "recipients.executionAgencyLine",
@@ -210,24 +247,35 @@
         "blockId": "P0042",
         "tableCellId": null
       },
-      "context": "{{decision.decisionLine}}",
-      "label": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+      "context": "{{recipients.executionAgencyLine}}",
+      "label": "Cơ quan thi hành quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
       "evidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{decision.decisionLine}}"
+        "rawPattern": "{{recipients.executionAgencyLine}}",
+        "legacyRawPattern": "{{decision.decisionLine}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "",
         "textAfter": "",
-        "rawPattern": "{{decision.decisionLine}}",
+        "rawPattern": "{{recipients.executionAgencyLine}}",
         "context": "[Auto] {{decision.decisionLine}}",
-        "blockId": "P0042"
-      }
+        "blockId": "P0042",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+          "newValue": "Cơ quan thi hành quyết định",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        },
+        "legacyRawPattern": "{{decision.decisionLine}}"
+      },
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.397Z"
     },
     {
       "slotId": "recipients.personLine",
@@ -237,7 +285,7 @@
         "tableCellId": null
       },
       "context": "10{{document.field12}};",
-      "label": "Ô trống",
+      "label": "Người bị áp dụng",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -248,12 +296,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "10",
-        "textAfter": ";",
-        "rawPattern": "{{document.field12}}",
-        "context": "[Auto] 10",
-        "blockId": "P0046"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Người bị áp dụng",
+        "docxSlotId": "recipients.personLine",
+        "actualDocxContext": "{{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.personLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Người bị áp dụng",
+          "canonicalPath": "recipients.personLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "recipients.archiveLine",
@@ -263,7 +326,7 @@
         "tableCellId": null
       },
       "context": "11{{document.field13}}",
-      "label": "Ô trống",
+      "label": "Lưu hồ sơ",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -274,12 +337,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "11",
-        "textAfter": "",
-        "rawPattern": "{{document.field13}}",
-        "context": "[Auto] 11",
-        "blockId": "P0049"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Lưu hồ sơ",
+        "docxSlotId": "recipients.archiveLine",
+        "actualDocxContext": "ghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.archiveLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Lưu hồ sơ",
+          "canonicalPath": "recipients.archiveLine",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -302,7 +380,7 @@
     {
       "path": "document.documentCode",
       "type": "string",
-      "label": "Viện kiểm sát ban hành",
+      "label": "Số văn bản",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
@@ -312,29 +390,20 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] Xét",
-        "blockId": "P0028"
-      }
-    },
-    {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "computed",
-      "required": false,
-      "uiComponent": "text",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "reason": "Phase D fix: inferred source \"derived\" for field \"document.issueDate\" (label: \"Ô trống\") from draft.",
-        "reviewerNote": "Le Huy — source inferred from field name and label heuristics."
+        "blockId": "P0028",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Viện kiểm sát ban hành",
+          "newValue": "Số văn bản",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "document.issuePlaceAndDateLine",
       "type": "string",
-      "label": "Họ tên người bị áp dụng",
+      "label": "Địa điểm, ngày ban hành",
       "source": "systemDate",
       "required": false,
       "uiComponent": "text",
@@ -344,13 +413,20 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] Họ tên:8",
-        "blockId": "P0034"
+        "blockId": "P0034",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Họ tên người bị áp dụng",
+          "newValue": "Địa điểm, ngày ban hành",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "person.fullName",
       "type": "string",
-      "label": "Ngày ban hành",
+      "label": "Họ tên người bị áp dụng",
       "source": "manual",
       "required": false,
       "uiComponent": "date",
@@ -360,29 +436,48 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] {{document.issueDate}}",
-        "blockId": "P0036"
+        "blockId": "P0036",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Ngày ban hành",
+          "newValue": "Họ tên người bị áp dụng",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "legalBasis.procedureArticlesLine",
       "type": "string",
-      "label": "Căn cứ pháp lý",
-      "source": "officialConfig",
+      "label": "Thông tin nhân thân bổ sung",
+      "source": "manual",
       "required": false,
-      "uiComponent": "text",
+      "uiComponent": "textarea",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic slot review",
+      "reviewedAt": "2026-06-29T15:27:52.239Z",
       "reviewEvidence": {
-        "context": "[Auto] {{document.field8}}",
-        "blockId": "P0037"
+        "reviewedAt": "2026-06-29T15:27:52.239Z",
+        "reviewedBy": "Codex legal semantic slot review",
+        "disposition": "FIX_SOURCE",
+        "confidence": "MEDIUM",
+        "oldLabel": "Căn cứ pháp lý",
+        "newLabel": "Thông tin nhân thân bổ sung",
+        "oldSource": "officialConfig",
+        "newSource": "manual",
+        "oldUiComponent": "text",
+        "newUiComponent": "textarea",
+        "docxSlotId": "legalBasis.procedureArticlesLine",
+        "actualDocxContext": "Điều 137 của Luật Tư pháp người chưa thành niên ; Xét {{document.documentCode}} số … ngày … tháng … năm … của … đ ối với {{document.documentCode}} {{document.documentCode}} Nhận thấy {{person.fullName}} , QUYẾT ĐỊNH: Điều 1. Trả tự do cho: Họ tên: 8 {{document.issuePlaceAndDateLine}} Tên gọi khác: {{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS,",
+        "actualDocxRawPattern": "{{legalBasis.procedureArticlesLine}}",
+        "rationale": "BM-036 context places this token in the person identity block, not official/signature config or legal-basis text; use manual textarea metadata and clear the residual slot review flag."
       }
     },
     {
       "path": "decision.summaryLine",
       "type": "string",
-      "label": "Cơ quan cấp trên",
+      "label": "Tóm tắt quyết định",
       "source": "computed",
       "required": false,
       "uiComponent": "text",
@@ -392,13 +487,20 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] {{agency.parentNameUpper}}",
-        "blockId": "P0040"
+        "blockId": "P0040",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Cơ quan cấp trên",
+          "newValue": "Tóm tắt quyết định",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "recipients.executionAgencyLine",
       "type": "string",
-      "label": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+      "label": "Cơ quan thi hành quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "textarea",
@@ -408,39 +510,62 @@
       "reviewedAt": "2026-06-22T08:15:00.000+07:00",
       "reviewEvidence": {
         "context": "[Auto] {{decision.decisionLine}}",
-        "blockId": "P0042"
+        "blockId": "P0042",
+        "finalSemanticMetadataRepair": {
+          "kind": "label",
+          "oldValue": "Nội dung quyết định (${\"trả tự do cho người bị tạm giữ\"})",
+          "newValue": "Cơ quan thi hành quyết định",
+          "repairedAt": "2026-06-30T08:19:13.397Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
       }
     },
     {
       "path": "recipients.personLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Người bị áp dụng",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] 10",
-        "blockId": "P0046"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Người bị áp dụng",
+        "docxSlotId": "recipients.personLine",
+        "actualDocxContext": "{{person.fullName}} {{legalBasis.procedureArticlesLine}} Nghề nghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.personLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
       }
     },
     {
       "path": "recipients.archiveLine",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Lưu hồ sơ",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto] 11",
-        "blockId": "P0049"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Lưu hồ sơ",
+        "docxSlotId": "recipients.archiveLine",
+        "actualDocxContext": "ghiệp: Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.summaryLine}} Nơi thường trú: {{recipients.executionAgencyLine}} {{recipients.executionAgencyLine}} Điều 2. Yêu cầu 10 … thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: 10 {{recipients.personLine}} ; - 8 …; - Lưu: HSVV/VA, HSKS, VP. 11 {{recipients.archiveLine}} ( Ký, ghi rõ họ tên, đóng dấu ) 2540 60960 Quyết định này đã được giao cho người được trả tự do một bản vào hồi … giờ … ngày … tháng … năm … NGƯỜI ĐƯỢC TRẢ TỰ DO (Ký, ghi rõ họ tên)",
+        "actualDocxRawPattern": "{{recipients.archiveLine}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
       }
     }
   ],
@@ -455,13 +580,6 @@
     {
       "slotId": "document.documentCode",
       "from": "document.documentCode",
-      "transform": "identity",
-      "fallback": "",
-      "reviewRequired": false
-    },
-    {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -553,15 +671,7 @@
     ],
     "suggestedControls": [
       {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
         "path": "agency.nameUpper",
-        "control": "text"
-      },
-      {
-        "path": "document.field5",
         "control": "text"
       },
       {
@@ -573,24 +683,12 @@
         "control": "date"
       },
       {
-        "path": "document.field8",
-        "control": "text"
-      },
-      {
         "path": "agency.parentNameUpper",
         "control": "text"
       },
       {
         "path": "decision.decisionLine",
         "control": "textarea"
-      },
-      {
-        "path": "document.field12",
-        "control": "text"
-      },
-      {
-        "path": "document.field13",
-        "control": "text"
       }
     ],
     "previewRequired": true,

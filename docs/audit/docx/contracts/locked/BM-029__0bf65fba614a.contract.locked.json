@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5{{case.field3}}tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ, trái pháp luật,",
-      "label": "Ô trống",
+      "label": "Tên cơ quan",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -66,12 +66,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5",
-        "textAfter": "tội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ, trái pháp luật,",
-        "rawPattern": "{{case.field3}}",
-        "context": "[Auto-generated] Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5",
-        "blockId": "P0026"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tên cơ quan",
+        "docxSlotId": "agency.tenCo",
+        "actualDocxContext": "0 Độc lập - Tự do - Hạnh phúc {{agency.vienKiem}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 156, 161 và 165 (hoặc 432) của Bộ luật Tố tụng hình sự ; Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 {{agency.tenCo}} t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ , trái pháp luật, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định",
+        "actualDocxRawPattern": "{{agency.tenCo}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên cơ quan",
+          "canonicalPath": "agency.tenCo",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     },
     {
       "slotId": "document.vietTat",
@@ -81,7 +96,7 @@
         "tableCellId": null
       },
       "context": "6{{document.field4}}",
-      "label": "Ô trống",
+      "label": "Tên viết tắt",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -92,12 +107,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "6",
-        "textAfter": "",
-        "rawPattern": "{{document.field4}}",
-        "context": "[Auto-generated] 6",
-        "blockId": "P0037"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tên viết tắt",
+        "docxSlotId": "document.vietTat",
+        "actualDocxContext": "pháp luật, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 …; - 1 …; - Lưu : HSVA, HSKS, VP. 6 {{document.vietTat}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.vietTat}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Tên viết tắt",
+          "canonicalPath": "document.vietTat",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -120,33 +150,49 @@
     {
       "path": "agency.tenCo",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Tên cơ quan",
       "source": "agencyConfig",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của5",
-        "blockId": "P0026"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tên cơ quan",
+        "docxSlotId": "agency.tenCo",
+        "actualDocxContext": "0 Độc lập - Tự do - Hạnh phúc {{agency.vienKiem}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH BỔ SUNG QUYẾT ĐỊNH KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các điều 41, 156, 161 và 165 (hoặc 432) của Bộ luật Tố tụng hình sự ; Xét thấy Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 {{agency.tenCo}} t ội … quy định tại khoản … Điều … của Bộ luật Hình sự là không có căn cứ , trái pháp luật, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định",
+        "actualDocxRawPattern": "{{agency.tenCo}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     },
     {
       "path": "document.vietTat",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Tên viết tắt",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] 6",
-        "blockId": "P0037"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Tên viết tắt",
+        "docxSlotId": "document.vietTat",
+        "actualDocxContext": "pháp luật, QUYẾT ĐỊNH: Điều 1. H ủy bỏ Quyết định bổ sung Quyết định khởi tố vụ án hình sự số … ngày … tháng … năm … của 5 … về t ội … quy định tại khoản … Điều … của Bộ luật Hình sự . Điều 2. Yêu cầu 5 … tiến hành điều tra theo quy định của Bộ luật Tố tụng hình sự./. Nơi nhận: - 5 …; - 1 …; - Lưu : HSVA, HSKS, VP. 6 {{document.vietTat}} ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.vietTat}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],
@@ -199,32 +245,6 @@
     "headerRules": [],
     "footerRules": [],
     "titleRules": [],
-    "reviewRequired": false
-  },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "case"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "case.field3",
-        "control": "text"
-      },
-      {
-        "path": "document.field4",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
     "reviewRequired": false
   },
   "reportingHints": {

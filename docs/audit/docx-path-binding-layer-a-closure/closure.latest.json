@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_PATH_BINDING_LAYER_A_CLOSURE_REPORT",
+  "generatedAt": "2026-06-27T03:55:30.000Z",
+  "layer": "A",
+  "layerStatus": "APPLIED",
+  "summary": {
+    "layerApproved": 4,
+    "layerApplied": 4,
+    "layerFailed": 0,
+    "layerSkipped": 0
+  },
+  "target": {
+    "templateCode": "BM-073",
+    "sourceId": "e412fccad227",
+    "contractFile": "BM-073__e412fccad227.contract.locked.json",
+    "contractPath": "docs/audit/docx/contracts/locked/BM-073__e412fccad227.contract.locked.json"
+  },
+  "removedPaths": [
+    {
+      "decisionId": "DOCX-REMOVE-001",
+      "path": "person.dateOfBirth",
+      "investigationId": "W2R-027",
+      "sourceBatch": "P0"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-002",
+      "path": "person.idNumber",
+      "investigationId": "W2R-028",
+      "sourceBatch": "P0"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-006",
+      "path": "document.fullDocumentCode",
+      "investigationId": "W2R-025",
+      "sourceBatch": "P1_BATCH_1"
+    },
+    {
+      "decisionId": "DOCX-REMOVE-007",
+      "path": "document.issueDate",
+      "investigationId": "W2R-026",
+      "sourceBatch": "P1_BATCH_1"
+    }
+  ],
+  "backup": {
+    "path": "docs/audit/docx-path-binding-layer-a-approved/backups/2026-06-26T20-55-28-529Z",
+    "timestamp": "2026-06-26T20:55:28.532Z",
+    "originalContract": "BM-073__e412fccad227.contract.locked.json",
+    "manifest": "docs/audit/docx-path-binding-layer-a-approved/backups/2026-06-26T20-55-28-529Z/manifest.json"
+  },
+  "apply": {
+    "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER A BM-073 e412fccad227 DOCX-REMOVE-001 DOCX-REMOVE-002 DOCX-REMOVE-006 DOCX-REMOVE-007",
+    "dryRunPassed": true,
+    "writePassed": true,
+    "script": "scripts/audit/apply-docx-path-binding-layer-a-approved.mjs"
+  },
+  "safety": {
+    "lockedContractsMutated": 1,
+    "docxTouched": 0,
+    "sourcePathBindingTouchedDirectly": 0,
+    "compiledArtifactsHandEdited": 0,
+    "layerBTouched": 0,
+    "layerCTouched": 0
+  },
+  "validation": {
+    "typecheck": "exit 0"
+  },
+  "layerProgress": {
+    "layerA": "APPLIED",
+    "layerB": "PENDING_APPROVAL",
+    "layerC": "PENDING_APPROVAL"
+  },
+  "next": "REVIEW_LAYER_A_CLOSURE_BEFORE_LAYER_B"
+}

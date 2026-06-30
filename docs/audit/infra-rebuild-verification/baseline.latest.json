@@ -1,0 +1,88 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_1_BASELINE_VERIFICATION",
+  "generated": "2026-06-28T16:12:00.000Z",
+  "verified": true,
+  "commands": {
+    "audit_contract_sync": {
+      "command": "node scripts/audit/audit-contract-sync.mjs",
+      "exitCode": 0,
+      "output": {
+        "strategy": "DB_COMPARE",
+        "totalLocked": 213,
+        "matched": 213,
+        "missingInDb": 0,
+        "stale": 0,
+        "driftDetected": false
+      },
+      "pass": true
+    },
+    "board_refresh": {
+      "command": "node scripts/audit/refresh-213-docx-fidelity-board.mjs",
+      "exitCode": 0,
+      "output": {
+        "rows": 213,
+        "rootCauseIssues": 1469,
+        "contractRepairRequired": 22,
+        "contractRepairBatchItems": 5,
+        "renderEvidenceClean": 213,
+        "renderEvidenceMissing": 0,
+        "blockersPatched": 12
+      },
+      "pass": true
+    }
+  },
+  "board": {
+    "totalRows": 213,
+    "rootCauseIssues": 1469,
+    "rootCauseFail": 1148,
+    "rootCauseReview": 321,
+    "contractRepairRequired": 22,
+    "renderEvidenceClean": 213,
+    "renderEvidenceMissing": 0
+  },
+  "laneCounts": {
+    "CONTRACT_REPAIR": 17,
+    "PATH_DOMAIN_BINDING": 121,
+    "SOURCE_POLICY": 48,
+    "REMEDIATION_LEAK": 0,
+    "WEAK_EVIDENCE_REVIEW": 2,
+    "RENDER_FIDELITY": 0,
+    "LEGAL_REVIEW": 12,
+    "VERIFY_ONLY": 13
+  },
+  "contractAtlas": {
+    "totalTemplates": 213,
+    "locked": 213,
+    "structuralMismatch": 0,
+    "repairCandidates": 0,
+    "reviewRequired": 16
+  },
+  "renderAtlas": {
+    "total": 213,
+    "pass": 213,
+    "fail": 0,
+    "error": 0,
+    "missing": 0,
+    "cacheHits": 213
+  },
+  "smartQueue": {
+    "total": 213,
+    "bucketCounts": {
+      "DO_NOT_TOUCH_ALREADY_BLOCKED": 12,
+      "RENDER_FAIL_REQUIRES_REPAIR": 0,
+      "DOCX_REQUIRES_OCCURRENCE_REVIEW": 74,
+      "PLANNER_REVIEW_CANDIDATE": 0,
+      "DOCX_SAFE_RENDER_PASS_POLICY_BLOCKER": 34,
+      "LOW_PRIORITY_RENDER_PASS_SEMANTIC_REVIEW": 93
+    },
+    "preservedBlockers": 12
+  },
+  "blockerPreservation": {
+    "required": ["BM-052", "BM-062", "BM-063", "BM-066", "BM-096", "BM-155", "BM-136", "BM-212", "BM-069", "BM-117", "BM-118", "BM-203"],
+    "verified": true,
+    "all12Preserved": true,
+    "allLegalReviewLane": true
+  },
+  "flags": []
+}

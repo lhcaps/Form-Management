@@ -13,7 +13,7 @@
  *   - Envs required: OFFICIAL_ID (createdBy/approvedBy/publishedBy)
  *   - Publishes the 213-contract baseline as GLOBAL only. Agency-scoped
  *     versions must go through the Form Studio approval workflow.
- *   - Fails if published != expected (default 213)
+ *   - Fails if published + already-current skipped != expected (default 213)
  *
  * Prerequisites:
  *   - Run: pnpm --filter api exec prisma migrate deploy
@@ -34,8 +34,10 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { stableContractHash } from "./lib/stable-contract-hash.mjs";
-import { adaptV1Contract } from "../../packages/form-contracts/src/v1-adapter.ts";
-import { compileContract } from "../../packages/form-contracts/src/compiler.ts";
+import {
+  adaptV1Contract,
+  compileContract,
+} from "../../packages/form-contracts/dist/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -442,10 +444,10 @@ async function publishToDb(toPublish, opts) {
     process.exit(1);
   }
 
-  if (expectExactly !== undefined && created > 0 && created < expectExactly) {
+  if (expectExactly !== undefined && total < expectExactly) {
     console.error(
-      `\nASSERTION FAILED: created ${created} < expected ${expectExactly}. ` +
-      `Some forms may already be published or blocked.`,
+      `\nASSERTION FAILED: created(${created}) + skipped(${skipped}) = ${total} ` +
+      `< expected ${expectExactly}. Some forms may be blocked.`,
     );
     process.exit(1);
   }

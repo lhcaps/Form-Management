@@ -1,0 +1,236 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "generated": "2026-06-28T16:09:00.000Z",
+  "branch": "fix/documents-canonical-render-payload-snapshot",
+  "baseBranch": "origin/fix/documents-canonical-render-payload-snapshot",
+  "totalStagedFiles": 0,
+  "totalModifiedFiles": 55,
+  "totalUntrackedFiles": 97,
+  "categories": {
+    "pdf_export_integrity": {
+      "description": "PDF export integrity guards in document-pdf.service.ts",
+      "files": [
+        "apps/api/src/modules/documents/document-pdf.service.ts"
+      ],
+      "status": "INFRA_GATE",
+      "safety": "GUARD"
+    },
+    "contract_sync_guard": {
+      "description": "Startup guard C1 and tests",
+      "files": [
+        "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts",
+        "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.spec.ts"
+      ],
+      "status": "INFRA_GATE",
+      "safety": "GUARD"
+    },
+    "render_gate_infra": {
+      "description": "Render fidelity gate with splitStaticAnchorFragments fix",
+      "files": [
+        "scripts/audit/render-form-fidelity-gate.mjs"
+      ],
+      "status": "INFRA_GATE",
+      "safety": "GATE"
+    },
+    "ooxml_repair_infra": {
+      "description": "OOXML stray brace repair library",
+      "files": [
+        "scripts/audit/lib/ooxml-stray-brace-repair.mjs"
+      ],
+      "status": "INFRA_HELPER",
+      "safety": "REPAIR"
+    },
+    "contract_render_binding_repair_infra": {
+      "description": "Contract-render binding repair library",
+      "files": [
+        "scripts/audit/lib/contract-render-binding-repair.mjs"
+      ],
+      "status": "INFRA_HELPER",
+      "safety": "REPAIR"
+    },
+    "contract_structural_cleanup_infra": {
+      "description": "Contract structural cleanup apply script",
+      "files": [
+        "scripts/audit/apply-contract-structural-cleanup-v1.mjs"
+      ],
+      "status": "INFRA_APPLY_SCRIPT",
+      "safety": "REPAIR"
+    },
+    "atlas_builders": {
+      "description": "Atlas builder scripts",
+      "files": [
+        "scripts/audit/build-contract-atlas-v1.mjs",
+        "scripts/audit/build-docx-atlas-v1.mjs",
+        "scripts/audit/build-render-atlas-v1.mjs",
+        "scripts/audit/build-smart-remediation-queue-v1.mjs"
+      ],
+      "status": "INFRA_BUILD"
+    },
+    "audit_scripts": {
+      "description": "Audit runner scripts",
+      "files": [
+        "scripts/audit/audit-forms-root-cause.mjs",
+        "scripts/audit/refresh-213-docx-fidelity-board.mjs"
+      ],
+      "status": "INFRA_SCRIPT"
+    },
+    "atlas_artifacts": {
+      "description": "Generated atlas reports (untracked)",
+      "files": [
+        "docs/audit/213-docx-fidelity-board/",
+        "docs/audit/docx-atlas-v1/"
+      ],
+      "status": "ARTIFACT_GENERATED",
+      "safety": "REPORT"
+    },
+    "contract_compiled_v2": {
+      "description": "Compiled contract artifacts (compiled-v2)",
+      "files": [
+        "docs/audit/docx/compiled-v2/BM-001.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-002.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-003.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-021.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-022.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-025.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-032.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-036.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-052.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-062.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-063.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-064.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-065.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-066.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-067.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-073.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-080.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-096.compiled.json",
+        "docs/audit/docx/compiled-v2/BM-167.compiled.json"
+      ],
+      "status": "CONTRACT_COMPILED",
+      "safety": "MUTATION_INTENTIONAL"
+    },
+    "contract_locked": {
+      "description": "Locked contract files (20 files changed)",
+      "files": [
+        "docs/audit/docx/contracts/locked/BM-001__f4c2aa3682d3.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-002__f78301178da7.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-003__bb64990bc49b.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-021__772319486f41.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-022__13d342bdfc56.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-025__5dcf0eb7f481.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-032__cce50086cd38.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-036__6f4466480a94.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-052__9919ecdb3971.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-062__110961a781fa.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-063__54b73110a34f.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-064__4d8cebc3515b.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-065__4a64c8d7e96c.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-066__e3bc56081554.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-067__0f7607122f29.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-073__e412fccad227.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-080__a7aa64d4b889.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",
+        "docs/audit/docx/contracts/locked/BM-167__70817b325370.contract.locked.json"
+      ],
+      "status": "CONTRACT_LOCKED",
+      "safety": "MUTATION_INTENTIONAL",
+      "note": "BM-001, BM-002, BM-003, BM-021, BM-065, BM-067 had structural cleanup applied"
+    },
+    "normalized_docx": {
+      "description": "Normalized DOCX templates (6 files changed, all binary)",
+      "files": [
+        "storage/templates/normalized-docx/BM-021/BM-021_normalized.docx",
+        "storage/templates/normalized-docx/BM-031/BM-031_normalized.docx",
+        "storage/templates/normalized-docx/BM-044/BM-044_normalized.docx",
+        "storage/templates/normalized-docx/BM-052/BM-052_normalized.docx",
+        "storage/templates/normalized-docx/BM-056/BM-056_normalized.docx",
+        "storage/templates/normalized-docx/BM-062/BM-062_normalized.docx"
+      ],
+      "status": "TEMPLATE_MUTATION",
+      "safety": "HIGH_SCRUTINY",
+      "note": "BM-031 and BM-062 had massive size reduction (82KB->19KB and 92KB->13KB). Requires OOXML repair proof."
+    },
+    "db_reports": {
+      "description": "DB publish reports",
+      "files": [
+        "docs/audit/docx/reports/FORM-CONTRACT-DB-PUBLISH.md"
+      ],
+      "status": "ARTIFACT"
+    },
+    "baseline_artifacts": {
+      "description": "Baseline artifacts",
+      "files": [
+        "docs/audit/form-authoring-baselines/audited.md",
+        "docs/audit/form-authoring-baselines/matrix.csv"
+      ],
+      "status": "ARTIFACT"
+    },
+    "forms_root_cause": {
+      "description": "Forms root cause analysis",
+      "files": [
+        "docs/audit/forms-root-cause/latest.json",
+        "docs/audit/forms-root-cause/latest.md"
+      ],
+      "status": "ARTIFACT"
+    },
+    "legacy_renderer_capabilities": {
+      "description": "Legacy renderer capabilities (minor change)",
+      "files": [
+        "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts"
+      ],
+      "status": "MINOR_CHANGE"
+    },
+    "publish_script": {
+      "description": "Publish locked contracts script",
+      "files": [
+        "scripts/docx-contract/publish-locked-contracts-to-db.mjs"
+      ],
+      "status": "SCRIPT"
+    }
+  },
+  "critical_untracked_dirs": {
+    "audit_dirs": [
+      "docs/audit/docx-atlas-v1/",
+      "docs/audit/213-docx-fidelity-board/",
+      "docs/audit/docx-placeholder-renormalization/",
+      "docs/audit/docx-wave-02-*/*",
+      "docs/audit/path-domain-binding-*/*",
+      "docs/audit/prior-docx-remediation-generic-slot-*/*",
+      "docs/audit/docx-path-binding-combined-*/*"
+    ],
+    "new_scripts": [
+      "scripts/audit/apply-*.mjs (11 files)",
+      "scripts/audit/plan-*.mjs (14 files)",
+      "scripts/audit/build-*.mjs (4 files)",
+      "scripts/audit/investigate-*.mjs (3 files)"
+    ],
+    "test_files": [
+      "test/*.test.mjs (30 files)"
+    ]
+  },
+  "normalized_docx_size_changes": {
+    "BM-021": { "before": 10408, "after": 10399, "delta": -9, "pct": "-0.09%" },
+    "BM-031": { "before": 82870, "after": 19284, "delta": -63586, "pct": "-76.7%", "flag": "CRITICAL" },
+    "BM-044": { "before": 20327, "after": 20311, "delta": -16, "pct": "-0.08%" },
+    "BM-052": { "before": 68046, "after": 11079, "delta": -56967, "pct": "-83.7%", "flag": "CRITICAL" },
+    "BM-056": { "before": 48247, "after": 48241, "delta": -6, "pct": "-0.01%" },
+    "BM-062": { "before": 92886, "after": 13077, "delta": -79809, "pct": "-85.9%", "flag": "CRITICAL" }
+  },
+  "flagged_issues": [
+    {
+      "type": "CRITICAL_SIZE_CHANGE",
+      "description": "BM-031, BM-052, BM-062 have massive DOCX size reductions (>75%). This requires OOXML repair proof before acceptance.",
+      "bm": ["BM-031", "BM-052", "BM-062"]
+    },
+    {
+      "type": "CONTRACT_MUTATION",
+      "description": "19 locked contracts + 19 compiled-v2 files changed. These are corpus mutations, not just infrastructure.",
+      "count": 38
+    },
+    {
+      "type": "NEW_UNTRACKED_SCRIPTS",
+      "description": "97 untracked files including 30+ new test files, 40+ new apply/plan/investigate scripts.",
+      "count": 97
+    }
+  ]
+}

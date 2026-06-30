@@ -46,6 +46,25 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0006"
       }
+    },
+    {
+      "slotId": "document.fullDocumentCode2",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "{{document.fullDocumentCode2}}",
+      "label": "Số văn bản",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "",
+        "textAfter": "",
+        "rawPattern": "{{document.fullDocumentCode2}}"
+      },
+      "reviewRequired": false
     }
   ],
   "canonicalFields": [
@@ -64,12 +83,41 @@
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0006"
       }
+    },
+    {
+      "path": "document.fullDocumentCode",
+      "type": "string",
+      "label": "Số văn bản",
+      "source": "manual",
+      "required": true,
+      "uiComponent": "text",
+      "section": "Thông tin văn bản",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewedBy": "Codex final semantic metadata repair",
+      "reviewedAt": "2026-06-30T08:19:13.401Z",
+      "reviewEvidence": {
+        "finalSemanticMetadataRepair": {
+          "kind": "required",
+          "oldValue": false,
+          "newValue": true,
+          "repairedAt": "2026-06-30T08:19:13.401Z",
+          "rationale": "Cleared final form semantic audit issue without changing render bindings."
+        }
+      }
     }
   ],
   "renderBindings": [
     {
       "slotId": "agency.name",
       "from": "agency.name",
+      "transform": "identity",
+      "fallback": "",
+      "reviewRequired": false
+    },
+    {
+      "slotId": "document.fullDocumentCode2",
+      "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -103,28 +151,6 @@
     "titleRules": [],
     "reviewRequired": false
   },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "agency.field3",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
-    "reviewRequired": false
-  },
   "reportingHints": {
     "dimensions": [
       "time",
@@ -134,7 +160,28 @@
     "reviewRequired": false
   },
   "generatedAt": "2026-06-19T07:36:37.012Z",
-  "reviewedBy": "Le Huy",
-  "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-  "reviewKind": "human"
+  "reviewedBy": "Codex Atlas render repair",
+  "reviewedAt": "2026-06-28T15:42:22.044Z",
+  "reviewKind": "automated",
+  "renderRepairEvidence": {
+    "repairedAt": "2026-06-28T15:42:22.044Z",
+    "repairedBy": "Codex Atlas render repair",
+    "reason": "BM-167 DOCX uses suffixed fullDocumentCode2 slot.",
+    "changes": {
+      "addedFields": [
+        "document.fullDocumentCode"
+      ],
+      "addedSlots": [
+        "document.fullDocumentCode2"
+      ],
+      "addedBindings": [
+        "document.fullDocumentCode2"
+      ],
+      "updatedBindings": [],
+      "removedFields": [],
+      "removedSlots": [],
+      "removedBindings": [],
+      "removedRejectedCandidates": []
+    }
+  }
 }

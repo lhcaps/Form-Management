@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM136_PATH_DOMAIN_BINDING_PATCH_PLAN",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "deterministic-current-state",
+  "templateCode": "BM-136",
+  "patchCandidates": [],
+  "deferredItems": [
+    {
+      "path": "agency.diaDanh",
+      "rawPattern": "{{document.field8}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "agency.diaDanh has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "agency.dongDia",
+      "rawPattern": "{{person.field10}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "agency.dongDia has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.chuThe",
+      "rawPattern": "{{person.field11}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.chuThe has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.lyDo",
+      "rawPattern": "{{document.field17}}",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.lyDo appears near an address/procedural-role label, but the current path/domain is generic or mismatched. This requires same-BM human DOCX/legal review before remap."
+    },
+    {
+      "path": "document.ngayBan",
+      "rawPattern": "{{document.field9}}",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "document.ngayBan appears near an address/procedural-role label, but the current path/domain is generic or mismatched. This requires same-BM human DOCX/legal review before remap."
+    },
+    {
+      "path": "document.soQuyet",
+      "rawPattern": "{{document.field7}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.soQuyet has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.soTien",
+      "rawPattern": "{{document.field16}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.soTien has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "document.tenVu",
+      "rawPattern": "{{document.field14}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "document.tenVu has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "person.tenBi",
+      "rawPattern": "{{document.field12}}",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "person.tenBi appears near an address/procedural-role label, but the current path/domain is generic or mismatched. This requires same-BM human DOCX/legal review before remap."
+    },
+    {
+      "path": "person.toiDanh",
+      "rawPattern": "{{document.field15}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "person.toiDanh has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "recipients.luuHo",
+      "rawPattern": "{{person.field18}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "recipients.luuHo has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "signature.cheDo",
+      "rawPattern": "{{person.field19}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "signature.cheDo has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    },
+    {
+      "path": "signature.chucVu",
+      "rawPattern": "{{document.field20}}",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "reason": "signature.chucVu appears near an address/procedural-role label, but the current path/domain is generic or mismatched. This requires same-BM human DOCX/legal review before remap."
+    },
+    {
+      "path": "signature.nguoiKy",
+      "rawPattern": "{{document.field21}}",
+      "classification": "DEFER_NO_VISIBLE_LABEL",
+      "reason": "signature.nguoiKy has only placeholder-neighborhood evidence and no stable visible label. Do not infer a semantic path from position alone."
+    }
+  ],
+  "safetyAssertions": {
+    "canApplyRunNow": false,
+    "requiresPlannerApproval": true,
+    "requiresHumanDocxLegalReview": true
+  }
+}

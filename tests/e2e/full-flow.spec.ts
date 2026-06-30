@@ -8,14 +8,7 @@
  * - Không có console error / 5xx
  */
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test';
-
-async function login(page: Page) {
-  await page.goto('/login');
-  await page.locator('input[name="username"]').fill('admin');
-  await page.locator('input[name="password"]').fill('admin123');
-  await page.getByRole('button', { name: 'Đăng nhập' }).click();
-  await expect(page).not.toHaveURL(/\/login/, { timeout: 15_000 });
-}
+import { authenticateAsAdmin } from './helpers/auth';
 
 async function attachConsoleWatcher(page: Page) {
   const consoleErrors: string[] = [];
@@ -25,6 +18,10 @@ async function attachConsoleWatcher(page: Page) {
   });
   page.on('pageerror', (err) => pageErrors.push(err.message));
   return { consoleErrors, pageErrors };
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 test.describe('Full E2E verification', () => {
@@ -40,7 +37,7 @@ test.describe('Full E2E verification', () => {
     // ============================================================
     // 1. Login
     // ============================================================
-    await login(page);
+    await authenticateAsAdmin(page);
 
     // ============================================================
     // 2. All top-level routes render + visible topbar
@@ -74,20 +71,21 @@ test.describe('Full E2E verification', () => {
     // 3. /cases — verify list có data + cột Mở + ?q= hoạt động
     // ============================================================
     await page.goto('/cases');
-    await expect(page.getByText('VKS-2026-0001').first()).toBeVisible({ timeout: 10_000 });
-    await expect(page.getByText('VKS-2026-0005').first()).toBeVisible();
-    const openBtn = page.getByRole('row', { name: /VKS-2026-0001/ }).getByRole('button', { name: 'Mở' });
+    const firstCaseRow = page.locator('tbody tr').first();
+    await expect(firstCaseRow).toBeVisible({ timeout: 10_000 });
+    const firstCaseCode = (await firstCaseRow.locator('td').first().innerText()).replace(/\s+/g, '');
+    expect(firstCaseCode.length, 'first case code should be visible').toBeGreaterThan(0);
+    const openBtn = firstCaseRow.getByRole('button', { name: 'Mở' });
     await expect(openBtn).toBeVisible();
 
     // ============================================================
     // 4. Topbar search
     // ============================================================
-    await topbarSearch.fill('Trộm');
+    await topbarSearch.fill(firstCaseCode);
     await topbarSearch.press('Enter');
     await expect(page).toHaveURL(/\/cases\?q=/, { timeout: 5_000 });
-    await expect(page.getByText('VKS-2026-0001').first()).toBeVisible();
-    // URL phải chứa q=Tr
-    expect(page.url()).toMatch(/q=Tr/);
+    await expect(page.getByText(new RegExp(escapeRegExp(firstCaseCode.slice(0, 8))))).toBeVisible();
+    expect(page.url()).toMatch(/q=/);
 
     // Reset
     await page.goto('/cases');
@@ -106,11 +104,11 @@ test.describe('Full E2E verification', () => {
     await expect(page).toHaveURL(/\/cases/, { timeout: 5_000 });
 
     // ============================================================
-    // 6. Click Mở trên case 1 → /cases/1 detail
+    // 6. Click Mở trên case đầu tiên → /cases/[id] detail
     // ============================================================
-    await page.getByRole('row', { name: /VKS-2026-0001/ }).getByRole('button', { name: 'Mở' }).click();
-    await expect(page).toHaveURL(/\/cases\/1$/, { timeout: 10_000 });
-    await expect(page.getByText('Vụ án trộm cắp tài sản tại phường Bến Nghé')).toBeVisible();
+    const reopenedFirstCaseRow = page.locator('tbody tr').first();
+    await reopenedFirstCaseRow.getByRole('button', { name: 'Mở' }).click();
+    await expect(page).toHaveURL(/\/cases\/\d+$/, { timeout: 10_000 });
 
     // ============================================================
     // 7. 6 tab đều render

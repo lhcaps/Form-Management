@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM052_REMAINING_RECIPIENTS_PERSONLINE6_RENDER_BLOCKER_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "status": "COMPLETE",
+  "canApplyRunNow": false,
+  "templateCode": "BM-052",
+  "docxPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-052\\BM-052_normalized.docx",
+  "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-052__9919ecdb3971.contract.locked.json",
+  "renderGateStatus": "FAIL",
+  "renderGateReason": "recipients.personLine6 has no slot, no binding, no canonical field",
+  "undefinedNullCount": 3,
+  "occurrenceCount": 3,
+  "occurrences": [
+    {
+      "occurrenceIndex": 0,
+      "textNodeIndex": 42,
+      "fullParagraphPlain": "{{recipients.personLine6}}",
+      "neighborhoodText": "Điều 1. | Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can | Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp:",
+      "before700Chars": "/w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/><w:spacing w:val=\"-2\"/><w:szCs w:val=\"28\"/></w:rPr><w:t>{{",
+      "after700Chars": "}}</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:tabs><w:tab w:val=\"clear\" w:pos=\"720\"/><w:tab w:val=\"right\" w:pos=\"7797\" w:leader=\"none\"/><w:tab w:val=\"left\" w:pos=\"9893\" w:leader=\"dot\"/>",
+      "sameParaPlaceholders": [
+        "{{recipients.personLine6}}"
+      ],
+      "allPlaceholdersInPara": [
+        "{{recipients.personLine6}}"
+      ],
+      "anchorNames": [
+        "fullName",
+        "job"
+      ],
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "inferredSemantic": null,
+      "confidence": "LOW",
+      "proposedNewPlaceholderId": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "Occurrence 0: standalone {{recipients.personLine6}} at text node 42. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "contributesToUndefinedNull": true,
+      "contributesToBindingFidelityFail": true,
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false
+    },
+    {
+      "occurrenceIndex": 1,
+      "textNodeIndex": 43,
+      "fullParagraphPlain": "{{recipients.personLine6}}",
+      "neighborhoodText": "Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can | Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp: | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "before700Chars": "/w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/><w:spacing w:val=\"-2\"/><w:szCs w:val=\"28\"/></w:rPr><w:t>{{",
+      "after700Chars": "}}</w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:tabs><w:tab w:val=\"clear\" w:pos=\"720\"/><w:tab w:val=\"right\" w:pos=\"7230\" w:leader=\"none\"/><w:tab w:val=\"left\" w:pos=\"9893\" w:leader=\"dot\"/>",
+      "sameParaPlaceholders": [
+        "{{recipients.personLine6}}"
+      ],
+      "allPlaceholdersInPara": [
+        "{{recipients.personLine6}}"
+      ],
+      "anchorNames": [
+        "fullName",
+        "job",
+        "idNumber"
+      ],
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "inferredSemantic": null,
+      "confidence": "LOW",
+      "proposedNewPlaceholderId": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "Occurrence 1: standalone {{recipients.personLine6}} at text node 43. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "contributesToUndefinedNull": true,
+      "contributesToBindingFidelityFail": true,
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false
+    },
+    {
+      "occurrenceIndex": 2,
+      "textNodeIndex": 44,
+      "fullParagraphPlain": "{{recipients.personLine6}}",
+      "neighborhoodText": "Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp: | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{person.idNumber}}",
+      "before700Chars": "/w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia=\"Times New Roman\" w:cs=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/><w:spacing w:val=\"-2\"/><w:szCs w:val=\"28\"/></w:rPr><w:t>{{",
+      "after700Chars": "}}</w:t><w:tab/><w:tab/><w:t xml:space=\"preserve\"> </w:t></w:r></w:p><w:p><w:pPr><w:pStyle w:val=\"Normal\"/><w:tabs><w:tab w:val=\"clear\" w:pos=\"720\"/><w:tab w:val=\"right\" w:pos=\"1418\" w:leader=\"none\"/>",
+      "sameParaPlaceholders": [
+        "{{recipients.personLine6}}"
+      ],
+      "allPlaceholdersInPara": [
+        "{{recipients.personLine6}}"
+      ],
+      "anchorNames": [
+        "fullName",
+        "job",
+        "idNumber"
+      ],
+      "currentSlot": null,
+      "currentBinding": null,
+      "currentField": null,
+      "inferredSemantic": null,
+      "confidence": "LOW",
+      "proposedNewPlaceholderId": null,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "reason": "Occurrence 2: standalone {{recipients.personLine6}} at text node 44. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "contributesToUndefinedNull": true,
+      "contributesToBindingFidelityFail": true,
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false
+    }
+  ],
+  "classificationCounts": {
+    "DEFER_AMBIGUOUS_PERSON_TABLE_CELL": 3
+  },
+  "proposedCandidates": [],
+  "deferredItems": [
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 0,
+      "reason": "Occurrence 0: standalone {{recipients.personLine6}} at text node 42. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 1,
+      "reason": "Occurrence 1: standalone {{recipients.personLine6}} at text node 43. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 2,
+      "reason": "Occurrence 2: standalone {{recipients.personLine6}} at text node 44. Sits between \"Họ tên:\" (P28) and \"Nghề nghiệp:\" (P32) in person detail block. These 3 blank cells appear to be person detail fields (alias, date of birth, ethnicity/nationality). Classified DEFER_AMBIGUOUS_PERSON_TABLE_CELL — these are ambiguous blank cells requiring human DOCX review. REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER would be wrong: binding all 3 cells to the same value means the rendered document would show the SAME value in all 3 blank cells — semantically incorrect. Bugbot correctly flagged this. BM-052 render-fidelity will continue to FAIL until planner decides: split to distinct semantic placeholders (requires DOCX mutation + contract changes) or keep as recipients.personLine6 with binding that renders all 3 cells with same value (render-correct but semantically questionable).",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW"
+    }
+  ],
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true,
+    "renderGateUsed": true,
+    "codeGraphUsedForCodeOnly": true
+  },
+  "codeGraphFindingsPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-placeholder-renormalization\\BM-052\\codegraph.remaining-personline6-findings.md",
+  "validation": {
+    "scriptName": "scripts/audit/plan-bm052-remaining-personline6-render-blocker.mjs",
+    "testFile": "test/bm052-remaining-personline6-render-blocker.test.mjs",
+    "expectedCanApplyRunNow": false
+  },
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "For the 3 remaining recipients.personLine6 occurrences in BM-052 body paragraphs, decide: (A) bind as-is with one slot+binding for recipients.personLine6 (no DOCX mutation, minimal fix, render-fidelity passes), or (B) split to distinct semantic placeholders (requires DOCX mutation + contract changes, semantics unknown)."
+  }
+}

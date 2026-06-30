@@ -1,0 +1,85 @@
+{
+  "task": "BM203_SOURCE_POLICY_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-203",
+  "title": "Thông báo về hoạt động tố tụng",
+  "sourceId": "BM-203__7572e687ae0f",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-203.sourcePolicyFields",
+      "count": 19,
+      "classification": "DEFER_SOURCE_POLICY_REVIEW",
+      "reason": "BM-203 render-fidelity passes, but source/required/reviewRequired policy findings are not apply-safe. Do not mutate locked metadata without human DOCX/legal/product review."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 21,
+    "failCount": 19,
+    "reviewCount": 2,
+    "issueCounts": {
+      "REQUIRED_SUSPICIOUS": 2,
+      "WEAK_EVIDENCE_AUTO_LOCKED": 19
+    }
+  },
+  "remainingPaths": [
+    "case.caseNumber",
+    "case.caseNumber2",
+    "document.fullDocumentCode",
+    "document.issueDate",
+    "document.issuePlace",
+    "recipients.personLine10",
+    "recipients.personLine11",
+    "recipients.personLine12",
+    "recipients.personLine13",
+    "recipients.personLine14",
+    "recipients.personLine15",
+    "recipients.personLine2",
+    "recipients.personLine3",
+    "recipients.personLine4",
+    "recipients.personLine5",
+    "recipients.personLine6",
+    "recipients.personLine7",
+    "recipients.personLine8",
+    "recipients.personLine9"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "AUTO_SET_REVIEW_REQUIRED_TRUE_FOR_ALL_BM203_FIELDS",
+      "reason": "This would silence WEAK_EVIDENCE_AUTO_LOCKED mechanically, but it does not prove the correct source or required policy for each field."
+    },
+    {
+      "option": "AUTO_SET_DOCUMENT_IDENTITY_FIELDS_REQUIRED",
+      "reason": "document.issueDate and document.fullDocumentCode look required, but required=true changes product/legal validation behavior and needs explicit review."
+    },
+    {
+      "option": "MARK_BM203_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render fidelity is clean, but source-policy/root-cause metadata remains unresolved."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "Should each recipients.personLineN field stay locked, or should it require review because the DOCX evidence is generic/noisy?",
+    "Should document.issueDate and document.fullDocumentCode be required for BM-203 runtime submission?",
+    "Are any BM-203 recipient lines derived from case/participant data instead of manual input?",
+    "Should BM-203 remain generic renderer or receive a bespoke authoring panel before metadata lock is considered complete?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-203/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-203/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-203/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-203/planner-handoff.latest.json"
+  },
+  "createdAt": "deterministic-current-state",
+  "createdBy": "BM203_BOARD_SELECTED_EVIDENCE_ONLY task"
+}

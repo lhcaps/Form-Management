@@ -1,0 +1,32 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_7_CONTRACT_SYNC",
+  "generated": "2026-06-28T16:26:00.000Z",
+  "guard_c1": {
+    "file": "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts",
+    "tests_file": "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.spec.ts",
+    "test_results": { "passed": 3, "failed": 0 },
+    "strategies": ["DB_COMPARE", "FILE_ONLY", "DISABLED"],
+    "DB_COMPARE": "verified — compares compiledHash from locked file vs DB",
+    "FILE_ONLY": "verified — fallback when DATABASE_URL not set",
+    "DISABLED": "verified — via DISABLE_CONTRACT_SYNC_GUARD=1",
+    "ALLOW_CONTRACT_DRIFT": "verified — allows startup with warning",
+    "block_on_drift": "verified — throws error when drift detected and ALLOW_CONTRACT_DRIFT != 1"
+  },
+  "gate_c2": {
+    "file": "scripts/audit/audit-contract-sync.mjs",
+    "strict": true,
+    "exit_codes": { "0_synced": true, "1_drift": true, "2_error": true },
+    "CI_friendly": true,
+    "verified": true
+  },
+  "db_sync_result": {
+    "totalLocked": 213,
+    "matched": 213,
+    "missingInDb": 0,
+    "stale": 0,
+    "driftDetected": false,
+    "pass": true
+  },
+  "assessment": "VERIFIED"
+}

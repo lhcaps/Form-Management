@@ -22,6 +22,33 @@ import { Logger } from '@nestjs/common';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PrismaClient } from '@prisma/client';
+import { resolveRepoRoot } from '../../../common/repo-root';
+
+export type ContractSyncPathsOptions = {
+  cwd?: string;
+  repoRoot?: string;
+};
+
+export type ContractSyncPaths = {
+  root: string;
+  lockedDir: string;
+  compiledV2Dir: string;
+};
+
+export function resolveContractSyncPaths(
+  options: ContractSyncPathsOptions = {},
+): ContractSyncPaths {
+  const root = resolveRepoRoot({
+    cwd: options.cwd,
+    repoRoot: options.repoRoot ?? process.env.REPO_ROOT,
+  });
+
+  return {
+    root,
+    lockedDir: join(root, 'docs', 'audit', 'docx', 'contracts', 'locked'),
+    compiledV2Dir: join(root, 'docs', 'audit', 'docx', 'compiled-v2'),
+  };
+}
 
 interface ContractDrift {
   templateCode: string;
@@ -44,23 +71,7 @@ interface GuardResult {
 
 export class ContractSyncGuard {
   private readonly logger = new Logger('ContractSyncGuard');
-  // From apps/api/src/modules/forms-contracts/infrastructure/ go up to monorepo root
-  private readonly ROOT = join(__dirname, '..', '..', '..', '..', '..', '..');
-  private readonly LOCKED_DIR = join(
-    this.ROOT,
-    'docs',
-    'audit',
-    'docx',
-    'contracts',
-    'locked',
-  );
-  private readonly COMPILED_V2_DIR = join(
-    this.ROOT,
-    'docs',
-    'audit',
-    'docx',
-    'compiled-v2',
-  );
+  private readonly paths = resolveContractSyncPaths();
 
   /**
    * Main guard entry point
@@ -123,15 +134,17 @@ export class ContractSyncGuard {
   }
 
   private getLockedContractFiles(): string[] {
-    if (!existsSync(this.LOCKED_DIR)) {
-      this.logger.warn(`Locked contracts directory not found: ${this.LOCKED_DIR}`);
+    if (!existsSync(this.paths.lockedDir)) {
+      this.logger.warn(
+        `Locked contracts directory not found: ${this.paths.lockedDir}`,
+      );
       return [];
     }
 
-    return readdirSync(this.LOCKED_DIR)
+    return readdirSync(this.paths.lockedDir)
       .filter((f) => f.endsWith('.contract.locked.json'))
       .sort()
-      .map((f) => join(this.LOCKED_DIR, f));
+      .map((f) => join(this.paths.lockedDir, f));
   }
 
   private loadLockedContractsWithHashes(files: string[]): Map<
@@ -147,7 +160,10 @@ export class ContractSyncGuard {
         const sourceId = raw.sourceId || templateCode;
 
         // Try to load compiled artifact
-        const compiledPath = join(this.COMPILED_V2_DIR, `${templateCode}.compiled.json`);
+        const compiledPath = join(
+          this.paths.compiledV2Dir,
+          `${templateCode}.compiled.json`,
+        );
         let compiledHash: string | null = null;
 
         if (existsSync(compiledPath)) {

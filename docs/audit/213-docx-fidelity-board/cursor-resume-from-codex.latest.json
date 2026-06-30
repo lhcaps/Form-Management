@@ -1,0 +1,109 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "CURSOR_RESUME_FROM_CODEX_213_DOCX_FIDELITY",
+  "status": "COMPLETE",
+  "mode": "INTAKE_AND_VALIDATE",
+  "codexChangesDetected": [
+    "213-docx-fidelity-board/latest.json and latest.md",
+    "refresh-213-docx-fidelity-board.mjs",
+    "plan-docx-placeholder-renormalization.mjs",
+    "lib/docx-placeholder-risks.mjs",
+    "docx-placeholder-renormalization/plan.latest.json and plan.latest.md",
+    "plan-contract-repair-batch-1-evidence.mjs",
+    "contract-repair-batch-1.latest.md and evidence",
+    "corrected-remediation-path.md",
+    ".cursor/rules/qllaw-contract-remediation.mdc",
+    "BM-003/021/022/025/032/036/096 locked contracts",
+    "forms-root-cause latest.json",
+    "form-authoring-baselines audited.md and matrix.csv",
+    "audit-forms-root-cause.mjs"
+  ],
+  "codexClaimsVerified": {
+    "dbSyncClean": true,
+    "rootCauseIssues1467": true,
+    "board213Rows": true,
+    "renormalizationInventory19Bms": true,
+    "batch1EvidenceFor052_062_063_065_066": true
+  },
+  "liveMetrics": {
+    "rootCauseIssues": 1467,
+    "rootCauseFail": 1148,
+    "rootCauseReview": 319,
+    "dbSyncMatched": 213,
+    "dbSyncMissing": 0,
+    "dbSyncStale": 0,
+    "contractRepairLane": 22,
+    "pathDomainBindingLane": 126,
+    "sourcePolicyLane": 50,
+    "weakEvidenceReviewLane": 2,
+    "renderFidelityLane": 13,
+    "verifyOnlyLane": 0,
+    "renormalizationBms": 19,
+    "renormalizationRisks": 25
+  },
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "clean": true
+  },
+  "boardState": {
+    "rows": 213,
+    "contractRepair": 22,
+    "pathDomainBinding": 126,
+    "sourcePolicy": 50,
+    "weakEvidenceReview": 2,
+    "renderFidelity": 13,
+    "verifyOnly": 0
+  },
+  "renormalizationInventory": {
+    "bms": 19,
+    "risks": 25,
+    "topBms": [
+      "BM-052",
+      "BM-062",
+      "BM-063",
+      "BM-065",
+      "BM-066"
+    ]
+  },
+  "bindingModel": {
+    "docxSlotsId": "actual DOCX placeholder id",
+    "renderBindingsSlotId": "actual target DOCX placeholder",
+    "renderBindingsFrom": "semantic source field",
+    "canonicalFieldsPath": "semantic field path"
+  },
+  "nextLane": "DOCX_PLACEHOLDER_RENORMALIZATION",
+  "nextTarget": "BM-052",
+  "bm052Evidence": {
+    "duplicateSemanticPlaceholders": [
+      {
+        "placeholder": "decision.decisionLine2",
+        "count": 2
+      },
+      {
+        "placeholder": "recipients.personLine6",
+        "count": 6
+      }
+    ],
+    "occurrenceCount": 8,
+    "proposedSplits": 8,
+    "collisionFreeSplits": 7,
+    "classifications": {
+      "REVIEW_CANDIDATE_DOCX_OCCURRENCE_SPLIT": 8
+    },
+    "canApplyRunNow": false
+  },
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true
+  },
+  "blockedReasons": [],
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "Review BM-052 evidence packet: approve/reject each proposed occurrence split (DOCX+CONTRACT or CONTRACT_ONLY), then proceed to Phase 2 apply with approved decisions only."
+  }
+}

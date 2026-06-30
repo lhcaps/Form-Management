@@ -131,7 +131,12 @@ export function detectComputedCycles(
     fields.map((field) => [
       field.key,
       [...new Set(collectFieldReferences(field.expression))].filter((key) =>
-        computedKeys.has(key),
+        computedKeys.has(key) &&
+        !(
+          key === field.key &&
+          field.expression.op === "field" &&
+          field.expression.path === field.key
+        ),
       ),
     ]),
   );

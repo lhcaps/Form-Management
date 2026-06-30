@@ -1,0 +1,542 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_PLACEHOLDER_FIX_PLANNING",
+  "generatedAt": "2026-06-26T14:15:00.000Z",
+  "mode": "planning-only",
+  "methodology": "Per-item analysis: extracted docxSlots and canonicalFields from each locked contract. Examined raw textBefore (from evidence.context) for static Vietnamese label text. Classification based on presence of static text, ambiguity, and legal context.",
+  "perBmAnalysis": [
+    {
+      "templateCode": "BM-068",
+      "title": "QĐ huỷ bỏ biện pháp phong toả tài khoản",
+      "slotCount": 12,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "Roman\" w:hAnsi=\"Times New Roman\"/> … {{document.field1}} <w:b/",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Placeholder uses generic document.field1. No static text. Cannot determine if this is Số QĐ, Số/Ký hiệu, or other document code."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": ":spacing w:val=\"-2\"/> {{document.field2}} <w:spacing",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Generic document.field2. No label text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{document.field3}}",
+          "rawTextBefore": "imes New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field3}} <w:rFonts",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.dateOfBirth but placeholder is document.field3. No static text. Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.permanentAddress",
+          "placeholder": "{{person.permanentAddress}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress}} <w:ind w:firstLine=\"720\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Placeholder has correct semantic name but no surrounding static text."
+        },
+        {
+          "path": "person.permanentAddress2",
+          "placeholder": "{{person.permanentAddress2}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress2}} <w:jc",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.occupation",
+          "placeholder": "{{person.occupation}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation}} <w:jc",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.idNumber",
+          "placeholder": "{{person.idNumber}}",
+          "rawTextBefore": "> {{person.idNumber}} <w:ind w:firstLine=\"720\" w:end=\"0",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.permanentAddress3",
+          "placeholder": "{{person.permanentAddress3}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.permanentAddress3}} <w:jc",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.occupation2",
+          "placeholder": "{{person.occupation2}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.occupation2}} <w:ind w:firstLine=\"720\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.idNumber2",
+          "placeholder": "{{person.idNumber2}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.idNumber2}} <w:rFonts w:ascii",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.temporaryAddress",
+          "placeholder": "{{person.temporaryAddress}}",
+          "rawTextBefore": "scii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}}",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Co-located with person.province. No static text."
+        },
+        {
+          "path": "person.province",
+          "placeholder": "{{person.province}}",
+          "rawTextBefore": "n\" w:cs=\"Times New Roman\"/> {{person.temporaryAddress}} {{person.province}}",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-069",
+      "title": "BB về việc hủy bỏ biện pháp phong tỏa tài khoản",
+      "slotCount": 12,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "> {{document.field1}} <w:tab w:val=\"right\" w:pos=\"9355\" w:leader=\"dot\"/",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Generic document.field1. No static text."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": "al=\"superscript\"/> 2 {{document.field2}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Superscript footnote number before placeholder. No label text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{document.field3}}",
+          "rawTextBefore": "al=\"2\"/> {{document.field3}} <w:tab w:val=\"right\" w:pos=\"9356\" w:leade",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.dateOfBirth but placeholder is document.field3. Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.idNumber",
+          "placeholder": "{{document.field5}}",
+          "rawTextBefore": "28\"/> {{document.field5}} <w:",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.idNumber but placeholder is document.field5. Original DOCX must be reviewed."
+        },
+        {
+          "path": "document.reasonLine",
+          "placeholder": "{{document.field6}}",
+          "rawTextBefore": "al=\"2\"/> {{document.field6}} <w:tab w:va",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to document.reasonLine. Placeholder is generic document.field6. Original DOCX must be reviewed."
+        },
+        {
+          "path": "document.reasonLine2",
+          "placeholder": "{{document.field7}}",
+          "rawTextBefore": ":bookmarkEnd w:id=\"2\"/> {{document.field7}} </",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to document.reasonLine2. Placeholder is generic document.field7."
+        },
+        {
+          "path": "person.personFullName",
+          "placeholder": "{{person.personFullName}}",
+          "rawTextBefore": "l=\"-2\"/> {{person.personFullName}} <w:tab w:val=\"right\" w:pos=\"9356\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Correct semantic name but no static Vietnamese text."
+        },
+        {
+          "path": "person.currentAddress",
+          "placeholder": "{{person.currentAddress}}",
+          "rawTextBefore": "l=\"-2\"/> {{person.currentAddress}} <w:",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.currentAddress2",
+          "placeholder": "{{person.currentAddress2}}",
+          "rawTextBefore": "=\"28\"/> {{person.currentAddress2}} <w:tab w:val=\"right\" w:pos=\"9356\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "decision.decisionLine",
+          "placeholder": "{{document.field8}}",
+          "rawTextBefore": "oản theo {{document.field8}} <w:lang w",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to decision.decisionLine. But placeholder is document.field8. Preceding text is 'oản theo' (truncated 'quyết định theo'). Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.occupation",
+          "placeholder": "{{document.field10}}",
+          "rawTextBefore": "al=\"superscript\"/> 2 {{document.field10}} <",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.occupation but placeholder is document.field10. Original DOCX must be reviewed."
+        },
+        {
+          "path": "document.summaryLine",
+          "placeholder": "{{document.field12}}",
+          "rawTextBefore": "/w:rPr> {{document.field12}} </",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to document.summaryLine. Placeholder is generic document.field12."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-073",
+      "title": "Yêu cầu thay đổi Thủ trưởng, PTT, ĐTV cơ quan có thẩm quyền điều tra",
+      "slotCount": 4,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "val=\"28\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": "n\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{document.field3}}",
+          "rawTextBefore": "New Roman\" w:hAnsi=\"Times New Roman\"/> 5 {{document.field3}} <w:footnoteRefe",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.dateOfBirth. Footnote superscript '5' before placeholder. Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.idNumber",
+          "placeholder": "{{document.field5}}",
+          "rawTextBefore": ":footnoteReference w:id=\"15\"/> {{document.field5}} .. <w",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.idNumber. Footnote reference before placeholder. Original DOCX must be reviewed."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-075",
+      "title": "Đề nghị thay đổi người phiên dịch, người dịch thuật",
+      "slotCount": 4,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.personFullName",
+          "placeholder": "{{person.personFullName}}",
+          "rawTextBefore": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{person.dateOfBirth}}",
+          "rawTextBefore": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.currentAddress",
+          "placeholder": "{{person.currentAddress}}",
+          "rawTextBefore": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Superscript '6' before placeholder (footnote). No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-077",
+      "title": "Yêu cầu, đề nghị cử người bào chữa",
+      "slotCount": 1,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "val=\"24\"/> 10 {{document.field1}} <w:rFonts",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Superscript '10' before placeholder. No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-080",
+      "title": "Thông báo từ chối việc đăng ký bào chữa",
+      "slotCount": 6,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "> {{document.field1}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": "> {{document.field2}} <w:ind w:firstLine=\"709\" w:end=\"0\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.personFullName",
+          "placeholder": "{{person.personFullName}}",
+          "rawTextBefore": "> {{person.personFullName}} <w:ind w:firstLine=\"709\" w:end=\"3\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{person.dateOfBirth}}",
+          "rawTextBefore": ":val=\"superscript\"/> 5 {{person.dateOfBirth}} <w:",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Superscript '5' before placeholder. No static text."
+        },
+        {
+          "path": "person.currentAddress",
+          "placeholder": "{{person.currentAddress}}",
+          "rawTextBefore": "al=\"24\"/> 5 {{person.currentAddress}} biết./.</w",
+          "staticTextFound": "biết./.",
+          "confidence": "partial",
+          "notes": "Partial text after placeholder: 'biết./.' (truncated 'để người được triệu tập biết'). But no label text before placeholder. This is procedural body text, not a field label."
+        },
+        {
+          "path": "legalBasis.legalBasisLine",
+          "placeholder": "{{legalBasis.legalBasisLine}}",
+          "rawTextBefore": ":val=\"24\"/> 5 {{legalBasis.legalBasisLine}} <w:rFonts",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Superscript '5' before placeholder. No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-082",
+      "title": "Thông báo về thời gian, địa điểm tiến hành tố tụng cho người bào chữa",
+      "slotCount": 1,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": "nsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-162",
+      "title": "Giấy mời",
+      "slotCount": 7,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": "\"/> {{document.field2}} <w:rFonts w:ascii=\"Times New Roman\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{document.field3}}",
+          "rawTextBefore": ":t> {{document.field3}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.dateOfBirth. Placeholder is document.field3. Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.personFullName",
+          "placeholder": "{{person.personFullName}}",
+          "rawTextBefore": ":t> {{person.personFullName}} <w:lang w:val=\"en-US\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.currentAddress",
+          "placeholder": "{{person.currentAddress}}",
+          "rawTextBefore": "\"/> {{person.currentAddress}} <",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.occupation",
+          "placeholder": "{{person.occupation}}",
+          "rawTextBefore": "\"/> {{person.occupation}} <w:ind w:firstLine=\"709\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.idNumber",
+          "placeholder": "{{person.idNumber}}",
+          "rawTextBefore": "\"/> {{person.idNumber}} <w:rFonts w:ascii=\"Times New R",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        }
+      ]
+    },
+    {
+      "templateCode": "BM-163",
+      "title": "Giấy triệu tập",
+      "slotCount": 10,
+      "items": [
+        {
+          "path": "document.fullDocumentCode",
+          "placeholder": "{{document.field1}}",
+          "rawTextBefore": ":t> {{document.field1}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "document.issueDate",
+          "placeholder": "{{document.field2}}",
+          "rawTextBefore": "\"/> {{document.field2}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"T",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.dateOfBirth",
+          "placeholder": "{{document.field3}}",
+          "rawTextBefore": "> {{document.field3}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "Mapped to person.dateOfBirth. Placeholder is document.field3. Original DOCX must be reviewed."
+        },
+        {
+          "path": "person.personFullName",
+          "placeholder": "{{person.personFullName}}",
+          "rawTextBefore": "{{person.personFullName}} <w:rFonts w:ascii=\"Times New Roman\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.currentAddress",
+          "placeholder": "{{person.currentAddress}}",
+          "rawTextBefore": "s=\"Times New Roman\" w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\"/> Nơi ở hiện nay: {{person.currentAddress}}",
+          "staticTextFound": "Nơi ở hiện nay:",
+          "confidence": "strong",
+          "notes": "STRONG EVIDENCE: Static Vietnamese text 'Nơi ở hiện nay:' appears directly before the placeholder in the raw context. This is the only item across all 57 that has unambiguous static text identifying the field meaning. However, the path already uses the correct semantic name (person.currentAddress). The issue is that the label in the contract says 'Slot from Wave 02 DOCX remediation' instead of 'Nơi ở hiện nay'. But the path is semantically correct — this appears to be a LABELS-only problem that can be fixed in the contract, NOT a DOCX problem."
+        },
+        {
+          "path": "person.occupation",
+          "placeholder": "{{person.occupation}}",
+          "rawTextBefore": "\"/> {{person.occupation}} <w:sz w:val=\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.ward",
+          "placeholder": "{{person.ward}}",
+          "rawTextBefore": "{{person.ward}} <w:ind w:firstLine=\"709\" w:end=\"0",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.province",
+          "placeholder": "{{person.province}}",
+          "rawTextBefore": "> {{person.province}} <w:sz w:val=\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "person.idNumber",
+          "placeholder": "{{person.idNumber}}",
+          "rawTextBefore": "\"/> {{person.idNumber}} <w:ind w:firstLine=\"709\"",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        },
+        {
+          "path": "case.caseNumber",
+          "placeholder": "{{case.caseNumber}}",
+          "rawTextBefore": "\"/> {{case.caseNumber}} <w:rFonts w:ascii=\"Times New R",
+          "staticTextFound": null,
+          "confidence": "no_context",
+          "notes": "No static text."
+        }
+      ]
+    }
+  ],
+  "keyFinding": {
+    "totalItems": 57,
+    "staticTextFound": 1,
+    "staticTextItems": [
+      {
+        "templateCode": "BM-163",
+        "path": "person.currentAddress",
+        "staticText": "Nơi ở hiện nay:",
+        "confidence": "strong",
+        "classification": "W2_DEFER_LEGAL_CONTEXT",
+        "rationale": "While static text exists, the path already uses the semantically correct name. The bad label 'Slot from Wave 02 DOCX remediation' appears in the contract canonicalFields. This is a LABELS problem, not a DOCX structure problem. Cannot be fixed by DOCX editing alone. The DOCX placeholder already uses correct semantic name."
+      }
+    ]
+  }
+}

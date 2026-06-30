@@ -1,0 +1,27 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_5_CONTRACT_RENDER_BINDING_REPAIR",
+  "generated": "2026-06-28T16:26:00.000Z",
+  "module_exists": true,
+  "module_path": "scripts/audit/lib/contract-render-binding-repair.mjs",
+  "tests_exist": true,
+  "test_path": "test/contract-render-binding-repair.test.mjs",
+  "test_results": { "passed": 4, "failed": 0 },
+  "applyRenderBindingRepair": {
+    "pure_over_clone": true,
+    "adds_fields_deterministically": true,
+    "adds_slots_deterministically": true,
+    "adds_bindings_deterministically": true,
+    "removes_only_when_instructed": true,
+    "uses_labelForPath_for_display": true,
+    "not_legal_proof": "labelForPath() used only for display labels, not as legal/semantic proof",
+    "records_renderRepairEvidence": true,
+    "deduplicates_by_path": true
+  },
+  "safety_rules": {
+    "must_have_approved_decisions": "applyRenderBindingRepair requires planner-approved decisions",
+    "not_auto_infer_semantic": "Module does not auto-infer semantic meaning",
+    "PATH_LABELS_for_display_only": "PATH_LABELS are display labels, not legal proof"
+  },
+  "assessment": "SAFE_WITH_GUARD — module is well-structured but requires planner approval before use"
+}

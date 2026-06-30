@@ -1,0 +1,72 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM052_WORKTREE_HYGIENE",
+  "mode": "EVIDENCE_ONLY",
+  "status": "COMPLETE",
+  "gitBranch": "fix/documents-canonical-render-payload-snapshot",
+  "lastCommit": "67b45832",
+  "classifications": {
+    "codexModifiedFiles": [
+      "docs/audit/docx/compiled-v2/BM-003.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-021.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-022.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-025.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-032.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-036.compiled.json",
+      "docs/audit/docx/compiled-v2/BM-096.compiled.json",
+      "docs/audit/docx/contracts/locked/BM-003__bb64990bc49b.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-021__772319486f41.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-022__13d342bdfc56.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-025__5dcf0eb7f481.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-032__cce50086cd38.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-036__6f4466480a94.contract.locked.json",
+      "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",
+      "docs/audit/forms-root-cause/latest.json",
+      "docs/audit/forms-root-cause/latest.md",
+      "docs/audit/form-authoring-baselines/audited.md",
+      "docs/audit/form-authoring-baselines/matrix.csv",
+      "docs/audit/docx/reports/FORM-CONTRACT-DB-PUBLISH.md",
+      "scripts/audit/audit-forms-root-cause.mjs",
+      "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts"
+    ],
+    "cursorBm052EvidenceFiles": [
+      "docs/audit/docx-placeholder-renormalization/BM-052/evidence.latest.json",
+      "docs/audit/docx-placeholder-renormalization/BM-052/evidence.latest.md",
+      "docs/audit/docx-placeholder-renormalization/BM-052/patch-plan.latest.json",
+      "docs/audit/docx-placeholder-renormalization/BM-052/patch-plan.latest.md",
+      "docs/audit/docx-placeholder-renormalization/BM-052/planner-handoff.latest.json",
+      "docs/audit/docx-placeholder-renormalization/BM-052/planner-handoff.latest.md",
+      "docs/audit/docx-placeholder-renormalization/BM-052/worktree-hygiene.latest.md",
+      "docs/audit/docx-placeholder-renormalization/BM-052/worktree-hygiene.latest.json",
+      "docs/audit/213-docx-fidelity-board/cursor-resume-from-codex.latest.md",
+      "docs/audit/213-docx-fidelity-board/cursor-resume-from-codex.latest.json",
+      "scripts/audit/plan-bm052-docx-placeholder-renormalization.mjs",
+      "test/bm052-docx-placeholder-renormalization.test.mjs"
+    ],
+    "codexUntrackedFiles": [],
+    "generatedAuditReports": [],
+    "forbiddenMutationFiles": [],
+    "safeToCommitNow": [],
+    "mustNotCommitYet": []
+  },
+  "recommendedCommitPlan": {
+    "description": "Do NOT commit until Phase 2 refinement is complete. Codex modified files (21) must be committed separately. My work must be isolated.",
+    "commitA": {
+      "owner": "Codex",
+      "description": "Codex contract repairs and audit refresh",
+      "files": "21 codexModifiedFiles"
+    },
+    "commitB": {
+      "owner": "Cursor",
+      "description": "BM-052 evidence refinement",
+      "files": "cursorBm052EvidenceFiles (12 files)",
+      "status": "PENDING_REFINEMENT"
+    }
+  },
+  "safetyAssertions": {
+    "noCodexMixedCommit": true,
+    "noForbiddenMutation": true,
+    "bm052EvidenceIsolated": true,
+    "canApplyRunNow": false
+  }
+}

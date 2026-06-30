@@ -1,0 +1,130 @@
+{
+  "task": "BM069_CONTRACT_REPAIR_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-069",
+  "title": "BB về việc hủy bỏ biện pháp phong tỏa tài khoản",
+  "sourceId": "BM-069__3a67d1a2e298",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-069.contractRepairIssueGroups",
+      "count": 8,
+      "classification": "DEFER_DOCX_AUTHORING_REVIEW",
+      "reason": "BM-069 render-fidelity passes, but eight same-BM contract/root-cause issue groups remain non-apply-safe."
+    },
+    {
+      "placeholder": "BM-069.reviewRequiredFields",
+      "count": 12,
+      "classification": "DEFER_REVIEW_REQUIRED_REMAINS",
+      "reason": "The locked contract still has 12 reviewRequired canonical fields, slots, and bindings."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 24,
+    "failCount": 15,
+    "reviewCount": 9,
+    "issueCounts": {
+      "BAD_LABEL": 5,
+      "GENERIC_FIELD_CANONICALIZATION": 5,
+      "REMEDIATION_LEAK": 5,
+      "REQUIRED_SUSPICIOUS": 4,
+      "UI_VISIBLE_BAD_METADATA": 5
+    }
+  },
+  "reviewRequiredSummary": {
+    "fields": [
+      "document.fullDocumentCode",
+      "document.issueDate",
+      "person.dateOfBirth",
+      "person.idNumber",
+      "document.reasonLine",
+      "document.reasonLine2",
+      "person.personFullName",
+      "person.currentAddress",
+      "person.currentAddress2",
+      "decision.decisionLine",
+      "person.occupation",
+      "document.summaryLine"
+    ],
+    "slots": [
+      "document.fullDocumentCode",
+      "document.issueDate",
+      "person.dateOfBirth",
+      "person.idNumber",
+      "document.reasonLine",
+      "document.reasonLine2",
+      "person.personFullName",
+      "person.currentAddress",
+      "person.currentAddress2",
+      "decision.decisionLine",
+      "person.occupation",
+      "document.summaryLine"
+    ],
+    "bindings": [
+      "document.fullDocumentCode",
+      "document.issueDate",
+      "person.dateOfBirth",
+      "person.idNumber",
+      "document.reasonLine",
+      "document.reasonLine2",
+      "person.personFullName",
+      "person.currentAddress",
+      "person.currentAddress2",
+      "decision.decisionLine",
+      "person.occupation",
+      "document.summaryLine"
+    ]
+  },
+  "remainingPaths": [
+    "decision.decisionLine",
+    "document.fullDocumentCode",
+    "document.issueDate",
+    "document.reasonLine",
+    "document.reasonLine2",
+    "document.summaryLine",
+    "person.idNumber",
+    "person.occupation"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "MARK_BM069_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render execution is clean, but root-cause metadata and reviewRequired markers remain unresolved."
+    },
+    {
+      "option": "AUTO_RENAME_SLOTID_TO_MATCH_SEMANTIC_PATH",
+      "reason": "renderBindings.slotId is the actual DOCX placeholder target; renaming it without DOCX evidence risks breaking render fidelity."
+    },
+    {
+      "option": "AUTO_APPLY_LABEL_OR_REQUIRED_FIXES",
+      "reason": "The current fix-plan has zero applySafe BM-069 items and prior same-BM evidence keeps key paths deferred."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "Should document.fullDocumentCode stay as a body procedural slot, be reauthored into the visible header, or be split from a new current-document code field?",
+    "Should document.reasonLine, document.reasonLine2, decision.decisionLine, and document.summaryLine remain body procedural references or be renamed to exact legal semantics?",
+    "Which BM-069 fields should be required at runtime: document.issueDate, person.idNumber, person.occupation, and document.fullDocumentCode?",
+    "Which of the 12 reviewRequired fields can be formally closed after DOCX/legal review?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-069/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-069/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-069/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-069/planner-handoff.latest.json",
+    "priorWave02": "docs/audit/docx-wave-02-bm068-bm069-review/review.latest.json",
+    "priorPathBindingPlan": "docs/audit/docx-path-binding-investigation-plan/plan.latest.json",
+    "priorP1Investigation": "docs/audit/docx-path-binding-p1-investigation-batch-1/investigation.latest.json"
+  },
+  "createdAt": "deterministic-current-state",
+  "createdBy": "BM069_CONTRACT_REPAIR_EVIDENCE task"
+}

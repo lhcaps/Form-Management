@@ -1,0 +1,26 @@
+{
+  "task": "INFRA_REBUILD_VERIFICATION_AND_LOCKDOWN",
+  "phase": "PHASE_8_DOCXTEMPLATER_FALLBACK",
+  "generated": "2026-06-28T16:26:00.000Z",
+  "file": "apps/api/src/modules/documents/rendering/infrastructure/docxtemplater-contract-render-engine.ts",
+  "fallback_behavior": {
+    "fills_from_formData": true,
+    "only_when_binding_missing": true,
+    "skips_undefined_null_empty": true,
+    "does_not_override_explicit_binding": true,
+    "records_fallbackUsed": false,
+    "records_fallbackFilledSlots": false
+  },
+  "risk_assessment": {
+    "can_mask_binding_gaps": false,
+    "reason": "render-fidelity gate checks templatePlaceholdersWithoutSlots against docxSlots array. Fallback only fills runtime output, not the contract slot definition. Gate still fails if slot is missing.",
+    "telemetry_missing": true,
+    "recommendation": "Add fallbackUsed/fallbackFilledSlots to render engine report for audit trail"
+  },
+  "hardening_recommendation": {
+    "priority": "MEDIUM",
+    "description": "Add fallback telemetry (fallbackUsed, fallbackFilledSlots) to ShadowManifest and render report so audit can distinguish runtime fallback from planned binding",
+    "can_block_commit": false
+  },
+  "assessment": "SAFE_WITH_RECOMMENDATION — fallback does not mask binding gaps in contract definition, but telemetry is missing"
+}

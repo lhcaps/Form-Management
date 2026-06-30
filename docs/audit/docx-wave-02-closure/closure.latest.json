@@ -1,0 +1,1309 @@
+{
+  "generatedAt": "2026-06-26T17:28:37.393Z",
+  "computedAt": "2026-06-26T17:10:00.000Z",
+  "scope": "Wave 02 manual review/apply lane",
+  "baseline": {
+    "totalIssues": 3440,
+    "BAD_LABEL": 431,
+    "UI_VISIBLE_BAD_METADATA": 76
+  },
+  "current": {
+    "totalIssues": 3395,
+    "BAD_LABEL": 399,
+    "UI_VISIBLE_BAD_METADATA": 44
+  },
+  "delta": {
+    "totalIssues": -45,
+    "BAD_LABEL": -32,
+    "UI_VISIBLE_BAD_METADATA": -32
+  },
+  "counts": {
+    "masterPackItems": 56,
+    "reviewedItems": 56,
+    "approvedInGlobal": 32,
+    "approvedFromPriority7PreBatch": 4,
+    "preBatchApplied": 1,
+    "defer": 20,
+    "legalReview": 2,
+    "docxReauthor": 2,
+    "pendingReview": 0,
+    "other": 0
+  },
+  "decisionsByBM": {},
+  "approvedItems": [
+    {
+      "reviewItemId": "W2R-003",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "approvedLabel": "Ngày sinh",
+      "evidenceSource": "Original DOC BM-068 shows personal information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'.",
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-015",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "approvedLabel": "Ngày sinh",
+      "evidenceSource": "Original DOC BM-069 shows personal/account-holder information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'.",
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-016",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "approvedLabel": "Số CCCD/CMND",
+      "evidenceSource": "Original DOC BM-069 shows visible label: 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical UI label approved as 'Số CCCD/CMND'.",
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-023",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.occupation",
+      "placeholder": "{{document.field10}}",
+      "approvedLabel": "Nghề nghiệp",
+      "evidenceSource": "Original DOC BM-069 shows visible label: 'Nghề nghiệp:' in the personal information section.",
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-001",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "evidenceSource": "Original DOC BM-068 has visible text 'Số:' before placeholder.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-002",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "approvedLabel": "Ngày ban hành",
+      "evidenceSource": "Original DOC BM-068 has 'ngày tháng năm' visible text near placeholder. This is a QĐ so 'Ngày ban hành' is correct.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-004",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress",
+      "placeholder": "{{person.permanentAddress}}",
+      "approvedLabel": "Nơi thường trú",
+      "evidenceSource": "Original DOC BM-068 has visible text 'Nơi thường trú' in personal information section.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-005",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress2",
+      "placeholder": "{{person.permanentAddress2}}",
+      "approvedLabel": "Nơi thường trú",
+      "evidenceSource": "Continuation of Nơi thường trú address field.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-006",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "approvedLabel": "Nghề nghiệp",
+      "evidenceSource": "Original DOC BM-068 has visible text 'Nghề nghiệp' in personal information section.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-007",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "approvedLabel": "Số CCCD/CMND",
+      "evidenceSource": "Original DOC BM-068 has visible label 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical label approved as 'Số CCCD/CMND'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-008",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress3",
+      "placeholder": "{{person.permanentAddress3}}",
+      "approvedLabel": "Nơi thường trú",
+      "evidenceSource": "Continuation of Nơi thường trú address field (line 3).",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-009",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.occupation2",
+      "placeholder": "{{person.occupation2}}",
+      "approvedLabel": "Nghề nghiệp",
+      "evidenceSource": "Continuation of Nghề nghiệp field.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-010",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.idNumber2",
+      "placeholder": "{{person.idNumber2}}",
+      "approvedLabel": "Số CCCD/CMND",
+      "evidenceSource": "Continuation of Số CMND/CCCD field.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-011",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.temporaryAddress",
+      "placeholder": "{{person.temporaryAddress}}",
+      "approvedLabel": "Nơi tạm trú",
+      "evidenceSource": "Original DOC BM-068 has visible text 'Nơi tạm trú' in personal information section.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-012",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.province",
+      "placeholder": "{{person.province}}",
+      "approvedLabel": "Tỉnh/Thành phố",
+      "evidenceSource": "Standard address hierarchy field for province/city.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-014",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "approvedLabel": "Ngày lập biên bản",
+      "evidenceSource": "BM-069 biên bản body begins with 'Hồi ... giờ ... ngày ... tháng ... năm ... tại ...'. Record creation timestamp, not QĐ issuance. Label: 'Ngày lập biên bản'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-019",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "approvedLabel": "Họ tên",
+      "evidenceSource": "Original DOC BM-069 has visible label 'Họ tên:' in account-holder personal information section.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-020",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "approvedLabel": "Nơi ở hiện tại",
+      "evidenceSource": "Original DOC BM-069 has visible label 'Nơi ở hiện tại:'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-021",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.currentAddress2",
+      "placeholder": "{{person.currentAddress2}}",
+      "approvedLabel": "Nơi ở hiện tại",
+      "evidenceSource": "Continuation of 'Nơi ở hiện tại' address field.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-041",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "evidenceSource": "Extracted text: 'Số: …/GM-VKS…-  __DOCUMENT_FULLDOCUMENTCODE__'. Document code line visible with 'Số:' prefix. Label approved as 'Số/Ký hiệu văn bản'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-042",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "approvedLabel": "Ngày tháng năm",
+      "evidenceSource": "Extracted text shows 'ngày … tháng … năm 20…  __DOCUMENT_ISSUEDATE__'. Standard document date format in form header. Approved as 'Ngày tháng năm'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-044",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "approvedLabel": "Họ tên",
+      "evidenceSource": "Extracted text: 'Kính mời ông/bà: __DOCUMENT_ISSUEDATE__'. The greeting line 'Kính mời ông/bà:' directly precedes the name field. Standard Giấy mời form. Approved as 'Họ tên'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-045",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "approvedLabel": "Nơi ở hiện nay",
+      "evidenceSource": "Extracted text: 'Nơ ở hiện nay: __PERSON_CURRENTADDRESS__'. Clear visible label 'Nơi ở hiện nay'. Matched exact DOC wording.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-046",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "approvedLabel": "Nghề nghiệp",
+      "evidenceSource": "Extracted text includes 'để: __PERSON_OCCUPATION__ Khi đến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. The structure follows the standard Giấy mời form. Approved as 'Nghề nghiệp'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-047",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "approvedLabel": "Số CCCD/CMND",
+      "evidenceSource": "Extracted text: 'Khi đến mang theo Giấy mời này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp __PERSON_IDNUMBER__'. Visible ID type list confirms 'Số CCCD/CMND' canonical label.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-048",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "evidenceSource": "Extracted text: 'Số: …/GTT-VKS…-  __DOCUMENT_FULLDOCUMENTCODE__'. Document code line visible with 'Số:' prefix, matching BM-162 structure. Approved as 'Số/Ký hiệu văn bản'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-049",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "approvedLabel": "Ngày tháng năm",
+      "evidenceSource": "Extracted text shows 'ngày … tháng … năm 20…  __DOCUMENT_ISSUEDATE__'. Same standard document date format as BM-162. Approved as 'Ngày tháng năm'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-051",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "approvedLabel": "Họ tên",
+      "evidenceSource": "Extracted text: 'Yêu cầu ông/bà: __DOCUMENT_ISSUEDATE__ __PERSON_DATEOFBIRTH__ __PERSON_PERSONFULLNAME__'. The greeting line 'Yêu cầu ông/bà:' directly precedes the person name field. Standard Giấy triệu tập form. Approved as 'Họ tên'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-055",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "approvedLabel": "Số CCCD/CMND",
+      "evidenceSource": "Extracted text: 'Khi đến mang theo Giấy triệu tập này, CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu hoặc giấy tờ tùy thân khác và gặp __CASE_CASENUMBER__'. The __PERSON_IDNUMBER__ field is in the same context as the ID type list. Approved as 'Số CCCD/CMND'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-030",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "approvedLabel": "Họ tên",
+      "evidenceSource": "Extracted text: 'Cơ quan, người có thẩm quyền __PERSON_PERSONFULLNAME__ … là người phiên dịch cho'. Footnote: 'Ghi họ tên người phiên dịch / người dịch thuật phải thay đổi'. Person name slot for the interpreter being replaced. Approved as 'Họ tên'.",
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-034",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "evidenceSource": "Header line: 'Số: …/TB-VKS…- …' followed by form number. Document code line visible with 'Số:' prefix matching BM-162/163/075 pattern. Approved as 'Số/Ký hiệu văn bản'.",
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-035",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "approvedLabel": "Ngày tháng năm",
+      "evidenceSource": "Header date line: '… , ngày … tháng … năm 20…'. Standard document date format. Approved as 'Ngày tháng năm'.",
+      "risk": "medium"
+    }
+  ],
+  "deferredItems": [
+    {
+      "reviewItemId": "W2R-013",
+      "templateCode": "BM-069",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "reason": "BM-069 is a biên bản. No visible Số:/document code line found in original DOC extract. DEFER without stronger evidence."
+    },
+    {
+      "reviewItemId": "W2R-043",
+      "templateCode": "BM-162",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "reason": "BM-162 extracted text shows complex multi-column table layout where field codes appear interspersed. No clear 'Sinh ngày ...' or 'Ngày sinh:' visible label found near __PERSON_DATEOFBIRTH__. Evidence too weak for safe approval. DEFER for explicit DOC review."
+    },
+    {
+      "reviewItemId": "W2R-050",
+      "templateCode": "BM-163",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "reason": "BM-163 extracted text does not show a clear 'Sinh ngày ...' or 'Ngày sinh:' label near the __PERSON_DATEOFBIRTH__ field code. No visible date-of-birth label found in extracted text. DEFER to confirm."
+    },
+    {
+      "reviewItemId": "W2R-052",
+      "templateCode": "BM-163",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "reason": "Extracted text shows '__PERSON_PERSONFULLNAME__ Nơi ở hiện nay: __PERSON_CURRENTADDRESS__ Là __PERSON_OCCUPATION__ __PERSON_WARD__'. The 'Là' token appears between currentAddress and occupation but does not constitute a visible label. No 'Nghề nghiệp:' visible label found. DEFER."
+    },
+    {
+      "reviewItemId": "W2R-053",
+      "templateCode": "BM-163",
+      "path": "person.ward",
+      "placeholder": "{{person.ward}}",
+      "reason": "__PERSON_WARD__ field code appears in extracted text but no visible label 'Phường/Xã:' is present in the extracted content. DEFER to confirm."
+    },
+    {
+      "reviewItemId": "W2R-054",
+      "templateCode": "BM-163",
+      "path": "person.province",
+      "placeholder": "{{person.province}}",
+      "reason": "__PERSON_PROVINCE__ field code appears after ward. No visible label 'Tỉnh/Thành phố:' found in extracted text. DEFER to confirm."
+    },
+    {
+      "reviewItemId": "W2R-056",
+      "templateCode": "BM-163",
+      "path": "case.caseNumber",
+      "placeholder": "{{case.caseNumber}}",
+      "reason": "__CASE_CASENUMBER__ is used for case/docket number. This is a legal/procedural field. The extracted text does not show a clear visible label for this field. DEFER to avoid incorrect legal labeling."
+    },
+    {
+      "reviewItemId": "W2R-029",
+      "templateCode": "BM-075",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "reason": "Header has 'Số: …/CV-VKS…- …' but the __DOCUMENT_FULLDOCUMENTCODE__ field code appears in body line 'Xét thấy __DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:' — this is a 'Xét thấy' (case context) line, not the document number. The actual Số header has no slot code. Ambiguous mapping. DEFER."
+    },
+    {
+      "reviewItemId": "W2R-031",
+      "templateCode": "BM-075",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{person.dateOfBirth}}",
+      "reason": "Extracted text: '…/người dịch thuật tài liệu __PERSON_DATEOFBIRTH__ … bằng người phiên dịch/người dịch thuật khác'. No 'Sinh ngày' or 'Ngày sinh' visible label. The slot is inside a sentence about translation subject, not a DOB field. DEFER to confirm path/label mapping."
+    },
+    {
+      "reviewItemId": "W2R-032",
+      "templateCode": "BM-075",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "reason": "Extracted text: 'Nơi nhận: - 6 __PERSON_CURRENTADDRESS__ - Lưu:'. The slot is in the 'Nơi nhận' (recipient) block with footnote marker '6' (annotation). The actual 'Nơi ở hiện nay' or address field is not visible. DEFER to confirm path/label mapping."
+    },
+    {
+      "reviewItemId": "W2R-036",
+      "templateCode": "BM-080",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "reason": "Extracted text: 'Số thẻ luật sư/thẻ trợ giúp viên pháp lý: __PERSON_PERSONFULLNAME__'. The slot is preceded by 'Số thẻ luật sư/thẻ trợ giúp viên pháp lý:' — this is a number/card field, not a person name field. The actual name field appears earlier in the form ('Ông/Bà:'). The path 'person.personFullName' may be mis-mapped. DEFER to confirm path/label mapping."
+    },
+    {
+      "reviewItemId": "W2R-037",
+      "templateCode": "BM-080",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{person.dateOfBirth}}",
+      "reason": "Extracted text: 'Xét thấy ông/bà 5 __PERSON_DATEOFBIRTH__ 6'. The '5' and '6' are footnote markers (annotation numbers from the form's footnote list). The slot sits in a 'Xét thấy' (reasoning) sentence, not a DOB field. No 'Sinh ngày' label visible. DEFER."
+    },
+    {
+      "reviewItemId": "W2R-038",
+      "templateCode": "BM-080",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "reason": "Extracted text: 'thông báo cho ông (bà) 5 __PERSON_CURRENTADDRESS__ biết./.'. The '5' is a footnote marker. The slot is in a 'thông báo' (notify) sentence, not a person address field. No 'Nơi ở hiện nay' or similar label visible. DEFER."
+    },
+    {
+      "reviewItemId": "W2R-033",
+      "templateCode": "BM-077",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "reason": "Header has 'Số: …/YC/ĐN-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in the 'Nơi nhận: - 10 __DOCUMENT_FULLDOCUMENTCODE__ - Lưu:' block — footnote marker '10' followed by slot. The slot is in the Nơi nhận footer, not the document header. No Số/Ký hiệu văn bản label available. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+    },
+    {
+      "reviewItemId": "W2R-040",
+      "templateCode": "BM-082",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "reason": "Header has 'Số: …/TB-VKS…-' but this line does NOT carry the slot. The __DOCUMENT_FULLDOCUMENTCODE__ slot appears in body context: '… sẽ tiến hành … đối với __DOCUMENT_FULLDOCUMENTCODE__ Viện kiểm sát 2 … thông báo cho người bào chữa biết'. This is procedural/case reference text, not a document code field. Pattern matches BM-075 W2R-029 (body slot). DEFER."
+    },
+    {
+      "reviewItemId": "W2R-017",
+      "templateCode": "BM-069",
+      "path": "document.reasonLine",
+      "placeholder": "{{document.field6}}",
+      "reason": "BM-069 paragraph [017] contains __DOCUMENT_REASONLINE__ on its own line with NO visible Vietnamese label before or after the slot. It is a body-line slot, not a labeled form field. Without a visible label, no label-only approval is safe. Marking DEFER. Same systemic false-body pattern as W2R-029/033/040/013 in closure report §1 (fullDocumentCode is not alone — body procedural text slots without labels follow the same family)."
+    },
+    {
+      "reviewItemId": "W2R-018",
+      "templateCode": "BM-069",
+      "path": "document.reasonLine2",
+      "placeholder": "{{document.field7}}",
+      "reason": "BM-069 paragraph [018] embeds __DOCUMENT_REASONLINE2__ at the END of a procedural sentence about thi hành Quyết định. The slot is sentence-trailing, not preceded by any visible form label. Body/procedural text slot without visible label. Marking DEFER. Note: the 'Lý do' (reason) framing is semantically tempting but the slot is in a thi-hành Quyết định sentence whose grammatical continuation cannot be safely relabeled without re-authoring the source DOCX paragraph."
+    },
+    {
+      "reviewItemId": "W2R-024",
+      "templateCode": "BM-069",
+      "path": "document.summaryLine",
+      "placeholder": "{{document.field12}}",
+      "reason": "BM-069 paragraph [031] embeds __DOCUMENT_SUMMARYLINE__ at the end of clause 2 of the biên bản body. The clause enumerates account information (số lượng tài khoản, số tiền có trong tài khoản được hủy bỏ biện pháp phong tỏa tài khoản). The slot is a free-form body completion, not a labeled field. 'Tóm tắt nội dung' would mismatch the procedural context. Marking DEFER — needs path/binding investigation to determine if this is a continuation slot for a labeled account-info enumeration field."
+    },
+    {
+      "reviewItemId": "W2R-025",
+      "templateCode": "BM-073",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "reason": "BM-073 has the visible 'Số: …/YC-VKS…-…' header line at paragraph [009] but the slot does NOT sit there. The slot __DOCUMENT_FULLDOCUMENTCODE__ appears in paragraph [012] titled 'Thay đổi__DOCUMENT_FULLDOCUMENTCODE__' — a body title line meaning 'Change <code>' (where <code> is the document sub-number being modified). This is the SAME systemic false-header pattern flagged in closure report §1 (W2R-029/033/040/013). Path/binding investigation required before any label can be approved. Marking DEFER."
+    },
+    {
+      "reviewItemId": "W2R-026",
+      "templateCode": "BM-073",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "reason": "BM-073 has the visible date header at paragraph [010] ('…, ngày … tháng … năm 20…') but the slot __DOCUMENT_ISSUEDATE__ is NOT on that line. It sits in the body sentence 'Xét thấy__DOCUMENT_ISSUEDATE__' at paragraph [016] — the canonical 'Xét thấy …' (Considering that …) preamble used by procedural/legal Vietnamese forms. This body-line slot is the reasoning clause, not the issuance date header. Labeling it 'Ngày ban hành' would be semantically misleading. Marking DEFER — same systemic body-line-slot pattern as W2R-025 and the closure report §1 family."
+    }
+  ],
+  "legalReviewItems": [
+    {
+      "reviewItemId": "W2R-039",
+      "templateCode": "BM-080",
+      "path": "legalBasis.legalBasisLine",
+      "placeholder": "{{legalBasis.legalBasisLine}}",
+      "reason": "Body has 'Căn cứ các điều 42, 72 và 78 của Bộ luật Tố tụng hình sự' (legal basis cited in preamble, not a slot). __LEGALBASIS_LEGALBASISLINE__ slot in extracted text is preceded by 'Nơi nhận: 5 __LEGALBASIS_LEGALBASISLINE__ - Lưu:' — this is in the 'Nơi nhận' block. The actual legal basis is in the preamble, not a slot. This is a legal/procedural field; any label change requires legal review."
+    },
+    {
+      "reviewItemId": "W2R-022",
+      "templateCode": "BM-069",
+      "path": "decision.decisionLine",
+      "placeholder": "{{document.field8}}",
+      "reason": "Original DOC BM-069 places this field in a procedural decision/command context involving Lệnh/Quyết định phong tỏa. Do not approve as 'Số QĐ' without legal review."
+    }
+  ],
+  "docxReauthorItems": [
+    {
+      "reviewItemId": "W2R-027",
+      "templateCode": "BM-073",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "reason": "Original DOC BM-073 has no personal date-of-birth field. The form concerns changing Thủ trưởng/Cấp trưởng/Phó Thủ trưởng/Cấp phó/Điều tra viên/cán bộ điều tra. Current semantic path person.dateOfBirth appears wrong."
+    },
+    {
+      "reviewItemId": "W2R-028",
+      "templateCode": "BM-073",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "reason": "Original DOC BM-073 has no CMND/CCCD/id-number field. Footnote 5 describes the type of official/personnel role to be changed, not an identity number. Current semantic path person.idNumber appears wrong."
+    }
+  ],
+  "inMasterNotReviewed": [],
+  "inGlobalNotReviewed": [],
+  "inReviewedNotGlobal": [],
+  "notInMaster": [],
+  "duplicates": [],
+  "totalItemsMismatch": [],
+  "approvedLabelMismatches": [],
+  "legalBasisApprovedWithoutLegalReviewer": [],
+  "stillPlaceholderAfterApproval": [
+    {
+      "reviewItemId": "W2R-003",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày sinh",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": false,
+        "pathPlaceholderMismatch": true,
+        "evidenceNotes": "Original DOC BM-068 shows personal information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-015",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{document.field3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày sinh",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": false,
+        "pathPlaceholderMismatch": true,
+        "evidenceNotes": "Original DOC BM-069 shows personal/account-holder information section with visible text: 'Sinh ngày ... tháng ... năm ... tại ...'."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-016",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.idNumber",
+      "placeholder": "{{document.field5}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": false,
+        "pathPlaceholderMismatch": true,
+        "evidenceNotes": "Original DOC BM-069 shows visible label: 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical UI label approved as 'Số CCCD/CMND'."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-023",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.occupation",
+      "placeholder": "{{document.field10}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nghề nghiệp",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:30:00.000+07:00",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": false,
+        "pathPlaceholderMismatch": true,
+        "evidenceNotes": "Original DOC BM-069 shows visible label: 'Nghề nghiệp:' in the personal information section."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-001",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Số",
+        "evidenceNotes": "Original DOC BM-068 has visible text 'Số:' before placeholder."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-002",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày ban hành",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày ban hành",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "ngày tháng năm",
+        "evidenceNotes": "Original DOC BM-068 has 'ngày tháng năm' visible. This is a QĐ so 'Ngày ban hành' is correct."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-004",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress",
+      "placeholder": "{{person.permanentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi thường trú",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi thường trú",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi thường trú",
+        "evidenceNotes": "Original DOC BM-068 has visible text 'Nơi thường trú'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-005",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress2",
+      "placeholder": "{{person.permanentAddress2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi thường trú (dòng 2)",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi thường trú",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi thường trú",
+        "evidenceNotes": "Continuation of Nơi thường trú address field."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-006",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nghề nghiệp",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nghề nghiệp",
+        "evidenceNotes": "Original DOC BM-068 has visible text 'Nghề nghiệp'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-007",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Original DOC BM-068 has visible label 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical label approved as 'Số CCCD/CMND'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-008",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.permanentAddress3",
+      "placeholder": "{{person.permanentAddress3}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi thường trú (dòng 3)",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi thường trú",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi thường trú",
+        "evidenceNotes": "Continuation of Nơi thường trú address field (line 3)."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-009",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.occupation2",
+      "placeholder": "{{person.occupation2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp (dòng 2)",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nghề nghiệp",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nghề nghiệp",
+        "evidenceNotes": "Continuation of Nghề nghiệp field."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-010",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.idNumber2",
+      "placeholder": "{{person.idNumber2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND (dòng 2)",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Continuation of Số CMND/CCCD field."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-011",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.temporaryAddress",
+      "placeholder": "{{person.temporaryAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi tạm trú",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi tạm trú",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi tạm trú",
+        "evidenceNotes": "Original DOC BM-068 has visible text 'Nơi tạm trú'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-012",
+      "templateCode": "BM-068",
+      "sourceId": "6c1275cc752e",
+      "path": "person.province",
+      "placeholder": "{{person.province}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Tỉnh/Thành phố",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Tỉnh/Thành phố",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T15:45:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/68-QĐ huỷ bỏ biện pháp phong toả tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Tỉnh/Thành phố",
+        "evidenceNotes": "Standard address hierarchy field for province/city."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-014",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày lập biên bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày lập biên bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:06:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Hồi ... giờ ... ngày ... tháng ... năm ... tại ...",
+        "evidenceNotes": "BM-069 biên bản body begins with 'Hồi ... giờ ... ngày ... tháng ... năm ... tại ...'. This is a record creation timestamp. Label is 'Ngày lập biên bản', not 'Ngày ban hành'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-019",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Họ tên",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:06:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Họ tên",
+        "evidenceNotes": "Original DOC BM-069 has visible label 'Họ tên:' in account-holder personal information section."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-020",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện tại",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi ở hiện tại",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:06:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi ở hiện tại",
+        "evidenceNotes": "Original DOC BM-069 has visible label 'Nơi ở hiện tại:'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-021",
+      "templateCode": "BM-069",
+      "sourceId": "3a67d1a2e298",
+      "path": "person.currentAddress2",
+      "placeholder": "{{person.currentAddress2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện tại (dòng 2)",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi ở hiện tại",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:06:00.000Z",
+      "evidence": {
+        "originalDocPath": "docs/Biểu mẫu/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/02. BIEN PHAP NGAN CHAN BIEN PHAP CUONG CHE/69-BB về việc hủy bỏ biện pháp phong tỏa tài khoản.doc",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi ở hiện tại",
+        "evidenceNotes": "Continuation of 'Nơi ở hiện tại' address field."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-041",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Extracted text: 'Số: …/GM-VKS…- __DOCUMENT_FULLDOCUMENTCODE__'. Document code line visible with 'Số:' prefix."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-042",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày tháng năm",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Extracted text shows 'ngày … tháng … năm 20… __DOCUMENT_ISSUEDATE__'. Standard document date format."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-044",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Họ tên",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Kính mời ông/bà",
+        "evidenceNotes": "Extracted text: 'Kính mời ông/bà:'. Name field follows greeting line."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-045",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện nay",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nơi ở hiện nay",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Nơi ở hiện nay",
+        "evidenceNotes": "Extracted text: 'Nơ ở hiện nay: __PERSON_CURRENTADDRESS__'. Exact DOC label matched."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-046",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.occupation",
+      "placeholder": "{{person.occupation}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nghề nghiệp",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Nghề nghiệp",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Nghề nghiệp",
+        "evidenceNotes": "Occupation field follows standard Giấy mời form structure."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-047",
+      "templateCode": "BM-162",
+      "sourceId": "6e7e16348066",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-162.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Extracted text shows ID type list 'CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu'. Canonical label 'Số CCCD/CMND' approved."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-048",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Extracted text: 'Số: …/GTT-VKS…- __DOCUMENT_FULLDOCUMENTCODE__'. Document code line with 'Số:' prefix."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-049",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày tháng năm",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Extracted text shows 'ngày … tháng … năm 20… __DOCUMENT_ISSUEDATE__'. Standard document date format."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-051",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Họ tên",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Yêu cầu ông/bà",
+        "evidenceNotes": "Extracted text: 'Yêu cầu ông/bà:'. Name field follows greeting line."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-055",
+      "templateCode": "BM-163",
+      "sourceId": "61941122b9e4",
+      "path": "person.idNumber",
+      "placeholder": "{{person.idNumber}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số CCCD/CMND",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số CCCD/CMND",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:25:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-163.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu",
+        "evidenceNotes": "Extracted text shows ID type list 'CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu' in Giấy triệu tập. Canonical label 'Số CCCD/CMND' approved."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-030",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Họ tên",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Cơ quan, người có thẩm quyền",
+        "evidenceNotes": "Extracted text: 'Cơ quan, người có thẩm quyền __PERSON_PERSONFULLNAME__ … là người phiên dịch cho'. Footnote: 'Ghi họ tên người phiên dịch / người dịch thuật phải thay đổi'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-034",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header line: 'Số: …/TB-VKS…- …'. Document code line with 'Số:' prefix."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-035",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày tháng năm",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Header date line: '… , ngày … tháng … năm 20…'. Standard document date format."
+      },
+      "risk": "medium"
+    }
+  ],
+  "contractCoverage": {
+    "BM-068": {
+      "approved": 12,
+      "defer": 0,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-001",
+        "W2R-002",
+        "W2R-004",
+        "W2R-005",
+        "W2R-006",
+        "W2R-007",
+        "W2R-008",
+        "W2R-009",
+        "W2R-010",
+        "W2R-011",
+        "W2R-012",
+        "W2R-003"
+      ]
+    },
+    "BM-069": {
+      "approved": 7,
+      "defer": 4,
+      "legalReview": 1,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-013",
+        "W2R-014",
+        "W2R-019",
+        "W2R-020",
+        "W2R-021",
+        "W2R-017",
+        "W2R-018",
+        "W2R-024",
+        "W2R-015",
+        "W2R-016",
+        "W2R-022",
+        "W2R-023"
+      ]
+    },
+    "BM-162": {
+      "approved": 6,
+      "defer": 1,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-041",
+        "W2R-042",
+        "W2R-043",
+        "W2R-044",
+        "W2R-045",
+        "W2R-046",
+        "W2R-047"
+      ]
+    },
+    "BM-163": {
+      "approved": 4,
+      "defer": 5,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-048",
+        "W2R-049",
+        "W2R-050",
+        "W2R-051",
+        "W2R-052",
+        "W2R-053",
+        "W2R-054",
+        "W2R-055",
+        "W2R-056"
+      ]
+    },
+    "BM-075": {
+      "approved": 1,
+      "defer": 3,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-029",
+        "W2R-030",
+        "W2R-031",
+        "W2R-032"
+      ]
+    },
+    "BM-080": {
+      "approved": 2,
+      "defer": 3,
+      "legalReview": 1,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-034",
+        "W2R-035",
+        "W2R-036",
+        "W2R-037",
+        "W2R-038",
+        "W2R-039"
+      ]
+    },
+    "BM-077": {
+      "approved": 0,
+      "defer": 1,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-033"
+      ]
+    },
+    "BM-082": {
+      "approved": 0,
+      "defer": 1,
+      "legalReview": 0,
+      "docxReauthor": 0,
+      "ids": [
+        "W2R-040"
+      ]
+    },
+    "BM-073": {
+      "approved": 0,
+      "defer": 2,
+      "legalReview": 0,
+      "docxReauthor": 2,
+      "ids": [
+        "W2R-025",
+        "W2R-026",
+        "W2R-027",
+        "W2R-028"
+      ]
+    }
+  }
+}

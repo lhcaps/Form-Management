@@ -1,0 +1,143 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM096_SINGLE_CANDIDATE_APPLY_APPROVED_REMAP",
+  "status": "APPLIED",
+  "mutationApplied": true,
+  "templateCode": "BM-096",
+  "mutation": {
+    "oldPath": "document.diaChi",
+    "newPath": "person.idNumber",
+    "oldLabel": "Ô trống",
+    "newLabel": "Số CCCD/CMND",
+    "rawPattern": "{{person.field14}}",
+    "evidenceTextBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:"
+  },
+  "metricsBefore": {
+    "totalIssues": 1477,
+    "FAIL": 1156,
+    "REVIEW": 321,
+    "REMEDIATION_LEAK": 10,
+    "BAD_LABEL": 353,
+    "GENERIC_FIELD_CANONICALIZATION": 352,
+    "SOURCE_MISMATCH": 121,
+    "REQUIRED_SUSPICIOUS": 115,
+    "SHOULD_BE_READONLY": 42,
+    "COMPILED_DRIFT": 37,
+    "UI_VISIBLE_BAD_METADATA": 15,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 10,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 422
+  },
+  "metricsAfter": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "BAD_LABEL": 352,
+    "GENERIC_FIELD_CANONICALIZATION": 351,
+    "SOURCE_MISMATCH": 121,
+    "REQUIRED_SUSPICIOUS": 116,
+    "SHOULD_BE_READONLY": 42,
+    "COMPILED_DRIFT": 37,
+    "UI_VISIBLE_BAD_METADATA": 15,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 10,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 422
+  },
+  "metricDelta": {
+    "totalIssues": -1,
+    "FAIL": -2,
+    "REVIEW": 1,
+    "REMEDIATION_LEAK": 0,
+    "BAD_LABEL": -1,
+    "GENERIC_FIELD_CANONICALIZATION": -1,
+    "SOURCE_MISMATCH": 0,
+    "REQUIRED_SUSPICIOUS": 1,
+    "SHOULD_BE_READONLY": 0,
+    "COMPILED_DRIFT": 0,
+    "UI_VISIBLE_BAD_METADATA": 0,
+    "RAW_PATTERN_DOMAIN_MISMATCH": 0,
+    "WEAK_EVIDENCE_AUTO_LOCKED": 0
+  },
+  "metricAssessment": {
+    "BAD_LABEL": "EXPECTED -1: ✅ correct",
+    "GENERIC_FIELD_CANONICALIZATION": "EXPECTED -1: ✅ correct",
+    "totalIssues": "MET -1: ✅ floor met (REQUIRED_SUSPICIOUS +1 is BM-096 unmasking, not unrelated)",
+    "REMEDIATION_LEAK": "UNCHANGED 0: ✅ protected",
+    "COMPILED_DRIFT": "UNCHANGED 0: ✅ not affected",
+    "SOURCE_MISMATCH": "UNCHANGED 0: ✅ source preserved",
+    "SHOULD_BE_READONLY": "UNCHANGED 0: ✅ not affected",
+    "WEAK_EVIDENCE_AUTO_LOCKED": "UNCHANGED 0: ✅ not affected",
+    "REQUIRED_SUSPICIOUS_note": "116 vs 115 (+1): BM-096 mutation unmasked pre-existing REQUIRED_SUSPICIOUS REVIEW on person.idNumber (required=false). NOT unrelated — it IS in BM-096. Not mutation fault; is unmasking."
+  },
+  "rsAttribution": {
+    "netDelta": 1,
+    "newlyAdded": [
+      {
+        "templateCode": "BM-096",
+        "path": "person.idNumber",
+        "issueCode": "REQUIRED_SUSPICIOUS",
+        "severity": "REVIEW",
+        "reason": "Field looks required (ID field likely required) but required=false."
+      }
+    ],
+    "newlyRemoved": [],
+    "isBM096MutationCaused": true,
+    "assessment": "INCREASE: BM-096 mutation unmasked REQUIRED_SUSPICIOUS REVIEW on person.idNumber"
+  },
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "runtimeVerifiedAt": "2026-06-28T03:31:00.000+07:00",
+    "runtimePublishCleanedAt": "2026-06-28T03:46:00.000+07:00",
+    "publishedStaleContracts": [
+      "BM-051", "BM-052", "BM-060", "BM-061", "BM-062", "BM-063",
+      "BM-065", "BM-066", "BM-067", "BM-075", "BM-080", "BM-096", "BM-163"
+    ],
+    "publishCommand": "OFFICIAL_ID=1 pnpm publish:forms:db",
+    "publishResult": "16 contracts created (13 stale + BM-068 + BM-069), 197 skipped",
+    "note": "Runtime DB sync CLEAN. matched=213, missing=0, stale=0. All stale contracts published successfully."
+  },
+  "safetyAssertions": {
+    "onlyBM096LockedContractChanged": true,
+    "noSignatureFieldsChanged": true,
+    "noSourceRequiredReviewRequiredMutation": true,
+    "compiledV2GeneratedOnly": true,
+    "noMetricRegression": false,
+    "contractSyncPassed": true,
+    "contractSyncRuntimeStatus": "SYNCED_AFTER_PUBLISH",
+    "noMetricRegression_note": "REQUIRED_SUSPICIOUS increased by +1 (115->116) — BM-096 unmasking, not unrelated. Not mutation fault (isUnmasking=true). Follow-up: human review required for person.idNumber required field.",
+    "noMetricRegression_isMutationFault": false,
+    "noMetricRegression_isUnmasking": true,
+    "noMetricRegression_followUpNeeded": true
+  },
+  "filesChanged": [
+    "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",
+    "docs/audit/docx/compiled-v2/BM-096.compiled.json",
+    "docs/audit/forms-root-cause/latest.json",
+    "docs/audit/forms-root-cause/latest.md"
+  ],
+  "backupCreated": "docs/audit/path-domain-binding-batch-1-bm096-single-candidate/backups/2026-06-27T20-01-40/BM-096__a50a08efa62f.contract.locked.json",
+  "commit": {
+    "sha": "a6622d57dad26dfab7161e181307ae901bf59631",
+    "message": "docs(audit): apply BM-096 document.diaChi -> person.idNumber remap",
+    "pushed": true,
+    "branch": "fix/documents-canonical-render-payload-snapshot"
+  },
+  "plannerNextDecisionNeeded": {
+    "question": "Proceed to next BM-096 candidate group or stop for review?",
+    "options": [
+      "CONTINUE_BM096_DEFERRED_REVIEW",
+      "MOVE_TO_NEXT_TOP_BM",
+      "STOP_AND_REVIEW"
+    ]
+  },
+  "codeGraphHealth": {
+    "cliFound": true,
+    "projectInitialized": true,
+    "cursorMcpConfigured": true,
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  }
+}

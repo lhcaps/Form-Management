@@ -1,0 +1,444 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM062_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "status": "EVIDENCE_COMPLETE",
+  "templateCode": "BM-062",
+  "canApplyRunNow": false,
+  "sourcePair": {
+    "docx": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-062\\BM-062_normalized.docx",
+    "contract": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-062__110961a781fa.contract.locked.json"
+  },
+  "renderGateBefore": {
+    "status": "FAIL",
+    "reason": "recipients.personLine5 has no slot/binding (5 undefined literals); decision.decisionLine11 has 1 slot but 11 DOCX occurrences",
+    "literalFidelityStatus": "FAIL",
+    "bindingFidelityStatus": "FAIL",
+    "renderStatus": "PASS"
+  },
+  "riskPlaceholders": [
+    "decision.decisionLine11",
+    "recipients.personLine5"
+  ],
+  "occurrenceEvidence": [
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 0,
+      "textNodeIndex": 57,
+      "fullParagraphText": "Xét thấy{{decision.decisionLine}}     {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH:",
+      "neighborhoodText": ", nếu có) của … đối với … về tội … quy định tại khoản … Điều …  của  Bộ luật Hình sự; Xét thấy{{decision.decisionLine}}     {{decision.decisionLine11}} RA LỆNH: Điều 1.   Kê biên tài sản: 11 {{decision.decisionLine11}} Họ tên: 12",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 0: Appears in article/assignment context. Should NOT be decision.* namespace. Semantic requires human review against TT-03-2026-VKSTC."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 1,
+      "textNodeIndex": 63,
+      "fullParagraphText": "Điều 1.   Kê biên tài sản: 11 {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}}",
+      "neighborhoodText": "    {{decision.decisionLine11}} RA LỆNH: Điều 1.   Kê biên tài sản: 11 {{decision.decisionLine11}} Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp:",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 1: Blank cell in person table row between \"Họ tên\" and \"Nghề nghiệp\" — appears to be a person detail field. Should NOT be decision.* namespace. Semantic requires human DOCX review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 2,
+      "textNodeIndex": 72,
+      "fullParagraphText": "Nghề nghiệp: {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}}",
+      "neighborhoodText": "Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú: ",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 2: Blank cell in person table row between \"Họ tên\" and \"Nghề nghiệp\" — appears to be a person detail field. Should NOT be decision.* namespace. Semantic requires human DOCX review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 3,
+      "textNodeIndex": 74,
+      "fullParagraphText": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}}",
+      "neighborhoodText": "{{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại: ",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 3: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 4,
+      "textNodeIndex": 75,
+      "fullParagraphText": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}}",
+      "neighborhoodText": "{{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}}",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 4: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 5,
+      "textNodeIndex": 76,
+      "fullParagraphText": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}}",
+      "neighborhoodText": "{{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 5: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 6,
+      "textNodeIndex": 79,
+      "fullParagraphText": "Nơi thường trú:   {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}} | Nơi thường trú: | {{decision.decisionLine11}}",
+      "neighborhoodText": "Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.  Yêu cầu 12 {{decision.decisionLine11}}",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 6: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 7,
+      "textNodeIndex": 81,
+      "fullParagraphText": "Nơi tạm trú:  {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}} | Nơi thường trú: | {{decision.decisionLine11}} | Nơi tạm trú: | {{decision.decisionLine11}}",
+      "neighborhoodText": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}}",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 7: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 8,
+      "textNodeIndex": 83,
+      "fullParagraphText": "Nơi ở hiện tại:  {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}} | Nơi thường trú: | {{decision.decisionLine11}} | Nơi tạm trú: | {{decision.decisionLine11}} | Nơi ở hiện tại: | {{decision.decisionLine11}} | Điều 2. | Yêu cầu",
+      "neighborhoodText": "{{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:   {{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}} Phân công Kiểm sát viên … tổ chức thi hành Lệnh này 14",
+      "surroundingLabels": [],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 8: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 9,
+      "textNodeIndex": 87,
+      "fullParagraphText": "Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}} | Nơi thường trú: | {{decision.decisionLine11}} | Nơi tạm trú: | {{decision.decisionLine11}} | Nơi ở hiện tại: | {{decision.decisionLine11}} | Điều 2. | Yêu cầu | 12 | {{decision.decisionLine11}} | 13 | {{decision.decisionLine11}}",
+      "neighborhoodText": "{{decision.decisionLine11}} Nơi tạm trú:  {{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}} Phân công Kiểm sát viên … tổ chức thi hành Lệnh này 14 . Điều 3.   Tài sản kê biên giao cho",
+      "surroundingLabels": [
+        "ận :"
+      ],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 9: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 10,
+      "textNodeIndex": 89,
+      "fullParagraphText": "Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | Nghề nghiệp: | {{decision.decisionLine11}} | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{decision.decisionLine11}} | {{decision.decisionLine11}} | {{decision.decisionLine11}} | Nơi thường trú: | {{decision.decisionLine11}} | Nơi tạm trú: | {{decision.decisionLine11}} | Nơi ở hiện tại: | {{decision.decisionLine11}} | Điều 2. | Yêu cầu | 12 | {{decision.decisionLine11}} | 13 | {{decision.decisionLine11}}",
+      "neighborhoodText": "{{decision.decisionLine11}} Nơi ở hiện tại:  {{decision.decisionLine11}} Điều 2.  Yêu cầu 12 {{decision.decisionLine11}} 13 {{decision.decisionLine11}} Phân công Kiểm sát viên … tổ chức thi hành Lệnh này 14 . Điều 3.   Tài sản kê biên giao cho 15 … có trách nhiệm bảo quản cho đến khi có quyết định của cơ quan có thẩm quyền. Nếu có hành vi tiêu dùng, chuyển nhượng, đánh tráo, cất giấu hoặc hủy hoại tài sản bị kê biên thì phải chịu trách nhiệm theo quy định của Bộ luật Hình sự./.",
+      "surroundingLabels": [
+        "ận :"
+      ],
+      "currentSlotExists": true,
+      "currentBindingExists": true,
+      "currentCanonicalFieldExists": true,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 10: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 0,
+      "textNodeIndex": 67,
+      "fullParagraphText": "{{recipients.personLine5}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}}",
+      "neighborhoodText": "Điều 1.   Kê biên tài sản: 11 {{decision.decisionLine11}} Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}}",
+      "surroundingLabels": [],
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 0: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 1,
+      "textNodeIndex": 68,
+      "fullParagraphText": "{{recipients.personLine5}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}}",
+      "neighborhoodText": "  Kê biên tài sản: 11 {{decision.decisionLine11}} Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}}",
+      "surroundingLabels": [],
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 1: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 2,
+      "textNodeIndex": 69,
+      "fullParagraphText": "{{recipients.personLine5}} {{recipients.personLine5}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}}",
+      "neighborhoodText": "Kê biên tài sản: 11 {{decision.decisionLine11}} Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:",
+      "surroundingLabels": [],
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 2: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 3,
+      "textNodeIndex": 70,
+      "fullParagraphText": "{{recipients.personLine5}} {{recipients.personLine5}}",
+      "tableContext": "VIỆN KIỂM SÁT | … | {{agency.name}} | Số: …/LKB-VKS…-{{document.fullDocumentCode}} | … | CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM | Độc lập - Tự do - Hạnh phúc | … | , ngày … tháng … năm 20… | LỆNH KÊ BIÊN TÀI SẢN | VIỆN TRƯỞNG VIỆN KIỂM SÁT | 2 | {{agency.name}} | Căn cứ các điều 41, 128 và 165 | của Bộ luật Tố tụng hình sự; | Căn cứ Điều 135 | của | Luật Tư pháp người chưa thành niên | ; | Căn cứ Quyết định khởi tố vụ án hình sự | số … | ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố vụ án | hình sự | số … ngày … tháng … năm … | , nếu có) của | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Căn cứ Quyết định khởi tố bị can | số … ngày … tháng … năm … | (hoặc Quyết định thay đổi/bổ sung Quyết định khởi tố bị can | số … ngày … tháng … năm … | , nếu có) của | … đối với | … về tội … quy định tại khoản … Điều … | của | Bộ luật Hình sự; | Xét thấy{{decision.decisionLine}} | {{decision.decisionLine11}} | RA LỆNH: | Điều 1. | Kê biên tài sản: | 11 | {{decision.decisionLine11}} | Họ tên: | 12 | {{recipients.personLine}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}} | {{recipients.personLine5}}",
+      "neighborhoodText": "11 {{decision.decisionLine11}} Họ tên: 12 {{recipients.personLine}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} {{recipients.personLine5}} Nghề nghiệp: {{decision.decisionLine11}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: {{decision.decisionLine11}} {{decision.decisionLine11}} {{decision.decisionLine11}} Nơi thường trú:  ",
+      "surroundingLabels": [],
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "inferredSemantic": null,
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 3: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 4,
+      "textNodeIndex": 112,
+      "fullParagraphText": "16 {{recipients.personLine5}}",
+      "tableContext": "Nơi nhận | : | - | 12 | …; | - | 13 | …; | - | 15 | …; | - | Lưu: HSVA, HSKS, VP. | 16 | {{recipients.personLine5}} | (",
+      "neighborhoodText": "13 …; -  15 …; -  Lưu: HSVA, HSKS, VP. 16 {{recipients.personLine5}} ( Ký, ghi rõ họ tên, đóng dấu ) 14  Nội dung phân công Kiểm sát viên chỉ ghi trong trường hợp kê biên tài sản trong giai đoạn truy tố 15  Ghi rõ: chủ tài sản, người quản lý hợp pháp hoặc người thân thích của bị can 16",
+      "surroundingLabels": [
+        "ận :",
+        "Lưu:"
+      ],
+      "currentSlotExists": false,
+      "currentBindingExists": false,
+      "currentCanonicalFieldExists": false,
+      "classification": "REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER",
+      "confidence": "MEDIUM",
+      "inferredSemantic": "signature.signerName",
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 4: Footer signature context \"(Ký, ghi rõ họ tên, đóng dấu)\". Proposal: bind to signature.signerName. MEDIUM confidence — matches BM-052 footer pattern."
+    }
+  ],
+  "classificationCounts": {
+    "DEFER_AMBIGUOUS_DECISION_LINE": 9,
+    "DEFER_AMBIGUOUS_PERSON_TABLE_CELL": 6,
+    "REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER": 1
+  },
+  "proposedCandidates": [
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 4,
+      "classification": "REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER",
+      "confidence": "MEDIUM",
+      "inferredSemantic": "signature.signerName",
+      "proposedNewPlaceholderId": null,
+      "reason": "Occurrence 4: Footer signature context \"(Ký, ghi rõ họ tên, đóng dấu)\". Proposal: bind to signature.signerName. MEDIUM confidence — matches BM-052 footer pattern."
+    }
+  ],
+  "deferredItems": [
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 0: Appears in article/assignment context. Should NOT be decision.* namespace. Semantic requires human review against TT-03-2026-VKSTC."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 1: Blank cell in person table row between \"Họ tên\" and \"Nghề nghiệp\" — appears to be a person detail field. Should NOT be decision.* namespace. Semantic requires human DOCX review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 2: Blank cell in person table row between \"Họ tên\" and \"Nghề nghiệp\" — appears to be a person detail field. Should NOT be decision.* namespace. Semantic requires human DOCX review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 3: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 4,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 4: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 5,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 5: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 6,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 6: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 7,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 7: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 8,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 8: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 9,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 9: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "decision.decisionLine11",
+      "occurrenceIndex": 10,
+      "classification": "DEFER_AMBIGUOUS_DECISION_LINE",
+      "confidence": "LOW",
+      "reason": "Occurrence 10: Appears in address context (Nơi thường trú/tạm trú/ở hiện tại). Should NOT be decision.* namespace. Semantic requires human review."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 0,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 0: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 1,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 1: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 2,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 2: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    },
+    {
+      "placeholder": "recipients.personLine5",
+      "occurrenceIndex": 3,
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Occurrence 3: Blank cell in asset seizure person table. 4 such cells exist in BM-062 (body) plus 1 footer. Semantic cannot be determined from DOCX alone. Cannot merge 4 body cells into one field — would render same value in 4 distinct cells. Similar to BM-052 deferred pattern."
+    }
+  ],
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceOnly": true,
+    "renderGateUsed": true,
+    "codeGraphUsedForCodeOnly": true
+  },
+  "validation": {
+    "scriptName": "scripts/audit/plan-bm062-docx-placeholder-renormalization.mjs",
+    "testFile": "test/bm062-docx-placeholder-renormalization.test.mjs"
+  },
+  "plannerDecisionNeeded": {
+    "singleNextDecision": "BM-062 has 16 risk occurrences: 9× DEFER_AMBIGUOUS_DECISION_LINE, 6× DEFER_AMBIGUOUS_PERSON_TABLE_CELL, 1× REVIEW_CANDIDATE_BIND_EXISTING_PLACEHOLDER. All candidates are REVIEW_CANDIDATE (proposed semantic) or DEFER. Decide: approve signature.signerName binding for footer recipients.personLine5, approve document.issuePlaceAndDate for occ 0 decision.decisionLine11, and/or defer remaining. Do not auto-merge 4 person-table cells into one field."
+  }
+}

@@ -1,0 +1,3071 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safe Label Only Batch 1</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #18202a; background: #f7f8fa; }
+    header, section { background: #fff; border: 1px solid #d9dee7; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    h1, h2 { margin: 0 0 12px; }
+    h2 span { color: #5d6675; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .metric { border: 1px solid #d9dee7; border-radius: 6px; padding: 12px; background: #fbfcfd; }
+    .metric strong { display: block; font-size: 20px; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { border-bottom: 1px solid #e7ebf1; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #f1f4f8; }
+    code { white-space: nowrap; }
+    .muted { color: #697386; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Safe Label Only Batch 1</h1>
+    <p>Generated: 2026-06-27T16:58:39.496Z</p>
+    <p>Approval: <span class="muted">none</span></p>
+    <div class="grid">
+      <div class="metric">AUTO_SAFE_APPROVABLE<strong>0</strong></div>
+      <div class="metric">REVIEW_NEEDED<strong>3</strong></div>
+      <div class="metric">BLOCKED<strong>351</strong></div>
+      <div class="metric">EXCLUDED_KEEP_DEFERRED<strong>19</strong></div>
+      <div class="metric">BAD_LABEL delta<strong>0</strong></div>
+      <div class="metric">UI_VISIBLE delta<strong>0</strong></div>
+    </div>
+  </header>
+
+    <section>
+      <h2>AUTO_SAFE_APPROVABLE <span>0</span></h2>
+      <table>
+        <thead>
+          <tr><th>BM</th><th>Path</th><th>Old label</th><th>Suggested label</th><th>Issues</th><th>Reason</th></tr>
+        </thead>
+        <tbody><tr><td colspan="6" class="muted">None</td></tr></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>REVIEW_NEEDED <span>3</span></h2>
+      <table>
+        <thead>
+          <tr><th>BM</th><th>Path</th><th>Old label</th><th>Suggested label</th><th>Issues</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td>BM-003</td>
+        <td><code>document.issuePlaceAndDateLine</code></td>
+        <td>issuePlaceAndDateLine</td>
+        <td></td>
+        <td>BAD_LABEL, UI_VISIBLE_BAD_METADATA</td>
+        <td>root-cause audit requires human review; no audited suggestedLabel is available; path is legal/signature/recipient/date/header sensitive</td>
+      </tr>
+      <tr>
+        <td>BM-003</td>
+        <td><code>recipients.archiveLine</code></td>
+        <td>archiveLine</td>
+        <td></td>
+        <td>BAD_LABEL, UI_VISIBLE_BAD_METADATA</td>
+        <td>root-cause audit requires human review; no audited suggestedLabel is available; path is legal/signature/recipient/date/header sensitive</td>
+      </tr>
+      <tr>
+        <td>BM-003</td>
+        <td><code>recipients.primaryLine</code></td>
+        <td>primaryLine</td>
+        <td></td>
+        <td>BAD_LABEL, UI_VISIBLE_BAD_METADATA</td>
+        <td>root-cause audit requires human review; no audited suggestedLabel is available; path is legal/signature/recipient/date/header sensitive</td>
+      </tr></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>BLOCKED <span>351</span></h2>
+      <table>
+        <thead>
+          <tr><th>BM</th><th>Path</th><th>Old label</th><th>Suggested label</th><th>Issues</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td>BM-004</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-004</td>
+        <td><code>document.vietTat</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-013</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-013</td>
+        <td><code>agency.tenCo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-013</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-013</td>
+        <td><code>document.soVan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-013</td>
+        <td><code>document.vietTat</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-021</td>
+        <td><code>agency.issuePlace</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-021</td>
+        <td><code>decision.decisionLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-021</td>
+        <td><code>decision.summaryLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-024</td>
+        <td><code>document.issuePlaceAndDateLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-025</td>
+        <td><code>agency.issuePlace</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-027</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-027</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-027</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-027</td>
+        <td><code>document.soThong</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>document.ngayQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>document.soQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-028</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-029</td>
+        <td><code>agency.tenCo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-029</td>
+        <td><code>document.vietTat</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-032</td>
+        <td><code>agency.issuePlace</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-036</td>
+        <td><code>recipients.archiveLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-036</td>
+        <td><code>recipients.personLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>document.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-048</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-049</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-050</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-050</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-051</td>
+        <td><code>decision.decisionLine3</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-052</td>
+        <td><code>decision.decisionLine2</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-052</td>
+        <td><code>document.fullDocumentCode2</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-060</td>
+        <td><code>decision.decisionLine10</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-062</td>
+        <td><code>decision.decisionLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-062</td>
+        <td><code>decision.decisionLine11</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-066</td>
+        <td><code>decision.decisionLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-066</td>
+        <td><code>document.fullDocumentCode4</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-072</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-072</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-074</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-074</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-074</td>
+        <td><code>document.soYeu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-076</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-076</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-076</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-076</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-078</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-078</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-078</td>
+        <td><code>document.soThong</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-080</td>
+        <td><code>legalBasis.legalBasisLine</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-080</td>
+        <td><code>person.currentAddress</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-080</td>
+        <td><code>person.dateOfBirth</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-081</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-081</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-083</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-083</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-083</td>
+        <td><code>document.soYeu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-084</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-084</td>
+        <td><code>document.dienThoai</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-087</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-088</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-088</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-091</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-091</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-092</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-092</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-092</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-093</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-093</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-093</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-094</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-094</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-094</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-094</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-095</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-095</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-095</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.diaChi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.lyDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.namSinh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.soYeu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>person.hoTen</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>recipients.luuHo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>signature.cheDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>signature.chucVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-096</td>
+        <td><code>signature.nguoiKy</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-098</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-098</td>
+        <td><code>document.soYeu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-099</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-100</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-100</td>
+        <td><code>document.soYeu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-101</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-101</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-101</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-101</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-102</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-102</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-102</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-102</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-105</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-105</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-105</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.lyDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>document.thoiHan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-106</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-107</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-107</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-108</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-108</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-108</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-108</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-109</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-109</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-109</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-109</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-110</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-110</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-111</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-111</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-111</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-112</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-112</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-112</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-112</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-113</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-113</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-113</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-113</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-114</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-114</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-114</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-114</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-114</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-115</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-115</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-115</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-115</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-115</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-116</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-116</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-116</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.donVi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.ngayQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.soQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-117</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.donVi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.lyDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.soQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-118</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-119</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-119</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-119</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-119</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-120</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-120</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-120</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-121</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-121</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-122</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-123</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-125</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-125</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-125</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-125</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>person.tenNguoi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-126</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>agency.coQuan</code></td>
+        <td>Ô trống</td>
+        <td>Cơ quan ra quyết định đề nghị phê chuẩn</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-127</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-128</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-128</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-128</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-128</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-128</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-129</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-130</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-131</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-131</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-131</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-131</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-131</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-132</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-132</td>
+        <td><code>agency.vienKiem</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-132</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-133</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-133</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-133</td>
+        <td><code>agency.vienKiem</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-133</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-133</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-134</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-135</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.lyDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.soTien</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>person.tenBi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>person.toiDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>recipients.luuHo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>signature.cheDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>signature.chucVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-136</td>
+        <td><code>signature.nguoiKy</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-137</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-137</td>
+        <td><code>document.ngayLap</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-137</td>
+        <td><code>document.noiLap</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-137</td>
+        <td><code>document.soBien</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-137</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-138</td>
+        <td><code>person.tenBi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-140</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-140</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-140</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-140</td>
+        <td><code>document.soKien</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-142</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-142</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-142</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-142</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-143</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-143</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-147</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-147</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-147</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-149</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-149</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-149</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-149</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-149</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-151</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-151</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-152</td>
+        <td><code>person.tenBi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-153</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-153</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-153</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-153</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-154</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-154</td>
+        <td><code>agency.dongDia</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-154</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-154</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-154</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.dieu1</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, SOURCE_MISMATCH</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.dieu2</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.lyDo</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.ngayQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.soQd</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.soQuyet</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>document.tenVu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>legalBasis.canCu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>person.tenBi</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-155</td>
+        <td><code>recipients.noiNhan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-157</td>
+        <td><code>agency.vienKiem</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-158</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-158</td>
+        <td><code>document.soDanh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-160</td>
+        <td><code>document.soBien</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>agency.diaDanh</code></td>
+        <td>Ô trống</td>
+        <td>Địa điểm, ngày lập văn bản</td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>root-cause audit suggests a path change, not label-only; co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>document.chuThe</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>document.hoTen</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>document.ngayBan</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>document.ngaySinh</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-161</td>
+        <td><code>document.soPhieu</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION</td>
+      </tr>
+      <tr>
+        <td>BM-162</td>
+        <td><code>person.dateOfBirth</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-163</td>
+        <td><code>case.caseNumber</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-163</td>
+        <td><code>person.dateOfBirth</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-163</td>
+        <td><code>person.occupation</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, REQUIRED_SUSPICIOUS, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-163</td>
+        <td><code>person.province</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr>
+      <tr>
+        <td>BM-163</td>
+        <td><code>person.ward</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>co-occurring blocker issue(s): REMEDIATION_LEAK</td>
+      </tr></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>EXCLUDED_CLOSED <span>0</span></h2>
+      <table>
+        <thead>
+          <tr><th>BM</th><th>Path</th><th>Old label</th><th>Suggested label</th><th>Issues</th><th>Reason</th></tr>
+        </thead>
+        <tbody><tr><td colspan="6" class="muted">None</td></tr></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>EXCLUDED_KEEP_DEFERRED <span>19</span></h2>
+      <table>
+        <thead>
+          <tr><th>BM</th><th>Path</th><th>Old label</th><th>Suggested label</th><th>Issues</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td>BM-061</td>
+        <td><code>recipients.personLine3</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-063</td>
+        <td><code>document.issuePlaceAndDateLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-063</td>
+        <td><code>recipients.personLine5</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-065</td>
+        <td><code>decision.decisionLine</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, COMPILED_DRIFT, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-065</td>
+        <td><code>document.fullDocumentCode8</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-065</td>
+        <td><code>recipients.personLine3</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-067</td>
+        <td><code>document.fullDocumentCode2</code></td>
+        <td>Ô trống</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-067</td>
+        <td><code>document.fullDocumentCode6</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-067</td>
+        <td><code>recipients.personLine3</code></td>
+        <td>Slot from DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-069</td>
+        <td><code>decision.decisionLine</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-069</td>
+        <td><code>document.fullDocumentCode</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, REQUIRED_SUSPICIOUS, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-069</td>
+        <td><code>document.reasonLine</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-069</td>
+        <td><code>document.reasonLine2</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-069</td>
+        <td><code>document.summaryLine</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-075</td>
+        <td><code>document.fullDocumentCode</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, REQUIRED_SUSPICIOUS, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-075</td>
+        <td><code>person.currentAddress</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-075</td>
+        <td><code>person.dateOfBirth</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, REMEDIATION_LEAK, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-077</td>
+        <td><code>document.fullDocumentCode</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, REQUIRED_SUSPICIOUS, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr>
+      <tr>
+        <td>BM-082</td>
+        <td><code>document.fullDocumentCode</code></td>
+        <td>Slot from Wave 02 DOCX remediation</td>
+        <td></td>
+        <td>BAD_LABEL, GENERIC_FIELD_CANONICALIZATION, REMEDIATION_LEAK, REQUIRED_SUSPICIOUS, UI_VISIBLE_BAD_METADATA</td>
+        <td>BM/path is on KEEP_DEFERRED closure track</td>
+      </tr></tbody>
+      </table>
+    </section>
+</body>
+</html>

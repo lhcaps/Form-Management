@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "{{document.field3}}..",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -66,12 +66,27 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "..",
-        "rawPattern": "{{document.field3}}",
-        "context": "[Auto-generated] {{document.field3}}..",
-        "blockId": "P0043"
-      }
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "ienKiem}} 2. Thời gian thực nghiệm điều tra: 3. Địa điểm thực nghiệm điều tra: 4 . Nội dung tổ chức thực nghiệm điều tra: Điều 4. Yêu cầu các ông (bà) nêu tại Điều 2 và Điều 3 thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự ./. Nơi nhận : - Các ông (bà) nêu tại Điều 2, Điều 3; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} .. ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Số quyết định",
+          "canonicalPath": "document.soQuyet",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z"
     }
   ],
   "canonicalFields": [
@@ -94,17 +109,25 @@
     {
       "path": "document.soQuyet",
       "type": "string",
-      "label": "Ô trống",
+      "label": "Số quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field3}}..",
-        "blockId": "P0043"
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Ô trống",
+        "newLabel": "Số quyết định",
+        "docxSlotId": "document.soQuyet",
+        "actualDocxContext": "ienKiem}} 2. Thời gian thực nghiệm điều tra: 3. Địa điểm thực nghiệm điều tra: 4 . Nội dung tổ chức thực nghiệm điều tra: Điều 4. Yêu cầu các ông (bà) nêu tại Điều 2 và Điều 3 thực hiện Quyết định này theo quy định của Bộ luật Tố tụng hình sự ./. Nơi nhận : - Các ông (bà) nêu tại Điều 2, Điều 3; - Lưu: HSVA, HSKS, VP. {{document.soQuyet}} .. ( Ký, ghi rõ họ tên, đóng dấu )",
+        "actualDocxRawPattern": "{{document.soQuyet}}",
+        "rationale": "Curated from semantic field path and actual DOCX token context."
       }
     }
   ],
@@ -159,15 +182,7 @@
     ],
     "suggestedControls": [
       {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
         "path": "legalBasis.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
         "control": "text"
       }
     ],

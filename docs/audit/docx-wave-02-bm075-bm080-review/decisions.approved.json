@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_MANUAL_REVIEW_APPLY",
+  "generatedAt": "2026-06-26T16:34:00.000Z",
+  "type": "decisions-approved",
+  "mode": "REVIEWED",
+  "totalItems": 3,
+  "source": "Wave 02 BM-075/080 Manual Review — Le Huy reviewed extracted DOC text on 2026-06-26",
+  "items": [
+    {
+      "reviewItemId": "W2R-030",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Họ tên",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Cơ quan, người có thẩm quyền",
+        "evidenceNotes": "Extracted text: 'Cơ quan, người có thẩm quyền __PERSON_PERSONFULLNAME__ … là người phiên dịch cho'. Footnote: 'Ghi họ tên người phiên dịch / người dịch thuật phải thay đổi'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-034",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header line: 'Số: …/TB-VKS…- …'. Document code line with 'Số:' prefix."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-035",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "approvedLabel": "Ngày tháng năm",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Header date line: '… , ngày … tháng … năm 20…'. Standard document date format."
+      },
+      "risk": "medium"
+    }
+  ]
+}

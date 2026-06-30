@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "mode": "PROPOSED_ONLY_NOT_APPROVED",
+  "templateCode": "BM-213",
+  "title": "Yêu cầu áp dụng các biện pháp kỹ thuật để bảo vệ NCTN",
+  "canApplyRunNow": false,
+  "approvedDecisions": [],
+  "baselineFindings": [
+    "LEGACY_RENDERER_MANIFEST_STALE"
+  ],
+  "mismatchSummary": {
+    "total": 0,
+    "templatePlaceholdersWithoutSlots": 0,
+    "contractSlotsWithoutTemplatePlaceholders": 0,
+    "bindingsWithoutTemplatePlaceholders": 0,
+    "duplicateSemanticPlaceholders": 0,
+    "reviewRequired": 0
+  },
+  "proposedActions": [
+    {
+      "action": "REFRESH_LEGACY_RENDERER_MANIFEST_EVIDENCE",
+      "approved": false,
+      "reason": "Baseline reports a stale legacy renderer manifest; refresh evidence before contract mutation."
+    }
+  ],
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  },
+  "plannerDecisionNeeded": {
+    "requested": true,
+    "reason": "Evidence is prepared only. A human/planner must approve exact structural mutations per BM before any apply runner is created."
+  }
+}

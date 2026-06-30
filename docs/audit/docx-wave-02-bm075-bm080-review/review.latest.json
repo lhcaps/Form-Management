@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1.0",
+  "task": "DOCX_WAVE_02_BM075_BM080_REVIEW",
+  "generatedAt": "2026-06-26T16:34:00.000Z",
+  "mode": "manual-review",
+  "priority": "MEDIUM",
+  "sourceEvidence": "Original DOC text extracted from .cache/f2-rendered-docx/BM-075.bin and BM-080.bin (DOCX XML). BM-075 is De nghi thay doi nguoi phien dich, nguoi dich thuat. BM-080 is Thong bao tu choi dang ky bao chua.",
+  "totalItems": 10,
+  "items": [
+    {
+      "reviewItemId": "W2R-029",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "templateTitle": "Đề nghị thay đổi người phiên dịch/người dịch thuật",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Header has 'Số: …/CV-VKS…- …' but the __DOCUMENT_FULLDOCUMENTCODE__ field code appears in body line 'Xét thấy __DOCUMENT_FULLDOCUMENTCODE__ ĐỀ NGHỊ:' — this is a 'Xét thấy' (case context) line, not the document number. The actual Số header has no slot code. Ambiguous mapping. DEFER."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-030",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "templateTitle": "Đề nghị thay đổi người phiên dịch/người dịch thuật",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "approvedLabel": "Họ tên",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Cơ quan, người có thẩm quyền",
+        "evidenceNotes": "Extracted text: 'Cơ quan, người có thẩm quyền __PERSON_PERSONFULLNAME__ … là người phiên dịch cho'. Footnote: 'Ghi họ tên người phiên dịch / người dịch thuật phải thay đổi'. Person name slot for the interpreter being replaced. Approved as 'Họ tên'."
+      },
+      "risk": "low"
+    },
+    {
+      "reviewItemId": "W2R-031",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "templateTitle": "Đề nghị thay đổi người phiên dịch/người dịch thuật",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{person.dateOfBirth}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Extracted text: '…/người dịch thuật tài liệu __PERSON_DATEOFBIRTH__ … bằng người phiên dịch/người dịch thuật khác'. No 'Sinh ngày' or 'Ngày sinh' visible label. The slot is inside a sentence about translation subject, not a DOB field. DEFER to confirm path/label mapping."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-032",
+      "templateCode": "BM-075",
+      "sourceId": "dc493cfb5fd3",
+      "templateTitle": "Đề nghị thay đổi người phiên dịch/người dịch thuật",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện tại",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-075.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Extracted text: 'Nơi nhận: - 6 __PERSON_CURRENTADDRESS__ - Lưu:'. The slot is in the 'Nơi nhận' (recipient) block with footnote marker '6' (annotation). The actual 'Nơi ở hiện nay' or address field is not visible. DEFER to confirm path/label mapping."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-034",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "document.fullDocumentCode",
+      "placeholder": "{{document.field1}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Số/Ký hiệu văn bản",
+      "approvedLabel": "Số/Ký hiệu văn bản",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Số:",
+        "evidenceNotes": "Header line: 'Số: …/TB-VKS…- …' followed by form number. Document code line visible with 'Số:' prefix matching BM-162/163/075 pattern. Approved as 'Số/Ký hiệu văn bản'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-035",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "document.issueDate",
+      "placeholder": "{{document.field2}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày tháng năm",
+      "approvedLabel": "Ngày tháng năm",
+      "decision": "APPROVED_LABEL",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "ngày … tháng … năm 20…",
+        "evidenceNotes": "Header date line: '… , ngày … tháng … năm 20…'. Standard document date format. Approved as 'Ngày tháng năm'."
+      },
+      "risk": "medium"
+    },
+    {
+      "reviewItemId": "W2R-036",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "person.personFullName",
+      "placeholder": "{{person.personFullName}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Họ tên",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Extracted text: 'Số thẻ luật sư/thẻ trợ giúp viên pháp lý: __PERSON_PERSONFULLNAME__'. The slot is preceded by 'Số thẻ luật sư/thẻ trợ giúp viên pháp lý:' — this is a number/card field, not a person name field. The actual name field appears earlier in the form ('Ông/Bà:'). The path 'person.personFullName' may be mis-mapped. DEFER to confirm path/label mapping."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-037",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "person.dateOfBirth",
+      "placeholder": "{{person.dateOfBirth}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Ngày sinh",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Extracted text: 'Xét thấy ông/bà 5 __PERSON_DATEOFBIRTH__ 6'. The '5' and '6' are footnote markers (annotation numbers from the form's footnote list). The slot sits in a 'Xét thấy' (reasoning) sentence, not a DOB field. No 'Sinh ngày' label visible. DEFER."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-038",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "person.currentAddress",
+      "placeholder": "{{person.currentAddress}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Nơi ở hiện tại",
+      "approvedLabel": null,
+      "decision": "DEFER",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": false,
+        "visibleLabel": null,
+        "evidenceNotes": "Extracted text: 'thông báo cho ông (bà) 5 __PERSON_CURRENTADDRESS__ biết./.'. The '5' is a footnote marker. The slot is in a 'thông báo' (notify) sentence, not a person address field. No 'Nơi ở hiện nay' or similar label visible. DEFER."
+      },
+      "risk": "high"
+    },
+    {
+      "reviewItemId": "W2R-039",
+      "templateCode": "BM-080",
+      "sourceId": "a7aa64d4b889",
+      "templateTitle": "Thông báo từ chối việc đăng ký bào chữa",
+      "path": "legalBasis.legalBasisLine",
+      "placeholder": "{{legalBasis.legalBasisLine}}",
+      "currentLabel": "Slot from Wave 02 DOCX remediation",
+      "suggestedLabel": "Căn cứ pháp lý",
+      "approvedLabel": null,
+      "decision": "LEGAL_REVIEW",
+      "reviewer": "Le Huy",
+      "reviewedAt": "2026-06-26T16:34:00.000Z",
+      "evidence": {
+        "originalDocPath": ".cache/f2-rendered-docx/BM-080.bin (DOCX XML)",
+        "staticContextFound": true,
+        "visibleLabel": "Căn cứ các điều 42, 72 và 78",
+        "evidenceNotes": "Body has 'Căn cứ các điều 42, 72 và 78 của Bộ luật Tố tụng hình sự' (legal basis cited in preamble, not a slot). __LEGALBASIS_LEGALBASISLINE__ slot in extracted text is preceded by 'Nơi nhận: 5 __LEGALBASIS_LEGALBASISLINE__ - Lưu:' — this is in the 'Nơi nhận' block. The actual legal basis is in the preamble, not a slot. This is a legal/procedural field; any label change requires legal review."
+      },
+      "risk": "high",
+      "legalReviewer": null
+    }
+  ]
+}

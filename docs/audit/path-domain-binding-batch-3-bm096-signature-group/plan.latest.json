@@ -1,0 +1,361 @@
+{
+  "planVersion": "1.0.0",
+  "task": "BM096_SIGNATURE_GROUP_DOCX_EVIDENCE_EXTRACTION",
+  "status": "READY_FOR_PLANNER_REVIEW",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "2026-06-27T21:21:52.066Z",
+  "reviewedFieldsCount": 3,
+  "classificationCounts": {
+    "DEFER_PATH_DOMAIN_MISMATCH": 3
+  },
+  "baselineMetrics": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "BAD_LABEL": 352,
+    "GENERIC_FIELD_CANONICALIZATION": 351,
+    "REQUIRED_SUSPICIOUS": 116,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "verifiedAt": "2026-06-28T03:46:00.000+07:00"
+    }
+  },
+  "bm096PreviousMutation": {
+    "path": "document.diaChi -> person.idNumber",
+    "label": "Ô trống -> Số CCCD/CMND",
+    "commit": "a6622d57dad26dfab7161e181307ae901bf59631",
+    "status": "ACCEPTED"
+  },
+  "fields": [
+    {
+      "templateCode": "BM-096",
+      "sourceId": "BM-096__a50a08efa62f",
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "label": "Ô trống",
+      "rawPattern": "{{document.field17}}",
+      "rawDomain": "document",
+      "rawTail": "field17",
+      "textBefore": "Nơi thường trú:",
+      "textAfter": "{{document.field18}}",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "context200": "Nơi thường trú:{{document.field17}}{{document.field18}}",
+      "before200": "Nơi thường trú:",
+      "after200": "{{document.field18}}",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "canonicalFieldsEntry": {
+        "path": "signature.cheDo",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0035"
+        }
+      },
+      "docxSlotsEntry": {
+        "slotId": "signature.cheDo",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0035",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field18}}",
+          "rawPattern": "{{document.field17}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú:",
+          "textAfter": "{{document.field18}}",
+          "rawPattern": "{{document.field17}}",
+          "context": "[Auto-generated] Nơi thường trú:",
+          "blockId": "P0035"
+        }
+      },
+      "renderBindingEntry": {
+        "slotId": "signature.cheDo",
+        "from": "signature.cheDo",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "compiledV2Representation": null,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "visibleVietnamesePhrase": "Nơi thường trú",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)",
+      "proposedTargetPath": null,
+      "exactValueAssertion": {
+        "clean": false,
+        "references": [
+          {
+            "templateCode": "BM-136",
+            "sourceId": "BM-136__f7c2e28ddd12",
+            "slotId": "document.lyDo",
+            "label": "Ô trống"
+          },
+          {
+            "templateCode": "BM-155",
+            "sourceId": "BM-155__d89766f2092a",
+            "slotId": "recipients.noiNhan",
+            "label": "Ô trống"
+          }
+        ]
+      },
+      "collisionCheck": {
+        "hasCollision": false,
+        "collisions": []
+      },
+      "confidence": "MEDIUM",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "notes": "Visible Vietnamese phrase 'Nơi thường trú' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "approved": false,
+      "canApplyRunNow": false
+    },
+    {
+      "templateCode": "BM-096",
+      "sourceId": "BM-096__a50a08efa62f",
+      "path": "signature.chucVu",
+      "slotId": "signature.chucVu",
+      "label": "Ô trống",
+      "rawPattern": "{{document.field18}}",
+      "rawDomain": "document",
+      "rawTail": "field18",
+      "textBefore": "Nơi thường trú: {{document.field17}}",
+      "textAfter": "",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "context200": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "before200": "Nơi thường trú: {{document.field17}}",
+      "after200": "",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "canonicalFieldsEntry": {
+        "path": "signature.chucVu",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi thường trú: {{document.field17}}",
+          "blockId": "P0035"
+        }
+      },
+      "docxSlotsEntry": {
+        "slotId": "signature.chucVu",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0035",
+          "tableCellId": null
+        },
+        "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi thường trú: {{document.field17}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field18}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi thường trú: {{document.field17}}",
+          "textAfter": "",
+          "rawPattern": "{{document.field18}}",
+          "context": "[Auto-generated] Nơi thường trú: {{document.field17}}",
+          "blockId": "P0035"
+        }
+      },
+      "renderBindingEntry": {
+        "slotId": "signature.chucVu",
+        "from": "signature.chucVu",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "compiledV2Representation": null,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "visibleVietnamesePhrase": "Nơi thường trú document field",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)",
+      "proposedTargetPath": null,
+      "exactValueAssertion": {
+        "clean": true,
+        "references": []
+      },
+      "collisionCheck": {
+        "hasCollision": false,
+        "collisions": []
+      },
+      "confidence": "MEDIUM",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "notes": "Visible Vietnamese phrase 'Nơi thường trú document field' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "approved": false,
+      "canApplyRunNow": false
+    },
+    {
+      "templateCode": "BM-096",
+      "sourceId": "BM-096__a50a08efa62f",
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "label": "Ô trống",
+      "rawPattern": "{{document.field19}}",
+      "rawDomain": "document",
+      "rawTail": "field19",
+      "textBefore": "Nơi tạm trú:",
+      "textAfter": "",
+      "context": "Nơi tạm trú: {{document.field19}}",
+      "context200": "Nơi tạm trú:{{document.field19}}",
+      "before200": "Nơi tạm trú:",
+      "after200": "",
+      "source": "manual",
+      "required": false,
+      "reviewRequired": false,
+      "canonicalFieldsEntry": {
+        "path": "signature.nguoiKy",
+        "type": "string",
+        "label": "Ô trống",
+        "source": "manual",
+        "required": false,
+        "uiComponent": "text",
+        "reviewRequired": false,
+        "transform": "identity",
+        "reviewedBy": "Le Huy",
+        "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+        "reviewEvidence": {
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0036"
+        }
+      },
+      "docxSlotsEntry": {
+        "slotId": "signature.nguoiKy",
+        "location": {
+          "partName": "word/document.xml",
+          "blockId": "P0036",
+          "tableCellId": null
+        },
+        "context": "Nơi tạm trú: {{document.field19}}",
+        "label": "Ô trống",
+        "slotType": "text",
+        "required": false,
+        "confidence": 1,
+        "evidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field19}}"
+        },
+        "reviewRequired": false,
+        "reviewEvidence": {
+          "textBefore": "Nơi tạm trú:",
+          "textAfter": "",
+          "rawPattern": "{{document.field19}}",
+          "context": "[Auto-generated] Nơi tạm trú:",
+          "blockId": "P0036"
+        }
+      },
+      "renderBindingEntry": {
+        "slotId": "signature.nguoiKy",
+        "from": "signature.nguoiKy",
+        "transform": "identity",
+        "fallback": "",
+        "reviewRequired": false
+      },
+      "compiledV2Representation": null,
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "visibleVietnamesePhrase": "Nơi tạm trú",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)",
+      "proposedTargetPath": null,
+      "exactValueAssertion": {
+        "clean": true,
+        "references": []
+      },
+      "collisionCheck": {
+        "hasCollision": false,
+        "collisions": []
+      },
+      "confidence": "MEDIUM",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "notes": "Visible Vietnamese phrase 'Nơi tạm trú' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "approved": false,
+      "canApplyRunNow": false
+    }
+  ],
+  "topCandidates": [],
+  "deferredItems": [
+    {
+      "path": "signature.cheDo",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "reason": "Visible Vietnamese phrase 'Nơi thường trú' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    },
+    {
+      "path": "signature.chucVu",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "reason": "Visible Vietnamese phrase 'Nơi thường trú document field' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    },
+    {
+      "path": "signature.nguoiKy",
+      "classification": "DEFER_PATH_DOMAIN_MISMATCH",
+      "confidence": "MEDIUM",
+      "reason": "Visible Vietnamese phrase 'Nơi tạm trú' clearly indicates person address semantics (Nơi thường trú = permanent residence), but current path is under signature.*. Cannot safely determine exact target person.* path without cross-BM inference. DEFER for legal review.",
+      "proposedSemanticMeaning": "person.permanentAddress or person.permanentAddressLine (permanent residence address)"
+    }
+  ],
+  "safetyAssertions": {
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noCrossBmEvidence": true,
+    "noApprovedDecisions": true,
+    "noApplyRunnerCreated": true,
+    "directDocxEvidenceOnly": true,
+    "rawPatternEmptyGuard": true,
+    "placeholderOnlyTextBeforeGuard": true,
+    "labelDomainMismatchGuard": true,
+    "canApplyRunNow": false
+  },
+  "codeGraphHealth": {
+    "cliFound": true,
+    "projectInitialized": true,
+    "cursorMcpConfigured": true,
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  }
+}

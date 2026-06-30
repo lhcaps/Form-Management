@@ -1,0 +1,266 @@
+{
+  "generated": "2026-06-29T00:00:00.000Z",
+  "task": "REPO_HYGIENE_AND_SOT_GATES_V1",
+  "phase": "A",
+  "summary": {
+    "totalScriptsScanned": 87,
+    "totalPathReferences": 169,
+    "hardcodedAuditPaths": 15,
+    "hardcodedCanonicalPaths": 3,
+    "safeToIgnoreCandidates": 8,
+    "scriptsWithHardcodedPaths": 12
+  },
+  "criticalPaths": [
+    {
+      "path": "docs/audit/docx/contracts/locked",
+      "type": "CANONICAL_SOT",
+      "usageCount": 24,
+      "description": "Semantic working SOT — locked contracts JSON. All scripts read from here.",
+      "producerScripts": [
+        "packages/form-contracts/scripts/compile-contracts.ts",
+        "scripts/docx-contract/fix-locked-slots-after-remediation.mjs",
+        "scripts/docx-contract/fix-locked-slots-after-wave-02-remediation.mjs",
+        "scripts/docx-contract/lock-reviewed-contracts.mjs",
+        "scripts/docx-contract/reconcile-locked-contract-artifacts.mjs",
+        "scripts/docx-contract/prelock-guard.mjs"
+      ],
+      "consumerScripts": [
+        "scripts/_verify_all_contracts.mjs",
+        "scripts/_debug_compile.mjs",
+        "scripts/_debug_warn.mjs",
+        "scripts/audit/test-golden-docx.mjs",
+        "scripts/audit/audit-sot-rebase-v1.mjs",
+        "scripts/audit/audit-contract-sync.mjs",
+        "scripts/audit/refresh-213-docx-fidelity-board.mjs",
+        "apps/api/src/modules/form-studio/application/runtime-form-contract.service.ts"
+      ],
+      "canMove": false,
+      "canIgnore": false,
+      "risk": "CRITICAL"
+    },
+    {
+      "path": "docs/audit/docx/compiled-v2",
+      "type": "DERIVED_ARTIFACT",
+      "usageCount": 18,
+      "description": "Compiled V2 contracts — derived artifact, NOT SOT. Generated from locked contracts.",
+      "producerScripts": [
+        "packages/form-contracts/scripts/compile-contracts.ts"
+      ],
+      "consumerScripts": [
+        "scripts/audit/audit-sot-rebase-v1.mjs",
+        "scripts/audit/audit-contract-sync.mjs",
+        "scripts/docx-contract/publish-locked-contracts-to-db.mjs"
+      ],
+      "canMove": false,
+      "canIgnore": false,
+      "risk": "HIGH",
+      "note": "Must not be gitignored unless project formally decides compiled-v2 is no longer committed"
+    },
+    {
+      "path": "docs/audit/forms-root-cause",
+      "type": "ACTIVE_GATE_OUTPUT",
+      "usageCount": 4,
+      "description": "Forms root cause audit gate output (latest.json/latest.md). Active remediation.",
+      "producerScripts": [
+        "scripts/audit/audit-forms-root-cause.mjs"
+      ],
+      "consumerScripts": [
+        "test/forms-root-cause-fix-plan.test.mjs",
+        "scripts/audit/plan-forms-root-cause-fixes.mjs"
+      ],
+      "canMove": false,
+      "canIgnore": false,
+      "risk": "MEDIUM"
+    },
+    {
+      "path": "docs/audit/sot-rebase-v1",
+      "type": "ACTIVE_GATE_OUTPUT",
+      "usageCount": 2,
+      "description": "SOT rebase audit gate output. Contains CRITICAL findings.",
+      "producerScripts": [
+        "scripts/audit/audit-sot-rebase-v1.mjs"
+      ],
+      "consumerScripts": [
+        "test/sot-rebase-v1.test.mjs"
+      ],
+      "canMove": false,
+      "canIgnore": false,
+      "risk": "MEDIUM"
+    }
+  ],
+  "hardcodedPathReferences": [
+    {
+      "path": "docs/audit/213-docx-fidelity-board",
+      "hardcodedIn": "scripts/audit/refresh-213-docx-fidelity-board.mjs",
+      "hardcodedInLine": "const BOARD_DIR = path.join(ROOT, 'docs/audit/213-docx-fidelity-board')",
+      "type": "GENERATED_REPORT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/docx-path-binding-layer-a-approved",
+      "hardcodedIn": "scripts/audit/apply-docx-path-binding-layer-a-approved.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/docx-path-binding-layer-a-approved')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/docx-path-binding-layer-b-approved",
+      "hardcodedIn": "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/docx-path-binding-layer-b-approved')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/docx-path-binding-layer-c-approved",
+      "hardcodedIn": "scripts/audit/apply-docx-path-binding-layer-c-approved.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/docx-path-binding-layer-c-approved')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/docx-wave-02-manual-review-pack",
+      "hardcodedIn": "scripts/audit/apply-docx-wave-02-manual-review-approved.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/docx-wave-02-manual-review-pack')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/wave-02-safe-label-only-bm-163-current-address",
+      "hardcodedIn": "scripts/audit/apply-wave-02-safe-label-only-bm-163-current-address.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/wave-02-safe-label-only-bm-163-current-address')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/per-form-render-accurate",
+      "hardcodedIn": "scripts/audit/render-form-fidelity-gate.mjs",
+      "hardcodedInLine": "const RENDER_ACCURATE_DIR = path.join(ROOT, 'docs/audit/per-form-render-accurate')",
+      "type": "GENERATED_REPORT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/213-bm-remediation-master-plan",
+      "hardcodedIn": "scripts/audit/plan-213-bm-remediation-master.cjs",
+      "hardcodedInLine": "const PLAN_DIR = path.join(ROOT, 'docs/audit/213-bm-remediation-master-plan')",
+      "type": "GENERATED_REPORT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/contract-repair-batch-1-approved",
+      "hardcodedIn": "scripts/audit/apply-contract-repair-batch-1-approved.mjs",
+      "hardcodedInLine": "const APPROVED_DIR = path.join(ROOT, 'docs/audit/contract-repair-batch-1-approved')",
+      "type": "APPLY_SCRIPT_OUTPUT",
+      "canMove": false,
+      "reason": "Hardcoded path must be updated before move"
+    },
+    {
+      "path": "docs/audit/docx-placeholder-renormalization",
+      "hardcodedIn": "scripts/audit/plan-docx-placeholder-renormalization.mjs",
+      "hardcodedInLine": "const PLAN_DIR = path.join(ROOT, 'docs/audit/docx-placeholder-renormalization')",
+      "type": "ACTIVE_WORK_OUTPUT",
+      "canMove": false,
+      "reason": "Active work — do not move until closed"
+    }
+  ],
+  "safeToIgnoreAfterMove": [
+    {
+      "path": "docs/audit/per-form-render-accurate",
+      "rationale": "Render fidelity outputs — can be regenerated by render-form-fidelity-gate.mjs",
+      "condition": "MUST move first, then add to .gitignore"
+    },
+    {
+      "path": "docs/audit/compiled-v2-reconciliation",
+      "rationale": "One-off snapshot — no script reference",
+      "condition": "MUST move first, then add to .gitignore"
+    },
+    {
+      "path": "docs/audit/infra-rebuild-verification",
+      "rationale": "One-off verification — no script reference",
+      "condition": "MUST move first, then add to .gitignore"
+    }
+  ],
+  "pathDependenciesByScript": [
+    {
+      "script": "scripts/audit/refresh-213-docx-fidelity-board.mjs",
+      "outputs": ["docs/audit/213-docx-fidelity-board"],
+      "risk": "MEDIUM"
+    },
+    {
+      "script": "scripts/audit/render-form-fidelity-gate.mjs",
+      "outputs": ["docs/audit/per-form-render-accurate"],
+      "risk": "MEDIUM"
+    },
+    {
+      "script": "scripts/audit/audit-forms-root-cause.mjs",
+      "outputs": ["docs/audit/forms-root-cause"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/audit-sot-rebase-v1.mjs",
+      "outputs": ["docs/audit/sot-rebase-v1"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/plan-213-bm-remediation-master.cjs",
+      "outputs": ["docs/audit/213-bm-remediation-master-plan"],
+      "risk": "MEDIUM"
+    },
+    {
+      "script": "scripts/audit/apply-docx-path-binding-layer-a-approved.mjs",
+      "outputs": ["docs/audit/docx-path-binding-layer-a-approved"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/apply-docx-path-binding-layer-b-approved.mjs",
+      "outputs": ["docs/audit/docx-path-binding-layer-b-approved"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/apply-docx-path-binding-layer-c-approved.mjs",
+      "outputs": ["docs/audit/docx-path-binding-layer-c-approved"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/apply-wave-02-manual-review-approved.mjs",
+      "outputs": ["docs/audit/docx-wave-02-manual-review-pack"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/apply-wave-02-safe-label-only-bm-163-current-address.mjs",
+      "outputs": ["docs/audit/wave-02-safe-label-only-bm-163-current-address"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/apply-contract-repair-batch-1-approved.mjs",
+      "outputs": ["docs/audit/contract-repair-batch-1-approved"],
+      "risk": "LOW"
+    },
+    {
+      "script": "scripts/audit/plan-docx-placeholder-renormalization.mjs",
+      "outputs": ["docs/audit/docx-placeholder-renormalization"],
+      "risk": "LOW"
+    }
+  ],
+  "codeGraphFindings": {
+    "exploreQuerySucceeded": true,
+    "filesScanned": 87,
+    "notes": [
+      "scripts/_verify_all_contracts.mjs reads locked contracts via LOCKED_DIR constant",
+      "scripts/_debug_compile.mjs reads locked contracts directly",
+      "scripts/_debug_warn.mjs reads locked contracts directly",
+      "scripts/audit/test-golden-docx.mjs reads locked contracts + compiled-v2",
+      "scripts/audit/audit-sot-rebase-v1.mjs reads both locked + compiled-v2",
+      "scripts/audit/audit-contract-sync.mjs reads compiled-v2 and DB (not locked)",
+      "apps/api/src/modules/form-studio/application/runtime-form-contract.service.ts reads locked contracts at runtime",
+      "packages/form-contracts/scripts/compile-contracts.ts writes compiled-v2 from locked contracts"
+    ]
+  }
+}

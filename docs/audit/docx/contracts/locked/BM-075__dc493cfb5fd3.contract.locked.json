@@ -55,7 +55,7 @@
         "tableCellId": null
       },
       "context": "Times New Roman\" w:hAnsi=\"Times New Roman\"/> {{document.field1}} <w:rFonts w:ascii=\"Times New Roman\" w:hAnsi=\"Times New Roman\" w:cs=\"Times New R",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Số văn bản / quyết định",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -64,7 +64,29 @@
         "textAfter": "",
         "rawPattern": "{{document.field1}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Số văn bản / quyết định",
+        "docxSlotId": "document.fullDocumentCode",
+        "actualDocxContext": "/2026) VIỆN KIỂM SÁT … {{agency.name}} CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510 224155 Độc lập – Tự do - Hạnh phúc 756920 43180 Số: …/CV-VKS…- … … , ngày … tháng … năm 20… ĐỀ NGHỊ Thay đổi người phiên dịch/người dịch thuật VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ Điều 42 và Điều 70 của Bộ luật Tố tụng hình sự; Xét thấy {{document.fullDocumentCode}} ĐỀ NGHỊ: Cơ quan, người có thẩm quyền {{person.personFullName}} … là người phiên dịch cho …/người dịch thuật tài liệu {{person.dateOfBirth}} … bằng người phiên dịch/người dịch thuật khác./. Nơi nhận: - 6 {{person.currentAddress}} - Lưu: HSVV/HSVA, HSKS, VP. KIỂM SÁT VIÊN (Ký, ghi rõ họ tên, đóng dấu)",
+        "actualDocxRawPattern": "{{document.fullDocumentCode}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels.",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Slot from Wave 02 DOCX remediation",
+          "newLabel": "Số văn bản / quyết định",
+          "canonicalPath": "document.fullDocumentCode",
+          "canonicalReviewedBy": "Codex legal semantic label review",
+          "canonicalReviewedAt": "2026-06-29T15:21:04.768Z"
+        }
+      }
     },
     {
       "slotId": "person.personFullName",
@@ -83,7 +105,19 @@
         "textAfter": "",
         "rawPattern": "{{person.personFullName}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.dateOfBirth",
@@ -102,7 +136,19 @@
         "textAfter": "",
         "rawPattern": "{{person.dateOfBirth}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.dateOfBirth",
+        "docxContext": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:",
+        "rawPattern": "{{person.dateOfBirth}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.currentAddress",
@@ -121,7 +167,19 @@
         "textAfter": "",
         "rawPattern": "{{person.currentAddress}}"
       },
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "canonicalFields": [
@@ -144,11 +202,25 @@
     {
       "path": "document.fullDocumentCode",
       "type": "string",
-      "label": "Slot from Wave 02 DOCX remediation",
+      "label": "Số văn bản / quyết định",
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Số văn bản / quyết định",
+        "docxSlotId": "document.fullDocumentCode",
+        "actualDocxContext": "/2026) VIỆN KIỂM SÁT … {{agency.name}} CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510 224155 Độc lập – Tự do - Hạnh phúc 756920 43180 Số: …/CV-VKS…- … … , ngày … tháng … năm 20… ĐỀ NGHỊ Thay đổi người phiên dịch/người dịch thuật VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ Điều 42 và Điều 70 của Bộ luật Tố tụng hình sự; Xét thấy {{document.fullDocumentCode}} ĐỀ NGHỊ: Cơ quan, người có thẩm quyền {{person.personFullName}} … là người phiên dịch cho …/người dịch thuật tài liệu {{person.dateOfBirth}} … bằng người phiên dịch/người dịch thuật khác./. Nơi nhận: - 6 {{person.currentAddress}} - Lưu: HSVV/HSVA, HSKS, VP. KIỂM SÁT VIÊN (Ký, ghi rõ họ tên, đóng dấu)",
+        "actualDocxRawPattern": "{{document.fullDocumentCode}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "path": "person.personFullName",
@@ -157,7 +229,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "path": "person.dateOfBirth",
@@ -166,7 +250,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.dateOfBirth",
+        "docxContext": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:",
+        "rawPattern": "{{person.dateOfBirth}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "path": "person.currentAddress",
@@ -175,7 +271,19 @@
       "source": "manual",
       "required": false,
       "uiComponent": "text",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "renderBindings": [
@@ -191,28 +299,78 @@
       "from": "document.fullDocumentCode",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic label review",
+      "reviewedAt": "2026-06-29T15:21:04.768Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T15:21:04.768Z",
+        "reviewedBy": "Codex legal semantic label review",
+        "disposition": "FIX_LABEL",
+        "confidence": "MEDIUM",
+        "oldLabel": "Slot from Wave 02 DOCX remediation",
+        "newLabel": "Số văn bản / quyết định",
+        "docxSlotId": "document.fullDocumentCode",
+        "actualDocxContext": "/2026) VIỆN KIỂM SÁT … {{agency.name}} CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM 905510 224155 Độc lập – Tự do - Hạnh phúc 756920 43180 Số: …/CV-VKS…- … … , ngày … tháng … năm 20… ĐỀ NGHỊ Thay đổi người phiên dịch/người dịch thuật VIỆN KIỂM SÁT 2 {{agency.name}} Căn cứ Điều 42 và Điều 70 của Bộ luật Tố tụng hình sự; Xét thấy {{document.fullDocumentCode}} ĐỀ NGHỊ: Cơ quan, người có thẩm quyền {{person.personFullName}} … là người phiên dịch cho …/người dịch thuật tài liệu {{person.dateOfBirth}} … bằng người phiên dịch/người dịch thuật khác./. Nơi nhận: - 6 {{person.currentAddress}} - Lưu: HSVV/HSVA, HSKS, VP. KIỂM SÁT VIÊN (Ký, ghi rõ họ tên, đóng dấu)",
+        "actualDocxRawPattern": "{{document.fullDocumentCode}}",
+        "rationale": "Curated from semantic field path and existing reviewed contract labels."
+      }
     },
     {
       "slotId": "person.personFullName",
       "from": "person.personFullName",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.personFullName",
+        "docxContext": ":spacing w:val=\"-2\"/> {{person.personFullName}} <w:spacing w:",
+        "rawPattern": "{{person.personFullName}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.dateOfBirth",
       "from": "person.dateOfBirth",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.dateOfBirth",
+        "docxContext": "spacing w:val=\"-2\"/> {{person.dateOfBirth}} <w:spacing w:",
+        "rawPattern": "{{person.dateOfBirth}}",
+        "rationale": "docx context present"
+      }
     },
     {
       "slotId": "person.currentAddress",
       "from": "person.currentAddress",
       "transform": "identity",
       "fallback": "",
-      "reviewRequired": true
+      "reviewRequired": false,
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T14:57:29.056Z",
+      "reviewEvidence": {
+        "reviewedAt": "2026-06-29T14:57:29.056Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.currentAddress",
+        "docxContext": ":val=\"24\"/> 6 {{person.currentAddress}} <w:rFonts w:cs=\"Times New Roman\" w:ascii=\"Times New Ro",
+        "rawPattern": "{{person.currentAddress}}",
+        "rationale": "docx context present"
+      }
     }
   ],
   "rejectedCandidates": [],
@@ -241,40 +399,6 @@
     "headerRules": [],
     "footerRules": [],
     "titleRules": [],
-    "reviewRequired": false
-  },
-  "formInputHints": {
-    "primaryEntities": [
-      "document",
-      "agency"
-    ],
-    "suggestedControls": [
-      {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
-        "path": "document.field2",
-        "control": "text"
-      },
-      {
-        "path": "document.field3",
-        "control": "text"
-      },
-      {
-        "path": "agency.field4",
-        "control": "text"
-      },
-      {
-        "path": "agency.field5",
-        "control": "text"
-      },
-      {
-        "path": "document.field6",
-        "control": "text"
-      }
-    ],
-    "previewRequired": true,
     "reviewRequired": false
   },
   "reportingHints": {

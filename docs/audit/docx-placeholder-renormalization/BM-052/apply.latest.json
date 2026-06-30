@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "task": "BM052_DOCX_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY_CORRECTED_NAMES",
+  "templateCode": "BM-052",
+  "mode": "WRITE",
+  "applied": true,
+  "backupPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-placeholder-renormalization\\BM-052\\backups\\2026-06-29T03-34-14-147Z",
+  "decisions": [
+    {
+      "originalPlaceholder": "decision.decisionLine2",
+      "occurrenceIndex": 0,
+      "finalNewPlaceholder": "person.fullName",
+      "semanticFieldPath": "person.fullName"
+    },
+    {
+      "originalPlaceholder": "decision.decisionLine2",
+      "occurrenceIndex": 1,
+      "finalNewPlaceholder": "person.fullName",
+      "semanticFieldPath": "person.fullName"
+    },
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 3,
+      "finalNewPlaceholder": "person.idNumber",
+      "semanticFieldPath": "person.idNumber"
+    },
+    {
+      "originalPlaceholder": "recipients.personLine6",
+      "occurrenceIndex": 4,
+      "finalNewPlaceholder": "person.temporaryAddress",
+      "semanticFieldPath": "person.temporaryAddress"
+    }
+  ],
+  "docx": {
+    "beforeCounts": {
+      "decisionLine2": 2,
+      "recipientsPersonLine6": 6
+    },
+    "afterCounts": {
+      "decisionLine2": 0,
+      "recipientsPersonLine6": 4,
+      "personFullName": 2,
+      "personIdNumber": 1,
+      "personTemporaryAddress": 1
+    },
+    "replacements": [
+      {
+        "originalPlaceholder": "decision.decisionLine2",
+        "occurrenceIndex": 0,
+        "finalNewPlaceholder": "person.fullName"
+      },
+      {
+        "originalPlaceholder": "decision.decisionLine2",
+        "occurrenceIndex": 1,
+        "finalNewPlaceholder": "person.fullName"
+      },
+      {
+        "originalPlaceholder": "recipients.personLine6",
+        "occurrenceIndex": 3,
+        "finalNewPlaceholder": "person.idNumber"
+      },
+      {
+        "originalPlaceholder": "recipients.personLine6",
+        "occurrenceIndex": 4,
+        "finalNewPlaceholder": "person.temporaryAddress"
+      }
+    ],
+    "compiledV2Touched": false
+  },
+  "contract": {
+    "changedFieldPaths": [
+      "decision.decisionLine2->person.fullName",
+      "person.idNumber",
+      "person.temporaryAddress"
+    ],
+    "noDuplicateFieldsSlotsBindings": true,
+    "sourceRequiredReviewRequiredPolicy": "preserved-or-conservative-review-required"
+  },
+  "plannerHandoff": {
+    "schemaVersion": 1,
+    "task": "BM052_DOCX_PLACEHOLDER_RENORMALIZATION_APPROVED_APPLY_CORRECTED_NAMES",
+    "templateCode": "BM-052",
+    "applied": true,
+    "decisionsApplied": 4,
+    "deferredOccurrencesUntouched": true,
+    "rejectedSuffixNamesAbsent": true,
+    "compiledV2ManuallyEdited": false,
+    "canProceedToRenderFidelity": true,
+    "nextStep": "Run validate, compile, root-cause audit, renormalization inventory, board refresh, publish DB, and contract sync."
+  }
+}

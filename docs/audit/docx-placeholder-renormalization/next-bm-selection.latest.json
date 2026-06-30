@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "SELECT_NEXT_DOCX_RENORMALIZATION_BM_AFTER_BM063_BLOCKER",
+  "mode": "EVIDENCE_ONLY_CANDIDATE",
+  "generatedAt": "2026-06-28T10:55:00.000Z",
+  "selectionRationale": "BM-066 is the first non-blocked BM with both a render gate FAIL and a duplicate semantic placeholder risk. Its render gate fails because recipients.personLine4 (4 DOCX occurrences) has 0 slots and 0 bindings, causing 4 undefined literals. It also has document.fullDocumentCode4 (4 occurrences) with 1 slot, sharing the same pattern as BM-065/BM-067 (fullDocumentCode*N suffix).",
+  "selectedBm": {
+    "templateCode": "BM-066",
+    "title": "Lệnh phong toả tài khoản",
+    "sourceId": "BM-066__e3bc56081554",
+    "lane": "CONTRACT_REPAIR",
+    "status": "NEEDS_REMEDIATION",
+    "risk": "HIGH",
+    "issueCount": 4,
+    "renderGateStatus": "FAIL",
+    "reasonForSelection": "First available non-blocked BM with FAIL render gate + duplicate semantic risk. recipients.personLine4 has 4 DOCX occurrences with 0 slots and 0 bindings."
+  },
+  "skippedBms": {
+    "BM-052": { "reason": "BLOCKED_BY_HUMAN_DOCX_REVIEW — LEGAL_REVIEW lane" },
+    "BM-062": { "reason": "BLOCKED_BY_HUMAN_DOCX_REVIEW — LEGAL_REVIEW lane" },
+    "BM-063": { "reason": "BLOCKED_BY_HUMAN_DOCX_REVIEW — LEGAL_REVIEW lane" },
+    "BM-065": { "reason": "Render gate PASS — document.fullDocumentCode8 and document.fullDocumentCode both fully bound (1 slot + 1 binding each). Duplicate risk is naming/design concern, not render issue." },
+    "BM-067": { "reason": "Render gate PASS — document.fullDocumentCode6 and recipients.personLine3 both fully bound. No render FAIL." }
+  },
+  "boardNextCandidatesExcludingBlocked": [
+    { "templateCode": "BM-096", "lane": "PATH_DOMAIN_BINDING", "risk": "HIGH", "issueCount": 31, "render": "MISSING", "skipReason": "Render MISSING — not FAIL. Evidence mode requires FAIL render gate for prioritization." },
+    { "templateCode": "BM-155", "lane": "PATH_DOMAIN_BINDING", "risk": "HIGH", "issueCount": 29, "render": "MISSING", "skipReason": "Render MISSING. Evidence mode prioritizes FAIL." },
+    { "templateCode": "BM-066", "lane": "CONTRACT_REPAIR", "risk": "HIGH", "issueCount": 4, "render": "FAIL", "selected": true }
+  ],
+  "nextTask": "BM066_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "riskPlaceholders": [
+    "recipients.personLine4",
+    "document.fullDocumentCode4"
+  ],
+  "renderDiff": "docs/audit/per-form-render-accurate/BM-066/render-diff.latest.json",
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0
+  },
+  "blockedBmsPreserved": {
+    "BM-052": true,
+    "BM-062": true,
+    "BM-063": true
+  }
+}

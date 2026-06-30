@@ -1,0 +1,184 @@
+{
+  "task": "BM096_CODEGRAPH_VERIFIED_REVIEW_REFRESH",
+  "generatedAt": "2026-06-28T07:49:00.000+07:00",
+  "mode": "VERIFICATION_ONLY",
+  "status": "CONFIRMED",
+  "summary": "CodeGraph MCP confirmed the previous BM-096 review. All 5 verification checks pass. document.diaChi -> person.idNumber is PROPOSE_APPROVE_SAFE_REMAP with HIGH confidence. No new evidence contradicts the previous review. Previous review is confirmed valid.",
+  "codeGraphMcpCalls": [
+    {
+      "callNumber": 1,
+      "query": "How does scripts/audit/audit-forms-root-cause.mjs flag BAD_LABEL and GENERIC_FIELD_CANONICALIZATION for BM-096 document.diaChi? What are the exact rules, issue codes, and severity logic?",
+      "symbolsFound": 202,
+      "filesExplored": 44,
+      "status": "SUCCESS"
+    },
+    {
+      "callNumber": 2,
+      "query": "What code in scripts/audit/ reads canonicalFields, docxSlots, and renderBindings from locked contract JSON files? How does it iterate and update these arrays?",
+      "symbolsFound": 18,
+      "filesExplored": 9,
+      "status": "SUCCESS"
+    },
+    {
+      "callNumber": 3,
+      "query": "What scripts safely mutate canonicalFields, docxSlots, and renderBindings with exact-value assertions? Show the mutation pattern and safety checks for path remapping.",
+      "symbolsFound": 8,
+      "filesExplored": 5,
+      "status": "SUCCESS"
+    },
+    {
+      "callNumber": 4,
+      "query": "How does packages/form-contracts/src/v1-adapter.ts preserve source and manual fields during compile? Does it map source 'manual' to a specific V2 dataSource kind?",
+      "symbolsFound": 126,
+      "filesExplored": 22,
+      "status": "SUCCESS"
+    },
+    {
+      "callNumber": 5,
+      "query": "Does any code suggest that remapping document.diaChi to person.idNumber in BM-096 would change source, required, or reviewRequired fields? What scripts guard these fields during path remapping?",
+      "symbolsFound": 46,
+      "filesExplored": 10,
+      "status": "SUCCESS"
+    }
+  ],
+  "keyFindings": [
+    {
+      "findingId": "CG-1",
+      "query": 1,
+      "category": "AUDIT_RULES",
+      "verdict": "CONFIRMED",
+      "detail": "audit-forms-root-cause.mjs emits BAD_LABEL (FAIL) and GENERIC_FIELD_CANONICALIZATION (FAIL) for document.diaChi. parseRawPattern correctly extracts rawDomain='person' from {{person.field14}}. GENERIC_FIELD_CANONICALIZATION requires BOTH generic rawTail (fieldN) AND (bad label OR weak_evidence). For document.diaChi: label='Ô trống' (bad) + {{person.field14}} (generic) = both conditions met, both FAIL.",
+      "impact": "Previous review correctly identified the two issues. The proposed path remap (document.diaChi -> person.idNumber) would fix both issues simultaneously."
+    },
+    {
+      "findingId": "CG-2",
+      "query": 2,
+      "category": "LOCKED_CONTRACT_MUTATION_PATTERN",
+      "verdict": "CONFIRMED",
+      "detail": "applyRenameInContract (fix-locked-slots-after-wave-02-remediation.mjs) shows the correct 2-pass rename pattern: Pass 1 checks collision targets (skips if new path already exists in canonicalFields/docxSlots/renderBindings); Pass 2 renames slotId/path in all three arrays. For BM-096, person.idNumber does not exist in any array — safe to proceed.",
+      "impact": "The safe mutation pattern exists and is well-guarded. BM-096 remap is collision-free."
+    },
+    {
+      "findingId": "CG-3",
+      "query": 3,
+      "category": "SAFE_MUTATION_SCRIPTS",
+      "verdict": "CONFIRMED",
+      "detail": "Found 5 safe mutation scripts: applyRenameInContract (2-pass with collision check), _dedup_canonical_fields (dedup by path), _fix_review_required (fixes reviewRequired=true on orphaned items), fix-locked-slots-after-remediation (adds missing DOCX slots), fix-locked-slots-after-wave-02-remediation (renames fieldN to semantic). BM-073 previously used this exact pattern: document.field5 -> person.idNumber. BM-096 is using the same safe pattern.",
+      "impact": "The approved wave-02 script already handled person.idNumber remaps. BM-096 follows the same safe pattern."
+    },
+    {
+      "findingId": "CG-4",
+      "query": 4,
+      "category": "SOURCE_PRESERVATION",
+      "verdict": "CONFIRMED",
+      "detail": "v1-adapter.ts sourceFromV1() maps source='manual' -> { kind: 'MANUAL' } (no path). The path remap (document.diaChi -> person.idNumber) only changes the field.path in canonicalFields and slotId in docxSlots/renderBindings. source remains 'manual' throughout. required and reviewRequired are NOT touched by the remap — they stay as currently set (false, false).",
+      "impact": "source=manual is preserved. required=false stays unchanged. reviewRequired=false stays unchanged. No source policy conflict."
+    },
+    {
+      "findingId": "CG-5",
+      "query": 5,
+      "category": "COMPILED_DRIFT_GUARD",
+      "verdict": "CONFIRMED",
+      "detail": "No code modifies source/required/reviewRequired during path remapping. These fields are not guarded explicitly because they are not mutated. Remapping document.diaChi -> person.idNumber only changes path and label in canonicalFields, slotId and label in docxSlots, slotId and from in renderBindings. The current COMPILED_DRIFT entry for document.diaChi will be resolved when compiled artifact is rebuilt after the remap.",
+      "impact": "COMPILED_DRIFT=37 is expected to decrease by 1 after the remap (document.diaChi removed from compiled drift). This is a positive outcome, not a concern."
+    }
+  ],
+  "candidateVerification": {
+    "templateCode": "BM-096",
+    "verdict": "CONFIRMED",
+    "checks": [
+      {
+        "check": "textBefore supports ID-number semantics",
+        "value": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "verdict": "PASS",
+        "evidence": "Unambiguous ID number label context"
+      },
+      {
+        "check": "rawPattern domain is person",
+        "value": "{{person.field14}}",
+        "verdict": "PASS",
+        "evidence": "parseRawPattern extracts rawDomain='person'"
+      },
+      {
+        "check": "old path document.diaChi is wrong domain",
+        "verdict": "PASS",
+        "evidence": "document.diaChi is document domain but rawPattern is person domain. The field is about ID numbers, not addresses."
+      },
+      {
+        "check": "new path person.idNumber is semantically correct",
+        "value": "person.idNumber",
+        "verdict": "PASS",
+        "evidence": "BM-073 already uses person.idNumber for document.field5 -> person.idNumber remap. Standard person identifier path."
+      },
+      {
+        "check": "person.idNumber has no collision in canonicalFields",
+        "verdict": "PASS",
+        "evidence": "applyRenameInContract collision check confirms no existing person.idNumber entry"
+      },
+      {
+        "check": "person.idNumber has no collision in docxSlots",
+        "verdict": "PASS",
+        "evidence": "No slot with slotId person.idNumber in BM-096"
+      },
+      {
+        "check": "person.idNumber has no collision in renderBindings",
+        "verdict": "PASS",
+        "evidence": "No binding with slotId person.idNumber in BM-096"
+      },
+      {
+        "check": "source remains unchanged",
+        "value": "manual",
+        "verdict": "PASS",
+        "evidence": "v1-adapter.ts sourceFromV1 maps 'manual' -> { kind: 'MANUAL' }. Path remap does not touch source field."
+      },
+      {
+        "check": "required remains unchanged",
+        "value": false,
+        "verdict": "PASS",
+        "evidence": "Mutation scripts only change path/label/slotId. required not touched."
+      },
+      {
+        "check": "reviewRequired remains unchanged",
+        "value": false,
+        "verdict": "PASS",
+        "evidence": "Mutation scripts only change path/label/slotId. reviewRequired not touched."
+      },
+      {
+        "check": "COMPILED_DRIFT field is not a separate concern",
+        "verdict": "PASS",
+        "evidence": "document.diaChi in compiled will be replaced by person.idNumber on rebuild. COMPILED_DRIFT count decreases by 1 (positive outcome)."
+      },
+      {
+        "check": "signature.cheDo and signature.nguoiKy remain excluded",
+        "verdict": "PASS",
+        "evidence": "validate-path-domain-batch-1-bm096-plan.mjs Rule 2 explicitly blocks person-domain labels on signature.* paths. Exclusion is enforced by design."
+      }
+    ]
+  },
+  "collisionCheckReconfirmed": {
+    "canonicalFields": "NO_COLLISION",
+    "docxSlots": "NO_COLLISION",
+    "renderBindings": "NO_COLLISION",
+    "details": [
+      "person.idNumber not present in BM-096 canonicalFields",
+      "person.idNumber not present in BM-096 docxSlots",
+      "person.idNumber not present in BM-096 renderBindings",
+      "applyRenameInContract has 2-pass collision guard: skips if target already exists",
+      "BM-073 used document.field5 -> person.idNumber in the same safe pattern"
+    ]
+  },
+  "safetyAssertions": {
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noApprovedDecision": true,
+    "noSignatureCandidateLeakage": true,
+    "metricsUnchanged": true,
+    "codeGraphUsedForVerification": true,
+    "previousReviewConfirmed": true,
+    "noNewContradictions": true
+  },
+  "verdict": "PROCEED_APPROVE",
+  "recommendation": "APPROVE_APPLY_PROMPT",
+  "confidence": "HIGH",
+  "notes": "CodeGraph MCP verified all 5 queries returned SUCCESS. Previous review was valid. No contradictions found. Candidate satisfies all PROPOSE_APPROVE_SAFE_REMAP criteria."
+}

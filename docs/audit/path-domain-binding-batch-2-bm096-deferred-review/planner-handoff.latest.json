@@ -1,0 +1,99 @@
+{
+  "handoffVersion": "1.0.0",
+  "task": "BM096_DEFERRED_GROUP_REVIEW_PLAN",
+  "status": "READY_FOR_PLANNER_REVIEW",
+  "canApplyRunNow": false,
+  "baselineMetrics": {
+    "totalIssues": 1476,
+    "FAIL": 1154,
+    "REVIEW": 322,
+    "REMEDIATION_LEAK": 10,
+    "COMPILED_DRIFT": 37,
+    "dbSync": {
+      "matched": 213,
+      "missing": 0,
+      "stale": 0,
+      "verifiedAt": "2026-06-28T03:46:00.000+07:00"
+    }
+  },
+  "reviewedFieldsCount": 18,
+  "classificationCounts": {
+    "CLEAN_NO_ISSUES": 2,
+    "REVIEW_CANDIDATE_LABEL_ONLY": 4,
+    "DEFER_REQUIRED_POLICY_REVIEW": 1,
+    "DEFER_NO_VISIBLE_LABEL": 11
+  },
+  "topCandidates": [
+    {
+      "rank": 1,
+      "path": "document.soYeu",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION with visible context. Label-only fix may be possible.",
+      "confidence": "MEDIUM",
+      "plannerRecommendation": "PROMOTE_SINGLE_CANDIDATE_REVIEW"
+    },
+    {
+      "rank": 2,
+      "path": "agency.diaDanh",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION. Has visible context. Label-only fix may be possible.",
+      "confidence": "MEDIUM",
+      "plannerRecommendation": "PROMOTE_SINGLE_CANDIDATE_REVIEW"
+    },
+    {
+      "rank": 3,
+      "path": "agency.dongDia",
+      "classification": "REVIEW_CANDIDATE_LABEL_ONLY",
+      "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION. Has visible context. Label-only fix may be possible.",
+      "confidence": "MEDIUM",
+      "plannerRecommendation": "PROMOTE_SINGLE_CANDIDATE_REVIEW"
+    }
+  ],
+  "deferredItems": [
+    {"path": "document.ngayBan", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "document.chuThe", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "legalBasis.canCu", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "document.tenVu", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "person.toiDanh", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "person.hoTen", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "document.namSinh", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "document.lyDo", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "recipients.luuHo", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "signature.cheDo", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "signature.chucVu", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "signature.nguoiKy", "classification": "DEFER_NO_VISIBLE_LABEL", "reason": "BAD_LABEL + GENERIC_FIELD_CANONICALIZATION, no visible context"},
+    {"path": "person.idNumber", "classification": "DEFER_REQUIRED_POLICY_REVIEW", "reason": "REQUIRED_SUSPICIOUS is unmasking from previous mutation. DO NOT touch in this batch."}
+  ],
+  "keyFindings": {
+    "scriptVsManualClassification": "Script uses slot.rawPattern for rawDomain (always null in this dataset), while manual analysis used audit rawKey. Script classifies more fields as DEFER_NO_VISIBLE_LABEL. Manual analysis identified path/domain mismatch signals (signature fields with confusing textBefore), but these are classified DEFER in script due to null rawDomain.",
+    "signatureFieldsNote": "signature.cheDo/nguoiKy/chucVu have textBefore='Nơi thường trú:'/'Nơi tạm trú:' which strongly suggests wrong paths (person address vs signature). But with null rawDomain, script classifies as DEFER_NO_VISIBLE_LABEL. Planner should be aware: these may be RE-classifiable after DOCX evidence extraction.",
+    "document.namSinhNote": "textBefore='Nghề nghiệp:' (occupation) vs path=document.namSinh (birth year) is the strongest signal. Script classifies as DEFER_NO_VISIBLE_LABEL due to null rawDomain, but this field has the clearest visible-context mismatch."
+  },
+  "codeGraphHealth": {
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  },
+  "safetyAssertions": {
+    "noLockedContractMutation": true,
+    "noCompiledV2Change": true,
+    "noDbPublish": true,
+    "noApplyRun": true,
+    "noDecisionsApproved": true,
+    "dbSyncUnchanged": true,
+    "rootCauseMetricsUnchanged": true
+  },
+  "plannerDecisionNeeded": {
+    "question": "Which BM-096 deferred candidate should be promoted to a single-field review/apply workflow next?",
+    "options": [
+      "PROMOTE_SIGNATURE_GROUP_DOCX_EVIDENCE_EXTRACTION",
+      "PROMOTE_DOCUMENT_NAM_SINH_OCCUPATION",
+      "PROMOTE_SIGNATURE_CHE_DO_PERMANENT_ADDRESS",
+      "MOVE_TO_NEXT_TOP_BM",
+      "STOP_AND_REVIEW"
+    ],
+    "executorRecommendation": "PROMOTE_SIGNATURE_GROUP_DOCX_EVIDENCE_EXTRACTION",
+    "recommendationRationale": "The 3 signature fields (signature.cheDo/nguoiKy/chucVu) have the most striking path mismatches: textBefore='Nơi thường trú:'/'Nơi tạm trú:' suggests they should be person.permanentAddress/person.temporaryAddress not signature fields. This group has high semantic impact. But classification is DEFER_NO_VISIBLE_LABEL (null rawDomain). Recommend extracting DOCX evidence first, then re-classifying with audit rawKey-based rawDomain."
+  }
+}

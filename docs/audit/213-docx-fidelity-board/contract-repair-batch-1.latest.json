@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_SELECTION_ONLY",
+  "sourceBoard": "docs/audit/213-docx-fidelity-board/latest.json",
+  "canApplyRunNow": false,
+  "safetyAssertions": {
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "sameBmEvidenceRequired": true
+  },
+  "selectionRules": {
+    "lane": "CONTRACT_REPAIR",
+    "maxItems": 5,
+    "requiredFindings": [
+      "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+      "CONTRACT_SLOT_WITHOUT_TEMPLATE_PLACEHOLDER",
+      "BINDING_WITHOUT_TEMPLATE_PLACEHOLDER",
+      "LEGACY_RENDERER_MANIFEST_STALE"
+    ],
+    "sort": "rootCause.issueCount desc, templateCode asc"
+  },
+  "items": []
+}

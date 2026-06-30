@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "task": "BM063_DOCX_PLACEHOLDER_RENORMALIZATION_EVIDENCE",
+  "mode": "EVIDENCE_ONLY",
+  "generatedAt": "2026-06-28T10:30:00.000Z",
+  "dbSync": {
+    "matched": 213,
+    "missing": 0,
+    "stale": 0,
+    "status": "PASS"
+  },
+  "blockedBmsPreserved": {
+    "BM-052": {
+      "templateCode": "BM-052",
+      "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "primaryLane": "LEGAL_REVIEW",
+      "renderGate": "FAIL",
+      "verifiedAt": "2026-06-28T10:30:00.000Z"
+    },
+    "BM-062": {
+      "templateCode": "BM-062",
+      "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+      "primaryLane": "LEGAL_REVIEW",
+      "renderGate": "FAIL",
+      "verifiedAt": "2026-06-28T10:30:00.000Z"
+    }
+  },
+  "bm063State": {
+    "templateCode": "BM-063",
+    "title": "Biên bản kê biên tài sản",
+    "sourceId": "BM-063__54b73110a34f",
+    "boardStatus": "NEEDS_REMEDIATION",
+    "boardLane": "CONTRACT_REPAIR",
+    "risk": "HIGH",
+    "renderGateStatus": "FAIL",
+    "renderGateDetails": {
+      "bindingFidelity": "FAIL",
+      "templatePlaceholdersWithoutSlots": ["document.fullDocumentCode8"],
+      "templatePlaceholdersWithoutBindings": ["document.fullDocumentCode8"],
+      "literalFidelity": "FAIL",
+      "undefinedOrNullLiterals": 8,
+      "textFidelity": "PASS",
+      "structureFidelity": "PASS"
+    },
+    "contractSlots": {
+      "totalSlots": 5,
+      "document.fullDocumentCode8": {
+        "exists": false,
+        "note": "No slot — all 8 occurrences unbound"
+      },
+      "recipients.personLine5": {
+        "exists": true,
+        "slotCount": 1,
+        "note": "1 slot for 5 DOCX occurrences — 4 undefined literals"
+      }
+    },
+    "contractFields": {
+      "document.fullDocumentCode": {
+        "exists": true,
+        "label": "Số văn bản",
+        "note": "Singular form (different from document.fullDocumentCode8)"
+      },
+      "recipients.personLine5": {
+        "exists": true,
+        "label": "Người nhận"
+      }
+    },
+    "riskPlaceholders": {
+      "document.fullDocumentCode8": {
+        "docxOccurrences": 8,
+        "slotCount": 0,
+        "bindingCount": 0,
+        "renderFidelityImpact": "undefined literal for all 8 occurrences"
+      },
+      "recipients.personLine5": {
+        "docxOccurrences": 5,
+        "slotCount": 1,
+        "bindingCount": 1,
+        "renderFidelityImpact": "4 undefined literals (1 slot covers 1 of 5)"
+      }
+    }
+  }
+}

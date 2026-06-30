@@ -1,0 +1,77 @@
+{
+  "task": "BM155_REMAINING_PATH_DOMAIN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "templateCode": "BM-155",
+  "title": "QĐ phục hồi vụ án đối với bị can",
+  "sourceId": "BM-155__d89766f2092a",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "PASS",
+  "renderGateDetails": {
+    "bindingFidelity": "PASS",
+    "literalFidelity": "PASS",
+    "undefinedOrNullLiterals": 0,
+    "textFidelity": "PASS",
+    "structureFidelity": "PASS"
+  },
+  "blockedPlaceholders": [
+    {
+      "placeholder": "BM-155.pathDomainGenericFields",
+      "count": 13,
+      "classification": "DEFER_REQUIRES_HUMAN_DOCX_REVIEW",
+      "reason": "BM-155 render-fidelity passes, but remaining path-domain/generic-field evidence is weak, label-only, or path-domain conflicting. Do not mutate without human DOCX/legal review."
+    }
+  ],
+  "remainingIssueSummary": {
+    "issueCount": 29,
+    "failCount": 28,
+    "reviewCount": 1,
+    "issueCounts": {
+      "BAD_LABEL": 13,
+      "GENERIC_FIELD_CANONICALIZATION": 13,
+      "SOURCE_MISMATCH": 1,
+      "UI_VISIBLE_BAD_METADATA": 2
+    }
+  },
+  "remainingPaths": [
+    "agency.diaDanh",
+    "document.chuThe",
+    "document.dieu1",
+    "document.dieu2",
+    "document.lyDo",
+    "document.ngayBan",
+    "document.ngayQd",
+    "document.soQd",
+    "document.soQuyet",
+    "document.tenVu",
+    "legalBasis.canCu",
+    "person.tenBi",
+    "recipients.noiNhan"
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "rejectedOptions": [
+    {
+      "option": "AUTO_REMAP_ALL_BM155_GENERIC_FIELDS",
+      "reason": "The remaining evidence mixes generic document/person fields, address-like labels, legal-basis/body slots, and footer/recipient slots. Batch mutation would be semantic guessing."
+    },
+    {
+      "option": "MARK_BM155_DONE_BECAUSE_RENDER_GATE_PASS",
+      "reason": "Render fidelity is clean, but semantic/path-domain contract metadata remains unresolved."
+    }
+  ],
+  "requiredHumanReviewQuestions": [
+    "What official TT-03-2026-VKSTC label and semantic path corresponds to each BM-155 generic field?",
+    "Are the person.field11-person.field14 placeholders document metadata, person metadata, or procedural references in this form?",
+    "Does the Nơi tạm trú context currently mapped as document.soQd require a person/address semantic path?",
+    "Which Điều 2 / footer fields are legal body text versus recipient/footer metadata?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-155/render-diff.latest.json",
+    "evidence": "docs/audit/docx-placeholder-renormalization/BM-155/evidence.latest.json",
+    "patchPlan": "docs/audit/docx-placeholder-renormalization/BM-155/patch-plan.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-155/planner-handoff.latest.json"
+  },
+  "createdAt": "deterministic-current-state",
+  "createdBy": "BM155_PATH_DOMAIN_BINDING_EVIDENCE task"
+}

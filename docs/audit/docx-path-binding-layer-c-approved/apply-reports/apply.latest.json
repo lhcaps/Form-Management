@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-06-26T21:32:43.627Z",
+  "task": "DOCX_PATH_BINDING_LAYER_C_APPLY",
+  "mode": "write",
+  "approvalCommand": "APPROVE_DESTRUCTIVE_LAYER C BM-052 BM-062 BM-066 9919ecdb3971 110961a781fa e3bc56081554 DOCX-REMOVE-008 DOCX-REMOVE-009 DOCX-REMOVE-010",
+  "layer": "C",
+  "plannedItems": 3,
+  "contracts": [
+    {
+      "templateCode": "BM-052",
+      "sourceId": "9919ecdb3971",
+      "file": "BM-052__9919ecdb3971.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "recipients.personLine6"
+      ]
+    },
+    {
+      "templateCode": "BM-062",
+      "sourceId": "110961a781fa",
+      "file": "BM-062__110961a781fa.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "recipients.personLine5"
+      ]
+    },
+    {
+      "templateCode": "BM-066",
+      "sourceId": "e3bc56081554",
+      "file": "BM-066__e3bc56081554.contract.locked.json",
+      "changed": true,
+      "removedPaths": [
+        "recipients.personLine4"
+      ]
+    }
+  ],
+  "safety": {
+    "lockedContractsMutated": 3,
+    "docxTouched": false,
+    "sourceUnchanged": true,
+    "domainModelPathsAdded": false,
+    "backupCreated": true,
+    "backupPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx-path-binding-layer-c-approved\\backups\\2026-06-26T21-32-43-625Z"
+  },
+  "dryRun": {
+    "wouldRemove": [
+      {
+        "contract": "BM-052",
+        "docxSlots": ["recipients.personLine6"],
+        "canonicalFields": ["recipients.personLine6"],
+        "renderBindings": ["recipients.personLine6"]
+      },
+      {
+        "contract": "BM-062",
+        "docxSlots": ["recipients.personLine5"],
+        "canonicalFields": ["recipients.personLine5"],
+        "renderBindings": ["recipients.personLine5"]
+      },
+      {
+        "contract": "BM-066",
+        "docxSlots": ["recipients.personLine4"],
+        "canonicalFields": ["recipients.personLine4"],
+        "renderBindings": ["recipients.personLine4"]
+      }
+    ]
+  },
+  "errors": [],
+  "next": "REVIEW_LAYER_C_CLOSURE_AND_COMBINED_DESTRUCTIVE_LANE_CLOSURE"
+}

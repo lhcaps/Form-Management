@@ -22,6 +22,32 @@
   "status": "locked",
   "docxSlots": [
     {
+      "slotId": "agency.nameUpper",
+      "location": {
+        "partName": "word/document.xml",
+        "blockId": null,
+        "tableCellId": null
+      },
+      "context": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "slotType": "text",
+      "required": false,
+      "confidence": 1,
+      "evidence": {
+        "textBefore": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng",
+        "textAfter": "QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và",
+        "rawPattern": "{{agency.nameUpper}}"
+      },
+      "reviewRequired": false,
+      "reviewEvidence": {
+        "textBefore": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng",
+        "textAfter": "QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và",
+        "rawPattern": "{{agency.nameUpper}}",
+        "context": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và",
+        "blockId": null
+      }
+    },
+    {
       "slotId": "agency.parentNameUpper",
       "location": {
         "partName": "word/document.xml",
@@ -48,39 +74,13 @@
       }
     },
     {
-      "slotId": "document.issueDate",
-      "location": {
-        "partName": "word/document.xml",
-        "blockId": "P0019",
-        "tableCellId": null
-      },
-      "context": "…, ngày … tháng {{document.issueDate}}",
-      "label": "Ngày ban hành",
-      "slotType": "date",
-      "required": false,
-      "confidence": 1,
-      "evidence": {
-        "textBefore": "…, ngày … tháng",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}"
-      },
-      "reviewRequired": false,
-      "reviewEvidence": {
-        "textBefore": "…, ngày … tháng",
-        "textAfter": "",
-        "rawPattern": "{{document.issueDate}}",
-        "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0019"
-      }
-    },
-    {
       "slotId": "document.issuePlaceAndDateLine",
       "location": {
         "partName": "word/document.xml",
         "blockId": "P0033",
         "tableCellId": null
       },
-      "context": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số {{document.documentCode}}ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
+      "context": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số {{document.issuePlaceAndDateLine}}ngày … tháng … năm … của5{{document.issuePlaceAndDateLine}}{{document.issuePlaceAndDateLine}}",
       "label": "Số quyết định",
       "slotType": "text",
       "required": false,
@@ -88,15 +88,17 @@
       "evidence": {
         "textBefore": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
         "textAfter": "ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}"
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
+        "legacyRawPattern": "{{document.documentCode}}"
       },
       "reviewRequired": false,
       "reviewEvidence": {
         "textBefore": "Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
         "textAfter": "ngày … tháng … năm … của5{{document.documentCode}}{{document.documentCode}}",
-        "rawPattern": "{{document.documentCode}}",
+        "rawPattern": "{{document.issuePlaceAndDateLine}}",
         "context": "[Auto-generated] Điều 1. Hủy bỏ Quyết định không khởi tố vụ án hình sự số",
-        "blockId": "P0033"
+        "blockId": "P0033",
+        "legacyRawPattern": "{{document.documentCode}}"
       }
     },
     {
@@ -107,7 +109,7 @@
         "tableCellId": null
       },
       "context": "{{document.field7}}..",
-      "label": "Ô trống",
+      "label": "Họ tên",
       "slotType": "text",
       "required": false,
       "confidence": 1,
@@ -118,15 +120,43 @@
       },
       "reviewRequired": false,
       "reviewEvidence": {
-        "textBefore": "",
-        "textAfter": "..",
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.fullName",
+        "docxContext": "{{document.field7}}..",
         "rawPattern": "{{document.field7}}",
-        "context": "[Auto-generated] {{document.field7}}..",
-        "blockId": "P0040"
-      }
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present",
+        "slotLabelSync": {
+          "source": "canonicalFields[].label",
+          "oldLabel": "Ô trống",
+          "newLabel": "Họ tên",
+          "canonicalPath": "person.fullName",
+          "canonicalReviewedBy": "Codex legal semantic review",
+          "canonicalReviewedAt": "2026-06-29T15:26:43.716Z"
+        }
+      },
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z"
     }
   ],
   "canonicalFields": [
+    {
+      "path": "agency.nameUpper",
+      "type": "string",
+      "label": "Tên cơ quan ban hành viết hoa",
+      "source": "computed",
+      "required": false,
+      "uiComponent": "text",
+      "section": "agency",
+      "reviewRequired": false,
+      "transform": "identity",
+      "reviewEvidence": {
+        "context": "0 15240 Số : …/QĐ-VKS…- … CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc 1081405 67945 … , ngày … tháng {{agency.nameUpper}} QUYẾT ĐỊNH HỦY BỎ QUYẾT ĐỊNH KHÔNG KHỞI TỐ VỤ ÁN HÌNH SỰ VIỆN TRƯỞNG VIỆN KIỂM SÁT 2 … Căn cứ các đ iều 41, 158, 161 và",
+        "blockId": null
+      }
+    },
     {
       "path": "agency.parentNameUpper",
       "type": "string",
@@ -141,22 +171,6 @@
       "reviewEvidence": {
         "context": "[Auto-generated] VIỆN KIỂM SÁT …",
         "blockId": "P0011"
-      }
-    },
-    {
-      "path": "document.issueDate",
-      "type": "string",
-      "label": "Ngày ban hành",
-      "source": "agencyConfig",
-      "required": false,
-      "uiComponent": "date",
-      "reviewRequired": false,
-      "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
-      "reviewEvidence": {
-        "context": "[Auto-generated] …, ngày … tháng",
-        "blockId": "P0019"
       }
     },
     {
@@ -184,25 +198,31 @@
       "uiComponent": "text",
       "reviewRequired": false,
       "transform": "identity",
-      "reviewedBy": "Le Huy",
-      "reviewedAt": "2026-06-22T08:15:00.000+07:00",
+      "reviewedBy": "Codex legal semantic review",
+      "reviewedAt": "2026-06-29T15:26:43.716Z",
       "reviewEvidence": {
-        "context": "[Auto-generated] {{document.field7}}..",
-        "blockId": "P0040"
+        "reviewedAt": "2026-06-29T15:26:43.716Z",
+        "reviewedBy": "Codex legal semantic review",
+        "disposition": "APPROVE_AS_IS",
+        "confidence": "HIGH",
+        "docxSlotId": "person.fullName",
+        "docxContext": "{{document.field7}}..",
+        "rawPattern": "{{document.field7}}",
+        "rationale": "docx context present; actual DOCX token present; field reviewEvidence present"
       }
     }
   ],
   "renderBindings": [
     {
-      "slotId": "agency.parentNameUpper",
-      "from": "agency.parentNameUpper",
+      "slotId": "agency.nameUpper",
+      "from": "agency.nameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
     },
     {
-      "slotId": "document.issueDate",
-      "from": "document.issueDate",
+      "slotId": "agency.parentNameUpper",
+      "from": "agency.parentNameUpper",
       "transform": "identity",
       "fallback": "",
       "reviewRequired": false
@@ -256,19 +276,11 @@
     ],
     "suggestedControls": [
       {
-        "path": "document.field1",
-        "control": "text"
-      },
-      {
         "path": "document.issueDate",
         "control": "date"
       },
       {
         "path": "document.documentCode",
-        "control": "text"
-      },
-      {
-        "path": "document.field7",
         "control": "text"
       }
     ],

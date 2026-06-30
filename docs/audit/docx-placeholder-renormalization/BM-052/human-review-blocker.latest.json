@@ -1,0 +1,73 @@
+{
+  "task": "BM052_CLOSE_REMAINING_PERSONLINE6_AS_HUMAN_REVIEW_BLOCKER",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-06-28T08:07:00.000Z",
+  "templateCode": "BM-052",
+  "status": "BLOCKED_BY_HUMAN_DOCX_REVIEW",
+  "canApplyRunNow": false,
+  "canMarkDone": false,
+  "renderGateStatus": "FAIL",
+  "renderGateReason": "recipients.personLine6 has no slot, no binding, no canonical field; 3 body occurrences render as __RECIPIENTS_PERSONLINE6__ literal markers",
+  "blockedPlaceholders": [
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 0,
+      "paragraph": "P29",
+      "textNodeIndex": 42,
+      "neighborhoodText": "Điều 1. | Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can | Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp:",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Blank cell P29 between 'Họ tên:' and 'Nghề nghiệp:' in person detail block. Cannot determine exact semantic (alias, date of birth, ethnicity/nationality, or other) from DOCX alone."
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 1,
+      "paragraph": "P30",
+      "textNodeIndex": 43,
+      "neighborhoodText": "Hủy bỏ biện pháp đặt tiền để bảo đảm đối với bị can | Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp: | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Blank cell P30 between 'Họ tên:' and 'Nghề nghiệp:' in person detail block. Cannot determine exact semantic from DOCX alone."
+    },
+    {
+      "placeholder": "recipients.personLine6",
+      "occurrenceIndex": 2,
+      "paragraph": "P31",
+      "textNodeIndex": 44,
+      "neighborhoodText": "Họ tên: | 8 | {{recipients.personLine}} | {{recipients.personLine6}} | {{recipients.personLine6}} | {{recipients.personLine6}} | Nghề nghiệp: | Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu: | {{person.idNumber}}",
+      "classification": "DEFER_AMBIGUOUS_PERSON_TABLE_CELL",
+      "confidence": "LOW",
+      "reason": "Blank cell P31 between 'Họ tên:' and 'Nghề nghiệp:' in person detail block. Cannot determine exact semantic from DOCX alone."
+    }
+  ],
+  "plannerDecision": "DEFER_TO_HUMAN_DOCX_LEGAL_REVIEW",
+  "plannerDecisionRationale": "Option A (bind as-is) would mechanically pass render-fidelity but would render the same value in all 3 distinct blank cells — semantically incorrect for a legal form. Option B (defer to human review) preserves semantic correctness. Bugbot confirmed option A is unsafe.",
+  "rejectedOption": {
+    "option": "BIND_AS_IS_RECIPIENTS_PERSONLINE6",
+    "reason": "Would render same value in three distinct blank cells and create semantically incorrect output for a legal form. Bugbot flagged this as HIGH severity."
+  },
+  "requiredHumanReviewQuestions": [
+    "What does each blank cell P29/P30/P31 represent under the official BM-052 DOCX / TT-03-2026-VKSTC specification?",
+    "Are these alias (tên gọi khác), date of birth (ngày sinh), ethnicity (dân tộc), nationality (quốc tịch), or other person details?",
+    "Should each cell become a distinct semantic placeholder (e.g., person.alias, person.birthDate, person.nationality)?",
+    "Should any cell be removed from the normalized DOCX as authoring noise (blank cell that should not exist in the template)?",
+    "Is the 'Nơi thường trú:' blank cell (permanent address with no placeholder) related to these 3 ambiguous cells?"
+  ],
+  "evidenceRefs": {
+    "renderDiff": "docs/audit/per-form-render-accurate/BM-052/render-diff.latest.json",
+    "remainingEvidence": "docs/audit/docx-placeholder-renormalization/BM-052/remaining-personline6-evidence.latest.json",
+    "plannerHandoff": "docs/audit/docx-placeholder-renormalization/BM-052/remaining-personline6-planner-handoff.latest.json",
+    "codeGraphFindings": "docs/audit/docx-placeholder-renormalization/BM-052/codegraph.remaining-personline6-findings.md",
+    "bugbotReview": "docs/audit/docx-placeholder-renormalization/BM-052/review-bugbot.remaining-personline6-review.md"
+  },
+  "safetyAssertions": {
+    "noDocxMutation": true,
+    "noLockedContractMutation": true,
+    "noCompiledV2Mutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true,
+    "noApplyRunner": true,
+    "renderGateStillFailing": true,
+    "notMarkedDone": true
+  }
+}

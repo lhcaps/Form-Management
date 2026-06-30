@@ -1,0 +1,940 @@
+{
+  "schemaVersion": 1,
+  "mode": "EVIDENCE_ONLY",
+  "templateCode": "BM-213",
+  "title": "Yêu cầu áp dụng các biện pháp kỹ thuật để bảo vệ NCTN",
+  "sourceBatch": "docs/audit/213-docx-fidelity-board/contract-repair-batch-1.latest.json",
+  "canApplyRunNow": false,
+  "baselineFindings": [
+    "LEGACY_RENDERER_MANIFEST_STALE"
+  ],
+  "rootCause": {
+    "fieldCount": 28,
+    "issueCount": 5,
+    "failCount": 0,
+    "reviewCount": 5,
+    "issueCounts": {
+      "SHOULD_BE_READONLY": 2,
+      "COMPILED_DRIFT": 3
+    }
+  },
+  "docx": {
+    "normalizedPath": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-213\\BM-213_normalized.docx",
+    "exists": true,
+    "error": null,
+    "placeholders": {
+      "total": 28,
+      "unique": [
+        "agency.name",
+        "agency.parentName",
+        "document.documentCode",
+        "document.issuePlaceAndDateLine",
+        "juvenileProtection.article1Line",
+        "juvenileProtection.article2Line",
+        "juvenileProtection.contextLine",
+        "juvenileProtection.resultDeadlineLine",
+        "official.issuerTitle",
+        "person.currentAddress",
+        "person.dateOfBirthText",
+        "person.ethnicity",
+        "person.fullName",
+        "person.genderLabel",
+        "person.identityDocumentLine",
+        "person.identityIssueLine",
+        "person.nationality",
+        "person.occupation",
+        "person.otherName",
+        "person.permanentAddress",
+        "person.placeOfBirth",
+        "person.religion",
+        "person.temporaryAddress",
+        "recipients.archiveLine",
+        "recipients.investigationAuthorityLine",
+        "recipients.otherRecipientsLine",
+        "recipients.primaryLine",
+        "signature.signerName"
+      ],
+      "duplicates": [],
+      "items": [
+        {
+          "placeholder": "agency.name",
+          "count": 1,
+          "context": "{{agency.parentName}} {{agency.name}} Mẫu số 21 3 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc l",
+          "occurrenceContexts": [
+            "{{agency.parentName}} {{agency.name}} Mẫu số 21 3 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc l"
+          ]
+        },
+        {
+          "placeholder": "agency.parentName",
+          "count": 1,
+          "context": "{{agency.parentName}} {{agency.name}} Mẫu số 21 3 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨ",
+          "occurrenceContexts": [
+            "{{agency.parentName}} {{agency.name}} Mẫu số 21 3 /HS (Ban hành theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨ"
+          ]
+        },
+        {
+          "placeholder": "document.documentCode",
+          "count": 1,
+          "context": "theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc Số: {{document.documentCode}} {{document.issuePlaceAndDateLine}} YÊU CẦU Áp dụng các biện pháp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân ph",
+          "occurrenceContexts": [
+            "theo Thông tư số /202 6 /TT-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc Số: {{document.documentCode}} {{document.issuePlaceAndDateLine}} YÊU CẦU Áp dụng các biện pháp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân ph"
+          ]
+        },
+        {
+          "placeholder": "document.issuePlaceAndDateLine",
+          "count": 1,
+          "context": "T-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc Số: {{document.documentCode}} {{document.issuePlaceAndDateLine}} YÊU CẦU Áp dụng các biện pháp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân phẩm của n gười chưa thành niên bị ph",
+          "occurrenceContexts": [
+            "T-VKSTC ngày / /202 6 ) \\s CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM Độc lập - Tự do - Hạnh phúc Số: {{document.documentCode}} {{document.issuePlaceAndDateLine}} YÊU CẦU Áp dụng các biện pháp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân phẩm của n gười chưa thành niên bị ph"
+          ]
+        },
+        {
+          "placeholder": "juvenileProtection.article1Line",
+          "count": 1,
+          "context": "ú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}",
+          "occurrenceContexts": [
+            "ú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}"
+          ]
+        },
+        {
+          "placeholder": "juvenileProtection.article2Line",
+          "count": 1,
+          "context": "leProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLin",
+          "occurrenceContexts": [
+            "leProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLin"
+          ]
+        },
+        {
+          "placeholder": "juvenileProtection.contextLine",
+          "count": 1,
+          "context": "ờng trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.artic",
+          "occurrenceContexts": [
+            "ờng trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.artic"
+          ]
+        },
+        {
+          "placeholder": "juvenileProtection.resultDeadlineLine",
+          "count": 1,
+          "context": "hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLi",
+          "occurrenceContexts": [
+            "hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLi"
+          ]
+        },
+        {
+          "placeholder": "official.issuerTitle",
+          "count": 1,
+          "context": "áp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân phẩm của n gười chưa thành niên bị phát tán trên không gian mạng {{official.issuerTitle}} Căn cứ Điều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Gi",
+          "occurrenceContexts": [
+            "áp kỹ thuật để bảo vệ thông tin cá nhân, danh dự, nhân phẩm của n gười chưa thành niên bị phát tán trên không gian mạng {{official.issuerTitle}} Căn cứ Điều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Gi"
+          ]
+        },
+        {
+          "placeholder": "person.currentAddress",
+          "count": 1,
+          "context": "dentityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineL",
+          "occurrenceContexts": [
+            "dentityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1Line}} {{juvenileProtection.resultDeadlineL"
+          ]
+        },
+        {
+          "placeholder": "person.dateOfBirthText",
+          "count": 1,
+          "context": "thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.relig",
+          "occurrenceContexts": [
+            "thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.relig"
+          ]
+        },
+        {
+          "placeholder": "person.ethnicity",
+          "count": 1,
+          "context": "herName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân",
+          "occurrenceContexts": [
+            "herName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân"
+          ]
+        },
+        {
+          "placeholder": "person.fullName",
+          "count": 1,
+          "context": "official.issuerTitle}} Căn cứ Điều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person",
+          "occurrenceContexts": [
+            "official.issuerTitle}} Căn cứ Điều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person"
+          ]
+        },
+        {
+          "placeholder": "person.genderLabel",
+          "count": 1,
+          "context": "iều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{perso",
+          "occurrenceContexts": [
+            "iều 155 của Luật Tư pháp người chưa thành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{perso"
+          ]
+        },
+        {
+          "placeholder": "person.identityDocumentLine",
+          "count": 1,
+          "context": "Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở",
+          "occurrenceContexts": [
+            "Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở"
+          ]
+        },
+        {
+          "placeholder": "person.identityIssueLine",
+          "count": 1,
+          "context": "hề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAd",
+          "occurrenceContexts": [
+            "hề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAd"
+          ]
+        },
+        {
+          "placeholder": "person.nationality",
+          "count": 1,
+          "context": "Label}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ C",
+          "occurrenceContexts": [
+            "Label}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ C"
+          ]
+        },
+        {
+          "placeholder": "person.occupation",
+          "count": 1,
+          "context": "eOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi",
+          "occurrenceContexts": [
+            "eOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi"
+          ]
+        },
+        {
+          "placeholder": "person.otherName",
+          "count": 1,
+          "context": "hành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.",
+          "occurrenceContexts": [
+            "hành niên ; Xét thấy người chưa thành niên: Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person."
+          ]
+        },
+        {
+          "placeholder": "person.permanentAddress",
+          "count": 1,
+          "context": "CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} Y",
+          "occurrenceContexts": [
+            "CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} Y"
+          ]
+        },
+        {
+          "placeholder": "person.placeOfBirth",
+          "count": 1,
+          "context": "llName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.o",
+          "occurrenceContexts": [
+            "llName}} Giới tính: {{person.genderLabel}} Tên gọi khác: {{person.otherName}} Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.o"
+          ]
+        },
+        {
+          "placeholder": "person.religion",
+          "count": 1,
+          "context": "eOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine",
+          "occurrenceContexts": [
+            "eOfBirthText}} tại: {{person.placeOfBirth}} Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}} Nghề nghiệp: {{person.occupation}} Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine"
+          ]
+        },
+        {
+          "placeholder": "person.temporaryAddress",
+          "count": 1,
+          "context": ": {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1L",
+          "occurrenceContexts": [
+            ": {{person.identityDocumentLine}} {{person.identityIssueLine}} Nơi thường trú: {{person.permanentAddress}} Nơi tạm trú: {{person.temporaryAddress}} Nơi ở hiện tại: {{person.currentAddress}} {{juvenileProtection.contextLine}} YÊU CẦU: 1. {{juvenileProtection.article1L"
+          ]
+        },
+        {
+          "placeholder": "recipients.archiveLine",
+          "count": 1,
+          "context": "ận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )",
+          "occurrenceContexts": [
+            "ận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )"
+          ]
+        },
+        {
+          "placeholder": "recipients.investigationAuthorityLine",
+          "count": 1,
+          "context": "venileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng",
+          "occurrenceContexts": [
+            "venileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng"
+          ]
+        },
+        {
+          "placeholder": "recipients.otherRecipientsLine",
+          "count": 1,
+          "context": "venileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )",
+          "occurrenceContexts": [
+            "venileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )"
+          ]
+        },
+        {
+          "placeholder": "recipients.primaryLine",
+          "count": 1,
+          "context": "Protection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{sig",
+          "occurrenceContexts": [
+            "Protection.article1Line}} {{juvenileProtection.resultDeadlineLine}} 2. {{juvenileProtection.article2Line}} Nơi nhận : - {{recipients.primaryLine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{sig"
+          ]
+        },
+        {
+          "placeholder": "signature.signerName",
+          "count": 1,
+          "context": "ine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )",
+          "occurrenceContexts": [
+            "ine}}; - {{recipients.investigationAuthorityLine}}; - {{recipients.otherRecipientsLine}}; - {{recipients.archiveLine}}. {{signature.signerName}} ( Ký, ghi rõ họ tên, đóng dấu )"
+          ]
+        }
+      ],
+      "risks": {
+        "duplicateSemantic": []
+      }
+    }
+  },
+  "contract": {
+    "file": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-213__33383be18132.contract.locked.json",
+    "sourceId": "BM-213__33383be18132",
+    "status": "locked",
+    "reviewKind": "human",
+    "canonicalFields": [
+      {
+        "path": "agency.parentName",
+        "label": "Cơ quan cấp trên",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "agency.name",
+        "label": "Viện kiểm sát ban hành",
+        "source": "agencyConfig",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.documentCode",
+        "label": "Số yêu cầu",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "label": "Địa danh, ngày ban hành",
+        "source": "computed",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "official.issuerTitle",
+        "label": "Chủ thể ban hành",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.fullName",
+        "label": "Họ tên người chưa thành niên",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.genderLabel",
+        "label": "Giới tính",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.otherName",
+        "label": "Tên gọi khác",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.dateOfBirthText",
+        "label": "Ngày sinh",
+        "source": "computed",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.placeOfBirth",
+        "label": "Nơi sinh",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.nationality",
+        "label": "Quốc tịch",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.ethnicity",
+        "label": "Dân tộc",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.religion",
+        "label": "Tôn giáo",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.occupation",
+        "label": "Nghề nghiệp hoặc tình trạng học tập",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.identityDocumentLine",
+        "label": "Số giấy tờ tùy thân hoặc số định danh",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.identityIssueLine",
+        "label": "Ngày cấp và nơi cấp giấy tờ",
+        "source": "computed",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.permanentAddress",
+        "label": "Nơi thường trú",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.temporaryAddress",
+        "label": "Nơi tạm trú",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "person.currentAddress",
+        "label": "Nơi ở hiện tại",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "juvenileProtection.contextLine",
+        "label": "Bối cảnh cần bảo vệ",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "juvenileProtection.article1Line",
+        "label": "Biện pháp kỹ thuật được yêu cầu",
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "juvenileProtection.resultDeadlineLine",
+        "label": "Thời hạn thông báo kết quả",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "juvenileProtection.article2Line",
+        "label": "Yêu cầu phối hợp",
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "recipients.primaryLine",
+        "label": "Nơi nhận chính",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "recipients.investigationAuthorityLine",
+        "label": "Cơ quan thực hiện biện pháp kỹ thuật",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "recipients.otherRecipientsLine",
+        "label": "Cơ quan, tổ chức phối hợp khác",
+        "source": "manual",
+        "required": false,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "recipients.archiveLine",
+        "label": "Lưu hồ sơ",
+        "source": "manual",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      },
+      {
+        "path": "signature.signerName",
+        "label": "Họ tên người ký",
+        "source": "officialConfig",
+        "required": true,
+        "reviewRequired": false,
+        "rawPattern": null
+      }
+    ],
+    "docxSlots": [
+      {
+        "slotId": "agency.parentName",
+        "label": "Cơ quan cấp trên",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{agency.parentName}} {{agency.name}}"
+      },
+      {
+        "slotId": "agency.name",
+        "label": "Viện kiểm sát ban hành",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{agency.parentName}} {{agency.name}}"
+      },
+      {
+        "slotId": "document.documentCode",
+        "label": "Số yêu cầu",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Số: {{document.documentCode}}"
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "label": "Địa danh, ngày ban hành",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{document.issuePlaceAndDateLine}}"
+      },
+      {
+        "slotId": "official.issuerTitle",
+        "label": "Chủ thể ban hành",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{official.issuerTitle}}"
+      },
+      {
+        "slotId": "person.fullName",
+        "label": "Họ tên người chưa thành niên",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}"
+      },
+      {
+        "slotId": "person.genderLabel",
+        "label": "Giới tính",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Họ tên: {{person.fullName}} Giới tính: {{person.genderLabel}}"
+      },
+      {
+        "slotId": "person.otherName",
+        "label": "Tên gọi khác",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Tên gọi khác: {{person.otherName}}"
+      },
+      {
+        "slotId": "person.dateOfBirthText",
+        "label": "Ngày sinh",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}"
+      },
+      {
+        "slotId": "person.placeOfBirth",
+        "label": "Nơi sinh",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Sinh ngày {{person.dateOfBirthText}} tại: {{person.placeOfBirth}}"
+      },
+      {
+        "slotId": "person.nationality",
+        "label": "Quốc tịch",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}"
+      },
+      {
+        "slotId": "person.ethnicity",
+        "label": "Dân tộc",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}"
+      },
+      {
+        "slotId": "person.religion",
+        "label": "Tôn giáo",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Quốc tịch: {{person.nationality}}; Dân tộc: {{person.ethnicity}}; Tôn giáo: {{person.religion}}"
+      },
+      {
+        "slotId": "person.occupation",
+        "label": "Nghề nghiệp hoặc tình trạng học tập",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Nghề nghiệp: {{person.occupation}}"
+      },
+      {
+        "slotId": "person.identityDocumentLine",
+        "label": "Số giấy tờ tùy thân hoặc số định danh",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu/Số định danh cá nhân: {{person.identityDocumentLine}}"
+      },
+      {
+        "slotId": "person.identityIssueLine",
+        "label": "Ngày cấp và nơi cấp giấy tờ",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "{{person.identityIssueLine}}"
+      },
+      {
+        "slotId": "person.permanentAddress",
+        "label": "Nơi thường trú",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Nơi thường trú: {{person.permanentAddress}}"
+      },
+      {
+        "slotId": "person.temporaryAddress",
+        "label": "Nơi tạm trú",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "Nơi tạm trú: {{person.temporaryAddress}}"
+      },
+      {
+        "slotId": "person.currentAddress",
+        "label": "Nơi ở hiện tại",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "Nơi ở hiện tại: {{person.currentAddress}}"
+      },
+      {
+        "slotId": "juvenileProtection.contextLine",
+        "label": "Bối cảnh cần bảo vệ",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{juvenileProtection.contextLine}}"
+      },
+      {
+        "slotId": "juvenileProtection.article1Line",
+        "label": "Biện pháp kỹ thuật được yêu cầu",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "1. {{juvenileProtection.article1Line}}"
+      },
+      {
+        "slotId": "juvenileProtection.resultDeadlineLine",
+        "label": "Thời hạn thông báo kết quả",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{juvenileProtection.resultDeadlineLine}}"
+      },
+      {
+        "slotId": "juvenileProtection.article2Line",
+        "label": "Yêu cầu phối hợp",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "2. {{juvenileProtection.article2Line}}"
+      },
+      {
+        "slotId": "recipients.primaryLine",
+        "label": "Nơi nhận chính",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "- {{recipients.primaryLine}};"
+      },
+      {
+        "slotId": "recipients.investigationAuthorityLine",
+        "label": "Cơ quan thực hiện biện pháp kỹ thuật",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "- {{recipients.investigationAuthorityLine}};"
+      },
+      {
+        "slotId": "recipients.otherRecipientsLine",
+        "label": "Cơ quan, tổ chức phối hợp khác",
+        "rawPattern": null,
+        "required": false,
+        "reviewRequired": false,
+        "context": "- {{recipients.otherRecipientsLine}};"
+      },
+      {
+        "slotId": "recipients.archiveLine",
+        "label": "Lưu hồ sơ",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "- {{recipients.archiveLine}}."
+      },
+      {
+        "slotId": "signature.signerName",
+        "label": "Họ tên người ký",
+        "rawPattern": null,
+        "required": true,
+        "reviewRequired": false,
+        "context": "{{signature.signerName}}"
+      }
+    ],
+    "renderBindings": [
+      {
+        "slotId": "agency.parentName",
+        "from": "agency.parentName",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "agency.name",
+        "from": "agency.name",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.documentCode",
+        "from": "document.documentCode",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "document.issuePlaceAndDateLine",
+        "from": "document.issuePlaceAndDateLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "official.issuerTitle",
+        "from": "official.issuerTitle",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.fullName",
+        "from": "person.fullName",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.genderLabel",
+        "from": "person.genderLabel",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.otherName",
+        "from": "person.otherName",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.dateOfBirthText",
+        "from": "person.dateOfBirthText",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.placeOfBirth",
+        "from": "person.placeOfBirth",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.nationality",
+        "from": "person.nationality",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.ethnicity",
+        "from": "person.ethnicity",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.religion",
+        "from": "person.religion",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.occupation",
+        "from": "person.occupation",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.identityDocumentLine",
+        "from": "person.identityDocumentLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.identityIssueLine",
+        "from": "person.identityIssueLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.permanentAddress",
+        "from": "person.permanentAddress",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.temporaryAddress",
+        "from": "person.temporaryAddress",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "person.currentAddress",
+        "from": "person.currentAddress",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "juvenileProtection.contextLine",
+        "from": "juvenileProtection.contextLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "juvenileProtection.article1Line",
+        "from": "juvenileProtection.article1Line",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "juvenileProtection.resultDeadlineLine",
+        "from": "juvenileProtection.resultDeadlineLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "juvenileProtection.article2Line",
+        "from": "juvenileProtection.article2Line",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "recipients.primaryLine",
+        "from": "recipients.primaryLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "recipients.investigationAuthorityLine",
+        "from": "recipients.investigationAuthorityLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "recipients.otherRecipientsLine",
+        "from": "recipients.otherRecipientsLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "recipients.archiveLine",
+        "from": "recipients.archiveLine",
+        "transform": "identity",
+        "reviewRequired": false
+      },
+      {
+        "slotId": "signature.signerName",
+        "from": "signature.signerName",
+        "transform": "identity",
+        "reviewRequired": false
+      }
+    ]
+  },
+  "structuralMismatches": {
+    "templatePlaceholdersWithoutSlots": [],
+    "contractSlotsWithoutTemplatePlaceholders": [],
+    "bindingsWithoutTemplatePlaceholders": [],
+    "slotsWithoutBindings": [],
+    "bindingsWithoutSlots": [],
+    "slotsWithoutCanonicalFields": [],
+    "fieldsWithoutSlots": [],
+    "duplicateSemanticPlaceholders": [],
+    "reviewRequired": {
+      "slots": [],
+      "fields": [],
+      "bindings": []
+    }
+  },
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  }
+}

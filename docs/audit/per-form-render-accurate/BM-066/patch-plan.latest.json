@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "mode": "PROPOSED_ONLY_NOT_APPROVED",
+  "templateCode": "BM-066",
+  "title": "Lệnh phong toả tài khoản",
+  "canApplyRunNow": false,
+  "approvedDecisions": [],
+  "baselineFindings": [
+    "TEMPLATE_PLACEHOLDER_WITHOUT_SLOT",
+    "REVIEW_REQUIRED_REMAINS"
+  ],
+  "mismatchSummary": {
+    "total": 10,
+    "templatePlaceholdersWithoutSlots": 1,
+    "contractSlotsWithoutTemplatePlaceholders": 0,
+    "bindingsWithoutTemplatePlaceholders": 0,
+    "duplicateSemanticPlaceholders": 2,
+    "reviewRequired": 7
+  },
+  "proposedActions": [
+    {
+      "action": "REVIEW_RENORMALIZE_DUPLICATE_DOCX_PLACEHOLDER",
+      "placeholder": "document.fullDocumentCode4",
+      "approved": false,
+      "severity": "HIGH",
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+      "anchors": [
+        "alias",
+        "currentAddress",
+        "decisionBasis",
+        "documentNumber",
+        "fullName",
+        "idNumber",
+        "job",
+        "permanentAddress",
+        "temporaryAddress"
+      ]
+    },
+    {
+      "action": "REVIEW_RENORMALIZE_DUPLICATE_DOCX_PLACEHOLDER",
+      "placeholder": "recipients.personLine4",
+      "approved": false,
+      "severity": "HIGH",
+      "reason": "The same numbered DOCX placeholder appears in multiple visible semantic contexts; renormalize the DOCX placeholders before contract add/relink/remove.",
+      "anchors": [
+        "alias",
+        "currentAddress",
+        "fullName",
+        "idNumber",
+        "job",
+        "permanentAddress",
+        "signature",
+        "temporaryAddress"
+      ]
+    }
+  ],
+  "safetyAssertions": {
+    "sameBmEvidenceOnly": true,
+    "noCrossBmEvidence": true,
+    "noContractMutation": true,
+    "noCompiledMutation": true,
+    "noDbPublish": true,
+    "noApprovedDecisions": true
+  },
+  "plannerDecisionNeeded": {
+    "requested": true,
+    "reason": "Evidence is prepared only. A human/planner must approve exact structural mutations per BM before any apply runner is created."
+  }
+}

@@ -304,20 +304,39 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-012: Điều paragraphs bold
-  // Proximity across element boundaries is unreliable; mark as not_detectable.
-  const hasDieuBold = regexInXml(allXml, /<w:b[\s/][\s\S]{0,200}Điều\s*\d+/i);
-  const hasSectionBold = regexInXml(
-    allXml,
-    /<w:b[\s/][\s\S]{0,200}>\s*\d+\s*<\/?w:t>/i,
+  // Upgrade: parse runs containing Điều text, check bold on the same run.
+  const dieuPatterns = [
+    /Điều\s+\d+/iu,
+    /^\d+\.\s/iu,
+    /^I+[\.\)]\s/iu,
+    /^II[\.\)]\s/iu,
+    /^III[\.\)]\s/iu,
+  ];
+  const allRuns = extractWordElements(allXml, 'r');
+  const runsWithDieu = allRuns.filter((run) => {
+    const text = extractVisibleText(run);
+    return dieuPatterns.some((p) => p.test(text));
+  });
+
+  const dieuRunsWithBold = runsWithDieu.filter((run) =>
+    containsWordProperty(run, 'b'),
   );
+
   checks.push({
     id: 'FMT-012',
     requirement: 'Điều 1, Điều 2, or section headings 1., 2. bold',
-    status: hasDieuBold || hasSectionBold ? 'warning' : 'not_detectable',
+    status:
+      dieuRunsWithBold.length > 0
+        ? 'pass'
+        : runsWithDieu.length > 0
+          ? 'warning'
+          : 'not_detectable',
     evidence:
-      hasDieuBold || hasSectionBold
-        ? 'Điều/section bold proximity detected; not_detectable across element boundaries'
-        : 'Điều or numbered section bold not detected in proximity',
+      dieuRunsWithBold.length > 0
+        ? `${dieuRunsWithBold.length}/${runsWithDieu.length} Điều/section runs are bold`
+        : runsWithDieu.length > 0
+          ? `${runsWithDieu.length} Điều/section runs found, none with bold in same run`
+          : 'No Điều or numbered section headings found',
   });
 
   // FMT-013: Nơi nhận bold italic size 12
@@ -330,32 +349,65 @@ export function auditDocxFormat(parts: DocxOoxmlParts): DocxFormatAudit {
   });
 
   // FMT-014: Footer recipient lines size 11
-  const noiNhanSize11 = regexInXml(
+  // Upgrade: find paragraphs containing "Nơi nhận", check sz=22 in the same paragraph.
+  const noiNhanParagraphs = findParagraphsContaining(
     allXml,
-    /Nơi\s*nhận[\s\S]{0,500}<w:sz\s[^>]*w:val="22"/i,
+    /Nơi\s*nhận\s*:/i,
+  );
+  const noiNhanRunsWithSz11 = noiNhanParagraphs.flatMap((p) =>
+    extractWordElements(p, 'r').filter((r) =>
+      containsHalfPointSize(r, 22),
+    ),
   );
   checks.push({
     id: 'FMT-014',
     requirement: 'Footer recipient lines size 11',
-    status: noiNhanSize11 ? 'pass' : 'not_detectable',
-    evidence: noiNhanSize11
-      ? 'Size 11 (w:val=22) found near Nơi nhận'
-      : undefined,
+    status:
+      noiNhanRunsWithSz11.length > 0
+        ? 'pass'
+        : noiNhanParagraphs.length > 0
+          ? 'warning'
+          : 'not_detectable',
+    evidence:
+      noiNhanRunsWithSz11.length > 0
+        ? `${noiNhanRunsWithSz11.length} runs with sz=11 found in Nơi nhận paragraphs`
+        : noiNhanParagraphs.length > 0
+          ? 'Nơi nhận paragraph found but no sz=22 in same paragraph'
+          : 'No Nơi nhận paragraph found',
   });
 
   // FMT-015: Signature title bold size 14
-  const hasChucVu = regexInXml(
-    allXml,
-    /(Viện\s*trưởng|Kiểm\s*sát\s*viên|Kiểm\s*sát\s*viên\s*trung\s*ương)/i,
+  // Upgrade: find runs containing signature title text, check bold+sz=28 in same run.
+  const signatureTitlePatterns = [
+    /Viện\s*trưởng/iu,
+    /Kiểm\s*sát\s*viên(?!\s*(trung\s*ương))/iu,
+    /Phó\s*Viện\s*trưởng/iu,
+    /Kiểm\s*sát\s*viên\s*trung\s*ương/iu,
+  ];
+  const signatureRuns = allRuns.filter((run) => {
+    const text = extractVisibleText(run);
+    return signatureTitlePatterns.some((p) => p.test(text));
+  });
+  const signatureRunsWithBold14 = signatureRuns.filter(
+    (run) =>
+      containsWordProperty(run, 'b') && containsHalfPointSize(run, 28),
   );
   checks.push({
     id: 'FMT-015',
     requirement:
       'Signature title bold size 14; 2-3 lines between title and name',
-    status: hasChucVu ? 'warning' : 'not_detectable',
-    evidence: hasChucVu
-      ? 'Signature title found; vertical spacing not verifiable structurally'
-      : undefined,
+    status:
+      signatureRunsWithBold14.length > 0
+        ? 'pass'
+        : signatureRuns.length > 0
+          ? 'warning'
+          : 'not_detectable',
+    evidence:
+      signatureRunsWithBold14.length > 0
+        ? `${signatureRunsWithBold14.length}/${signatureRuns.length} signature title runs are bold+sz14`
+        : signatureRuns.length > 0
+          ? `${signatureRuns.length} signature title runs found, none with bold+sz14 in same run`
+          : 'No signature title (Viện trưởng/Kiểm sát viên) found',
   });
 
   // FMT-016: Page number for long documents

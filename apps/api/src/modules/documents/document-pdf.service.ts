@@ -7,6 +7,7 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import PizZip from 'pizzip';
 import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { DocumentPreExportService } from './document-pre-export.service';
@@ -43,6 +44,19 @@ function safeFileName(value: string): string {
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 180);
+}
+
+const DOCX_PDF_TEXT_PART_PATTERN =
+  /^word\/(?:document|header\d+|footer\d+|footnotes|endnotes)\.xml$/;
+
+function textFromWordXml(xml: string): string {
+  return xml
+    .replace(/<[^>]+>/g, '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
 }
 
 @Injectable()
@@ -193,6 +207,8 @@ export class DocumentPdfService {
       }
     }
 
+    this.assertDocxSourceReadyForPdf(docxPath, String(generatedDocument.id));
+
     const pdfFileName = `${latestDocxBaseName}.pdf`;
     const pdfPath = path.join(outputDir, pdfFileName);
 
@@ -214,6 +230,7 @@ export class DocumentPdfService {
       );
     }
 
+    this.assertPdfOutputIntegrity(pdfPath, null, 'Convert PDF');
     const fileSizeBytes = fs.statSync(pdfPath).size;
     const checksum = this.sha256(pdfPath);
     const relativePath = this.toProjectRelativePath(pdfPath);
@@ -428,7 +445,116 @@ export class DocumentPdfService {
         `Convert PDF tạo file rỗng: ${pdfPath}; stdout=${result?.stdout ?? ''}; stderr=${result?.stderr ?? ''}`,
       );
     }
+    this.assertPdfOutputIntegrity(pdfPath, result, 'Convert PDF');
   }
+
+  private assertDocxSourceReadyForPdf(
+    docxPath: string,
+    documentId: string,
+  ): void {
+    if (!fs.existsSync(docxPath)) {
+      throw new NotFoundException(
+        `Không tìm thấy file DOCX trên ổ đĩa: ${docxPath}`,
+      );
+    }
+
+    const buffer = fs.readFileSync(docxPath);
+
+    if (buffer.length < 4 || buffer.subarray(0, 2).toString('utf8') !== 'PK') {
+      throw new BadRequestException(
+        `DOCX source không hợp lệ trước khi convert PDF. documentId=${documentId}; path=${docxPath}`,
+      );
+    }
+
+    let zip: PizZip;
+
+    try {
+      zip = new PizZip(buffer);
+    } catch (error: any) {
+      throw new BadRequestException(
+        `Không đọc được DOCX source trước khi convert PDF. documentId=${documentId}; path=${docxPath}; error=${error?.message ?? error}`,
+      );
+    }
+
+    if (!zip.file('word/document.xml')) {
+      throw new BadRequestException(
+        `DOCX source thiếu word/document.xml trước khi convert PDF. documentId=${documentId}; path=${docxPath}`,
+      );
+    }
+
+    const findings: string[] = [];
+    const partNames = Object.keys(zip.files).filter((name) =>
+      DOCX_PDF_TEXT_PART_PATTERN.test(name),
+    );
+
+    for (const partName of partNames) {
+      const part = zip.file(partName);
+      if (!part) continue;
+
+      const xml = part.asText();
+      const visibleText = textFromWordXml(xml);
+      const unresolvedPlaceholder =
+        xml.match(/{{[^{}]+}}/) ?? visibleText.match(/{{[^{}]+}}/);
+      const invalidLiteral = visibleText.match(/\b(?:undefined|null)\b/i);
+
+      if (unresolvedPlaceholder) {
+        findings.push(
+          `${partName}: unresolved placeholder ${unresolvedPlaceholder[0].slice(0, 80)}`,
+        );
+      }
+
+      if (invalidLiteral) {
+        findings.push(`${partName}: invalid literal ${invalidLiteral[0]}`);
+      }
+    }
+
+    if (findings.length) {
+      throw new BadRequestException(
+        `DOCX source chưa sẵn sàng convert PDF. documentId=${documentId}; path=${docxPath}; ${findings
+          .slice(0, 5)
+          .join('; ')}`,
+      );
+    }
+  }
+
+  private assertPdfOutputIntegrity(
+    pdfPath: string,
+    result?: { stdout: string; stderr: string } | null,
+    context = 'Convert PDF',
+  ): void {
+    const commandOutput = `stdout=${result?.stdout ?? ''}; stderr=${result?.stderr ?? ''}`;
+
+    if (!fs.existsSync(pdfPath)) {
+      throw new BadRequestException(
+        `${context} xong nhưng không thấy file PDF: ${pdfPath}; ${commandOutput}`,
+      );
+    }
+
+    const buffer = fs.readFileSync(pdfPath);
+
+    if (buffer.length <= 0) {
+      throw new BadRequestException(
+        `${context} tạo file PDF rỗng: ${pdfPath}; ${commandOutput}`,
+      );
+    }
+
+    if (buffer.subarray(0, 5).toString('latin1') !== '%PDF-') {
+      throw new BadRequestException(
+        `${context} tạo file không phải PDF hợp lệ: ${pdfPath}; ${commandOutput}`,
+      );
+    }
+
+    const tail = buffer
+      .subarray(Math.max(0, buffer.length - 2048))
+      .toString('latin1');
+
+    if (!tail.includes('%%EOF')) {
+      throw new BadRequestException(
+        `${context} tạo PDF thiếu EOF marker: ${pdfPath}; ${commandOutput}`,
+      );
+    }
+  }
+
   private runCommand(
     command: string,
     args: string[],

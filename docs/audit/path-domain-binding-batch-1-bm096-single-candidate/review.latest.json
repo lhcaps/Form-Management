@@ -1,0 +1,123 @@
+{
+  "auditVersion": "v2",
+  "task": "BM096_SINGLE_CANDIDATE_REVIEW",
+  "generatedAt": "2026-06-28T07:28:00.000+07:00",
+  "mode": "REVIEW_ONLY",
+  "templateCode": "BM-096",
+  "templateTitle": "Yêu cầu ra QĐ khởi tố bị can",
+  "lockedContractPath": "docs/audit/docx/contracts/locked/BM-096__a50a08efa62f.contract.locked.json",
+  "candidateCount": 1,
+  "excludedCount": 2,
+  "candidates": [
+    {
+      "path": "document.diaChi",
+      "slotId": "document.diaChi",
+      "proposedPath": "person.idNumber",
+      "proposedLabel": "Số CCCD/CMND",
+      "proposedLabelRaw": "Số CCCD/CMND",
+      "rawPattern": "{{person.field14}}",
+      "rawDomain": "person",
+      "rawTail": "field14",
+      "rawKey": "person.field14",
+      "textBefore": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+      "textAfter": "",
+      "context": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}",
+      "context200Before": "Nghề nghiệp:{{document.field13}}\nSố CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:{{person.field14}}",
+      "context200After": "",
+      "currentLabel": "Ô trống",
+      "currentSource": "manual",
+      "currentRequired": false,
+      "currentReviewRequired": false,
+      "classification": "PROPOSE_APPROVE_SAFE_PATH_REMAP",
+      "issueCodes": [
+        "BAD_LABEL",
+        "GENERIC_FIELD_CANONICALIZATION"
+      ],
+      "coOccurringIssues": [
+        {
+          "issueCode": "BAD_LABEL",
+          "severity": "FAIL",
+          "reason": "Canonical field label is \"Ô trống\" (\"Ô trống\"). This will appear in UI."
+        },
+        {
+          "issueCode": "GENERIC_FIELD_CANONICALIZATION",
+          "severity": "FAIL",
+          "reason": "Generic raw pattern \"{{person.field14}}\" mapped to \"document.diaChi\" but has problems (label=\"Ô trống\" (bad), weak_evidence=false). Generic fieldN should be replaced with correct semantic path.",
+          "requiresHumanReview": true
+        }
+      ],
+      "collisionCheck": {
+        "canonicalFields": "NO_COLLISION",
+        "docxSlots": "NO_COLLISION",
+        "renderBindings": "NO_COLLISION",
+        "person_idNumber_exists": false,
+        "person_idNumber_in_canonicalFields": false,
+        "person_idNumber_in_docxSlots": false,
+        "person_idNumber_in_renderBindings": false,
+        "details": [
+          "person.idNumber does not exist in canonicalFields",
+          "person.idNumber does not exist in docxSlots",
+          "person.idNumber does not exist in renderBindings",
+          "Remapping document.diaChi -> person.idNumber will not create duplicate"
+        ]
+      },
+      "safetyChecks": {
+        "textBeforeSupportsIdSemantics": true,
+        "textBeforeIsNotPlaceholderOnly": true,
+        "textBeforeContent": "Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:",
+        "rawPatternDomainIsPerson": true,
+        "rawPattern": "{{person.field14}}",
+        "noRenderBindingCollision": true,
+        "noDocxSlotCollision": true,
+        "noCanonicalFieldCollision": true,
+        "requiredUnchanged": true,
+        "reviewRequiredUnchanged": true,
+        "notCompiledDriftTouched": true,
+        "noSourcePolicyConflict": true
+      },
+      "mutationsNeededIfApproved": [
+        "UPDATE_CANONICAL_PATH",
+        "UPDATE_CANONICAL_LABEL",
+        "UPDATE_DOCX_SLOT_ID",
+        "UPDATE_DOCX_SLOT_LABEL",
+        "UPDATE_RENDER_BINDING_SLOT_ID",
+        "UPDATE_RENDER_BINDING_FROM_IF_NEEDED"
+      ],
+      "risk": "MEDIUM",
+      "recommendation": "PROPOSE_APPROVE_SAFE_REMAP",
+      "confidence": "HIGH",
+      "rationale": "textBefore 'Số CMND/Thẻ CCCD/Thẻ CC/Hộ chiếu:' unambiguously indicates ID number field. rawPattern {{person.field14}} correctly belongs to person domain. The canonical path document.diaChi is wrong — address vs ID number are distinct. No collision exists for person.idNumber. Source manual and required/reviewRequired unchanged."
+    }
+  ],
+  "excluded": [
+    {
+      "path": "signature.cheDo",
+      "slotId": "signature.cheDo",
+      "extractedLabel": "Nơi thường trú",
+      "proposedPath": null,
+      "proposedLabel": "Nơi thường trú",
+      "reason": "DEFER_PATH_DOMAIN_MISMATCH",
+      "context": "Nơi thường trú: {{document.field17}}{{document.field18}}",
+      "rawPattern": "{{document.field17}}",
+      "exclusionRationale": "signature.* path cannot receive person-address labels. The context 'Nơi thường trú' belongs to person domain, but assigning it to signature.cheDo would create a cross-domain label-path mismatch. This requires structural decision about whether signature block should contain person address fields — deferred to human decision."
+    },
+    {
+      "path": "signature.nguoiKy",
+      "slotId": "signature.nguoiKy",
+      "extractedLabel": "Nơi tạm trú",
+      "proposedPath": null,
+      "proposedLabel": "Nơi tạm trú",
+      "reason": "DEFER_PATH_DOMAIN_MISMATCH",
+      "context": "Nơi tạm trú: {{document.field19}}",
+      "rawPattern": "{{document.field19}}",
+      "exclusionRationale": "signature.* path cannot receive person-address labels. The context 'Nơi tạm trú' belongs to person domain, but assigning it to signature.nguoiKy would create a cross-domain label-path mismatch. This requires structural decision about whether signature block should contain person address fields — deferred to human decision."
+    }
+  ],
+  "boundaries": {
+    "noMutation": true,
+    "noLockedContractEdit": true,
+    "noCompiledV2Edit": true,
+    "noApprovedDecision": true,
+    "proposedOnly": true
+  }
+}
