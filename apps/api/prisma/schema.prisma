@@ -537,6 +537,7 @@ model officials {
   official_permissions             official_permissions[]    @relation("OfficialPermissionSubject")
   granted_official_permissions     official_permissions[]    @relation("OfficialPermissionGrantor")
   auth_identities                 auth_identities[]
+  audit_logs                     auth_identity_audit_logs[] @relation("AuditLogActor")
   agencies                         agencies?                 @relation(fields: [agency_id], references: [id], onUpdate: NoAction, map: "fk_officials_agency")
 
   @@index([agency_id], map: "idx_officials_agency")
@@ -832,8 +833,27 @@ model wards {
   @@index([ward_name], map: "idx_wards_name")
 }
 
-/// Maps external identity providers (e.g. Clerk) to internal QUANLYVKS officials.
-/// Created by Clerk webhook sync; can also be created manually for linking.
+model auth_identity_audit_logs {
+  id                 BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  actor_official_id  BigInt    @db.UnsignedBigInt
+  action             String    @db.VarChar(64)
+  identity_id        BigInt    @db.UnsignedBigInt
+  provider           String    @db.VarChar(50)
+  provider_user_id   String    @db.VarChar(255)
+  before_official_id BigInt?   @db.UnsignedBigInt
+  after_official_id  BigInt?   @db.UnsignedBigInt
+  reason             String?   @db.VarChar(500)
+  metadata_json      Json?
+  created_at         DateTime  @default(now()) @db.DateTime(0)
+  auth_identities    auth_identities @relation(fields: [identity_id], references: [id], onUpdate: NoAction, map: "fk_auth_identity_audit_identity")
+  actors              officials  @relation("AuditLogActor", fields: [actor_official_id], references: [id], onUpdate: NoAction, map: "fk_auth_identity_audit_actor")
+
+  @@index([actor_official_id], map: "idx_auth_identity_audit_actor")
+  @@index([identity_id], map: "idx_auth_identity_audit_identity")
+  @@index([provider_user_id], map: "idx_auth_identity_audit_provider_user")
+  @@index([created_at], map: "idx_auth_identity_audit_created_at")
+}
+
 model auth_identities {
   id               BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
   provider         String    @db.VarChar(50)
@@ -847,6 +867,7 @@ model auth_identities {
   created_at       DateTime  @default(now()) @db.DateTime(0)
   updated_at       DateTime  @default(now()) @db.DateTime(0)
   officials        officials? @relation(fields: [official_id], references: [id], onUpdate: NoAction, map: "fk_auth_identities_official")
+  audit_logs       auth_identity_audit_logs[]
 
   @@unique([provider, provider_user_id], map: "uq_auth_identities_provider_user")
   @@index([official_id], map: "idx_auth_identities_official")
