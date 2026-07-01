@@ -1,21 +1,58 @@
 "use client";
 
-import { SignIn } from "@clerk/react";
+import { SignIn } from "@clerk/nextjs";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
+import { AuthShell } from "@/components/auth/auth-shell";
+import { buildSignUpPath, returnPathFromSearchParams } from "@/lib/auth-routes";
 
 export default function SignInPage() {
+  const searchParams = useSearchParams();
+  const returnPath = useMemo(() => {
+    const currentOrigin =
+      typeof window === "undefined" ? null : window.location.origin;
+    return (
+      returnPathFromSearchParams(searchParams, { currentOrigin }) ??
+      "/templates"
+    );
+  }, [searchParams]);
+  const signUpUrl = useMemo(() => buildSignUpPath(returnPath), [returnPath]);
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100">
-      <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl shadow-slate-950/10">
-        <div className="mb-6 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-blue-700">
-            QUANLYVKS
-          </p>
-          <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-950">
-            Đăng nhập hệ thống
-          </h1>
-        </div>
-        <SignIn />
-      </div>
-    </main>
+    <AuthShell
+      title="Đăng nhập hệ thống"
+      description="Dùng tài khoản nội bộ để truy cập đúng dữ liệu hồ sơ, biểu mẫu và đơn vị."
+    >
+      <SignIn
+        routing="path"
+        path="/sign-in"
+        signUpUrl={signUpUrl}
+        forceRedirectUrl={returnPath}
+        fallbackRedirectUrl="/templates"
+        appearance={clerkAppearance}
+      />
+    </AuthShell>
   );
 }
+
+const clerkAppearance = {
+  variables: {
+    colorPrimary: "#173E86",
+    borderRadius: "0.5rem",
+  },
+  elements: {
+    rootBox: "w-full",
+    cardBox: "w-full border-0 bg-transparent shadow-none",
+    card: "w-full border-0 bg-transparent p-0 shadow-none",
+    header: "hidden",
+    socialButtonsBlockButton:
+      "h-11 rounded-md border-slate-200 text-sm font-semibold text-slate-700 shadow-none",
+    formFieldLabel: "text-sm font-bold text-slate-800",
+    formFieldInput:
+      "h-11 rounded-md border-slate-300 text-sm text-slate-950 shadow-none focus:border-[#173E86] focus:ring-[#173E86]",
+    formButtonPrimary:
+      "h-11 rounded-md bg-[#173E86] text-sm font-bold shadow-none hover:bg-[#0f2d5e] focus-visible:ring-2 focus-visible:ring-blue-500",
+    footer: "bg-transparent",
+    footerActionLink: "font-bold text-[#173E86] hover:text-[#0f2d5e]",
+  },
+} as const;

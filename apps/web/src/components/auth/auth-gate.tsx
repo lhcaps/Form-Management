@@ -4,9 +4,10 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { AppShell } from "@/components/layout/app-shell";
+import { buildSignInPath, isAuthBypassPath } from "@/lib/auth-routes";
 
 /**
- * Gate: nếu user chưa đăng nhập, redirect tới /login (giữ returnUrl).
+ * Gate: nếu user chưa đăng nhập, redirect tới /sign-in (giữ returnUrl).
  * Nếu đang loading, hiển thị fallback.
  */
 export function AuthGate({
@@ -21,14 +22,13 @@ export function AuthGate({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (status === "unauthenticated" && pathname !== "/login") {
-      const returnUrl = encodeURIComponent(pathname ?? "/");
-      router.replace(`/login?returnUrl=${returnUrl}`);
+    if (status === "unauthenticated" && !isAuthBypassPath(pathname)) {
+      router.replace(buildSignInPath(pathname ?? "/"));
     }
   }, [status, router, pathname]);
 
-  // Trang /login tự xử lý redirect sau khi authenticated → không gate.
-  if (pathname === "/login") {
+  // Auth pages handle their own redirect → no gate.
+  if (isAuthBypassPath(pathname)) {
     return <>{children}</>;
   }
 

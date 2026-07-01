@@ -32,13 +32,24 @@ export class FormPermissionGuard implements CanActivate {
     if (!user) return false;
     if (user.role === 'ADMIN') return true;
 
+    let officialId: bigint;
+    let agencyId: bigint | null = null;
+    try {
+      officialId = BigInt(user.id);
+      agencyId = user.agencyId ? BigInt(user.agencyId) : null;
+    } catch {
+      throw new ForbiddenException(
+        `Thiếu quyền quản trị biểu mẫu: ${required.join(', ')}.`,
+      );
+    }
+
     const rows = await this.prisma.official_permissions.findMany({
       where: {
-        official_id: BigInt(user.id),
+        official_id: officialId,
         permission_code: { in: required },
         OR: [
           { agency_id: null },
-          ...(user.agencyId ? [{ agency_id: BigInt(user.agencyId) }] : []),
+          ...(agencyId ? [{ agency_id: agencyId }] : []),
         ],
       },
       select: { permission_code: true },

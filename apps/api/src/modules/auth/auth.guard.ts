@@ -46,14 +46,26 @@ export class AuthGuard implements CanActivate {
   }
 
   private async tryAuthenticate(request: Request): Promise<unknown | null> {
-    const token =
-      this.extractFromCookie(request) ?? this.extractFromAuthorization(request);
-    if (!token) return null;
+    const cookieToken = this.extractFromCookie(request);
+    if (cookieToken) {
+      try {
+        const user = await this.authService.validateSession(cookieToken);
+        if (user) return user;
+      } catch (error) {
+        this.logger.debug(
+          `Session validation failed: ${(error as Error).message}`,
+        );
+      }
+    }
+
+    const bearerToken = this.extractFromAuthorization(request);
+    if (!bearerToken) return null;
+
     try {
-      return await this.authService.validateSession(token);
+      return await this.authService.validateClerkSession(bearerToken);
     } catch (error) {
       this.logger.debug(
-        `Session validation failed: ${(error as Error).message}`,
+        `Clerk session validation failed: ${(error as Error).message}`,
       );
       return null;
     }

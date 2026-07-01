@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  useAuth as useClerkAuth,
+  useClerk,
+  useUser as useClerkUser,
+} from "@clerk/react";
+import {
   createContext,
   useCallback,
   useContext,
@@ -17,8 +22,14 @@ import {
   logout as apiLogout,
 } from "./auth-client";
 import { cacheCurrentUser } from "./current-user";
-import { installApiFetchDefaults } from "./api-client";
+import { installApiFetchDefaults, setApiAuthTokenProvider } from "./api-client";
 import { subscribeAuthEvents } from "./auth-events";
+import { buildSignInPath, isAuthBypassPath, SIGN_IN_PATH } from "./auth-routes";
+import {
+  resolveAuthSessionState,
+  type AuthSessionState,
+  type ClerkUserLike,
+} from "./auth-session-state";
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -35,6 +46,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     installApiFetchDefaults();
   }, []);
 
+  const { signOut: clerkSignOut } = useClerk();
+  const { getToken: getClerkToken } = useClerkAuth();
+  const { isLoaded: clerkLoaded, user: clerkUser } = useClerkUser();
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -42,34 +56,57 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     "loading",
   );
 
+  useEffect(() => {
+    setApiAuthTokenProvider(async () => {
+      if (!clerkLoaded || !clerkUser) return null;
+      return getClerkToken();
+    });
+    return () => setApiAuthTokenProvider(null);
+  }, [clerkLoaded, clerkUser, getClerkToken]);
+
   const handleUnauthenticated = useCallback(() => {
     setUser(null);
     setStatus("unauthenticated");
     cacheCurrentUser(null);
 
-    if (typeof window === "undefined" || pathname === "/login") {
+    if (typeof window === "undefined" || isAuthBypassPath(pathname)) {
       return;
     }
 
-    const returnUrl = encodeURIComponent(pathname ?? "/");
-    router.replace(`/login?returnUrl=${returnUrl}`);
+    router.replace(buildSignInPath(pathname ?? "/"));
   }, [pathname, router]);
+
+  const applySessionState = useCallback(
+    (nextState: AuthSessionState) => {
+      setUser(nextState.user);
+      setStatus(nextState.status);
+      cacheCurrentUser(nextState.user);
+
+      if (nextState.status === "unauthenticated") {
+        handleUnauthenticated();
+      }
+    },
+    [handleUnauthenticated],
+  );
+
+  const resolveCurrentSession = useCallback(
+    (apiUser: AuthUser | null) =>
+      resolveAuthSessionState({
+        apiUser,
+        clerkUser: clerkUser as unknown as ClerkUserLike | null,
+        clerkLoaded,
+      }),
+    [clerkLoaded, clerkUser],
+  );
 
   const refresh = useCallback(async () => {
     try {
       const me = await fetchMe();
-      setUser(me);
-      setStatus(me ? "authenticated" : "unauthenticated");
-      cacheCurrentUser(me);
-      if (!me) {
-        handleUnauthenticated();
-      }
+      applySessionState(resolveCurrentSession(me));
     } catch {
-      setUser(null);
-      setStatus("unauthenticated");
-      cacheCurrentUser(null);
+      applySessionState(resolveCurrentSession(null));
     }
-  }, [handleUnauthenticated]);
+  }, [applySessionState, resolveCurrentSession]);
 
   useEffect(() => {
     void refresh();
@@ -78,10 +115,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     return subscribeAuthEvents((event) => {
       if (event.type === "unauthorized") {
-        handleUnauthenticated();
+        applySessionState(resolveCurrentSession(null));
       }
     });
-  }, [handleUnauthenticated]);
+  }, [applySessionState, resolveCurrentSession]);
 
   const login = useCallback(async (username: string, password: string) => {
     const u = await apiLogin(username, password);
@@ -93,19 +130,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(
     async (options?: { redirectTo?: string }) => {
+      const target = options?.redirectTo ?? SIGN_IN_PATH;
       try {
         await apiLogout();
+      } catch {
+        // Clerk-authenticated users may not have a legacy API cookie yet.
       } finally {
         setUser(null);
         setStatus("unauthenticated");
         cacheCurrentUser(null);
+        if (clerkLoaded && clerkUser) {
+          await clerkSignOut({ redirectUrl: target }).catch(() => {
+            if (typeof window !== "undefined") router.replace(target);
+          });
+          return;
+        }
         if (typeof window !== "undefined") {
-          const target = options?.redirectTo ?? "/login";
           router.replace(target);
         }
       }
     },
-    [router],
+    [clerkLoaded, clerkSignOut, clerkUser, router],
   );
 
   const value = useMemo<AuthContextValue>(
@@ -119,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error("useAuth phải được dùng trong <AuthProvider>.");
+    throw new Error("useAuth must be used inside <AuthProvider>.");
   }
   return ctx;
 }

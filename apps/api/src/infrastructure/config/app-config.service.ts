@@ -123,6 +123,19 @@ export class AppConfigService {
     );
   }
 
+  get clerkSecretKey(): string | undefined {
+    return this.read('CLERK_SECRET_KEY');
+  }
+
+  get clerkJwtAuthorizedParties(): readonly string[] {
+    const raw = this.read('CLERK_AUTHORIZED_PARTIES');
+    if (!raw) return [];
+    return raw
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+
   get libreOfficePath(): string | undefined {
     return this.read('LIBREOFFICE_PATH')?.replace(/^"|"$/g, '');
   }

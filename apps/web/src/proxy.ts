@@ -14,24 +14,20 @@
  * protects the API.
  *
  * Public routes (always accessible):
- *   /sign-in, /sign-up, /login, /_next/*, favicon, static assets
+ *   /healthz, /sign-in, /sign-up, /login, /_next/*, favicon, static assets
  */
 
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  buildSignInPath,
+  isAuthBypassPath,
+  isPublicAssetPath,
+} from "./lib/auth-routes";
 
 const LEGACY_COOKIE_NAME = "qlv_session";
 
-const PUBLIC_ROUTES = [
-  "/login",
-  "/sign-in",
-  "/sign-up",
-  "/_next",
-  "/favicon.ico",
-  "/health",
-];
-
-const isPublicRoute = createRouteMatcher(PUBLIC_ROUTES.map((r) => `${r}(.*)`));
+const isNextInternalRoute = createRouteMatcher(["/_next(.*)", "/favicon.ico"]);
 
 /** True when Clerk is configured (env vars present). */
 function isClerkEnabled(): boolean {
@@ -41,33 +37,43 @@ function isClerkEnabled(): boolean {
   );
 }
 
-export default clerkMiddleware((auth, request: NextRequest) => {
-  if (isPublicRoute(request)) {
+export default clerkMiddleware(async (auth, request: NextRequest) => {
+  const { pathname, search } = request.nextUrl;
+  if (
+    isAuthBypassPath(pathname) ||
+    isPublicAssetPath(pathname) ||
+    isNextInternalRoute(request)
+  ) {
     return NextResponse.next();
   }
 
   if (isClerkEnabled()) {
     // Clerk mode: use Clerk's auth protection.
-    // auth() returns an auth object with protect() — redirect to /sign-in if unauthenticated.
-    const sessionAuth = auth() as { protect?: () => void };
-    sessionAuth.protect?.();
-    return NextResponse.next();
+    // PR-1 protects web routes only; API JWT validation stays deferred to PR-3.
+    const sessionAuth = await auth();
+    if (sessionAuth.userId) {
+      return NextResponse.next();
+    }
+
+    return NextResponse.redirect(
+      new URL(buildSignInPath(`${pathname}${search ?? ""}`), request.nextUrl.origin),
+    );
   }
 
   // Legacy mode: fall back to session cookie check.
-  const { pathname, search } = request.nextUrl;
   const hasLegacySession = request.cookies.get(LEGACY_COOKIE_NAME)?.value;
 
   if (hasLegacySession) {
     return NextResponse.next();
   }
 
-  const returnUrl = encodeURIComponent(pathname + (search ?? ""));
-  const loginUrl = new URL("/login", request.nextUrl.origin);
-  loginUrl.searchParams.set("returnUrl", returnUrl);
-  return NextResponse.redirect(loginUrl);
+  return NextResponse.redirect(
+    new URL(buildSignInPath(`${pathname}${search ?? ""}`), request.nextUrl.origin),
+  );
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|txt|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
 };

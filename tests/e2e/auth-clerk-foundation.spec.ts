@@ -7,8 +7,7 @@
  *  - Clerk mode: When Clerk env vars are set, unauthenticated users are
  *    redirected to /sign-in by clerkMiddleware().
  *  - Legacy mode: When Clerk env vars are absent (dev / E2E), unauthenticated
- *    users are redirected to /login (legacy flow). This keeps existing E2E
- *    tests working without a Clerk test instance.
+ *    users are redirected to /sign-in by the compatibility fallback.
  *
  * SKIPPED TESTS: Authenticated login tests require a real Clerk test instance
  * with configured test users. These are deferred to PR-7 (E2E Migration).
@@ -20,18 +19,35 @@ const CLERK_ENABLED =
   !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
   !!process.env.CLERK_SECRET_KEY;
 
+function expectSignInRedirect(pageUrl: string, expectedReturnPath?: string) {
+  const url = new URL(pageUrl);
+  expect(url.pathname).toContain("/sign-in");
+  if (expectedReturnPath) {
+    const redirectUrl =
+      url.searchParams.get("return_url") ?? url.searchParams.get("redirect_url");
+    expect(redirectUrl).toBeTruthy();
+    const parsedRedirect = new URL(redirectUrl ?? "/", url.origin);
+    expect(`${parsedRedirect.pathname}${parsedRedirect.search}`).toBe(
+      expectedReturnPath,
+    );
+  }
+}
+
 test.describe("Clerk Foundation — Route Protection", () => {
   test("unauthenticated user visiting /cases redirects to sign-in page", async ({
     page,
   }) => {
     await page.goto("/cases");
-    const url = page.url();
-    if (CLERK_ENABLED) {
-      await expect(page).toHaveURL(/\/sign-in/, { timeout: 15_000 });
-    } else {
-      // Legacy mode: redirects to /login with returnUrl
-      await expect(page).toHaveURL(/\/login/, { timeout: 15_000 });
-    }
+    await expect(page).toHaveURL(/\/sign-in/, { timeout: 15_000 });
+    if (!CLERK_ENABLED) expectSignInRedirect(page.url(), "/cases");
+  });
+
+  test("unauthenticated user visiting /documents redirects to sign-in page", async ({
+    page,
+  }) => {
+    await page.goto("/documents");
+    await expect(page).toHaveURL(/\/sign-in/, { timeout: 15_000 });
+    if (!CLERK_ENABLED) expectSignInRedirect(page.url(), "/documents");
   });
 
   test("sign-in page is accessible (no redirect loop)", async ({ page }) => {
@@ -44,9 +60,12 @@ test.describe("Clerk Foundation — Route Protection", () => {
     await expect(page).toHaveURL(/\/sign-up/);
   });
 
-  test("login page is accessible (legacy fallback route)", async ({ page }) => {
-    await page.goto("/login");
-    await expect(page).toHaveURL(/\/login/);
+  test("legacy /login redirects to canonical sign-in preserving returnUrl", async ({
+    page,
+  }) => {
+    await page.goto("/login?returnUrl=/documents");
+    await expect(page).toHaveURL(/\/sign-in/, { timeout: 15_000 });
+    expectSignInRedirect(page.url(), "/documents");
   });
 
   test("SKIPPED — authenticated user can access /cases", async () => {
@@ -66,12 +85,12 @@ test.describe("Clerk Foundation — Route Protection", () => {
 test.describe("Clerk Foundation — Sign-In / Sign-Up Pages", () => {
   test("sign-in page renders QUANLYVKS branding", async ({ page }) => {
     await page.goto("/sign-in");
-    await expect(page.getByText("QUANLYVKS")).toBeVisible();
+    await expect(page.getByText("QUANLYVKS").first()).toBeVisible();
   });
 
   test("sign-up page renders QUANLYVKS branding", async ({ page }) => {
     await page.goto("/sign-up");
-    await expect(page.getByText("QUANLYVKS")).toBeVisible();
+    await expect(page.getByText("QUANLYVKS").first()).toBeVisible();
   });
 
   test("sign-in page has heading 'Đăng nhập hệ thống'", async ({ page }) => {
@@ -82,21 +101,5 @@ test.describe("Clerk Foundation — Sign-In / Sign-Up Pages", () => {
   test("sign-up page has heading 'Tạo tài khoản'", async ({ page }) => {
     await page.goto("/sign-up");
     await expect(page.getByRole("heading", { name: /tạo tài khoản/i })).toBeVisible();
-  });
-});
-
-test.describe("Clerk Foundation — Legacy Mode Compatibility", () => {
-  test("legacy /login page still works when Clerk is not configured", async ({
-    page,
-  }) => {
-    // This test is only meaningful in legacy mode
-    if (CLERK_ENABLED) {
-      test.skip();
-    }
-    await page.goto("/login");
-    await expect(page).toHaveURL(/\/login/);
-    await expect(
-      page.getByRole("heading", { name: /đăng nhập/i })
-    ).toBeVisible();
   });
 });
