@@ -1,6 +1,6 @@
 # DOCX Slot Inventory — F1 audit
 
-Generated: 2026-06-30T13:48:27.868Z
+Generated: 2026-07-01T18:55:53.619Z
 Overall status: **PASS** (213/213 BMs PASS)
 
 ## Corpus totals
