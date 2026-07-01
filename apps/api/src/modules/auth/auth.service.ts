@@ -129,6 +129,15 @@ export class AuthService {
     const subject = typeof payload.sub === 'string' ? payload.sub : null;
     if (!subject) return null;
 
+    // Phase 2B: Try to resolve to DB official via auth_identities.
+    // QUANLYVKS DB is the source of truth for role/agency/permissions.
+    const dbUser = await this.resolveClerkIdentityToDbUser(
+      subject,
+      payloadRecord,
+    );
+    if (dbUser) return dbUser;
+
+    // Unknown Clerk user — safe VIEWER identity.
     const email =
       typeof payloadRecord.email === 'string'
         ? payloadRecord.email
@@ -163,6 +172,41 @@ export class AuthService {
       isActive: true,
       permissions: [],
     };
+  }
+
+  /**
+   * Resolve a Clerk user to a DB official via auth_identities.
+   * Returns a real PublicUser when a linked active official exists.
+   * Returns null when no identity record exists or the linked official is inactive.
+   * Clerk role/metadata claims are NEVER used for authorization.
+   */
+  private async resolveClerkIdentityToDbUser(
+    subject: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _payloadRecord: Record<string, unknown>,
+  ): Promise<PublicUser | null> {
+    const identity = await this.prisma.auth_identities.findUnique({
+      where: {
+        provider_provider_user_id: {
+          provider: 'clerk',
+          provider_user_id: subject,
+        },
+      },
+      include: {
+        officials: {
+          include: {
+            agencies: true,
+            official_permissions: true,
+          },
+        },
+      },
+    });
+
+    if (!identity) return null;
+    if (!identity.officials) return null;
+    if (!identity.officials.is_active) return null;
+
+    return this.toPublicUser(identity.officials);
   }
 
   /**

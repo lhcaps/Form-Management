@@ -5,12 +5,14 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { FormPermissionGuard } from './form-permission.guard';
 import { AgencyResourceAccessService } from './agency-resource-access.service';
+import { ClerkWebhookService } from './clerk-webhook.service';
+import { ClerkWebhookController } from './clerk-webhook.controller';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Global()
 @Module({
   imports: [PrismaModule],
-  controllers: [AuthController],
+  controllers: [AuthController, ClerkWebhookController],
   providers: [
     AuthService,
     {
@@ -23,6 +25,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
       useClass: FormPermissionGuard,
     },
     AgencyResourceAccessService,
+    ClerkWebhookService,
   ],
   exports: [AuthService, AgencyResourceAccessService],
 })

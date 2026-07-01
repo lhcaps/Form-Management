@@ -127,6 +127,10 @@ export class AppConfigService {
     return this.read('CLERK_SECRET_KEY');
   }
 
+  get clerkWebhookSecret(): string | undefined {
+    return this.read('CLERK_WEBHOOK_SECRET');
+  }
+
   get clerkJwtAuthorizedParties(): readonly string[] {
     const raw = this.read('CLERK_AUTHORIZED_PARTIES');
     if (!raw) return [];
