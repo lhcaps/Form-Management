@@ -9,7 +9,7 @@
  */
 import type { FormInputSchema } from "@qllaw/form-contracts";
 
-import { absoluteApiUrl } from "./api-client";
+import { readApi } from "./api-client";
 
 export type FormSchemaResponse = {
   generatedDocumentId: string;
@@ -53,26 +53,19 @@ export async function fetchFormSchema(
   documentId: string | number,
   options: { signal?: AbortSignal } = {},
 ): Promise<FormSchemaResponse> {
-  const response = await fetch(
-    absoluteApiUrl(`/documents/generated/${documentId}/form-schema`),
+  const response = await readApi<FormSchemaResponse>(
+    `/documents/generated/${documentId}/form-schema`,
     {
-      method: "GET",
-      credentials: "include",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
+      noStore: true,
       ...(options.signal ? { signal: options.signal } : {}),
     },
   );
-  if (!response.ok) {
-    throw new Error(
-      `Không tải được form-schema [HTTP ${response.status}]`,
-    );
-  }
-  const body = (await response.json().catch(() => null)) as unknown;
-  if (!isFormSchemaResponse(body)) {
+
+  if (!isFormSchemaResponse(response)) {
     throw new Error("Phản hồi form-schema không đúng định dạng.");
   }
-  return body;
+
+  return response;
 }
 
 /**
