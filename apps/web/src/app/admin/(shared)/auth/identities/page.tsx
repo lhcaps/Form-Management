@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import {
@@ -159,7 +158,7 @@ function LinkModal({ identity, onClose, onSuccess }: LinkModalProps) {
     try {
       const data = await searchActiveOfficials({ q, pageSize: "10" });
       setResults(data.items);
-    } catch (e) {
+    } catch {
       setError("Không tải được danh sách cán bộ.");
     } finally {
       setLoading(false);
@@ -202,7 +201,7 @@ function LinkModal({ identity, onClose, onSuccess }: LinkModalProps) {
       <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-          <h2 className="text-lg font-black text-slate-950">Liên kết Clerk Identity</h2>
+          <h2 className="text-lg font-black text-slate-950">Liên kết tài khoản</h2>
           <button
             type="button"
             onClick={onClose}
@@ -390,7 +389,7 @@ function UnlinkModal({ identity, onClose, onSuccess }: UnlinkModalProps) {
       <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-          <h2 className="text-lg font-black text-slate-950">Huỷ liên kết Clerk Identity</h2>
+          <h2 className="text-lg font-black text-slate-950">Huỷ liên kết tài khoản</h2>
           <button
             type="button"
             onClick={onClose}
@@ -509,7 +508,7 @@ export default function AdminAuthIdentitiesPage() {
       });
       setIdentities(data.items);
       setTotal(data.total);
-    } catch (e) {
+    } catch {
       setError("Không tải được danh sách identity.");
     } finally {
       setLoading(false);
@@ -570,17 +569,11 @@ export default function AdminAuthIdentitiesPage() {
         {/* Header */}
         <header className="flex items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <Link
-              href="/admin/form-studio"
-              className="text-sm font-bold text-blue-700"
-            >
-              ← Form Studio
-            </Link>
-            <h1 className="mt-2 text-2xl font-black text-slate-950">
-              Liên kết Clerk Identity
+            <h1 className="text-2xl font-black text-slate-950">
+              Liên kết tài khoản đăng nhập
             </h1>
             <p className="mt-1 text-sm text-slate-600">
-              Liên kết Clerk user đã đồng bộ với cán bộ nội bộ. Liên kết cấp quyền truy cập nghiệp vụ.
+              Gán tài khoản Clerk đã đồng bộ với cán bộ nội bộ để cấp quyền truy cập nghiệp vụ.
             </p>
           </div>
           <button
@@ -641,7 +634,7 @@ export default function AdminAuthIdentitiesPage() {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase text-slate-500">
               <tr>
-                <th className="px-4 py-3 font-bold">Clerk user</th>
+                <th className="px-4 py-3 font-bold">Tài khoản đăng nhập</th>
                 <th className="px-4 py-3 font-bold">Trạng thái</th>
                 <th className="px-4 py-3 font-bold">Cán bộ liên kết</th>
                 <th className="px-4 py-3 font-bold">Đồng bộ lần cuối</th>
@@ -724,7 +717,7 @@ export default function AdminAuthIdentitiesPage() {
                           className="flex items-center gap-1.5 rounded-lg border border-rose-300 px-3 py-1.5 text-xs font-bold text-rose-600 transition hover:bg-rose-50"
                         >
                           <UnlinkIcon />
-                          Unlink
+                          Hủy liên kết
                         </button>
                       ) : (
                         <button
@@ -733,7 +726,7 @@ export default function AdminAuthIdentitiesPage() {
                           className="flex items-center gap-1.5 rounded-lg border border-blue-300 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 transition hover:bg-blue-100"
                         >
                           <LinkIcon />
-                          Link
+                          Liên kết
                         </button>
                       )}
                     </div>

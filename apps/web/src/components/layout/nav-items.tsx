@@ -13,7 +13,7 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useClerk, useUser as useClerkUser } from "@clerk/react";
 import { useAuth } from "@/lib/auth-context";
-import { canOpenFormStudio } from "@/lib/permissions";
+import { canOpenFormStudio, isAdmin } from "@/lib/permissions";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 
 // ─── Icon helpers ────────────────────────────────────────────────────────────
@@ -82,6 +82,19 @@ const FORM_STUDIO_ITEM: MenuItem = {
     </SvgIcon>
   ),
 };
+
+const ADMIN_MENU_ITEMS: MenuItem[] = [
+  {
+    href: "/admin/auth/identities",
+    label: "Liên kết tài khoản",
+    icon: (
+      <SvgIcon>
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </SvgIcon>
+    ),
+  },
+];
 
 const BASE_MENU_ITEMS: MenuItem[] = [
   {
@@ -231,6 +244,9 @@ export function Sidebar() {
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
     : BASE_MENU_ITEMS;
 
+  const showAdminSection = isAdmin(apiUser);
+  const visibleAdminItems = showAdminSection ? ADMIN_MENU_ITEMS : [];
+
   return (
     <aside className="sticky top-0 hidden h-screen w-[260px] shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col">
       {QUANLYVKS_LOGO}
@@ -262,6 +278,37 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {visibleAdminItems.length > 0 && (
+        <>
+          <div className="px-4 pb-3 pt-6 text-[12px] font-black uppercase tracking-[0.08em] text-slate-500">
+            Quản trị
+          </div>
+          <nav className="grid gap-2 px-3">
+            {visibleAdminItems.map((item) => {
+              const active = isActivePath(pathname, item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={[
+                    "group flex min-h-[52px] items-center gap-3 rounded-[18px] px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-all duration-200",
+                    "hover:-translate-y-0.5 hover:bg-blue-50 hover:text-blue-800 hover:shadow-[0_10px_24px_rgba(30,64,175,0.10)]",
+                    active
+                      ? "is-active bg-slate-100 text-slate-950 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+                      : "text-slate-700",
+                  ].join(" ")}
+                >
+                  <IconShell>{item.icon}</IconShell>
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </>
+      )}
 
       <div className="mt-auto border-t border-slate-200 p-4">
         {/* Template-first: card is now a real account button. */}
@@ -381,6 +428,9 @@ export function MobileNav() {
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
     : BASE_MENU_ITEMS;
 
+  const showAdminSection = isAdmin(apiUser);
+  const visibleAdminItems = showAdminSection ? ADMIN_MENU_ITEMS : [];
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <button
@@ -472,6 +522,34 @@ export function MobileNav() {
               </Link>
             );
           })}
+
+          {visibleAdminItems.length > 0 && (
+            <>
+              <div className="mb-2 mt-4 px-4 pb-2 text-[11px] font-black uppercase tracking-[0.08em] text-slate-400">
+                Quản trị
+              </div>
+              {visibleAdminItems.map((item) => {
+                const active = isActivePath(pathname, item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                    className={[
+                      "mb-1 flex min-h-[48px] items-center gap-3 rounded-xl px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-colors",
+                      active
+                        ? "bg-blue-50 font-black text-blue-800"
+                        : "text-slate-700 hover:bg-slate-50",
+                    ].join(" ")}
+                  >
+                    <IconShell>{item.icon}</IconShell>
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </>
+          )}
         </nav>
 
         {/* Logout */}

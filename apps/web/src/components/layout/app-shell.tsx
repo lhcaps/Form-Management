@@ -8,6 +8,7 @@ import { Topbar } from "./topbar";
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isFormStudio = pathname.startsWith("/admin/form-studio");
+  const isAdminPage = pathname.startsWith("/admin/auth");
 
   return (
     <div
@@ -27,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             FormStudio pages get full-width treatment. */}
         <div
           style={
-            isFormStudio
+            isFormStudio || isAdminPage
               ? { width: "100%", minWidth: 0, flex: 1 }
               : { flex: 1 }
           }

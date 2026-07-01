@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { fetchOfficials } from "@/lib/auth-client";
@@ -50,8 +49,17 @@ export default function FormStudioPermissionsPage() {
 
   if (!allowed) {
     return (
-      <div className="p-8 text-sm font-semibold text-rose-700">
-        Tài khoản không có quyền quản trị permission của Form Studio.
+      <div className="min-h-[calc(100vh-72px)] bg-slate-50 p-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center">
+            <div className="mb-2 text-2xl font-black text-rose-700">
+              Không có quyền truy cập
+            </div>
+            <div className="text-sm text-rose-600">
+              Trang này chỉ dành cho ADMIN hoặc người có quyền quản trị biểu mẫu.
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -61,13 +69,7 @@ export default function FormStudioPermissionsPage() {
       <div className="mx-auto max-w-6xl">
         <header className="flex items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <Link
-              href="/admin/form-studio"
-              className="text-sm font-bold text-blue-700"
-            >
-              ← Form Studio
-            </Link>
-            <h1 className="mt-2 text-2xl font-black text-slate-950">
+            <h1 className="text-2xl font-black text-slate-950">
               Phân quyền biểu mẫu
             </h1>
             <p className="mt-1 text-sm text-slate-600">
