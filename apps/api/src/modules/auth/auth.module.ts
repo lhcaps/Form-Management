@@ -7,12 +7,18 @@ import { FormPermissionGuard } from './form-permission.guard';
 import { AgencyResourceAccessService } from './agency-resource-access.service';
 import { ClerkWebhookService } from './clerk-webhook.service';
 import { ClerkWebhookController } from './clerk-webhook.controller';
+import { AdminAuthIdentitiesController } from './admin-auth-identities.controller';
+import { AdminAuthIdentitiesService } from './admin-auth-identities.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Global()
 @Module({
   imports: [PrismaModule],
-  controllers: [AuthController, ClerkWebhookController],
+  controllers: [
+    AuthController,
+    ClerkWebhookController,
+    AdminAuthIdentitiesController,
+  ],
   providers: [
     AuthService,
     {
@@ -26,6 +32,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
     },
     AgencyResourceAccessService,
     ClerkWebhookService,
+    AdminAuthIdentitiesService,
   ],
   exports: [AuthService, AgencyResourceAccessService],
 })
