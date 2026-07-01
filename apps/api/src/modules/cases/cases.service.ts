@@ -1,15 +1,18 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 import {
   buildCaseReportSummary,
   type CaseReportPeriod,
 } from './case-report-summary';
+import type { CurrentUser } from '../auth/current-user.type';
 
 type FindCasesQuery = {
   q?: string;
@@ -109,15 +112,20 @@ function normalizePerson(item: any) {
 
 @Injectable()
 export class CasesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly auth: AgencyResourceAccessService,
+  ) {}
 
   async findAll(query: FindCasesQuery, user?: AuthenticatedUser) {
+    // requireBusinessUser handles null/undefined → UnauthorizedException,
+    // VIEWER/Clerk → ForbiddenException. Role-based scoping follows.
+    this.auth.requireBusinessUser(user);
+
     const page = Math.max(1, Number(query.page || 1));
     const pageSize = Math.min(100, Math.max(1, Number(query.pageSize || 20)));
 
-    // Never show all cases to an unauthenticated request.
     // ADMIN role sees all; OFFICIAL sees only their agency's cases.
-    // If user is null (no session) we return an empty page.
     const showAll = user?.role === 'ADMIN';
     const scopeToAgency =
       !showAll && user?.agencyId ? BigInt(user.agencyId) : null;
@@ -209,13 +217,41 @@ export class CasesService {
     };
   }
 
-  async getReportSummary(query: CaseReportSummaryQuery) {
+  async getReportSummary(
+    query: CaseReportSummaryQuery,
+    user: CurrentUser | undefined,
+  ) {
+    if (!user || user.role === 'VIEWER') {
+      throw new ForbiddenException(
+        'Người dùng Clerk không có quyền truy cập API nghiệp vụ.',
+      );
+    }
+
     const period: CaseReportPeriod = query.period === 'WEEK' ? 'WEEK' : 'MONTH';
 
+    const scopeToAgency =
+      user.role === 'ADMIN'
+        ? undefined
+        : user.agencyId
+          ? BigInt(user.agencyId)
+          : null;
+
+    if (scopeToAgency === null && user.role !== 'ADMIN') {
+      throw new ForbiddenException('Không có quyền xem báo cáo nghiệp vụ.');
+    }
+
+    const whereClause: {
+      is_deleted: boolean;
+      agency_id?: bigint | null;
+    } = {
+      is_deleted: false,
+    };
+    if (scopeToAgency !== undefined) {
+      whereClause.agency_id = scopeToAgency;
+    }
+
     const rows = await this.prisma.cases.findMany({
-      where: {
-        is_deleted: false,
-      },
+      where: whereClause,
       include: {
         wards: true,
         case_offenses: {
@@ -254,9 +290,35 @@ export class CasesService {
     );
   }
 
-  async create(dto: CreateCaseDto) {
+  async create(dto: CreateCaseDto, user: CurrentUser) {
+    const businessUser = this.auth.requireBusinessUser(user);
+
     const caseCode =
       dto.caseCode?.trim() || `VKS-${new Date().getFullYear()}-${Date.now()}`;
+
+    let agencyIdToUse: bigint | null = null;
+
+    if (dto.agencyId) {
+      const requestedAgencyId = parseBigIntId(dto.agencyId, 'agencyId');
+
+      if (businessUser.role === 'OFFICIAL') {
+        if (
+          businessUser.agencyId === null ||
+          businessUser.agencyId !== requestedAgencyId
+        ) {
+          throw new ForbiddenException(
+            'Không có quyền tạo hồ sơ thuộc cơ quan khác.',
+          );
+        }
+        agencyIdToUse = requestedAgencyId;
+      } else {
+        // ADMIN: allow any requested agency
+        agencyIdToUse = requestedAgencyId;
+      }
+    } else {
+      // No agencyId in body: OFFICIAL defaults to own agency
+      agencyIdToUse = businessUser.agencyId;
+    }
 
     const created = await this.prisma.cases.create({
       data: {
@@ -269,14 +331,12 @@ export class CasesService {
         current_stage: dto.currentStage || 'RECEPTION',
         current_status: dto.currentStatus || 'DRAFT',
         ward_id: dto.wardId ? parseBigIntId(dto.wardId, 'wardId') : null,
-        agency_id: dto.agencyId
-          ? parseBigIntId(dto.agencyId, 'agencyId')
-          : null,
+        agency_id: agencyIdToUse,
         received_date: toDateOnly(dto.receivedDate),
         priority: dto.priority || 'NORMAL',
         note: dto.note || null,
-        created_by_name: dto.createdByName || null,
-        updated_by_name: dto.createdByName || null,
+        created_by_name: businessUser.fullName,
+        updated_by_name: businessUser.fullName,
       },
     });
 
@@ -288,16 +348,19 @@ export class CasesService {
         event_description: `Tạo hồ sơ ${created.case_code}`,
         stage_code: created.current_stage,
         status_after: created.current_status,
-        created_by_name: dto.createdByName || null,
+        created_by_name: businessUser.fullName,
       },
     });
 
-    return this.findOne(String(created.id));
+    return this.findOne(String(created.id), user);
   }
 
-  async findOne(id: string) {
-    const caseId = parseBigIntId(id, 'caseId');
+  async findOne(id: string, user: CurrentUser | undefined) {
+    // Authorization check — must pass before returning data.
+    const access = await this.auth.assertCanAccessCase(user ?? null, id);
+    const caseId = access.caseId;
 
+    // Fetch full case data (assertCanAccessCase used a narrow select for auth).
     const item = await this.prisma.cases.findFirst({
       where: {
         id: caseId,
@@ -308,7 +371,6 @@ export class CasesService {
     if (!item) {
       throw new NotFoundException('Không tìm thấy hồ sơ.');
     }
-
     const casePeople = await this.prisma.case_people.findMany({
       where: {
         case_id: caseId,
@@ -559,8 +621,10 @@ export class CasesService {
     };
   }
 
-  async update(id: string, dto: UpdateCaseDto) {
-    const caseId = parseBigIntId(id, 'caseId');
+  async update(id: string, dto: UpdateCaseDto, user: CurrentUser) {
+    // Authorization check — must pass before mutation.
+    const access = await this.auth.assertCanAccessCase(user, id);
+    const caseId = access.caseId;
 
     const current = await this.prisma.cases.findFirst({
       where: {
@@ -573,7 +637,7 @@ export class CasesService {
       throw new NotFoundException('Không tìm thấy hồ sơ.');
     }
 
-    const data: any = {};
+    const data: Record<string, unknown> = {};
 
     if (dto.nationalCaseCode !== undefined)
       data.national_case_code = dto.nationalCaseCode || null;
@@ -595,14 +659,30 @@ export class CasesService {
       data.closed_date = toDateOnly(dto.closedDate);
     if (dto.wardId !== undefined)
       data.ward_id = dto.wardId ? parseBigIntId(dto.wardId, 'wardId') : null;
-    if (dto.agencyId !== undefined)
-      data.agency_id = dto.agencyId
+    if (dto.agencyId !== undefined) {
+      const requestedAgencyId = dto.agencyId
         ? parseBigIntId(dto.agencyId, 'agencyId')
         : null;
+
+      if (access.businessUser.role === 'OFFICIAL') {
+        if (
+          requestedAgencyId !== null &&
+          requestedAgencyId !== current.agency_id
+        ) {
+          throw new ForbiddenException(
+            'Không có quyền chuyển hồ sơ sang cơ quan khác.',
+          );
+        }
+        // OFFICIAL can clear agency or keep current; already verified via assertCanAccessCase
+        data.agency_id = requestedAgencyId;
+      } else {
+        // ADMIN: allow any agency change
+        data.agency_id = requestedAgencyId;
+      }
+    }
     if (dto.priority !== undefined) data.priority = dto.priority;
     if (dto.note !== undefined) data.note = dto.note || null;
-    if (dto.updatedByName !== undefined)
-      data.updated_by_name = dto.updatedByName || null;
+    data.updated_by_name = access.businessUser.fullName;
 
     if (Object.keys(data).length === 0) {
       throw new BadRequestException('Không có dữ liệu cần cập nhật.');
@@ -628,11 +708,11 @@ export class CasesService {
           stage_code: updated.current_stage,
           status_before: current.current_status,
           status_after: updated.current_status,
-          created_by_name: dto.updatedByName || null,
+          created_by_name: access.businessUser.fullName,
         },
       });
     }
 
-    return this.findOne(id);
+    return this.findOne(id, user);
   }
 }

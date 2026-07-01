@@ -4,6 +4,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { FormPermissionGuard } from './form-permission.guard';
+import { AgencyResourceAccessService } from './agency-resource-access.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 
 @Global()
@@ -21,7 +22,8 @@ import { PrismaModule } from '../../prisma/prisma.module';
       provide: APP_GUARD,
       useClass: FormPermissionGuard,
     },
+    AgencyResourceAccessService,
   ],
-  exports: [AuthService],
+  exports: [AuthService, AgencyResourceAccessService],
 })
 export class AuthModule {}

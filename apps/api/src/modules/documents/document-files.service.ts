@@ -7,15 +7,15 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { PrismaService } from '../../prisma/prisma.service';
+import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
+import type { CurrentUser } from '../auth/current-user.type';
 
-function parseBigIntId(value: string, entityName = 'ID'): bigint {
+function parsePositiveBigint(value: string, entityName = 'ID'): bigint {
   try {
     const parsed = BigInt(value);
-
     if (parsed <= 0n) {
-      throw new Error('Invalid positive id');
+      throw new Error('Non-positive');
     }
-
     return parsed;
   } catch {
     throw new BadRequestException(`${entityName} không hợp lệ.`);
@@ -31,11 +31,23 @@ export class DocumentFilesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly paths: WorkspacePathsService,
+    private readonly auth: AgencyResourceAccessService,
   ) {}
 
-  async getGeneratedFileForDownload(documentIdRaw: string, fileIdRaw: string) {
-    const documentId = parseBigIntId(documentIdRaw, 'documentId');
-    const fileId = parseBigIntId(fileIdRaw, 'fileId');
+  async getGeneratedFileForDownload(
+    documentIdRaw: string,
+    fileIdRaw: string,
+    user: CurrentUser | null | undefined,
+  ) {
+    // Authorization MUST happen before any file system access.
+    await this.auth.assertCanAccessGeneratedDocumentFile(
+      user,
+      documentIdRaw,
+      fileIdRaw,
+    );
+
+    const documentId = parsePositiveBigint(documentIdRaw, 'documentId');
+    const fileId = parsePositiveBigint(fileIdRaw, 'fileId');
 
     const file = await this.prisma.generated_document_files.findFirst({
       where: {
@@ -78,10 +90,18 @@ export class DocumentFilesService {
   async deleteGeneratedFile(
     documentIdRaw: string,
     fileIdRaw: string,
+    user: CurrentUser | null | undefined,
     deletePhysical = true,
   ) {
-    const documentId = parseBigIntId(documentIdRaw, 'documentId');
-    const fileId = parseBigIntId(fileIdRaw, 'fileId');
+    // Authorization MUST happen before DB/filesystem delete.
+    await this.auth.assertCanAccessGeneratedDocumentFile(
+      user,
+      documentIdRaw,
+      fileIdRaw,
+    );
+
+    const documentId = parsePositiveBigint(documentIdRaw, 'documentId');
+    const fileId = parsePositiveBigint(fileIdRaw, 'fileId');
 
     const file = await this.prisma.generated_document_files.findFirst({
       where: {
@@ -132,6 +152,7 @@ export class DocumentFilesService {
   async bulkDeleteGeneratedFiles(
     documentIdRaw: string,
     fileIdRaws: string[],
+    user: CurrentUser | null | undefined,
     deletePhysical = true,
   ) {
     if (!Array.isArray(fileIdRaws) || fileIdRaws.length === 0) {
@@ -143,10 +164,13 @@ export class DocumentFilesService {
     const results = [];
 
     for (const fileIdRaw of uniqueFileIds) {
+      // Authorize each file individually before deletion.
+      // If any file is cross-agency, the loop throws before any delete happens.
       results.push(
         await this.deleteGeneratedFile(
           documentIdRaw,
           fileIdRaw,
+          user,
           deletePhysical,
         ),
       );
@@ -160,13 +184,17 @@ export class DocumentFilesService {
 
   async cleanupGeneratedFiles(
     documentIdRaw: string,
+    user: CurrentUser | null | undefined,
     options?: {
       keepLatestDocx?: boolean;
       keepLatestPdf?: boolean;
       deletePhysical?: boolean;
     },
   ) {
-    const documentId = parseBigIntId(documentIdRaw, 'documentId');
+    // Authorize the document's case agency before listing/deleting any files.
+    await this.auth.assertCanAccessGeneratedDocument(user, documentIdRaw);
+
+    const documentId = parsePositiveBigint(documentIdRaw, 'documentId');
 
     const keepLatestDocx = options?.keepLatestDocx ?? true;
     const keepLatestPdf = options?.keepLatestPdf ?? true;
@@ -213,10 +241,12 @@ export class DocumentFilesService {
     const deletedFiles = [];
 
     for (const file of filesToDelete) {
+      // Each file deletion is already authorized by the document-level check above.
       deletedFiles.push(
         await this.deleteGeneratedFile(
           documentIdRaw,
           String(file.id),
+          user,
           deletePhysical,
         ),
       );
@@ -328,7 +358,6 @@ export class DocumentFilesService {
       return false;
     }
 
-    // Resolve symlink để chống symlink attack
     try {
       const realFile = fs.realpathSync.native
         ? fs.realpathSync.native(normalizedFile)
@@ -338,7 +367,6 @@ export class DocumentFilesService {
         : fs.realpathSync(normalizedRoot);
       return realFile === realRoot || realFile.startsWith(realRoot + path.sep);
     } catch {
-      // Nếu file không tồn tại, vẫn cho phép (sẽ skip ở bước existsSync)
       return true;
     }
   }
