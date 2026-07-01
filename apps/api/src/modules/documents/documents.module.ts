@@ -12,6 +12,7 @@ import { DocumentReviewsController } from './document-reviews.controller';
 import { DocumentReviewsService } from './document-reviews.service';
 import { DocumentsController } from './documents.controller';
 import { DocumentsService } from './documents.service';
+import { RuntimeTemplateRenderController } from './runtime-template-render.controller';
 import {
   CONTRACT_DOCUMENT_RENDERER,
   GENERATED_DOCUMENT_DESCRIPTOR,
@@ -19,6 +20,7 @@ import {
 } from './rendering/application/document-renderer.ports';
 import { DocumentRendererRoutingPolicy } from './rendering/application/document-renderer-routing.policy';
 import { RenderGeneratedDocumentUseCase } from './rendering/application/render-generated-document.use-case';
+import { StandaloneTemplateRenderService } from './rendering/application/standalone-template-render.service';
 import { ContractRenderPlanBuilder } from './rendering/application/contract-render-plan.builder';
 import { ContractShadowRendererOrchestrator } from './rendering/application/contract-shadow-renderer.orchestrator';
 import { LegacyDocumentRendererAdapter } from './rendering/infrastructure/legacy-document-renderer.adapter';
@@ -35,6 +37,7 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
     DocumentFilesController,
     DocumentPdfController,
     DocumentReviewQueueController,
+    RuntimeTemplateRenderController,
   ],
   providers: [
     DocumentsService,
@@ -46,6 +49,7 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
     DocumentReviewQueueService,
     DocumentRendererRoutingPolicy,
     RenderGeneratedDocumentUseCase,
+    StandaloneTemplateRenderService,
     ContractRenderPlanBuilder,
     ContractShadowRendererOrchestrator,
     DocxtemplaterContractRenderEngine,

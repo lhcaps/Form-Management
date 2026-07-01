@@ -77,6 +77,10 @@ import {
 import { createDocumentBatch } from "@/lib/documents-api";
 import { readApi, ApiError } from "@/lib/api-client";
 import { ErrorBanner } from "@/components/common/error-banner";
+import {
+  getPrimaryTemplateOpenTarget,
+  isTemplateOpenable,
+} from "@/lib/template-open-workflow";
 
 const GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE: Record<string, string> = {};
 
@@ -552,8 +556,14 @@ export function TemplateSelectorWorkspace() {
         const hasDirectDocument = Boolean(
           GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
         );
+        const hasRuntimeContract = Boolean(item.catalogItem?.runtime.available);
 
-        if (input.onlyCreatable && !item.canCreate && !hasDirectDocument) {
+        if (
+          input.onlyCreatable &&
+          !item.canCreate &&
+          !hasDirectDocument &&
+          !hasRuntimeContract
+        ) {
           return false;
         }
 
@@ -567,12 +577,16 @@ export function TemplateSelectorWorkspace() {
         const scoreDiff = b.score - a.score;
         if (scoreDiff !== 0) return scoreDiff;
 
-        const aOpenable =
-          a.canCreate ||
-          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code]);
-        const bOpenable =
-          b.canCreate ||
-          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code]);
+        const aOpenable = isTemplateOpenable({
+          dbTemplateId: a.dbTemplateId,
+          hasRuntimeContract: Boolean(a.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code],
+        });
+        const bOpenable = isTemplateOpenable({
+          dbTemplateId: b.dbTemplateId,
+          hasRuntimeContract: Boolean(b.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code],
+        });
 
         if (aOpenable !== bOpenable) {
           return aOpenable ? -1 : 1;
@@ -587,7 +601,11 @@ export function TemplateSelectorWorkspace() {
   const openableCount = useMemo(() => {
     return topCandidates.filter(
       (item) =>
-        item.canCreate || GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+        isTemplateOpenable({
+          dbTemplateId: item.dbTemplateId,
+          hasRuntimeContract: Boolean(item.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+        }),
     ).length;
   }, [topCandidates]);
 
@@ -788,45 +806,32 @@ export function TemplateSelectorWorkspace() {
     router.push(`/documents/${generatedDocument.id}`);
   }
 
-  async function openTemplate(item: Candidate) {
+  function openTemplate(item: Candidate) {
     setError("");
 
-    const directDocumentId = GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code];
+    const target = getPrimaryTemplateOpenTarget({
+      templateCode: item.code,
+      dbTemplateId: item.dbTemplateId,
+      hasRuntimeContract: Boolean(item.catalogItem?.runtime.available),
+      directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+    });
 
-    if (directDocumentId) {
-      router.push(`/documents/${directDocumentId}`);
-      return;
-    }
-
-    if (!item.canCreate || !item.dbTemplateId) {
-      setError(
-        `${item.code} chưa có DB template để mở trực tiếp. Cần seed/mapping biểu mẫu này vào DB trước.`,
-      );
-      return;
-    }
-
-    // Template-first: if no case is selected, prompt the user to select one
-    // via the case picker (soft redirect — does NOT auto-open modal).
-    if (!currentCaseId) {
-      setError(
-        `Cần chọn một hồ sơ trước khi mở biểu mẫu ${item.code}. Dùng ô "Hồ sơ đang xử lý" bên trên để chọn hồ sơ, sau đó nhấn "Mở biểu mẫu" một lần nữa.`,
-      );
+    if (target.kind === "unavailable") {
+      setError(target.message);
       return;
     }
 
     setOpeningTemplateCode(item.code);
-
-    try {
-      await createBatchForCase(currentCaseId, item);
-    } catch (err) {
-      setError(err instanceof ApiError ? err : err instanceof Error ? err : new Error(`Không mở được biểu mẫu ${item.code}.`));
-    } finally {
-      setOpeningTemplateCode(null);
-    }
+    router.push(target.href);
   }
 
   async function confirmCaseForPending(caseId: string) {
-    if (!pendingTemplate) return;
+    if (!pendingTemplate) {
+      setCurrentCaseId(caseId);
+      setCasePickerOpen(false);
+      setCaseSearch("");
+      return;
+    }
 
     setOpeningTemplateCode(pendingTemplate.code);
     setCasePickerOpen(false);
@@ -1185,13 +1190,16 @@ export function TemplateSelectorWorkspace() {
                   <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                     {stage.items.map((candidate) => {
                       const isOpening = openingTemplateCode === candidate.code;
-                      const hasDirectDocument = Boolean(
-                        GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
-                          candidate.code
-                        ],
-                      );
-                      const canOpen =
-                        candidate.canCreate || hasDirectDocument;
+                      const canOpen = isTemplateOpenable({
+                        dbTemplateId: candidate.dbTemplateId,
+                        hasRuntimeContract: Boolean(
+                          candidate.catalogItem?.runtime.available,
+                        ),
+                        directDocumentId:
+                          GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
+                            candidate.code
+                          ],
+                      });
 
                       return (
                         <article
@@ -1238,14 +1246,26 @@ export function TemplateSelectorWorkspace() {
                             </div>
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={() => void openTemplate(candidate)}
-                            disabled={!canOpen || isOpening}
-                            className={`mt-4 w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300`}
-                          >
-                            {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
-                          </button>
+                          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                            <button
+                              type="button"
+                              onClick={() => void openTemplate(candidate)}
+                              disabled={!canOpen || isOpening}
+                              className="w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                            >
+                              {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                void openCasePickerForTemplate(candidate)
+                              }
+                              disabled={!candidate.dbTemplateId || isOpening}
+                              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                            >
+                              Mở với hồ sơ
+                            </button>
+                          </div>
                         </article>
                       );
                     })}
