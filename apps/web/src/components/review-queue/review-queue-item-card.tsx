@@ -13,10 +13,12 @@
  *   onCancel(item)        — open cancel confirm dialog
  */
 
+import { useState } from "react";
 import { StatusBadge } from "@/components/common/status-badge";
 import { Button } from "@/components/ui/button";
 import type { ReviewQueueItem } from "@/lib/documents-review-api";
 import { buildDocumentDownloadUrl } from "@/lib/documents-review-api";
+import { downloadFile, DownloadError } from "@/lib/file-download";
 
 interface ReviewQueueItemCardProps {
   item: ReviewQueueItem;
@@ -48,33 +50,64 @@ function FileDownloadLink({
   fileId: string;
   label: string;
 }) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
   const url = buildDocumentDownloadUrl(documentId, fileId);
+
+  async function handleClick(event: React.MouseEvent) {
+    event.preventDefault();
+    if (isDownloading) return;
+
+    setIsDownloading(true);
+    setErrorMsg(null);
+
+    try {
+      await downloadFile(url, { filename: label });
+    } catch (err) {
+      setErrorMsg(
+        err instanceof DownloadError
+          ? err.message
+          : "Tải file thất bại. Vui lòng thử lại.",
+      );
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
-      aria-label={`Tải ${label}`}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
+    <div className="contents">
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isDownloading}
+        className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+        aria-label={`Tải ${label}`}
       >
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" y1="15" x2="12" y2="3" />
-      </svg>
-      {label}
-    </a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        {isDownloading ? "Đang tải..." : label}
+      </button>
+      {errorMsg ? (
+        <span className="text-xs text-red-500" role="alert">
+          {errorMsg}
+        </span>
+      ) : null}
+    </div>
   );
 }
 
@@ -177,7 +210,7 @@ export function ReviewQueueItemCard({
       <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
         <a
           href={`/documents/${item.id}`}
-          className="flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-slate-800 sm:w-36"
+          className="flex items-center justify-center gap-2 rounded-2xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800 sm:w-36"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -17,6 +17,10 @@ import {
   BmFormStatus,
 } from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import {
+  renderDocumentDocx,
+  convertDocumentPdf,
+} from "@/lib/document-render-api";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -657,43 +661,15 @@ export function Bm010FormInputsPanel({
     try {
       const finalForm = await handleSave();
 
-      const renderResponse = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-docx`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify({
-            force: true,
-            renderedByName: finalForm.signature.signerName,
-          }),
-        },
-      );
+      await renderDocumentDocx(documentId, {
+        force: true,
+        renderedByName: finalForm.signature.signerName,
+      });
 
-      if (!renderResponse.ok) {
-        throw new Error(
-          (await renderResponse.text()) ||
-            `Không render được DOCX BM-010. HTTP ${renderResponse.status}`,
-        );
-      }
-
-      const pdfResponse = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/convert-pdf`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify({
-            force: true,
-            convertedByName: finalForm.signature.signerName,
-          }),
-        },
-      );
-
-      if (!pdfResponse.ok) {
-        throw new Error(
-          (await pdfResponse.text()) ||
-            `Không convert được PDF BM-010. HTTP ${pdfResponse.status}`,
-        );
-      }
+      await convertDocumentPdf(documentId, {
+        force: true,
+        convertedByName: finalForm.signature.signerName,
+      });
 
       setMessage("Đã lưu và xuất lại DOCX/PDF BM-010.");
     } catch (renderError) {

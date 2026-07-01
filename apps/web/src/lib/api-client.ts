@@ -33,13 +33,8 @@ export type ApiAuthTokenProvider = () =>
   | undefined
   | Promise<string | null | undefined>;
 
-let apiAuthTokenProvider: ApiAuthTokenProvider | null = null;
-
-export function setApiAuthTokenProvider(
-  provider: ApiAuthTokenProvider | null,
-) {
-  apiAuthTokenProvider = provider;
-}
+export { setAuthTokenProvider as setApiAuthTokenProvider } from "./api-client-auth-token";
+export { getApiAuthToken } from "./api-client-auth-token";
 
 function isLoopbackHost(hostname: string) {
   return (
@@ -166,13 +161,8 @@ function hasAuthorizationHeader(headers: Headers): boolean {
 }
 
 async function resolveApiAuthToken(): Promise<string | null> {
-  if (!apiAuthTokenProvider) return null;
-  try {
-    const token = await apiAuthTokenProvider();
-    return token?.trim() || null;
-  } catch {
-    return null;
-  }
+  const { getApiAuthToken } = await import("./api-client-auth-token");
+  return getApiAuthToken();
 }
 
 function withBearerToken(init: RequestInit | undefined, token: string) {

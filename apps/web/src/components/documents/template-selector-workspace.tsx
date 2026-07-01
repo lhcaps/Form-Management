@@ -805,9 +805,12 @@ export function TemplateSelectorWorkspace() {
       return;
     }
 
+    // Template-first: if no case is selected, prompt the user to select one
+    // via the case picker (soft redirect — does NOT auto-open modal).
     if (!currentCaseId) {
-      setPendingTemplate(item);
-      await openCasePickerForTemplate(item);
+      setError(
+        `Cần chọn một hồ sơ trước khi mở biểu mẫu ${item.code}. Dùng ô "Hồ sơ đang xử lý" bên trên để chọn hồ sơ, sau đó nhấn "Mở biểu mẫu" một lần nữa.`,
+      );
       return;
     }
 
@@ -951,13 +954,13 @@ export function TemplateSelectorWorkspace() {
 
             <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
               <p className="text-xs font-bold uppercase text-indigo-700">
-                Có thể mở
+                Mở được ngay
               </p>
               <p className="mt-2 text-2xl font-black text-indigo-800">
                 {openableCount}
               </p>
               <p className="mt-1 text-xs text-indigo-500">
-                {input.onlyCreatable ? "theo bộ lọc" : "có DB template"}
+                {input.onlyCreatable ? "theo bộ lọc" : "biểu mẫu có DB"}
               </p>
             </div>
 
@@ -1139,10 +1142,10 @@ export function TemplateSelectorWorkspace() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-600">
+              <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600">
                 {hasActiveSuggestionFilter
-                  ? `Hiện ${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} biểu mẫu phù hợp`
-                  : `Hiện toàn bộ ${vksTemplateCatalog.length} biểu mẫu`}
+                  ? `${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} biểu mẫu phù hợp`
+                  : `${vksTemplateCatalog.length} biểu mẫu tổng cộng`}
               </span>
 
               <button
@@ -1278,12 +1281,12 @@ export function TemplateSelectorWorkspace() {
                 id="case-picker-title"
                 className="text-lg font-black text-slate-950"
               >
-                Chọn hồ sơ để mở biểu mẫu
+                Chọn hồ sơ (tùy chọn)
               </h2>
               <p id="case-picker-description" className="mt-1 text-sm text-slate-500">
                 {pendingTemplate
-                  ? `Biểu mẫu ${pendingTemplate.code} sẽ được tạo document trong hồ sơ bạn chọn.`
-                  : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu."}
+                  ? `Biểu mẫu ${pendingTemplate.code} sẽ được mở. Hồ sơ giúp tự động điền thông tin — có thể bỏ qua.`
+                  : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu có chọn case."}
               </p>
             </div>
 

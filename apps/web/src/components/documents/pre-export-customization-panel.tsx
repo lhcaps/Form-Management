@@ -14,6 +14,7 @@ import {
   type GeneratedDocumentPreExportManualBlankField,
   type GeneratedDocumentPreExportStyleRule,
 } from "@/lib/generated-documents-api";
+import { downloadFile, DownloadError } from "@/lib/file-download";
 
 type Props = {
   documentId: string;
@@ -342,10 +343,9 @@ export function PreExportCustomizationPanel({
     }
 
     const downloadUrl = getGeneratedDocumentDownloadUrl(documentId, fileId);
-    const url =
-      format === "PDF" ? withCacheBuster(downloadUrl) : downloadUrl;
+    const filename = response.file?.fileName ?? `biểu-mẫu.${format.toLowerCase()}`;
 
-    window.open(url, "_blank", "noopener,noreferrer");
+    void downloadFile(downloadUrl, { filename });
   }
 
   async function runExportAction(
