@@ -5,6 +5,11 @@ const CLERK_SECRET_KEY = process.env.CLERK_SECRET_KEY;
 const CLERK_API_BASE_URL = "https://api.clerk.com/v1";
 
 test.describe("Clerk real sign-up workflow", () => {
+  // Skip by default - requires:
+  // 1. CLERK_REAL_SIGNUP_E2E=1 env var
+  // 2. Valid CLERK_SECRET_KEY
+  // 3. Clerk testing token to be created and injected into browser context
+  // 4. Clerk development instance to have testing mode enabled
   test.skip(
     !RUN_REAL_CLERK_SIGNUP,
     "Set CLERK_REAL_SIGNUP_E2E=1 to create and clean up a real Clerk test user.",
@@ -20,7 +25,14 @@ test.describe("Clerk real sign-up workflow", () => {
     test.setTimeout(120_000);
 
     const testingToken = await createTestingToken();
-    await routeClerkTestingToken(page, testingToken);
+
+    // Intercept Clerk requests to inject testing token
+    // Note: This requires Clerk testing mode to be enabled in the development instance
+    await page.context().route("**/clerk.accounts.dev/**", async (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("__clerk_testing_token", testingToken);
+      await route.continue({ url: url.toString() });
+    });
 
     const stamp = Date.now();
     const email = `codex+clerk_test_${stamp}@example.com`;
@@ -31,22 +43,39 @@ test.describe("Clerk real sign-up workflow", () => {
       await page.goto("/sign-up?return_url=%2Ftemplates");
       await expect(page.locator(".cl-signUp-root")).toBeVisible();
 
-      await fillIfVisible(page, 'input[name="firstName"]', "Codex");
-      await fillIfVisible(page, 'input[name="lastName"]', "Smoke");
-      await fillIfVisible(page, 'input[name="username"]', `codex_${stamp}`);
-      await fillIfVisible(page, 'input[name="emailAddress"]', email);
-      await fillIfVisible(page, 'input[name="password"]', password);
-      await fillIfVisible(page, 'input[name="phoneNumber"]', "+15555550100");
-      await checkIfVisible(page, 'input[name="legalAccepted"]');
+      // Clerk's sign-up form flow:
+      // 1. Enter email -> Continue
+      // 2. Enter password + optional fields -> Continue
+      // 3. Enter verification code (if testing mode not bypassed) -> Continue
+      // 4. Redirect to return_url
 
-      await page.getByRole("button", { name: "Continue", exact: true }).click();
+      const emailInput = page.getByRole("textbox", { name: /email/i });
+      await expect(emailInput).toBeVisible({ timeout: 10_000 });
+      await emailInput.fill(email);
 
-      const codeInput = page.getByRole("textbox", {
-        name: "Enter verification code",
-      });
-      await expect(codeInput).toBeVisible({ timeout: 30_000 });
-      await codeInput.pressSequentially("424242");
+      await page.getByRole("button", { name: /continue/i }).click();
 
+      // Wait for password step
+      await page.waitForTimeout(2_000);
+
+      const passwordInput = page.getByRole("textbox", { name: /password/i }).first();
+      if (await passwordInput.isVisible({ timeout: 5_000 }).catch(() => false)) {
+        await passwordInput.fill(password);
+        await page.getByRole("button", { name: /continue/i }).click();
+      }
+
+      // Wait for verification code step or redirect
+      await page.waitForTimeout(3_000);
+
+      const codeInput = page
+        .getByRole("textbox", { name: /verification|code/i })
+        .first();
+      if (await codeInput.isVisible({ timeout: 5_000 }).catch(() => false)) {
+        await codeInput.fill("424242");
+        await page.getByRole("button", { name: /continue/i }).click();
+      }
+
+      // Wait for redirect to templates
       await page.waitForURL("**/templates", {
         timeout: 60_000,
         waitUntil: "domcontentloaded",
