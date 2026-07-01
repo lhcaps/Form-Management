@@ -76,13 +76,14 @@ export function getSeedLeHuyConfig(
 ): SeedLeHuyConfig {
   const password = env.SEED_LE_HUY_PASSWORD?.trim();
   const clerkUserId = env.SEED_LE_HUY_CLERK_USER_ID?.trim();
+  const email = env.SEED_LE_HUY_EMAIL?.trim() || 'le.huy@example.local';
 
   return {
     enabled: Boolean(password),
     fullName: 'Lê Huy',
     username: 'le_huy',
     password: password ?? null,
-    email: 'le.huy@example.local',
+    email,
     positionTitle: 'Quản trị hệ thống',
     clerkUserId: clerkUserId && clerkUserId.length > 0 ? clerkUserId : null,
   };
