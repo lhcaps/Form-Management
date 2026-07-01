@@ -8,6 +8,16 @@ export type SeedAdminConfig = {
   positionTitle: string;
 };
 
+export type SeedLeHuyConfig = {
+  enabled: boolean;
+  fullName: string;
+  username: string;
+  password: string | null;
+  email: string;
+  positionTitle: string;
+  clerkUserId: string | null;
+};
+
 export type TemplateCatalogEntry = {
   code: string;
   number: number;
@@ -58,6 +68,23 @@ export function getSeedAdminConfig(
     username: (env.SEED_ADMIN_USERNAME?.trim() || 'admin').toLowerCase(),
     password: env.SEED_ADMIN_PASSWORD?.trim() || 'admin123',
     positionTitle: env.SEED_ADMIN_POSITION?.trim() || 'Quan tri he thong',
+  };
+}
+
+export function getSeedLeHuyConfig(
+  env: Record<string, string | undefined> = process.env,
+): SeedLeHuyConfig {
+  const password = env.SEED_LE_HUY_PASSWORD?.trim();
+  const clerkUserId = env.SEED_LE_HUY_CLERK_USER_ID?.trim();
+
+  return {
+    enabled: Boolean(password),
+    fullName: 'Lê Huy',
+    username: 'le_huy',
+    password: password ?? null,
+    email: 'le.huy@example.local',
+    positionTitle: 'Quản trị hệ thống',
+    clerkUserId: clerkUserId && clerkUserId.length > 0 ? clerkUserId : null,
   };
 }
 

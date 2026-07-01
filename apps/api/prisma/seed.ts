@@ -23,6 +23,7 @@ import {
   discoverImplementedTemplateCodes,
   discoverNormalizedDocxByCode,
   getSeedAdminConfig,
+  getSeedLeHuyConfig,
 } from '../src/seed/seed-config';
 
 // Load env từ root (file chính) rồi apps/api/.env (override nếu cần).
@@ -196,6 +197,116 @@ async function seedTestAccount(agencyId: bigint): Promise<void> {
     },
   });
   console.log(`[seed] officials: created tester account 'tester' (id=${created.id}).`);
+}
+
+// ============================================================================
+// 2c. LE HUY ACCOUNT (local bootstrap admin — password from env, never committed)
+// ============================================================================
+
+async function seedLeHuy(agencyId: bigint): Promise<bigint | null> {
+  const config = getSeedLeHuyConfig();
+
+  if (!config.enabled) {
+    console.log(
+      '[seed] officials: SEED_LE_HUY_PASSWORD not set — Lê Huy account skipped.',
+    );
+    return null;
+  }
+
+  // Hash password using the same mechanism as all other seeded accounts.
+  const passwordHash = hashPassword(config.password!);
+
+  const existing = await prisma.officials.findFirst({
+    where: { username: config.username },
+  });
+
+  let officialId: bigint;
+
+  if (existing) {
+    const updated = await prisma.officials.update({
+      where: { id: existing.id },
+      data: {
+        full_name: config.fullName,
+        username: config.username,
+        password_hash: passwordHash,
+        email: config.email,
+        position_title: config.positionTitle,
+        agency_id: agencyId,
+        role: 'ADMIN',
+        is_active: true,
+      },
+    });
+    officialId = updated.id;
+    console.log(
+      `[seed] officials: Lê Huy account updated (id=${officialId}, username=${config.username}).`,
+    );
+  } else {
+    const created = await prisma.officials.create({
+      data: {
+        full_name: config.fullName,
+        username: config.username,
+        password_hash: passwordHash,
+        email: config.email,
+        position_title: config.positionTitle,
+        rank_title: null,
+        agency_id: agencyId,
+        role: 'ADMIN',
+        is_active: true,
+      },
+    });
+    officialId = created.id;
+    console.log(
+      `[seed] officials: created Lê Huy account (id=${officialId}, username=${config.username}).`,
+    );
+  }
+
+  // Optional: link Clerk identity if SEED_LE_HUY_CLERK_USER_ID is set.
+  if (config.clerkUserId) {
+    const existingIdentity = await prisma.auth_identities.findUnique({
+      where: {
+        provider_provider_user_id: {
+          provider: 'clerk',
+          provider_user_id: config.clerkUserId,
+        },
+      },
+    });
+
+    if (existingIdentity) {
+      await prisma.auth_identities.update({
+        where: { id: existingIdentity.id },
+        data: {
+          official_id: officialId,
+          email: config.email,
+          full_name: config.fullName,
+          last_synced_at: new Date(),
+        },
+      });
+      console.log(
+        `[seed] auth_identities: linked clerk user '${config.clerkUserId}' to Lê Huy official id=${officialId}.`,
+      );
+    } else {
+      await prisma.auth_identities.create({
+        data: {
+          provider: 'clerk',
+          provider_user_id: config.clerkUserId,
+          official_id: officialId,
+          email: config.email,
+          username: config.username,
+          full_name: config.fullName,
+          last_synced_at: new Date(),
+        },
+      });
+      console.log(
+        `[seed] auth_identities: created clerk identity for '${config.clerkUserId}' linked to Lê Huy official id=${officialId}.`,
+      );
+    }
+  } else {
+    console.log(
+      '[seed] auth_identities: SEED_LE_HUY_CLERK_USER_ID not set — Clerk identity link skipped.',
+    );
+  }
+
+  return officialId;
 }
 
 // ============================================================================
@@ -559,6 +670,7 @@ async function main(): Promise<void> {
   const agencyId = await seedAgencies();
   const adminOfficialId = await seedOfficials(agencyId);
   await seedTestAccount(agencyId);
+  await seedLeHuy(agencyId);
   await seedWards();
   await seedOffenses();
   const groupIds = await seedTemplateGroups();
@@ -566,6 +678,7 @@ async function main(): Promise<void> {
   await seedStorageSettings();
 
   console.log('[seed] Done. Login: admin / SEED_ADMIN_USERNAME (default: admin) or tester / tester123.');
+  console.log('[seed] Lê Huy login: le_huy / SEED_LE_HUY_PASSWORD (if configured).');
 }
 
 main()
