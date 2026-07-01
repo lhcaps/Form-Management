@@ -118,11 +118,9 @@ export class CasesService {
   ) {}
 
   async findAll(query: FindCasesQuery, user?: AuthenticatedUser) {
-    if (!user || user.role === 'VIEWER') {
-      throw new ForbiddenException(
-        'Người dùng Clerk không có quyền truy cập API nghiệp vụ.',
-      );
-    }
+    // requireBusinessUser handles null/undefined → UnauthorizedException,
+    // VIEWER/Clerk → ForbiddenException. Role-based scoping follows.
+    this.auth.requireBusinessUser(user);
 
     const page = Math.max(1, Number(query.page || 1));
     const pageSize = Math.min(100, Math.max(1, Number(query.pageSize || 20)));

@@ -219,6 +219,75 @@ describe('AgencyResourceAccessService', () => {
     });
   });
 
+  // ─── assertCanAccessGeneratedDocument ─────────────────────────────────
+
+  describe('assertCanAccessGeneratedDocument', () => {
+    it('throws NotFoundException when document does not exist', async () => {
+      const user = makeOfficial('5', '2', 'OFFICIAL');
+      prisma.generated_documents.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.assertCanAccessGeneratedDocument(user, '99'),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it('throws NotFoundException when case does not exist', async () => {
+      const user = makeOfficial('5', '2', 'OFFICIAL');
+      prisma.generated_documents.findFirst.mockResolvedValue({ id: 3n, case_id: 4n });
+      prisma.cases.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.assertCanAccessGeneratedDocument(user, '3'),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it('throws ForbiddenException for cross-agency document', async () => {
+      const user = makeOfficial('5', '1', 'OFFICIAL');
+      prisma.generated_documents.findFirst.mockResolvedValue({ id: 3n, case_id: 4n });
+      prisma.cases.findFirst.mockResolvedValue({ id: 4n, agency_id: 2n });
+
+      await expect(
+        service.assertCanAccessGeneratedDocument(user, '3'),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+
+    it('throws ForbiddenException for VIEWER', async () => {
+      prisma.generated_documents.findFirst.mockResolvedValue({ id: 3n, case_id: 4n });
+      prisma.cases.findFirst.mockResolvedValue({ id: 4n, agency_id: 1n });
+
+      await expect(
+        service.assertCanAccessGeneratedDocument(makeClerk('clerk:user_x'), '3'),
+      ).rejects.toBeInstanceOf(ForbiddenException);
+    });
+
+    it('allows OFFICIAL same agency document', async () => {
+      const user = makeOfficial('5', '2', 'OFFICIAL');
+      prisma.generated_documents.findFirst.mockResolvedValue({ id: 3n, case_id: 4n });
+      prisma.cases.findFirst.mockResolvedValue({ id: 4n, agency_id: 2n });
+
+      const result = await service.assertCanAccessGeneratedDocument(user, '3');
+      expect(result.documentId).toBe(3n);
+      expect(result.caseId).toBe(4n);
+      expect(result.agencyId).toBe(2n);
+    });
+
+    it('allows ADMIN any agency document', async () => {
+      const user = makeOfficial('1', '99', 'ADMIN');
+      prisma.generated_documents.findFirst.mockResolvedValue({ id: 3n, case_id: 4n });
+      prisma.cases.findFirst.mockResolvedValue({ id: 4n, agency_id: 2n });
+
+      const result = await service.assertCanAccessGeneratedDocument(user, '3');
+      expect(result.agencyId).toBe(2n);
+    });
+
+    it('throws BadRequestException for invalid documentId', async () => {
+      const user = makeOfficial('5', '2', 'OFFICIAL');
+      await expect(
+        service.assertCanAccessGeneratedDocument(user, 'abc'),
+      ).rejects.toThrow();
+    });
+  });
+
   // ─── assertCanAccessGeneratedDocumentFile ──────────────────────────────
 
   describe('assertCanAccessGeneratedDocumentFile', () => {

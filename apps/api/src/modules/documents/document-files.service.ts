@@ -192,11 +192,7 @@ export class DocumentFilesService {
     },
   ) {
     // Authorize the document's case agency before listing/deleting any files.
-    await this.auth.assertCanAccessGeneratedDocumentFile(
-      user,
-      documentIdRaw,
-      '0', // placeholder; only the documentId matters for cleanup authorization
-    );
+    await this.auth.assertCanAccessGeneratedDocument(user, documentIdRaw);
 
     const documentId = parsePositiveBigint(documentIdRaw, 'documentId');
 

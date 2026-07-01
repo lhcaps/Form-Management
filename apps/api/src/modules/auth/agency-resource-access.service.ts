@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import type { CurrentUser } from './current-user.type';
 
 /**
  * Normalized shape returned after a business user has been validated.
@@ -29,6 +28,16 @@ export interface CaseAccessResult {
     id: bigint;
     agency_id: bigint | null;
   };
+}
+
+/**
+ * Result of asserting access to a generated document.
+ */
+export interface GeneratedDocumentAccessResult {
+  documentId: bigint;
+  caseId: bigint;
+  agencyId: bigint | null;
+  businessUser: BusinessUser;
 }
 
 /**
@@ -68,7 +77,12 @@ export class AgencyResourceAccessService {
    * Throws UnauthorizedException if no user is present.
    * Throws ForbiddenException if the user is a VIEWER or a Clerk identity.
    */
-  requireBusinessUser(user: CurrentUser | null | undefined): BusinessUser {
+  requireBusinessUser(
+    user:
+      | { id: string; role: string; agencyId: string | null; fullName?: string }
+      | null
+      | undefined,
+  ): BusinessUser {
     if (!user) {
       throw new UnauthorizedException('Thiếu thông tin xác thực.');
     }
@@ -108,7 +122,7 @@ export class AgencyResourceAccessService {
       officialId,
       role: user.role,
       agencyId,
-      fullName: user.fullName,
+      fullName: user.fullName ?? '',
     };
   }
 
@@ -119,7 +133,10 @@ export class AgencyResourceAccessService {
    * Throws ForbiddenException if access is denied.
    */
   assertCanAccessAgency(
-    user: CurrentUser | null | undefined,
+    user:
+      | { id: string; role: string; agencyId: string | null }
+      | null
+      | undefined,
     agencyId: bigint | null,
   ): BusinessUser {
     const businessUser = this.requireBusinessUser(user);
@@ -150,7 +167,10 @@ export class AgencyResourceAccessService {
    * Throws ForbiddenException if the user cannot access the case's agency.
    */
   async assertCanAccessCase(
-    user: CurrentUser | null | undefined,
+    user:
+      | { id: string; role: string; agencyId: string | null }
+      | null
+      | undefined,
     caseIdRaw: string,
   ): Promise<CaseAccessResult> {
     const caseId = this.parsePositiveBigint(caseIdRaw, 'caseId');
@@ -181,13 +201,59 @@ export class AgencyResourceAccessService {
   }
 
   /**
+   * Assert that the given user can access a generated document by its id.
+   * Loads the document and its case to determine agency ownership.
+   * Throws NotFoundException if any entity in the chain is missing.
+   * Throws ForbiddenException if the user cannot access the document's agency.
+   */
+  async assertCanAccessGeneratedDocument(
+    user:
+      | { id: string; role: string; agencyId: string | null }
+      | null
+      | undefined,
+    documentIdRaw: string,
+  ): Promise<GeneratedDocumentAccessResult> {
+    const documentId = this.parsePositiveBigint(documentIdRaw, 'documentId');
+
+    const documentRow = await this.prisma.generated_documents.findFirst({
+      where: { id: documentId },
+      select: { id: true, case_id: true },
+    });
+
+    if (!documentRow) {
+      throw new NotFoundException('Không tìm thấy biểu mẫu đã tạo.');
+    }
+
+    const caseRow = await this.prisma.cases.findFirst({
+      where: { id: documentRow.case_id },
+      select: { id: true, agency_id: true },
+    });
+
+    if (!caseRow) {
+      throw new NotFoundException('Không tìm thấy hồ sơ liên kết.');
+    }
+
+    const businessUser = this.assertCanAccessAgency(user, caseRow.agency_id);
+
+    return {
+      documentId,
+      caseId: caseRow.id,
+      agencyId: caseRow.agency_id,
+      businessUser,
+    };
+  }
+
+  /**
    * Assert that the given user can access a specific generated document file.
    * Loads the file, its parent document, and the case to determine agency ownership.
    * Throws NotFoundException if any entity in the chain is missing.
    * Throws ForbiddenException if the user cannot access the file's agency.
    */
   async assertCanAccessGeneratedDocumentFile(
-    user: CurrentUser | null | undefined,
+    user:
+      | { id: string; role: string; agencyId: string | null }
+      | null
+      | undefined,
     documentIdRaw: string,
     fileIdRaw: string,
   ): Promise<GeneratedFileAccessResult> {

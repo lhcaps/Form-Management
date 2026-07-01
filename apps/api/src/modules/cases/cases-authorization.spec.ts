@@ -90,12 +90,15 @@ function makeAuthMock(overrides?: {
   requireBusinessUser?: jest.Mock;
   assertCanAccessAgency?: jest.Mock;
   assertCanAccessCase?: jest.Mock;
+  assertCanAccessGeneratedDocument?: jest.Mock;
   assertCanAccessGeneratedDocumentFile?: jest.Mock;
 }) {
   return {
     requireBusinessUser: overrides?.requireBusinessUser ?? jest.fn(),
     assertCanAccessAgency: overrides?.assertCanAccessAgency ?? jest.fn(),
     assertCanAccessCase: overrides?.assertCanAccessCase ?? jest.fn(),
+    assertCanAccessGeneratedDocument:
+      overrides?.assertCanAccessGeneratedDocument ?? jest.fn(),
     assertCanAccessGeneratedDocumentFile:
       overrides?.assertCanAccessGeneratedDocumentFile ?? jest.fn(),
   };
@@ -170,7 +173,7 @@ describe('CasesService — agency authorization', () => {
       ).rejects.toBeInstanceOf(ForbiddenException);
     });
 
-    it('rejects null user with 403', async () => {
+    it('rejects null user with 401', async () => {
       const authMock = makeAuthMock({
         requireBusinessUser: jest.fn().mockImplementation(() => {
           throw new UnauthorizedException('Thiếu thông tin xác thực.');
@@ -179,7 +182,7 @@ describe('CasesService — agency authorization', () => {
       const prismaMock = makePrismaMock();
       const svc = buildService(authMock, prismaMock);
 
-      await expect(svc.findAll({}, null)).rejects.toBeInstanceOf(ForbiddenException);
+      await expect(svc.findAll({}, null)).rejects.toBeInstanceOf(UnauthorizedException);
     });
 
     it('allows ADMIN to list all cases', async () => {
@@ -618,7 +621,7 @@ describe('DocumentFilesService — authorization before file operations', () => 
   describe('cleanup — no list/delete before authorization', () => {
     it('throws before listing files when authorization fails', async () => {
       const authMock = makeAuthMock({
-        assertCanAccessGeneratedDocumentFile: jest.fn().mockRejectedValue(
+        assertCanAccessGeneratedDocument: jest.fn().mockRejectedValue(
           new ForbiddenException('Cross-agency'),
         ),
       });
