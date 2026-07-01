@@ -7,9 +7,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs, patchDocumentFormInputs } from "@/lib/document-form-api";
 
 const DEFAULT_SIGNER_NAME = '';
 
@@ -711,16 +709,7 @@ export function Bm170FormInputsPanel({
       setMessage("Đang tải dữ liệu BM-170 từ backend...");
 
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-          { cache: "no-store" },
-        );
-
-        if (!response.ok) {
-          throw new Error(`Không tải được render-payload. HTTP ${response.status}`);
-        }
-
-        const payload = await response.json();
+        const payload = await getDocumentRenderPayload(documentId);
 
         if (!cancelled) {
           setForm(buildFormFromPayload(payload));
@@ -898,22 +887,23 @@ export function Bm170FormInputsPanel({
   }
 
   async function requestSave(method: "POST" | "PATCH", body: unknown) {
-    const response = await fetch(
-      `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-      {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      },
-    );
+    try {
+      const result = method === "PATCH"
+        ? await patchDocumentFormInputs(documentId, body as Record<string, unknown>)
+        : await saveDocumentFormInputs(documentId, body as Record<string, unknown>);
 
-    const text = await response.text();
-
-    return {
-      ok: response.ok,
-      status: response.status,
-      text,
-    };
+      return {
+        ok: true,
+        status: 200,
+        text: JSON.stringify(result),
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        status: 0,
+        text: error instanceof Error ? error.message : String(error),
+      };
+    }
   }
 
   async function handleSave() {

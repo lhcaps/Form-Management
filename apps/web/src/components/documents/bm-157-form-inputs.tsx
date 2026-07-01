@@ -19,6 +19,7 @@ import {
   BmFormSection,
   BmFormStatus,
 } from "@/components/documents/bm-form";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type AgencyForm = { parentName: string; name: string; issuePlace: string };
 type DocumentForm = { documentCode: string; issueDate: string };
@@ -58,9 +59,6 @@ type Bm157Form = {
 };
 
 type RenderPayload = Record<string, unknown>;
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const EMPTY_EVIDENCE: EvidenceItem = {
   stt: "1",
@@ -253,11 +251,8 @@ export function Bm157FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { cache: "no-store" },
-      );
-      if (res.ok) setForm(normalizeForm((await res.json()) as RenderPayload));
+      const payload = await getDocumentRenderPayload<RenderPayload>(documentId);
+      setForm(normalizeForm(payload));
     } catch {
       /* ignore */
     } finally {
@@ -270,15 +265,7 @@ export function Bm157FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       await reloadFromBackend();
       setMessage("Đã lưu thành công.");
       await onSaved?.();

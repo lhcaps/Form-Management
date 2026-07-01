@@ -19,6 +19,7 @@ import {
   todayIsoDate,
 } from "./bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import { getDocumentRenderPayload } from "@/lib/document-form-api";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -209,12 +210,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
       setIsLoading(true);
       setErrorMessage(null);
       try {
-        const res = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-          { method: "GET", headers: { Accept: "application/json" }, cache: "no-store", credentials: "include" },
-        );
-        if (!res.ok) throw new Error(await res.text());
-        const next = normalizeForm(await res.json());
+        const next = normalizeForm(await getDocumentRenderPayload(documentId));
         if (isMounted) {
           setForm(next);
           setInitialSnapshot(JSON.stringify(derive(next)));
@@ -280,12 +276,7 @@ export function Bm024FormInputsPanel({ documentId, onSaved }: Props) {
     setIsLoading(true);
     setErrorMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { method: "GET", headers: { Accept: "application/json" }, cache: "no-store", credentials: "include" },
-      );
-      if (!res.ok) throw new Error(await res.text());
-      const next = normalizeForm(await res.json());
+      const next = normalizeForm(await getDocumentRenderPayload(documentId));
       setForm(next);
       setInitialSnapshot(JSON.stringify(derive(next)));
       setSavedAt(null);

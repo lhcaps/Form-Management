@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   BmFieldText,
@@ -10,9 +11,6 @@ import {
   BmFormSection,
   BmFormMetaBar,
 } from "./bm-form";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 type TextRecord = Record<string, string>;
 
@@ -361,40 +359,17 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm166FormInputs 
 }
 
 async function getBm166RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/render-payload`, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không tải được payload BM-166. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
+  return getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveBm166FormInputs(documentId: string | number, form: Bm166FormInputs): Promise<void> {
   const finalForm = buildDerivedFields(form);
 
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/form-inputs`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      formInputs: finalForm,
-      ...finalForm,
-      updatedByName: "",
-    }),
+  await saveDocumentFormInputs(documentId, {
+    formInputs: finalForm,
+    ...finalForm,
+    updatedByName: "",
   });
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không lưu được dữ liệu BM-166. HTTP ${response.status}`);
-  }
 }
 
 function Field({
