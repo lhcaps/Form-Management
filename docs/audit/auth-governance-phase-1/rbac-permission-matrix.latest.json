@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-06-30T15:40:00.000Z",
+  "patchedAt": "2026-06-30T22:00:00.000Z",
+  "phase": "Phase 6 - RBAC and Permission Matrix (PATCHED: Phase 1B)",
+  "providerSplit": {
+    "clerk": {
+      "role": "Coarse context only",
+      "orgRole": "Agency hint",
+      "publicMetadata": "Permission hints — NOT authoritative"
+    },
+    "app": {
+      "permissions": "QUANLYVKS DB is authoritative",
+      "roles": "DB role assignment",
+      "membership": "DB agency_memberships"
+    }
+  },
+  "roles": [
+    {"name": "SYSTEM_ADMIN", "description": "Full system access. Break-glass only.", "assignment": "Only via DB directly", "breakglass": true},
+    {"name": "PERMISSION_ADMIN", "description": "Manages users and roles within agency", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "FORM_EDITOR", "description": "Can create/edit form templates", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "FORM_APPROVER", "description": "Can approve/submit forms for publishing", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "OFFICIAL", "description": "Default role. Can use published forms", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "REPORT_VIEWER", "description": "Can view reports only", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "AUDITOR", "description": "Can read audit logs", "assignment": "DB role assignment", "breakglass": false},
+    {"name": "READ_ONLY", "description": "Can view cases/documents only", "assignment": "DB role assignment", "breakglass": false}
+  ],
+  "permissions": [
+    {"code": "case:read", "description": "View cases", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "case:create", "description": "Create cases", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "case:update", "description": "Update cases", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "case:archive", "description": "Archive cases", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:read", "description": "View documents", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "document:create", "description": "Create document batches", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:update", "description": "Update documents", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:save-form-inputs", "description": "Save form input data", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:export-docx", "description": "Export to DOCX", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:export-pdf", "description": "Export to PDF", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "document:view-export-history", "description": "View export history", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "template:read-published", "description": "View published templates", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "template:edit-draft", "description": "Edit form drafts", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "template:submit-review", "description": "Submit for review", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "template:approve", "description": "Approve/reject forms", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "template:publish", "description": "Publish forms", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "template:rollback", "description": "Rollback published forms", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "form-studio:access", "description": "Access Form Studio", "agencyScoped": false, "auditEvent": false, "highRisk": true},
+    {"code": "permission:manage", "description": "Manage permissions", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "report:read", "description": "View reports", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "audit:read", "description": "View audit logs", "agencyScoped": true, "auditEvent": false, "highRisk": false},
+    {"code": "agency:manage", "description": "Manage agency settings", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "user:invite", "description": "Invite users to agency", "agencyScoped": true, "auditEvent": true, "highRisk": true},
+    {"code": "user:disable", "description": "Disable users", "agencyScoped": true, "auditEvent": true, "highRisk": true}
+  ],
+  "specialRules": [
+    {
+      "rule": "official-no-form-studio",
+      "description": "OFFICIAL cannot access /admin/form-studio or any admin routes",
+      "enforcement": "PR-4 permission guard + middleware route protection",
+      "enforcementType": "db_guard"
+    },
+    {
+      "rule": "official-published-forms-only",
+      "description": "OFFICIAL can fill/export only published templates in own agency",
+      "enforcement": "Template status check + agency_id filter in every query",
+      "enforcementType": "db_guard"
+    },
+    {
+      "rule": "self-approval-prevention",
+      "description": "User with template:edit-draft CANNOT have template:approve for the same form they created",
+      "enforcement": "Check creator vs approver in approve service",
+      "enforcementType": "db_guard_and_self_approval_check"
+    },
+    {
+      "rule": "creator-cannot-publish",
+      "description": "Creator cannot publish their own form version",
+      "enforcement": "Same check as self-approval",
+      "enforcementType": "db_guard_and_self_approval_check"
+    },
+    {
+      "rule": "approver-cannot-publish",
+      "description": "FORM_APPROVER can approve but cannot publish unless template:publish permission exists",
+      "enforcement": "template:publish is not assigned to FORM_APPROVER role",
+      "enforcementType": "db_guard"
+    },
+    {
+      "rule": "permission-admin-no-form-edit",
+      "description": "PERMISSION_ADMIN can manage users/roles but cannot edit legal forms",
+      "enforcement": "PERMISSION_ADMIN has no template:edit-draft permission",
+      "enforcementType": "db_guard"
+    },
+    {
+      "rule": "auditor-readonly",
+      "description": "AUDITOR can only read, never write",
+      "enforcement": "AUDITOR has only audit:read. No write permissions assigned",
+      "enforcementType": "db_guard"
+    },
+    {
+      "rule": "system-admin-breakglass",
+      "description": "SYSTEM_ADMIN is for emergency use only. Avoid routine use",
+      "enforcement": "SYSTEM_ADMIN assigned only via direct DB write. No UI for SYSTEM_ADMIN assignment",
+      "enforcementType": "db_only_assignment"
+    },
+    {
+      "rule": "cross-agency-denied",
+      "description": "All data operations must be scoped to the user's agency. No cross-agency access by default",
+      "enforcement": "WHERE agency_id = :agencyId in every query. Middleware verifies membership",
+      "enforcementType": "db_guard"
+    }
+  ]
+}

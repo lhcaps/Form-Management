@@ -11,7 +11,8 @@ import {
   BmFormSection,
   BmFormMetaBar,
 } from "./bm-form";
-import { absoluteApiUrl, readApi } from "@/lib/api-client";
+import { readApi } from "@/lib/api-client";
+import { patchBm031DirectFormInputs, saveBm031DirectFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 
@@ -623,26 +624,18 @@ async function requestSave(
   status: number;
   text: string;
 }> {
-  const response = await fetch(
-    absoluteApiUrl(
-      `/documents/generated/${documentId}/bm031-direct-form-inputs`,
-    ),
-    {
-      method,
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(body),
-    },
-  );
-
-  return {
-    ok: response.ok,
-    status: response.status,
-    text: await response.text(),
-  };
+  try {
+    if (method === "POST") {
+      await saveBm031DirectFormInputs(documentId, body as Record<string, unknown>);
+    } else {
+      await patchBm031DirectFormInputs(documentId, body as Record<string, unknown>);
+    }
+    return { ok: true, status: 200, text: "" };
+  } catch (err) {
+    const status = err && typeof err === "object" && "status" in err ? (err as { status: number }).status : 500;
+    const message = err instanceof Error ? err.message : String(err);
+    return { ok: false, status, text: message };
+  }
 }
 
 function buildBm031SavePayload(ready: Bm031FormInputs): Record<string, unknown> {
@@ -1002,7 +995,7 @@ function applyBm031UserEditedBodyFields(
 
   return next as unknown as Bm031FormInputs;
 }
-async function saveBm031FormInputs(
+async function submitBm031FormInputs(
   documentId: string | number,
   form: Bm031FormInputs,
 ): Promise<Bm031FormInputs> {
@@ -1124,27 +1117,7 @@ async function saveBm031FormInputs(
     convertedByName: signerName,
   };
 
-  const response = await fetch(
-    absoluteApiUrl(
-      `/documents/generated/${documentId}/bm031-direct-form-inputs`,
-    ),
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
-    },
-  );
-
-  if (!response.ok) {
-    const text = await response.text().catch(() => "");
-    throw new Error(text || `Không lưu được BM-031. HTTP ${response.status}`);
-  }
-
-  await response.json().catch(() => null);
+  await saveBm031DirectFormInputs(documentId, body);
 
   return savePayload;
 }
@@ -1450,7 +1423,7 @@ export function Bm031FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const savedForm = await saveBm031FormInputs(documentId, form);
+      const savedForm = await submitBm031FormInputs(documentId, form);
 
       setForm(savedForm);
       setInitialSnapshot(JSON.stringify(savedForm));

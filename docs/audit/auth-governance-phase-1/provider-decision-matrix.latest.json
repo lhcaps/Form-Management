@@ -1,0 +1,130 @@
+{
+  "timestamp": "2026-06-30T15:35:00.000Z",
+  "patchedAt": "2026-06-30T22:00:00.000Z",
+  "phase": "Phase 4 - Provider Decision Matrix (PATCHED: Phase 1B)",
+  "userDecision": {
+    "chosen": "clerk",
+    "backup": "auth0",
+    "rejected": ["supabase"],
+    "notRecommended": ["auth.js"],
+    "date": "2026-06-30",
+    "condition": "No immediate SSO/SAML requirement. Clerk approved via GATE-1."
+  },
+  "scoringModel": {
+    "type": "5-category-independent",
+    "categories": ["mvp_velocity", "architecture_fit", "enterprise_procurement", "operational_complexity", "lockin_cost_risk"],
+    "maxPerCategory": 10,
+    "maxPerProvider": 50
+  },
+  "scoring": {
+    "clerk": {
+      "total": 40,
+      "max": 50,
+      "mvp_velocity": 10,
+      "architecture_fit": 8,
+      "enterprise_procurement": 6,
+      "operational_complexity": 9,
+      "lockin_cost_risk": 7,
+      "strengths": ["Best Next.js integration", "Organizations map to agencies", "MFA support (paid)", "Webhook audit trail", "Excellent DX"],
+      "weaknesses": ["No native SSO/SAML", "Some lock-in", "MFA requires paid plan"]
+    },
+    "auth0": {
+      "total": 38,
+      "max": 50,
+      "mvp_velocity": 7,
+      "architecture_fit": 9,
+      "enterprise_procurement": 10,
+      "operational_complexity": 7,
+      "lockin_cost_risk": 5,
+      "strengths": ["Best enterprise SSO", "Full RBAC", "Best compliance", "Industry standard"],
+      "weaknesses": ["Higher cost", "Less Next.js-native", "Configuration complexity", "High lock-in"]
+    },
+    "supabase": {
+      "total": 28,
+      "max": 50,
+      "mvp_velocity": 6,
+      "architecture_fit": 4,
+      "enterprise_procurement": 5,
+      "operational_complexity": 6,
+      "lockin_cost_risk": 7,
+      "strengths": ["Good free tier", "RLS DB security"],
+      "weaknesses": ["DB is MariaDB, not Supabase", "Would require DB migration", "Not designed for compliance"]
+    },
+    "authjs": {
+      "total": 33,
+      "max": 50,
+      "mvp_velocity": 7,
+      "architecture_fit": 8,
+      "enterprise_procurement": 3,
+      "operational_complexity": 5,
+      "lockin_cost_risk": 10,
+      "strengths": ["No vendor lock-in", "Free and open-source", "Full control"],
+      "weaknesses": ["No native org model", "Security maintenance burden", "No built-in MFA/SSO", "Not for compliance"]
+    }
+  },
+  "decisionGates": {
+    "GATE-1": {
+      "name": "SSO/SAML",
+      "rule": "IF mandatory SSO/SAML within 0-6 months → escalate to Auth0/Okta. ELSE → Clerk is approved.",
+      "status": "PASSED",
+      "current": "No immediate SSO/SAML requirement."
+    },
+    "GATE-2": {
+      "name": "MFA",
+      "rule": "MFA alone does NOT force Auth0. Clerk and Auth0 both support MFA. Decision point is enterprise SSO/IdP/procurement.",
+      "status": "PASSED",
+      "current": "Verify Clerk project settings and selected plan."
+    },
+    "GATE-3": {
+      "name": "Clerk Organizations",
+      "rule": "Use Clerk Organizations for agency context. Keep QUANLYVKS DB authoritative for permissions.",
+      "status": "REQUIRED",
+      "current": "Clerk org role is coarse context only."
+    },
+    "GATE-4": {
+      "name": "Clerk Roles/Permissions",
+      "rule": "Do NOT rely solely on Clerk org roles for legal/business authorization. Use QUANLYVKS DB as authoritative source.",
+      "status": "REQUIRED",
+      "current": "DB roles/permissions + API guards are authoritative."
+    },
+    "GATE-5": {
+      "name": "API Security",
+      "rule": "All sensitive API calls must validate Clerk JWT/Bearer token. Never trust client-provided agencyId without verifying membership.",
+      "status": "REQUIRED",
+      "current": "Bearer token validation required in API guards."
+    }
+  },
+  "decisionLogic": {
+    "ifSSORequired": "auth0",
+    "ifSpeedRequired": "clerk",
+    "ifCompleteControlRequired": "authjs",
+    "ifSupabaseDBAlreadyUsed": "supabase"
+  },
+  "migrationRisk": {
+    "clerk": {
+      "vendor_lockin": "medium",
+      "cost_increase": "low",
+      "sso_gap": "medium",
+      "data_migration": "low",
+      "mitigation": "Keep permission logic in DB; use Clerk only for authN"
+    },
+    "auth0": {
+      "vendor_lockin": "high",
+      "cost_increase": "medium",
+      "sso_gap": "low",
+      "data_migration": "low",
+      "mitigation": "Negotiate pricing; use templates"
+    }
+  },
+  "costComparison": {
+    "clerk": { "free": "10K MAU", "paid": "$25/mo + $0.02/MAU" },
+    "auth0": { "free": "7K MAU", "paid": "$23/mo + $0.005/MAU" },
+    "supabase": { "free": "50K MAU", "paid": "$25/mo" },
+    "authjs": { "free": "Unlimited", "paid": "Free" }
+  },
+  "corrections": {
+    "originalProblem": "Auth0 scored 119/116 (exceeded max) because per-criterion scores exceeded declared weight ceiling in some categories.",
+    "fix": "Replaced single weighted-sum scoring with 5 independent decision categories (each max 10). No category score can exceed 10.",
+    "mfaCorrection": "Original said 'MFA requirement? If yes, switch to Auth0.' Corrected: MFA alone does NOT force Auth0. Decision point is enterprise SSO/SAML, centralized IdP, procurement/compliance requirements."
+  }
+}

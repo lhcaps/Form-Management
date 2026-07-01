@@ -10,10 +10,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useState } from "react";
+import { useClerk, useUser as useClerkUser } from "@clerk/react";
 import { useAuth } from "@/lib/auth-context";
 import { canOpenFormStudio } from "@/lib/permissions";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
-import { useState } from "react";
 
 // ─── Icon helpers ────────────────────────────────────────────────────────────
 
@@ -180,16 +181,53 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+// ─── Identity helpers ────────────────────────────────────────────────────────
+
+function getClerkDisplayIdentity(clerkUser: ReturnType<typeof useClerkUser>["user"]) {
+  if (!clerkUser) return null;
+  const name =
+    clerkUser.fullName?.trim() ||
+    [clerkUser.firstName, clerkUser.lastName]
+      .map((p) => p?.trim())
+      .filter(Boolean)
+      .join(" ") ||
+    null;
+  const email = clerkUser.primaryEmailAddress?.emailAddress ?? null;
+  return { name, email };
+}
+
+function getStatusLabel(
+  clerkUser: ReturnType<typeof useClerkUser>["user"],
+  apiUser: ReturnType<typeof useAuth>["user"],
+): string {
+  if (clerkUser) return "Đã xác thực";
+  if (apiUser) return apiUser.email ?? apiUser.positionTitle ?? apiUser.role ?? "Đã xác thực";
+  return "Chưa đăng nhập";
+}
+
 // ─── Desktop Sidebar (full export) ──────────────────────────────────────────
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { user, logout } = useAuth();
-  const displayName = user?.fullName ?? "Chưa đăng nhập";
-  const subtitle = user?.agencyName ?? user?.positionTitle ?? user?.role ?? "";
-  const initials = getInitials(displayName) || "QL";
+  const { user: apiUser, logout } = useAuth();
+  const { user: clerkUser } = useClerkUser();
+  const { openUserProfile } = useClerk();
 
-  const visibleMenuItems = canOpenFormStudio(user)
+  const identity = getClerkDisplayIdentity(clerkUser);
+  const apiIdentity = apiUser
+    ? { name: apiUser.fullName, email: apiUser.email ?? null }
+    : null;
+
+  // Prefer Clerk native identity; fall back to API identity; then fallback label.
+  const displayName =
+    identity?.name ?? apiIdentity?.name ?? "Người dùng";
+  const displayEmail =
+    identity?.email ?? apiIdentity?.email ?? null;
+  const statusLabel = getStatusLabel(clerkUser, apiUser);
+  const initials = getInitials(displayName) || "QL";
+  const avatarUrl = clerkUser?.imageUrl ?? null;
+
+  const visibleMenuItems = canOpenFormStudio(apiUser)
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
     : BASE_MENU_ITEMS;
 
@@ -226,36 +264,81 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-auto border-t border-slate-200 p-4">
-        <div className="flex items-center gap-3 rounded-[18px] bg-slate-50 p-3">
-          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
-            {initials}
-          </div>
+        {/* Template-first: card is now a real account button. */}
+        <button
+          type="button"
+          onClick={() => void openUserProfile()}
+          title="Quản lý tài khoản"
+          aria-label={`Tài khoản: ${displayName}. Nhấn để quản lý hoặc đăng xuất.`}
+          className="flex w-full items-center gap-3 rounded-[18px] bg-slate-50 p-3 text-left transition hover:bg-slate-100"
+        >
+          {avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="h-10 w-10 shrink-0 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
+              {initials}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <div className="truncate text-[13px] font-black text-slate-950">
               {displayName}
             </div>
-            {subtitle ? (
-              <div className="mt-0.5 truncate text-[12px] font-medium text-slate-500">
-                {subtitle}
-              </div>
-            ) : null}
+            <div className="truncate text-[12px] font-medium text-slate-500">
+              {displayEmail ?? statusLabel}
+            </div>
           </div>
-          <button
-            type="button"
-            aria-label="Đăng xuất"
-            title="Đăng xuất"
-            onClick={() => {
-              void logout();
-            }}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-slate-500 transition hover:bg-white hover:text-rose-600"
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-slate-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+        </button>
+
+        {/* Sign-out remains a separate accessible control. */}
+        <button
+          type="button"
+          aria-label="Đăng xuất"
+          title="Đăng xuất"
+          onClick={() => {
+            void logout();
+          }}
+          className="mt-1 flex w-full items-center gap-2 rounded-[18px] p-3 text-[13px] font-medium text-slate-400 transition hover:bg-red-50 hover:text-rose-600"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
           >
-            <SvgIcon>
-              <path d="M10 17l5-5-5-5" />
-              <path d="M15 12H4" />
-              <path d="M12 20h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-6" />
-            </SvgIcon>
-          </button>
-        </div>
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Đăng xuất
+        </button>
       </div>
     </aside>
   );
@@ -277,12 +360,24 @@ export function Sidebar() {
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const { user, logout } = useAuth();
-  const displayName = user?.fullName ?? "Chưa đăng nhập";
-  const subtitle = user?.agencyName ?? user?.positionTitle ?? user?.role ?? "";
-  const initials = getInitials(displayName) || "QL";
+  const { user: apiUser, logout } = useAuth();
+  const { user: clerkUser } = useClerkUser();
+  const { openUserProfile } = useClerk();
 
-  const visibleMenuItems = canOpenFormStudio(user)
+  const identity = getClerkDisplayIdentity(clerkUser);
+  const apiIdentity = apiUser
+    ? { name: apiUser.fullName, email: apiUser.email ?? null }
+    : null;
+
+  const displayName =
+    identity?.name ?? apiIdentity?.name ?? "Người dùng";
+  const displayEmail =
+    identity?.email ?? apiIdentity?.email ?? null;
+  const statusLabel = getStatusLabel(clerkUser, apiUser);
+  const initials = getInitials(displayName) || "QL";
+  const avatarUrl = clerkUser?.imageUrl ?? null;
+
+  const visibleMenuItems = canOpenFormStudio(apiUser)
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
     : BASE_MENU_ITEMS;
 
@@ -321,22 +416,36 @@ export function MobileNav() {
           {QUANLYVKS_LOGO}
         </div>
 
-        {/* User block */}
-        <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
-          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
-            {initials}
-          </div>
+        {/* User block — opens Clerk profile on click */}
+        <button
+          type="button"
+          onClick={() => {
+            setOpen(false);
+            void openUserProfile();
+          }}
+          className="flex w-full items-center gap-3 border-b border-slate-100 px-5 py-4 text-left transition hover:bg-slate-50"
+        >
+          {avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="h-10 w-10 shrink-0 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
+              {initials}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <div className="truncate text-[13px] font-black text-slate-950">
               {displayName}
             </div>
-            {subtitle ? (
-              <div className="truncate text-[12px] font-medium text-slate-500">
-                {subtitle}
-              </div>
-            ) : null}
+            <div className="truncate text-[12px] font-medium text-slate-500">
+              {displayEmail ?? statusLabel}
+            </div>
           </div>
-        </div>
+        </button>
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto px-3 py-2">

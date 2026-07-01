@@ -1,101 +1,79 @@
 /**
  * Server-side route protection (Next.js 16 "proxy" convention).
  *
- * Bouncer ở edge: nếu request tới protected route KHÔNG có session cookie
- * thì redirect ngay tới /login (returnUrl). Nếu có cookie thì cho qua — API
- * AuthGuard sẽ là nơi xác thực thật sự (vì proxy không có quyền truy cập
- * Prisma/DB).
+ * PR-1: Clerk Foundation — uses Clerk's clerkMiddleware() for route protection.
  *
- * Lợi ích:
- *  - Bot / user tắt JS: vẫn redirect, không render protected page trắng.
- *  - Không phụ thuộc client-side AuthGate duy nhất.
- *  - Static export / SSR có trảiềm nhất quán.
+ * AUTH MODE SWITCHING:
+ *  - Clerk mode: When NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is set, use Clerk
+ *    session protection. Unauthenticated requests redirect to /sign-in.
+ *  - Legacy mode: When Clerk env vars are absent, fall back to legacy
+ *    session cookie. This keeps E2E tests and dev workflow working.
  *
- * Tắt / bật qua env:
- *  - NEXT_PUBLIC_AUTH_COOKIE_NAME (mặc định "qlv_session")
- *  - AUTH_PROTECTED_PREFIXES (CSV, mặc định cases,documents,imports,reports,settings,admin)
- *  - AUTH_PUBLIC_PATHS (CSV, mặc định login,api/auth/login)
+ * IMPORTANT: This proxy protects WEB ROUTES ONLY. The separate NestJS API (port 3001)
+ * must be protected by ClerkJwtGuard in PR-3. Do not assume this middleware
+ * protects the API.
+ *
+ * Public routes (always accessible):
+ *   /healthz, /sign-in, /sign-up, /login, /_next/*, favicon, static assets
  */
 
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  buildSignInPath,
+  isAuthBypassPath,
+  isPublicAssetPath,
+} from "./lib/auth-routes";
 
-const DEFAULT_COOKIE_NAME = "qlv_session";
-const DEFAULT_PROTECTED_PREFIXES = [
-  "/cases",
-  "/documents",
-  "/imports",
-  "/reports",
-  "/settings",
-  "/admin",
-];
-const DEFAULT_PUBLIC_PATHS = ["/login", "/api/auth/login"];
+const LEGACY_COOKIE_NAME = "qlv_session";
 
-function getCookieName(): string {
-  return process.env.NEXT_PUBLIC_AUTH_COOKIE_NAME ?? DEFAULT_COOKIE_NAME;
+const isNextInternalRoute = createRouteMatcher(["/_next(.*)", "/favicon.ico"]);
+
+/** True when Clerk is configured (env vars present). */
+function isClerkEnabled(): boolean {
+  return (
+    !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
+    !!process.env.CLERK_SECRET_KEY
+  );
 }
 
-/**
- * Match chính xác hoặc segment-prefix (kèm "/"). Tránh false positive khi
- * public/protected entry là "/admin" mà path lại là "/administrator".
- */
-function matchesPath(pathname: string, entry: string): boolean {
-  return pathname === entry || pathname.startsWith(`${entry}/`);
-}
-
-function isPublicPath(pathname: string, publicPaths: string[]): boolean {
-  return publicPaths.some((p) => matchesPath(pathname, p));
-}
-
-function isProtectedPath(pathname: string, prefixes: string[]): boolean {
-  return prefixes.some((p) => matchesPath(pathname, p));
-}
-
-export function proxy(request: NextRequest) {
+export default clerkMiddleware(async (auth, request: NextRequest) => {
   const { pathname, search } = request.nextUrl;
-
-  // Bỏ qua: static, _next, favicon, public assets
   if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/favicon") ||
-    pathname.startsWith("/public") ||
-    pathname.includes(".")
+    isAuthBypassPath(pathname) ||
+    isPublicAssetPath(pathname) ||
+    isNextInternalRoute(request)
   ) {
     return NextResponse.next();
   }
 
-  const publicPaths = (process.env.AUTH_PUBLIC_PATHS ?? DEFAULT_PUBLIC_PATHS.join(","))
-    .split(",")
-    .map((p) => p.trim())
-    .filter(Boolean);
+  if (isClerkEnabled()) {
+    // Clerk mode: use Clerk's auth protection.
+    // PR-1 protects web routes only; API JWT validation stays deferred to PR-3.
+    const sessionAuth = await auth();
+    if (sessionAuth.userId) {
+      return NextResponse.next();
+    }
 
-  if (isPublicPath(pathname, publicPaths)) {
+    return NextResponse.redirect(
+      new URL(buildSignInPath(`${pathname}${search ?? ""}`), request.nextUrl.origin),
+    );
+  }
+
+  // Legacy mode: fall back to session cookie check.
+  const hasLegacySession = request.cookies.get(LEGACY_COOKIE_NAME)?.value;
+
+  if (hasLegacySession) {
     return NextResponse.next();
   }
 
-  const protectedPrefixes = (process.env.AUTH_PROTECTED_PREFIXES ??
-    DEFAULT_PROTECTED_PREFIXES.join(","))
-    .split(",")
-    .map((p) => p.trim())
-    .filter(Boolean);
-
-  // Nếu path không nằm trong protected list, cho qua (homepage, /login đã bỏ ở trên).
-  if (!isProtectedPath(pathname, protectedPrefixes)) {
-    return NextResponse.next();
-  }
-
-  const cookieName = getCookieName();
-  const sessionCookie = request.cookies.get(cookieName);
-
-  if (sessionCookie?.value) {
-    return NextResponse.next();
-  }
-
-  const returnUrl = encodeURIComponent(pathname + (search ?? ""));
-  const loginUrl = new URL("/login", request.nextUrl.origin);
-  loginUrl.searchParams.set("returnUrl", returnUrl);
-  return NextResponse.redirect(loginUrl);
-}
+  return NextResponse.redirect(
+    new URL(buildSignInPath(`${pathname}${search ?? ""}`), request.nextUrl.origin),
+  );
+});
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|txt|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
 };

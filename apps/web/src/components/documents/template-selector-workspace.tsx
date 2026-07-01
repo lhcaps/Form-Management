@@ -77,6 +77,10 @@ import {
 import { createDocumentBatch } from "@/lib/documents-api";
 import { readApi, ApiError } from "@/lib/api-client";
 import { ErrorBanner } from "@/components/common/error-banner";
+import {
+  getPrimaryTemplateOpenTarget,
+  isTemplateOpenable,
+} from "@/lib/template-open-workflow";
 
 const GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE: Record<string, string> = {};
 
@@ -552,8 +556,14 @@ export function TemplateSelectorWorkspace() {
         const hasDirectDocument = Boolean(
           GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
         );
+        const hasRuntimeContract = Boolean(item.catalogItem?.runtime.available);
 
-        if (input.onlyCreatable && !item.canCreate && !hasDirectDocument) {
+        if (
+          input.onlyCreatable &&
+          !item.canCreate &&
+          !hasDirectDocument &&
+          !hasRuntimeContract
+        ) {
           return false;
         }
 
@@ -567,12 +577,16 @@ export function TemplateSelectorWorkspace() {
         const scoreDiff = b.score - a.score;
         if (scoreDiff !== 0) return scoreDiff;
 
-        const aOpenable =
-          a.canCreate ||
-          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code]);
-        const bOpenable =
-          b.canCreate ||
-          Boolean(GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code]);
+        const aOpenable = isTemplateOpenable({
+          dbTemplateId: a.dbTemplateId,
+          hasRuntimeContract: Boolean(a.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[a.code],
+        });
+        const bOpenable = isTemplateOpenable({
+          dbTemplateId: b.dbTemplateId,
+          hasRuntimeContract: Boolean(b.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[b.code],
+        });
 
         if (aOpenable !== bOpenable) {
           return aOpenable ? -1 : 1;
@@ -587,7 +601,11 @@ export function TemplateSelectorWorkspace() {
   const openableCount = useMemo(() => {
     return topCandidates.filter(
       (item) =>
-        item.canCreate || GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+        isTemplateOpenable({
+          dbTemplateId: item.dbTemplateId,
+          hasRuntimeContract: Boolean(item.catalogItem?.runtime.available),
+          directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+        }),
     ).length;
   }, [topCandidates]);
 
@@ -788,42 +806,32 @@ export function TemplateSelectorWorkspace() {
     router.push(`/documents/${generatedDocument.id}`);
   }
 
-  async function openTemplate(item: Candidate) {
+  function openTemplate(item: Candidate) {
     setError("");
 
-    const directDocumentId = GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code];
+    const target = getPrimaryTemplateOpenTarget({
+      templateCode: item.code,
+      dbTemplateId: item.dbTemplateId,
+      hasRuntimeContract: Boolean(item.catalogItem?.runtime.available),
+      directDocumentId: GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[item.code],
+    });
 
-    if (directDocumentId) {
-      router.push(`/documents/${directDocumentId}`);
-      return;
-    }
-
-    if (!item.canCreate || !item.dbTemplateId) {
-      setError(
-        `${item.code} chưa có DB template để mở trực tiếp. Cần seed/mapping biểu mẫu này vào DB trước.`,
-      );
-      return;
-    }
-
-    if (!currentCaseId) {
-      setPendingTemplate(item);
-      await openCasePickerForTemplate(item);
+    if (target.kind === "unavailable") {
+      setError(target.message);
       return;
     }
 
     setOpeningTemplateCode(item.code);
-
-    try {
-      await createBatchForCase(currentCaseId, item);
-    } catch (err) {
-      setError(err instanceof ApiError ? err : err instanceof Error ? err : new Error(`Không mở được biểu mẫu ${item.code}.`));
-    } finally {
-      setOpeningTemplateCode(null);
-    }
+    router.push(target.href);
   }
 
   async function confirmCaseForPending(caseId: string) {
-    if (!pendingTemplate) return;
+    if (!pendingTemplate) {
+      setCurrentCaseId(caseId);
+      setCasePickerOpen(false);
+      setCaseSearch("");
+      return;
+    }
 
     setOpeningTemplateCode(pendingTemplate.code);
     setCasePickerOpen(false);
@@ -916,19 +924,15 @@ export function TemplateSelectorWorkspace() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-4">
+          <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase text-slate-500">
-                Hồ sơ hiện tại
+                Danh mục biểu mẫu
               </p>
-              <p className="mt-2 text-sm font-black text-slate-950">
-                {currentCaseId ? currentCaseLabel : "Chưa chọn"}
+              <p className="mt-2 text-2xl font-black text-slate-800">
+                {catalogLoading ? "..." : vksTemplateCatalog.length}
               </p>
-              <p className="mt-1 line-clamp-2 text-xs text-slate-500">
-                {currentCaseId
-                  ? "Hồ sơ sẽ dùng để tạo document khi mở biểu mẫu"
-                  : "Hệ thống sẽ hỏi khi bạn mở biểu mẫu"}
-              </p>
+              <p className="mt-1 text-xs text-slate-400">tổng cộng</p>
             </div>
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
@@ -938,6 +942,7 @@ export function TemplateSelectorWorkspace() {
               <p className="mt-2 text-2xl font-black text-blue-800">
                 {dbTemplates.length}
               </p>
+              <p className="mt-1 text-xs text-blue-400">trong database</p>
             </div>
 
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
@@ -947,24 +952,31 @@ export function TemplateSelectorWorkspace() {
               <p className="mt-2 text-2xl font-black text-emerald-700">
                 {topCandidates.length}
               </p>
+              <p className="mt-1 text-xs text-emerald-500">
+                {hasActiveSuggestionFilter ? "theo bộ lọc" : "hàng đầu"}
+              </p>
             </div>
 
             <div className="rounded-2xl border border-indigo-200 bg-indigo-50 p-4">
               <p className="text-xs font-bold uppercase text-indigo-700">
-                Có thể mở
+                Mở được ngay
               </p>
               <p className="mt-2 text-2xl font-black text-indigo-800">
                 {openableCount}
+              </p>
+              <p className="mt-1 text-xs text-indigo-500">
+                {input.onlyCreatable ? "theo bộ lọc" : "biểu mẫu có DB"}
               </p>
             </div>
 
             <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
               <p className="text-xs font-bold uppercase text-teal-700">
-                Danh mục biểu mẫu
+                Đã triển khai runtime
               </p>
               <p className="mt-2 text-2xl font-black text-teal-800">
                 {catalogLoading ? "..." : catalog.length}
               </p>
+              <p className="mt-1 text-xs text-teal-500">Studio + runtime</p>
             </div>
           </div>
         </section>
@@ -1078,15 +1090,47 @@ export function TemplateSelectorWorkspace() {
             </label>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-600">
-              Đang lọc: {formatStageLabel(input.stageId)}
-            </span>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {/* Optional current case — does NOT block template opening */}
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+              <p className="text-xs font-bold uppercase text-amber-700">
+                Hồ sơ để điền dữ liệu
+              </p>
+              <p className="mt-2 text-sm font-black text-amber-800">
+                {currentCaseId ? currentCaseLabel : "Chưa chọn"}
+              </p>
+              <p className="mt-1 text-xs text-amber-600">
+                {currentCaseId
+                  ? "Tự động điền dữ liệu hồ sơ khi mở biểu mẫu"
+                  : "Không bắt buộc — bạn vẫn mở được biểu mẫu mà không cần chọn hồ sơ"}
+              </p>
+            </div>
 
-            <span className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">
-              Nguồn danh mục: {SHOW_TEMPLATE_DEBUG_INFO ? templateCatalogMeta.sourceZip : "Đã tải"}
-            </span>
+            <div className="rounded-2xl border border-cyan-200 bg-cyan-50 p-4">
+              <p className="text-xs font-bold uppercase text-cyan-700">
+                Mở biểu mẫu
+              </p>
+              <p className="mt-2 text-sm font-black text-cyan-800">
+                Không cần hồ sơ
+              </p>
+              <p className="mt-1 text-xs text-cyan-600">
+                Bạn có thể chọn biểu mẫu và điền dữ liệu trực tiếp. Hồ sơ chỉ dùng để tự động điền thông tin.
+              </p>
+            </div>
           </div>
+
+          {input.stageId ? (
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-600">
+                Đang lọc giai đoạn: {formatStageLabel(input.stageId)}
+              </span>
+              {input.onlyCreatable ? (
+                <span className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-700">
+                  Chỉ hiện biểu mẫu có DB
+                </span>
+              ) : null}
+            </div>
+          ) : null}
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -1103,10 +1147,10 @@ export function TemplateSelectorWorkspace() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-600">
+              <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600">
                 {hasActiveSuggestionFilter
-                  ? `Đang hiện ${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} mẫu phù hợp`
-                  : "Đang hiện toàn bộ danh mục"}
+                  ? `${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} biểu mẫu phù hợp`
+                  : `${vksTemplateCatalog.length} biểu mẫu tổng cộng`}
               </span>
 
               <button
@@ -1146,13 +1190,16 @@ export function TemplateSelectorWorkspace() {
                   <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                     {stage.items.map((candidate) => {
                       const isOpening = openingTemplateCode === candidate.code;
-                      const hasDirectDocument = Boolean(
-                        GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
-                          candidate.code
-                        ],
-                      );
-                      const canOpen =
-                        candidate.canCreate || hasDirectDocument;
+                      const canOpen = isTemplateOpenable({
+                        dbTemplateId: candidate.dbTemplateId,
+                        hasRuntimeContract: Boolean(
+                          candidate.catalogItem?.runtime.available,
+                        ),
+                        directDocumentId:
+                          GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE[
+                            candidate.code
+                          ],
+                      });
 
                       return (
                         <article
@@ -1199,14 +1246,26 @@ export function TemplateSelectorWorkspace() {
                             </div>
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={() => void openTemplate(candidate)}
-                            disabled={!canOpen || isOpening}
-                            className={`mt-4 w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300`}
-                          >
-                            {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
-                          </button>
+                          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                            <button
+                              type="button"
+                              onClick={() => void openTemplate(candidate)}
+                              disabled={!canOpen || isOpening}
+                              className="w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                            >
+                              {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                void openCasePickerForTemplate(candidate)
+                              }
+                              disabled={!candidate.dbTemplateId || isOpening}
+                              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                            >
+                              Mở với hồ sơ
+                            </button>
+                          </div>
                         </article>
                       );
                     })}
@@ -1242,12 +1301,12 @@ export function TemplateSelectorWorkspace() {
                 id="case-picker-title"
                 className="text-lg font-black text-slate-950"
               >
-                Chọn hồ sơ để mở biểu mẫu
+                Chọn hồ sơ (tùy chọn)
               </h2>
               <p id="case-picker-description" className="mt-1 text-sm text-slate-500">
                 {pendingTemplate
-                  ? `Biểu mẫu ${pendingTemplate.code} sẽ được tạo document trong hồ sơ bạn chọn.`
-                  : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu."}
+                  ? `Biểu mẫu ${pendingTemplate.code} sẽ được mở. Hồ sơ giúp tự động điền thông tin — có thể bỏ qua.`
+                  : "Chọn hồ sơ mặc định dùng khi mở biểu mẫu có chọn case."}
               </p>
             </div>
 

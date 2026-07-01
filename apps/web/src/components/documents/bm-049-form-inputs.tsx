@@ -20,6 +20,7 @@
  */
 import { useEffect, useState } from "react";
 import { absoluteApiUrl, extractApiError } from "@/lib/api-client";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormSection, BmFormMetaBar } from "@/components/documents/bm-form";
 import { useCasePayload } from "@/lib/case-payload-context";
 import { applyCasePayloadToGenericForm, type GenericCaseFormInputs } from "@/lib/bm-auto-populate/generic-case-defaults";
@@ -139,8 +140,8 @@ export function Bm049FormInputsPanel({ documentId, onSaved }: { documentId: stri
   async function load() {
     setIsLoading(true); setError(null);
     try {
-      const res = await fetch(absoluteApiUrl(`/documents/generated/${documentId}/render-payload`), { method: "GET", credentials: "include", headers: { Accept: "application/json" }, cache: "no-store" });
-      if (res.ok) setForm(normalizePayload((await res.json()) as Record<string, unknown>));
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
+      setForm(normalizePayload(payload));
     } catch { /* keep defaults */ } finally { setIsLoading(false); }
   }
 
@@ -150,8 +151,7 @@ export function Bm049FormInputsPanel({ documentId, onSaved }: { documentId: stri
     setIsSaving(true); setError(null); setSuccess(null);
     try {
       const body = { ...form, formInputs: form, payloadOverrides: form, renderPayloadOverrides: form };
-      const res = await fetch(absoluteApiUrl(`/documents/generated/${documentId}/form-inputs`), { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      if (!res.ok) throw new Error(extractApiError(await res.text().catch(() => ""), `Lỗi HTTP ${res.status}`));
+      await saveDocumentFormInputs(documentId, body);
       setIsDirty(false); setSuccess("Đã lưu biểu mẫu BM-049."); onSaved?.();
     } catch (e) { setError(e instanceof Error ? e.message : "Lỗi khi lưu."); } finally { setIsSaving(false); }
   }

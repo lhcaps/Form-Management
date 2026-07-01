@@ -10,6 +10,7 @@
  */
 import { useEffect, useState } from "react";
 import { absoluteApiUrl, extractApiError } from "@/lib/api-client";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import {
   BmFormSection,
   BmFormMetaBar,
@@ -187,15 +188,10 @@ export function Bm028FormInputsPanel({
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        absoluteApiUrl(`/documents/generated/${documentId}/render-payload`),
-        { method: "GET", credentials: "include", headers: { Accept: "application/json" }, cache: "no-store" },
-      );
-      if (res.ok) {
-        const data = normalizePayload((await res.json()) as Record<string, unknown>);
-        if (!isSaving) {
-          setForm(data);
-        }
+      const payload = await getDocumentRenderPayload(documentId);
+      const data = normalizePayload(payload as Record<string, unknown>);
+      if (!isSaving) {
+        setForm(data);
       }
     } catch {
       // keep defaults on load failure
@@ -219,19 +215,7 @@ export function Bm028FormInputsPanel({
         payloadOverrides: form,
         renderPayloadOverrides: form,
       };
-      const res = await fetch(
-        absoluteApiUrl(`/documents/generated/${documentId}/form-inputs`),
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        },
-      );
-      if (!res.ok) {
-        const err = await res.text().catch(() => "");
-        throw new Error(extractApiError(err, `Không lưu được [HTTP ${res.status}]`));
-      }
+      await saveDocumentFormInputs(documentId, body);
       setIsDirty(false);
       setSuccess("Đã lưu biểu mẫu BM-028.");
       onSaved?.();

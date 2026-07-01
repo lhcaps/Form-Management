@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {
+  renderDocumentDocx,
+  convertDocumentPdf,
+} from "@/lib/document-render-api";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   BmFieldText,
@@ -998,12 +1002,12 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
         updatedByName: "",
       });
 
-      await postJson(`${apiBase}/documents/generated/${documentId}/render-docx`, {
+      await renderDocumentDocx(documentId, {
         force: true,
         renderedByName: "",
       });
 
-      await postJson(`${apiBase}/documents/generated/${documentId}/convert-pdf`, {
+      await convertDocumentPdf(documentId, {
         force: true,
         convertedByName: "",
       });

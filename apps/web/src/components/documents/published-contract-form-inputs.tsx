@@ -5,7 +5,8 @@ import { readPath } from "@qllaw/form-contracts/browser";
 import { useEffect, useMemo, useState } from "react";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
-import { absoluteApiUrl, readApi } from "@/lib/api-client";
+import { readApi } from "@/lib/api-client";
+import { savePublishedContractFormInputs } from "@/lib/document-form-api";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value);
@@ -139,21 +140,7 @@ export function PublishedContractFormInputsPanel({
       return;
     }
     try {
-      const response = await fetch(
-        absoluteApiUrl(
-          `/documents/generated/${documentId}/contract-form-inputs`,
-        ),
-        {
-          method: "PUT",
-          credentials: "include",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify({ contractHash, data }),
-        },
-      );
-      const payload = (await response.json()) as { message?: string; data?: unknown };
-      if (!response.ok) {
-        throw new Error(payload.message || "Không lưu được dữ liệu biểu mẫu.");
-      }
+      const payload = await savePublishedContractFormInputs(documentId, { contractHash, data });
       const nextSavedData = isRecord(payload.data) ? payload.data : data;
       setData(nextSavedData);
       setSavedData(nextSavedData);

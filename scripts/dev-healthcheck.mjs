@@ -11,7 +11,7 @@ export const DEFAULT_HEALTH_URLS = Object.freeze({
   apiReady: 'http://localhost:3001/api/v1/ready',
   apiCatalog:
     'http://localhost:3001/api/v1/forms/catalog?status=locked',
-  web: 'http://localhost:3000',
+  web: 'http://localhost:3000/healthz',
 });
 
 const DEFAULT_TIMEOUT_MS = 5_000;
@@ -127,7 +127,7 @@ export async function runHealthChecks({
   const [apiReadiness, apiCatalog, web] = await Promise.all([
     checkJsonEndpoint(urls.apiReady, { fetchImpl, timeoutMs }),
     checkJsonEndpoint(urls.apiCatalog, { fetchImpl, timeoutMs }),
-    checkTextEndpoint(urls.web, { fetchImpl, timeoutMs }),
+    checkJsonEndpoint(urls.web, { fetchImpl, timeoutMs }),
   ]);
 
   const readinessHealthy =
@@ -212,7 +212,7 @@ function printHealthReport(result, { apiOnly = false } = {}) {
       result.apiCatalog,
       result.apiCatalog?.ok ? `${lockedCount} locked form(s)` : undefined,
     );
-    logResult('Web http://localhost:3000', result.web);
+    logResult('Web /healthz', result.web);
   }
 
   console.log(

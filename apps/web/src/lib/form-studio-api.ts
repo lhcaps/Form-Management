@@ -200,22 +200,10 @@ export async function importFormTemplate(input: {
   body.set("title", input.title);
   if (input.description) body.set("description", input.description);
   body.set("file", input.file);
-  const response = await fetch(absoluteApiUrl("/admin/form-templates/import"), {
-    method: "POST",
-    credentials: "include",
-    body,
-  });
-  const json = (await response.json()) as
-    | { draft: FormDraftRecord; conversionStatus: string }
-    | { message?: string };
-  if (!response.ok) {
-    throw new Error(
-      "message" in json && json.message
-        ? json.message
-        : "Không import được biểu mẫu.",
-    );
-  }
-  return json as { draft: FormDraftRecord; conversionStatus: string };
+  return readApi<{ draft: FormDraftRecord; conversionStatus: string }>(
+    "/admin/form-templates/import",
+    { method: "POST", body },
+  );
 }
 
 export function getFormDraft(draftId: string) {

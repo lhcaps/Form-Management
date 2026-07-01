@@ -10,7 +10,7 @@
  * docs/BM_CANONICAL_SPEC.md.
  */
 import { useEffect, useState } from "react";
-import { absoluteApiUrl } from "@/lib/api-client";
+import { getDocumentRenderPayload } from "@/lib/document-form-api";
 import { BmFormMetaBar } from "@/components/documents/bm-form";
 import { GenericTemplateFormInputsPanel } from "./generic-template-form-inputs";
 
@@ -43,12 +43,8 @@ export function Bm190FormInputsPanel({ documentId, onSaved }: Props) {
     async function load() {
       try {
         setIsLoading(true);
-        const res = await fetch(
-          absoluteApiUrl(`/documents/generated/${documentId}/render-payload`),
-          { method: "GET", credentials: "include", headers: { Accept: "application/json" }, cache: "no-store" },
-        );
-        if (!res.ok) throw new Error(await res.text());
-        if (isMounted) setPayload((await res.json()) as PayloadResponse);
+        const payload = await getDocumentRenderPayload<PayloadResponse>(documentId);
+        if (isMounted) setPayload(payload);
       } catch (e) {
         if (isMounted) setError(e instanceof Error ? e.message : "Lỗi tải payload");
       } finally {

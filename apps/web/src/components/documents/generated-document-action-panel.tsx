@@ -1,12 +1,5 @@
 "use client";
 
-function withPdfCacheBuster(url: string | null | undefined): string {
-  if (!url) return "";
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}t=${Date.now()}`;
-}
-
-
 import { useEffect, useMemo, useState } from "react";
 import {
   bulkDeleteGeneratedDocumentFiles,
@@ -17,6 +10,7 @@ import {
   getGeneratedDocumentDownloadUrl,
 } from "@/lib/generated-documents-api";
 import { PreExportCustomizationPanel } from "@/components/documents/pre-export-customization-panel";
+import { downloadFile, DownloadError } from "@/lib/file-download";
 
 type Props = {
   documentId: string;
@@ -54,7 +48,41 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  function clearDownloadError() {
+    setDownloadError(null);
+  }
+
+  async function handleDownloadLatest(file: GeneratedDocumentFile | undefined, format: "DOCX" | "PDF") {
+    if (!file) return;
+    setDownloadError(null);
+    try {
+      const url = getGeneratedDocumentDownloadUrl(documentId, file.id);
+      await downloadFile(url, { filename: file.fileName });
+    } catch (err) {
+      setDownloadError(
+        err instanceof DownloadError
+          ? err.message
+          : "Tải file thất bại. Vui lòng thử lại.",
+      );
+    }
+  }
+
+  async function handleDownloadFile(file: GeneratedDocumentFile) {
+    setDownloadError(null);
+    try {
+      const url = getGeneratedDocumentDownloadUrl(documentId, file.id);
+      await downloadFile(url, { filename: file.fileName });
+    } catch (err) {
+      setDownloadError(
+        err instanceof DownloadError
+          ? err.message
+          : "Tải file thất bại. Vui lòng thử lại.",
+      );
+    }
+  }
 
   const files = useMemo(() => sortFiles(data?.files ?? []), [data?.files]);
 
@@ -210,9 +238,9 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
         </p>
       </div>
 
-      {error ? (
-        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {error}
+      {downloadError ? (
+        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
+          {downloadError}
         </div>
       ) : null}
 
@@ -228,35 +256,31 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
       />
 
       <div className="grid gap-3 md:grid-cols-2">
-        <a
-          href={
-            latestDocx
-              ? getGeneratedDocumentDownloadUrl(documentId, latestDocx.id)
-              : "#"
-          }
+        <button
+          type="button"
+          onClick={() => handleDownloadLatest(latestDocx, "DOCX")}
+          disabled={!latestDocx}
           className={`rounded-lg border px-4 py-2 text-center text-sm font-semibold ${
             latestDocx
-              ? "border-slate-300 text-slate-800"
+              ? "border-slate-300 text-slate-800 hover:bg-slate-50"
               : "pointer-events-none border-slate-200 text-slate-400"
           }`}
         >
           Tải DOCX mới nhất
-        </a>
+        </button>
 
-        <a
-          href={withPdfCacheBuster(
-            latestPdf
-              ? getGeneratedDocumentDownloadUrl(documentId, latestPdf.id)
-              : "#"
-          )}
+        <button
+          type="button"
+          onClick={() => handleDownloadLatest(latestPdf, "PDF")}
+          disabled={!latestPdf}
           className={`rounded-lg border px-4 py-2 text-center text-sm font-semibold ${
             latestPdf
-              ? "border-slate-300 text-slate-800"
+              ? "border-slate-300 text-slate-800 hover:bg-slate-50"
               : "pointer-events-none border-slate-200 text-slate-400"
           }`}
         >
           Tải PDF mới nhất
-        </a>
+        </button>
       </div>
 
       <div className="mt-5">
@@ -335,12 +359,13 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
                     </p>
                   </div>
 
-                  <a
-                    href={getGeneratedDocumentDownloadUrl(documentId, file.id)}
-                    className="shrink-0 text-sm font-semibold text-blue-700 hover:underline"
+                  <button
+                    type="button"
+                    onClick={() => handleDownloadFile(file)}
+                    className="shrink-0 text-sm font-semibold text-blue-700 hover:underline disabled:cursor-not-allowed disabled:text-slate-400"
                   >
                     Tải
-                  </a>
+                  </button>
                 </div>
               );
             })}

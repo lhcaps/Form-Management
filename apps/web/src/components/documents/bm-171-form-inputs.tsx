@@ -10,9 +10,7 @@ import {
   BmFormSection,
   BmFormMetaBar,
 } from "./bm-form";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 type AssetReturnRecord = Record<string, string | boolean>;
@@ -535,18 +533,7 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm171FormInputs 
 }
 
 async function getRenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/render-payload`, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không tải được payload BM-171. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
+  return getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveFormInputs(documentId: string | number, form: Bm171FormInputs): Promise<void> {
@@ -582,19 +569,7 @@ async function saveFormInputs(documentId: string | number, form: Bm171FormInputs
     updatedByName: "",
   };
 
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/form-inputs`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const responseBody = await response.text();
-    throw new Error(responseBody || `Không lưu được dữ liệu BM-171. HTTP ${response.status}`);
-  }
+  await saveDocumentFormInputs(documentId, body);
 }
 
 function Field({

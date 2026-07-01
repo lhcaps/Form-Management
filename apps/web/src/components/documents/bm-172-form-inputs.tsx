@@ -7,6 +7,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
+import { saveDocumentFormInputs, patchDocumentFormInputs, replaceDocumentFormInputs } from "@/lib/document-form-api";
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
 
@@ -114,12 +115,6 @@ function getDocumentIdFromUrl(): string | null {
   if (typeof window === "undefined") return null;
   const match = window.location.pathname.match(/\/documents\/([^/?#]+)/);
   return match?.[1] ?? null;
-}
-
-function apiBase(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (fromEnv) return fromEnv.replace(/\/$/, "");
-  return "http://localhost:3001/api/v1";
 }
 
 function defaultState(): Bm172FormState {
@@ -293,8 +288,6 @@ function buildPayload(state: Bm172FormState) {
 }
 
 async function trySaveToBackend(documentId: string, payload: any) {
-  const base = apiBase();
-
   const bodies = [
     payload,
     {
@@ -308,43 +301,24 @@ async function trySaveToBackend(documentId: string, payload: any) {
     },
   ];
 
-  const attempts: Array<{ method: string; url: string; body: any }> = [];
-
-  for (const body of bodies) {
-    attempts.push(
-      { method: "PATCH", url: `${base}/documents/generated/${documentId}/form-inputs`, body },
-      { method: "PUT", url: `${base}/documents/generated/${documentId}/form-inputs`, body },
-      { method: "POST", url: `${base}/documents/generated/${documentId}/form-inputs`, body },
-      { method: "PATCH", url: `${base}/documents/generated/${documentId}`, body },
-      { method: "PUT", url: `${base}/documents/generated/${documentId}`, body },
-      { method: "POST", url: `${base}/documents/generated/${documentId}/render-payload`, body },
-    );
-  }
-
   let lastError = "";
 
-  for (const attempt of attempts) {
+  for (const body of bodies) {
     try {
-      const response = await fetch(attempt.url, {
-        method: attempt.method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(attempt.body),
-      });
+      await patchDocumentFormInputs(documentId, body);
+      return { ok: true, method: "PATCH", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
+    } catch (_e) { /* try next */ }
 
-      const text = await response.text();
+    try {
+      await replaceDocumentFormInputs(documentId, body);
+      return { ok: true, method: "PUT", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
+    } catch (_e) { /* try next */ }
 
-      if (response.ok) {
-        return {
-          ok: true,
-          method: attempt.method,
-          url: attempt.url,
-          responseText: text,
-        };
-      }
-
-      lastError = `${attempt.method} ${attempt.url} -> ${response.status}: ${text}`;
+    try {
+      await saveDocumentFormInputs(documentId, body);
+      return { ok: true, method: "POST", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
     } catch (error) {
-      lastError = `${attempt.method} ${attempt.url} -> ${error instanceof Error ? error.message : String(error)}`;
+      lastError = error instanceof Error ? error.message : String(error);
     }
   }
 

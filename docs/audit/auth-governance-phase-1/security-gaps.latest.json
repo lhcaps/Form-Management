@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-06-30T15:30:00.000Z",
+  "phase": "Phase 3 - Security Gap Audit",
+  "gaps": {
+    "auth": [
+      {"id": "AUTH_GAP_001", "severity": "P0", "route": "/cases/*, /documents/*", "description": "No cross-agency data isolation", "exploit": "Any authenticated user can access all agencies' data", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_002", "severity": "P0", "route": "/documents/*/render-docx, /documents/*/convert-pdf", "description": "No audit log on document export", "exploit": "Exports not traceable to actors", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_003", "severity": "P0", "route": "All export endpoints", "description": "No export history tracking", "exploit": "Cannot prove document lineage", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_004", "severity": "P0", "route": "/documents/*/files/*/download", "description": "No agency ownership on file download", "exploit": "Any user can download any agency's files", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_005", "severity": "P1", "route": "All web routes", "description": "Frontend-only auth check", "exploit": "Bypass via direct API calls", "providerRelevance": "clerk-auth0"},
+      {"id": "AUTH_GAP_006", "severity": "P1", "route": "/forms/runtime/:templateCode", "description": "No agency check on runtime form", "exploit": "User can access forms from other agencies", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_007", "severity": "P2", "route": "/cases/reports/summary", "description": "No user context in report summary", "exploit": "Report may include other agencies' data", "providerRelevance": "all"},
+      {"id": "AUTH_GAP_008", "severity": "P2", "route": "cases.service.ts findAll", "description": "No agency filter in findAll", "exploit": "Cross-agency case visibility", "providerRelevance": "all"}
+    ],
+    "authz": [
+      {"id": "AUTHZ_GAP_001", "severity": "P2", "route": "/admin/form-reviews/*/approve", "description": "No self-approval prevention", "exploit": "Creator can approve own form", "providerRelevance": "all"},
+      {"id": "AUTHZ_GAP_002", "severity": "P2", "route": "auth.service.ts", "description": "VIEWER role not enforced", "exploit": "Role model incomplete", "providerRelevance": "all"},
+      {"id": "AUTHZ_GAP_003", "severity": "P2", "route": "/admin/form-versions/*/publish", "description": "Approver can publish without permission", "exploit": "Over-privileged role", "providerRelevance": "all"},
+      {"id": "AUTHZ_GAP_004", "severity": "P2", "route": "/admin/form-*", "description": "No agency filter on form-studio", "exploit": "Can edit all agencies' forms", "providerRelevance": "all"},
+      {"id": "AUTHZ_GAP_005", "severity": "P2", "route": "auth.guard.ts", "description": "Admin bypasses all checks", "exploit": "Break-glass too broad", "providerRelevance": "all"}
+    ],
+    "audit": [
+      {"id": "AUDIT_GAP_001", "severity": "P0", "route": "/auth/login, /auth/logout", "description": "Auth events not logged", "exploit": "Cannot audit login/logout", "providerRelevance": "clerk-auth0"},
+      {"id": "AUDIT_GAP_002", "severity": "P0", "route": "/documents/*/render-docx, /documents/*/convert-pdf", "description": "Export operations not logged", "exploit": "Cannot prove who exported", "providerRelevance": "all"},
+      {"id": "AUDIT_GAP_003", "severity": "P0", "route": "/documents/*/form-inputs", "description": "Form save not logged", "exploit": "Form changes not auditable", "providerRelevance": "all"},
+      {"id": "AUDIT_GAP_004", "severity": "P1", "route": "/admin/form-drafts/*", "description": "Draft save not logged", "exploit": "Form changes not auditable", "providerRelevance": "all"},
+      {"id": "AUDIT_GAP_005", "severity": "P1", "route": "/admin/form-permissions/*", "description": "Permission changes partially logged", "exploit": "Security audit gap", "providerRelevance": "all"},
+      {"id": "AUDIT_GAP_006", "severity": "P1", "route": "/admin/form-templates/*", "description": "Template changes not logged", "exploit": "Compliance gap", "providerRelevance": "all"}
+    ],
+    "export": [
+      {"id": "EXPORT_GAP_001", "severity": "P0", "route": "All export endpoints", "description": "No export permission model", "exploit": "Any user can export", "providerRelevance": "all"},
+      {"id": "EXPORT_GAP_002", "severity": "P0", "route": "All export endpoints", "description": "No export history tracking", "exploit": "No record of exports", "providerRelevance": "all"},
+      {"id": "EXPORT_GAP_003", "severity": "P1", "route": "/documents/*/render-docx", "description": "No input snapshot hash", "exploit": "Cannot verify form data at export", "providerRelevance": "all"},
+      {"id": "EXPORT_GAP_004", "severity": "P1", "route": "/documents/*/render-docx", "description": "No contract hash recorded", "exploit": "Cannot verify form contract version", "providerRelevance": "all"},
+      {"id": "EXPORT_GAP_005", "severity": "P2", "route": "/documents/*/files/*/download", "description": "No file download audit", "exploit": "Cannot prove file was downloaded", "providerRelevance": "all"}
+    ],
+    "ops": [
+      {"id": "OPS_GAP_001", "severity": "P1", "route": ".env.example", "description": "Seed credentials in env", "exploit": "Default password may be used", "providerRelevance": "all"},
+      {"id": "OPS_GAP_002", "severity": "P1", "route": "auth.guard.ts", "description": "No account lockout", "exploit": "Brute-force possible", "providerRelevance": "clerk-auth0"},
+      {"id": "OPS_GAP_003", "severity": "P2", "route": "auth.service.ts", "description": "No MFA capability", "exploit": "No second factor", "providerRelevance": "clerk-auth0"},
+      {"id": "OPS_GAP_004", "severity": "P2", "route": "auth.service.ts", "description": "No refresh token rotation", "exploit": "Long-lived sessions", "providerRelevance": "clerk-auth0"},
+      {"id": "OPS_GAP_005", "severity": "P3", "route": "All endpoints", "description": "No webhook sync capability", "exploit": "Cannot sync to external systems", "providerRelevance": "clerk-auth0"},
+      {"id": "OPS_GAP_006", "severity": "P3", "route": "All endpoints", "description": "No SSO/SAML support", "exploit": "Cannot integrate with government IdP", "providerRelevance": "auth0"}
+    ]
+  },
+  "strideAnalysis": {
+    "spoofing": {"mitigation": "Session tokens, password auth", "gaps": ["No MFA", "No SSO", "Seed credentials in env", "No account lockout"]},
+    "tampering": {"mitigation": "HTTPS, HttpOnly cookie", "gaps": ["No request signing", "No input snapshot hash", "No contract hash"]},
+    "repudiation": {"mitigation": "Partial audit_logs", "gaps": ["Auth events not logged", "Form saves not logged", "Exports not logged", "Permission changes partial"]},
+    "informationDisclosure": {"mitigation": "AuthGuard", "gaps": ["No cross-agency isolation", "Client-side only route protection", "No VIEWER enforcement"]},
+    "denialOfService": {"mitigation": "Rate limiting (5/min login)", "gaps": ["No account lockout", "No rate limiting on other endpoints"]},
+    "elevationOfPrivilege": {"mitigation": "FormPermissionGuard", "gaps": ["No self-approval prevention", "VIEWER not enforced", "Approver can publish", "Admin bypasses all"]}
+  },
+  "gapCounts": {
+    "p0": 9,
+    "p1": 8,
+    "p2": 9,
+    "p3": 3,
+    "total": 29
+  }
+}

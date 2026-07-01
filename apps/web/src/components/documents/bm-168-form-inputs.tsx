@@ -9,6 +9,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 import {
   BmFieldDate,
@@ -48,9 +49,6 @@ type Bm168Form = {
 };
 
 type RenderPayload = Record<string, any>;
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const EMPTY_FORM: Bm168Form = {
   agency: {
@@ -334,15 +332,8 @@ export function Bm168FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { method: "GET", cache: "no-store" },
-      );
-      if (!res.ok) {
-        const bodyText = await res.text();
-        throw new Error(bodyText || `Không tải được render-payload. HTTP ${res.status}`);
-      }
-      setForm(normalizeFormInputs((await res.json()) as RenderPayload));
+      const payload = await getDocumentRenderPayload<RenderPayload>(documentId);
+      setForm(normalizeFormInputs(payload));
       setMessage("Đã tải lại dữ liệu BM-168 từ backend.");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Không tải được dữ liệu.");
@@ -364,18 +355,7 @@ export function Bm168FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!res.ok) {
-        const bodyText = await res.text();
-        throw new Error(bodyText || `Không lưu được dữ liệu biểu mẫu. HTTP ${res.status}`);
-      }
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       await reloadFromBackend();
       setMessage("Đã lưu dữ liệu BM-168. Các dòng tự sinh đã đồng bộ.");
       await onSaved?.();

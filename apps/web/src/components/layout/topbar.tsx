@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import type { KeyboardEvent } from "react";
+import { useAuth, SignInButton } from "@clerk/react";
 import { MobileNav } from "./nav-items";
 
 const QUICK_CREATE_OPTIONS = [
@@ -16,6 +17,7 @@ export function Topbar() {
   const pathname = usePathname();
   const [createOpen, setCreateOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const { isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
     setCreateOpen(false);
@@ -59,6 +61,16 @@ export function Topbar() {
 
       {/* Right actions */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {isLoaded && !isSignedIn ? (
+          <SignInButton mode="modal">
+            <button
+              type="button"
+              className="flex h-9 items-center gap-1.5 rounded-xl bg-[#173E86] px-3.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#0f2d5e]"
+            >
+              Đăng nhập
+            </button>
+          </SignInButton>
+        ) : null}
         <div ref={wrapRef} className="relative">
           <button
             type="button"

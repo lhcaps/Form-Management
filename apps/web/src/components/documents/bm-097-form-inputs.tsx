@@ -18,6 +18,10 @@ import {
   saveBm097FormInputs,
 } from "@/lib/bm097-form-inputs-api";
 import {
+  renderDocumentDocx,
+  convertDocumentPdf,
+} from "@/lib/document-render-api";
+import {
   BM097_AGENCY_OPTIONS,
   BM097_GENDER_OPTIONS,
   BM097_IDENTITY_TYPE_OPTIONS,
@@ -540,50 +544,9 @@ function buildBm097RenderReadyForm(form: Bm097FormInputs): Bm097FormInputs {
   return next;
 }
 async function forceRenderBm097Files(documentId: string | number): Promise<void> {
-  const apiBase =
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+  await renderDocumentDocx(documentId, { force: true, renderedByName: "" });
 
-  const renderResponse = await fetch(
-    `${apiBase}/documents/generated/${documentId}/render-docx`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        force: true,
-        renderedByName: "",
-      }),
-    },
-  );
-
-  if (!renderResponse.ok) {
-    const message = await renderResponse.text().catch(() => "");
-    throw new Error(
-      message || "Đã lưu dữ liệu nhưng không render lại được DOCX.",
-    );
-  }
-
-  const convertResponse = await fetch(
-    `${apiBase}/documents/generated/${documentId}/convert-pdf`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        force: true,
-        convertedByName: "",
-      }),
-    },
-  );
-
-  if (!convertResponse.ok) {
-    const message = await convertResponse.text().catch(() => "");
-    throw new Error(
-      message || "Đã render DOCX nhưng không convert lại được PDF.",
-    );
-  }
+  await convertDocumentPdf(documentId, { force: true, convertedByName: "" });
 }
 
 export function Bm097FormInputsPanel({

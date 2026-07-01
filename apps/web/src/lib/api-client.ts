@@ -3,11 +3,16 @@
  *
  * Mục đích: gom các helper fetch + unwrap + normalize mà trước đây mỗi
  * file *-api.ts tự định nghĩa, để:
- *  - Dùng nhất quán credentials: 'include' (gửi cookie session)
+ *  - Dùng nhất quán credentials: 'include' (gửi session cookie / Clerk cookie)
  *  - Single place để sửa base URL, headers, error handling
  *  - Phát hiện 401 từ bất kỳ API call nào → emit AuthEvent("unauthorized")
  *    để AuthProvider chuyển trạng thái về unauthenticated.
  *  - Code mới dùng trực tiếp; code cũ re-export cho backward-compat
+ *
+ * AUTH NOTE:
+ *  - Legacy auth still sends the session cookie with credentials: 'include'.
+ *  - Clerk-authenticated browser sessions also forward a Bearer token when
+ *    AuthProvider installs a token provider.
  */
 
 export const API_BASE_URL =
@@ -21,6 +26,15 @@ export const DEFAULT_API_FETCH_INIT: RequestInit = {
 };
 
 const API_FETCH_DEFAULTS_MARKER = "__qvksApiFetchDefaultsInstalled";
+
+export type ApiAuthTokenProvider = () =>
+  | string
+  | null
+  | undefined
+  | Promise<string | null | undefined>;
+
+export { setAuthTokenProvider as setApiAuthTokenProvider } from "./api-client-auth-token";
+export { getApiAuthToken } from "./api-client-auth-token";
 
 function isLoopbackHost(hostname: string) {
   return (
@@ -142,6 +156,44 @@ export function withApiFetchDefaults(
   return [input, nextInit];
 }
 
+function hasAuthorizationHeader(headers: Headers): boolean {
+  return headers.has("authorization");
+}
+
+async function resolveApiAuthToken(): Promise<string | null> {
+  const { getApiAuthToken } = await import("./api-client-auth-token");
+  return getApiAuthToken();
+}
+
+function withBearerToken(init: RequestInit | undefined, token: string) {
+  const headers = new Headers(init?.headers);
+  if (!hasAuthorizationHeader(headers)) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+  return {
+    ...(init ?? {}),
+    headers,
+  };
+}
+
+export async function withApiFetchAuthDefaults(
+  input: RequestInfo | URL,
+  init?: RequestInit,
+): Promise<[RequestInfo | URL, RequestInit | undefined]> {
+  const [nextInput, nextInit] = withApiFetchDefaults(input, init);
+  const requestUrl = getRequestUrl(nextInput);
+  if (!requestUrl || !isApiRequestUrl(requestUrl)) {
+    return [nextInput, nextInit];
+  }
+
+  const token = await resolveApiAuthToken();
+  if (!token) {
+    return [nextInput, nextInit];
+  }
+
+  return [nextInput, withBearerToken(nextInit, token)];
+}
+
 export function installApiFetchDefaults() {
   if (typeof window === "undefined") return;
 
@@ -152,8 +204,8 @@ export function installApiFetchDefaults() {
   if (target[API_FETCH_DEFAULTS_MARKER]) return;
 
   const originalFetch = window.fetch.bind(window);
-  window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
-    const [nextInput, nextInit] = withApiFetchDefaults(input, init);
+  window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const [nextInput, nextInit] = await withApiFetchAuthDefaults(input, init);
     const responsePromise = originalFetch(nextInput, nextInit);
 
     if (isApiRequestUrl(getRequestUrl(nextInput) ?? "")) {
@@ -344,13 +396,15 @@ export async function readApi<T>(path: string, init: ReadApiOptions = {}): Promi
     });
   }
 
-  const response = await fetch(`${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`, {
+  const [apiInput, apiInit] = await withApiFetchAuthDefaults(`${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`, {
     ...rest,
     credentials: "include",
     cache: noStore ? "no-store" : cache,
     headers: finalHeaders,
     body: body ?? undefined,
   });
+
+  const response = await fetch(apiInput, apiInit);
 
   // Đọc body đúng một lần; response body stream không thể read lại lần hai
   // (lần hai sẽ trả về chuỗi rỗng / throw). Parse cùng lúc cho cả nhánh OK

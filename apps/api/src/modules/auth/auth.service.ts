@@ -4,6 +4,7 @@ import {
   Optional,
   UnauthorizedException,
 } from '@nestjs/common';
+import { verifyToken } from '@clerk/backend';
 import { PrismaService } from '../../prisma/prisma.service';
 import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { generateSessionToken, hashSessionToken } from './token.util';
@@ -111,6 +112,57 @@ export class AuthService {
     }
 
     return this.findOfficialById(String(row.official_id));
+  }
+
+  async validateClerkSession(rawToken: string): Promise<PublicUser | null> {
+    const secretKey = this.config.clerkSecretKey;
+    if (!rawToken || !secretKey) return null;
+
+    const authorizedParties = this.config.clerkJwtAuthorizedParties;
+    const payload = await verifyToken(rawToken, {
+      secretKey,
+      ...(authorizedParties.length > 0
+        ? { authorizedParties: [...authorizedParties] }
+        : {}),
+    });
+    const payloadRecord = payload as Record<string, unknown>;
+    const subject = typeof payload.sub === 'string' ? payload.sub : null;
+    if (!subject) return null;
+
+    const email =
+      typeof payloadRecord.email === 'string'
+        ? payloadRecord.email
+        : typeof payloadRecord.email_address === 'string'
+          ? payloadRecord.email_address
+          : null;
+    const username =
+      typeof payloadRecord.username === 'string'
+        ? payloadRecord.username
+        : email
+          ? email.split('@')[0] || null
+          : null;
+    const fullName =
+      typeof payloadRecord.name === 'string'
+        ? payloadRecord.name
+        : typeof payloadRecord.full_name === 'string'
+          ? payloadRecord.full_name
+          : (username ?? email ?? 'Clerk account');
+
+    return {
+      id: `clerk:${subject}`,
+      username,
+      fullName,
+      positionTitle: null,
+      rankTitle: null,
+      email,
+      phone: null,
+      role: 'VIEWER',
+      agencyId: null,
+      agencyName: null,
+      agencyCode: null,
+      isActive: true,
+      permissions: [],
+    };
   }
 
   /**

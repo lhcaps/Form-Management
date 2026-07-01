@@ -10,7 +10,12 @@
 import assert from "node:assert/strict";
 import test, { mock } from "node:test";
 
-import { ApiError, readApi } from "./api-client";
+import {
+  ApiError,
+  readApi,
+  setApiAuthTokenProvider,
+  withApiFetchAuthDefaults,
+} from "./api-client";
 
 type FakeResponseInit = {
   status: number;
@@ -191,4 +196,40 @@ test("ApiError exposes getters that return null when body is missing", () => {
   assert.equal(err.requestId, null);
   assert.equal(err.message, "HTTP 418");
   assert.equal(err.name, "ApiError");
+});
+
+test("withApiFetchAuthDefaults attaches a Clerk bearer token to API requests", async () => {
+  setApiAuthTokenProvider(async () => "clerk-session-jwt");
+  try {
+    const [, init] = await withApiFetchAuthDefaults(
+      "http://localhost:3001/api/v1/templates",
+      {
+        headers: { "X-Request-Id": "req-1" },
+      },
+    );
+
+    const headers = new Headers(init?.headers);
+    assert.equal(headers.get("Authorization"), "Bearer clerk-session-jwt");
+    assert.equal(headers.get("X-Request-Id"), "req-1");
+    assert.equal(init?.credentials, "include");
+  } finally {
+    setApiAuthTokenProvider(null);
+  }
+});
+
+test("withApiFetchAuthDefaults preserves an explicit Authorization header", async () => {
+  setApiAuthTokenProvider(async () => "clerk-session-jwt");
+  try {
+    const [, init] = await withApiFetchAuthDefaults(
+      "http://localhost:3001/api/v1/templates",
+      {
+        headers: { Authorization: "Bearer legacy-api-token" },
+      },
+    );
+
+    const headers = new Headers(init?.headers);
+    assert.equal(headers.get("Authorization"), "Bearer legacy-api-token");
+  } finally {
+    setApiAuthTokenProvider(null);
+  }
 });

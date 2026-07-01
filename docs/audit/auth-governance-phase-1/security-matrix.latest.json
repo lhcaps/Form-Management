@@ -1,0 +1,107 @@
+{
+  "timestamp": "2026-06-30T15:25:00.000Z",
+  "phase": "Phase 2 - Route and API Security Matrix",
+  "summary": {
+    "totalRoutes": 45,
+    "fullyProtected": 32,
+    "withAgencyGaps": 13,
+    "withAuditGaps": 11,
+    "withExportGaps": 3,
+    "p0Gaps": 5,
+    "p1Gaps": 4,
+    "p2Gaps": 5
+  },
+  "webRoutes": {
+    "/": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only" },
+    "/login": { "protection": "@Public()", "required": "PUBLIC", "gap": "none" },
+    "/cases": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/cases/[caseId]": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/documents": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/documents/[documentId]": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/templates": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only" },
+    "/reports": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/imports": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only, no agency filter" },
+    "/settings": { "protection": "AuthGate (client)", "required": "AUTHENTICATED", "gap": "client-only" },
+    "/admin": { "protection": "AuthGate (client)", "required": "ADMIN_ONLY", "gap": "client-only" },
+    "/admin/form-studio": { "protection": "AuthGate + canOpenFormStudio", "required": "FORM_EDITOR", "gap": "client-only" },
+    "/admin/form-studio/permissions": { "protection": "AuthGate + canManageFormPermissions", "required": "PERMISSION_ADMIN", "gap": "client-only" }
+  },
+  "apiEndpoints": {
+    "auth": {
+      "login": { "protection": "@Public()", "gap": "none" },
+      "logout": { "protection": "@Public()", "gap": "none" },
+      "me": { "protection": "@Public()", "gap": "none" },
+      "users": { "protection": "AUTHENTICATED", "gap": "none" },
+      "agency": { "protection": "AUTHENTICATED", "gap": "none" },
+      "change-password": { "protection": "AUTHENTICATED", "gap": "none" }
+    },
+    "cases": {
+      "findAll": { "protection": "AUTHENTICATED", "gap": "no agency filter", "severity": "P0" },
+      "getReportSummary": { "protection": "AUTHENTICATED", "gap": "no agency filter, no user context", "severity": "P0" },
+      "create": { "protection": "AUTHENTICATED", "gap": "none" },
+      "findOne": { "protection": "AUTHENTICATED", "gap": "no agency filter", "severity": "P0" },
+      "update": { "protection": "AUTHENTICATED", "gap": "no agency filter", "severity": "P0" }
+    },
+    "documents": {
+      "getRenderPayload": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "getPreExportConfig": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "savePreExportConfig": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "scanPreExportBlanks": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "updateFormInputs": { "protection": "AUTHENTICATED", "gap": "no agency check, no audit log", "severity": "P1" },
+      "renderDocx": { "protection": "AUTHENTICATED", "gap": "no agency check, no audit log, no export history", "severity": "P0" },
+      "convertPdf": { "protection": "AUTHENTICATED", "gap": "no agency check, no audit log, no export history", "severity": "P0" },
+      "downloadFile": { "protection": "AUTHENTICATED", "gap": "no agency check, no audit log, no export history", "severity": "P0" },
+      "deleteFile": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "bulkDeleteFiles": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" },
+      "cleanupFiles": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P0" }
+    },
+    "formStudio": {
+      "formTemplates": { "protection": "FORM_TEMPLATE_EDIT", "gap": "none" },
+      "formDrafts": { "protection": "FORM_TEMPLATE_EDIT", "gap": "no audit log on save" },
+      "formReviews": { "protection": "FORM_TEMPLATE_APPROVE", "gap": "no self-approval prevention" },
+      "formVersions": { "protection": "FORM_TEMPLATE_APPROVE", "gap": "none" },
+      "formPermissions": { "protection": "FORM_TEMPLATE_PERMISSION_ADMIN", "gap": "partial audit log" }
+    },
+    "runtimeForms": {
+      "runtimeForm": { "protection": "AUTHENTICATED", "gap": "no agency check", "severity": "P1" },
+      "catalog": { "protection": "AUTHENTICATED", "gap": "none" }
+    },
+    "templates": {
+      "groups": { "protection": "AUTHENTICATED", "gap": "none" },
+      "findAll": { "protection": "AUTHENTICATED", "gap": "none" },
+      "findMine": { "protection": "AUTHENTICATED", "gap": "none" },
+      "findOne": { "protection": "AUTHENTICATED", "gap": "none" }
+    },
+    "system": {
+      "ready": { "protection": "@Public()", "gap": "none" }
+    }
+  },
+  "p0Gaps": [
+    { "id": "AUTH_GAP_P0_001", "description": "No agency filter on case endpoints", "routes": ["/cases/*"], "exploit": "Any authenticated user can read/update all agencies' cases" },
+    { "id": "AUTH_GAP_P0_002", "description": "No agency check on document endpoints", "routes": ["/documents/*"], "exploit": "Any authenticated user can access/modify all agencies' documents" },
+    { "id": "AUTH_GAP_P0_003", "description": "No audit log on document export (DOCX/PDF)", "routes": ["/documents/*/render-docx", "/documents/*/convert-pdf"], "exploit": "Exports are not traceable to actors" },
+    { "id": "AUTH_GAP_P0_004", "description": "No export history tracking", "routes": ["export endpoints"], "exploit": "No way to audit which files were exported and by whom" },
+    { "id": "AUTH_GAP_P0_005", "description": "No agency ownership verification on file download", "routes": ["/documents/*/files/*/download"], "exploit": "Any user can download any agency's exported files" }
+  ],
+  "p1Gaps": [
+    { "id": "AUTH_GAP_P1_001", "description": "No audit log on form save operations", "routes": ["/documents/*/form-inputs"], "exploit": "Form input saves are not auditable" },
+    { "id": "AUTH_GAP_P1_002", "description": "Client-side route protection only", "routes": ["all web routes"], "exploit": "Bypass via direct API calls or React manipulation" },
+    { "id": "AUTH_GAP_P1_003", "description": "No agency check on runtime form endpoint", "routes": ["/forms/runtime/*"], "exploit": "User can access forms from other agencies" },
+    { "id": "AUTH_GAP_P1_004", "description": "No VIEWER role enforcement", "routes": ["all endpoints"], "exploit": "VIEWER role has same access as OFFICIAL" }
+  ],
+  "p2Gaps": [
+    { "id": "AUTHZ_GAP_P2_001", "description": "No self-approval prevention for forms", "routes": ["/admin/form-reviews/*/approve"], "exploit": "Form editor can approve their own form" },
+    { "id": "AUTHZ_GAP_P2_002", "description": "No audit log on draft save", "routes": ["/admin/form-drafts/*"], "exploit": "Draft changes are not auditable" },
+    { "id": "AUTHZ_GAP_P2_003", "description": "Approver can silently publish without separate permission", "routes": ["/admin/form-versions/*/publish"], "exploit": "Approver can publish without explicit publish permission" },
+    { "id": "AUTHZ_GAP_P2_004", "description": "No agency filter on form-studio endpoints", "routes": ["/admin/form-*"], "exploit": "User with form permission can edit all agencies' forms" },
+    { "id": "AUTHZ_GAP_P2_005", "description": "Permission changes partially audited", "routes": ["/admin/form-permissions/*"], "exploit": "Some permission changes may not be logged" }
+  ],
+  "strideAnalysis": {
+    "spoofing": { "applicable": true, "mitigation": "Session tokens, password auth", "gap": "No MFA, no SSO" },
+    "tampering": { "applicable": true, "mitigation": "None", "gap": "No request signing, no integrity verification" },
+    "repudiation": { "applicable": true, "mitigation": "Partial audit_logs", "gap": "Auth events not logged, form saves not logged, exports not logged" },
+    "informationDisclosure": { "applicable": true, "mitigation": "None", "gap": "No cross-agency isolation, any user sees all data" },
+    "denialOfService": { "applicable": true, "mitigation": "Rate limiting on login (5/min)", "gap": "No account lockout after failures" },
+    "elevationOfPrivilege": { "applicable": true, "mitigation": "Permission guards for form-studio", "gap": "No self-approval prevention, no VIEWER enforcement" }
+  }
+}

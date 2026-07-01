@@ -3,7 +3,7 @@
  * mà không cần React tree coupling.
  *
  * Hiện tại có 2 sự kiện:
- *  - "unauthorized"  : API trả 401 (session hết hạn / invalid). UI cần chuyển về /login.
+ *  - "unauthorized"  : API trả 401 (session hết hạn / invalid). UI cần chuyển về /sign-in.
  *  - "session-changed": session bị thay đổi (login, logout, refresh).
  *
  * Lý do có bus này: window.fetch được monkey-patch trong api-client.ts trước
