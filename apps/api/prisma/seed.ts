@@ -262,43 +262,54 @@ async function seedLeHuy(agencyId: bigint): Promise<bigint | null> {
 
   // Optional: link Clerk identity if SEED_LE_HUY_CLERK_USER_ID is set.
   if (config.clerkUserId) {
-    const existingIdentity = await prisma.auth_identities.findUnique({
-      where: {
-        provider_provider_user_id: {
-          provider: 'clerk',
-          provider_user_id: config.clerkUserId,
+    try {
+      const existingIdentity = await prisma.auth_identities.findUnique({
+        where: {
+          provider_provider_user_id: {
+            provider: 'clerk',
+            provider_user_id: config.clerkUserId,
+          },
         },
-      },
-    });
+      });
 
-    if (existingIdentity) {
-      await prisma.auth_identities.update({
-        where: { id: existingIdentity.id },
-        data: {
-          official_id: officialId,
-          email: config.email,
-          full_name: config.fullName,
-          last_synced_at: new Date(),
-        },
-      });
-      console.log(
-        `[seed] auth_identities: linked clerk user '${config.clerkUserId}' to Lê Huy official id=${officialId}.`,
-      );
-    } else {
-      await prisma.auth_identities.create({
-        data: {
-          provider: 'clerk',
-          provider_user_id: config.clerkUserId,
-          official_id: officialId,
-          email: config.email,
-          username: config.username,
-          full_name: config.fullName,
-          last_synced_at: new Date(),
-        },
-      });
-      console.log(
-        `[seed] auth_identities: created clerk identity for '${config.clerkUserId}' linked to Lê Huy official id=${officialId}.`,
-      );
+      if (existingIdentity) {
+        await prisma.auth_identities.update({
+          where: { id: existingIdentity.id },
+          data: {
+            official_id: officialId,
+            email: config.email,
+            full_name: config.fullName,
+            last_synced_at: new Date(),
+          },
+        });
+        console.log(
+          `[seed] auth_identities: linked clerk user '${config.clerkUserId}' to Lê Huy official id=${officialId}.`,
+        );
+      } else {
+        await prisma.auth_identities.create({
+          data: {
+            provider: 'clerk',
+            provider_user_id: config.clerkUserId,
+            official_id: officialId,
+            email: config.email,
+            username: config.username,
+            full_name: config.fullName,
+            last_synced_at: new Date(),
+          },
+        });
+        console.log(
+          `[seed] auth_identities: created clerk identity for '${config.clerkUserId}' linked to Lê Huy official id=${officialId}.`,
+        );
+      }
+    } catch (error: unknown) {
+      const prismaError = error as { code?: string };
+      if (prismaError.code === 'P2021') {
+        console.log(
+          '[seed] auth_identities table missing — run pnpm --filter api migrate:deploy before Clerk identity linking.',
+        );
+      } else {
+        throw error;
+      }
     }
   } else {
     console.log(
