@@ -9,8 +9,8 @@ import {
   BmFormStatus,
   defaultArchiveLine,
 } from "@/components/documents/bm-form";
-import { absoluteApiUrl } from "@/lib/api-client";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type StringRecord = Record<string, string>;
 type JsonRecord = Record<string, unknown>;
@@ -295,24 +295,7 @@ export function Bm213FormInputsPanel({ documentId, onSaved }: Props) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        absoluteApiUrl(
-          `/documents/generated/${documentId}/render-payload`,
-        ),
-        {
-          method: "GET",
-          credentials: "include",
-          headers: { Accept: "application/json" },
-          cache: "no-store",
-        },
-      );
-      if (!response.ok) {
-        throw new Error(
-          (await response.text()) ||
-            `Không tải được dữ liệu BM-213. HTTP ${response.status}`,
-        );
-      }
-      const payload = (await response.json()) as JsonRecord;
+      const payload = await getDocumentRenderPayload<JsonRecord>(documentId);
       setForm(normalizeForm(payload));
       setIsDirty(false);
       setMessage("Đã tải dữ liệu BM-213 từ hồ sơ.");
@@ -339,21 +322,7 @@ export function Bm213FormInputsPanel({ documentId, onSaved }: Props) {
     setError(null);
     setMessage(null);
     try {
-      const response = await fetch(
-        absoluteApiUrl(`/documents/generated/${documentId}/form-inputs`),
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!response.ok) {
-        throw new Error(
-          (await response.text()) ||
-            `Không lưu được dữ liệu BM-213. HTTP ${response.status}`,
-        );
-      }
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       setIsDirty(false);
       setSavedAt(new Date());
       setMessage("Đã lưu dữ liệu BM-213 và đồng bộ payload render.");

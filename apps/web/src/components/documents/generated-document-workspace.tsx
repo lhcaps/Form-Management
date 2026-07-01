@@ -10,7 +10,7 @@ import {
 } from "./bm-panel-registry.generated";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
-import { absoluteApiUrl } from "@/lib/api-client";
+import { getDocumentRenderPayload } from "@/lib/document-form-api";
 import { SHOW_INTERNAL_IDS } from "@/lib/debug";
 import {
   getDocumentHistory,
@@ -482,26 +482,7 @@ export function GeneratedDocumentWorkspace({
         setIsLoadingPayload(true);
         setPayloadError(null);
 
-        const response = await fetch(
-          absoluteApiUrl(`/documents/generated/${documentId}/render-payload`),
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-            },
-            cache: "no-store",
-          },
-        );
-
-        if (!response.ok) {
-          const text = await response.text();
-          throw new Error(
-            text || `Không tải được payload biểu mẫu. HTTP ${response.status}`,
-          );
-        }
-
-        const data = (await response.json()) as RenderPayloadResponse;
+        const data = await getDocumentRenderPayload<RenderPayloadResponse>(documentId);
 
         if (isMounted) {
           setPayload(data);

@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { FormInputSchema } from "@qllaw/form-contracts";
 
-import { absoluteApiUrl, extractApiError, isJsonObject } from "@/lib/api-client";
+import { extractApiError, isJsonObject } from "@/lib/api-client";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import {
   applyCasePayloadToGenericForm,
   type GenericCaseFormInputs,
@@ -357,21 +358,10 @@ export function GenericTemplateFormInputsPanel({
 
   async function reload(options: { force?: boolean } = {}) {
     try {
-      const response = await fetch(
-        absoluteApiUrl(`/documents/generated/${documentId}/render-payload`),
-        {
-          method: "GET",
-          credentials: "include",
-          headers: { Accept: "application/json" },
-          cache: "no-store",
-        },
-      );
-
-      if (response.ok) {
-        const nextForm = normalizePayload((await response.json()) as Record<string, unknown>);
-        if (options.force || !isDirtyRef.current) {
-          setForm(nextForm);
-        }
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
+      const nextForm = normalizePayload(payload);
+      if (options.force || !isDirtyRef.current) {
+        setForm(nextForm);
       }
     } catch {
       // The form remains editable with its default values if payload loading fails.
@@ -422,41 +412,22 @@ export function GenericTemplateFormInputsPanel({
       // truth on the client changes.
       const dynamic = useDynamic;
       const formToSave = dynamic ? dynamicValues : form;
-      const response = await fetch(
-        absoluteApiUrl(`/documents/generated/${documentId}/form-inputs`),
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify({
-            ...(dynamic ? {} : (formToSave as object)),
-            formInputs: formToSave,
-            payloadOverrides: formToSave,
-            renderPayloadOverrides: formToSave,
-          }),
-        },
-      );
+      const body = {
+        ...(dynamic ? {} : (formToSave as object)),
+        formInputs: formToSave,
+        payloadOverrides: formToSave,
+        renderPayloadOverrides: formToSave,
+      };
 
-      if (!response.ok) {
-        const responseText = await response.text();
-        let responseBody: unknown = null;
-        if (responseText.trim()) {
-          try {
-            responseBody = JSON.parse(responseText);
-          } catch {
-            responseBody = responseText;
-          }
-        }
-        // Capture structured A2 errors before falling back to the legacy
-        // single-string message. extractStructuredValidationErrors is
-        // defensive — if the shape is unknown, it returns [] and we keep
-        // the existing user-facing error string.
-        const structured = extractStructuredValidationErrors(responseBody);
+      let responsePayload: Record<string, unknown> | null = null;
+      try {
+        responsePayload = await saveDocumentFormInputs(documentId, body);
+      } catch (err) {
+        const structured = extractStructuredValidationErrors(err);
         setStructuredErrors(structured);
-        throw new Error(extractApiError(responseBody, `Không lưu được dữ liệu [HTTP ${response.status}]`));
+        throw new Error(extractApiError(err, "Không lưu được dữ liệu"));
       }
 
-      const responsePayload = (await response.json().catch(() => null)) as Record<string, unknown> | null;
       if (dynamic) {
         if (responsePayload && isJsonObject(responsePayload["formInputs"])) {
           setDynamicValues(
