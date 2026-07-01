@@ -38,16 +38,33 @@ export class ClerkWebhookService {
 
     const svix = new Webhook(secret);
     try {
-      const payload = svix.verify(rawBody, {
+      const raw = svix.verify(rawBody, {
         'svix-id': svixId,
         'svix-timestamp': svixTimestamp,
         'svix-signature': svixSignature,
-      }) as string;
-      return JSON.parse(payload) as ClerkWebhookEvent;
+      });
+      const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      if (!this.isValidWebhookEvent(parsed)) {
+        this.logger.warn('Clerk webhook payload is not a valid event object');
+        return null;
+      }
+      return parsed;
     } catch {
       this.logger.warn('Clerk webhook signature verification failed');
       return null;
     }
+  }
+
+  /**
+   * Validate that a value is a Clerk webhook event object.
+   */
+  private isValidWebhookEvent(value: unknown): value is ClerkWebhookEvent {
+    if (typeof value !== 'object' || value === null) return false;
+    if (typeof (value as Record<string, unknown>).type !== 'string')
+      return false;
+    if (typeof (value as Record<string, unknown>).data !== 'object')
+      return false;
+    return true;
   }
 
   /**

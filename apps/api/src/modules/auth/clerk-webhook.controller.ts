@@ -42,14 +42,12 @@ export class ClerkWebhookController {
       throw new BadRequestException('Missing Svix webhook headers.');
     }
 
-    // Read raw body for Svix signature verification.
-    // With rawBody: true in NestFactory, NestJS buffers the body and sets req.rawBody.
-    // Fallback to serializing parsed body if rawBody is not available.
-    const rawBody = (request as Request & { rawBody?: Buffer }).rawBody
-      ? (request as Request & { rawBody?: Buffer }).rawBody!.toString('utf8')
-      : typeof request.body === 'string'
-        ? request.body
-        : JSON.stringify(request.body);
+    const rawBodyBuffer = (request as Request & { rawBody?: Buffer }).rawBody;
+    if (!rawBodyBuffer) {
+      this.logger.warn('Clerk webhook missing raw body — rejecting');
+      throw new BadRequestException('Missing raw webhook body.');
+    }
+    const rawBody = rawBodyBuffer.toString('utf8');
 
     const event = this.webhookService.verifySignature(
       rawBody,
