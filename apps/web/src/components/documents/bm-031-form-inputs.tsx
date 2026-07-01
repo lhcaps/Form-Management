@@ -995,7 +995,7 @@ function applyBm031UserEditedBodyFields(
 
   return next as unknown as Bm031FormInputs;
 }
-async function saveBm031FormInputs(
+async function submitBm031FormInputs(
   documentId: string | number,
   form: Bm031FormInputs,
 ): Promise<Bm031FormInputs> {
@@ -1423,7 +1423,7 @@ export function Bm031FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const savedForm = await saveBm031FormInputs(documentId, form);
+      const savedForm = await submitBm031FormInputs(documentId, form);
 
       setForm(savedForm);
       setInitialSnapshot(JSON.stringify(savedForm));
