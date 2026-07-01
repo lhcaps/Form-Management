@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+import { AuthModule } from '../auth/auth.module';
 import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { DocumentsModule } from './documents.module';
@@ -12,7 +13,7 @@ import { RenderGeneratedDocumentUseCase } from './rendering/application/render-g
 describe('DocumentsModule renderer seam', () => {
   it('resolves the use case and every renderer port through Nest DI', async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [InfrastructureModule, PrismaModule, DocumentsModule],
+      imports: [AuthModule, InfrastructureModule, PrismaModule, DocumentsModule],
     }).compile();
 
     expect(moduleRef.get(RenderGeneratedDocumentUseCase)).toBeDefined();

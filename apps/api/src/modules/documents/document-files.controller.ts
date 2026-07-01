@@ -22,6 +22,8 @@ import {
   DeleteGeneratedDocumentFilesDto,
 } from './dto/delete-generated-document-files.dto';
 import { DocumentFilesService } from './document-files.service';
+import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
+import type { CurrentUser } from '../auth/current-user.type';
 
 @ApiTags('Documents')
 @Controller('documents')
@@ -48,12 +50,14 @@ export class DocumentFilesController {
   async downloadGeneratedFile(
     @Param('documentId') documentId: string,
     @Param('fileId') fileId: string,
+    @CurrentUserDecorator() user: CurrentUser,
     @Res({ passthrough: true }) response: Response,
   ) {
     const download =
       await this.documentFilesService.getGeneratedFileForDownload(
         documentId,
         fileId,
+        user,
       );
 
     const encodedFileName = encodeURIComponent(download.fileName);
@@ -83,10 +87,12 @@ export class DocumentFilesController {
   deleteGeneratedFile(
     @Param('documentId') documentId: string,
     @Param('fileId') fileId: string,
+    @CurrentUserDecorator() user: CurrentUser,
   ) {
     return this.documentFilesService.deleteGeneratedFile(
       documentId,
       fileId,
+      user,
       true,
     );
   }
@@ -105,10 +111,12 @@ export class DocumentFilesController {
   bulkDeleteGeneratedFiles(
     @Param('documentId') documentId: string,
     @Body() body: DeleteGeneratedDocumentFilesDto,
+    @CurrentUserDecorator() user: CurrentUser,
   ) {
     return this.documentFilesService.bulkDeleteGeneratedFiles(
       documentId,
       body.fileIds,
+      user,
       body.deletePhysical ?? true,
     );
   }
@@ -128,8 +136,9 @@ export class DocumentFilesController {
   cleanupGeneratedFiles(
     @Param('documentId') documentId: string,
     @Body() body: CleanupGeneratedDocumentFilesDto,
+    @CurrentUserDecorator() user: CurrentUser,
   ) {
-    return this.documentFilesService.cleanupGeneratedFiles(documentId, {
+    return this.documentFilesService.cleanupGeneratedFiles(documentId, user, {
       keepLatestDocx: body.keepLatestDocx ?? true,
       keepLatestPdf: body.keepLatestPdf ?? true,
       deletePhysical: body.deletePhysical ?? true,

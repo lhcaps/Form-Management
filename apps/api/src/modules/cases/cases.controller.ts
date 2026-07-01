@@ -91,11 +91,9 @@ export class CasesController {
   getReportSummary(
     @Query('period') period?: string,
     @Query('anchorDate') anchorDate?: string,
+    @CurrentUserDecorator() user?: CurrentUser,
   ) {
-    return this.casesService.getReportSummary({
-      period,
-      anchorDate,
-    });
+    return this.casesService.getReportSummary({ period, anchorDate }, user);
   }
 
   @Post()
@@ -109,10 +107,7 @@ export class CasesController {
     @Body() body: CreateCaseDto,
     @CurrentUserDecorator() user: CurrentUser,
   ) {
-    return this.casesService.create({
-      ...body,
-      createdByName: user.fullName,
-    });
+    return this.casesService.create(body, user);
   }
 
   @Get(':id')
@@ -123,8 +118,8 @@ export class CasesController {
     name: 'id',
     description: 'ID hồ sơ.',
   })
-  findOne(@Param('id') id: string) {
-    return this.casesService.findOne(id);
+  findOne(@Param('id') id: string, @CurrentUserDecorator() user: CurrentUser) {
+    return this.casesService.findOne(id, user);
   }
 
   @Patch(':id')
@@ -143,9 +138,6 @@ export class CasesController {
     @Body() body: UpdateCaseDto,
     @CurrentUserDecorator() user: CurrentUser,
   ) {
-    return this.casesService.update(id, {
-      ...body,
-      updatedByName: user.fullName,
-    });
+    return this.casesService.update(id, body, user);
   }
 }
