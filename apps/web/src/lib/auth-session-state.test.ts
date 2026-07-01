@@ -50,6 +50,70 @@ describe("authUserFromClerkUser", () => {
       permissions: [],
     });
   });
+
+  it("uses fullName when available", () => {
+    const user = authUserFromClerkUser({
+      id: "user_456",
+      username: null,
+      fullName: "Nguyen Van Clerk",
+      primaryEmailAddress: { emailAddress: "clerk@example.test" },
+    });
+
+    assert.equal(user.fullName, "Nguyen Van Clerk");
+  });
+
+  it("falls back to firstName+lastName when fullName is null", () => {
+    const user = authUserFromClerkUser({
+      id: "user_789",
+      username: null,
+      fullName: null,
+      firstName: "Le",
+      lastName: "Thi B",
+      primaryEmailAddress: { emailAddress: "le@example.test" },
+    });
+
+    assert.equal(user.fullName, "Le Thi B");
+  });
+
+  it("falls back to username (email prefix) when no name data exists", () => {
+    const user = authUserFromClerkUser({
+      id: "user_no_name",
+      username: null,
+      fullName: null,
+      primaryEmailAddress: { emailAddress: "no-name@example.test" },
+    });
+
+    // username is derived from email prefix, so displayName uses that before email
+    assert.equal(user.fullName, "no-name");
+    assert.equal(user.email, "no-name@example.test");
+  });
+
+  it("uses human-friendly fallback when no identity data exists", () => {
+    const user = authUserFromClerkUser({
+      id: "user_empty",
+      username: null,
+      fullName: null,
+      primaryEmailAddress: null,
+    });
+
+    assert.equal(user.fullName, "Người dùng đã xác thực");
+    assert.equal(user.username, null);
+    assert.equal(user.email, null);
+  });
+
+  it("keeps VIEWER role and empty permissions for all Clerk-only users", () => {
+    const user = authUserFromClerkUser({
+      id: "user_viewer_check",
+      username: "viewer_user",
+      fullName: "Viewer User",
+      primaryEmailAddress: { emailAddress: "viewer@example.test" },
+    });
+
+    assert.equal(user.role, "VIEWER");
+    assert.deepEqual(user.permissions, []);
+    assert.equal(user.agencyId, null);
+    assert.equal(user.agencyName, null);
+  });
 });
 
 describe("resolveAuthSessionState", () => {

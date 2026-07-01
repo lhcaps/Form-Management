@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { useUser as useClerkUser } from "@clerk/react";
 import { canOpenFormStudio } from "@/lib/permissions";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { useState } from "react";
@@ -180,14 +181,29 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
+// ─── Status label helper ──────────────────────────────────────────────────
+
+function getStatusLabel(
+  user: ReturnType<typeof useAuth>["user"],
+  isClerkUser: boolean,
+): string {
+  if (!user) return "Chưa đăng nhập";
+  if (isClerkUser) return "Đã xác thực";
+  return user.email ?? user.positionTitle ?? user.role ?? "Đã xác thực";
+}
+
 // ─── Desktop Sidebar (full export) ──────────────────────────────────────────
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { user: clerkUser } = useClerkUser();
+
   const displayName = user?.fullName ?? "Chưa đăng nhập";
-  const subtitle = user?.agencyName ?? user?.positionTitle ?? user?.role ?? "";
+  const isClerkUser = clerkUser != null;
+  const statusLabel = getStatusLabel(user, isClerkUser);
   const initials = getInitials(displayName) || "QL";
+  const avatarUrl = clerkUser?.imageUrl ?? null;
 
   const visibleMenuItems = canOpenFormStudio(user)
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
@@ -227,18 +243,25 @@ export function Sidebar() {
 
       <div className="mt-auto border-t border-slate-200 p-4">
         <div className="flex items-center gap-3 rounded-[18px] bg-slate-50 p-3">
-          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
-            {initials}
-          </div>
+          {avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="h-10 w-10 shrink-0 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
+              {initials}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <div className="truncate text-[13px] font-black text-slate-950">
               {displayName}
             </div>
-            {subtitle ? (
-              <div className="mt-0.5 truncate text-[12px] font-medium text-slate-500">
-                {subtitle}
-              </div>
-            ) : null}
+            <div className="mt-0.5 truncate text-[12px] font-medium text-slate-500">
+              {statusLabel}
+            </div>
           </div>
           <button
             type="button"
@@ -278,9 +301,13 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { user: clerkUser } = useClerkUser();
+
   const displayName = user?.fullName ?? "Chưa đăng nhập";
-  const subtitle = user?.agencyName ?? user?.positionTitle ?? user?.role ?? "";
+  const isClerkUser = clerkUser != null;
+  const statusLabel = getStatusLabel(user, isClerkUser);
   const initials = getInitials(displayName) || "QL";
+  const avatarUrl = clerkUser?.imageUrl ?? null;
 
   const visibleMenuItems = canOpenFormStudio(user)
     ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
@@ -323,18 +350,25 @@ export function MobileNav() {
 
         {/* User block */}
         <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
-          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
-            {initials}
-          </div>
+          {avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={avatarUrl}
+              alt={displayName}
+              className="h-10 w-10 shrink-0 rounded-2xl object-cover"
+            />
+          ) : (
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-blue-50 text-[13px] font-black text-blue-700">
+              {initials}
+            </div>
+          )}
           <div className="min-w-0 flex-1">
             <div className="truncate text-[13px] font-black text-slate-950">
               {displayName}
             </div>
-            {subtitle ? (
-              <div className="truncate text-[12px] font-medium text-slate-500">
-                {subtitle}
-              </div>
-            ) : null}
+            <div className="truncate text-[12px] font-medium text-slate-500">
+              {statusLabel}
+            </div>
           </div>
         </div>
 

@@ -25,17 +25,17 @@ export function authUserFromClerkUser(user: ClerkUserLike): AuthUser {
   const nameParts = [user.firstName, user.lastName]
     .map((part) => part?.trim())
     .filter(Boolean);
-  const fullName =
+  const name =
     user.fullName?.trim() ||
     nameParts.join(" ") ||
     username ||
     email ||
-    "Clerk account";
+    "Người dùng đã xác thực";
 
   return {
     id: `clerk:${user.id}`,
     username,
-    fullName,
+    fullName: name,
     positionTitle: null,
     rankTitle: null,
     email,

@@ -916,19 +916,15 @@ export function TemplateSelectorWorkspace() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-4">
+          <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-bold uppercase text-slate-500">
-                Hồ sơ hiện tại
+                Danh mục biểu mẫu
               </p>
-              <p className="mt-2 text-sm font-black text-slate-950">
-                {currentCaseId ? currentCaseLabel : "Chưa chọn"}
+              <p className="mt-2 text-2xl font-black text-slate-800">
+                {catalogLoading ? "..." : vksTemplateCatalog.length}
               </p>
-              <p className="mt-1 line-clamp-2 text-xs text-slate-500">
-                {currentCaseId
-                  ? "Hồ sơ sẽ dùng để tạo document khi mở biểu mẫu"
-                  : "Hệ thống sẽ hỏi khi bạn mở biểu mẫu"}
-              </p>
+              <p className="mt-1 text-xs text-slate-400">tổng cộng</p>
             </div>
 
             <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
@@ -938,6 +934,7 @@ export function TemplateSelectorWorkspace() {
               <p className="mt-2 text-2xl font-black text-blue-800">
                 {dbTemplates.length}
               </p>
+              <p className="mt-1 text-xs text-blue-400">trong database</p>
             </div>
 
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
@@ -946,6 +943,9 @@ export function TemplateSelectorWorkspace() {
               </p>
               <p className="mt-2 text-2xl font-black text-emerald-700">
                 {topCandidates.length}
+              </p>
+              <p className="mt-1 text-xs text-emerald-500">
+                {hasActiveSuggestionFilter ? "theo bộ lọc" : "hàng đầu"}
               </p>
             </div>
 
@@ -956,15 +956,19 @@ export function TemplateSelectorWorkspace() {
               <p className="mt-2 text-2xl font-black text-indigo-800">
                 {openableCount}
               </p>
+              <p className="mt-1 text-xs text-indigo-500">
+                {input.onlyCreatable ? "theo bộ lọc" : "có DB template"}
+              </p>
             </div>
 
             <div className="rounded-2xl border border-teal-200 bg-teal-50 p-4">
               <p className="text-xs font-bold uppercase text-teal-700">
-                Danh mục biểu mẫu
+                Đã triển khai runtime
               </p>
               <p className="mt-2 text-2xl font-black text-teal-800">
                 {catalogLoading ? "..." : catalog.length}
               </p>
+              <p className="mt-1 text-xs text-teal-500">Studio + runtime</p>
             </div>
           </div>
         </section>
@@ -1078,15 +1082,47 @@ export function TemplateSelectorWorkspace() {
             </label>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-600">
-              Đang lọc: {formatStageLabel(input.stageId)}
-            </span>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {/* Optional current case — does NOT block template opening */}
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+              <p className="text-xs font-bold uppercase text-amber-700">
+                Hồ sơ để điền dữ liệu
+              </p>
+              <p className="mt-2 text-sm font-black text-amber-800">
+                {currentCaseId ? currentCaseLabel : "Chưa chọn"}
+              </p>
+              <p className="mt-1 text-xs text-amber-600">
+                {currentCaseId
+                  ? "Tự động điền dữ liệu hồ sơ khi mở biểu mẫu"
+                  : "Không bắt buộc — bạn vẫn mở được biểu mẫu mà không cần chọn hồ sơ"}
+              </p>
+            </div>
 
-            <span className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-800">
-              Nguồn danh mục: {SHOW_TEMPLATE_DEBUG_INFO ? templateCatalogMeta.sourceZip : "Đã tải"}
-            </span>
+            <div className="rounded-2xl border border-cyan-200 bg-cyan-50 p-4">
+              <p className="text-xs font-bold uppercase text-cyan-700">
+                Mở biểu mẫu
+              </p>
+              <p className="mt-2 text-sm font-black text-cyan-800">
+                Không cần hồ sơ
+              </p>
+              <p className="mt-1 text-xs text-cyan-600">
+                Bạn có thể chọn biểu mẫu và điền dữ liệu trực tiếp. Hồ sơ chỉ dùng để tự động điền thông tin.
+              </p>
+            </div>
           </div>
+
+          {input.stageId ? (
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-600">
+                Đang lọc giai đoạn: {formatStageLabel(input.stageId)}
+              </span>
+              {input.onlyCreatable ? (
+                <span className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold text-amber-700">
+                  Chỉ hiện biểu mẫu có DB
+                </span>
+              ) : null}
+            </div>
+          ) : null}
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -1105,8 +1141,8 @@ export function TemplateSelectorWorkspace() {
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-600">
                 {hasActiveSuggestionFilter
-                  ? `Đang hiện ${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} mẫu phù hợp`
-                  : "Đang hiện toàn bộ danh mục"}
+                  ? `Hiện ${visibleCatalogGroups.reduce((sum, stage) => sum + stage.items.length, 0)} biểu mẫu phù hợp`
+                  : `Hiện toàn bộ ${vksTemplateCatalog.length} biểu mẫu`}
               </span>
 
               <button
