@@ -4,6 +4,7 @@ import type { CompiledFormContract } from "@qllaw/form-contracts";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ErrorBanner } from "@/components/common/error-banner";
+import { RuntimePdfPreview } from "@/components/documents/runtime-pdf-preview";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
 import { getCaseDetail, type CaseDetail } from "@/lib/case-detail-api";
@@ -16,7 +17,6 @@ import {
 import {
   createRuntimePreviewSession,
   downloadRuntimePreviewDocxByUrl,
-  getRuntimePreviewPdfUrl,
   type RuntimePreviewSessionResponse,
 } from "@/lib/runtime-template-preview";
 import {
@@ -71,6 +71,13 @@ function saveStoredDraft(
 ) {
   if (typeof window === "undefined") return;
   saveRuntimeTemplateDraft(window.localStorage, templateCode, contractHash, data);
+}
+
+function formatRuntimePreviewWarning(
+  warning: RuntimePreviewSessionResponse["warnings"][number],
+): string {
+  if (typeof warning === "string") return warning;
+  return `${warning.code}: ${warning.message}`;
 }
 
 export function TemplatePreviewWorkspace({ templateCode }: { templateCode: string }) {
@@ -147,6 +154,10 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const contract = runtime?.compiledContract ?? null;
   const currentSnapshot = useMemo(() => snapshot(data), [data]);
   const isDirty = !isLoading && currentSnapshot !== savedSnapshot;
+  const hasVisualPreview = Boolean(previewSession?.pdfPreviewUrl);
+  const hasDocxOnlyPreview = Boolean(
+    previewSession && !previewSession.pdfPreviewUrl,
+  );
   const title = contract?.title?.trim() || normalizedTemplateCode;
   const statusText = isSaving
     ? "Đang lưu bản nháp"
@@ -155,7 +166,9 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
       : isDirty
         ? "Có thay đổi chưa lưu"
         : previewSession
-          ? "Đã tạo bản xem trước"
+          ? hasVisualPreview
+            ? "Đã tạo bản xem trước"
+            : "Đã tạo file DOCX tạm thời"
           : "Bản nháp đã lưu";
 
   const filteredCaseOptions = useMemo(() => {
@@ -195,7 +208,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
       setSavedSnapshot(snapshot(data));
       const session = await createRuntimePreviewSession(normalizedTemplateCode, data);
       setPreviewSession(session);
-      setMessage("Đã tạo bản xem trước.");
+      setMessage(session.pdfPreviewUrl ? "Đã tạo bản xem trước." : "");
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Không tạo được bản xem trước."));
     } finally {
@@ -465,9 +478,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                       Đã tạo bản xem trước
                     </p>
                     <p className="mt-1 text-sm text-emerald-700">
-                      Bản xem trước này chưa lưu vào hồ sơ. Bạn có thể kiểm tra
-                      định dạng và tải DOCX, hoặc mở với hồ sơ để lưu DB và có
-                      lịch sử xử lý đầy đủ.
+                      Bản xem trước PDF này được tạo từ phiên runtime tạm thời.
+                      Bạn có thể kiểm tra định dạng trực tiếp và tải DOCX khi cần.
                     </p>
                     <div className="mt-3 grid gap-2 text-sm">
                       <div className="flex flex-wrap gap-x-6 gap-y-1">
@@ -524,33 +536,17 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                             Lưu ý khi render:
                           </p>
                           <ul className="mt-1 list-inside list-disc text-xs text-amber-700">
-                            {previewSession.warnings.slice(0, 3).map((w, i) => (
-                              <li key={i}>{w}</li>
+                            {previewSession.warnings.slice(0, 3).map((warning, i) => (
+                              <li key={i}>{formatRuntimePreviewWarning(warning)}</li>
                             ))}
                           </ul>
                         </div>
                       ) : null}
 
-                      {/* PDF preview if available — currently PDF generation is not implemented */}
-                      {previewSession.pdfPreviewUrl ? (
-                        <div className="mt-2">
-                          <a
-                            href={previewSession.pdfPreviewUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
-                          >
-                            Xem PDF trước
-                          </a>
-                        </div>
-                      ) : (
-                        <div className="mt-2">
-                          <span className="text-xs italic text-slate-500">
-                            Tính năng xem trước PDF đang được phát triển. Hiện tại bạn có
-                            thể tải DOCX để kiểm tra định dạng.
-                          </span>
-                        </div>
-                      )}
+                      <RuntimePdfPreview
+                        pdfUrl={previewSession.pdfPreviewUrl}
+                        fileName={previewSession.fileName}
+                      />
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -653,8 +649,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                             Lưu ý khi render:
                           </p>
                           <ul className="mt-1 list-inside list-disc text-xs text-amber-700">
-                            {previewSession.warnings.slice(0, 3).map((w, i) => (
-                              <li key={i}>{w}</li>
+                            {previewSession.warnings.slice(0, 3).map((warning, i) => (
+                              <li key={i}>{formatRuntimePreviewWarning(warning)}</li>
                             ))}
                           </ul>
                         </div>
@@ -709,7 +705,9 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 role="status"
                 aria-live="polite"
                 className={`text-sm font-semibold ${
-                  isDirty ? "text-amber-700" : "text-emerald-700"
+                  isDirty || hasDocxOnlyPreview
+                    ? "text-amber-700"
+                    : "text-emerald-700"
                 }`}
               >
                 {statusText}

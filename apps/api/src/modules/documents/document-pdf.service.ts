@@ -15,6 +15,12 @@ import { DocumentRendererService } from './document-renderer.service';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ConvertGeneratedDocumentPdfDto } from './dto/convert-generated-document-pdf.dto';
 
+export interface ConvertDocxFileToPdfInput {
+  sourceDocxPath: string;
+  targetPdfPath: string;
+  contextId?: string;
+}
+
 function toPublicId(value: bigint | number | null | undefined): string | null {
   if (value === null || value === undefined) return null;
   return String(value);
@@ -68,6 +74,21 @@ export class DocumentPdfService {
     private readonly paths: WorkspacePathsService,
     private readonly config: AppConfigService,
   ) {}
+
+  async convertDocxFileToPdf(input: ConvertDocxFileToPdfInput): Promise<void> {
+    const contextId = input.contextId ?? 'standalone-docx';
+    this.assertDocxSourceReadyForPdf(input.sourceDocxPath, contextId);
+    await this.convertDocxToPdf(
+      input.sourceDocxPath,
+      input.targetPdfPath,
+      contextId,
+    );
+    this.assertPdfOutputIntegrity(
+      input.targetPdfPath,
+      null,
+      `Convert PDF ${contextId}`,
+    );
+  }
 
   async convertLatestDocxToPdf(
     documentIdRaw: string,

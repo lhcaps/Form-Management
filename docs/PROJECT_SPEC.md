@@ -281,10 +281,10 @@ playwright/.clerk/admin.json
 
 **Required E2E env:**
 ```
-E2E_CLERK_USER_EMAIL=admin@example.com
-CLERK_PUBLISHABLE_KEY=pk_test_replace_me
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_replace_me
-CLERK_SECRET_KEY=sk_test_replace_me
+E2E_CLERK_USER_EMAIL=admin@example.test
+CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<CLERK_PUBLISHABLE_KEY>
+CLERK_SECRET_KEY=<CLERK_SECRET_KEY>
 PLAYWRIGHT_BASE_URL=http://localhost:3000
 ```
 
@@ -456,9 +456,9 @@ interface RuntimePreviewSession {
   fileSizeBytes: number;
   fileFormat: 'DOCX';
   docxDownloadUrl: string;     // /api/v1/forms/runtime/preview-sessions/:sessionId/docx
-  pdfPreviewUrl: string | null; // [PILOT] null — chưa wired
+  pdfPreviewUrl: string | null; // [CURRENT] PDF URL when document.pdf exists; null on graceful fallback
   audit: DocxStyleAuditResult;
-  warnings: string[];
+  warnings: Array<string | { code: string; message: string }>;
   missingRequired: unknown[];
   expiresAt: string;
   persisted: false;            // CRITICAL: không phải persisted document
@@ -471,7 +471,7 @@ interface RuntimePreviewSession {
 |---|---|---|
 | `POST` | `/api/v1/forms/runtime/:templateCode/preview-session` | JSON (không Content-Disposition, body không PK) |
 | `GET` | `/api/v1/forms/runtime/preview-sessions/:sessionId/docx` | DOCX attachment |
-| `GET` | `/api/v1/forms/runtime/preview-sessions/:sessionId/pdf` | Graceful unavailable (`pdfPreviewUrl: null`) |
+| `GET` | `/api/v1/forms/runtime/preview-sessions/:sessionId/pdf` | Inline PDF when `document.pdf` exists; graceful unavailable when conversion fails |
 | `POST` | `/api/v1/forms/runtime/:templateCode/render-docx` | Pure binary DOCX download |
 
 ### 8.4 RESTRICTIONS
@@ -487,9 +487,17 @@ interface RuntimePreviewSession {
 - Kiểm tra exists và expired
 - Chống path traversal
 
-### 8.5 PDF note
+### 8.5 Runtime PDF visual preview [CURRENT — PR #33]
 
-Hệ thống có `DocumentPdfService` + Word COM/LibreOffice fallback cho **generated document flows**. Tuy nhiên, Runtime Preview Session PDF hiện tại là `graceful-unavailable` — chưa wired vào session pipeline.
+Runtime Preview Session now attempts DOCX → PDF conversion after `document.docx` is written.
+The PDF is stored as `storage/runtime-preview-sessions/{sessionId}/document.pdf` and exposed through `pdfPreviewUrl` only when conversion succeeds.
+If Word COM/LibreOffice conversion is unavailable or invalid, session creation still succeeds, `pdfPreviewUrl` remains `null`, and warnings include `PDF_PREVIEW_UNAVAILABLE`.
+
+This remains filesystem-only runtime state:
+- no `generated_documents` rows
+- no `generated_document_files` rows
+- no `generated_document_audit_logs` rows
+- no `/documents/:id` routing
 
 ---
 
@@ -859,7 +867,7 @@ Bộ policy nên duy trì trong repo:
 
 ---
 
-## Appendix A. PR #31 — Runtime Preview Session (Current State)
+## Appendix A. PR #31 / PR #33 — Runtime Preview Session (Current State)
 
 > Phần này ghi nhận trạng thái hiện tại của PR #31. Sau khi PR merge và stabilize, chuyển vào spec chính.
 
@@ -873,10 +881,11 @@ Bộ policy nên duy trì trong repo:
 - `RuntimePreviewSessionService`
 - `POST /preview-session`
 - `GET /preview-sessions/:sessionId/docx`
-- `GET /preview-sessions/:sessionId/pdf` → graceful unavailable
+- `GET /preview-sessions/:sessionId/pdf` → inline PDF when PR #33 conversion succeeds, graceful unavailable otherwise
 - `/render-docx/metadata` đã remove
 - `/render-docx` pure binary
 - `runtime-template-preview.ts` client
+- Inline PDF visual preview UI for runtime sessions when `pdfPreviewUrl` exists
 - Storage: `storage/runtime-preview-sessions/` (gitignored)
 - Clerk ticket E2E strategy + `playwright/.clerk/` storageState
 
@@ -903,9 +912,8 @@ Các feature đã định hướng nhưng chưa implement:
 | Feature | Trạng thái |
 |---|---|
 | Case-bound document creation flow (`/templates/:code` → chọn case → `/documents/:id`) | Chưa implement |
-| Runtime Preview Session PDF preview | Chưa wired (graceful unavailable) |
 | Browser DOCX renderer cho visual preview | Chưa implement |
-| Full PDF visual preview trong standalone template | Chưa implement |
+| Runtime PDF conversion reliability hardening | Future follow-up after PR #33 |
 
 ---
 

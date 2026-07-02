@@ -27,7 +27,13 @@ export interface RuntimePreviewSessionResponse {
       sourceCheckId?: string;
     }>;
   };
-  warnings: string[];
+  warnings: Array<
+    | string
+    | {
+        code: string;
+        message: string;
+      }
+  >;
   missingRequired: unknown[];
   expiresAt: string;
   persisted: false;
@@ -44,6 +50,16 @@ function parseFilenameFromDisposition(
   if (match?.[2]) return match[2].trim();
   if (match?.[3]) return match[3].trim();
   return fallback;
+}
+
+export function resolveRuntimePreviewArtifactUrl(artifactUrl: string): string {
+  if (/^https?:\/\//i.test(artifactUrl)) return artifactUrl;
+
+  if (artifactUrl.startsWith("/")) {
+    return `${new URL(getApiBaseUrl()).origin}${artifactUrl}`;
+  }
+
+  return `${getApiBaseUrl()}${artifactUrl.startsWith("/") ? artifactUrl : `/${artifactUrl}`}`;
 }
 
 /**
@@ -106,12 +122,7 @@ export async function downloadRuntimePreviewDocxByUrl(
   docxDownloadUrl: string,
   fallbackFileName: string,
 ): Promise<void> {
-  // docxDownloadUrl is an absolute path from the backend (e.g. "/api/v1/forms/...").
-  // getApiBaseUrl() already includes the /api/v1 prefix, so we only prepend
-  // the origin if docxDownloadUrl is a path (starts with "/" or "/api/v1").
-  const url = docxDownloadUrl.startsWith("/")
-    ? `${new URL(getApiBaseUrl()).origin}${docxDownloadUrl}`
-    : `${getApiBaseUrl()}${docxDownloadUrl}`;
+  const url = resolveRuntimePreviewArtifactUrl(docxDownloadUrl);
   const [apiInput, apiInit] = await withApiFetchAuthDefaults(url, {
     method: "GET",
     credentials: "include",
@@ -167,6 +178,51 @@ export async function downloadRuntimePreviewDocx(
     `/api/v1/forms/runtime/preview-sessions/${sessionId}/docx`,
     fallbackFileName,
   );
+}
+
+/**
+ * Fetch the PDF preview as an authenticated Blob.
+ * Uses the Clerk Bearer token through withApiFetchAuthDefaults.
+ * Does NOT return a raw URL — caller must create object URL.
+ */
+export async function fetchRuntimePreviewPdfBlob(
+  pdfPreviewUrl: string,
+  options?: {
+    signal?: AbortSignal;
+  },
+): Promise<Blob> {
+  const url = resolveRuntimePreviewArtifactUrl(pdfPreviewUrl);
+  const [apiInput, apiInit] = await withApiFetchAuthDefaults(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      Accept: "application/pdf",
+    },
+    signal: options?.signal,
+  });
+
+  const response = await fetch(apiInput, apiInit);
+
+  if (!response.ok) {
+    let message = `Không tải được PDF (HTTP ${response.status}).`;
+    try {
+      const json = await response.clone().json();
+      if (json?.message) message = String(json.message);
+    } catch {
+      // Not JSON — keep fallback message
+    }
+    throw new Error(message);
+  }
+
+  // Validate content-type to ensure we got a PDF, not JSON error
+  const contentType = response.headers.get("Content-Type") ?? "";
+  if (!contentType.includes("application/pdf")) {
+    throw new Error(
+      `Expected PDF response but received Content-Type "${contentType}".`,
+    );
+  }
+
+  return response.blob();
 }
 
 /**

@@ -1,0 +1,117 @@
+{
+  "generatedAt": "2026-07-02T22:47:10.3827366Z",
+  "scope": "PR #33 runtime DOCX to inline PDF preview for standalone templates",
+  "decision": "PASS",
+  "implementation": {
+    "temporaryRuntimeOnly": true,
+    "generatedDocumentRowsWritten": false,
+    "lockedContractsMutated": false,
+    "pdfPreviewUrlWhenPdfExists": true,
+    "docxFallbackOnPdfFailure": true,
+    "runtimeArtifactUrlsResolveToApiOrigin": true,
+    "stablePdfFailureWarningCode": "PDF_PREVIEW_UNAVAILABLE"
+  },
+  "validation": [
+    {
+      "gate": "pnpm build",
+      "status": "PASS",
+      "evidence": "contracts, API, and web production builds completed"
+    },
+    {
+      "gate": "pnpm --filter api test --runInBand",
+      "status": "PASS",
+      "evidence": "64 suites, 522 tests passed"
+    },
+    {
+      "gate": "pnpm test:web-unit",
+      "status": "PASS",
+      "evidence": "139 web unit tests passed"
+    },
+    {
+      "gate": "pnpm --filter api lint",
+      "status": "PASS",
+      "evidence": "ESLint completed"
+    },
+    {
+      "gate": "pnpm --filter web lint",
+      "status": "PASS",
+      "evidence": "ESLint completed"
+    },
+    {
+      "gate": "pnpm --filter api exec tsc --noEmit",
+      "status": "PASS",
+      "evidence": "TypeScript completed"
+    },
+    {
+      "gate": "pnpm --filter web exec tsc --noEmit",
+      "status": "PASS",
+      "evidence": "TypeScript completed"
+    },
+    {
+      "gate": "pnpm test:e2e:auth",
+      "status": "PASS",
+      "evidence": "5 authenticated Playwright tests passed, including API-origin iframe assertion"
+    },
+    {
+      "gate": "pnpm audit:hardcode",
+      "status": "PASS",
+      "evidence": "Runtime hardcode audit passed"
+    },
+    {
+      "gate": "pnpm audit:locked-compiled",
+      "status": "PASS",
+      "evidence": "213/213 locked contracts consistent"
+    },
+    {
+      "gate": "pnpm audit:contract-sync",
+      "status": "PASS",
+      "evidence": "DB compare matched 213/213, missing 0, stale 0"
+    },
+    {
+      "gate": "secret-pattern scan",
+      "status": "REVIEWED",
+      "evidence": "Existing docs/placeholders and one unit-test fake key matched; no generated session/auth file remained in git status"
+    },
+    {
+      "gate": "forbidden generated-file status check",
+      "status": "PASS",
+      "evidence": "No env-local, Playwright auth state, reports, test results, or runtime session output in git status"
+    },
+    {
+      "gate": "locked contract/template diff guard",
+      "status": "PASS",
+      "evidence": "No packages/form-contracts, locked DOCX, .docx, or .doc paths changed"
+    },
+    {
+      "gate": "git diff --check",
+      "status": "PASS",
+      "evidence": "No whitespace errors"
+    }
+  ],
+  "notes": [
+    "Local commands emitted the existing engine warning because this shell uses Node v24.14.0 while package.json wants >=22 <23; all gates passed.",
+    "audit:locked-compiled regenerated timestamp-only sot-gates-v1 files during validation; those changes were restored.",
+    "The pre-existing untracked docs/Project Spec/ folder was not modified or staged.",
+    "Post-merge fix: Authenticated Blob Preview. iframe src is now blob: URL fetched with Clerk Bearer token, not raw protected API URL."
+  ],
+  "bugFix": {
+    "description": "Authenticated Blob Preview — iframe cannot attach Bearer token",
+    "problem": "iframe src was raw protected API URL causing HTTP 401 because iframe navigation cannot attach Clerk Bearer token",
+    "rootCause": "Browser iframe navigation only sends cookies automatically; no custom Authorization header attached",
+    "solution": "Fetch PDF via authenticated client, convert to Blob, render iframe from blob: URL",
+    "filesChanged": [
+      "apps/web/src/lib/runtime-template-preview.ts",
+      "apps/web/src/components/documents/runtime-pdf-preview.tsx",
+      "apps/web/src/lib/runtime-template-preview.test.ts",
+      "tests/e2e/runtime-preview-session.auth.spec.ts",
+      "tests/e2e/preview-panel-honest-ux.auth.spec.ts"
+    ],
+    "invariantsPreserved": [
+      "pdfPreviewUrl still returned by backend as /api/v1/forms/runtime/preview-sessions/:sessionId/pdf",
+      "PDF endpoint remains protected — no public endpoint added",
+      "Token never appears in URL query string",
+      "Iframe never renders raw API URL directly",
+      "DOCX download unchanged"
+    ]
+  }
+}
