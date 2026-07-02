@@ -311,3 +311,86 @@ export async function getGeneratedDocumentAudit(
     `/documents/generated/${documentId}/audit${qs ? `?${qs}` : ''}`,
   );
 }
+
+// ─── Preview API types and functions ─────────────────────────────────────────
+
+export type DocxPreviewAuditStatus = 'PASS' | 'WARN' | 'FAIL';
+
+export type DocxPreviewAuditFindingSeverity = 'INFO' | 'WARN' | 'FAIL';
+
+export type DocxPreviewAuditFinding = {
+  severity: DocxPreviewAuditFindingSeverity;
+  code: string;
+  message: string;
+  location: string;
+  recommendation?: string;
+};
+
+export type DocxPreviewAuditSummary = {
+  total: number;
+  pass: number;
+  warning: number;
+  fail: number;
+  notDetectable: number;
+  notApplicable: number;
+};
+
+export type DocxPreviewAudit = {
+  status: DocxPreviewAuditStatus;
+  profileId: string;
+  profileName: string;
+  summary: DocxPreviewAuditSummary;
+  findings: DocxPreviewAuditFinding[];
+};
+
+export type DocxPreviewResult = {
+  documentId: string;
+  documentTitle: string | null;
+  documentCode: string | null;
+  fileId: string;
+  fileName: string;
+  fileSizeBytes: string;
+  checksum: string | null;
+  generatedAt: string | null;
+  sample: boolean;
+  audit: DocxPreviewAudit;
+  preview: {
+    pdfFileId: string;
+    pdfFileName: string | null;
+    pdfFileSizeBytes: string | null;
+    sourceDocxFileId: string | null;
+    convertedAt: string;
+    skipped?: boolean;
+  } | null;
+  auditNote?: string;
+};
+
+export type DocxPreviewSampleDataKeys = {
+  keys: string[];
+  categories: string[];
+  count: number;
+};
+
+export async function getGeneratedDocumentPreview(
+  documentId: string | number,
+  options?: { sample?: boolean },
+): Promise<DocxPreviewResult> {
+  const params = new URLSearchParams();
+  if (options?.sample) params.set('sample', 'true');
+  const qs = params.toString();
+  return readApi<DocxPreviewResult>(
+    `/documents/generated/${documentId}/preview${qs ? `?${qs}` : ''}`,
+  );
+}
+
+export async function getGeneratedDocumentPreviewAudit(
+  documentId: string | number,
+): Promise<DocxPreviewResult> {
+  return readApi<DocxPreviewResult>(
+    `/documents/generated/${documentId}/preview/audit`,
+  );
+}
+
+export async function getPreviewSampleDataKeys(): Promise<DocxPreviewSampleDataKeys> {
+  return readApi<DocxPreviewSampleDataKeys>('/documents/preview/sample-data');
+}

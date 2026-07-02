@@ -1,0 +1,87 @@
+{
+  "phase": "advanced-docx-preview-style",
+  "status": "SUCCESS",
+  "generatedAt": "2026-07-02T14:16:00.000Z",
+  "styleProfile": {
+    "id": "vks-khu-vuc-7",
+    "name": "Viện Kiểm Sát Nhân Dân Khu Vực 7",
+    "global": {
+      "fontFamily": "Times New Roman",
+      "baseFontSizeHalfPoints": 26
+    },
+    "headerLeft": {
+      "parentAgency": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+      "issuingAgency": "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7"
+    },
+    "template": {
+      "circularReference": "Ban hành theo Thông tư số 03/2026/TT-VKSTC ngày 09/02/2026",
+      "circularReferenceFontSizeHalfPoints": 16
+    },
+    "footer": {
+      "recipientLabel": "Nơi nhận:",
+      "recipientLabelBold": true,
+      "recipientLabelItalic": true
+    }
+  },
+  "auditChecks": {
+    "total": 19,
+    "source": "docx-format-auditor.ts (FMT-001 through FMT-019)"
+  },
+  "previewApi": {
+    "endpoints": [
+      "GET /documents/generated/:documentId/preview",
+      "GET /documents/generated/:documentId/preview/audit",
+      "GET /documents/preview/sample-data"
+    ],
+    "authorization": "AgencyResourceAccessService (agency-scoped)",
+    "pdfConversion": "Optional (depends on Word COM / LibreOffice availability)"
+  },
+  "sampleData": {
+    "fieldCount": 52,
+    "persistence": "never persisted",
+    "fixedDate": "15/07/2026"
+  },
+  "frontend": {
+    "component": "GeneratedDocumentPreviewPanel",
+    "location": "GeneratedDocumentWorkspace tab",
+    "tabName": "Xem trước bản in"
+  },
+  "tests": {
+    "newSuites": 2,
+    "newTestCount": 27,
+    "fullSuiteCount": 62,
+    "fullTestCount": 487
+  },
+  "validation": {
+    "apiLint": "PASS",
+    "apiTypecheck": "PASS",
+    "webLint": "PASS",
+    "webTypecheck": "PASS",
+    "fullTypecheck": "PASS",
+    "prismaValidate": "PASS",
+    "auditLockedCompiled": "PASS (213/213)",
+    "auditContractSync": "PASS (213/213)",
+    "build": "PASS"
+  },
+  "files": {
+    "new": [
+      "apps/api/src/modules/documents/style/vks-khu-vuc-7-style-profile.ts",
+      "apps/api/src/modules/documents/style/docx-style-audit.service.ts",
+      "apps/api/src/modules/documents/style/docx-style-audit.service.spec.ts",
+      "apps/api/src/modules/documents/preview/docx-preview.dto.ts",
+      "apps/api/src/modules/documents/preview/docx-preview.service.ts",
+      "apps/api/src/modules/documents/preview/docx-preview.controller.ts",
+      "apps/api/src/modules/documents/preview/sample-data-provider.ts",
+      "apps/api/src/modules/documents/preview/sample-data-provider.spec.ts",
+      "apps/web/src/components/documents/generated-document-preview-panel.tsx"
+    ],
+    "modified": [
+      "apps/api/src/modules/documents/documents.module.ts",
+      "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "apps/web/src/lib/generated-documents-api.ts"
+    ],
+    "reports": [
+      "docs/audit/advanced-docx-preview-style/latest.md"
+    ]
+  }
+}

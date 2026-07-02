@@ -10,6 +10,7 @@ import {
 } from "./bm-panel-registry.generated";
 import { GeneratedDocumentAuditPanel } from "@/components/documents/generated-document-audit-panel";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
+import { GeneratedDocumentPreviewPanel } from "@/components/documents/generated-document-preview-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import { getDocumentRenderPayload } from "@/lib/document-form-api";
 import { SHOW_INTERNAL_IDS } from "@/lib/debug";
@@ -220,7 +221,7 @@ type GeneratedDocumentWorkspaceProps = {
   documentId: string;
 };
 
-type TabKey = "form" | "files" | "history";
+type TabKey = "form" | "files" | "preview" | "history";
 
 type RenderPayloadResponse = RenderPayloadForCaseContext & {
   document?: {
@@ -257,6 +258,11 @@ const TABS: Array<{
     key: "files",
     label: "Tệp đã xuất",
     description: "Tùy chỉnh trước khi xuất, tạo Word/PDF và tải tệp",
+  },
+  {
+    key: "preview",
+    label: "Xem trước bản in",
+    description: "Kiểm tra định dạng DOCX và xem trước bản in",
   },
   {
     key: "history",
@@ -700,6 +706,10 @@ export function GeneratedDocumentWorkspace({
               key={`document-files-${refreshKey}`}
               documentId={documentId}
             />
+          ) : null}
+
+          {activeTab === "preview" ? (
+            <GeneratedDocumentPreviewPanel documentId={documentId} />
           ) : null}
 
           {activeTab === "history" ? (
