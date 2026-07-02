@@ -30,7 +30,10 @@ export interface AuthUser {
   permissions: FormPermission[];
 }
 
-export async function login(username: string, password: string): Promise<AuthUser> {
+export async function login(
+  username: string,
+  password: string,
+): Promise<AuthUser> {
   try {
     const result = await readApi<{ user: AuthUser }>("/auth/login", {
       method: "POST",
@@ -59,11 +62,23 @@ export async function fetchMe(): Promise<AuthUser | null> {
 }
 
 export async function fetchOfficials(): Promise<
-  Array<{ id: string; fullName: string; positionTitle: string | null; agencyName: string | null }>
+  Array<{
+    id: string;
+    fullName: string;
+    positionTitle: string | null;
+    agencyId: string | null;
+    agencyName: string | null;
+  }>
 > {
   try {
     return await readApi<
-      Array<{ id: string; fullName: string; positionTitle: string | null; agencyName: string | null }>
+      Array<{
+        id: string;
+        fullName: string;
+        positionTitle: string | null;
+        agencyId: string | null;
+        agencyName: string | null;
+      }>
     >("/auth/users", { noStore: true });
   } catch {
     return [];

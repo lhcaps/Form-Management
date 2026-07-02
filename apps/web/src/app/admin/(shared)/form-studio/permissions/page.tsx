@@ -13,6 +13,10 @@ import {
 const PERMISSIONS = [
   ["FORM_TEMPLATE_EDIT", "Editor"],
   ["FORM_TEMPLATE_APPROVE", "Approver"],
+] as const;
+
+const ALL_PERMISSIONS = [
+  ...PERMISSIONS,
   ["FORM_TEMPLATE_PERMISSION_ADMIN", "Permission Admin"],
 ] as const;
 
@@ -25,9 +29,9 @@ export default function FormStudioPermissionsPage() {
   const [officialId, setOfficialId] = useState("");
   const [permission, setPermission] = useState<string>(PERMISSIONS[0][0]);
   const [message, setMessage] = useState("");
+  const isAdmin = user?.role === "ADMIN";
   const allowed =
-    user?.role === "ADMIN" ||
-    user?.permissions?.includes("FORM_TEMPLATE_PERMISSION_ADMIN");
+    isAdmin || user?.permissions?.includes("FORM_TEMPLATE_PERMISSION_ADMIN");
 
   async function reload() {
     try {
@@ -35,13 +39,27 @@ export default function FormStudioPermissionsPage() {
         listFormPermissions(),
         fetchOfficials(),
       ]);
+      // Filter officials to own agency for agency-scoped permission admins
+      const filteredOfficials = isAdmin
+        ? nextOfficials
+        : nextOfficials.filter(
+            (o) =>
+              o.agencyId != null &&
+              user?.agencyId != null &&
+              o.agencyId === user.agencyId,
+          );
       setGrants(nextGrants);
-      setOfficials(nextOfficials);
-      setOfficialId((value) => value || nextOfficials[0]?.id || "");
+      setOfficials(filteredOfficials);
+      setOfficialId((value) => value || filteredOfficials[0]?.id || "");
     } catch (cause) {
-      setMessage(cause instanceof Error ? cause.message : "Không tải được quyền.");
+      setMessage(
+        cause instanceof Error ? cause.message : "Không tải được quyền.",
+      );
     }
   }
+
+  // Permissions available to the current actor
+  const selectablePermissions = ALL_PERMISSIONS;
 
   useEffect(() => {
     if (allowed) void reload();
@@ -56,7 +74,8 @@ export default function FormStudioPermissionsPage() {
               Không có quyền truy cập
             </div>
             <div className="text-sm text-rose-600">
-              Trang này chỉ dành cho ADMIN hoặc người có quyền quản trị biểu mẫu.
+              Trang này chỉ dành cho ADMIN hoặc người có quyền quản trị biểu
+              mẫu.
             </div>
           </div>
         </div>
@@ -90,13 +109,23 @@ export default function FormStudioPermissionsPage() {
           onSubmit={(event) => {
             event.preventDefault();
             if (!officialId) return;
-            void grantFormPermission({ officialId, permission })
+            const selectedOfficial = officials.find(
+              (official) => official.id === officialId,
+            );
+            const agencyId = isAdmin
+              ? (selectedOfficial?.agencyId ?? undefined)
+              : (user?.agencyId ?? undefined);
+            void grantFormPermission({ officialId, permission, agencyId })
               .then(() => {
                 setMessage("Đã cấp quyền.");
                 return reload();
               })
               .catch((cause) =>
-                setMessage(cause instanceof Error ? cause.message : "Cấp quyền thất bại."),
+                setMessage(
+                  cause instanceof Error
+                    ? cause.message
+                    : "Cấp quyền thất bại.",
+                ),
               );
           }}
         >
@@ -121,7 +150,7 @@ export default function FormStudioPermissionsPage() {
               value={permission}
               onChange={(event) => setPermission(event.target.value)}
             >
-              {PERMISSIONS.map(([value, label]) => (
+              {selectablePermissions.map(([value, label]) => (
                 <option key={value} value={value}>
                   {label} · {value}
                 </option>
@@ -147,10 +176,16 @@ export default function FormStudioPermissionsPage() {
               {grants.map((grant) => (
                 <tr key={grant.id} className="border-t border-slate-100">
                   <td className="px-4 py-3">
-                    <div className="font-bold text-slate-900">{grant.officialName}</div>
-                    <div className="text-xs text-slate-500">{grant.positionTitle}</div>
+                    <div className="font-bold text-slate-900">
+                      {grant.officialName}
+                    </div>
+                    <div className="text-xs text-slate-500">
+                      {grant.positionTitle}
+                    </div>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs">{grant.permission}</td>
+                  <td className="px-4 py-3 font-mono text-xs">
+                    {grant.permission}
+                  </td>
                   <td className="px-4 py-3">{grant.agencyId ?? "Global"}</td>
                   <td className="px-4 py-3 text-right">
                     <button
@@ -160,7 +195,11 @@ export default function FormStudioPermissionsPage() {
                         void revokeFormPermission(grant.id)
                           .then(reload)
                           .catch((cause) =>
-                            setMessage(cause instanceof Error ? cause.message : "Thu hồi thất bại."),
+                            setMessage(
+                              cause instanceof Error
+                                ? cause.message
+                                : "Thu hồi thất bại.",
+                            ),
                           )
                       }
                     >

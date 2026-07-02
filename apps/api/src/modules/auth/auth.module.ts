@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { FormPermissionGuard } from './form-permission.guard';
 import { AgencyResourceAccessService } from './agency-resource-access.service';
+import { PermissionAdminScopeService } from './permission-admin-scope.service';
 import { ClerkWebhookService } from './clerk-webhook.service';
 import { ClerkWebhookController } from './clerk-webhook.controller';
 import { AdminAuthIdentitiesController } from './admin-auth-identities.controller';
@@ -31,9 +32,14 @@ import { PrismaModule } from '../../prisma/prisma.module';
       useClass: FormPermissionGuard,
     },
     AgencyResourceAccessService,
+    PermissionAdminScopeService,
     ClerkWebhookService,
     AdminAuthIdentitiesService,
   ],
-  exports: [AuthService, AgencyResourceAccessService],
+  exports: [
+    AuthService,
+    AgencyResourceAccessService,
+    PermissionAdminScopeService,
+  ],
 })
 export class AuthModule {}
