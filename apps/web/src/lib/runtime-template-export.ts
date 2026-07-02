@@ -61,6 +61,15 @@ export async function renderRuntimeTemplateDocx(
     throw new Error(message);
   }
 
+  // Guard: metadata mode MUST return JSON, not DOCX blob.
+  const contentType = response.headers.get("Content-Type") ?? "";
+  if (!contentType.includes("application/json")) {
+    throw new Error(
+      "Expected metadata JSON but received DOCX response. " +
+        `Content-Type was "${contentType}". Check backend mode=metadata branch.`,
+    );
+  }
+
   return response.json() as Promise<RuntimeTemplateRenderMetadata>;
 }
 

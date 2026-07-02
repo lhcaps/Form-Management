@@ -21,11 +21,14 @@ const mockUser: CurrentUser = {
 
 function mockResponse(): {
   set: jest.Mock;
+  json: jest.Mock;
   headers: Map<string, string>;
 } {
   const headers = new Map<string, string>();
   return {
     set: jest.fn().mockReturnThis(),
+    // response.json() returns the sent flag (true if the response was sent)
+    json: jest.fn().mockReturnValue(true),
     headers,
   };
 }
@@ -87,7 +90,7 @@ describe('RuntimeTemplateRenderController', () => {
       expect(result).toBeInstanceOf(StreamableFile);
     });
 
-    it('returns metadata JSON object when mode=metadata query param is provided', async () => {
+    it('returns truthy sent flag when mode=metadata query param is provided', async () => {
       const mockBuffer = Buffer.from('fake-docx-content');
       const renderer = {
         renderDocx: jest.fn().mockResolvedValue({
@@ -109,19 +112,31 @@ describe('RuntimeTemplateRenderController', () => {
         mockRes,
       );
 
-      // Metadata mode returns a plain object, not StreamableFile
+      // response.json() is called to send the JSON response directly.
+      // The return value is the sent flag (truthy), NOT the JSON payload.
+      expect(result).toBeTruthy();
       expect(result).not.toBeInstanceOf(StreamableFile);
-      expect(result).toEqual({
-        documentId: null,
-        fileId: null,
-        fileName: 'BM-001-20260101-120000.docx',
-        fileSizeBytes: mockBuffer.length,
-        fileFormat: 'DOCX',
-        previewUrl: null,
-        downloadUrl: '/forms/runtime/BM-001/render-docx',
-        warnings: ['warn1', 'warn2'],
-        missingRequired: [{ path: 'field1', reason: 'missing' }],
-      });
+      // Verify response.json() was called with the expected metadata
+      expect(mockRes.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+          documentId: null,
+          fileId: null,
+          fileName: 'BM-001-20260101-120000.docx',
+          fileSizeBytes: mockBuffer.length,
+          fileFormat: 'DOCX',
+          previewUrl: null,
+          downloadUrl: '/forms/runtime/BM-001/render-docx',
+          warnings: ['warn1', 'warn2'],
+          missingRequired: [{ path: 'field1', reason: 'missing' }],
+        }),
+      );
+      // Verify headers were set for JSON response
+      expect(mockRes.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          'Content-Type': 'application/json',
+          'X-Qllaw-Template-Code': 'BM-001',
+        }),
+      );
       expect(renderer.renderDocx).toHaveBeenCalledWith({
         templateCode: 'BM-001',
         data: {},

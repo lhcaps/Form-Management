@@ -80,17 +80,19 @@ export class RuntimeTemplateRenderController {
       data: body?.data ?? {},
     });
 
-    // Metadata mode: return JSON with file info instead of the file blob
-    // Default (no mode or mode=download) returns the file blob
-    const isMetadataMode = queryMode === 'metadata';
-    if (isMetadataMode) {
+    // Metadata mode: return JSON with file info instead of the file blob.
+    // We must use response.json() to bypass NestJS's automatic serialization
+    // which would otherwise send a default JSON response with wrong Content-Type.
+    if (queryMode === 'metadata') {
       response.set({
         'Content-Type': 'application/json',
         'X-Qllaw-Template-Code': result.templateCode,
         'X-Qllaw-Missing-Required-Count': String(result.missingRequired.length),
         'X-Qllaw-Warning-Count': String(result.warnings.length),
       });
-      return {
+      // response.json() sends the HTTP response immediately.
+      // Returning here with no value tells NestJS we handled the response.
+      return await response.json({
         documentId: null,
         fileId: null,
         fileName: result.fileName,
@@ -100,7 +102,7 @@ export class RuntimeTemplateRenderController {
         downloadUrl: `/forms/runtime/${encodeURIComponent(templateCode)}/render-docx`,
         warnings: result.warnings,
         missingRequired: result.missingRequired,
-      };
+      });
     }
 
     response.set({
