@@ -36,6 +36,14 @@ export type ShadowRenderResult = Readonly<{
   packageIntegrity: ReturnType<typeof auditDocxPackageIntegrity>;
 }>;
 
+export type ActiveRenderArtifact = Readonly<{
+  fileName: string;
+  docxPath: string;
+  manifestPath: string;
+  checksum: string;
+  bytes: number;
+}>;
+
 interface ShadowManifest {
   documentId: string;
   templateCode: string;
@@ -257,7 +265,7 @@ export class DocxtemplaterContractRenderEngine {
     plan: ContractRenderPlan,
     renderedDocx: Buffer,
     outputRoot: string,
-  ): Promise<void> {
+  ): Promise<ActiveRenderArtifact> {
     const timestamp = buildTimestampForFileName();
     const safeCaseDir = 'document-' + plan.templateCode.toLowerCase();
     const outputDir = join(outputRoot, safeCaseDir);
@@ -286,6 +294,13 @@ export class DocxtemplaterContractRenderEngine {
       warnings: [...plan.warnings],
     };
     writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+    return Object.freeze({
+      fileName,
+      docxPath: outputPath,
+      manifestPath,
+      checksum,
+      bytes: renderedDocx.length,
+    });
   }
 
   private async loadTemplate(templateCode: string): Promise<Buffer> {

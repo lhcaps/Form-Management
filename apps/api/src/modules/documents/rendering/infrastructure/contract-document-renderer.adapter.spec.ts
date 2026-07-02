@@ -11,24 +11,42 @@ const command: DocumentRenderCommand = {
 describe('ContractDocumentRendererAdapter', () => {
   describe('renderActive', () => {
     it('calls renderActive on the orchestrator and returns a result', async () => {
+      const activeResult = {
+        documentId: '42',
+        renderedBy: 'contract-active',
+        file: {
+          id: '9',
+          fileFormat: 'DOCX',
+          fileName: 'BM-001_active.docx',
+          filePath:
+            'storage/generated/cases/document-bm-001/BM-001_active.docx',
+          fileSizeBytes: '123',
+          checksum: 'abc123',
+          isFinal: false,
+        },
+      };
       const orchestrator = {
-        renderActive: jest.fn().mockResolvedValue(undefined),
+        renderActive: jest.fn().mockResolvedValue(activeResult),
       } as unknown as ContractShadowRendererOrchestrator;
       const adapter = new ContractDocumentRendererAdapter(orchestrator);
 
       const result = await adapter.renderActive(command);
 
       expect(orchestrator.renderActive).toHaveBeenCalledWith('42');
-      expect(result).toEqual({ documentId: '42', renderedBy: 'contract-active' });
+      expect(result).toEqual(activeResult);
     });
 
     it('propagates orchestrator errors', async () => {
       const orchestrator = {
-        renderActive: jest.fn().mockRejectedValue(new Error('plan build failed')),
+        renderActive: jest
+          .fn()
+          .mockRejectedValue(new Error('plan build failed')),
       } as unknown as ContractShadowRendererOrchestrator;
       const adapter = new ContractDocumentRendererAdapter(orchestrator);
 
-      await expect(adapter.renderActive(command)).rejects.toThrow('plan build failed');
+      await expect(adapter.renderActive(command)).rejects.toThrow(
+        'plan build failed',
+      );
     });
   });
 
@@ -46,7 +64,9 @@ describe('ContractDocumentRendererAdapter', () => {
 
     it('passes orchestrator errors through', async () => {
       const orchestrator = {
-        renderShadow: jest.fn().mockRejectedValue(new Error('orchestrator error')),
+        renderShadow: jest
+          .fn()
+          .mockRejectedValue(new Error('orchestrator error')),
       } as unknown as ContractShadowRendererOrchestrator;
       const adapter = new ContractDocumentRendererAdapter(orchestrator);
 

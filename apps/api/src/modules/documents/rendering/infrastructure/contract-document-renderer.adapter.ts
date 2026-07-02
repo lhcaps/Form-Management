@@ -19,8 +19,7 @@ export class ContractDocumentRendererAdapter implements ContractDocumentRenderer
   ): Promise<DocumentRenderResult> {
     const documentId = command.documentId;
     try {
-      await this.shadowOrchestrator.renderActive(documentId);
-      return { documentId, renderedBy: 'contract-active' };
+      return await this.shadowOrchestrator.renderActive(documentId);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       this.logger.error(

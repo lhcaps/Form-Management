@@ -7,7 +7,11 @@
  * @module documents/preview
  */
 
-import { SampleDataProvider } from './sample-data-provider';
+import {
+  resolveSampleDataResourcePath,
+  SampleDataProvider,
+} from './sample-data-provider';
+import { join, resolve } from 'node:path';
 
 describe('SampleDataProvider', () => {
   let provider: SampleDataProvider;
@@ -126,6 +130,31 @@ describe('SampleDataProvider', () => {
       const all2 = p2.getAll();
       // Both should return the same values
       expect(all1.length).toBe(all2.length);
+    });
+
+    it('resolves the JSON resource from compiled dist module paths', () => {
+      const repoRoot = resolve(__dirname, '../../../../../..');
+      const compiledModuleDir = join(
+        repoRoot,
+        'apps',
+        'api',
+        'dist',
+        'src',
+        'modules',
+        'documents',
+        'preview',
+      );
+
+      expect(resolveSampleDataResourcePath(compiledModuleDir)).toBe(
+        join(
+          repoRoot,
+          'apps',
+          'api',
+          'resources',
+          'preview-sample-data',
+          'vks-khu-vuc-7.json',
+        ),
+      );
     });
   });
 
