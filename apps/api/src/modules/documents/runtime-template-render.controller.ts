@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   HttpCode,
@@ -9,8 +10,14 @@ import {
   Res,
   StreamableFile,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
+import { IsObject, IsOptional } from 'class-validator';
 import type { Response } from 'express';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
@@ -20,10 +27,6 @@ class RenderRuntimeTemplateDocxDto {
   @IsOptional()
   @IsObject()
   data?: Record<string, unknown>;
-
-  @IsOptional()
-  @IsString()
-  mode?: string;
 }
 
 function contentDisposition(fileName: string): string {
@@ -51,7 +54,8 @@ export class RuntimeTemplateRenderController {
   @ApiQuery({
     name: 'mode',
     required: false,
-    description: 'Set to "metadata" to return JSON instead of file blob.',
+    description:
+      'Set to "metadata" to return JSON instead of file blob. "download" returns file blob.',
   })
   async renderDocx(
     @Param('templateCode') templateCode: string,
@@ -60,14 +64,25 @@ export class RuntimeTemplateRenderController {
     @Query('mode') queryMode: string | undefined,
     @Res({ passthrough: true }) response: Response,
   ) {
+    // Validate mode query param - only allow known values
+    if (
+      queryMode !== undefined &&
+      queryMode !== 'metadata' &&
+      queryMode !== 'download'
+    ) {
+      throw new BadRequestException(
+        `Invalid mode "${queryMode}". Allowed values: "metadata", "download".`,
+      );
+    }
+
     const result = await this.renderer.renderDocx({
       templateCode,
       data: body?.data ?? {},
     });
 
     // Metadata mode: return JSON with file info instead of the file blob
-    // Check both body.mode and query mode for flexibility
-    const isMetadataMode = body?.mode === 'metadata' || queryMode === 'metadata';
+    // Default (no mode or mode=download) returns the file blob
+    const isMetadataMode = queryMode === 'metadata';
     if (isMetadataMode) {
       response.set({
         'Content-Type': 'application/json',

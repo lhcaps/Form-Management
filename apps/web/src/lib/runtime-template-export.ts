@@ -38,18 +38,16 @@ export async function renderRuntimeTemplateDocx(
   data: Record<string, unknown>,
 ): Promise<RuntimeTemplateRenderMetadata> {
   const path = buildRuntimeTemplateDocxPath(templateCode);
-  const [apiInput, apiInit] = await withApiFetchAuthDefaults(
-    `${getApiBaseUrl()}${path}`,
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({ data, mode: "metadata" }),
+  const url = `${getApiBaseUrl()}${path}?mode=metadata`;
+  const [apiInput, apiInit] = await withApiFetchAuthDefaults(url, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
-  );
+    body: JSON.stringify({ data }),
+  });
 
   const response = await fetch(apiInput, apiInit);
   if (!response.ok) {
