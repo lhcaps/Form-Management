@@ -456,9 +456,10 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                     <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
                       Đã tạo bản xem trước
                     </p>
-                    <h3 className="mt-1 text-lg font-semibold text-emerald-900">
-                      Bạn có thể kiểm tra định dạng trước khi tải file DOCX.
-                    </h3>
+                    <p className="mt-1 text-sm text-emerald-700">
+                      Bạn có thể tải DOCX. Để xem preview/lịch sử đầy đủ trong
+                      workspace, hãy mở biểu mẫu với một hồ sơ.
+                    </p>
                     <p className="mt-1 text-sm text-emerald-700">
                       File: {previewMeta.fileName}
                       {previewMeta.fileSizeBytes > 0
@@ -487,7 +488,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                         href={`/documents?templateCode=${encodeURIComponent(normalizedTemplateCode)}`}
                         className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
                       >
-                        Mở với hồ sơ để xem preview đầy đủ
+                        Mở với hồ sơ để lưu DB
                       </Link>
                     </div>
                   </div>
