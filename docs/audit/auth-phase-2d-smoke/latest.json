@@ -1,0 +1,64 @@
+{
+  "phase": "Auth Phase 2D",
+  "timestamp": "2026-07-02T09:47:00Z",
+  "status": "READY",
+  "git": {
+    "head": "78a13f84",
+    "branch": "main",
+    "workingTree": "clean",
+    "authAdminPRs": [21, 22, 23, 24, 25]
+  },
+  "db": {
+    "migrationStatus": "up_to_date",
+    "migrationsApplied": 12,
+    "engine": "MariaDB 11",
+    "host": "127.0.0.1:3307",
+    "tables": ["auth_identities", "auth_identity_audit_logs"]
+  },
+  "runtimeAuth": {
+    "healthEndpoint": { "code": 200, "result": "pass" },
+    "meEndpoint": { "public": true, "returnsNullWithoutAuth": true },
+    "adminEndpoint": { "requiresAuth": true, "unauthenticatedReturns": 401 }
+  },
+  "bugsFound": [
+    {
+      "id": "PR25-MARIA-INVALID",
+      "description": "mode: 'insensitive' in Prisma queries incompatible with MariaDB",
+      "severity": "critical",
+      "status": "fixed",
+      "pr": 25
+    },
+    {
+      "id": "PR25-TOPBAR-AUTH",
+      "description": "Topbar using Clerk raw state instead of app auth context",
+      "severity": "medium",
+      "status": "fixed",
+      "pr": 25
+    }
+  ],
+  "validation": {
+    "apiTests": { "passed": 381, "total": 381 },
+    "authorizationTests": { "passed": 109, "total": 109 },
+    "apiLint": "pass",
+    "apiTypecheck": "pass",
+    "webLint": "pass",
+    "webTypecheck": "pass",
+    "build": "blocked_windows_prisma_dll"
+  },
+  "envHardening": {
+    "corsWildcard": false,
+    "cookieSecureEnforced": true,
+    "productionSafetyChecks": true,
+    "clerkWebhookOptional": true
+  },
+  "residualRisks": [
+    { "risk": "Clerk webhook not configured in dev", "level": "low" },
+    { "risk": "Lê Huy admin seed pending", "level": "low" },
+    { "risk": "TUNNEL_TEST mode enables cross-origin cookies", "level": "low" }
+  ],
+  "nextSteps": [
+    "Auth Phase 2E — Env/CSRF Production Hardening",
+    "Form Permission Admin Scope Hardening (recommended)"
+  ],
+  "head": "78a13f84"
+}
