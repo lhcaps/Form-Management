@@ -13,68 +13,8 @@ function parseFilenameFromDisposition(
   return fallback;
 }
 
-export type RuntimeTemplateRenderMetadata = {
-  documentId: string | null;
-  fileId: string | null;
-  fileName: string;
-  fileSizeBytes: number;
-  fileFormat: "DOCX";
-  previewUrl: string | null;
-  downloadUrl: string;
-  warnings: string[];
-  missingRequired: string[];
-};
-
 export function buildRuntimeTemplateDocxPath(templateCode: string): string {
   return `/forms/runtime/${encodeURIComponent(templateCode.trim().toUpperCase())}/render-docx`;
-}
-
-export function buildRuntimeTemplateMetadataPath(templateCode: string): string {
-  return `/forms/runtime/${encodeURIComponent(templateCode.trim().toUpperCase())}/render-docx/metadata`;
-}
-
-/**
- * Render a runtime template and return metadata (no auto-download).
- * Use this for preview-first UX where user reviews before downloading.
- */
-export async function renderRuntimeTemplateDocx(
-  templateCode: string,
-  data: Record<string, unknown>,
-): Promise<RuntimeTemplateRenderMetadata> {
-  const path = buildRuntimeTemplateMetadataPath(templateCode);
-  const url = `${getApiBaseUrl()}${path}`;
-  const [apiInput, apiInit] = await withApiFetchAuthDefaults(url, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({ data }),
-  });
-
-  const response = await fetch(apiInput, apiInit);
-  if (!response.ok) {
-    let message = `Render DOCX thất bại (HTTP ${response.status}).`;
-    try {
-      const json = await response.clone().json();
-      if (json?.message) message = String(json.message);
-    } catch {
-      // Keep fallback message for binary or empty errors.
-    }
-    throw new Error(message);
-  }
-
-  // Guard: metadata endpoint MUST return JSON, not DOCX blob.
-  const contentType = response.headers.get("Content-Type") ?? "";
-  if (!contentType.includes("application/json")) {
-    throw new Error(
-      "Expected metadata JSON but received DOCX response. " +
-        `Content-Type was "${contentType}". Check backend /render-docx/metadata endpoint.`,
-    );
-  }
-
-  return response.json() as Promise<RuntimeTemplateRenderMetadata>;
 }
 
 /**

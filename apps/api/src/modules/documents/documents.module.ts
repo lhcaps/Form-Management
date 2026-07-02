@@ -13,6 +13,7 @@ import { DocumentReviewsService } from './document-reviews.service';
 import { DocumentsController } from './documents.controller';
 import { DocumentsService } from './documents.service';
 import { RuntimeTemplateRenderController } from './runtime-template-render.controller';
+import { RuntimePreviewSessionService } from './runtime-preview-session.service';
 import {
   CONTRACT_DOCUMENT_RENDERER,
   GENERATED_DOCUMENT_DESCRIPTOR,
@@ -69,6 +70,7 @@ import { AgencyResourceAccessService } from '../auth/agency-resource-access.serv
     AgencyResourceAccessService,
     DocxPreviewService,
     DocxStyleAuditService,
+    RuntimePreviewSessionService,
     {
       provide: LEGACY_DOCUMENT_RENDERER,
       useExisting: LegacyDocumentRendererAdapter,
