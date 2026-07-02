@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import type { KeyboardEvent } from "react";
-import { useAuth, SignInButton } from "@clerk/react";
+import { SignInButton } from "@clerk/react";
+import { useAuth as useAppAuth } from "@/lib/auth-context";
 import { MobileNav } from "./nav-items";
 
 const QUICK_CREATE_OPTIONS = [
@@ -17,7 +18,7 @@ export function Topbar() {
   const pathname = usePathname();
   const [createOpen, setCreateOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const { isLoaded, isSignedIn } = useAuth();
+  const { status } = useAppAuth();
 
   useEffect(() => {
     setCreateOpen(false);
@@ -61,7 +62,7 @@ export function Topbar() {
 
       {/* Right actions */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {isLoaded && !isSignedIn ? (
+        {status === "unauthenticated" ? (
           <SignInButton mode="modal">
             <button
               type="button"
@@ -83,7 +84,10 @@ export function Topbar() {
             <span className="hidden sm:inline">Tạo mới</span>
           </button>
           {createOpen ? (
-            <div role="menu" className="absolute right-0 top-full z-20 mt-1.5 min-w-56 rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl">
+            <div
+              role="menu"
+              className="absolute right-0 top-full z-20 mt-1.5 min-w-56 rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl"
+            >
               {QUICK_CREATE_OPTIONS.map((option) => (
                 <button
                   key={option.href}

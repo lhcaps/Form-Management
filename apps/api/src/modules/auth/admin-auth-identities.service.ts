@@ -101,10 +101,10 @@ export class AdminAuthIdentitiesService {
       provider: 'clerk';
       official_id?: { not: null } | null;
       OR?: Array<{
-        email?: { contains: string; mode?: 'insensitive' };
-        username?: { contains: string; mode?: 'insensitive' };
-        full_name?: { contains: string; mode?: 'insensitive' };
-        provider_user_id?: { contains: string; mode?: 'insensitive' };
+        email?: { contains: string };
+        username?: { contains: string };
+        full_name?: { contains: string };
+        provider_user_id?: { contains: string };
       }>;
     } = { provider: 'clerk' };
 
@@ -117,9 +117,9 @@ export class AdminAuthIdentitiesService {
     if (dto.q && dto.q.trim()) {
       const q = dto.q.trim();
       whereClause.OR = [
-        { email: { contains: q, mode: 'insensitive' } },
-        { username: { contains: q, mode: 'insensitive' } },
-        { full_name: { contains: q, mode: 'insensitive' } },
+        { email: { contains: q } },
+        { username: { contains: q } },
+        { full_name: { contains: q } },
         { provider_user_id: { contains: q } },
       ];
     }
@@ -181,10 +181,10 @@ export class AdminAuthIdentitiesService {
       is_active: boolean;
       agency_id?: bigint;
       OR?: Array<{
-        full_name?: { contains: string; mode?: 'insensitive' };
-        email?: { contains: string; mode?: 'insensitive' };
-        username?: { contains: string; mode?: 'insensitive' };
-        agencies?: { agency_name?: { contains: string; mode?: 'insensitive' } };
+        full_name?: { contains: string };
+        email?: { contains: string };
+        username?: { contains: string };
+        agencies?: { agency_name?: { contains: string } };
       }>;
     } = { is_active: true };
 
@@ -199,10 +199,10 @@ export class AdminAuthIdentitiesService {
     if (dto.q && dto.q.trim()) {
       const q = dto.q.trim();
       whereClause.OR = [
-        { full_name: { contains: q, mode: 'insensitive' } },
-        { email: { contains: q, mode: 'insensitive' } },
-        { username: { contains: q, mode: 'insensitive' } },
-        { agencies: { agency_name: { contains: q, mode: 'insensitive' } } },
+        { full_name: { contains: q } },
+        { email: { contains: q } },
+        { username: { contains: q } },
+        { agencies: { agency_name: { contains: q } } },
       ];
     }
 
