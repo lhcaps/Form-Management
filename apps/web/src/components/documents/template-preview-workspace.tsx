@@ -10,7 +10,11 @@ import { getCaseDetail, type CaseDetail } from "@/lib/case-detail-api";
 import { readApi } from "@/lib/api-client";
 import { getRuntimeFormContract } from "@/lib/form-studio-api";
 import { normalizeTemplateCode } from "@/lib/template-open-workflow";
-import { downloadRuntimeTemplateDocx } from "@/lib/runtime-template-export";
+import {
+  downloadRuntimeTemplateDocx,
+  renderRuntimeTemplateDocx,
+  type RuntimeTemplateRenderMetadata,
+} from "@/lib/runtime-template-export";
 import {
   loadRuntimeTemplateDraft,
   saveRuntimeTemplateDraft,
@@ -85,6 +89,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const [casePickerError, setCasePickerError] = useState("");
   const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
   const [selectedCase, setSelectedCase] = useState<CaseOption | null>(null);
+  const [previewMeta, setPreviewMeta] = useState<RuntimeTemplateRenderMetadata | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -142,10 +147,12 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const statusText = isSaving
     ? "Đang lưu bản nháp"
     : isExporting
-      ? "Đang xuất DOCX"
+      ? "Đang tạo bản xem trước"
       : isDirty
         ? "Có thay đổi chưa lưu"
-        : "Bản nháp đã lưu";
+        : previewMeta
+          ? "Đã tạo bản xem trước"
+          : "Bản nháp đã lưu";
 
   const filteredCaseOptions = useMemo(() => {
     const needle = caseSearch.trim().toLowerCase();
@@ -170,6 +177,32 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     }
   }
 
+  /**
+   * Preview: render DOCX and return metadata WITHOUT auto-download.
+   * This is the new primary action.
+   */
+  async function previewDocx() {
+    if (!runtime) return;
+    setIsExporting(true);
+    setError(null);
+    setMessage("");
+    try {
+      saveStoredDraft(normalizedTemplateCode, runtime.contractHash, data);
+      setSavedSnapshot(snapshot(data));
+      const meta = await renderRuntimeTemplateDocx(normalizedTemplateCode, data);
+      setPreviewMeta(meta);
+      setMessage("Đã tạo bản xem trước.");
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Không tạo được bản xem trước."));
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
+  /**
+   * Download: trigger immediate DOCX download.
+   * Available only after preview succeeds.
+   */
   async function exportDocx() {
     if (!runtime) return;
     setIsExporting(true);
@@ -278,8 +311,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 {isLoading ? "Đang tải biểu mẫu..." : title}
               </h1>
               <p className="mt-4 max-w-5xl text-base leading-7 text-slate-600">
-                Bạn có thể nhập dữ liệu, lưu bản nháp và xuất DOCX trực tiếp.
-                Chọn hồ sơ chỉ để lấy dữ liệu điền nhanh vào các trường còn trống.
+                Bạn có thể nhập dữ liệu, lưu bản nháp và tạo bản xem trước DOCX.
+                Chọn hồ sơ để lấy dữ liệu điền nhanh vào các trường còn trống.
               </p>
             </div>
 
@@ -307,11 +340,11 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               </button>
               <button
                 type="button"
-                onClick={() => void exportDocx()}
+                onClick={() => void previewDocx()}
                 disabled={!runtime || isExporting}
-                className="rounded-2xl bg-slate-950 px-4 py-2 text-center text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                className="rounded-2xl bg-blue-600 px-4 py-2 text-center text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-50"
               >
-                {isExporting ? "Đang xuất..." : "Xuất DOCX"}
+                {isExporting ? "Đang tạo..." : "Xem trước bản in"}
               </button>
               <Link
                 href={`/documents?templateCode=${encodeURIComponent(normalizedTemplateCode)}`}
@@ -415,6 +448,53 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               </div>
             ) : null}
 
+            {/* Preview success panel - shown only after preview is generated */}
+            {previewMeta ? (
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4">
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                      Đã tạo bản xem trước
+                    </p>
+                    <h3 className="mt-1 text-lg font-semibold text-emerald-900">
+                      Bạn có thể kiểm tra định dạng trước khi tải file DOCX.
+                    </h3>
+                    <p className="mt-1 text-sm text-emerald-700">
+                      File: {previewMeta.fileName}
+                      {previewMeta.fileSizeBytes > 0
+                        ? ` (${(previewMeta.fileSizeBytes / 1024).toFixed(1)} KB)`
+                        : ""}
+                    </p>
+                    {previewMeta.warnings.length > 0 ? (
+                      <div className="mt-2">
+                        <p className="text-xs font-semibold text-amber-700">Lưu ý:</p>
+                        <ul className="mt-1 list-inside list-disc text-xs text-amber-700">
+                          {previewMeta.warnings.slice(0, 3).map((w, i) => (
+                            <li key={i}>{w}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => void exportDocx()}
+                        className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                      >
+                        Tải DOCX
+                      </button>
+                      <Link
+                        href={`/documents?templateCode=${encodeURIComponent(normalizedTemplateCode)}`}
+                        className="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                      >
+                        Mở với hồ sơ để xem preview đầy đủ
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
             <section className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
               <p
                 role="status"
@@ -443,11 +523,11 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 </button>
                 <button
                   type="button"
-                  onClick={() => void exportDocx()}
+                  onClick={() => void previewDocx()}
                   disabled={isExporting}
-                  className="min-h-10 rounded-xl bg-blue-700 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
+                  className="min-h-10 rounded-xl bg-blue-600 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
                 >
-                  {isExporting ? "Đang xuất..." : "Xuất DOCX"}
+                  {isExporting ? "Đang tạo..." : "Xem trước bản in"}
                 </button>
                 <button
                   type="button"
