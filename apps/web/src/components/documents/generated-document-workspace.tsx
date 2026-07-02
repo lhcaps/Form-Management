@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { CompiledFormContract } from "@qllaw/form-contracts";
 import { getRuntimeFormContract } from "@/lib/form-studio-api";
 import { PublishedContractFormInputsPanel } from "@/components/documents/published-contract-form-inputs";
@@ -470,7 +471,13 @@ function getTemplateDescription(templateCode: string | null | undefined) {
 export function GeneratedDocumentWorkspace({
   documentId,
 }: GeneratedDocumentWorkspaceProps) {
-  const [activeTab, setActiveTab] = useState<TabKey>("form");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlTab = searchParams.get("tab");
+  const validTabs = new Set<TabKey>(["form", "files", "preview", "history"]);
+  const initialTab: TabKey = urlTab && validTabs.has(urlTab as TabKey) ? (urlTab as TabKey) : "form";
+
+  const [activeTab, setActiveTab] = useState<TabKey>(initialTab);
   const [refreshKey, setRefreshKey] = useState(0);
   const [payload, setPayload] = useState<RenderPayloadResponse | null>(null);
   const [isLoadingPayload, setIsLoadingPayload] = useState(true);
@@ -650,7 +657,12 @@ export function GeneratedDocumentWorkspace({
                   <button
                     key={tab.key}
                     type="button"
-                    onClick={() => setActiveTab(tab.key)}
+                    onClick={() => {
+                      setActiveTab(tab.key);
+                      const params = new URLSearchParams(searchParams.toString());
+                      params.set("tab", tab.key);
+                      router.push(`?${params.toString()}`, { scroll: false });
+                    }}
                     className={
                       isActive
                         ? "rounded-2xl bg-slate-950 px-4 py-3 text-left text-white shadow-sm"

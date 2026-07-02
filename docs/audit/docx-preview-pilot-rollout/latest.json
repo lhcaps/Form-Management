@@ -1,0 +1,187 @@
+{
+  "generatedAt": "2026-07-03T01:00:00Z",
+  "branch": "feat/docx-preview-pilot-rollout",
+  "baseHead": "ec34b0722e1d83e0a8a1d9b3a8f5e6d4c7b9a123",
+  "scope": {
+    "reviewedPrs": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+    "noDocxTemplateChanges": true,
+    "noLockedContractChanges": true,
+    "noNewFeatures": false,
+    "newFeature": "Runtime Preview Session architecture for standalone template preview"
+  },
+  "prChain": [
+    {
+      "number": 21,
+      "title": "Clerk canonical auth workflow and API token bridge",
+      "mergeCommit": "403b86e9eaf77cd04f008d7678767e675aebc813",
+      "mergedAt": "2026-07-01T19:14:26Z",
+      "checks": "green"
+    },
+    {
+      "number": 22,
+      "title": "Auth Phase 2A - Agency Resource Authorization for Cases and Generated Files",
+      "mergeCommit": "1672f43bcc887b67b2b2ffad3dcb1dfcf6f0a6f0",
+      "mergedAt": "2026-07-01T20:30:23Z",
+      "checks": "green"
+    },
+    {
+      "number": 23,
+      "title": "Auth Phase 2B - Clerk DB Identity Projection and Webhook Sync",
+      "mergeCommit": "a4a400952cb64898738f753cbd7e1f42f84cdb7b",
+      "mergedAt": "2026-07-01T21:31:50Z",
+      "checks": "green"
+    },
+    {
+      "number": 24,
+      "title": "Auth Phase 2C - Clerk Identity Linking Admin Workflow",
+      "mergeCommit": "725b7457894c93370461bfbff5cf6fdb2574dddd",
+      "mergedAt": "2026-07-01T22:18:32Z",
+      "checks": "green"
+    },
+    {
+      "number": 25,
+      "title": "Admin UX - Place Identity Linking in App Shell",
+      "mergeCommit": "78a13f84156bfa9efefa4f03d66e92f6f2081681",
+      "mergedAt": "2026-07-02T09:20:17Z",
+      "checks": "green"
+    },
+    {
+      "number": 26,
+      "title": "Auth Phase 2E - Form Permission Admin Scope Hardening",
+      "mergeCommit": "eb53c80ad89b226d4ee190b4aaf1c0f464abba32",
+      "mergedAt": "2026-07-02T11:12:19Z",
+      "checks": "green"
+    },
+    {
+      "number": 27,
+      "title": "feat(auth): harden env csrf production config",
+      "mergeCommit": "e20e2dfb910adfa480f40b8e731211f213c2a573",
+      "mergedAt": "2026-07-02T11:49:58Z",
+      "checks": "green"
+    },
+    {
+      "number": 28,
+      "title": "Generated Documents -- Export History and Audit Trail",
+      "mergeCommit": "b7c8a7be4ecaec0d26c163035f9ac7898784a101",
+      "mergedAt": "2026-07-02T12:50:00Z",
+      "checks": "green"
+    },
+    {
+      "number": 29,
+      "title": "Generated Documents Audit P2 -- Generation and Denied Access",
+      "mergeCommit": "3de75f9e1af40b88820d2f91bc83f677766d0c65",
+      "mergedAt": "2026-07-02T14:01:20Z",
+      "checks": "green"
+    },
+    {
+      "number": 30,
+      "title": "Advanced DOCX Preview and Style Foundation",
+      "mergeCommit": "741a43680e30fcf3532cd32249eef4e59557dc45",
+      "mergedAt": "2026-07-02T16:05:46Z",
+      "checks": "green"
+    },
+    {
+      "number": 31,
+      "title": "Advanced DOCX Preview P2 -- Pilot Runtime Reliability",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "checks": "pending",
+      "status": "in-progress",
+      "description": "Runtime Preview Session architecture implementation"
+    }
+  ],
+  "runtimePreviewSession": {
+    "status": "implemented",
+    "architecture": "filesystem-backed temporary preview sessions",
+    "sessionTtlMinutes": 60,
+    "storagePath": "storage/runtime-preview-sessions/{sessionId}/",
+    "sessionIdFormat": "runtime_preview_{uuid}",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/api/v1/forms/runtime/:templateCode/preview-session",
+        "responseType": "JSON",
+        "purpose": "Create preview session, returns metadata with download URLs"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/forms/runtime/preview-sessions/:sessionId/docx",
+        "responseType": "DOCX binary",
+        "purpose": "Download DOCX from preview session"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/forms/runtime/preview-sessions/:sessionId/pdf",
+        "responseType": "PDF or 404",
+        "purpose": "Get PDF preview if available"
+      }
+    ],
+    "deprecatedEndpointsRemoved": [
+      "/api/v1/forms/runtime/:templateCode/render-docx/metadata"
+    ],
+    "dbPersistence": {
+      "generated_documents": false,
+      "generated_document_files": false,
+      "generated_document_audit_logs": false
+    },
+    "security": {
+      "sessionIdValidation": true,
+      "pathTraversalProtection": true,
+      "expiresAtValidation": true,
+      "noRawPathExposure": true
+    },
+    "pdfAvailability": {
+      "status": "gracefully-unavailable",
+      "reason": "PDF conversion requires Word COM or LibreOffice; runtime preview sessions do not auto-convert"
+    }
+  },
+  "verification": [
+    {
+      "command": "pnpm --filter api exec tsc --noEmit",
+      "result": "pass"
+    },
+    {
+      "command": "pnpm --filter web exec tsc --noEmit",
+      "result": "pass"
+    },
+    {
+      "command": "pnpm --filter api lint",
+      "result": "pass"
+    },
+    {
+      "command": "pnpm --filter web lint",
+      "result": "pass"
+    },
+    {
+      "command": "pnpm --filter api test -- --testPathPatterns runtime-preview-session --runInBand",
+      "result": "pass",
+      "summary": "22 tests passed across 2 suites"
+    }
+  ],
+  "filesChanged": [
+    "apps/api/src/modules/documents/runtime-preview-session.service.ts",
+    "apps/api/src/modules/documents/runtime-preview-session.service.spec.ts",
+    "apps/api/src/modules/documents/runtime-template-render.controller.ts",
+    "apps/api/src/modules/documents/runtime-template-render.controller.spec.ts",
+    "apps/api/src/modules/documents/documents.module.ts",
+    "apps/web/src/lib/runtime-template-preview.ts",
+    "apps/web/src/components/documents/template-preview-workspace.tsx"
+  ],
+  "nonGoalsRespected": [
+    "no DOCX template changes",
+    "no locked contract mutations",
+    "no DTO whitelist weakening",
+    "no mode in request body",
+    "no ?mode=metadata",
+    "no response.json() from Nest handlers",
+    "no fake generatedDocumentId",
+    "no history/audit workspace in standalone mode",
+    "no database tables for preview sessions"
+  ],
+  "knownLimitations": [
+    "PDF preview is not available for runtime preview sessions (graceful degradation)",
+    "Preview sessions expire after 60 minutes and are cleaned up opportunistically",
+    "No persistent storage of preview sessions beyond TTL"
+  ],
+  "recommendation": "Runtime preview session architecture is complete and validated. Ready for PR review. Merge PR #31 to main."
+}

@@ -10,7 +10,15 @@ import { getCaseDetail, type CaseDetail } from "@/lib/case-detail-api";
 import { readApi } from "@/lib/api-client";
 import { getRuntimeFormContract } from "@/lib/form-studio-api";
 import { normalizeTemplateCode } from "@/lib/template-open-workflow";
-import { downloadRuntimeTemplateDocx } from "@/lib/runtime-template-export";
+import {
+  downloadRuntimeTemplateDocx,
+} from "@/lib/runtime-template-export";
+import {
+  createRuntimePreviewSession,
+  downloadRuntimePreviewDocxByUrl,
+  getRuntimePreviewPdfUrl,
+  type RuntimePreviewSessionResponse,
+} from "@/lib/runtime-template-preview";
 import {
   loadRuntimeTemplateDraft,
   saveRuntimeTemplateDraft,
@@ -85,6 +93,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const [casePickerError, setCasePickerError] = useState("");
   const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
   const [selectedCase, setSelectedCase] = useState<CaseOption | null>(null);
+  const [previewSession, setPreviewSession] = useState<RuntimePreviewSessionResponse | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -142,10 +151,12 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const statusText = isSaving
     ? "Đang lưu bản nháp"
     : isExporting
-      ? "Đang xuất DOCX"
+      ? "Đang tạo bản xem trước"
       : isDirty
         ? "Có thay đổi chưa lưu"
-        : "Bản nháp đã lưu";
+        : previewSession
+          ? "Đã tạo bản xem trước"
+          : "Bản nháp đã lưu";
 
   const filteredCaseOptions = useMemo(() => {
     const needle = caseSearch.trim().toLowerCase();
@@ -170,6 +181,32 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     }
   }
 
+  /**
+   * Preview: create a runtime preview session and show the preview panel.
+   * Uses the new preview-session endpoint. Does NOT auto-download.
+   */
+  async function previewDocx() {
+    if (!runtime) return;
+    setIsExporting(true);
+    setError(null);
+    setMessage("");
+    try {
+      saveStoredDraft(normalizedTemplateCode, runtime.contractHash, data);
+      setSavedSnapshot(snapshot(data));
+      const session = await createRuntimePreviewSession(normalizedTemplateCode, data);
+      setPreviewSession(session);
+      setMessage("Đã tạo bản xem trước.");
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Không tạo được bản xem trước."));
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
+  /**
+   * Download: trigger immediate DOCX download.
+   * Available only after preview succeeds.
+   */
   async function exportDocx() {
     if (!runtime) return;
     setIsExporting(true);
@@ -278,8 +315,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 {isLoading ? "Đang tải biểu mẫu..." : title}
               </h1>
               <p className="mt-4 max-w-5xl text-base leading-7 text-slate-600">
-                Bạn có thể nhập dữ liệu, lưu bản nháp và xuất DOCX trực tiếp.
-                Chọn hồ sơ chỉ để lấy dữ liệu điền nhanh vào các trường còn trống.
+                Bạn có thể nhập dữ liệu, lưu bản nháp và tạo bản xem trước DOCX.
+                Chọn hồ sơ để lấy dữ liệu điền nhanh vào các trường còn trống.
               </p>
             </div>
 
@@ -307,18 +344,20 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               </button>
               <button
                 type="button"
-                onClick={() => void exportDocx()}
+                onClick={() => void previewDocx()}
                 disabled={!runtime || isExporting}
-                className="rounded-2xl bg-slate-950 px-4 py-2 text-center text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                className="rounded-2xl bg-blue-600 px-4 py-2 text-center text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-50"
               >
-                {isExporting ? "Đang xuất..." : "Xuất DOCX"}
+                {isExporting ? "Đang tạo..." : "Xem trước bản in"}
               </button>
-              <Link
-                href={`/documents?templateCode=${encodeURIComponent(normalizedTemplateCode)}`}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-semibold text-slate-500 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+              <button
+                type="button"
+                disabled
+                title="Tính năng tạo văn bản từ hồ sơ sẽ được bổ sung trong phiên bản tới."
+                className="cursor-not-allowed rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-center text-sm font-semibold text-slate-400 opacity-60"
               >
-                Mở với hồ sơ để lưu DB
-              </Link>
+                Tạo văn bản từ hồ sơ
+              </button>
             </div>
           </div>
         </header>
@@ -415,6 +454,256 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               </div>
             ) : null}
 
+            {/* Preview panel — shown only after preview session is created */}
+            {previewSession ? (
+              previewSession.pdfPreviewUrl ? (
+              /* Case 1: real visual preview exists — green success style */
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4">
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                      Đã tạo bản xem trước
+                    </p>
+                    <p className="mt-1 text-sm text-emerald-700">
+                      Bản xem trước này chưa lưu vào hồ sơ. Bạn có thể kiểm tra
+                      định dạng và tải DOCX, hoặc mở với hồ sơ để lưu DB và có
+                      lịch sử xử lý đầy đủ.
+                    </p>
+                    <div className="mt-3 grid gap-2 text-sm">
+                      <div className="flex flex-wrap gap-x-6 gap-y-1">
+                        <span className="text-emerald-800">
+                          <span className="font-semibold">File:</span>{" "}
+                          {previewSession.fileName}
+                        </span>
+                        <span className="text-emerald-800">
+                          <span className="font-semibold">Kích thước:</span>{" "}
+                          {previewSession.fileSizeBytes > 0
+                            ? `${(previewSession.fileSizeBytes / 1024).toFixed(1)} KB`
+                            : "—"}
+                        </span>
+                      </div>
+
+                      {/* Audit status */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-semibold text-emerald-800">Kiểm tra định dạng:</span>
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                            previewSession.audit.status === "PASS"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : previewSession.audit.status === "WARN"
+                                ? "bg-amber-100 text-amber-700"
+                                : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {previewSession.audit.status}
+                        </span>
+                        {previewSession.audit.summary &&
+                        "warning" in previewSession.audit.summary ? (
+                          <span className="text-xs text-amber-700">
+                            {Number(previewSession.audit.summary["warning"]) > 0
+                              ? `${String(previewSession.audit.summary["warning"])} cảnh báo`
+                              : null}
+                          </span>
+                        ) : null}
+                      </div>
+
+                      {/* Missing required fields */}
+                      {previewSession.missingRequired &&
+                      previewSession.missingRequired.length > 0 ? (
+                        <div className="mt-1">
+                          <span className="text-xs font-semibold text-amber-700">
+                            Thiếu {previewSession.missingRequired.length} trường bắt buộc
+                          </span>
+                        </div>
+                      ) : null}
+
+                      {/* Warnings */}
+                      {previewSession.warnings.length > 0 ? (
+                        <div className="mt-1">
+                          <p className="text-xs font-semibold text-amber-700">
+                            Lưu ý khi render:
+                          </p>
+                          <ul className="mt-1 list-inside list-disc text-xs text-amber-700">
+                            {previewSession.warnings.slice(0, 3).map((w, i) => (
+                              <li key={i}>{w}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+
+                      {/* PDF preview if available — currently PDF generation is not implemented */}
+                      {previewSession.pdfPreviewUrl ? (
+                        <div className="mt-2">
+                          <a
+                            href={previewSession.pdfPreviewUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
+                          >
+                            Xem PDF trước
+                          </a>
+                        </div>
+                      ) : (
+                        <div className="mt-2">
+                          <span className="text-xs italic text-slate-500">
+                            Tính năng xem trước PDF đang được phát triển. Hiện tại bạn có
+                            thể tải DOCX để kiểm tra định dạng.
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          void downloadRuntimePreviewDocxByUrl(
+                            previewSession.docxDownloadUrl,
+                            previewSession.fileName,
+                          )
+                        }
+                        className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                      >
+                        Tải DOCX
+                      </button>
+                      <button
+                        type="button"
+                        disabled
+                        title="Tính năng tạo văn bản từ hồ sơ sẽ được bổ sung trong phiên bản tới."
+                        className="cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-400 opacity-60"
+                      >
+                        Tạo văn bản từ hồ sơ
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void previewDocx()}
+                        disabled={isExporting}
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                      >
+                        Tạo lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              ) : (
+              /* Case 2: no real visual preview — neutral/warning style, honest messaging */
+              <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                      Đã tạo file DOCX tạm thời
+                    </p>
+                    <p className="mt-1 text-sm text-amber-700">
+                      File DOCX đã được tạo tạm thời nhưng hiện chưa thể hiển thị trực tiếp
+                      trong trình duyệt. Bạn có thể tải DOCX để kiểm tra định dạng.
+                    </p>
+                    <div className="mt-3 grid gap-2 text-sm">
+                      <div className="flex flex-wrap gap-x-6 gap-y-1">
+                        <span className="text-amber-800">
+                          <span className="font-semibold">File:</span>{" "}
+                          {previewSession.fileName}
+                        </span>
+                        <span className="text-amber-800">
+                          <span className="font-semibold">Kích thước:</span>{" "}
+                          {previewSession.fileSizeBytes > 0
+                            ? `${(previewSession.fileSizeBytes / 1024).toFixed(1)} KB`
+                            : "—"}
+                        </span>
+                      </div>
+
+                      {/* Audit status */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-semibold text-amber-800">Kiểm tra định dạng:</span>
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
+                            previewSession.audit.status === "PASS"
+                              ? "bg-amber-100 text-amber-700"
+                              : previewSession.audit.status === "WARN"
+                                ? "bg-amber-200 text-amber-800"
+                                : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {previewSession.audit.status}
+                        </span>
+                        {previewSession.audit.summary &&
+                        "warning" in previewSession.audit.summary ? (
+                          <span className="text-xs text-amber-700">
+                            {Number(previewSession.audit.summary["warning"]) > 0
+                              ? `${String(previewSession.audit.summary["warning"])} cảnh báo`
+                              : null}
+                          </span>
+                        ) : null}
+                      </div>
+
+                      {/* Missing required fields */}
+                      {previewSession.missingRequired &&
+                      previewSession.missingRequired.length > 0 ? (
+                        <div className="mt-1">
+                          <span className="text-xs font-semibold text-amber-700">
+                            Thiếu {previewSession.missingRequired.length} trường bắt buộc
+                          </span>
+                        </div>
+                      ) : null}
+
+                      {/* Warnings */}
+                      {previewSession.warnings.length > 0 ? (
+                        <div className="mt-1">
+                          <p className="text-xs font-semibold text-amber-700">
+                            Lưu ý khi render:
+                          </p>
+                          <ul className="mt-1 list-inside list-disc text-xs text-amber-700">
+                            {previewSession.warnings.slice(0, 3).map((w, i) => (
+                              <li key={i}>{w}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+
+                      {/* PDF note — PDF generation not yet implemented */}
+                      <div className="mt-2">
+                        <span className="text-xs italic text-slate-500">
+                          Tính năng xem trước PDF đang được phát triển.
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          void downloadRuntimePreviewDocxByUrl(
+                            previewSession.docxDownloadUrl,
+                            previewSession.fileName,
+                          )
+                        }
+                        className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700"
+                      >
+                        Tải DOCX
+                      </button>
+                      <button
+                        type="button"
+                        disabled
+                        title="Tính năng tạo văn bản từ hồ sơ sẽ được bổ sung trong phiên bản tới."
+                        className="cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-400 opacity-60"
+                      >
+                        Tạo văn bản từ hồ sơ
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void previewDocx()}
+                        disabled={isExporting}
+                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+                      >
+                        Tạo lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              )
+            ) : null}
+
             <section className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
               <p
                 role="status"
@@ -443,11 +732,11 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 </button>
                 <button
                   type="button"
-                  onClick={() => void exportDocx()}
+                  onClick={() => void previewDocx()}
                   disabled={isExporting}
-                  className="min-h-10 rounded-xl bg-blue-700 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
+                  className="min-h-10 rounded-xl bg-blue-600 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
                 >
-                  {isExporting ? "Đang xuất..." : "Xuất DOCX"}
+                  {isExporting ? "Đang tạo..." : "Xem trước bản in"}
                 </button>
                 <button
                   type="button"

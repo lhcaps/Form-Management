@@ -17,6 +17,10 @@ export function buildRuntimeTemplateDocxPath(templateCode: string): string {
   return `/forms/runtime/${encodeURIComponent(templateCode.trim().toUpperCase())}/render-docx`;
 }
 
+/**
+ * Download a DOCX file from a given URL (for runtime templates).
+ * Uses the same path as render but fetches as blob for download.
+ */
 export async function downloadRuntimeTemplateDocx(
   templateCode: string,
   data: Record<string, unknown>,

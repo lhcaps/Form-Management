@@ -9,7 +9,10 @@ import {
   getGeneratedDocument,
   getGeneratedDocumentDownloadUrl,
 } from "@/lib/generated-documents-api";
-import { PreExportCustomizationPanel } from "@/components/documents/pre-export-customization-panel";
+import {
+  PreExportCustomizationPanel,
+  type RenderedFileMetadata,
+} from "@/components/documents/pre-export-customization-panel";
 import { downloadFile, DownloadError } from "@/lib/file-download";
 
 type Props = {
@@ -50,6 +53,7 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [downloadError, setDownloadError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [latestPreviewMeta, setLatestPreviewMeta] = useState<RenderedFileMetadata | null>(null);
 
   function clearDownloadError() {
     setDownloadError(null);
@@ -82,6 +86,26 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
           : "Tải file thất bại. Vui lòng thử lại.",
       );
     }
+  }
+
+  async function handleDownloadPreview() {
+    const meta = latestPreviewMeta;
+    if (!meta || !meta.fileId) return;
+    setDownloadError(null);
+    try {
+      const url = getGeneratedDocumentDownloadUrl(documentId, meta.fileId);
+      await downloadFile(url, { filename: meta.fileName ?? "preview.docx" });
+    } catch (err) {
+      setDownloadError(
+        err instanceof DownloadError
+          ? err.message
+          : "Tải file thất bại. Vui lòng thử lại.",
+      );
+    }
+  }
+
+  function handlePreviewSuccess(metadata: RenderedFileMetadata) {
+    setLatestPreviewMeta(metadata);
   }
 
   const files = useMemo(() => sortFiles(data?.files ?? []), [data?.files]);
@@ -253,7 +277,53 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
       <PreExportCustomizationPanel
         documentId={documentId}
         onFilesChanged={load}
+        onPreviewSuccess={handlePreviewSuccess}
       />
+
+      {/* Preview success panel - shown only after preview is generated */}
+      {latestPreviewMeta ? (
+        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                Đã tạo bản xem trước
+              </p>
+              <h3 className="mt-1 text-lg font-semibold text-emerald-900">
+                Bạn có thể kiểm tra định dạng trước khi tải file DOCX.
+              </h3>
+              {latestPreviewMeta.fileName ? (
+                <p className="mt-1 text-sm text-emerald-700">
+                  File: {latestPreviewMeta.fileName}
+                </p>
+              ) : null}
+              <div className="mt-2 flex flex-wrap gap-2">
+                <a
+                  href={`/documents/${documentId}?tab=preview`}
+                  className="rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                >
+                  Mở bản xem trước
+                </a>
+                <a
+                  href={`/documents/${documentId}?tab=history`}
+                  className="rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
+                >
+                  Lịch sử xử lý
+                </a>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <button
+                type="button"
+                onClick={handleDownloadPreview}
+                disabled={!latestPreviewMeta?.fileId}
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
+              >
+                Tải DOCX
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div className="grid gap-3 md:grid-cols-2">
         <button

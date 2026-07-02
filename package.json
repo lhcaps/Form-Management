@@ -53,6 +53,8 @@
     "refine:form-contracts": "node scripts/refine-form-contracts-from-normalized-docx.mjs",
     "smoke:form-refinement": "node scripts/smoke-form-refinement.mjs",
     "test:form-studio:e2e": "playwright test tests/e2e/form-studio.spec.ts --config playwright.form-studio.config.ts",
+    "test:e2e:auth": "playwright test --project=\"authenticated chromium\"",
+    "test:e2e:auth:headed": "playwright test --project=\"authenticated chromium\" --headed",
     "audit:hardcode": "node scripts/audit-runtime-hardcodes.mjs",
     "audit:templates:foundation": "node scripts/report-template-foundation.mjs",
     "audit:templates:corpus": "node scripts/report-template-corpus.mjs",
@@ -110,8 +112,6 @@
     "smoke:bm001-shadow-render": "pnpm --filter api exec tsx ../../scripts/smoke-bm001-shadow-render.mjs",
     "report:bm001-shadow-evidence": "node scripts/report-bm001-shadow-evidence.mjs",
     "check:bm001-cutover": "node scripts/check-bm001-cutover-readiness.mjs",
-    "audit:source-remediation:proposal": "node scripts/audit/source-remediation-proposal.mjs",
-    "audit:source-remediation:apply": "node scripts/audit/apply-source-remediation.mjs",
     "audit:forms-root-cause": "node scripts/audit/audit-forms-root-cause.mjs",
     "audit:forms-root-cause:strict": "node scripts/audit/audit-forms-root-cause.mjs --strict",
     "audit:runtime-contract-stack": "node scripts/audit/probe-runtime-contract-stack.cjs",
@@ -142,9 +142,11 @@
     "audit:docx-path-binding-layer-c-apply:write": "node scripts/audit/apply-docx-path-binding-layer-c-approved.mjs --write"
   },
   "devDependencies": {
+    "@clerk/testing": "^2.2.2",
     "@playwright/test": "^1.61.0",
     "@types/pizzip": "^3.1.2",
     "concurrently": "^9.1.0",
+    "dotenv": "^17.4.2",
     "pizzip": "^3.2.0"
   },
   "pnpm": {

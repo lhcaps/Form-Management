@@ -18,6 +18,7 @@
 
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { resolveRepoRoot } from '../../../common/repo-root';
 
 export type SampleDataKey = string;
 
@@ -49,22 +50,38 @@ interface ResourceFile {
 let _cachedValues: readonly SampleValue[] | null = null;
 let _loadError: string | null = null;
 
-/** Resolve the resource file path relative to this source file's directory */
-function getResourcePath(): string {
-  // NestJS compiles to CommonJS — __dirname is always available.
-  // We intentionally navigate from the compiled .js output to the source resource.
-  // Compiled path: dist/modules/documents/preview/ ->
-  //   4 levels up to apps/api/ -> resources/preview-sample-data/
-  return join(
-    __dirname,
-    '..',
-    '..',
-    '..',
-    '..',
+export function resolveSampleDataResourcePath(moduleDir = __dirname): string {
+  const relativeResourceParts = [
     'resources',
     'preview-sample-data',
     'vks-khu-vuc-7.json',
+  ];
+
+  const candidates: string[] = [];
+  try {
+    candidates.push(
+      join(
+        resolveRepoRoot({
+          cwd: process.cwd(),
+          repoRoot: process.env.REPO_ROOT,
+        }),
+        'apps',
+        'api',
+        ...relativeResourceParts,
+      ),
+    );
+  } catch {
+    // Fall through to module-relative candidates.
+  }
+
+  candidates.push(
+    // Source runtime: apps/api/src/modules/documents/preview -> apps/api
+    join(moduleDir, '..', '..', '..', '..', ...relativeResourceParts),
+    // Compiled runtime: apps/api/dist/src/modules/documents/preview -> apps/api
+    join(moduleDir, '..', '..', '..', '..', '..', ...relativeResourceParts),
   );
+
+  return candidates.find((candidate) => existsSync(candidate)) ?? candidates[0];
 }
 
 /**
@@ -77,7 +94,7 @@ function loadSampleValues(): readonly SampleValue[] {
     return _cachedValues;
   }
 
-  const resourcePath = getResourcePath();
+  const resourcePath = resolveSampleDataResourcePath();
 
   if (!existsSync(resourcePath)) {
     _loadError = `Preview sample data resource not found: ${resourcePath}`;

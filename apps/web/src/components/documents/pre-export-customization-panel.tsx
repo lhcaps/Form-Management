@@ -19,6 +19,13 @@ import { downloadFile, DownloadError } from "@/lib/file-download";
 type Props = {
   documentId: string;
   onFilesChanged?: () => Promise<void> | void;
+  onPreviewSuccess?: (metadata: RenderedFileMetadata) => void;
+};
+
+export type RenderedFileMetadata = {
+  fileId: string | number | null;
+  fileName: string | null;
+  fileSizeBytes: string | number | null;
 };
 
 type BusyAction = "loading" | "saving" | "preview" | "word" | "pdf" | "scan" | null;
@@ -192,6 +199,7 @@ function mergeWarnings(...warningGroups: Array<string[] | undefined>): string[] 
 export function PreExportCustomizationPanel({
   documentId,
   onFilesChanged,
+  onPreviewSuccess,
 }: Props) {
   const [config, setConfig] = useState<GeneratedDocumentPreExportConfig | null>(null);
   const [blankCandidates, setBlankCandidates] = useState<
@@ -373,6 +381,15 @@ export function PreExportCustomizationPanel({
 
       if (options?.openFile && options.format) {
         openExportedFile(response, options.format);
+      }
+
+      // For preview action, pass file metadata to parent instead of auto-downloading
+      if (action === "preview" && onPreviewSuccess) {
+        onPreviewSuccess({
+          fileId: response.file?.id ?? null,
+          fileName: response.file?.fileName ?? null,
+          fileSizeBytes: response.file?.fileSizeBytes ?? null,
+        });
       }
     } catch (actionError) {
       setError(
@@ -1005,14 +1022,14 @@ export function PreExportCustomizationPanel({
           onClick={() =>
             void runExportAction(
               "preview",
-              "Đã tạo bản Word để xem trước.",
+              "Đã tạo bản xem trước.",
               () => renderGeneratedDocumentDocx(documentId),
             )
           }
           disabled={isBusy}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {busyAction === "preview" ? "Đang tạo..." : "Xem trước"}
+          {busyAction === "preview" ? "Đang tạo..." : "Xem trước bản in"}
         </button>
 
         <button
