@@ -168,6 +168,72 @@ describe('GeneratedDocumentAuditService', () => {
     });
   });
 
+  describe('recordAccessDenied', () => {
+    it('records ACCESS_DENIED with DENIED result', async () => {
+      await service.recordAccessDenied({
+        user: makeUser({ id: '5', role: 'OFFICIAL', agencyId: '2' }),
+        request: makeMockRequest() as never,
+        reason: 'ACCESS_DENIED',
+        generatedDocumentId: '42',
+        generatedDocumentFileId: '7',
+      });
+
+      expect(prisma.generated_document_audit_logs.create).toHaveBeenCalledTimes(1);
+      const call = prisma.generated_document_audit_logs.create.mock.calls[0];
+      expect(call[0].data.action).toBe('GENERATED_DOCUMENT_ACCESS_DENIED');
+      expect(call[0].data.result).toBe('DENIED');
+      expect(call[0].data.actor_official_id).toBe(5n);
+      expect(call[0].data.actor_role).toBe('OFFICIAL');
+      expect(call[0].data.generated_document_id).toBe(42n);
+      expect(call[0].data.generated_document_file_id).toBe(7n);
+      expect(call[0].data.reason).toBe('ACCESS_DENIED');
+      expect(call[0].data.file_name).toBeUndefined();
+      expect(call[0].data.template_title).toBeUndefined();
+    });
+
+    it('accepts bigint for ids without conversion', async () => {
+      await service.recordAccessDenied({
+        user: null,
+        request: null,
+        reason: 'CROSS_AGENCY',
+        generatedDocumentId: 99n,
+      });
+
+      const call = prisma.generated_document_audit_logs.create.mock.calls[0];
+      expect(call[0].data.generated_document_id).toBe(99n);
+    });
+
+    it('does not throw when Prisma fails', async () => {
+      prisma.generated_document_audit_logs.create.mockRejectedValueOnce(
+        new Error('DB unavailable'),
+      );
+
+      await expect(
+        service.recordAccessDenied({
+          user: makeUser(),
+          request: null,
+          reason: 'ACCESS_DENIED',
+          generatedDocumentId: '1',
+        }),
+      ).resolves.not.toThrow();
+    });
+
+    it('excludes sensitive resource fields — no file_name, template_title, agency_name', async () => {
+      await service.recordAccessDenied({
+        user: makeUser(),
+        request: makeMockRequest() as never,
+        reason: 'ACCESS_DENIED',
+        generatedDocumentId: '1',
+        metadata: { route: 'download' },
+      });
+
+      const call = prisma.generated_document_audit_logs.create.mock.calls[0];
+      expect(call[0].data.file_name).toBeUndefined();
+      expect(call[0].data.template_title).toBeUndefined();
+      expect(call[0].data.metadata_json).toEqual({ route: 'download' });
+    });
+  });
+
   describe('normalizeRequestMeta', () => {
     it('returns null for null request', () => {
       expect(service.normalizeRequestMeta(null)).toBeNull();

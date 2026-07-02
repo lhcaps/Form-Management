@@ -72,6 +72,7 @@ export interface WriteAuditEvent {
   agencyId?: bigint | null;
   caseId?: bigint | null;
   generatedDocumentId?: bigint | null;
+  generatedDocumentFileId?: bigint | null;
   file?: AuditFileContext | null;
   template?: AuditTemplateContext | null;
   reason?: string | null;
@@ -134,7 +135,8 @@ export class GeneratedDocumentAuditService {
               : event.agencyId,
           case_id: event.caseId,
           generated_document_id: event.generatedDocumentId,
-          generated_document_file_id: event.file?.fileId,
+          generated_document_file_id:
+            event.file?.fileId ?? event.generatedDocumentFileId,
           template_code: event.template?.templateCode,
           template_title: event.template?.templateTitle,
           contract_version_id: event.template?.contractVersionId,
@@ -381,5 +383,57 @@ export class GeneratedDocumentAuditService {
       })),
       total,
     };
+  }
+
+  /**
+   * Record an access-denied event from route parameters only — no resource fields
+   * that would leak existence of a cross-agency document or file.
+   *
+   * The original exception is NOT caught or modified; this method is called from
+   * catch blocks after the exception has already been re-thrown or the response
+   * is already being sent.
+   *
+   * Policy: never include fileName, templateTitle, caseTitle, or agencyName
+   * for an unauthorized actor unless those fields are already safely known.
+   */
+  async recordAccessDenied(params: {
+    user: CurrentUser | null | undefined;
+    request: Request | null | undefined;
+    reason: string;
+    generatedDocumentId?: string | bigint;
+    generatedDocumentFileId?: string | bigint;
+    metadata?: Record<string, unknown> | null;
+  }): Promise<void> {
+    const {
+      user,
+      request,
+      reason,
+      generatedDocumentId,
+      generatedDocumentFileId,
+      metadata,
+    } = params;
+
+    const actor = this.buildActor(user);
+
+    const record: WriteAuditEvent = {
+      action: GENERATED_DOCUMENT_AUDIT_ACTIONS.ACCESS_DENIED,
+      result: GENERATED_DOCUMENT_AUDIT_RESULTS.DENIED,
+      actor,
+      requestMeta: this.normalizeRequestMeta(request),
+      generatedDocumentId: generatedDocumentId
+        ? typeof generatedDocumentId === 'string'
+          ? BigInt(generatedDocumentId)
+          : generatedDocumentId
+        : undefined,
+      generatedDocumentFileId: generatedDocumentFileId
+        ? typeof generatedDocumentFileId === 'string'
+          ? BigInt(generatedDocumentFileId)
+          : generatedDocumentFileId
+        : undefined,
+      reason,
+      metadata: metadata ?? undefined,
+    };
+
+    await this.record(record);
   }
 }
