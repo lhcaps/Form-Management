@@ -152,18 +152,20 @@ export class AuthController {
       id: string;
       fullName: string;
       positionTitle: string | null;
+      agencyId: string | null;
       agencyName: string | null;
     }[]
   > {
     const rows = await this.prisma.officials.findMany({
       where: { is_active: true },
-      include: { agencies: { select: { agency_name: true } } },
+      include: { agencies: { select: { id: true, agency_name: true } } },
       orderBy: { full_name: 'asc' },
     });
     return rows.map((o) => ({
       id: String(o.id),
       fullName: o.full_name,
       positionTitle: o.position_title,
+      agencyId: o.agencies ? String(o.agencies.id) : null,
       agencyName: o.agencies?.agency_name ?? null,
     }));
   }
