@@ -10,11 +10,18 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
 import { StandaloneTemplateRenderService } from './rendering/application/standalone-template-render.service';
 import { DocxStyleAuditService } from './style/docx-style-audit.service';
 import type { DocxStyleAuditResult } from './style/docx-style-audit.service';
+import { DocumentPdfService } from './document-pdf.service';
 
 const RUNTIME_PREVIEW_SESSIONS_DIR = 'runtime-preview-sessions';
 const SESSION_TTL_MS = 60 * 60 * 1000; // 60 minutes
 
 const SESSION_ID_PATTERN = /^runtime_preview_[a-f0-9-]{36}$/u;
+
+const PDF_PREVIEW_UNAVAILABLE_WARNING = {
+  code: 'PDF_PREVIEW_UNAVAILABLE',
+  message:
+    'Khong tao duoc PDF preview trong moi truong hien tai. Vui long tai DOCX de kiem tra dinh dang.',
+};
 
 function isValidSessionId(id: string): boolean {
   return SESSION_ID_PATTERN.test(id);
@@ -28,10 +35,26 @@ function sanitizeSessionId(raw: string): string {
   return trimmed;
 }
 
+function isPathInside(childPath: string, parentDir: string): boolean {
+  const resolvedChild = path.resolve(childPath);
+  const resolvedParent = path.resolve(parentDir);
+  return (
+    resolvedChild === resolvedParent ||
+    resolvedChild.startsWith(resolvedParent + path.sep)
+  );
+}
+
 export interface CreatePreviewSessionInput {
   templateCode: string;
   data?: Record<string, unknown>;
 }
+
+export interface RuntimePreviewWarning {
+  code: string;
+  message: string;
+}
+
+export type RuntimePreviewWarningItem = string | RuntimePreviewWarning;
 
 export interface RuntimePreviewSession {
   sessionId: string;
@@ -60,7 +83,7 @@ export interface RuntimePreviewSession {
       sourceCheckId?: string;
     }>;
   };
-  warnings: string[];
+  warnings: RuntimePreviewWarningItem[];
   missingRequired: unknown[];
   expiresAt: string;
   persisted: false;
@@ -73,7 +96,7 @@ export interface SessionStore {
   docxPath: string;
   pdfPath: string | null;
   auditResult: DocxStyleAuditResult | null;
-  warnings: string[];
+  warnings: RuntimePreviewWarningItem[];
   missingRequired: unknown[];
   createdAt: number;
   expiresAt: number;
@@ -87,6 +110,7 @@ export class RuntimePreviewSessionService {
     private readonly workspacePaths: WorkspacePathsService,
     private readonly standaloneRenderer: StandaloneTemplateRenderService,
     private readonly docxStyleAudit: DocxStyleAuditService,
+    private readonly documentPdfService: DocumentPdfService,
   ) {
     this.sessionsBaseDir = path.join(
       this.workspacePaths.storageRoot,
@@ -121,7 +145,32 @@ export class RuntimePreviewSessionService {
     const now = Date.now();
     const expiresAt = now + SESSION_TTL_MS;
 
-    const pdfPath: string | null = null;
+    const warnings: RuntimePreviewWarningItem[] = [...renderResult.warnings];
+    const targetPdfPath = path.join(sessionDir, 'document.pdf');
+    let pdfPath: string | null = targetPdfPath;
+
+    try {
+      await this.documentPdfService.convertDocxFileToPdf({
+        sourceDocxPath: docxPath,
+        targetPdfPath,
+        contextId: `runtime-preview:${sessionId}`,
+      });
+
+      if (!fs.existsSync(targetPdfPath)) {
+        pdfPath = null;
+        warnings.push(PDF_PREVIEW_UNAVAILABLE_WARNING);
+      }
+    } catch {
+      pdfPath = null;
+      warnings.push(PDF_PREVIEW_UNAVAILABLE_WARNING);
+      try {
+        if (fs.existsSync(targetPdfPath)) {
+          fs.unlinkSync(targetPdfPath);
+        }
+      } catch {
+        // Best-effort cleanup; DOCX session remains valid.
+      }
+    }
 
     const metadata: SessionStore = {
       sessionId,
@@ -130,7 +179,7 @@ export class RuntimePreviewSessionService {
       docxPath,
       pdfPath,
       auditResult,
-      warnings: [...renderResult.warnings],
+      warnings,
       missingRequired: [...renderResult.missingRequired],
       createdAt: now,
       expiresAt,
@@ -177,8 +226,15 @@ export class RuntimePreviewSessionService {
   async getSessionPdfPath(
     sessionId: string,
   ): Promise<{ pdfPath: string; available: boolean }> {
-    const session = await this.getSession(sessionId);
+    const id = sanitizeSessionId(sessionId);
+    const session = await this.getSession(id);
     const pdfPath = session.pdfPath ?? '';
+    const sessionDir = path.join(this.sessionsBaseDir, id);
+
+    if (pdfPath && !isPathInside(pdfPath, sessionDir)) {
+      throw new NotFoundException('PDF file not found for this session.');
+    }
+
     return {
       pdfPath,
       available: Boolean(pdfPath) && fs.existsSync(pdfPath),
@@ -215,7 +271,10 @@ export class RuntimePreviewSessionService {
       fileSizeBytes: fs.statSync(session.docxPath).size,
       fileFormat: 'DOCX',
       docxDownloadUrl: `/api/v1/forms/runtime/preview-sessions/${session.sessionId}/docx`,
-      pdfPreviewUrl: null,
+      pdfPreviewUrl:
+        session.pdfPath && fs.existsSync(session.pdfPath)
+          ? `/api/v1/forms/runtime/preview-sessions/${session.sessionId}/pdf`
+          : null,
       audit,
       warnings: session.warnings,
       missingRequired: session.missingRequired,

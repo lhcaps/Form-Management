@@ -17,6 +17,9 @@
 import { expect, test } from "@playwright/test";
 
 const SESSION_ID_RE = /^runtime_preview_[a-f0-9-]{36}$/;
+const EXPECTED_API_ORIGIN = new URL(
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1",
+).origin;
 
 test("BM-001 standalone creates honest DOCX session and downloads DOCX", async ({ page }) => {
   // ── Verify authenticated access ───────────────────────────────────────
@@ -50,6 +53,7 @@ test("BM-001 standalone creates honest DOCX session and downloads DOCX", async (
     sessionId: string;
     persisted: boolean;
     docxDownloadUrl: string;
+    pdfPreviewUrl: string | null;
   };
 
   expect(session.templateCode).toBe("BM-001");
@@ -57,14 +61,44 @@ test("BM-001 standalone creates honest DOCX session and downloads DOCX", async (
   expect(session.persisted).toBe(false);
   expect(session.docxDownloadUrl).toContain("/preview-sessions/");
   expect(session.docxDownloadUrl).toContain("/docx");
+  if (session.pdfPreviewUrl) {
+    expect(session.pdfPreviewUrl).toContain(`/preview-sessions/${session.sessionId}/pdf`);
+  }
 
   // ── Honest UX assertions ─────────────────────────────────────────────
-  const panelEl = page.locator(".rounded-xl.border.border-amber-200").first();
+  const panelEl = session.pdfPreviewUrl
+    ? page
+        .locator(".rounded-xl.border.border-emerald-200")
+        .filter({
+          has: page.locator('iframe[title^="Bản xem trước PDF"]'),
+        })
+        .first()
+    : page
+        .locator(".rounded-xl.border.border-amber-200")
+        .filter({ hasText: "Đã tạo file DOCX tạm thời" })
+        .first();
   await expect(panelEl).toBeVisible({ timeout: 10_000 });
 
-  await expect(panelEl.locator("text=Đã tạo file DOCX tạm thời")).toBeVisible();
-  await expect(panelEl.locator("text=Tính năng xem trước PDF đang được phát triển")).toBeVisible();
-  await expect(panelEl.locator("text=Đã tạo bản xem trước")).toHaveCount(0);
+  if (session.pdfPreviewUrl) {
+    await expect(panelEl.locator("text=Đã tạo bản xem trước")).toBeVisible();
+    const iframe = panelEl.locator('iframe[title^="Bản xem trước PDF"]');
+    await expect(iframe).toBeVisible();
+    const iframeSrc = await iframe.getAttribute("src");
+    // iframe src must be a blob: URL, NOT a raw protected API URL
+    // iframe navigation cannot attach Bearer token, so blob fetch is required
+    expect(iframeSrc).not.toBeNull();
+    expect(iframeSrc?.startsWith("blob:")).toBeTruthy();
+    // Verify no raw API URL appears as iframe src
+    expect(iframeSrc).not.toContain("/api/v1/forms/runtime/");
+    expect(iframeSrc).not.toContain("/pdf");
+    await expect(panelEl.locator("text=Đã tạo file DOCX tạm thời")).toHaveCount(0);
+    // Verify page does not contain JSON 401 error
+    await expect(page.locator("text=Thiếu hoặc sai session token")).toHaveCount(0);
+  } else {
+    await expect(panelEl.locator("text=Đã tạo file DOCX tạm thời")).toBeVisible();
+    await expect(panelEl.locator("text=Tính năng xem trước PDF đang được phát triển")).toBeVisible();
+    await expect(panelEl.locator("text=Đã tạo bản xem trước")).toHaveCount(0);
+  }
   await expect(panelEl.locator("text=Lịch sử xử lý")).toHaveCount(0);
 
   const caseButton = page.getByRole("button", { name: /Tạo văn bản từ hồ sơ|Lưu vào hồ sơ/i }).first();

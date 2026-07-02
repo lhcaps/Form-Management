@@ -3,7 +3,10 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { RuntimePreviewSessionService } from './runtime-preview-session.service';
 
-const TEST_SESSIONS_BASE_DIR = path.join(__dirname, '__test-runtime-preview-sessions__');
+const TEST_SESSIONS_BASE_DIR = path.join(
+  __dirname,
+  '__test-runtime-preview-sessions__',
+);
 
 function rmdir(dir: string): void {
   if (!fs.existsSync(dir)) return;
@@ -43,9 +46,25 @@ describe('RuntimePreviewSessionService', () => {
   const mockAudit = {
     auditDocxFromFile: jest.fn().mockResolvedValue({
       status: 'PASS' as const,
-      summary: { total: 18, pass: 12, warning: 4, fail: 2, notDetectable: 2, notApplicable: 0 },
+      summary: {
+        total: 18,
+        pass: 12,
+        warning: 4,
+        fail: 2,
+        notDetectable: 2,
+        notApplicable: 0,
+      },
       findings: [],
     }),
+  };
+
+  const mockPdfConverter = {
+    convertDocxFileToPdf: jest
+      .fn()
+      .mockImplementation(
+        async (_input: { sourceDocxPath: string; targetPdfPath: string }) =>
+          undefined,
+      ),
   };
 
   beforeEach(() => {
@@ -55,11 +74,24 @@ describe('RuntimePreviewSessionService', () => {
     sessionsBaseDir = path.join(__dirname, 'runtime-preview-sessions');
     rmdir(sessionsBaseDir);
     fs.mkdirSync(sessionsBaseDir, { recursive: true });
+    mockRenderer.renderDocx.mockClear();
+    mockAudit.auditDocxFromFile.mockClear();
+    mockPdfConverter.convertDocxFileToPdf.mockReset();
+    mockPdfConverter.convertDocxFileToPdf.mockImplementation(
+      async (input: { targetPdfPath: string }) => {
+        fs.mkdirSync(path.dirname(input.targetPdfPath), { recursive: true });
+        fs.writeFileSync(
+          input.targetPdfPath,
+          Buffer.from('%PDF-1.7\nbody\n%%EOF'),
+        );
+      },
+    );
 
     service = new RuntimePreviewSessionService(
       mockWorkspacePaths as any,
       mockRenderer as any,
       mockAudit as any,
+      mockPdfConverter as any,
     );
   });
 
@@ -81,9 +113,14 @@ describe('RuntimePreviewSessionService', () => {
       expect(result.fileName).toBe('BM-001-20260703-010000.docx');
       expect(result.fileSizeBytes).toBe(mockBuffer.length);
       expect(result.fileFormat).toBe('DOCX');
-      expect(result.docxDownloadUrl).toContain('/api/v1/forms/runtime/preview-sessions/');
+      expect(result.docxDownloadUrl).toContain(
+        '/api/v1/forms/runtime/preview-sessions/',
+      );
       expect(result.docxDownloadUrl).toContain('/docx');
-      expect(result.pdfPreviewUrl).toBeNull();
+      expect(result.pdfPreviewUrl).toContain(
+        '/api/v1/forms/runtime/preview-sessions/',
+      );
+      expect(result.pdfPreviewUrl).toContain('/pdf');
       expect(result.audit.status).toBe('PASS');
       expect(result.warnings).toContain('warning1');
       expect(result.missingRequired).toHaveLength(1);
@@ -93,7 +130,15 @@ describe('RuntimePreviewSessionService', () => {
       const sessionDir = path.join(sessionsBaseDir, result.sessionId);
       expect(fs.existsSync(sessionDir)).toBe(true);
       expect(fs.existsSync(path.join(sessionDir, 'document.docx'))).toBe(true);
+      expect(fs.existsSync(path.join(sessionDir, 'document.pdf'))).toBe(true);
       expect(fs.existsSync(path.join(sessionDir, 'metadata.json'))).toBe(true);
+      expect(mockPdfConverter.convertDocxFileToPdf).toHaveBeenCalledWith({
+        sourceDocxPath: path.join(sessionDir, 'document.docx'),
+        targetPdfPath: path.join(sessionDir, 'document.pdf'),
+        contextId: expect.stringMatching(
+          /^runtime-preview:runtime_preview_[a-f0-9-]{36}$/,
+        ),
+      });
     });
 
     it('returns JSON response with no Content-Disposition', async () => {
@@ -111,12 +156,17 @@ describe('RuntimePreviewSessionService', () => {
       await service.createPreviewSession({ templateCode: 'BM-001', data: {} });
 
       const entries = fs.readdirSync(sessionsBaseDir, { withFileTypes: true });
-      const sessionDirs = entries.filter((e) => e.isDirectory() && e.name.startsWith('runtime_preview_'));
+      const sessionDirs = entries.filter(
+        (e) => e.isDirectory() && e.name.startsWith('runtime_preview_'),
+      );
       expect(sessionDirs.length).toBe(1);
+      expect(mockPdfConverter.convertDocxFileToPdf).toHaveBeenCalledTimes(1);
     });
 
     it('continues even if audit fails (best-effort)', async () => {
-      mockAudit.auditDocxFromFile.mockRejectedValueOnce(new Error('Audit failed'));
+      mockAudit.auditDocxFromFile.mockRejectedValueOnce(
+        new Error('Audit failed'),
+      );
 
       const result = await service.createPreviewSession({
         templateCode: 'BM-001',
@@ -126,6 +176,35 @@ describe('RuntimePreviewSessionService', () => {
       expect(result.sessionId).toBeTruthy();
       expect(result.audit.status).toBe('PASS');
       expect(result.audit.findings).toHaveLength(0);
+    });
+
+    it('keeps DOCX session downloadable when PDF generation fails', async () => {
+      mockPdfConverter.convertDocxFileToPdf.mockRejectedValueOnce(
+        new Error('LibreOffice unavailable'),
+      );
+
+      const result = await service.createPreviewSession({
+        templateCode: 'BM-001',
+        data: {},
+      });
+
+      expect(result.sessionId).toMatch(/^runtime_preview_[a-f0-9-]{36}$/);
+      expect(result.pdfPreviewUrl).toBeNull();
+      expect(result.persisted).toBe(false);
+      expect(result.docxDownloadUrl).toContain('/docx');
+      expect(result.warnings).toContainEqual({
+        code: 'PDF_PREVIEW_UNAVAILABLE',
+        message:
+          'Khong tao duoc PDF preview trong moi truong hien tai. Vui long tai DOCX de kiem tra dinh dang.',
+      });
+
+      const sessionDir = path.join(sessionsBaseDir, result.sessionId);
+      const metadata = JSON.parse(
+        fs.readFileSync(path.join(sessionDir, 'metadata.json'), 'utf-8'),
+      );
+      expect(metadata.pdfPath).toBeNull();
+      expect(fs.existsSync(path.join(sessionDir, 'document.docx'))).toBe(true);
+      expect(fs.existsSync(path.join(sessionDir, 'document.pdf'))).toBe(false);
     });
   });
 
@@ -144,14 +223,22 @@ describe('RuntimePreviewSessionService', () => {
     });
 
     it('throws NotFoundException for invalid session ID format', async () => {
-      await expect(service.getSession('invalid-id')).rejects.toThrow(BadRequestException);
-      await expect(service.getSession('runtime_preview_')).rejects.toThrow(BadRequestException);
-      await expect(service.getSession('runtime_preview_not-a-uuid')).rejects.toThrow(BadRequestException);
+      await expect(service.getSession('invalid-id')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.getSession('runtime_preview_')).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(
+        service.getSession('runtime_preview_not-a-uuid'),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('throws NotFoundException for non-existent session', async () => {
       await expect(
-        service.getSession('runtime_preview_123e4567-e89b-12d3-a456-426614174000'),
+        service.getSession(
+          'runtime_preview_123e4567-e89b-12d3-a456-426614174000',
+        ),
       ).rejects.toThrow(NotFoundException);
     });
 
@@ -167,7 +254,9 @@ describe('RuntimePreviewSessionService', () => {
       metadata.expiresAt = Date.now() - 1000;
       fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
 
-      await expect(service.getSession(created.sessionId)).rejects.toThrow(NotFoundException);
+      await expect(service.getSession(created.sessionId)).rejects.toThrow(
+        NotFoundException,
+      );
 
       expect(fs.existsSync(sessionDir)).toBe(false);
     });
@@ -195,13 +284,31 @@ describe('RuntimePreviewSessionService', () => {
 
     it('throws NotFoundException for non-existent session', async () => {
       await expect(
-        service.getSessionDocxPath('runtime_preview_123e4567-e89b-12d3-a456-426614174000'),
+        service.getSessionDocxPath(
+          'runtime_preview_123e4567-e89b-12d3-a456-426614174000',
+        ),
       ).rejects.toThrow(NotFoundException);
     });
   });
 
   describe('getSessionPdfPath', () => {
-    it('returns available=false when no PDF exists', async () => {
+    it('returns available=true when PDF exists', async () => {
+      const created = await service.createPreviewSession({
+        templateCode: 'BM-001',
+        data: {},
+      });
+
+      const result = await service.getSessionPdfPath(created.sessionId);
+
+      expect(result.available).toBe(true);
+      expect(result.pdfPath).toContain('document.pdf');
+      expect(fs.existsSync(result.pdfPath)).toBe(true);
+    });
+
+    it('returns available=false when PDF conversion failed', async () => {
+      mockPdfConverter.convertDocxFileToPdf.mockRejectedValueOnce(
+        new Error('PDF unavailable'),
+      );
       const created = await service.createPreviewSession({
         templateCode: 'BM-001',
         data: {},
@@ -232,7 +339,9 @@ describe('RuntimePreviewSessionService', () => {
         data: {},
       });
 
-      expect(result.docxDownloadUrl).toContain('/api/v1/forms/runtime/preview-sessions/');
+      expect(result.docxDownloadUrl).toContain(
+        '/api/v1/forms/runtime/preview-sessions/',
+      );
       expect(result.docxDownloadUrl).not.toContain(sessionsBaseDir);
       expect(result.docxDownloadUrl).not.toContain('storage');
     });
