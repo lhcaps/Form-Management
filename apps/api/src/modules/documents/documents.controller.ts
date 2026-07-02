@@ -1,14 +1,32 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import type { Request } from 'express';
 import { CreateDocumentGenerationBatchDto } from './dto/create-document-generation-batch.dto';
 import { DocumentsService } from './documents.service';
+import {
+  GeneratedDocumentAuditService,
+  GENERATED_DOCUMENT_AUDIT_ACTIONS,
+  GENERATED_DOCUMENT_AUDIT_RESULTS,
+} from './generated-document-audit.service';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
 
 @ApiTags('Documents')
 @Controller('documents')
 export class DocumentsController {
-  constructor(private readonly documentsService: DocumentsService) {}
+  constructor(
+    private readonly documentsService: DocumentsService,
+    @Inject(GeneratedDocumentAuditService)
+    private readonly audit: GeneratedDocumentAuditService,
+  ) {}
 
   @Get('cases/:caseId/available-templates')
   @ApiOperation({
@@ -51,15 +69,88 @@ export class DocumentsController {
   @ApiBody({
     type: CreateDocumentGenerationBatchDto,
   })
-  createBatch(
+  async createBatch(
     @Param('caseId') caseId: string,
     @Body() body: CreateDocumentGenerationBatchDto,
     @CurrentUserDecorator() user: CurrentUser,
+    @Req() req: Request,
   ) {
-    return this.documentsService.createBatch(caseId, {
+    const batchResult = await this.documentsService.createBatch(caseId, {
       ...body,
       createdByName: user.fullName,
     });
+
+    // Audit: after transaction succeeds, record one row per created document.
+    // Fire-and-forget — non-blocking, consistent with PR #28 policy.
+    void this.auditCreatedDocuments(batchResult, user, req, caseId);
+
+    return this.documentsService.findBatch(String(batchResult.batch.id));
+  }
+
+  private async auditCreatedDocuments(
+    batchResult: {
+      batch: { id: bigint };
+      documents: Array<{
+        id: bigint;
+        document_code: string | null;
+        document_title: string;
+        target_scope: string;
+        target_person_id: bigint | null;
+        generated_by_name: string | null;
+      }>;
+    },
+    user: CurrentUser,
+    req: Request,
+    caseId: string,
+  ): Promise<void> {
+    try {
+      const result = await batchResult;
+      for (const doc of result.documents) {
+        const planItem = await this.getPlanItemForDocument(doc.id);
+        await this.audit.record({
+          action: GENERATED_DOCUMENT_AUDIT_ACTIONS.CREATED,
+          result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+          actor: this.audit.buildActor(user),
+          requestMeta: this.audit.normalizeRequestMeta(req),
+          agencyId: user.agencyId ? BigInt(user.agencyId) : undefined,
+          caseId: BigInt(caseId),
+          generatedDocumentId: doc.id,
+          template: planItem
+            ? {
+                templateCode: planItem.templateCode,
+                templateTitle: planItem.templateName ?? undefined,
+                contractVersionId: undefined,
+              }
+            : undefined,
+          metadata: {
+            documentCode: doc.document_code ?? null,
+            documentTitle: doc.document_title,
+            targetScope: doc.target_scope,
+            targetPersonId: doc.target_person_id
+              ? String(doc.target_person_id)
+              : null,
+            generatedByName: doc.generated_by_name,
+            requestedFormats: planItem?.outputStrategy ?? null,
+          },
+        });
+      }
+    } catch {
+      // Swallow — audit is non-blocking, consistent with PR #28 policy.
+    }
+  }
+
+  private async getPlanItemForDocument(documentId: bigint): Promise<{
+    templateCode: string;
+    templateName: string | null;
+    outputStrategy: string | null;
+  } | null> {
+    const doc = await this.documentsService.findDocumentById(documentId);
+    if (!doc) return null;
+    return {
+      templateCode: doc.template_code ?? '',
+      templateName: doc.template_name ?? null,
+      outputStrategy: doc.output_strategy ?? null,
+    };
   }
 
   @Get('batches/:batchId')

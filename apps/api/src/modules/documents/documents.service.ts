@@ -476,7 +476,7 @@ export class DocumentsService {
       };
     });
 
-    return this.findBatch(String(result.batch.id));
+    return result;
   }
 
   async findBatch(batchIdRaw: string) {
@@ -551,6 +551,46 @@ export class DocumentsService {
           note: document.note,
         };
       }),
+    };
+  }
+
+  async findDocumentById(documentId: bigint): Promise<{
+    id: bigint;
+    template_code: string | null;
+    template_name: string | null;
+    output_strategy: string | null;
+    document_code: string | null;
+    document_title: string;
+    target_scope: string | null;
+    target_person_id: bigint | null;
+    generated_by_name: string | null;
+  } | null> {
+    const doc = await this.prisma.generated_documents.findFirst({
+      where: { id: documentId },
+      select: {
+        id: true,
+        document_code: true,
+        document_title: true,
+        target_scope: true,
+        target_person_id: true,
+        generated_by_name: true,
+        templates: {
+          select: {
+            template_code: true,
+            template_name: true,
+            output_strategy: true,
+          },
+        },
+      },
+    });
+
+    if (!doc) return null;
+
+    return {
+      ...doc,
+      template_code: doc.templates?.template_code ?? null,
+      template_name: doc.templates?.template_name ?? null,
+      output_strategy: doc.templates?.output_strategy ?? null,
     };
   }
 }

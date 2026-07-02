@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Param,
   Post,
@@ -64,39 +65,53 @@ export class DocumentFilesController {
     @Req() req: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const download =
-      await this.documentFilesService.getGeneratedFileForDownload(
-        documentId,
-        fileId,
-        user,
-      );
+    try {
+      const download =
+        await this.documentFilesService.getGeneratedFileForDownload(
+          documentId,
+          fileId,
+          user,
+        );
 
-    const encodedFileName = encodeURIComponent(download.fileName);
+      const encodedFileName = encodeURIComponent(download.fileName);
 
-    response.set({
-      'Content-Type': download.mimeType,
-      'Content-Length': String(download.fileSizeBytes),
-      'Content-Disposition': `attachment; filename="${download.fileName}"; filename*=UTF-8''${encodedFileName}`,
-      'Cache-Control': 'no-store',
-    });
+      response.set({
+        'Content-Type': download.mimeType,
+        'Content-Length': String(download.fileSizeBytes),
+        'Content-Disposition': `attachment; filename="${download.fileName}"; filename*=UTF-8''${encodedFileName}`,
+        'Cache-Control': 'no-store',
+      });
 
-    // Audit: download success after authorization confirmed.
-    await this.audit.record({
-      action: GENERATED_DOCUMENT_AUDIT_ACTIONS.DOWNLOADED,
-      result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
-      actor: this.audit.buildActor(user),
-      requestMeta: this.audit.normalizeRequestMeta(req),
-      agencyId: download.file.generated_document_id ? undefined : undefined,
-      generatedDocumentId: download.file.generated_document_id,
-      file: this.audit.buildFileContext(download.file),
-      metadata: {
-        fileId: fileId,
-        documentId,
-        mimeType: download.mimeType,
-      },
-    });
+      // Audit: download success after authorization confirmed.
+      await this.audit.record({
+        action: GENERATED_DOCUMENT_AUDIT_ACTIONS.DOWNLOADED,
+        result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+        actor: this.audit.buildActor(user),
+        requestMeta: this.audit.normalizeRequestMeta(req),
+        agencyId: download.file.generated_document_id ? undefined : undefined,
+        generatedDocumentId: download.file.generated_document_id,
+        file: this.audit.buildFileContext(download.file),
+        metadata: {
+          fileId: fileId,
+          documentId,
+          mimeType: download.mimeType,
+        },
+      });
 
-    return new StreamableFile(createReadStream(download.fullPath));
+      return new StreamableFile(createReadStream(download.fullPath));
+    } catch (error) {
+      if (error instanceof ForbiddenException) {
+        await this.audit.recordAccessDenied({
+          user,
+          request: req,
+          reason: 'ACCESS_DENIED',
+          generatedDocumentId: documentId,
+          generatedDocumentFileId: fileId,
+          metadata: { route: 'download', documentId, fileId },
+        });
+      }
+      throw error;
+    }
   }
 
   @Delete('generated/:documentId/files/:fileId')
@@ -117,39 +132,53 @@ export class DocumentFilesController {
     @CurrentUserDecorator() user: CurrentUser,
     @Req() req: Request,
   ) {
-    const result = await this.documentFilesService.deleteGeneratedFile(
-      documentId,
-      fileId,
-      user,
-      true,
-    );
-
-    // Audit: capture file metadata before deletion context is lost.
-    await this.audit.record({
-      action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILE_DELETED,
-      result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
-      actor: this.audit.buildActor(user),
-      requestMeta: this.audit.normalizeRequestMeta(req),
-      generatedDocumentId: BigInt(documentId),
-      file: {
-        fileId: BigInt(fileId),
-        fileName: result.fileName,
-        fileKind:
-          result.fileFormat === 'DOCX'
-            ? 'DOCX'
-            : result.fileFormat === 'PDF'
-              ? 'PDF'
-              : 'OTHER',
-        sizeBytes: undefined,
-      },
-      metadata: {
-        fileId,
+    try {
+      const result = await this.documentFilesService.deleteGeneratedFile(
         documentId,
-        fileFormat: result.fileFormat,
-      },
-    });
+        fileId,
+        user,
+        true,
+      );
 
-    return result;
+      // Audit: capture file metadata before deletion context is lost.
+      await this.audit.record({
+        action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILE_DELETED,
+        result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+        actor: this.audit.buildActor(user),
+        requestMeta: this.audit.normalizeRequestMeta(req),
+        generatedDocumentId: BigInt(documentId),
+        file: {
+          fileId: BigInt(fileId),
+          fileName: result.fileName,
+          fileKind:
+            result.fileFormat === 'DOCX'
+              ? 'DOCX'
+              : result.fileFormat === 'PDF'
+                ? 'PDF'
+                : 'OTHER',
+          sizeBytes: undefined,
+        },
+        metadata: {
+          fileId,
+          documentId,
+          fileFormat: result.fileFormat,
+        },
+      });
+
+      return result;
+    } catch (error) {
+      if (error instanceof ForbiddenException) {
+        await this.audit.recordAccessDenied({
+          user,
+          request: req,
+          reason: 'ACCESS_DENIED',
+          generatedDocumentId: documentId,
+          generatedDocumentFileId: fileId,
+          metadata: { route: 'delete', documentId, fileId },
+        });
+      }
+      throw error;
+    }
   }
 
   @Post('generated/:documentId/files/bulk-delete')
@@ -169,28 +198,49 @@ export class DocumentFilesController {
     @CurrentUserDecorator() user: CurrentUser,
     @Req() req: Request,
   ) {
-    const result = await this.documentFilesService.bulkDeleteGeneratedFiles(
-      documentId,
-      body.fileIds,
-      user,
-      body.deletePhysical ?? true,
-    );
-
-    // Audit: one summary event per bulk operation.
-    await this.audit.record({
-      action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILES_BULK_DELETED,
-      result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
-      actor: this.audit.buildActor(user),
-      requestMeta: this.audit.normalizeRequestMeta(req),
-      generatedDocumentId: BigInt(documentId),
-      metadata: {
+    try {
+      const result = await this.documentFilesService.bulkDeleteGeneratedFiles(
         documentId,
-        deletedCount: result.deletedCount,
-        fileIds: body.fileIds,
-      },
-    });
+        body.fileIds,
+        user,
+        body.deletePhysical ?? true,
+      );
 
-    return result;
+      // Audit: one summary event per bulk operation.
+      await this.audit.record({
+        action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILES_BULK_DELETED,
+        result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+        actor: this.audit.buildActor(user),
+        requestMeta: this.audit.normalizeRequestMeta(req),
+        generatedDocumentId: BigInt(documentId),
+        metadata: {
+          documentId,
+          deletedCount: result.deletedCount,
+          fileIds: body.fileIds,
+        },
+      });
+
+      return result;
+    } catch (error) {
+      if (error instanceof ForbiddenException) {
+        // Record denied for the first unauthorized file that failed the batch.
+        // Only the first file's ID is safely known from the loop.
+        const firstFileId = body.fileIds?.[0];
+        await this.audit.recordAccessDenied({
+          user,
+          request: req,
+          reason: 'ACCESS_DENIED',
+          generatedDocumentId: documentId,
+          generatedDocumentFileId: firstFileId,
+          metadata: {
+            route: 'bulk-delete',
+            documentId,
+            attemptedCount: body.fileIds?.length,
+          },
+        });
+      }
+      throw error;
+    }
   }
 
   @Post('generated/:documentId/files/cleanup')
@@ -211,32 +261,45 @@ export class DocumentFilesController {
     @CurrentUserDecorator() user: CurrentUser,
     @Req() req: Request,
   ) {
-    const result = await this.documentFilesService.cleanupGeneratedFiles(
-      documentId,
-      user,
-      {
-        keepLatestDocx: body.keepLatestDocx ?? true,
-        keepLatestPdf: body.keepLatestPdf ?? true,
-        deletePhysical: body.deletePhysical ?? true,
-      },
-    );
-
-    // Audit: cleanup with count and configuration.
-    await this.audit.record({
-      action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILES_CLEANED_UP,
-      result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
-      actor: this.audit.buildActor(user),
-      requestMeta: this.audit.normalizeRequestMeta(req),
-      generatedDocumentId: BigInt(documentId),
-      metadata: {
+    try {
+      const result = await this.documentFilesService.cleanupGeneratedFiles(
         documentId,
-        deletedCount: result.deletedCount,
-        keptCount: result.keptCount,
-        keepLatestDocx: body.keepLatestDocx ?? true,
-        keepLatestPdf: body.keepLatestPdf ?? true,
-      },
-    });
+        user,
+        {
+          keepLatestDocx: body.keepLatestDocx ?? true,
+          keepLatestPdf: body.keepLatestPdf ?? true,
+          deletePhysical: body.deletePhysical ?? true,
+        },
+      );
 
-    return result;
+      // Audit: cleanup with count and configuration.
+      await this.audit.record({
+        action: GENERATED_DOCUMENT_AUDIT_ACTIONS.FILES_CLEANED_UP,
+        result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+        actor: this.audit.buildActor(user),
+        requestMeta: this.audit.normalizeRequestMeta(req),
+        generatedDocumentId: BigInt(documentId),
+        metadata: {
+          documentId,
+          deletedCount: result.deletedCount,
+          keptCount: result.keptCount,
+          keepLatestDocx: body.keepLatestDocx ?? true,
+          keepLatestPdf: body.keepLatestPdf ?? true,
+        },
+      });
+
+      return result;
+    } catch (error) {
+      if (error instanceof ForbiddenException) {
+        await this.audit.recordAccessDenied({
+          user,
+          request: req,
+          reason: 'ACCESS_DENIED',
+          generatedDocumentId: documentId,
+          metadata: { route: 'cleanup', documentId },
+        });
+      }
+      throw error;
+    }
   }
 }
