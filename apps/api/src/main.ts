@@ -13,7 +13,7 @@ import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { AppConfigService } from './infrastructure/config/app-config.service';
 import { ContractSyncGuard } from './modules/forms-contracts/infrastructure/contract-sync.guard';
 
-loadEnv({ path: resolve(process.cwd(), '..', '..', '.env') });
+loadEnv({ path: resolve(process.cwd(), '..', '..', '.env'), override: true });
 loadEnv({ path: resolve(process.cwd(), '.env') });
 
 async function bootstrap(): Promise<void> {

@@ -30,6 +30,10 @@ import { DocxtemplaterContractRenderEngine } from './rendering/infrastructure/do
 import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
 import { GeneratedDocumentAuditService } from './generated-document-audit.service';
 import { GeneratedDocumentAuditController } from './generated-document-audit.controller';
+import { DocxPreviewController } from './preview/docx-preview.controller';
+import { DocxPreviewService } from './preview/docx-preview.service';
+import { DocxStyleAuditService } from './style/docx-style-audit.service';
+import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
 
 @Module({
   controllers: [
@@ -41,6 +45,7 @@ import { GeneratedDocumentAuditController } from './generated-document-audit.con
     DocumentReviewQueueController,
     RuntimeTemplateRenderController,
     GeneratedDocumentAuditController,
+    DocxPreviewController,
   ],
   providers: [
     DocumentsService,
@@ -61,6 +66,9 @@ import { GeneratedDocumentAuditController } from './generated-document-audit.con
     ContractDocumentRendererAdapter,
     WorkspacePathsService,
     GeneratedDocumentAuditService,
+    AgencyResourceAccessService,
+    DocxPreviewService,
+    DocxStyleAuditService,
     {
       provide: LEGACY_DOCUMENT_RENDERER,
       useExisting: LegacyDocumentRendererAdapter,
