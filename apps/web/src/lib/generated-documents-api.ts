@@ -267,3 +267,47 @@ export async function getDocumentHistory(
     `/documents/generated/${documentId}/history`,
   );
 }
+
+// ─── Audit Log types and API ─────────────────────────────────────────────────
+
+export type GeneratedDocumentAuditEntry = {
+  id: string;
+  action: string;
+  result: string;
+  actorOfficialId: string | null;
+  actorRole: string | null;
+  actorName: string | null;
+  agencyId: string | null;
+  caseId: string | null;
+  generatedDocumentId: string | null;
+  generatedDocumentFileId: string | null;
+  templateCode: string | null;
+  templateTitle: string | null;
+  fileName: string | null;
+  fileMimeType: string | null;
+  fileSizeBytes: string | null;
+  reason: string | null;
+  createdAt: string;
+  ipAddress: string | null;
+  userAgent: string | null;
+  requestMethod: string | null;
+  requestPath: string | null;
+};
+
+export type GeneratedDocumentAuditResponse = {
+  entries: GeneratedDocumentAuditEntry[];
+  total: number;
+};
+
+export async function getGeneratedDocumentAudit(
+  documentId: string | number,
+  options?: { limit?: number; offset?: number },
+): Promise<GeneratedDocumentAuditResponse> {
+  const params = new URLSearchParams();
+  if (options?.limit !== undefined) params.set('limit', String(options.limit));
+  if (options?.offset !== undefined) params.set('offset', String(options.offset));
+  const qs = params.toString();
+  return readApi<GeneratedDocumentAuditResponse>(
+    `/documents/generated/${documentId}/audit${qs ? `?${qs}` : ''}`,
+  );
+}

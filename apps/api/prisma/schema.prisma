@@ -25,6 +25,7 @@ model agencies {
   officials              officials[]
   form_contract_versions form_contract_versions[]
   official_permissions   official_permissions[]
+  generated_document_audit_logs generated_document_audit_logs[]
 
   @@index([parent_agency_id], map: "fk_agencies_parent")
   @@index([agency_name], map: "idx_agencies_name")
@@ -179,6 +180,7 @@ model cases {
   document_generation_batches document_generation_batches[]
   evidence_items              evidence_items[]
   generated_documents         generated_documents[]
+  generated_document_audit_logs generated_document_audit_logs[]
   import_mapping_run_rows     import_mapping_run_rows[]
 
   @@index([agency_id], map: "idx_cases_agency")
@@ -289,11 +291,55 @@ model generated_document_files {
   created_at            DateTime            @default(now()) @db.DateTime(0)
   generated_documents   generated_documents @relation(fields: [generated_document_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_generated_document_files_document")
   stored_files          stored_files?       @relation(fields: [stored_file_id], references: [id], onUpdate: NoAction, map: "fk_generated_document_files_stored_file")
+  audit_logs            generated_document_audit_logs[]
 
   @@index([stored_file_id], map: "fk_generated_document_files_stored_file")
   @@index([generated_document_id], map: "idx_generated_document_files_document")
   @@index([is_final], map: "idx_generated_document_files_final")
   @@index([file_format], map: "idx_generated_document_files_format")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model generated_document_audit_logs {
+  id                          BigInt                      @id @default(autoincrement()) @db.UnsignedBigInt
+  action                      String                      @db.VarChar(64)
+  result                      String                      @default("SUCCESS") @db.VarChar(32)
+  actor_official_id            BigInt?                     @db.UnsignedBigInt
+  actor_role                  String?                     @db.VarChar(50)
+  actor_name                  String?                     @db.VarChar(255)
+  agency_id                    BigInt?                     @db.UnsignedBigInt
+  case_id                     BigInt?                     @db.UnsignedBigInt
+  generated_document_id        BigInt?                     @db.UnsignedBigInt
+  generated_document_file_id   BigInt?                     @db.UnsignedBigInt
+  template_code                String?                     @db.VarChar(64)
+  template_title               String?                     @db.VarChar(255)
+  contract_version_id          BigInt?                     @db.UnsignedBigInt
+  file_name                   String?                     @db.VarChar(255)
+  file_mime_type              String?                     @db.VarChar(128)
+  file_size_bytes             BigInt?                     @db.UnsignedBigInt
+  file_kind                   String?                     @db.VarChar(32)
+  request_method               String?                     @db.VarChar(16)
+  request_path                String?                     @db.VarChar(500)
+  ip_address                  String?                     @db.VarChar(64)
+  user_agent                  String?                     @db.VarChar(500)
+  reason                      String?                     @db.VarChar(255)
+  metadata_json               Json?
+  created_at                  DateTime                    @default(now()) @db.DateTime(0)
+  officials                   officials?                  @relation(fields: [actor_official_id], references: [id], onUpdate: NoAction, map: "fk_gen_doc_audit_actor")
+  agencies                    agencies?                   @relation(fields: [agency_id], references: [id], onUpdate: NoAction, map: "fk_gen_doc_audit_agency")
+  cases                       cases?                      @relation(fields: [case_id], references: [id], onUpdate: NoAction, map: "fk_gen_doc_audit_case")
+  generated_documents         generated_documents?        @relation(fields: [generated_document_id], references: [id], onUpdate: NoAction, map: "fk_gen_doc_audit_document")
+  generated_document_files     generated_document_files?   @relation(fields: [generated_document_file_id], references: [id], onUpdate: NoAction, map: "fk_gen_doc_audit_file")
+
+  @@index([action], map: "idx_gen_doc_audit_action")
+  @@index([result], map: "idx_gen_doc_audit_result")
+  @@index([actor_official_id], map: "idx_gen_doc_audit_actor")
+  @@index([agency_id], map: "idx_gen_doc_audit_agency")
+  @@index([case_id], map: "idx_gen_doc_audit_case")
+  @@index([generated_document_id], map: "idx_gen_doc_audit_document")
+  @@index([generated_document_file_id], map: "idx_gen_doc_audit_file")
+  @@index([template_code], map: "idx_gen_doc_audit_template")
+  @@index([created_at], map: "idx_gen_doc_audit_created")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -319,6 +365,7 @@ model generated_documents {
   note                        String?                      @db.Text
   document_reviews            document_reviews[]
   generated_document_files    generated_document_files[]
+  generated_document_audit_logs generated_document_audit_logs[]
   document_generation_batches document_generation_batches? @relation(fields: [batch_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_batch")
   cases                       cases                        @relation(fields: [case_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_generated_documents_case")
   evidence_items              evidence_items?              @relation(fields: [target_evidence_id], references: [id], onUpdate: NoAction, map: "fk_generated_documents_evidence")
@@ -538,6 +585,7 @@ model officials {
   granted_official_permissions     official_permissions[]    @relation("OfficialPermissionGrantor")
   auth_identities                 auth_identities[]
   audit_logs                     auth_identity_audit_logs[] @relation("AuditLogActor")
+  generated_document_audit_logs  generated_document_audit_logs[]
   agencies                         agencies?                 @relation(fields: [agency_id], references: [id], onUpdate: NoAction, map: "fk_officials_agency")
 
   @@index([agency_id], map: "idx_officials_agency")
