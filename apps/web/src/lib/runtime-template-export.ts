@@ -29,16 +29,20 @@ export function buildRuntimeTemplateDocxPath(templateCode: string): string {
   return `/forms/runtime/${encodeURIComponent(templateCode.trim().toUpperCase())}/render-docx`;
 }
 
+export function buildRuntimeTemplateMetadataPath(templateCode: string): string {
+  return `/forms/runtime/${encodeURIComponent(templateCode.trim().toUpperCase())}/render-docx/metadata`;
+}
+
 /**
- * Render a runtime template to DOCX and return metadata (no auto-download).
+ * Render a runtime template and return metadata (no auto-download).
  * Use this for preview-first UX where user reviews before downloading.
  */
 export async function renderRuntimeTemplateDocx(
   templateCode: string,
   data: Record<string, unknown>,
 ): Promise<RuntimeTemplateRenderMetadata> {
-  const path = buildRuntimeTemplateDocxPath(templateCode);
-  const url = `${getApiBaseUrl()}${path}?mode=metadata`;
+  const path = buildRuntimeTemplateMetadataPath(templateCode);
+  const url = `${getApiBaseUrl()}${path}`;
   const [apiInput, apiInit] = await withApiFetchAuthDefaults(url, {
     method: "POST",
     credentials: "include",
@@ -61,12 +65,12 @@ export async function renderRuntimeTemplateDocx(
     throw new Error(message);
   }
 
-  // Guard: metadata mode MUST return JSON, not DOCX blob.
+  // Guard: metadata endpoint MUST return JSON, not DOCX blob.
   const contentType = response.headers.get("Content-Type") ?? "";
   if (!contentType.includes("application/json")) {
     throw new Error(
       "Expected metadata JSON but received DOCX response. " +
-        `Content-Type was "${contentType}". Check backend mode=metadata branch.`,
+        `Content-Type was "${contentType}". Check backend /render-docx/metadata endpoint.`,
     );
   }
 
