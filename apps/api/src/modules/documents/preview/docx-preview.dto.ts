@@ -22,7 +22,7 @@ export class PreviewDocxDto {
   @ApiPropertyOptional({
     description:
       'Override specific form fields with sample values. Key-value pairs.',
-    example: { 'person.fullName': 'Nguyễn Văn A' },
+    example: { 'person.fullName': 'Nguyen Van A' },
   })
   @IsOptional()
   sampleData?: Record<string, string>;
