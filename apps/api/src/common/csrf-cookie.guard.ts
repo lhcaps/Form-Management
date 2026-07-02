@@ -10,19 +10,17 @@ import { AppConfigService } from '../infrastructure/config/app-config.service';
 /**
  * CSRF guard for cross-origin cookie auth.
  *
- * When AUTH_COOKIE_SAMESITE=none (cross-origin session cookies), browsers
- * suppress the Origin/Referer headers on state-changing POST/PATCH/PUT/DELETE
- * requests. This guard enforces that at least one safe header is present and
- * originates from the allowlisted CORS origin.
+ * When AUTH_COOKIE_SAMESITE=none, unsafe cookie-authenticated requests must
+ * carry an Origin or Referer that matches the configured frontend origin.
  *
- * Safe-ignores OPTIONS (CORS preflight), public routes, and same-site contexts.
+ * Safe-ignores OPTIONS, safe methods, and bearer-only API requests that do not
+ * carry the session cookie.
  */
 @Injectable()
 export class CsrfCookieGuard implements CanActivate {
   constructor(private readonly config: AppConfigService) {}
 
   canActivate(context: ExecutionContext): boolean {
-    // Only check when sameSite is 'none' (cross-origin cookie mode)
     if (this.config.effectiveAuthCookieSameSite !== 'none') {
       return true;
     }
@@ -30,11 +28,9 @@ export class CsrfCookieGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const method = request.method;
 
-    // OPTIONS requests are always safe (CORS preflight handled by middleware)
     if (method === 'OPTIONS') return true;
-
-    // Only guard state-changing methods
     if (!['POST', 'PATCH', 'PUT', 'DELETE'].includes(method)) return true;
+    if (!this.hasSessionCookie(request)) return true;
 
     const allowedOrigins = this.getAllowedOrigins(request);
 
@@ -59,6 +55,22 @@ export class CsrfCookieGuard implements CanActivate {
     return policy.origins;
   }
 
+  private hasSessionCookie(request: Request): boolean {
+    const cookieName = this.config.authSessionCookieName;
+    const cookies = request.cookies as Record<string, unknown> | undefined;
+    if (typeof cookies?.[cookieName] === 'string') {
+      return true;
+    }
+
+    const cookieHeader = request.get('cookie');
+    if (!cookieHeader) return false;
+
+    return cookieHeader
+      .split(';')
+      .map((cookie) => cookie.trim().split('=')[0])
+      .some((name) => name === cookieName);
+  }
+
   private hasValidOriginHeader(
     request: Request,
     allowedOrigins: string[],
@@ -66,9 +78,8 @@ export class CsrfCookieGuard implements CanActivate {
     const origin = request.get('origin');
     const referer = request.get('referer');
 
-    // Same-site request with no Origin header — safe (browser same-origin POST)
     if (!origin && !referer) {
-      return true;
+      return false;
     }
 
     if (origin) {
@@ -117,7 +128,6 @@ export class CsrfCookieGuard implements CanActivate {
   }
 
   private matchOrigin(origin: string, allowed: string): boolean {
-    // allowed may be "https://example.com" or just "example.com"
     const normalizedAllowed = allowed
       .replace(/^https?:\/\//i, '')
       .replace(/\/.*$/, '');

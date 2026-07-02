@@ -1,6 +1,15 @@
 import { ConfigurationError } from '../../common/application-error';
 import { AppConfigService } from './app-config.service';
 
+const productionBaseEnv = {
+  NODE_ENV: 'production',
+  WEB_ORIGIN: 'https://app.test',
+  AUTH_COOKIE_SECURE: 'true',
+  SEED_ADMIN_PASSWORD: 'strong-password',
+  CLERK_SECRET_KEY: 'test-clerk-secret-key-value',
+  CLERK_WEBHOOK_SECRET: 'test-clerk-webhook-secret-value',
+};
+
 describe('AppConfigService', () => {
   it('parses comma-separated CORS origins and adds development loopback', () => {
     const config = new AppConfigService({
@@ -80,10 +89,8 @@ describe('AppConfigService', () => {
 
   it('rejects wildcard CORS in production', () => {
     const config = new AppConfigService({
-      NODE_ENV: 'production',
+      ...productionBaseEnv,
       API_CORS_ORIGIN: '*',
-      AUTH_COOKIE_SECURE: 'true',
-      SEED_ADMIN_PASSWORD: 'strong-password',
     });
 
     expect(() => config.assertProductionSafety()).toThrow(
@@ -96,10 +103,9 @@ describe('AppConfigService', () => {
 
   it('rejects an insecure production auth cookie', () => {
     const config = new AppConfigService({
-      NODE_ENV: 'production',
+      ...productionBaseEnv,
       API_CORS_ORIGIN: 'https://app.test',
       AUTH_COOKIE_SECURE: 'false',
-      SEED_ADMIN_PASSWORD: 'strong-password',
     });
 
     expect(() => config.assertProductionSafety()).toThrow(
@@ -109,15 +115,106 @@ describe('AppConfigService', () => {
 
   it('rejects the default administrator password in production', () => {
     const config = new AppConfigService({
-      NODE_ENV: 'production',
+      ...productionBaseEnv,
       API_CORS_ORIGIN: 'https://app.test',
-      AUTH_COOKIE_SECURE: 'true',
       SEED_ADMIN_PASSWORD: 'admin123',
     });
 
     expect(() => config.assertProductionSafety()).toThrow(
       'SEED_ADMIN_PASSWORD must be changed before production.',
     );
+  });
+
+  it('rejects TUNNEL_TEST in production', () => {
+    const config = new AppConfigService({
+      ...productionBaseEnv,
+      TUNNEL_TEST: 'true',
+    });
+
+    expect(() => config.assertProductionSafety()).toThrow(
+      'TUNNEL_TEST must be false in production.',
+    );
+  });
+
+  it('requires WEB_ORIGIN and Clerk secrets in production', () => {
+    const missingWebOrigin = new AppConfigService({
+      ...productionBaseEnv,
+      WEB_ORIGIN: undefined,
+    });
+    const missingClerkSecret = new AppConfigService({
+      ...productionBaseEnv,
+      CLERK_SECRET_KEY: undefined,
+    });
+    const missingWebhookSecret = new AppConfigService({
+      ...productionBaseEnv,
+      CLERK_WEBHOOK_SECRET: undefined,
+    });
+    const missingSeedPassword = new AppConfigService({
+      ...productionBaseEnv,
+      SEED_ADMIN_PASSWORD: undefined,
+    });
+
+    expect(() => missingWebOrigin.assertProductionSafety()).toThrow(
+      'WEB_ORIGIN must be configured in production.',
+    );
+    expect(() => missingClerkSecret.assertProductionSafety()).toThrow(
+      'CLERK_SECRET_KEY must be configured in production.',
+    );
+    expect(() => missingWebhookSecret.assertProductionSafety()).toThrow(
+      'CLERK_WEBHOOK_SECRET must be configured in production.',
+    );
+    expect(() => missingSeedPassword.assertProductionSafety()).toThrow(
+      'SEED_ADMIN_PASSWORD must be configured in production.',
+    );
+  });
+
+  it('rejects production placeholder secrets and passwords', () => {
+    const placeholderClerkSecret = new AppConfigService({
+      ...productionBaseEnv,
+      CLERK_SECRET_KEY: 'replace-with-clerk-secret-key',
+    });
+    const placeholderWebhookSecret = new AppConfigService({
+      ...productionBaseEnv,
+      CLERK_WEBHOOK_SECRET: '<set-in-secret-store>',
+    });
+    const placeholderSeedPassword = new AppConfigService({
+      ...productionBaseEnv,
+      SEED_ADMIN_PASSWORD: 'change-me',
+    });
+
+    expect(() => placeholderClerkSecret.assertProductionSafety()).toThrow(
+      'CLERK_SECRET_KEY must be set to a real production value.',
+    );
+    expect(() => placeholderWebhookSecret.assertProductionSafety()).toThrow(
+      'CLERK_WEBHOOK_SECRET must be set to a real production value.',
+    );
+    expect(() => placeholderSeedPassword.assertProductionSafety()).toThrow(
+      'SEED_ADMIN_PASSWORD must be set to a real production value.',
+    );
+  });
+
+  it('adds WEB_ORIGIN to the production CORS policy', () => {
+    const config = new AppConfigService({
+      ...productionBaseEnv,
+      API_CORS_ORIGIN: 'https://ops.test',
+    });
+
+    expect(config.corsPolicy).toEqual({
+      allowAll: false,
+      origins: ['https://ops.test', 'https://app.test'],
+    });
+  });
+
+  it('enables secure SameSite=None cookies in tunnel test mode only outside production', () => {
+    const config = new AppConfigService({
+      NODE_ENV: 'development',
+      TUNNEL_TEST: 'true',
+      API_CORS_ORIGIN: 'https://app.test',
+    });
+
+    expect(() => config.assertProductionSafety()).not.toThrow();
+    expect(config.effectiveAuthCookieSecure).toBe(true);
+    expect(config.effectiveAuthCookieSameSite).toBe('none');
   });
 
   it('rejects an invalid API port', () => {

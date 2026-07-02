@@ -49,7 +49,8 @@ services:
       AUTH_COOKIE_SECURE: "true"
       AUTH_COOKIE_SAMESITE: "none"
       WEB_ORIGIN: ${WEB_ORIGIN}
-      API_CORS_ORIGIN: ${WEB_ORIGIN}
+      API_CORS_ORIGIN: ${API_CORS_ORIGIN}
+      TUNNEL_TEST: "false"
       # Set SEED_DATA=true on first deploy only; leave false for subsequent restarts
       SEED_DATA: "false"
     ports:
