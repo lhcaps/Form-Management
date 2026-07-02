@@ -28,6 +28,8 @@ import { PrismaGeneratedDocumentDescriptorRepository } from './rendering/infrast
 import { ContractDocumentRendererAdapter } from './rendering/infrastructure/contract-document-renderer.adapter';
 import { DocxtemplaterContractRenderEngine } from './rendering/infrastructure/docxtemplater-contract-render-engine';
 import { WorkspacePathsService } from '../../infrastructure/paths/workspace-paths.service';
+import { GeneratedDocumentAuditService } from './generated-document-audit.service';
+import { GeneratedDocumentAuditController } from './generated-document-audit.controller';
 
 @Module({
   controllers: [
@@ -38,6 +40,7 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
     DocumentPdfController,
     DocumentReviewQueueController,
     RuntimeTemplateRenderController,
+    GeneratedDocumentAuditController,
   ],
   providers: [
     DocumentsService,
@@ -57,6 +60,7 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
     PrismaGeneratedDocumentDescriptorRepository,
     ContractDocumentRendererAdapter,
     WorkspacePathsService,
+    GeneratedDocumentAuditService,
     {
       provide: LEGACY_DOCUMENT_RENDERER,
       useExisting: LegacyDocumentRendererAdapter,

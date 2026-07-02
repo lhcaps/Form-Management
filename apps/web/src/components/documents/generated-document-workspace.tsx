@@ -8,6 +8,7 @@ import {
   BM_PANEL_REGISTRY,
   type BM_PANEL_COUNT,
 } from "./bm-panel-registry.generated";
+import { GeneratedDocumentAuditPanel } from "@/components/documents/generated-document-audit-panel";
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import { getDocumentRenderPayload } from "@/lib/document-form-api";
@@ -702,7 +703,10 @@ export function GeneratedDocumentWorkspace({
           ) : null}
 
           {activeTab === "history" ? (
-            <HistoryTab documentId={documentId} />
+            <>
+              <GeneratedDocumentAuditPanel documentId={documentId} />
+              <HistoryTab documentId={documentId} />
+            </>
           ) : null}
         </div>
       </main>
