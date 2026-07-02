@@ -24,6 +24,7 @@ import {
 } from '@nestjs/common';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { resolveRepoRoot } from '../../../common/repo-root';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { AgencyResourceAccessService } from '../../auth/agency-resource-access.service';
 import { DocumentPdfService } from '../document-pdf.service';
@@ -232,8 +233,7 @@ export class DocxPreviewService {
   }
 
   private getProjectRoot(): string {
-    // Use process.cwd() as project root — consistent with how other services work
-    return process.cwd();
+    return resolveRepoRoot({ repoRoot: process.env.REPO_ROOT });
   }
 
   private isInsideProject(fullPath: string): boolean {
