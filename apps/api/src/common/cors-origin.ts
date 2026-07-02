@@ -1,3 +1,5 @@
+import { ConfigurationError } from './application-error';
+
 export type CorsOriginPolicy = {
   allowAll: boolean;
   origins: string[];
@@ -15,20 +17,36 @@ const DEVELOPMENT_LOOPBACK_ORIGINS = [
  * Parse the configured CORS allow-list into a deterministic policy.
  */
 export function resolveCorsPolicy(
-  configured: string,
+  configured: string | undefined,
   environment: string,
 ): CorsOriginPolicy {
-  if (configured.trim() === '*') {
+  const raw = configured?.trim() ?? '';
+
+  if (raw === '*') {
+    if (environment === 'production') {
+      throw new ConfigurationError(
+        'PRODUCTION_CORS_WILDCARD',
+        'API_CORS_ORIGIN="*" is forbidden in production.',
+      );
+    }
     return {
       allowAll: true,
       origins: [],
     };
   }
 
+  if (!raw && environment === 'production') {
+    throw new ConfigurationError(
+      'PRODUCTION_CORS_REQUIRED',
+      'WEB_ORIGIN or API_CORS_ORIGIN must be configured in production.',
+    );
+  }
+
   const origins = new Set(
-    configured
+    raw
       .split(',')
       .map((origin) => origin.trim())
+      .map(normalizeConfiguredOrigin)
       .filter(Boolean),
   );
 
@@ -38,9 +56,7 @@ export function resolveCorsPolicy(
     }
   }
 
-  // In production, WEB_ORIGIN (if set) is the canonical frontend URL and must be allowed.
-  // Fallback to localhost origins if nothing else is configured.
-  if (origins.size === 0) {
+  if (origins.size === 0 && environment !== 'production') {
     for (const origin of DEVELOPMENT_LOOPBACK_ORIGINS) {
       origins.add(origin);
     }
@@ -66,4 +82,35 @@ export function createCorsOriginValidator(policy: CorsOriginPolicy) {
 
     callback(new Error(`CORS origin is not allowed: ${origin}`), false);
   };
+}
+
+function normalizeConfiguredOrigin(origin: string): string {
+  if (!origin) return '';
+
+  let parsed: URL;
+  try {
+    parsed = new URL(origin);
+  } catch (cause) {
+    throw new ConfigurationError(
+      'INVALID_CORS_ORIGIN',
+      `API_CORS_ORIGIN contains invalid origin "${origin}". Use absolute http(s) origins only.`,
+      cause,
+    );
+  }
+
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new ConfigurationError(
+      'INVALID_CORS_ORIGIN',
+      `API_CORS_ORIGIN contains invalid origin "${origin}". Use absolute http(s) origins only.`,
+    );
+  }
+
+  if (parsed.pathname !== '/' || parsed.search || parsed.hash) {
+    throw new ConfigurationError(
+      'INVALID_CORS_ORIGIN',
+      `API_CORS_ORIGIN contains invalid origin "${origin}". Do not include paths, query strings, or fragments.`,
+    );
+  }
+
+  return parsed.origin;
 }

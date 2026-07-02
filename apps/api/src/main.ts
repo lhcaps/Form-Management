@@ -58,7 +58,7 @@ async function bootstrap(): Promise<void> {
     );
   } else if (config.tunnelTestMode) {
     logger.log(
-      `[TUNNEL_TEST] Allowed CORS origins: ${corsPolicy.origins.join(', ')} | ` +
+      `[TUNNEL_TEST] Local cross-origin cookie test mode is active. ` +
         `Cookie: Secure=${config.effectiveAuthCookieSecure}, SameSite=${config.effectiveAuthCookieSameSite}`,
     );
   }

@@ -130,6 +130,7 @@ API_BASE_URL=https://your-backend-host.com
 # ─── Frontend URL (Vercel domain — for CORS + cookie) ─
 WEB_ORIGIN=https://your-app.vercel.app
 NEXT_PUBLIC_API_BASE_URL=https://your-backend-host.com/api/v1
+TUNNEL_TEST=false
 
 # ─── Cookie (cross-origin from Vercel → backend) ────
 AUTH_COOKIE_SECURE=true
@@ -140,6 +141,10 @@ AUTH_SESSION_COOKIE_NAME=qlv_session
 # ─── CORS (comma-separated) ───────────────────────────
 # Must include the Vercel frontend domain
 API_CORS_ORIGIN=https://your-app.vercel.app
+
+# Clerk secrets (store real values in deployment secrets, not git)
+CLERK_SECRET_KEY=<set-in-secret-store>
+CLERK_WEBHOOK_SECRET=<set-in-secret-store>
 
 # ─── Storage ─────────────────────────────────────────
 STORAGE_ROOT=/app/storage
@@ -157,7 +162,7 @@ DOCUMENT_RENDERER_MODE=off
 # Change these before deploying! Default passwords are blocked in production.
 SEED_ADMIN_FULL_NAME=Admin
 SEED_ADMIN_USERNAME=admin
-SEED_ADMIN_PASSWORD=<change-me>
+SEED_ADMIN_PASSWORD=<set-in-secret-store>
 SEED_ADMIN_POSITION=Quan tri he thong
 ```
 
@@ -452,10 +457,13 @@ NODE_ENV=production
 DATABASE_URL=mysql://user:pass@host:port/qlvks?connection_limit=10
 WEB_ORIGIN=https://your-app.vercel.app
 API_CORS_ORIGIN=https://your-app.vercel.app
+TUNNEL_TEST=false
 AUTH_COOKIE_SECURE=true
 AUTH_COOKIE_SAMESITE=none
 AUTH_SESSION_TTL_DAYS=14
 AUTH_SESSION_COOKIE_NAME=qlv_session
+CLERK_SECRET_KEY=<set-in-secret-store>
+CLERK_WEBHOOK_SECRET=<set-in-secret-store>
 PORT=3001
 STORAGE_ROOT=/app/storage
 GENERATED_FILES_ROOT=/app/storage/generated
@@ -486,7 +494,7 @@ NEXT_PUBLIC_API_BASE_URL=https://your-backend-host.com/api/v1
 | PDF export fails | LibreOffice not installed | Install with `apt-get install libreoffice` or set `DOCUMENT_RENDERER_MODE=off` |
 | File download 404 | Generated files not persisted | Use persistent disk (not ephemeral container FS); mount `./storage` volume |
 | CORS error: origin not allowed | `API_CORS_ORIGIN` missing Vercel domain | Set `API_CORS_ORIGIN=https://your-app.vercel.app` on backend |
-| API starts but crashes on first request | `assertProductionSafety()` blocks insecure config | Ensure `AUTH_COOKIE_SECURE=true`, `SEED_ADMIN_PASSWORD` is not `admin123`, `API_CORS_ORIGIN` is not `*` |
+| API fails startup | `assertProductionSafety()` blocks insecure config | Ensure `WEB_ORIGIN`, Clerk secrets, `AUTH_COOKIE_SECURE=true`, `TUNNEL_TEST=false`, strong seed password, and no wildcard CORS |
 | Prisma generate fails (Windows) | Port 3001 in use by dev server | Stop `pnpm dev` before building |
 | Vercel build fails | `NEXT_PUBLIC_API_BASE_URL` missing | Add env var in Vercel dashboard |
 | `pnpm install` fails on Vercel | Node version mismatch | Ensure `engines.node >= 20.0.0` in root `package.json` |
@@ -498,6 +506,8 @@ NEXT_PUBLIC_API_BASE_URL=https://your-backend-host.com/api/v1
 - **Do not use** `admin123` as the admin password in staging. `assertProductionSafety()` will block the API if it detects this.
 - **Do not set** `DATABASE_URL` on Vercel — it is a frontend-only deploy.
 - **Do not use** `API_CORS_ORIGIN=*` in production — it is blocked by `assertProductionSafety()`.
+- **Do not use** `TUNNEL_TEST=true` with `NODE_ENV=production`; startup rejects it.
+- **Set** `CLERK_SECRET_KEY` and `CLERK_WEBHOOK_SECRET` in the API secret store before starting production.
 - The `tester` account (`tester/tester123`) has `OFFICIAL` role with no destructive permissions. It is safe for public staging.
 - The `admin` account uses the password from `SEED_ADMIN_PASSWORD` env var. Change it from the default before going live.
 - All staging data should be considered public. Do not use real people's data.

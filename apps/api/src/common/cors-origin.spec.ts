@@ -28,6 +28,27 @@ describe('resolveCorsPolicy', () => {
       origins: [],
     });
   });
+
+  it('rejects wildcard CORS in production', () => {
+    expect(() => resolveCorsPolicy('*', 'production')).toThrow(
+      'API_CORS_ORIGIN="*" is forbidden in production.',
+    );
+  });
+
+  it('requires an explicit production origin', () => {
+    expect(() => resolveCorsPolicy(undefined, 'production')).toThrow(
+      'WEB_ORIGIN or API_CORS_ORIGIN must be configured in production.',
+    );
+  });
+
+  it('rejects invalid configured origins', () => {
+    expect(() => resolveCorsPolicy('localhost:3000', 'development')).toThrow(
+      'Use absolute http(s) origins only.',
+    );
+    expect(() =>
+      resolveCorsPolicy('https://app.test/path', 'production'),
+    ).toThrow('Do not include paths, query strings, or fragments.');
+  });
 });
 
 describe('createCorsOriginValidator', () => {

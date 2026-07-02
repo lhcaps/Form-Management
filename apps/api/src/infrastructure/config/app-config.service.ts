@@ -31,10 +31,8 @@ export class AppConfigService {
     return this.environment === 'production';
   }
 
-  /** Enables cross-origin cookie (SameSite=None, Secure) without full production mode.
-   *  Used when the API is exposed via Cloudflare Tunnel to a Vercel frontend.
-   *  Skips production safety checks (default admin password, etc.) while still
-   *  setting cookies correctly for the browser. */
+  /** Enables cross-origin cookie (SameSite=None, Secure) for local tunnel tests.
+   *  This mode is forbidden in production. */
   get tunnelTestMode(): boolean {
     return this.readBoolean('TUNNEL_TEST', false);
   }
@@ -66,8 +64,14 @@ export class AppConfigService {
   }
 
   get corsPolicy(): CorsOriginPolicy {
+    const configuredCorsOrigin = this.read('API_CORS_ORIGIN');
+    const configured =
+      configuredCorsOrigin?.trim() === '*'
+        ? configuredCorsOrigin
+        : [configuredCorsOrigin, this.webOrigin].filter(Boolean).join(',');
+
     return resolveCorsPolicy(
-      this.read('API_CORS_ORIGIN') ?? this.webOrigin ?? 'http://localhost:3000',
+      configured || (this.isProduction ? undefined : 'http://localhost:3000'),
       this.environment,
     );
   }
@@ -185,9 +189,27 @@ export class AppConfigService {
   }
 
   assertProductionSafety(): void {
-    // tunnelTestMode skips safety checks so local dev can use cross-origin cookies
-    // without needing to change SEED_ADMIN_PASSWORD or fully committing to production.
-    if (!this.isProduction && !this.tunnelTestMode) return;
+    if (this.isProduction && this.tunnelTestMode) {
+      throw new ConfigurationError(
+        'TUNNEL_TEST_FORBIDDEN_IN_PRODUCTION',
+        'TUNNEL_TEST must be false in production.',
+      );
+    }
+
+    if (!this.isProduction) {
+      if (this.tunnelTestMode && this.corsPolicy.allowAll) {
+        throw new ConfigurationError(
+          'TUNNEL_TEST_CORS_WILDCARD',
+          'API_CORS_ORIGIN="*" is forbidden when TUNNEL_TEST=true.',
+        );
+      }
+      return;
+    }
+
+    this.requireProductionEnv('WEB_ORIGIN');
+    this.requireProductionEnv('CLERK_SECRET_KEY');
+    this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
+    this.requireProductionEnv('SEED_ADMIN_PASSWORD');
 
     if (!this.effectiveAuthCookieSecure) {
       throw new ConfigurationError(
@@ -196,17 +218,27 @@ export class AppConfigService {
       );
     }
 
-    if (
-      !this.tunnelTestMode &&
-      (this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123'
-    ) {
+    this.rejectProductionPlaceholder(
+      'CLERK_SECRET_KEY',
+      this.read('CLERK_SECRET_KEY'),
+    );
+    this.rejectProductionPlaceholder(
+      'CLERK_WEBHOOK_SECRET',
+      this.read('CLERK_WEBHOOK_SECRET'),
+    );
+    this.rejectProductionPlaceholder(
+      'SEED_ADMIN_PASSWORD',
+      this.read('SEED_ADMIN_PASSWORD'),
+    );
+
+    if ((this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
       throw new ConfigurationError(
         'DEFAULT_PRODUCTION_ADMIN_PASSWORD',
         'SEED_ADMIN_PASSWORD must be changed before production.',
       );
     }
 
-    if (!this.tunnelTestMode && this.corsPolicy.allowAll) {
+    if (this.corsPolicy.allowAll) {
       throw new ConfigurationError(
         'PRODUCTION_CORS_WILDCARD',
         'API_CORS_ORIGIN="*" is forbidden in production.',
@@ -233,6 +265,39 @@ export class AppConfigService {
   private read(key: string): string | undefined {
     const value = this.env[key]?.trim();
     return value ? value : undefined;
+  }
+
+  private requireProductionEnv(key: string): string {
+    const value = this.read(key);
+    if (!value) {
+      throw new ConfigurationError(
+        'MISSING_PRODUCTION_ENV',
+        `${key} must be configured in production.`,
+      );
+    }
+    return value;
+  }
+
+  private rejectProductionPlaceholder(
+    key: string,
+    value: string | undefined,
+  ): void {
+    if (!value) return;
+
+    const normalized = value.toLowerCase();
+    const isPlaceholder =
+      normalized === 'change-me' ||
+      normalized === 'changeme' ||
+      normalized.includes('replace-with') ||
+      normalized.includes('placeholder') ||
+      /^<.+>$/u.test(value);
+
+    if (isPlaceholder) {
+      throw new ConfigurationError(
+        'PLACEHOLDER_PRODUCTION_ENV',
+        `${key} must be set to a real production value.`,
+      );
+    }
   }
 
   private readBoolean(key: string, fallback: boolean): boolean {

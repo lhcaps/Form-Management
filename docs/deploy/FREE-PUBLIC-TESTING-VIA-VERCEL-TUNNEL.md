@@ -87,7 +87,7 @@ cloudflared --version
 ```powershell
 cd D:/Study/Project/QLLaw-main
 
-# Chạy ở chế độ TUNNEL_TEST (cross-origin cookie + bypass admin password check)
+# Chạy ở chế độ TUNNEL_TEST (local cross-origin cookie test only; never production)
 $env:TUNNEL_TEST="true"
 $env:NODE_ENV="development"
 $env:WEB_ORIGIN="https://your-vercel-domain.vercel.app"
@@ -99,7 +99,7 @@ pnpm dev
 Output mong đợi:
 
 ```
-[Nest] 12345  - 11:30:00 [TUNNEL_TEST] Allowed CORS origins: https://your-vercel-domain.vercel.app | Cookie: Secure=true, SameSite=none
+[Nest] 12345  - 11:30:00 [TUNNEL_TEST] Local cross-origin cookie test mode is active. Cookie: Secure=true, SameSite=none
 [Nest] 12345  - 11:30:00 QUANLYVKS API is running on http://localhost:3001/api/v1
 ```
 
@@ -216,14 +216,14 @@ Khi `$env:TUNNEL_TEST=true`:
 |---|---|---|
 | `AUTH_COOKIE_SECURE` | `true` (auto) | Browser chỉ gửi cookie qua HTTPS |
 | `AUTH_COOKIE_SAMESITE` | `none` (auto) | Cookie gửi cross-origin từ Vercel → tunnel API |
-| `assertProductionSafety()` | bypass admin password | Không cần đổi `admin123` |
+| Production guard | rejects production use | `NODE_ENV=production` with `TUNNEL_TEST=true` is blocked |
 | CORS | vẫn kiểm tra | `API_CORS_ORIGIN` hoặc `WEB_ORIGIN` phải match |
 
 Mà không cần:
 
 - Backend cloud hosting
 - MySQL cloud
-- Thay đổi admin password
+- Set production admin passwords or secrets
 
 ---
 
@@ -274,7 +274,7 @@ Chi phí: domain ~$10/year, Cloudflare free.
 
 - **Chỉ là môi trường test**: Không có dữ liệu thật. Chỉ dùng dữ liệu demo.
 - **Laptop là server**: Ngắt điện = ngưng public access — đúng behavior.
-- **Không có password trên API**: `admin/admin123` chỉ dùng local. `tester/tester123` là account test.
+- **Không dùng mật khẩu mặc định**: tạo account test riêng và không dùng dữ liệu thật.
 - **Không expose ra Internet rộng**: Chỉ share link với người test cụ thể.
 - **Stop tunnel khi test xong**: Không cần giữ public khi không test.
 - **Không dùng cho production**: Đây là staging/test environment.
