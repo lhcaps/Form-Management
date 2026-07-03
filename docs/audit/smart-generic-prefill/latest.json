@@ -1,0 +1,145 @@
+{
+  "auditDate": "2026-07-03",
+  "scope": "Smart Generic Prefill — Runtime Standalone Template Feature",
+  "phase": "Implementation — PR #34",
+  "status": "IMPLEMENTED",
+  "sourceDir": "docs/audit/docx/compiled-v2",
+  "inventory": "docs/audit/smart-generic-prefill/field-inventory.json",
+  "statistics": {
+    "totalTemplates": 213,
+    "totalFields": 2497,
+    "safeRuntimeDefaultFields": 69,
+    "safeGenericPrefillFields": 384,
+    "reviewRequiredFields": 37,
+    "neverAutoFields": 2007,
+    "systemCurrentDateFields": 96,
+    "hardcoded2026DateFields": 110,
+    "implementedV1Fields": 128
+  },
+  "v1Implementation": {
+    "safeRuntimeDefaultImplemented": 69,
+    "safeGenericPrefillImplemented": 59,
+    "totalImplemented": 128,
+    "implementedFields": [
+      {
+        "path": "document.issuePlaceDateLine",
+        "kind": "DOCUMENT_PLACE_DATE",
+        "count": 50,
+        "value": "TP. Hồ Chí Minh, ngày DD tháng MM năm YYYY"
+      },
+      {
+        "path": "document.issuePlaceAndDateLine",
+        "kind": "DOCUMENT_PLACE_DATE",
+        "count": 48,
+        "value": "TP. Hồ Chí Minh, ngày DD tháng MM năm YYYY"
+      },
+      {
+        "path": "document.issueDate",
+        "kind": "DOCUMENT_DATE_TEXT or DOCUMENT_DATE_ISO",
+        "count": 9,
+        "value": "ngày DD tháng MM năm YYYY or YYYY-MM-DD"
+      },
+      {
+        "path": "document.ngayBan",
+        "kind": "DOCUMENT_DATE_DAY",
+        "count": 48,
+        "value": "DD"
+      },
+      {
+        "path": "document.issueMonth",
+        "kind": "DOCUMENT_DATE_MONTH",
+        "count": "varies",
+        "value": "MM"
+      },
+      {
+        "path": "document.issueYear",
+        "kind": "DOCUMENT_DATE_YEAR",
+        "count": "varies",
+        "value": "YYYY"
+      },
+      {
+        "path": "recipients.archiveLine",
+        "kind": "GENERIC_TEXT",
+        "count": 59,
+        "value": "Lưu: HSVA, HSKS, VP."
+      }
+    ],
+    "skippedSafeGenericFields": [
+      "legalBasis.* — no trusted generic boilerplate",
+      "agency.* — no real profile source in v1",
+      "signature.* — no real profile source in v1",
+      "official.* — no real profile source in v1",
+      "recipients.distributionLine — no trusted generic value"
+    ]
+  },
+  "classification": {
+    "SAFE_RUNTIME_DEFAULT": {
+      "description": "SYSTEM/CURRENT_DATE fields with safe place/date labels. Real runtime date/place defaults.",
+      "count": 69,
+      "autoFillV1": true,
+      "examples": [
+        "document.issuePlaceDateLine — Địa điểm, ngày lập",
+        "document.issuePlaceAndDateLine — Địa danh, ngày ban hành",
+        "document.issueDate — Ngày ban hành"
+      ]
+    },
+    "SAFE_GENERIC_PREFILL": {
+      "description": "MANUAL/CONSTANT fields that are truly generic boilerplate. v1 only fills recipients.archiveLine.",
+      "count": 384,
+      "autoFillV1": "subset (59 fields)",
+      "examples": [
+        "recipients.archiveLine — Nơi lưu (59 fields implemented)",
+        "legalBasis.* — Căn cứ Điều X BLHS (325 fields not implemented in v1)"
+      ]
+    },
+    "REVIEW_REQUIRED": {
+      "description": "Ambiguous fields. Do not auto-fill in v1.",
+      "count": 37,
+      "autoFillV1": false
+    },
+    "NEVER_AUTO": {
+      "description": "Case-specific/legal facts. Must remain blank. User must enter.",
+      "count": 2007,
+      "autoFillV1": false
+    }
+  },
+  "architecture": {
+    "approach": "Option B — separate smart-generic-prefill.ts layer",
+    "created": [
+      "apps/web/src/lib/smart-generic-prefill.ts",
+      "apps/web/src/lib/smart-generic-prefill.test.ts"
+    ],
+    "updated": [
+      "apps/web/src/components/documents/template-preview-workspace.tsx"
+    ],
+    "sampleDataSeparation": "sample-data.ts is NOT touched. Demo data remains separate."
+  },
+  "policy": {
+    "autoApplyOnLoad": false,
+    "overwriteExisting": false,
+    "defaultPlace": "TP. Hồ Chí Minh",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "dateFormat": "ngày DD tháng MM năm YYYY"
+  },
+  "validation": {
+    "auditScript": "PASS",
+    "unitTests": "PASS (236 tests, 0 fail)",
+    "typescript": "PASS",
+    "lint": "PASS",
+    "hardcodeAudit": "PASS",
+    "lockedCompiledAudit": "PASS (213/213 consistent)",
+    "contractSyncAudit": "PASS (213/213 matched)"
+  },
+  "deliverables": [
+    "scripts/audit/smart-generic-prefill.mjs",
+    "docs/audit/smart-generic-prefill/field-inventory.csv",
+    "docs/audit/smart-generic-prefill/field-inventory.json",
+    "docs/audit/smart-generic-prefill/architecture-notes.md",
+    "docs/audit/smart-generic-prefill/latest.md",
+    "docs/audit/smart-generic-prefill/latest.json",
+    "apps/web/src/lib/smart-generic-prefill.ts",
+    "apps/web/src/lib/smart-generic-prefill.test.ts",
+    "apps/web/src/lib/template-preview-workspace.prefill.test.ts",
+    "apps/web/src/components/documents/template-preview-workspace.tsx"
+  ]
+}

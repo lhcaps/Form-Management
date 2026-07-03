@@ -905,15 +905,87 @@ Bộ policy nên duy trì trong repo:
 
 ---
 
-## Appendix B. Future Features [FUTURE]
+## Appendix B. Smart Generic Prefill [CURRENT — PR #34]
+
+> **Trạng thái:** Đã implement trong PR #34.
+
+### B.1 Mục đích
+
+Cho `/templates/:templateCode` điền nhanh các trường chung mà không cần nhập thủ công:
+- Địa điểm + ngày lập (dùng ngày hiện tại)
+- Các trường boilerplate an toàn
+
+### B.2 Cấu trúc
+
+**File mới:**
+- `apps/web/src/lib/smart-generic-prefill.ts` — engine phân loại + value provider
+- `apps/web/src/lib/smart-generic-prefill.test.ts` — 75 unit tests
+
+**File sửa:**
+- `apps/web/src/components/documents/template-preview-workspace.tsx` — nút "Điền nhanh thông tin chung"
+
+**Tách biệt:**
+- `sample-data.ts` **không bị sửa** — demo data vẫn tách riêng
+- "Điền dữ liệu mẫu" được đổi tên thành "Dữ liệu demo"
+
+### B.3 Phân loại trường
+
+| Phân loại | Số trường | Điền tự động |
+|---|---|---|
+| `SAFE_RUNTIME_DEFAULT` | 69 | YES V1 |
+| `SAFE_GENERIC_PREFILL` | 384 | YES V1 (69 fields) |
+| `REVIEW_REQUIRED` | 37 | NO |
+| `NEVER_AUTO` | 2,007 | NEVER |
+
+### B.4 V1 implemented (128 trường)
+
+**Điền tự động:**
+- `document.issuePlaceDateLine` → `TP. Hồ Chí Minh, ngày DD tháng MM năm YYYY`
+- `document.issuePlaceAndDateLine` → `TP. Hồ Chí Minh, ngày DD tháng MM năm YYYY`
+- `document.ngayBan` / `document.issueDay` → `DD`
+- `document.issueDate` → `YYYY-MM-DD` hoặc `ngày DD tháng MM năm YYYY` (theo control type)
+- `recipients.archiveLine` → `Lưu: HSVA, HSKS, VP.`
+
+**Không điền:**
+- `accused.*`, `victim.*`, `witness.*`, `informant.*`, `reporter.*`
+- `offense.*`, `decision.*`, `case.*`, `measure.*`
+- `detentionArrest.*`, `prosecution.*`, `indictment.*`
+- `person.birth*`, `offense.dateOfOffense`
+- `agency.*`, `official.*`, `signature.*` (không có real profile source trong v1)
+- `legalBasis.*` (không có trusted boilerplate)
+
+### B.5 Policy
+
+```
+Auto-apply on load:  KHÔNG — chỉ khi user click
+Overwrite existing:   KHÔNG — chỉ điền trường trống
+Default place:        TP. Hồ Chí Minh
+Timezone:            Asia/Ho_Chi_Minh
+Date format:         ngày DD tháng MM năm YYYY
+```
+
+### B.6 Boundary giữ nguyên
+
+```
+Không ghi: generated_documents, generated_document_files
+Không tạo: case-bound document flow
+Không đụng: 213 DOCX contracts/templates
+```
+
+---
+
+## Appendix C. Future Features [FUTURE]
 
 Các feature đã định hướng nhưng chưa implement:
 
 | Feature | Trạng thái |
 |---|---|
-| Case-bound document creation flow (`/templates/:code` → chọn case → `/documents/:id`) | Chưa implement |
+| Case-bound document creation flow | Chưa implement |
 | Browser DOCX renderer cho visual preview | Chưa implement |
-| Runtime PDF conversion reliability hardening | Future follow-up after PR #33 |
+| Runtime PDF conversion hardening | Future follow-up |
+| Agency/official profile prefill v2 | Chưa implement |
+| Signature prefill v2 | Chưa implement |
+| legalBasis boilerplate prefill v2 | Chưa implement |
 
 ---
 
