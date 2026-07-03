@@ -123,7 +123,7 @@
   },
   "validation": {
     "auditScript": "PASS",
-    "unitTests": "PASS (236 tests, 0 fail)",
+    "unitTests": "PASS (267 tests, 0 fail)",
     "typescript": "PASS",
     "lint": "PASS",
     "hardcodeAudit": "PASS",
@@ -141,5 +141,16 @@
     "apps/web/src/lib/smart-generic-prefill.test.ts",
     "apps/web/src/lib/template-preview-workspace.prefill.test.ts",
     "apps/web/src/components/documents/template-preview-workspace.tsx"
-  ]
+  ],
+  "pr35DemoDataCleanup": {
+    "branch": "chore/demo-sample-data-cleanup",
+    "description": "Clarified demo sample data after Smart Generic Prefill. Demo data remains separate, clearly labeled, secondary to smart prefill. Stale 2026 dates removed from registry, label heuristics tightened, demo warning added to UI.",
+    "filesChanged": [
+      "apps/web/src/features/forms-contracts/sample-data.ts",
+      "apps/web/src/features/forms-contracts/sample-data.test.ts",
+      "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "docs/audit/smart-generic-prefill/latest.md",
+      "docs/audit/smart-generic-prefill/latest.json"
+    ]
+  }
 }

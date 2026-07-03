@@ -51,7 +51,26 @@ Created:
 - `apps/web/src/lib/template-preview-workspace.prefill.test.ts` — 19 UI wiring tests (node:test)
 - `apps/web/src/components/documents/template-preview-workspace.tsx` — UI wiring
 
-Sample data (`sample-data.ts`) is **not** touched. Demo data remains separate.
+Sample data (`sample-data.ts`) is **not** mutated by PR #34. Demo data remains separate.
+
+---
+
+## Demo Sample Data Separation (PR #35)
+
+After PR #34, demo sample data was clarified in PR #35 (`chore/demo-sample-data-cleanup`):
+
+- **Demo sample data** (`sample-data.ts`) remains for visual testing.
+  - Labeled as "Dữ liệu demo" in UI, secondary to Smart Generic Prefill.
+  - Explicit warning: *"Dữ liệu demo chỉ dùng để kiểm thử/xem thử biểu mẫu, không dùng cho văn bản thật."*
+  - Stale hardcoded 2026 dates removed from `SAMPLE_REGISTRY` for BM-001/002/003.
+  - Broad `ngày`/`năm` heuristic tightened — birth/detention/offense/case/legal-fact date fields are guarded and return empty.
+  - Document metadata demo place/date uses same format as Smart Generic Prefill.
+  - Top-of-file warning: *"DEMO DATA ONLY. Do not use as legal/runtime defaults. Real safe defaults live in smart-generic-prefill.ts."*
+
+- **Smart Generic Prefill** (`smart-generic-prefill.ts`) is the safe primary action.
+  - Labeled "Điền nhanh thông tin chung" — primary blue button.
+  - Fills only safe runtime defaults (current date) and known generic boilerplate.
+  - Never mixes with demo data.
 
 ---
 
@@ -72,7 +91,7 @@ Sample data (`sample-data.ts`) is **not** touched. Demo data remains separate.
 | Command | Result |
 |---|---|
 | `node scripts/audit/smart-generic-prefill.mjs` | PASS |
-| `pnpm test:web-unit` | PASS (217 tests, 0 fail) |
+| `pnpm test:web-unit` | PASS (267 tests, 0 fail) |
 | `pnpm --filter web exec tsc --noEmit` | PASS |
 | `pnpm --filter web lint` | PASS |
 | `node scripts/audit-runtime-hardcodes.mjs` | PASS |
@@ -93,7 +112,9 @@ Sample data (`sample-data.ts`) is **not** touched. Demo data remains separate.
 | `apps/web/src/lib/smart-generic-prefill.test.ts` | Created |
 | `apps/web/src/lib/template-preview-workspace.prefill.test.ts` | Created |
 | `apps/web/src/components/documents/template-preview-workspace.tsx` | Updated |
+| `apps/web/src/features/forms-contracts/sample-data.ts` | Clarified in PR #35 |
+| `apps/web/src/features/forms-contracts/sample-data.test.ts` | Extended in PR #35 |
 
 ---
 
-*Generated: 2026-07-03. PR #34 implementation.*
+*Generated: 2026-07-03. PR #34 implementation, PR #35 cleanup.*
