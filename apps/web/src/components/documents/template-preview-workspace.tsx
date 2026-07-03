@@ -8,6 +8,12 @@ import { RuntimePdfPreview } from "@/components/documents/runtime-pdf-preview";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
 import { getCaseDetail, type CaseDetail } from "@/lib/case-detail-api";
+import {
+  DEFAULT_RUNTIME_TEMPLATE_PLACE,
+  DEFAULT_RUNTIME_TEMPLATE_TIMEZONE,
+  getSmartGenericPrefillData,
+  mergeWithSmartPrefill,
+} from "@/lib/smart-generic-prefill";
 import { readApi } from "@/lib/api-client";
 import { getRuntimeFormContract } from "@/lib/form-studio-api";
 import { normalizeTemplateCode } from "@/lib/template-open-workflow";
@@ -247,6 +253,28 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     const next = mergeWithSampleData(data, sample);
     setData(next);
     setMessage("Đã điền dữ liệu mẫu vào các trường còn trống.");
+    setError(null);
+  }
+
+  function applySmartPrefill() {
+    if (!contract) return;
+    const result = getSmartGenericPrefillData(
+      contract.templateCode,
+      contract.source.fields,
+      {
+        now: new Date(),
+        defaultPlace: DEFAULT_RUNTIME_TEMPLATE_PLACE,
+        timezone: DEFAULT_RUNTIME_TEMPLATE_TIMEZONE,
+      },
+    );
+    if (result.appliedKeys.length === 0) {
+      setMessage("Không có trường chung còn trống để điền nhanh.");
+      setError(null);
+      return;
+    }
+    const merged = mergeWithSmartPrefill(data, result.values);
+    setData(merged.data);
+    setMessage(`Đã điền nhanh ${merged.appliedKeys.length} trường thông tin chung.`);
     setError(null);
   }
 
@@ -701,24 +729,37 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
             ) : null}
 
             <section className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-              <p
-                role="status"
-                aria-live="polite"
-                className={`text-sm font-semibold ${
-                  isDirty || hasDocxOnlyPreview
-                    ? "text-amber-700"
-                    : "text-emerald-700"
-                }`}
-              >
-                {statusText}
-              </p>
+              <div className="flex flex-col gap-1">
+                <p
+                  role="status"
+                  aria-live="polite"
+                  className={`text-sm font-semibold ${
+                    isDirty || hasDocxOnlyPreview
+                      ? "text-amber-700"
+                      : "text-emerald-700"
+                  }`}
+                >
+                  {statusText}
+                </p>
+                <p className="text-xs text-slate-500">
+                  Chỉ điền các trường chung như địa điểm, ngày lập và thông tin mặc định an toàn. Các thông tin quan trọng của vụ việc cần được nhập thủ công.
+                </p>
+              </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
                 <button
                   type="button"
-                  onClick={applySampleData}
-                  className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 sm:min-h-11"
+                  onClick={applySmartPrefill}
+                  className="min-h-10 rounded-xl bg-blue-600 px-4 text-sm font-bold text-white disabled:opacity-50 sm:min-h-11"
                 >
-                  Điền dữ liệu mẫu
+                  Điền nhanh thông tin chung
+                </button>
+                <button
+                  type="button"
+                  onClick={applySampleData}
+                  title="Dữ liệu demo — không dùng cho vụ việc thực"
+                  className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-500 sm:min-h-11"
+                >
+                  Dữ liệu demo
                 </button>
                 <button
                   type="button"
