@@ -129,7 +129,7 @@ export function ReviewQueueItemCard({
     >
       {/* Header badges */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
+        <span className="inline-flex items-center whitespace-nowrap rounded-md border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-medium leading-5 text-blue-700">
           {item.templateCode}
         </span>
 
@@ -139,7 +139,7 @@ export function ReviewQueueItemCard({
           label={item.reviewStatusLabel}
         />
 
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+        <span className="inline-flex items-center whitespace-nowrap rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs font-medium leading-5 text-slate-600">
           {item.hasPdf ? "Đã có PDF" : item.hasDocx ? "Đã có DOCX" : "Chưa có file"}
         </span>
 
@@ -208,27 +208,31 @@ export function ReviewQueueItemCard({
 
       {/* Actions */}
       <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-        <a
-          href={`/documents/${item.id}`}
-          className="flex items-center justify-center gap-2 rounded-2xl bg-blue-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-800 sm:w-36"
+        <Button
+          asChild
+          variant="default"
+          size="sm"
+          className="sm:w-36"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-          </svg>
-          Mở xử lý
-        </a>
+          <a href={`/documents/${item.id}`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            Mở xử lý
+          </a>
+        </Button>
 
         <div className="flex flex-wrap gap-2">
           {item.reviewStatus !== "APPROVED" && (
@@ -238,7 +242,6 @@ export function ReviewQueueItemCard({
               size="sm"
               onClick={() => onApprove(item)}
               disabled={isUpdating}
-              className="rounded-2xl"
             >
               {isUpdating ? "Đang duyệt..." : "Phê duyệt"}
             </Button>
@@ -251,7 +254,6 @@ export function ReviewQueueItemCard({
               size="sm"
               onClick={() => onRequestRevision(item)}
               disabled={isUpdating}
-              className="rounded-2xl"
             >
               Yêu cầu sửa
             </Button>
@@ -264,7 +266,6 @@ export function ReviewQueueItemCard({
               size="sm"
               onClick={() => onCancel(item)}
               disabled={isUpdating}
-              className="rounded-2xl"
             >
               Hủy
             </Button>
