@@ -247,12 +247,12 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     if (!contract) return;
     const sample = getSampleData(contract.templateCode, contract.source.fields);
     if (Object.keys(sample).length === 0) {
-      setError(new Error("Không có dữ liệu mẫu cho biểu mẫu này."));
+      setError(new Error("Không có dữ liệu demo cho biểu mẫu này."));
       return;
     }
     const next = mergeWithSampleData(data, sample);
     setData(next);
-    setMessage("Đã điền dữ liệu mẫu vào các trường còn trống.");
+    setMessage("Đã điền dữ liệu demo vào các trường còn trống.");
     setError(null);
   }
 
@@ -743,6 +743,9 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 </p>
                 <p className="text-xs text-slate-500">
                   Chỉ điền các trường chung như địa điểm, ngày lập và thông tin mặc định an toàn. Các thông tin quan trọng của vụ việc cần được nhập thủ công.
+                </p>
+                <p className="text-xs italic text-slate-400">
+                  Dữ liệu demo chỉ dùng để kiểm thử/xem thử biểu mẫu, không dùng cho văn bản thật.
                 </p>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
