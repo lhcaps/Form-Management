@@ -8,6 +8,7 @@ import {
   BmFieldSelect,
   BmFormSection,
 } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -1869,7 +1870,7 @@ export function Bm037FormInputsPanel({
          />
       </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
+      <FormActionBar printHidden={false}>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-600">
             {savedAt ? (
@@ -1893,7 +1894,7 @@ export function Bm037FormInputsPanel({
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-037"}
           </button>
         </div>
-      </div>
+      </FormActionBar>
     </section>
   );
 }

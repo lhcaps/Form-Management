@@ -20,6 +20,8 @@ import {
   BmFormMetaBar,
   BmFormStatus,
 } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
+import { Button } from "@/components/ui/button";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
 type Bm001FormInputsProps = {
@@ -1008,26 +1010,24 @@ export function Bm001FormInputsPanel({
         />
       </BmFormSection>
 
-      <div
-        data-bm001-save-panel
-        className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur print:hidden"
-      >
+      <FormActionBar data-bm001-save-panel>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-600">
             Sau khi lưu, render lại DOCX/PDF để dữ liệu BM-001 thay vào đúng
             template biên bản tiếp nhận nguồn tin.
           </div>
 
-          <button
+          <Button
             type="button"
+            variant="default"
+            size="default"
             onClick={handleSave}
             disabled={isSaving || !isDirty}
-            className="rounded-lg bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-001"}
-          </button>
+          </Button>
         </div>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

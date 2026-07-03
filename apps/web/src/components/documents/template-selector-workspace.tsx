@@ -3,6 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SHOW_TEMPLATE_DEBUG_INFO } from "@/lib/debug";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+
+const ALL_NEED_VALUE = "__all_needs__";
+const ALL_STAGE_VALUE = "__all_stages__";
 
 function clearTemplateSelectorTextInputs(target: EventTarget | null) {
   if (typeof window === "undefined") {
@@ -892,35 +903,38 @@ export function TemplateSelectorWorkspace() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <button
+              <Button
                 type="button"
                 onClick={loadDbTemplates}
                 disabled={isLoading}
-                className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                variant="outline"
+                className="h-11 w-full justify-center rounded-2xl px-5 text-sm"
               >
                 {isLoading ? "Đang tải..." : "Tải lại dữ liệu"}
-              </button>
+              </Button>
 
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => {
                   setPendingTemplate(null);
                   void loadCaseOptions();
                 }}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+                className="h-9 w-full justify-center rounded-2xl px-4 text-sm font-semibold"
               >
                 Chọn hồ sơ khác
-              </button>
+              </Button>
 
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={(event) =>
                   clearTemplateSelectorTextInputs(event.currentTarget)
                 }
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+                className="h-9 w-full justify-center rounded-2xl px-4 text-sm font-semibold"
               >
                 Xóa nội dung nhập
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -1023,42 +1037,60 @@ export function TemplateSelectorWorkspace() {
               />
             </label>
 
-            <label className="block space-y-1.5">
+            <div className="block space-y-1.5">
               <span className="text-sm font-bold text-slate-700">
                 Nhu cầu nghiệp vụ
               </span>
-              <select
-                value={input.processNeed}
-                onChange={(event) =>
-                  updateInput("processNeed", event.target.value)
+              <Select
+                value={input.processNeed || ALL_NEED_VALUE}
+                onValueChange={(value) =>
+                  updateInput(
+                    "processNeed",
+                    value === ALL_NEED_VALUE ? "" : value,
+                  )
                 }
-                className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               >
-                {NEED_OPTIONS.map((item) => (
-                  <option key={item.label} value={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <SelectTrigger className="h-11 w-full rounded-2xl border border-slate-200 bg-background px-4 text-sm shadow-sm focus:border-blue-400 focus:ring-4 focus:ring-blue-100">
+                  <SelectValue placeholder="Tất cả nhu cầu" />
+                </SelectTrigger>
+                <SelectContent>
+                  {NEED_OPTIONS.map((item) => (
+                    <SelectItem
+                      key={item.value || ALL_NEED_VALUE}
+                      value={item.value || ALL_NEED_VALUE}
+                    >
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-            <label className="block space-y-1.5">
+            <div className="block space-y-1.5">
               <span className="text-sm font-bold text-slate-700">
                 Giai đoạn biểu mẫu
               </span>
-              <select
-                value={input.stageId}
-                onChange={(event) => updateInput("stageId", event.target.value)}
-                className="h-11 w-full rounded-2xl border border-slate-200 px-4 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+              <Select
+                value={input.stageId || ALL_STAGE_VALUE}
+                onValueChange={(value) =>
+                  updateInput("stageId", value === ALL_STAGE_VALUE ? "" : value)
+                }
               >
-                <option value="">Tất cả giai đoạn</option>
-                {vksTemplateStages.map((stage) => (
-                  <option key={stage.id} value={stage.id}>
-                    {stage.order}. {stage.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <SelectTrigger className="h-11 w-full rounded-2xl border border-slate-200 bg-background px-4 text-sm shadow-sm focus:border-blue-400 focus:ring-4 focus:ring-blue-100">
+                  <SelectValue placeholder="Tất cả giai đoạn" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_STAGE_VALUE}>
+                    Tất cả giai đoạn
+                  </SelectItem>
+                  {vksTemplateStages.map((stage) => (
+                    <SelectItem key={stage.id} value={stage.id}>
+                      {stage.order}. {stage.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
               <input
@@ -1153,15 +1185,16 @@ export function TemplateSelectorWorkspace() {
                   : `${vksTemplateCatalog.length} biểu mẫu tổng cộng`}
               </span>
 
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 onClick={() => setShowFullCatalog((current) => !current)}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+                className="h-10 rounded-2xl px-4 text-sm font-bold"
               >
                 {showFullCatalog
                   ? "Ẩn danh mục tổng hợp"
                   : "Hiện danh mục tổng hợp"}
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -1247,24 +1280,25 @@ export function TemplateSelectorWorkspace() {
                           </div>
 
                           <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                            <button
+                            <Button
                               type="button"
                               onClick={() => void openTemplate(candidate)}
                               disabled={!canOpen || isOpening}
-                              className="w-full rounded-2xl bg-blue-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                              className="h-10 w-full rounded-2xl"
                             >
                               {isOpening ? "Đang mở..." : "Mở biểu mẫu"}
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                               type="button"
+                              variant="outline"
                               onClick={() =>
                                 void openCasePickerForTemplate(candidate)
                               }
                               disabled={!candidate.dbTemplateId || isOpening}
-                              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                              className="h-10 w-full rounded-2xl"
                             >
                               Mở với hồ sơ
-                            </button>
+                            </Button>
                           </div>
                         </article>
                       );
@@ -1379,14 +1413,15 @@ export function TemplateSelectorWorkspace() {
             </div>
 
             <div className="flex items-center justify-end gap-2 border-t border-slate-200 px-6 py-3">
-              <button
+              <Button
                 type="button"
+                variant="outline"
                 disabled={Boolean(openingTemplateCode)}
                 onClick={closeCasePicker}
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+                className="h-9 rounded-2xl px-4 text-sm font-semibold"
               >
                 Đóng
-              </button>
+              </Button>
             </div>
           </div>
         </div>

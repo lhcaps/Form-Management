@@ -6,6 +6,7 @@ import {
   BmFieldSelect,
   BmFormSection,
 } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
@@ -361,7 +362,7 @@ export function Bm084FormInputsPanel({ documentId, onSaved }: Bm084FormInputsPan
         <BmFieldText required label="Người ký" value={form.signature.signerName} onChange={(v) => updateField("signature", "signerName", v)} />
       </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
+      <FormActionBar printHidden={false}>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-sm text-slate-600">
             {savedAt ? <span>Đã lưu lúc <strong>{savedAt.toLocaleTimeString("vi-VN")}</strong></span> : <span>Chưa lưu thay đổi.</span>}
@@ -375,7 +376,7 @@ export function Bm084FormInputsPanel({ documentId, onSaved }: Bm084FormInputsPan
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-084"}
           </button>
         </div>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

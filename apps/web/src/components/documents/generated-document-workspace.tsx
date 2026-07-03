@@ -24,6 +24,9 @@ import {
   buildCasePayloadFromRenderPayload,
   type RenderPayloadForCaseContext,
 } from "@/lib/case-payload-normalizer";
+import { StatusBadge } from "@/components/common/status-badge";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // ─── History tab ─────────────────────────────────────────────────────────────
 
@@ -43,36 +46,20 @@ function formatEventDate(timestamp: string | null): string {
   });
 }
 
-function EventTypeIcon({
+function EventTypeBadge({
   type,
 }: {
   type: DocumentHistoryResponse["events"][number]["type"];
 }) {
   switch (type) {
     case "CREATED":
-      return (
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-700">
-          +
-        </span>
-      );
+      return <Badge variant="blue">Tạo</Badge>;
     case "REVIEW":
-      return (
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-amber-100 text-xs font-bold text-amber-700">
-          D
-        </span>
-      );
+      return <Badge variant="warning">Duyệt</Badge>;
     case "FILE":
-      return (
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">
-          F
-        </span>
-      );
+      return <Badge variant="success">Tệp</Badge>;
     case "AUDIT":
-      return (
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">
-          A
-        </span>
-      );
+      return <Badge variant="muted">Audit</Badge>;
   }
 }
 
@@ -83,7 +70,7 @@ function EventRow({
 }) {
   return (
     <div className="flex items-start gap-3 py-3">
-      <EventTypeIcon type={event.type} />
+      <EventTypeBadge type={event.type} />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
           <span className="text-sm font-semibold text-slate-900">
@@ -146,7 +133,7 @@ function HistoryTab({ documentId }: HistoryTabProps) {
 
   if (error) {
     return (
-      <section className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-950">Lịch sử xử lý</h2>
         <p className="mt-2 text-sm text-red-600">{error}</p>
       </section>
@@ -159,12 +146,10 @@ function HistoryTab({ documentId }: HistoryTabProps) {
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <h2 className="text-lg font-bold text-slate-950">Lịch sử xử lý</h2>
-        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
+        <Badge variant="muted">
           {history.templateCode ?? "?"} &mdash; {history.documentTitle}
-        </span>
-        <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-500">
-          {history.reviewStatus}
-        </span>
+        </Badge>
+        <StatusBadge type="review" value={history.reviewStatus} />
       </div>
 
       {history.events.length === 0 ? (
@@ -584,6 +569,19 @@ export function GeneratedDocumentWorkspace({
     };
   }, [templateCode]);
 
+  function handleTabChange(value: string) {
+    const nextTab = value as TabKey;
+
+    if (!validTabs.has(nextTab)) {
+      return;
+    }
+
+    setActiveTab(nextTab);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", nextTab);
+    router.push(`?${params.toString()}`, { scroll: false });
+  }
+
   return (
     <CasePayloadProvider value={casePayload}>
       <main className="qvks-document-workspace min-h-screen bg-slate-50 px-5 py-7 md:px-10">
@@ -596,15 +594,15 @@ export function GeneratedDocumentWorkspace({
             <div className="mt-4 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className="rounded-full bg-slate-950 px-3.5 py-1.5 text-sm font-bold text-white">
+                  <Badge>
                     {templateCode}
-                  </span>
+                  </Badge>
 
-                  <span className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-sm font-semibold text-slate-600">
+                  <Badge variant="outline">
                     {payload?.template?.renderScope === "UNKNOWN_SCOPE"
                       ? "Cấp văn bản chưa xác định"
                       : payload?.template?.renderScope ?? "Cấp văn bản chưa xác định"}
-                  </span>
+                  </Badge>
                 </div>
 
                 <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
@@ -616,12 +614,9 @@ export function GeneratedDocumentWorkspace({
                 {!isInitialPayloadLoading && headerContextItems.length > 0 ? (
                   <div className="mt-4 flex flex-wrap gap-2.5">
                     {headerContextItems.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-sm font-semibold text-slate-600"
-                      >
+                      <Badge key={item} variant="muted">
                         {item}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 ) : null}
@@ -631,7 +626,7 @@ export function GeneratedDocumentWorkspace({
                 </p>
 
                 {payloadError ? (
-                  <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-base leading-7 text-red-700">
+                  <p className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base leading-7 text-slate-700">
                     {payloadError}
                   </p>
                 ) : null}
@@ -649,40 +644,22 @@ export function GeneratedDocumentWorkspace({
           </header>
 
           <section className="rounded-3xl border border-slate-200 bg-white p-2 shadow-sm">
-            <div className="grid gap-2 md:grid-cols-3">
-              {TABS.map((tab) => {
-                const isActive = activeTab === tab.key;
-
-                return (
-                  <button
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
+              <TabsList className="grid h-auto w-full gap-2 rounded-2xl p-1 md:grid-cols-4">
+                {TABS.map((tab) => (
+                  <TabsTrigger
                     key={tab.key}
-                    type="button"
-                    onClick={() => {
-                      setActiveTab(tab.key);
-                      const params = new URLSearchParams(searchParams.toString());
-                      params.set("tab", tab.key);
-                      router.push(`?${params.toString()}`, { scroll: false });
-                    }}
-                    className={
-                      isActive
-                        ? "rounded-2xl bg-slate-950 px-4 py-3 text-left text-white shadow-sm"
-                        : "rounded-2xl px-4 py-3 text-left text-slate-700 transition hover:bg-slate-50"
-                    }
+                    value={tab.key}
+                    className="h-auto flex-col items-start gap-1 whitespace-normal rounded-xl px-4 py-3 text-left"
                   >
                     <span className="block text-sm font-bold">{tab.label}</span>
-                    <span
-                      className={
-                        isActive
-                          ? "mt-1 block text-xs text-slate-300"
-                          : "mt-1 block text-xs text-slate-500"
-                      }
-                    >
+                    <span className="block text-xs font-normal leading-5 text-slate-500">
                       {tab.description}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
           </section>
 
           {activeTab === "form" ? (

@@ -2,6 +2,28 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
+import { EmptyState } from "@/components/common/empty-state";
+import { ErrorBanner } from "@/components/common/error-banner";
+import { LoadingState } from "@/components/common/loading-state";
+import { PageSection } from "@/components/common/page-shell";
+import {
+  StatusBadge,
+  importStatusLabel,
+} from "@/components/common/status-badge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { UploadCloud } from "lucide-react";
 import {
   confirmImportBatch,
   getImportBatch,
@@ -45,17 +67,6 @@ const targetOptions: Array<{
   },
 ];
 
-const statusLabelMap: Record<string, string> = {
-  UPLOADED: "Đã tải lên",
-  PARSED: "Đã trích xuất",
-  PARTIAL: "Có cảnh báo",
-  FAILED: "Lỗi",
-  CONFIRMED: "Đã xác nhận",
-  STORED_ONLY: "Đã lưu file",
-  PARSED_WITH_WARNINGS: "Có cảnh báo",
-  REJECTED: "Bị từ chối",
-};
-
 function formatBytes(value: number): string {
   if (!Number.isFinite(value) || value <= 0) {
     return "0 B";
@@ -88,33 +99,21 @@ function formatDateTime(value?: string | null): string {
   }
 }
 
-function confidenceTone(
+// Maps a candidate-column confidence value to a shadcn Badge variant.
+// Preserves the exact threshold logic the previous `confidenceTone`
+// helper used: `cao` → success, `vừa` → warning, anything else → muted.
+// Display text (`cao` / `vừa` / `thấp`) is rendered separately by callers.
+function confidenceBadgeVariant(
   value: ImportDetectedCandidate["confidence"] | "cao" | "vừa" | "thấp",
-) {
+): "success" | "warning" | "muted" {
   switch (value) {
     case "cao":
-      return "bg-emerald-100 text-emerald-700";
+      return "success";
     case "vừa":
-      return "bg-amber-100 text-amber-700";
+      return "warning";
     default:
-      return "bg-slate-100 text-slate-600";
+      return "muted";
   }
-}
-
-function statusTone(status: string): string {
-  if (status === "FAILED" || status === "REJECTED") {
-    return "bg-rose-100 text-rose-700";
-  }
-
-  if (status === "PARTIAL" || status === "PARSED_WITH_WARNINGS") {
-    return "bg-amber-100 text-amber-700";
-  }
-
-  if (status === "CONFIRMED") {
-    return "bg-emerald-100 text-emerald-700";
-  }
-
-  return "bg-blue-100 text-blue-700";
 }
 
 function SectionCard({
@@ -129,7 +128,7 @@ function SectionCard({
   action?: React.ReactNode;
 }) {
   return (
-    <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.06)] sm:p-6">
+    <PageSection card className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h2 className="text-[20px] font-black tracking-[-0.02em] text-slate-950">
@@ -143,21 +142,8 @@ function SectionCard({
         </div>
         {action}
       </div>
-      <div className="mt-5">{children}</div>
-    </section>
-  );
-}
-
-function StatusPill({ status }: { status: string }) {
-  return (
-    <span
-      className={[
-        "inline-flex items-center rounded-full px-3 py-1 text-[12px] font-black uppercase tracking-[0.08em]",
-        statusTone(status),
-      ].join(" ")}
-    >
-      {statusLabelMap[status] ?? status}
-    </span>
+      <div>{children}</div>
+    </PageSection>
   );
 }
 
@@ -185,52 +171,48 @@ function PreviewTable({ parsedJson }: { parsedJson?: ImportParsedPayload | null 
             {table.candidateColumns.length ? (
               <div className="flex flex-wrap gap-2">
                 {table.candidateColumns.map((column) => (
-                  <span
+                  <Badge
                     key={column.id}
-                    className={[
-                      "rounded-full px-2.5 py-1 text-[11px] font-bold",
-                      confidenceTone(column.confidence),
-                    ].join(" ")}
+                    variant={confidenceBadgeVariant(column.confidence)}
+                    className="whitespace-nowrap px-2 py-0.5 text-[11px]"
                   >
                     {column.columnName} → {column.mappedField}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             ) : null}
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-left text-[13px]">
-              <thead>
-                <tr className="bg-white">
-                  {table.headers.map((header) => (
-                    <th
-                      key={header}
-                      className="border-b border-slate-200 px-4 py-3 font-black text-slate-700"
-                    >
-                      {header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {table.rows.map((row, index) => (
-                  <tr
-                    key={`${table.sheetName}-${index}`}
-                    className="odd:bg-white even:bg-slate-50/70"
+          <Table className="min-w-full border-collapse text-left text-[13px]">
+            <TableHeader>
+              <TableRow className="bg-white hover:bg-white">
+                {table.headers.map((header) => (
+                  <TableHead
+                    key={header}
+                    className="border-b border-slate-200 px-4 py-3 font-black text-slate-700"
                   >
-                    {table.headers.map((header) => (
-                      <td
-                        key={`${index}-${header}`}
-                        className="border-b border-slate-100 px-4 py-3 align-top text-slate-700"
-                      >
-                        {row[header] || <span className="text-slate-300">Trống</span>}
-                      </td>
-                    ))}
-                  </tr>
+                    {header}
+                  </TableHead>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {table.rows.map((row, index) => (
+                <TableRow
+                  key={`${table.sheetName}-${index}`}
+                  className="odd:bg-white even:bg-slate-50/70"
+                >
+                  {table.headers.map((header) => (
+                    <TableCell
+                      key={`${index}-${header}`}
+                      className="border-b border-slate-100 px-4 py-3 align-top text-slate-700"
+                    >
+                      {row[header] || <span className="text-slate-300">Trống</span>}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       ))}
     </div>
@@ -481,20 +463,11 @@ export function ImportWorkspace() {
             ].join(" ")}
           >
             <div className="mx-auto grid h-16 w-16 place-items-center rounded-3xl bg-white text-slate-700 shadow-sm">
-              <svg
-                viewBox="0 0 24 24"
+              <UploadCloud
                 className="h-8 w-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                strokeWidth={1.8}
                 aria-hidden="true"
-              >
-                <path d="M12 3v12" />
-                <path d="m7.5 8 4.5-5 4.5 5" />
-                <path d="M5 20h14" />
-              </svg>
+              />
             </div>
             <div className="mt-5 text-[18px] font-black tracking-[-0.02em] text-slate-950">
               Kéo thả file vào đây hoặc bấm để chọn
@@ -502,16 +475,22 @@ export function ImportWorkspace() {
             <p className="mt-2 text-[14px] leading-6 text-slate-500">
               Chấp nhận PDF, Word, Excel, CSV, TXT, JSON, hình ảnh. Mỗi file tối đa 50MB.
             </p>
-            <label className="mt-6 inline-flex cursor-pointer items-center rounded-full bg-[#0B1F3A] px-5 py-3 text-[14px] font-black text-white transition hover:-translate-y-0.5 hover:bg-[#17345D]">
-              Chọn file
-              <input
-                type="file"
-                className="hidden"
-                multiple
-                accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.json,.png,.jpg,.jpeg,.webp,.tif,.tiff"
-                onChange={(event) => handleChosenFiles(event.target.files)}
-              />
-            </label>
+            <Button
+              asChild
+              size="lg"
+              className="mt-6 rounded-full px-5"
+            >
+              <label className="cursor-pointer">
+                Chọn file
+                <input
+                  type="file"
+                  className="hidden"
+                  multiple
+                  accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.json,.png,.jpg,.jpeg,.webp,.tif,.tiff"
+                  onChange={(event) => handleChosenFiles(event.target.files)}
+                />
+              </label>
+            </Button>
           </div>
 
           <div className="rounded-[24px] border border-slate-200 bg-white p-5">
@@ -554,19 +533,20 @@ export function ImportWorkspace() {
             ) : null}
 
             {uploadError ? (
-              <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-[14px] text-rose-700">
-                {uploadError}
+              <div className="mt-4">
+                <ErrorBanner error={uploadError} title="Không tải được tệp lên" />
               </div>
             ) : null}
 
-            <button
+            <Button
               type="button"
+              size="lg"
               onClick={() => void handleUpload()}
               disabled={uploading || !selectedFiles.length}
-              className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-blue-600 px-5 text-[14px] font-black text-white transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className="mt-5 w-full sm:w-auto"
             >
               Tải lên
-            </button>
+            </Button>
           </div>
         </div>
       </SectionCard>
@@ -576,7 +556,7 @@ export function ImportWorkspace() {
           <SectionCard
             title="Xem trước dữ liệu"
             description="Nếu không trích xuất được nội dung, hệ thống vẫn giữ an toàn file gốc."
-            action={<StatusPill status={currentBatch.status} />}
+            action={<StatusBadge type="import" value={currentBatch.status} />}
           >
             <div className="space-y-4">
               <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
@@ -597,18 +577,19 @@ export function ImportWorkspace() {
 
               <div className="space-y-2">
                 {currentBatch.files.map((file) => (
-                  <button
+                  <Button
                     key={file.fileId}
                     type="button"
+                    variant="outline"
                     onClick={() => setSelectedFileId(file.fileId)}
                     className={[
-                      "w-full rounded-[22px] border px-4 py-3 text-left transition",
+                      "h-auto w-full justify-start rounded-[22px] border px-4 py-3 text-left whitespace-normal shadow-none",
                       selectedFile?.fileId === file.fileId
-                        ? "border-blue-400 bg-blue-50 shadow-[0_12px_24px_rgba(37,99,235,0.12)]"
-                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50",
+                        ? "border-blue-400 bg-blue-50 text-foreground hover:bg-blue-50"
+                        : "bg-white hover:bg-slate-50",
                     ].join(" ")}
                   >
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex w-full items-start justify-between gap-3">
                       <div className="min-w-0">
                         <div className="truncate text-[14px] font-black text-slate-900">
                           {file.fileName}
@@ -617,9 +598,9 @@ export function ImportWorkspace() {
                           {file.fileType} • {formatBytes(file.sizeBytes)}
                         </div>
                       </div>
-                      <StatusPill status={file.parseStatus} />
+                      <StatusBadge type="import" value={file.parseStatus} />
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -672,7 +653,7 @@ export function ImportWorkspace() {
                         Trạng thái
                       </div>
                       <div className="mt-1 text-[14px] font-black text-slate-900">
-                        {statusLabelMap[selectedFile.parseStatus] ?? selectedFile.parseStatus}
+                        {importStatusLabel(selectedFile.parseStatus)}
                       </div>
                     </div>
                   </div>
@@ -728,14 +709,11 @@ export function ImportWorkspace() {
                               <div className="text-[14px] font-black text-slate-900">
                                 {candidate.label}: {candidate.value}
                               </div>
-                              <span
-                                className={[
-                                  "rounded-full px-2.5 py-1 text-[11px] font-bold",
-                                  confidenceTone(candidate.confidence),
-                                ].join(" ")}
-                              >
-                                {candidate.confidence}
-                              </span>
+                              <Badge
+                                  variant={confidenceBadgeVariant(candidate.confidence)}
+                                >
+                                  {candidate.confidence}
+                                </Badge>
                             </div>
                             <div className="mt-2 text-[13px] leading-6 text-slate-500">
                               {candidate.source}
@@ -761,9 +739,10 @@ export function ImportWorkspace() {
                   ) : null}
                 </div>
               ) : (
-                <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-10 text-[14px] text-slate-500">
-                  Chọn một file ở cột bên trái để xem trước dữ liệu.
-                </div>
+                <EmptyState
+                  title="Chưa chọn file để xem trước"
+                  description="Chọn một file ở cột bên trái để xem trước dữ liệu."
+                />
               )}
             </SectionCard>
 
@@ -771,10 +750,16 @@ export function ImportWorkspace() {
               title="Chọn nơi lưu"
               description="Nếu không nhập, hệ thống sẽ giữ nguyên kết quả trích xuất và file gốc."
             >
-              <div className="space-y-3">
+              <RadioGroup
+                value={targetType}
+                onValueChange={(value) => setTargetType(value as ImportTargetType)}
+                className="space-y-3"
+                name="targetType"
+              >
                 {targetOptions.map((option) => (
                   <label
                     key={option.value}
+                    htmlFor={`targetType-${option.value}`}
                     className={[
                       "flex cursor-pointer items-start gap-3 rounded-[22px] border px-4 py-4 transition",
                       targetType === option.value
@@ -782,12 +767,10 @@ export function ImportWorkspace() {
                         : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50",
                     ].join(" ")}
                   >
-                    <input
-                      type="radio"
-                      name="targetType"
-                      className="mt-1 h-4 w-4 accent-blue-600"
-                      checked={targetType === option.value}
-                      onChange={() => setTargetType(option.value)}
+                    <RadioGroupItem
+                      id={`targetType-${option.value}`}
+                      value={option.value}
+                      className="mt-1"
                     />
                     <div>
                       <div className="text-[15px] font-black text-slate-950">
@@ -799,18 +782,18 @@ export function ImportWorkspace() {
                     </div>
                   </label>
                 ))}
-              </div>
+              </RadioGroup>
 
               {targetType === "EXISTING_CASE" ? (
                 <div className="mt-5 rounded-[24px] border border-slate-200 bg-slate-50 p-4">
                   <div className="text-[15px] font-black text-slate-950">
                     Gắn vào hồ sơ có sẵn
                   </div>
-                  <input
+                  <Input
                     value={existingCaseQuery}
                     onChange={(event) => setExistingCaseQuery(event.target.value)}
                     placeholder="Nhập mã hồ sơ hoặc tên vụ án"
-                    className="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                    className="mt-3 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                   />
                   {caseSearchLoading ? (
                     <p className="mt-3 text-[13px] text-slate-500">Đang tìm hồ sơ...</p>
@@ -820,27 +803,30 @@ export function ImportWorkspace() {
                   ) : null}
                   <div className="mt-3 space-y-2">
                     {caseOptions.map((item) => (
-                      <button
+                      <Button
                         key={item.id}
                         type="button"
+                        variant="outline"
                         onClick={() => {
                           setSelectedExistingCaseId(item.id);
                           setExistingCaseQuery(`${item.caseCode} - ${item.caseTitle}`);
                         }}
                         className={[
-                          "w-full rounded-2xl border px-4 py-3 text-left transition",
+                          "h-auto w-full justify-start whitespace-normal rounded-2xl border px-4 py-3 text-left shadow-none",
                           selectedExistingCaseId === item.id
-                            ? "border-blue-400 bg-blue-50"
-                            : "border-slate-200 bg-white hover:bg-slate-50",
+                            ? "border-blue-400 bg-blue-50 text-foreground hover:bg-blue-50"
+                            : "bg-white hover:bg-slate-50",
                         ].join(" ")}
                       >
-                        <div className="text-[14px] font-black text-slate-900">
-                          {item.caseCode}
+                        <div>
+                          <div className="text-[14px] font-black text-slate-900">
+                            {item.caseCode}
+                          </div>
+                          <div className="mt-1 text-[13px] text-slate-500">
+                            {item.caseTitle}
+                          </div>
                         </div>
-                        <div className="mt-1 text-[13px] text-slate-500">
-                          {item.caseTitle}
-                        </div>
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -850,7 +836,7 @@ export function ImportWorkspace() {
                 <div className="mt-5 grid gap-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 md:grid-cols-2">
                   <label className="block">
                     <span className="text-[13px] font-bold text-slate-600">Mã hồ sơ</span>
-                    <input
+                    <Input
                       value={newCaseForm.caseCode}
                       onChange={(event) =>
                         setNewCaseForm((current) => ({
@@ -858,12 +844,12 @@ export function ImportWorkspace() {
                           caseCode: event.target.value,
                         }))
                       }
-                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                      className="mt-2 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                     />
                   </label>
                   <label className="block">
                     <span className="text-[13px] font-bold text-slate-600">Ngày tạo</span>
-                    <input
+                    <Input
                       type="date"
                       value={newCaseForm.createdDate}
                       onChange={(event) =>
@@ -872,12 +858,12 @@ export function ImportWorkspace() {
                           createdDate: event.target.value,
                         }))
                       }
-                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                      className="mt-2 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                     />
                   </label>
                   <label className="block md:col-span-2">
                     <span className="text-[13px] font-bold text-slate-600">Tên vụ án</span>
-                    <input
+                    <Input
                       value={newCaseForm.caseTitle}
                       onChange={(event) =>
                         setNewCaseForm((current) => ({
@@ -885,14 +871,14 @@ export function ImportWorkspace() {
                           caseTitle: event.target.value,
                         }))
                       }
-                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                      className="mt-2 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                     />
                   </label>
                   <label className="block">
                     <span className="text-[13px] font-bold text-slate-600">
                       Tên bị can/người liên quan
                     </span>
-                    <input
+                    <Input
                       value={newCaseForm.relatedPersonName}
                       onChange={(event) =>
                         setNewCaseForm((current) => ({
@@ -900,12 +886,12 @@ export function ImportWorkspace() {
                           relatedPersonName: event.target.value,
                         }))
                       }
-                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                      className="mt-2 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                     />
                   </label>
                   <label className="block">
                     <span className="text-[13px] font-bold text-slate-600">Tội danh</span>
-                    <input
+                    <Input
                       value={newCaseForm.offenseName}
                       onChange={(event) =>
                         setNewCaseForm((current) => ({
@@ -913,7 +899,7 @@ export function ImportWorkspace() {
                           offenseName: event.target.value,
                         }))
                       }
-                      className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
+                      className="mt-2 h-11 rounded-2xl border-slate-200 bg-white px-4 text-[14px]"
                     />
                   </label>
                 </div>
@@ -921,18 +907,18 @@ export function ImportWorkspace() {
 
               <label className="mt-5 block">
                 <span className="text-[13px] font-bold text-slate-600">Ghi chú</span>
-                <textarea
+                <Textarea
                   value={note}
                   onChange={(event) => setNote(event.target.value)}
                   rows={3}
-                  className="mt-2 w-full rounded-[22px] border border-slate-200 bg-white px-4 py-3 text-[14px] text-slate-900 outline-none transition focus:border-blue-400"
                   placeholder="Có thể để trống nếu không cần."
+                  className="mt-2 min-h-[88px] rounded-[22px] border-slate-200 bg-white px-4 py-3 text-[14px]"
                 />
               </label>
 
               {confirmError ? (
-                <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-[14px] text-rose-700">
-                  {confirmError}
+                <div className="mt-4">
+                  <ErrorBanner error={confirmError} title="Không xác nhận được lô import" />
                 </div>
               ) : null}
 
@@ -944,14 +930,16 @@ export function ImportWorkspace() {
               ) : null}
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
-                <button
+                <Button
                   type="button"
+                  variant="success"
+                  size="lg"
                   onClick={() => void handleConfirmImport()}
                   disabled={!canConfirm || confirming}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-emerald-600 px-5 text-[14px] font-black text-white transition hover:-translate-y-0.5 hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                  className="min-h-11 px-5"
                 >
                   {confirming ? "Đang lưu..." : "Xác nhận import"}
-                </button>
+                </Button>
                 <Link
                   href="/cases"
                   className="inline-flex min-h-11 items-center rounded-full border border-slate-200 px-5 text-[14px] font-black text-slate-700 transition hover:bg-slate-50"
@@ -967,14 +955,10 @@ export function ImportWorkspace() {
           title="Xem trước dữ liệu"
           description="Sau khi tải lên, hệ thống sẽ hiển thị nội dung trích xuất, bảng dữ liệu, cảnh báo và gợi ý trường dữ liệu ngay tại đây."
         >
-          <div className="rounded-[26px] border border-dashed border-slate-200 bg-slate-50 px-5 py-12 text-center">
-            <div className="text-[18px] font-black tracking-[-0.02em] text-slate-900">
-              Chưa có lô import nào đang mở
-            </div>
-            <p className="mt-2 text-[14px] leading-6 text-slate-500">
-              Tải lên file để bắt đầu quy trình: chọn file → xem trước → xác nhận import.
-            </p>
-          </div>
+          <EmptyState
+            title="Chưa có lô import nào đang mở"
+            description="Tải lên file để bắt đầu quy trình: chọn file → xem trước → xác nhận import."
+          />
         </SectionCard>
       )}
 
@@ -982,47 +966,49 @@ export function ImportWorkspace() {
         title="Lịch sử import"
         description="Danh sách các lô đã tải lên gần đây. Bấm vào một lô để xem lại dữ liệu."
         action={
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={() => {
               startHistoryTransition(() => {
                 void loadHistory();
               });
             }}
-            className="inline-flex rounded-full border border-slate-200 px-4 py-2 text-[13px] font-black text-slate-700 transition hover:bg-slate-50"
+            className="rounded-full px-4 text-[13px] font-bold"
           >
             Tải lại
-          </button>
+          </Button>
         }
       >
         {historyError ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-[14px] text-rose-700">
-            {historyError}
+          <div className="mb-4">
+            <ErrorBanner error={historyError} title="Không tải được lịch sử import" />
           </div>
         ) : null}
 
         {historyLoading ? (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-8 text-[14px] text-slate-500">
-            Đang tải lịch sử import...
-          </div>
+          <LoadingState variant="list" count={3} />
         ) : null}
 
         {!historyLoading && !history.length ? (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-[14px] text-slate-500">
-            Chưa có lịch sử import nào.
-          </div>
+          <EmptyState
+            title="Chưa có lịch sử import nào."
+            description="Danh sách các lô đã tải lên sẽ xuất hiện ở đây."
+          />
         ) : null}
 
         {!historyLoading && history.length ? (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {history.map((item) => (
-              <button
+              <Button
                 key={item.batchId}
                 type="button"
+                variant="outline"
                 onClick={() => void handleOpenHistoryBatch(item.batchId)}
-                className="rounded-[24px] border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_16px_32px_rgba(15,23,42,0.08)]"
+                className="h-auto w-full flex-col items-stretch justify-start whitespace-normal rounded-[24px] border border-slate-200 bg-white p-4 text-left shadow-none hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex w-full items-start justify-between gap-3">
                   <div>
                     <div className="text-[15px] font-black text-slate-950">
                       {item.batchId}
@@ -1031,7 +1017,7 @@ export function ImportWorkspace() {
                       {formatDateTime(item.createdAt)}
                     </div>
                   </div>
-                  <StatusPill status={item.status} />
+                  <StatusBadge type="import" value={item.status} />
                 </div>
                 <div className="mt-4 text-[13px] leading-6 text-slate-600">
                   {item.fileCount} file • {item.processedFiles} đã xử lý • {item.failedFiles} lỗi
@@ -1049,7 +1035,7 @@ export function ImportWorkspace() {
                           {file.fileName}
                         </div>
                         <div className="mt-1 text-[12px] text-slate-500">
-                          {statusLabelMap[file.parseStatus] ?? file.parseStatus}
+                          {importStatusLabel(file.parseStatus)}
                         </div>
                       </div>
                     ))}
@@ -1058,7 +1044,7 @@ export function ImportWorkspace() {
                 <div className="mt-4 text-[13px] font-black text-blue-700">
                   {loadingBatchId === item.batchId ? "Đang mở..." : "Mở lại lô import"}
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
         ) : null}

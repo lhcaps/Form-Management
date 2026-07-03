@@ -157,7 +157,7 @@ export default function FormStudioPermissionsPage() {
               ))}
             </select>
           </label>
-          <button className="self-end rounded-lg bg-[#123B66] px-5 py-3 text-sm font-extrabold text-white">
+          <button className="self-end rounded-lg bg-primary px-5 py-3 text-sm font-extrabold text-primary-foreground">
             Cấp quyền
           </button>
         </form>

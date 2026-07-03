@@ -7,6 +7,7 @@ import {
   BmFieldSelect,
   BmFormSection,
 } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
@@ -1163,7 +1164,7 @@ function handleSelectSigner(optionId: string) {
           </PreviewCard>
         </div>
       </BmFormSection>
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <FormActionBar printHidden={false}>
 
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-sm text-slate-600">
@@ -1179,7 +1180,7 @@ function handleSelectSigner(optionId: string) {
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-053"}
           </button>
         </div>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

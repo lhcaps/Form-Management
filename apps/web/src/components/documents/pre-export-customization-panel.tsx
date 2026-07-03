@@ -14,7 +14,30 @@ import {
   type GeneratedDocumentPreExportManualBlankField,
   type GeneratedDocumentPreExportStyleRule,
 } from "@/lib/generated-documents-api";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { downloadFile, DownloadError } from "@/lib/file-download";
+
+const NO_ALIGNMENT_VALUE = "__no_alignment__";
+
+type Alignment = "left" | "center" | "right" | "justify";
+
+function toAlignmentSelectValue(alignment: Alignment | null): string {
+  return alignment ?? NO_ALIGNMENT_VALUE;
+}
+
+function fromAlignmentSelectValue(value: string): Alignment | null {
+  return value === NO_ALIGNMENT_VALUE ? null : (value as Alignment);
+}
 
 type Props = {
   documentId: string;
@@ -517,31 +540,34 @@ export function PreExportCustomizationPanel({
           </p>
         </div>
 
-        <button
+        <Button
           type="button"
           onClick={() => setShowAdvanced((current) => !current)}
           disabled={isBusy}
-          className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+          variant="outline"
+          size="sm"
         >
           {showAdvanced ? "Ẩn chỉnh chữ" : "Mở thêm chỉnh chữ"}
-        </button>
+        </Button>
       </div>
 
       {error ? (
-        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {error}
+        <div className="mt-4 flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          <Badge variant="destructive">Lỗi</Badge>
+          <span>{error}</span>
         </div>
       ) : null}
 
       {successMessage ? (
-        <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
-          {successMessage}
+        <div className="mt-4 flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          <Badge variant="success">Hoàn tất</Badge>
+          <span>{successMessage}</span>
         </div>
       ) : null}
 
       {warnings.length ? (
-        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
-          <p className="font-semibold">Lưu ý</p>
+        <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          <Badge variant="warning">Lưu ý</Badge>
           <div className="mt-1 space-y-1">
             {warnings.map((warning) => (
               <p key={warning}>{warning}</p>
@@ -561,14 +587,12 @@ export function PreExportCustomizationPanel({
             </div>
 
             <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
-              <input
-                type="checkbox"
+              <Checkbox
                 checked={config.pageSetup.enabled}
-                onChange={(event) =>
-                  updatePageSetup("enabled", event.target.checked)
+                onCheckedChange={(checked) =>
+                  updatePageSetup("enabled", checked === true)
                 }
                 disabled={isBusy}
-                className="h-4 w-4 rounded border-slate-300"
               />
               Sử dụng
             </label>
@@ -581,7 +605,7 @@ export function PreExportCustomizationPanel({
                 className="flex flex-col gap-1 text-sm text-slate-700"
               >
                 <span>{label}</span>
-                <input
+                <Input
                   type="number"
                   min={0}
                   max={10}
@@ -598,57 +622,63 @@ export function PreExportCustomizationPanel({
                     )
                   }
                   disabled={isBusy}
-                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                  className="text-sm"
                 />
               </label>
             ))}
 
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               <span>Vị trí gáy</span>
-              <select
+              <Select
                 value={config.pageSetup.gutterPosition}
-                onChange={(event) =>
-                  updatePageSetup(
-                    "gutterPosition",
-                    event.target.value as "left" | "top",
-                  )
+                onValueChange={(value) =>
+                  updatePageSetup("gutterPosition", value as "left" | "top")
                 }
                 disabled={isBusy}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
               >
-                <option value="left">Trái</option>
-                <option value="top">Trên</option>
-              </select>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="left">Trái</SelectItem>
+                  <SelectItem value="top">Trên</SelectItem>
+                </SelectContent>
+              </Select>
             </label>
 
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               <span>Hướng giấy</span>
-              <select
+              <Select
                 value={config.pageSetup.orientation}
-                onChange={(event) =>
-                  updatePageSetup(
-                    "orientation",
-                    event.target.value as "portrait" | "landscape",
-                  )
+                onValueChange={(value) =>
+                  updatePageSetup("orientation", value as "portrait" | "landscape")
                 }
                 disabled={isBusy}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
               >
-                <option value="portrait">Dọc</option>
-                <option value="landscape">Ngang</option>
-              </select>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="portrait">Dọc</SelectItem>
+                  <SelectItem value="landscape">Ngang</SelectItem>
+                </SelectContent>
+              </Select>
             </label>
 
             <label className="flex flex-col gap-1 text-sm text-slate-700">
               <span>Khổ giấy</span>
-              <select
+              <Select
                 value={config.pageSetup.paperSize}
-                onChange={() => updatePageSetup("paperSize", "A4")}
+                onValueChange={(value) => updatePageSetup("paperSize", value as "A4")}
                 disabled={isBusy}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
               >
-                <option value="A4">A4</option>
-              </select>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="A4">A4</SelectItem>
+                </SelectContent>
+              </Select>
             </label>
           </div>
         </div>
@@ -663,7 +693,7 @@ export function PreExportCustomizationPanel({
                 </p>
               </div>
 
-              <button
+              <Button
                 type="button"
                 onClick={() =>
                   setConfig((current) =>
@@ -676,10 +706,11 @@ export function PreExportCustomizationPanel({
                   )
                 }
                 disabled={isBusy}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+                variant="outline"
+                size="sm"
               >
                 Thêm dòng chỉnh chữ
-              </button>
+              </Button>
             </div>
 
             <div className="mt-4 space-y-3">
@@ -697,36 +728,35 @@ export function PreExportCustomizationPanel({
 
                     <div className="flex flex-wrap items-center gap-3">
                       <label className="flex items-center gap-2 text-sm text-slate-700">
-                        <input
-                          type="checkbox"
+                        <Checkbox
                           checked={rule.enabled}
-                          onChange={(event) =>
+                          onCheckedChange={(checked) =>
                             updateStyleRule(rule.id, (current) => ({
                               ...current,
-                              enabled: event.target.checked,
+                              enabled: checked === true,
                             }))
                           }
                           disabled={isBusy}
-                          className="h-4 w-4 rounded border-slate-300"
                         />
                         Sử dụng
                       </label>
 
-                      <button
+                      <Button
                         type="button"
                         onClick={() => removeStyleRule(rule.id)}
                         disabled={isBusy}
-                        className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                        variant="destructive"
+                        size="sm"
                       >
                         Xóa dòng
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
                   <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                     <label className="flex flex-col gap-1 text-sm text-slate-700 md:col-span-2 xl:col-span-2">
                       <span>Nội dung cần tìm</span>
-                      <input
+                      <Input
                         type="text"
                         value={rule.targetText}
                         maxLength={200}
@@ -737,13 +767,13 @@ export function PreExportCustomizationPanel({
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        className="text-sm"
                       />
                     </label>
 
                     <label className="flex flex-col gap-1 text-sm text-slate-700">
                       <span>Phông chữ</span>
-                      <input
+                      <Input
                         type="text"
                         value={rule.style.fontFamily}
                         maxLength={100}
@@ -757,13 +787,13 @@ export function PreExportCustomizationPanel({
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        className="text-sm"
                       />
                     </label>
 
                     <label className="flex flex-col gap-1 text-sm text-slate-700">
                       <span>Cỡ chữ</span>
-                      <input
+                      <Input
                         type="number"
                         min={6}
                         max={72}
@@ -783,111 +813,101 @@ export function PreExportCustomizationPanel({
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        className="text-sm"
                       />
                     </label>
 
                     <label className="flex items-center gap-2 text-sm text-slate-700">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={rule.style.bold}
-                        onChange={(event) =>
+                        onCheckedChange={(checked) =>
                           updateStyleRule(rule.id, (current) => ({
                             ...current,
                             style: {
                               ...current.style,
-                              bold: event.target.checked,
+                              bold: checked === true,
                             },
                           }))
                         }
                         disabled={isBusy}
-                        className="h-4 w-4 rounded border-slate-300"
                       />
                       Đậm
                     </label>
 
                     <label className="flex items-center gap-2 text-sm text-slate-700">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={rule.style.italic}
-                        onChange={(event) =>
+                        onCheckedChange={(checked) =>
                           updateStyleRule(rule.id, (current) => ({
                             ...current,
                             style: {
                               ...current.style,
-                              italic: event.target.checked,
+                              italic: checked === true,
                             },
                           }))
                         }
                         disabled={isBusy}
-                        className="h-4 w-4 rounded border-slate-300"
                       />
                       Nghiêng
                     </label>
 
                     <label className="flex items-center gap-2 text-sm text-slate-700">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={rule.style.underline}
-                        onChange={(event) =>
+                        onCheckedChange={(checked) =>
                           updateStyleRule(rule.id, (current) => ({
                             ...current,
                             style: {
                               ...current.style,
-                              underline: event.target.checked,
+                              underline: checked === true,
                             },
                           }))
                         }
                         disabled={isBusy}
-                        className="h-4 w-4 rounded border-slate-300"
                       />
                       Gạch chân
                     </label>
 
                     <label className="flex items-center gap-2 text-sm text-slate-700">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={rule.applyToAll}
-                        onChange={(event) =>
+                        onCheckedChange={(checked) =>
                           updateStyleRule(rule.id, (current) => ({
                             ...current,
-                            applyToAll: event.target.checked,
+                            applyToAll: checked === true,
                           }))
                         }
                         disabled={isBusy}
-                        className="h-4 w-4 rounded border-slate-300"
                       />
                       Áp dụng cho tất cả chỗ giống nhau
                     </label>
 
                     <label className="flex flex-col gap-1 text-sm text-slate-700">
                       <span>Căn lề chữ</span>
-                      <select
-                        value={rule.style.alignment ?? ""}
-                        onChange={(event) =>
+                      <Select
+                        value={toAlignmentSelectValue(rule.style.alignment)}
+                        onValueChange={(value) =>
                           updateStyleRule(rule.id, (current) => ({
                             ...current,
                             style: {
                               ...current.style,
-                              alignment: event.target.value
-                                ? (event.target.value as
-                                    | "left"
-                                    | "center"
-                                    | "right"
-                                    | "justify")
-                                : null,
+                              alignment: fromAlignmentSelectValue(value),
                             },
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
                       >
-                        <option value="">Giữ nguyên</option>
-                        <option value="left">Trái</option>
-                        <option value="center">Giữa</option>
-                        <option value="right">Phải</option>
-                        <option value="justify">Đều hai bên</option>
-                      </select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Giữ nguyên" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={NO_ALIGNMENT_VALUE}>Giữ nguyên</SelectItem>
+                          <SelectItem value="left">Trái</SelectItem>
+                          <SelectItem value="center">Giữa</SelectItem>
+                          <SelectItem value="right">Phải</SelectItem>
+                          <SelectItem value="justify">Đều hai bên</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </label>
                   </div>
                 </div>
@@ -907,14 +927,15 @@ export function PreExportCustomizationPanel({
               </p>
             </div>
 
-            <button
+            <Button
               type="button"
               onClick={handleRescanBlanks}
               disabled={isBusy}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="outline"
+              size="sm"
             >
               {busyAction === "scan" ? "Đang quét..." : "Quét lại"}
-            </button>
+            </Button>
           </div>
 
           <div className="mt-4 space-y-3">
@@ -936,17 +957,15 @@ export function PreExportCustomizationPanel({
                     </div>
 
                     <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={field.enabled}
-                        onChange={(event) =>
+                        onCheckedChange={(checked) =>
                           updateManualBlankField(field.occurrenceKey, (current) => ({
                             ...current,
-                            enabled: event.target.checked,
+                            enabled: checked === true,
                           }))
                         }
                         disabled={isBusy}
-                        className="h-4 w-4 rounded border-slate-300"
                       />
                       Sử dụng
                     </label>
@@ -955,7 +974,7 @@ export function PreExportCustomizationPanel({
                   <div className="mt-3 grid gap-3 md:grid-cols-2">
                     <label className="flex flex-col gap-1 text-sm text-slate-700">
                       <span>Nhãn gợi ý</span>
-                      <input
+                      <Input
                         type="text"
                         value={field.label}
                         maxLength={120}
@@ -966,13 +985,13 @@ export function PreExportCustomizationPanel({
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        className="text-sm"
                       />
                     </label>
 
                     <label className="flex flex-col gap-1 text-sm text-slate-700">
                       <span>Giá trị điền vào</span>
-                      <input
+                      <Input
                         type="text"
                         value={field.value}
                         maxLength={500}
@@ -983,7 +1002,7 @@ export function PreExportCustomizationPanel({
                           }))
                         }
                         disabled={isBusy}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+                        className="text-sm"
                       />
                     </label>
                   </div>
@@ -999,25 +1018,24 @@ export function PreExportCustomizationPanel({
       </div>
 
       <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-        <button
+        <Button
           type="button"
           onClick={resetToDefaults}
           disabled={isBusy}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+          variant="outline"
         >
           Dùng mặc định
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={handleSave}
           disabled={isBusy}
-          className="rounded-lg border border-slate-300 bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {busyAction === "saving" ? "Đang lưu..." : "Lưu tùy chỉnh"}
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() =>
             void runExportAction(
@@ -1027,12 +1045,12 @@ export function PreExportCustomizationPanel({
             )
           }
           disabled={isBusy}
-          className="rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+          variant="outline"
         >
           {busyAction === "preview" ? "Đang tạo..." : "Xem trước bản in"}
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() =>
             void runExportAction(
@@ -1046,12 +1064,11 @@ export function PreExportCustomizationPanel({
             )
           }
           disabled={isBusy}
-          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {busyAction === "word" ? "Đang xuất..." : "Xuất Word"}
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() =>
             void runExportAction(
@@ -1065,10 +1082,10 @@ export function PreExportCustomizationPanel({
             )
           }
           disabled={isBusy}
-          className="rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          variant="secondary"
         >
           {busyAction === "pdf" ? "Đang xuất..." : "Xuất PDF"}
-        </button>
+        </Button>
       </div>
     </section>
   );

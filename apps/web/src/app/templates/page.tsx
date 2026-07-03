@@ -275,7 +275,7 @@ export default function TemplatesPage() {
   const totalCount = summary.total ?? items.length;
 
   return (
-    <PageShell maxWidth="default">
+    <PageShell maxWidth="default" className="bg-slate-50">
       {/* Page header + summary cards */}
       <PageSection>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">

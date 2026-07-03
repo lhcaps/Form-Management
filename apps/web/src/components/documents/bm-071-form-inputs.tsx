@@ -7,6 +7,7 @@ import {
   BmFieldSelect,
   BmFormSection,
 } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -1337,7 +1338,7 @@ export function Bm071FormInputsPanel({
 
       <PreviewBlock state={formState} />
 
-      <section className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <FormActionBar printHidden={false}>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-semibold text-slate-900">
@@ -1357,7 +1358,7 @@ export function Bm071FormInputsPanel({
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-071"}
           </button>
         </div>
-      </section>
+      </FormActionBar>
     </div>
   );
 }

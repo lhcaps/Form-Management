@@ -11,6 +11,7 @@ import {
   BmFormSection,
   BmFormMetaBar,
 } from "./bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 import { readApi } from "@/lib/api-client";
 import { patchBm031DirectFormInputs, saveBm031DirectFormInputs } from "@/lib/document-form-api";
 
@@ -1847,7 +1848,7 @@ export function Bm031FormInputsPanel({
         />
       </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur">
+      <FormActionBar printHidden={false}>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-slate-600">
             {savedAt ? (
@@ -1871,7 +1872,7 @@ export function Bm031FormInputsPanel({
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-031"}
           </button>
         </div>
-      </div>
+      </FormActionBar>
     </section>
   );
 }

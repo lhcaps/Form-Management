@@ -1,6 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { FormActionBar } from "@/components/common/form-action-bar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   BmFieldText,
@@ -566,14 +569,12 @@ export function Bm172FormInputs({
 
   const previewPayload = React.useMemo(() => buildPayload(state), [state]);
 
-  const saveButtonClass =
-    saveStatus === "saving"
-      ? "scale-[0.99] bg-blue-500 shadow-inner"
-      : saveStatus === "success"
-        ? "bg-emerald-600 shadow-lg shadow-emerald-200 hover:bg-emerald-700 active:scale-[0.98]"
-        : saveStatus === "error"
-          ? "bg-red-600 shadow-lg shadow-red-200 hover:bg-red-700 active:scale-[0.98]"
-          : "bg-blue-700 shadow-lg shadow-blue-200 hover:bg-blue-800 active:scale-[0.98]";
+  const saveButtonVariant =
+    saveStatus === "success"
+      ? "success"
+      : saveStatus === "error"
+        ? "destructive"
+        : "default";
 
   return (
     <div className="grid gap-5">
@@ -586,50 +587,57 @@ export function Bm172FormInputs({
         </div>
       </div>
 
-      <div className="sticky top-3 z-10 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur">
+      <FormActionBar position="top" className="p-3">
         <div className="flex flex-wrap items-center gap-2">
-          <button
+          <Button
             type="button"
-            className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+            variant="secondary"
+            size="sm"
+            className="shadow-sm"
             disabled={disabled || isSaving || saveStatus === "saving"}
             onClick={fillSample}
           >
             Điền dữ liệu mẫu
-          </button>
+          </Button>
 
-          <button
+          <Button
             type="button"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+            variant="outline"
+            size="sm"
             disabled={disabled || isSaving || saveStatus === "saving"}
             onClick={() => onReload?.()}
           >
             Tải lại từ backend
-          </button>
+          </Button>
 
-          <button
+          <Button
             type="button"
-            className={`rounded-xl px-5 py-2 text-sm font-bold text-white transition ${saveButtonClass} disabled:cursor-not-allowed disabled:opacity-60`}
+            variant={saveButtonVariant}
+            size="sm"
+            className="px-5 font-bold"
             disabled={disabled || isSaving || saveStatus === "saving"}
             onClick={save}
           >
             {saveStatus === "saving" ? "Đang lưu..." : saveStatus === "success" ? "Đã lưu ✓" : "Lưu dữ liệu BM-172"}
-          </button>
+          </Button>
         </div>
 
         {saveMessage ? (
-          <div
-            className={`mt-3 rounded-xl px-3 py-2 text-sm ${
+          <Badge
+            role={saveStatus === "error" ? "alert" : "status"}
+            variant={
               saveStatus === "success"
-                ? "bg-emerald-50 text-emerald-800"
+                ? "success"
                 : saveStatus === "error"
-                  ? "bg-red-50 text-red-800"
-                  : "bg-slate-50 text-slate-700"
-            }`}
+                  ? "destructive"
+                  : "muted"
+            }
+            className="mt-3 max-w-full whitespace-normal rounded-lg px-3 py-2 text-sm"
           >
             {saveMessage}
-          </div>
+          </Badge>
         ) : null}
-      </div>
+      </FormActionBar>
 
       <BmFormSection title="1. Thông tin văn bản">
         <div className="grid gap-4 md:grid-cols-2">
