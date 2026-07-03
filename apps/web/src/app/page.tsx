@@ -1,10 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { RefreshCw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { readApi, ApiError } from "@/lib/api-client";
 import { ErrorBanner } from "@/components/common/error-banner";
+import { KpiCard } from "@/components/common/kpi-card";
 import { LoadingState } from "@/components/common/loading-state";
+import {
+  PageHeader,
+  PageSection,
+  PageShell,
+} from "@/components/common/page-shell";
+import { Button } from "@/components/ui/button";
 
 type CaseItem = {
   id: string;
@@ -110,7 +118,8 @@ export default function HomePage() {
       {
         label: "Tổng hồ sơ",
         value: String(casesData?.pagination.total ?? 0),
-        tone: "bg-blue-50 text-blue-700",
+        description: "Tổng số hồ sơ từ danh sách nghiệp vụ.",
+        tone: "info" as const,
       },
       {
         label: "Đang xử lý",
@@ -118,17 +127,20 @@ export default function HomePage() {
           caseItems.filter((item) => item.currentStatus === "IN_PROGRESS")
             .length,
         ),
-        tone: "bg-indigo-50 text-indigo-700",
+        description: "Hồ sơ có trạng thái IN_PROGRESS.",
+        tone: "process" as const,
       },
       {
         label: "Biểu mẫu chờ duyệt",
         value: String(reviewSummary.WAITING_REVIEW ?? 0),
-        tone: "bg-amber-50 text-amber-700",
+        description: "Biểu mẫu trong hàng đợi WAITING_REVIEW.",
+        tone: "warning" as const,
       },
       {
         label: "Đã duyệt",
         value: String(reviewSummary.APPROVED ?? 0),
-        tone: "bg-emerald-50 text-emerald-700",
+        description: "Biểu mẫu có trạng thái APPROVED.",
+        tone: "success" as const,
       },
     ];
   }, [casesData, reviewData]);
@@ -154,105 +166,100 @@ export default function HomePage() {
   }, [casesData, reviewData]);
 
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-6">
-      <div className="mx-auto max-w-7xl space-y-5">
-        <section className="border-b border-slate-200 pb-5">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="text-2xl font-black text-slate-950">
-                Tổng quan nghiệp vụ
-              </h1>
-              <p className="mt-1 text-sm text-slate-600">
-                Dữ liệu được lấy trực tiếp từ hồ sơ và hàng đợi duyệt
-                biểu mẫu.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => void loadDashboard()}
-              className="h-10 rounded-md border border-slate-200 bg-white px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-100"
-            >
-              {loading ? "Đang tải..." : "Tải lại"}
-            </button>
+    <PageShell className="bg-slate-50 py-6">
+      <PageHeader className="border-b border-slate-200 pb-5 lg:items-end">
+        <div>
+          <h1 className="text-2xl font-black text-slate-950">
+            Tổng quan nghiệp vụ
+          </h1>
+          <p className="mt-1 text-sm text-slate-600">
+            Dữ liệu được lấy trực tiếp từ hồ sơ và hàng đợi duyệt biểu mẫu.
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => void loadDashboard()}
+        >
+          <RefreshCw aria-hidden="true" />
+          {loading ? "Đang tải..." : "Tải lại"}
+        </Button>
+      </PageHeader>
+
+      {error ? <ErrorBanner error={error} /> : null}
+
+      <section
+        aria-label="Chỉ số tổng quan"
+        className="grid gap-4 md:grid-cols-4"
+      >
+        {kpis.map((item) => (
+          <KpiCard
+            key={item.label}
+            label={item.label}
+            value={item.value}
+            description={item.description}
+            tone={item.tone}
+          />
+        ))}
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1.3fr_1fr]">
+        <PageSection className="p-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-black text-slate-950">
+              Phân hệ nghiệp vụ
+            </h2>
           </div>
-        </section>
-
-        {error ? <ErrorBanner error={error} /> : null}
-
-        <section className="grid gap-4 md:grid-cols-4">
-          {kpis.map((item) => (
-            <article
-              key={item.label}
-              className="rounded-lg border border-slate-200 bg-white p-4"
-            >
-              <div
-                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-black ${item.tone}`}
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {modules.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg border border-slate-200 p-4 transition hover:border-blue-200 hover:bg-blue-50"
               >
-                {item.label}
-              </div>
-              <div className="mt-4 text-3xl font-black text-slate-950">
-                {item.value}
-              </div>
-            </article>
-          ))}
-        </section>
+                <h3 className="text-sm font-black text-slate-950">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {item.desc}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </PageSection>
 
-        <section className="grid gap-5 xl:grid-cols-[1.3fr_1fr]">
-          <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-black text-slate-950">
-                Phân hệ nghiệp vụ
-              </h2>
+        <PageSection className="p-4">
+          <h2 className="text-base font-black text-slate-950">
+            Hoạt động gần đây
+          </h2>
+          {loading ? (
+            <div className="mt-4">
+              <LoadingState variant="list" count={3} />
             </div>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {modules.map((item) => (
+          ) : recentActivities.length === 0 ? (
+            <p className="mt-4 py-8 text-center text-sm text-slate-500">
+              Chưa có hoạt động.
+            </p>
+          ) : (
+            <div className="mt-4 divide-y divide-slate-100">
+              {recentActivities.map((item) => (
                 <Link
-                  key={item.href}
+                  key={`${item.href}-${item.title}-${item.meta}`}
                   href={item.href}
-                  className="rounded-lg border border-slate-200 p-4 transition hover:border-blue-200 hover:bg-blue-50"
+                  className="block py-3"
                 >
-                  <h3 className="text-sm font-black text-slate-950">
+                  <div className="text-sm font-bold text-slate-900">
                     {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {item.desc}
-                  </p>
+                  </div>
+                  <div className="mt-1 text-xs text-slate-500">
+                    {item.meta}
+                  </div>
                 </Link>
               ))}
             </div>
-          </div>
-
-          <div className="rounded-lg border border-slate-200 bg-white p-4">
-            <h2 className="text-base font-black text-slate-950">
-              Hoạt động gần đây
-            </h2>
-            {loading ? (
-              <div className="mt-4">
-                <LoadingState variant="list" count={3} />
-              </div>
-            ) : recentActivities.length === 0 ? (
-              <p className="mt-4 py-8 text-center text-sm text-slate-500">
-                Chưa có hoạt động.
-              </p>
-            ) : (
-              <div className="mt-4 divide-y divide-slate-100">
-                {recentActivities.map((item) => (
-                  <Link
-                    key={`${item.href}-${item.title}-${item.meta}`}
-                    href={item.href}
-                    className="block py-3"
-                  >
-                    <div className="text-sm font-bold text-slate-900">
-                      {item.title}
-                    </div>
-                    <div className="mt-1 text-xs text-slate-500">{item.meta}</div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
-    </div>
+          )}
+        </PageSection>
+      </section>
+    </PageShell>
   );
 }

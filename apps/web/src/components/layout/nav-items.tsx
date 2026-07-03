@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { useClerk, useUser as useClerkUser } from "@clerk/react";
+import { Scale } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { canOpenFormStudio, isAdmin } from "@/lib/permissions";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
@@ -37,7 +38,7 @@ function SvgIcon({ children }: { children: ReactNode }) {
 
 function IconShell({ children }: { children: ReactNode }) {
   return (
-    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-slate-100 text-slate-600 transition group-hover:bg-blue-100 group-hover:text-blue-700 group-[.is-active]:bg-blue-100 group-[.is-active]:text-blue-700">
+    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-slate-100 text-slate-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700 group-[.is-active]:bg-blue-100 group-[.is-active]:text-blue-700">
       {children}
     </span>
   );
@@ -55,8 +56,8 @@ export type MenuItem = {
 
 const QUANLYVKS_LOGO = (
   <div className="flex h-[72px] items-center gap-3 border-b border-slate-200 px-5">
-    <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[#0B1F3A] text-lg font-black text-white shadow-sm">
-      ⚖
+    <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+      <Scale aria-hidden="true" />
     </div>
     <div>
       <div className="text-[15px] font-black tracking-[-0.02em] text-slate-950">
@@ -265,8 +266,8 @@ export function Sidebar() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={[
-                "group flex min-h-[52px] items-center gap-3 rounded-[18px] px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-all duration-200",
-                "hover:-translate-y-0.5 hover:bg-blue-50 hover:text-blue-800 hover:shadow-[0_10px_24px_rgba(30,64,175,0.10)]",
+                "group flex min-h-[52px] items-center gap-3 rounded-2xl px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-colors duration-200",
+                "hover:bg-blue-50 hover:text-blue-800",
                 active
                   ? "is-active bg-slate-100 text-slate-950 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
                   : "text-slate-700",
@@ -294,8 +295,8 @@ export function Sidebar() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "group flex min-h-[52px] items-center gap-3 rounded-[18px] px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-all duration-200",
-                    "hover:-translate-y-0.5 hover:bg-blue-50 hover:text-blue-800 hover:shadow-[0_10px_24px_rgba(30,64,175,0.10)]",
+                    "group flex min-h-[52px] items-center gap-3 rounded-2xl px-3.5 text-[15px] font-bold tracking-[-0.01em] transition-colors duration-200",
+                    "hover:bg-blue-50 hover:text-blue-800",
                     active
                       ? "is-active bg-slate-100 text-slate-950 shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
                       : "text-slate-700",
@@ -317,7 +318,7 @@ export function Sidebar() {
           onClick={() => void openUserProfile()}
           title="Quản lý tài khoản"
           aria-label={`Tài khoản: ${displayName}. Nhấn để quản lý hoặc đăng xuất.`}
-          className="flex w-full items-center gap-3 rounded-[18px] bg-slate-50 p-3 text-left transition hover:bg-slate-100"
+          className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left transition-colors hover:bg-slate-100"
         >
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -366,7 +367,7 @@ export function Sidebar() {
           onClick={() => {
             void logout();
           }}
-          className="mt-1 flex w-full items-center gap-2 rounded-[18px] p-3 text-[13px] font-medium text-slate-400 transition hover:bg-red-50 hover:text-rose-600"
+          className="mt-1 flex w-full items-center gap-2 rounded-2xl p-3 text-[13px] font-medium text-slate-400 transition-colors hover:bg-red-50 hover:text-rose-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

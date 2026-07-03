@@ -4,30 +4,50 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Shared `Button` primitive for QUANLYVKS.
+ *
+ * Tone contract (legal/admin workstation, not SaaS marketing):
+ * - Primary navy is reserved for the single dominant action in a local
+ *   context. The default variant is the only filled action surface.
+ * - Secondary / outline / ghost are quiet and never compete with
+ *   primary for visual weight.
+ * - Success / warning / destructive are subtle outlined buttons —
+ *   `border-*-200 bg-*-50 text-*-700/800`. We never use saturated
+ *   `*-500/600` fills for these variants so the action row does not
+ *   look like a game dashboard.
+ * - No `font-black`. Compact, readable, accessible.
+ *
+ * Disabled / loading / focus-visible are preserved at the base so
+ * existing call-sites keep their behavior.
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          "border border-slate-200 bg-secondary text-secondary-foreground hover:bg-slate-100",
+        outline:
+          "border border-input bg-background hover:bg-slate-50 hover:text-slate-900",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Subtle destructive — outlined rose, not saturated red fill.
+        destructive:
+          "border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100",
+        // Subtle success — outlined emerald, not bright green fill.
         success:
-          "bg-success text-success-foreground shadow-sm hover:bg-success/90",
+          "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
+        // Subtle warning — outlined amber, not bright orange fill.
         warning:
-          "bg-warning text-warning-foreground shadow-sm hover:bg-warning/90",
+          "border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100",
       },
       size: {
         default: "h-10 px-4 py-2 has-[>svg]:px-3",
         sm: "h-9 rounded-md px-3 has-[>svg]:px-2.5",
-        lg: "h-11 rounded-lg px-8 has-[>svg]:px-6",
+        lg: "h-11 rounded-md px-8 has-[>svg]:px-6",
         icon: "h-10 w-10 has-[>svg]:px-0",
         "icon-sm": "h-9 w-9 has-[>svg]:px-0",
       },

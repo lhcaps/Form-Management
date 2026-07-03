@@ -1,6 +1,52 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Check, Link2, RefreshCw, Search, Unlink } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
+import { ErrorBanner } from "@/components/common/error-banner";
 import { useAuth } from "@/lib/auth-context";
 import {
   linkAuthIdentity,
@@ -10,114 +56,7 @@ import {
   type OfficialSearchResult,
   unlinkAuthIdentity,
 } from "@/lib/admin-auth-identities-api";
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-function RefreshIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-      <path d="M3 3v5h5" />
-      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
-      <path d="M16 16h5v5" />
-    </svg>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
-
-function LinkIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-    </svg>
-  );
-}
-
-function UnlinkIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="m18.84 12.25 1.72-1.71h-.02a5.004 5.004 0 0 0-.12-7.07 5.006 5.006 0 0 0-6.95 0l-1.72 1.71" />
-      <path d="m5.17 11.75-1.71 1.71a5.004 5.004 0 0 0 .12 7.07 5.006 5.006 0 0 0 6.95 0l1.71-1.71" />
-      <line x1="8" y1="2" x2="8" y2="5" />
-      <line x1="2" y1="8" x2="5" y2="8" />
-      <line x1="16" y1="19" x2="16" y2="22" />
-      <line x1="19" y1="16" x2="22" y2="16" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
-  );
-}
+import { cn } from "@/lib/utils";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -197,22 +136,20 @@ function LinkModal({ identity, onClose, onSuccess }: LinkModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-          <h2 className="text-lg font-black text-slate-950">Liên kết tài khoản</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-            aria-label="Đóng"
-          >
-            <CloseIcon />
-          </button>
-        </div>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
+      <DialogContent className="max-h-[90vh] overflow-y-auto p-0 sm:max-w-lg">
+        <DialogHeader className="border-b border-slate-200 px-6 py-4 pr-12">
+          <DialogTitle>Liên kết tài khoản</DialogTitle>
+          <DialogDescription>
+            Chọn cán bộ đang hoạt động để gán Clerk user này vào quyền truy cập nghiệp vụ tương ứng.
+          </DialogDescription>
+        </DialogHeader>
 
-        {/* Identity info */}
         <div className="border-b border-slate-100 bg-slate-50 px-6 py-4">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Clerk user</div>
           <div className="mt-1 font-bold text-slate-900">
@@ -228,28 +165,28 @@ function LinkModal({ identity, onClose, onSuccess }: LinkModalProps) {
           </div>
         </div>
 
-        {/* Search */}
         <div className="border-b border-slate-100 px-6 py-4">
-          <label className="block text-sm font-bold text-slate-700">
+          <label className="block text-sm font-bold text-slate-700" htmlFor="official-search">
             Tìm cán bộ
-            <div className="relative mt-1.5">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                <SearchIcon />
-              </span>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setSelected(null);
-                }}
-                placeholder="Tên, email, tài khoản, cơ quan…"
-                className="min-h-11 w-full rounded-lg border border-slate-300 py-2.5 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-              />
-            </div>
           </label>
+          <div className="relative mt-1.5">
+            <Search
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              aria-hidden="true"
+            />
+            <Input
+              id="official-search"
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setSelected(null);
+              }}
+              placeholder="Tên, email, tài khoản, cơ quan…"
+              className="min-h-11 pl-9 text-sm"
+            />
+          </div>
 
-          {/* Results */}
           <div className="mt-2 max-h-56 overflow-y-auto rounded-xl border border-slate-200">
             {loading && (
               <div className="flex items-center justify-center py-6 text-sm text-slate-500">
@@ -261,96 +198,92 @@ function LinkModal({ identity, onClose, onSuccess }: LinkModalProps) {
                 Không tìm thấy cán bộ.
               </div>
             )}
-            {results.map((official) => (
-              <button
-                key={official.officialId}
-                type="button"
-                onClick={() => setSelected(official)}
-                disabled={official.alreadyLinked}
-                className={[
-                  "flex w-full items-start gap-3 border-b border-slate-100 px-4 py-3 text-left text-sm transition last:border-b-0",
-                  official.alreadyLinked
-                    ? "cursor-not-allowed bg-slate-50 opacity-60"
-                    : selected?.officialId === official.officialId
-                      ? "bg-blue-50"
-                      : "hover:bg-slate-50",
-                ].join(" ")}
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-slate-900">{official.fullName}</span>
-                    {official.alreadyLinked && (
-                      <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[11px] font-bold text-amber-700">
-                        Đã liên kết
-                      </span>
-                    )}
+            {results.map((official) => {
+              const isSelected = selected?.officialId === official.officialId;
+
+              return (
+                <Button
+                  key={official.officialId}
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setSelected(official)}
+                  disabled={official.alreadyLinked}
+                  aria-pressed={isSelected}
+                  className={cn(
+                    "h-auto w-full justify-start rounded-none border-b border-slate-100 px-4 py-3 text-left text-sm font-normal last:border-b-0 whitespace-normal",
+                    official.alreadyLinked && "cursor-not-allowed bg-slate-50 opacity-60",
+                    !official.alreadyLinked && isSelected && "bg-primary/10 hover:bg-primary/10",
+                  )}
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-bold text-slate-900">{official.fullName}</span>
+                      {official.alreadyLinked && (
+                        <Badge variant="warning" className="rounded">
+                          Đã liên kết
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="mt-0.5 text-xs text-slate-500">
+                      {official.email}
+                      {(official.email || official.username) && " · "}
+                      {official.agencyName}
+                      {(official.email || official.agencyName) && " · "}
+                      {official.role}
+                    </div>
                   </div>
-                  <div className="mt-0.5 text-xs text-slate-500">
-                    {official.email}
-                    {(official.email || official.username) && " · "}
-                    {official.agencyName}
-                    {(official.email || official.agencyName) && " · "}
-                    {official.role}
-                  </div>
-                </div>
-                {selected?.officialId === official.officialId && (
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-600 text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                )}
-              </button>
-            ))}
+                  {isSelected && (
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
+                      <Check className="h-3 w-3" aria-hidden="true" />
+                    </span>
+                  )}
+                </Button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Reason */}
         <div className="border-b border-slate-100 px-6 py-4">
-          <label className="block text-sm font-bold text-slate-700">
+          <label className="block text-sm font-bold text-slate-700" htmlFor="link-reason">
             Ghi chú (tuỳ chọn)
-            <textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="Lý do liên kết…"
-              rows={2}
-              maxLength={500}
-              className="mt-1.5 w-full resize-none rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-            />
           </label>
+          <Textarea
+            id="link-reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="Lý do liên kết…"
+            rows={2}
+            maxLength={500}
+            className="mt-1.5 min-h-20 resize-none text-sm"
+          />
         </div>
 
-        {/* Confirm */}
         <div className="bg-amber-50 px-6 py-3 text-xs font-semibold text-amber-800">
           Thao tác này sẽ cấp cho Clerk user quyền truy cập nghiệp vụ tương ứng với cán bộ được chọn.
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="min-h-10 rounded-xl border border-slate-300 px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
-          >
+        <DialogFooter className="gap-2 px-6 py-4">
+          <Button type="button" variant="outline" onClick={onClose}>
             Huỷ
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => void handleSubmit()}
             disabled={!selected || submitting}
-            className="min-h-10 rounded-xl bg-[#123B66] px-5 text-sm font-extrabold text-white transition hover:bg-[#0d2f52] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting ? "Đang liên kết…" : "Xác nhận liên kết"}
-          </button>
-        </div>
+          </Button>
+        </DialogFooter>
 
         {error && (
-          <div className="mx-6 mb-4 rounded-lg bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
-          </div>
+          <ErrorBanner
+            error={error}
+            title="Không thể liên kết"
+            className="mx-6 mb-4"
+          />
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -385,22 +318,20 @@ function UnlinkModal({ identity, onClose, onSuccess }: UnlinkModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-          <h2 className="text-lg font-black text-slate-950">Huỷ liên kết tài khoản</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
-            aria-label="Đóng"
-          >
-            <CloseIcon />
-          </button>
-        </div>
+    <AlertDialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
+      <AlertDialogContent className="max-h-[90vh] overflow-y-auto p-0 sm:max-w-md">
+        <AlertDialogHeader className="border-b border-slate-200 px-6 py-4">
+          <AlertDialogTitle>Huỷ liên kết tài khoản</AlertDialogTitle>
+          <AlertDialogDescription>
+            Gỡ liên kết giữa Clerk user và cán bộ hiện tại. Thao tác này không xoá hồ sơ cán bộ.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
 
-        {/* Identity + current link */}
         <div className="border-b border-slate-100 bg-slate-50 px-6 py-4">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Clerk user</div>
           <div className="mt-1 font-bold text-slate-900">
@@ -410,8 +341,10 @@ function UnlinkModal({ identity, onClose, onSuccess }: UnlinkModalProps) {
           <div className="mt-0.5 font-mono text-xs text-slate-400">{identity.providerUserId}</div>
         </div>
 
-        <div className="border-b border-slate-100 bg-rose-50 px-6 py-4">
-          <div className="text-xs font-bold uppercase tracking-wider text-rose-600">Đang liên kết với</div>
+        <div className="border-b border-slate-100 bg-destructive/10 px-6 py-4">
+          <div className="text-xs font-bold uppercase tracking-wider text-destructive">
+            Đang liên kết với
+          </div>
           {identity.linkedOfficial && (
             <>
               <div className="mt-1 font-bold text-slate-900">
@@ -426,52 +359,51 @@ function UnlinkModal({ identity, onClose, onSuccess }: UnlinkModalProps) {
           )}
         </div>
 
-        {/* Reason */}
         <div className="border-b border-slate-100 px-6 py-4">
-          <label className="block text-sm font-bold text-slate-700">
+          <label className="block text-sm font-bold text-slate-700" htmlFor="unlink-reason">
             Ghi chú (tuỳ chọn)
-            <textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="Lý do huỷ liên kết…"
-              rows={2}
-              maxLength={500}
-              className="mt-1.5 w-full resize-none rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-            />
           </label>
+          <Textarea
+            id="unlink-reason"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder="Lý do huỷ liên kết…"
+            rows={2}
+            maxLength={500}
+            className="mt-1.5 min-h-20 resize-none text-sm"
+          />
         </div>
 
-        {/* Confirm warning */}
         <div className="bg-amber-50 px-6 py-3 text-xs font-semibold text-amber-800">
           Sau khi huỷ liên kết, Clerk user sẽ mất quyền truy cập nghiệp vụ tương ứng.
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="min-h-10 rounded-xl border border-slate-300 px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
-          >
-            Huỷ
-          </button>
-          <button
-            type="button"
-            onClick={() => void handleSubmit()}
-            disabled={submitting}
-            className="min-h-10 rounded-xl bg-rose-600 px-5 text-sm font-extrabold text-white transition hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {submitting ? "Đang huỷ liên kết…" : "Xác nhận huỷ liên kết"}
-          </button>
-        </div>
+        <AlertDialogFooter className="gap-2 px-6 py-4">
+          <AlertDialogCancel disabled={submitting}>Huỷ</AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={(event) => {
+                event.preventDefault();
+                void handleSubmit();
+              }}
+              disabled={submitting}
+            >
+              {submitting ? "Đang huỷ liên kết…" : "Xác nhận huỷ liên kết"}
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
 
         {error && (
-          <div className="mx-6 mb-4 rounded-lg bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
-          </div>
+          <ErrorBanner
+            error={error}
+            title="Không thể huỷ liên kết"
+            className="mx-6 mb-4"
+          />
         )}
-      </div>
-    </div>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 
@@ -519,13 +451,13 @@ export default function AdminAuthIdentitiesPage() {
     if (isAdmin) void loadData();
   }, [isAdmin, page, searchQuery, linkedFilter]);
 
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     setSearchQuery(e.target.value);
     setPage(1);
   }
 
-  function handleFilterChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    setLinkedFilter(e.target.value as "all" | "linked" | "unlinked");
+  function handleFilterChange(value: "all" | "linked" | "unlinked") {
+    setLinkedFilter(value);
     setPage(1);
   }
 
@@ -566,7 +498,6 @@ export default function AdminAuthIdentitiesPage() {
   return (
     <div className="min-h-[calc(100vh-72px)] bg-slate-50 p-6">
       <div className="mx-auto max-w-6xl">
-        {/* Header */}
         <header className="flex items-end justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <h1 className="text-2xl font-black text-slate-950">
@@ -576,89 +507,93 @@ export default function AdminAuthIdentitiesPage() {
               Gán tài khoản Clerk đã đồng bộ với cán bộ nội bộ để cấp quyền truy cập nghiệp vụ.
             </p>
           </div>
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={() => void loadData()}
             disabled={loading}
-            className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
+            className="bg-white font-bold"
           >
-            <RefreshIcon />
+            <RefreshCw
+              className={cn("h-4 w-4", loading && "animate-spin")}
+              aria-hidden="true"
+            />
             Làm mới
-          </button>
+          </Button>
         </header>
 
-        {/* Success */}
         {success && (
           <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700">
             {success}
           </div>
         )}
 
-        {/* Error */}
         {error && (
-          <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-700">
-            {error}
-          </div>
+          <ErrorBanner
+            error={error}
+            title="Không tải được danh sách identity"
+            className="mt-4"
+          />
         )}
 
-        {/* Filters */}
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          <div className="relative flex-1 min-w-[240px]">
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-              <SearchIcon />
-            </span>
-            <input
+          <div className="relative min-w-[240px] flex-1">
+            <Search
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              aria-hidden="true"
+            />
+            <Input
               type="text"
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Tìm theo tên, email, username…"
-              className="min-h-11 w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              className="min-h-11 bg-white pl-9 text-sm"
             />
           </div>
-          <select
-            value={linkedFilter}
-            onChange={handleFilterChange}
-            className="min-h-11 rounded-xl border border-slate-300 bg-white px-4 text-sm font-bold text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="all">Tất cả</option>
-            <option value="linked">Đã liên kết</option>
-            <option value="unlinked">Chưa liên kết</option>
-          </select>
+          <Select value={linkedFilter} onValueChange={handleFilterChange}>
+            <SelectTrigger className="min-h-11 w-[180px] bg-white font-bold">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tất cả</SelectItem>
+              <SelectItem value="linked">Đã liên kết</SelectItem>
+              <SelectItem value="unlinked">Chưa liên kết</SelectItem>
+            </SelectContent>
+          </Select>
           <span className="text-sm text-slate-500">
             {total} kết quả
           </span>
         </div>
 
-        {/* Table */}
         <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-white">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-xs uppercase text-slate-500">
-              <tr>
-                <th className="px-4 py-3 font-bold">Tài khoản đăng nhập</th>
-                <th className="px-4 py-3 font-bold">Trạng thái</th>
-                <th className="px-4 py-3 font-bold">Cán bộ liên kết</th>
-                <th className="px-4 py-3 font-bold">Đồng bộ lần cuối</th>
-                <th className="px-4 py-3 font-bold text-right">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="text-left text-sm">
+            <TableHeader className="bg-slate-50 text-xs uppercase text-slate-500">
+              <TableRow className="hover:bg-transparent">
+                <TableHead scope="col" className="px-4 py-3 font-bold">Tài khoản đăng nhập</TableHead>
+                <TableHead scope="col" className="px-4 py-3 font-bold">Trạng thái</TableHead>
+                <TableHead scope="col" className="px-4 py-3 font-bold">Cán bộ liên kết</TableHead>
+                <TableHead scope="col" className="px-4 py-3 font-bold">Đồng bộ lần cuối</TableHead>
+                <TableHead scope="col" className="px-4 py-3 text-right font-bold">Thao tác</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {loading && identities.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-slate-500">
+                <TableRow>
+                  <TableCell colSpan={5} className="px-4 py-12 text-center text-slate-500">
                     Đang tải…
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
               {!loading && identities.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="px-4 py-12 text-center text-slate-500">
+                <TableRow>
+                  <TableCell colSpan={5} className="px-4 py-12 text-center text-slate-500">
                     Không có kết quả.
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
               {identities.map((identity) => (
-                <tr key={identity.id} className="border-t border-slate-100">
-                  <td className="px-4 py-3">
+                <TableRow key={identity.id} className="border-slate-100">
+                  <TableCell className="px-4 py-3">
                     <div className="font-bold text-slate-900">
                       {identity.fullName ?? identity.email ?? identity.username ?? "—"}
                     </div>
@@ -670,19 +605,19 @@ export default function AdminAuthIdentitiesPage() {
                     <div className="mt-0.5 font-mono text-[11px] text-slate-400">
                       {identity.providerUserId}
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {identity.linkedOfficial ? (
-                      <span className="inline-flex items-center rounded bg-emerald-100 px-2 py-1 text-xs font-bold text-emerald-700">
+                      <Badge variant="success" className="rounded">
                         Đã liên kết
-                      </span>
+                      </Badge>
                     ) : (
-                      <span className="inline-flex items-center rounded bg-slate-100 px-2 py-1 text-xs font-bold text-slate-600">
+                      <Badge variant="muted" className="rounded">
                         Chưa liên kết
-                      </span>
+                      </Badge>
                     )}
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {identity.linkedOfficial ? (
                       <div>
                         <div className="font-bold text-slate-900">
@@ -692,78 +627,81 @@ export default function AdminAuthIdentitiesPage() {
                           {identity.linkedOfficial.email}
                           {identity.linkedOfficial.agencyName && ` · ${identity.linkedOfficial.agencyName}`}
                         </div>
-                        <div className="mt-0.5 flex items-center gap-2">
+                        <div className="mt-0.5 flex flex-wrap items-center gap-2">
                           <span className="text-[11px] font-semibold text-slate-600">
                             {identity.linkedOfficial.role}
                           </span>
                           {!identity.linkedOfficial.isActive && (
-                            <span className="text-[11px] font-bold text-rose-600">Không hoạt động</span>
+                            <Badge variant="destructive" className="rounded">
+                              Không hoạt động
+                            </Badge>
                           )}
                         </div>
                       </div>
                     ) : (
                       <span className="text-slate-400">—</span>
                     )}
-                  </td>
-                  <td className="px-4 py-3 text-xs text-slate-500">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-xs text-slate-500">
                     {formatDate(identity.lastSyncedAt)}
-                  </td>
-                  <td className="px-4 py-3 text-right">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-2">
                       {identity.linkedOfficial ? (
-                        <button
+                        <Button
                           type="button"
+                          variant="destructive"
+                          size="sm"
                           onClick={() => setUnlinkTarget(identity)}
-                          className="flex items-center gap-1.5 rounded-lg border border-rose-300 px-3 py-1.5 text-xs font-bold text-rose-600 transition hover:bg-rose-50"
+                          className="text-xs font-bold"
                         >
-                          <UnlinkIcon />
+                          <Unlink className="h-4 w-4" aria-hidden="true" />
                           Hủy liên kết
-                        </button>
+                        </Button>
                       ) : (
-                        <button
+                        <Button
                           type="button"
+                          size="sm"
                           onClick={() => setLinkTarget(identity)}
-                          className="flex items-center gap-1.5 rounded-lg border border-blue-300 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 transition hover:bg-blue-100"
+                          className="text-xs font-bold"
                         >
-                          <LinkIcon />
+                          <Link2 className="h-4 w-4" aria-hidden="true" />
                           Liên kết
-                        </button>
+                        </Button>
                       )}
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="mt-4 flex items-center justify-center gap-2">
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-40"
             >
               ← Trước
-            </button>
+            </Button>
             <span className="px-4 text-sm text-slate-600">
               Trang {page} / {totalPages}
             </span>
-            <button
+            <Button
               type="button"
+              variant="outline"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:opacity-40"
             >
               Sau →
-            </button>
+            </Button>
           </div>
         )}
       </div>
 
-      {/* Modals */}
       {linkTarget && (
         <LinkModal
           identity={linkTarget}

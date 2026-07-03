@@ -21,7 +21,7 @@ export function AuthShell({ title, description, children }: AuthShellProps) {
         <section className="qvks-auth-brand-enter relative hidden min-h-[100dvh] flex-col justify-between overflow-hidden px-10 py-8 text-white lg:flex xl:px-12">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,#07111f_0%,#0b1730_58%,#103257_100%)]"
+            className="pointer-events-none absolute inset-0 bg-[image:var(--qvks-auth-brand-gradient)]"
           />
 
           <div className="relative z-10">
