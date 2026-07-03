@@ -5,6 +5,7 @@ import {
   getGeneratedDocumentAudit,
   type GeneratedDocumentAuditEntry,
 } from "@/lib/generated-documents-api";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
   documentId: string;
@@ -42,64 +43,52 @@ const ACTION_LABELS: Record<string, string> = {
   GENERATED_DOCUMENT_ACCESS_DENIED: "Từ chối truy cập",
 };
 
-const ACTION_ICONS: Record<string, string> = {
-  GENERATED_DOCUMENT_CREATED: "+",
-  GENERATED_DOCUMENT_RENDERED_DOCX: "W",
-  GENERATED_DOCUMENT_EXPORTED: "↓",
-  GENERATED_DOCUMENT_DOWNLOADED: "↓",
-  GENERATED_DOCUMENT_FILE_DELETED: "✕",
-  GENERATED_DOCUMENT_FILES_BULK_DELETED: "✕",
-  GENERATED_DOCUMENT_FILES_CLEANED_UP: "⌫",
-  GENERATED_DOCUMENT_ACCESS_DENIED: "⊘",
-};
+function getActionVariant(action: string) {
+  switch (action) {
+    case "GENERATED_DOCUMENT_CREATED":
+      return "blue";
+    case "GENERATED_DOCUMENT_RENDERED_DOCX":
+      return "violet";
+    case "GENERATED_DOCUMENT_EXPORTED":
+    case "GENERATED_DOCUMENT_DOWNLOADED":
+      return "success";
+    case "GENERATED_DOCUMENT_FILE_DELETED":
+    case "GENERATED_DOCUMENT_FILES_BULK_DELETED":
+      return "destructive";
+    case "GENERATED_DOCUMENT_FILES_CLEANED_UP":
+      return "warning";
+    case "GENERATED_DOCUMENT_ACCESS_DENIED":
+      return "muted";
+    default:
+      return "outline";
+  }
+}
 
-const ACTION_COLORS: Record<string, { bg: string; text: string }> = {
-  GENERATED_DOCUMENT_CREATED: { bg: "bg-blue-100", text: "text-blue-700" },
-  GENERATED_DOCUMENT_RENDERED_DOCX: { bg: "bg-indigo-100", text: "text-indigo-700" },
-  GENERATED_DOCUMENT_EXPORTED: { bg: "bg-emerald-100", text: "text-emerald-700" },
-  GENERATED_DOCUMENT_DOWNLOADED: { bg: "bg-emerald-100", text: "text-emerald-700" },
-  GENERATED_DOCUMENT_FILE_DELETED: { bg: "bg-red-100", text: "text-red-700" },
-  GENERATED_DOCUMENT_FILES_BULK_DELETED: { bg: "bg-red-100", text: "text-red-700" },
-  GENERATED_DOCUMENT_FILES_CLEANED_UP: { bg: "bg-amber-100", text: "text-amber-700" },
-  GENERATED_DOCUMENT_ACCESS_DENIED: { bg: "bg-slate-100", text: "text-slate-600" },
-};
+function getResultVariant(result: string) {
+  if (result === "SUCCESS") return "success";
+  if (result === "DENIED") return "destructive";
+  return "warning";
+}
 
-function AuditIcon({ action }: { action: string }) {
-  const icon = ACTION_ICONS[action] ?? "?";
-  const colors = ACTION_COLORS[action] ?? { bg: "bg-slate-100", text: "text-slate-600" };
+function AuditActionBadge({ action, label }: { action: string; label: string }) {
   return (
-    <span
-      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${colors.bg} ${colors.text}`}
-    >
-      {icon}
-    </span>
+    <Badge variant={getActionVariant(action)} className="shrink-0">
+      {label}
+    </Badge>
   );
 }
 
 function AuditEntryRow({ entry }: { entry: GeneratedDocumentAuditEntry }) {
   const actionLabel = ACTION_LABELS[entry.action] ?? entry.action;
-  const isSuccess = entry.result === "SUCCESS";
-  const isDenied = entry.result === "DENIED";
 
   return (
     <div className="flex items-start gap-3 py-3">
-      <AuditIcon action={entry.action} />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          <span className="text-sm font-semibold text-slate-900">
-            {actionLabel}
-          </span>
-          <span
-            className={`rounded px-1.5 py-0.5 text-xs font-semibold ${
-              isSuccess
-                ? "bg-emerald-50 text-emerald-700"
-                : isDenied
-                  ? "bg-red-50 text-red-700"
-                  : "bg-amber-50 text-amber-700"
-            }`}
-          >
+          <AuditActionBadge action={entry.action} label={actionLabel} />
+          <Badge variant={getResultVariant(entry.result)}>
             {entry.result}
-          </span>
+          </Badge>
         </div>
         {entry.actorName ? (
           <p className="mt-0.5 text-xs text-slate-500">bởi {entry.actorName}</p>
@@ -164,7 +153,7 @@ export function GeneratedDocumentAuditPanel({ documentId }: Props) {
 
   if (error) {
     return (
-      <section className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-950">Lịch sử xuất/tải</h2>
         <p className="mt-2 text-sm text-red-600">{error}</p>
       </section>
@@ -176,9 +165,9 @@ export function GeneratedDocumentAuditPanel({ documentId }: Props) {
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <h2 className="text-lg font-bold text-slate-950">Lịch sử xuất/tải</h2>
         {total > 0 && (
-          <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
+          <Badge variant="muted">
             {total} sự kiện
-          </span>
+          </Badge>
         )}
       </div>
 

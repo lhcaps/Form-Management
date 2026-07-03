@@ -135,6 +135,16 @@
 }
 
 /* ============================================================
+   FORCE LIGHT COLOR SCHEME
+   QLLaw is a legal/admin workstation UI — always light mode.
+   The `.dark` class remains available for programmatic dark mode
+   (not currently used in this app).
+   ============================================================ */
+html {
+  color-scheme: light;
+}
+
+/* ============================================================
    SHADCN CSS VARIABLES — QUANLYVKS LEGAL/ADMIN THEME
    Slate/zinc base — deep navy primary — no decorative noise.
    ============================================================ */
@@ -212,9 +222,10 @@
     --qvks-input-height: 46px;
     --qvks-button-height: 42px;
     --qvks-card-radius: 18px;
+    --qvks-auth-brand-gradient: linear-gradient(135deg, #07111f 0%, #0b1730 58%, #103257 100%);
   }
 
-  /* Dark mode — dark slate theme, matches shadcn dark defaults */
+  /* Class-based dark mode (available for future use, not currently applied) */
   .dark {
     :root {
       --background: 222.2 84% 4.9%;
@@ -266,60 +277,7 @@
       --qvks-input-height: 46px;
       --qvks-button-height: 42px;
       --qvks-card-radius: 18px;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: 222.2 84% 4.9%;
-      --foreground: 210 40% 98%;
-
-      --card: 222.2 84% 4.9%;
-      --card-foreground: 210 40% 98%;
-
-      --popover: 222.2 84% 4.9%;
-      --popover-foreground: 210 40% 98%;
-
-      --primary: 210 40% 98%;
-      --primary-foreground: 222.2 47.4% 11.2%;
-
-      --secondary: 217.2 32.6% 17.5%;
-      --secondary-foreground: 210 40% 98%;
-
-      --muted: 217.2 32.6% 17.5%;
-      --muted-foreground: 215 20.2% 65.1%;
-
-      --accent: 217.2 32.6% 17.5%;
-      --accent-foreground: 210 40% 98%;
-
-      --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 40% 98%;
-
-      --success: 142 71% 45%;
-      --success-foreground: 0 0% 100%;
-
-      --warning: 38 92% 50%;
-      --warning-foreground: 0 0% 100%;
-
-      --border: 217.2 32.6% 17.5%;
-      --input: 217.2 32.6% 17.5%;
-      --ring: 212.7 26.8% 83.9%;
-
-      --sidebar: 222.2 84% 4.9%;
-      --sidebar-foreground: 210 40% 98%;
-      --sidebar-primary: 210 40% 98%;
-      --sidebar-primary-foreground: 222.2 47.4% 11.2%;
-      --sidebar-accent: 217.2 32.6% 17.5%;
-      --sidebar-accent-foreground: 210 40% 98%;
-      --sidebar-border: 217.2 32.6% 17.5%;
-      --sidebar-ring: 212.7 26.8% 83.9%;
-
-      --qvks-font-size-base: 16px;
-      --qvks-font-size-label: 15px;
-      --qvks-font-size-input: 16px;
-      --qvks-input-height: 46px;
-      --qvks-button-height: 42px;
-      --qvks-card-radius: 18px;
+      --qvks-auth-brand-gradient: linear-gradient(135deg, #07111f 0%, #0b1730 58%, #103257 100%);
     }
   }
 }

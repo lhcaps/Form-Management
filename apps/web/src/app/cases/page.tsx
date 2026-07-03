@@ -5,6 +5,27 @@ import { Suspense } from "react";
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { readApi } from "@/lib/api-client";
 import { ErrorBanner } from "@/components/common/error-banner";
+import { PageHeader, PageSection, PageShell } from "@/components/common/page-shell";
+import { StatusBadge } from "@/components/common/status-badge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 
 type CaseItem = {
   id: string;
@@ -50,19 +71,14 @@ const statusOptions = [
   { value: "CLOSED", label: "Đã đóng" },
 ];
 
-function statusTone(status: string) {
-  if (status === "CLOSED") return "bg-slate-100 text-slate-700";
-  if (status === "WAITING_REVIEW") return "bg-amber-50 text-amber-700";
-  if (status === "IN_PROGRESS") return "bg-blue-50 text-blue-700";
-  if (status === "RECEIVED") return "bg-emerald-50 text-emerald-700";
-  return "bg-slate-50 text-slate-600";
+const ALL_FILTER_VALUE = "__all__";
+
+function toSelectFilterValue(value: string) {
+  return value || ALL_FILTER_VALUE;
 }
 
-function priorityTone(priority: string) {
-  if (priority === "URGENT") return "bg-rose-50 text-rose-700";
-  if (priority === "HIGH") return "bg-orange-50 text-orange-700";
-  if (priority === "LOW") return "bg-slate-50 text-slate-500";
-  return "bg-blue-50 text-blue-700";
+function fromSelectFilterValue(value: string) {
+  return value === ALL_FILTER_VALUE ? "" : value;
 }
 
 function formatDate(value: string | null) {
@@ -178,209 +194,211 @@ function CasesPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-6">
-      <div className="mx-auto max-w-7xl space-y-5">
-        <section className="border-b border-slate-200 pb-5">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h1 className="text-2xl font-black text-slate-950">Hồ sơ vụ án</h1>
-              <p className="mt-1 text-sm text-slate-600">
-                Quản lý danh sách hồ sơ, lọc theo giai đoạn/trạng thái và tạo hồ sơ mới.
-              </p>
-            </div>
-            <div className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-700 ring-1 ring-slate-200">
-              {totalLabel}
-            </div>
-          </div>
-        </section>
+    <PageShell className="bg-slate-50">
+      <PageHeader className="border-b border-slate-200 pb-5">
+        <div>
+          <h1 className="text-2xl font-black text-slate-950">Hồ sơ vụ án</h1>
+          <p className="mt-1 text-sm text-slate-600">
+            Quản lý danh sách hồ sơ, lọc theo giai đoạn/trạng thái và tạo hồ sơ mới.
+          </p>
+        </div>
+        <Badge variant="outline" className="w-fit bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+          {totalLabel}
+        </Badge>
+      </PageHeader>
 
-        {error ? (
-          <ErrorBanner error={error} />
-        ) : null}
+      {error ? (
+        <ErrorBanner error={error} />
+      ) : null}
 
-        <section className="grid gap-4 xl:grid-cols-[1fr_360px]">
-          <div className="space-y-4">
-            <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-white p-4 md:flex-row">
-              <input
-                value={q}
-                onChange={(event) => setQ(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") void loadCases();
-                }}
-                placeholder="Tìm mã hồ sơ, tên vụ án, mô tả..."
-                className="h-10 flex-1 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
-              />
-              <select
-                value={stage}
-                onChange={(event) => setStage(event.target.value)}
-                className="h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
-              >
+      <section className="grid gap-4 xl:grid-cols-[1fr_360px]">
+        <PageSection className="space-y-4">
+          <div className="flex flex-col gap-3 md:flex-row">
+            <Input
+              value={q}
+              onChange={(event) => setQ(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") void loadCases();
+              }}
+              placeholder="Tìm mã hồ sơ, tên vụ án, mô tả..."
+              className="flex-1 text-sm"
+            />
+            <Select
+              value={toSelectFilterValue(stage)}
+              onValueChange={(value) => setStage(fromSelectFilterValue(value))}
+            >
+              <SelectTrigger className="md:w-48">
+                <SelectValue placeholder="Tất cả giai đoạn" />
+              </SelectTrigger>
+              <SelectContent>
                 {stageOptions.map((item) => (
-                  <option key={item.value} value={item.value}>
+                  <SelectItem key={item.value || ALL_FILTER_VALUE} value={item.value || ALL_FILTER_VALUE}>
                     {item.label}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-              <select
-                value={status}
-                onChange={(event) => setStatus(event.target.value)}
-                className="h-10 rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
-              >
+              </SelectContent>
+            </Select>
+            <Select
+              value={toSelectFilterValue(status)}
+              onValueChange={(value) => setStatus(fromSelectFilterValue(value))}
+            >
+              <SelectTrigger className="md:w-48">
+                <SelectValue placeholder="Tất cả trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
                 {statusOptions.map((item) => (
-                  <option key={item.value} value={item.value}>
+                  <SelectItem key={item.value || ALL_FILTER_VALUE} value={item.value || ALL_FILTER_VALUE}>
                     {item.label}
-                  </option>
+                  </SelectItem>
                 ))}
-              </select>
-              <button
-                type="button"
-                onClick={() => void loadCases()}
-                className="h-10 rounded-md bg-slate-950 px-4 text-sm font-bold text-white transition hover:bg-slate-800"
-              >
-                Lọc
-              </button>
-            </div>
-
-            <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-              <table className="w-full border-collapse text-left text-sm">
-                <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-                  <tr>
-                    <th className="px-4 py-3 font-black">Mã hồ sơ</th>
-                    <th className="px-4 py-3 font-black">Tên vụ án</th>
-                    <th className="px-4 py-3 font-black">Giai đoạn</th>
-                    <th className="px-4 py-3 font-black">Trạng thái</th>
-                    <th className="px-4 py-3 font-black">Ưu tiên</th>
-                    <th className="px-4 py-3 font-black">Ngày nhận</th>
-                    <th className="px-4 py-3 font-black text-right">Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {isLoading ? (
-                    <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
-                        Đang tải hồ sơ...
-                      </td>
-                    </tr>
-                  ) : null}
-
-                  {!isLoading && cases.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
-                        Chưa có hồ sơ phù hợp.
-                      </td>
-                    </tr>
-                  ) : null}
-
-                  {!isLoading &&
-                    cases.map((item) => (
-                      <tr key={item.id} className="border-t border-slate-100 align-top">
-                        <td className="px-4 py-3 font-bold text-slate-950">
-                          {item.caseCode}
-                          {item.nationalCaseCode ? (
-                            <div className="mt-1 text-xs font-medium text-slate-500">
-                              {item.nationalCaseCode}
-                            </div>
-                          ) : null}
-                        </td>
-                        <td className="max-w-md px-4 py-3">
-                          <div className="font-semibold text-slate-900">{item.caseTitle}</div>
-                          {item.caseSummary ? (
-                            <div className="mt-1 line-clamp-2 text-xs text-slate-500">
-                              {item.caseSummary}
-                            </div>
-                          ) : null}
-                        </td>
-                        <td className="px-4 py-3 text-slate-600">{item.currentStage}</td>
-                        <td className="px-4 py-3">
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-black ${statusTone(item.currentStatus)}`}>
-                            {item.currentStatus}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className={`rounded-full px-2.5 py-1 text-xs font-black ${priorityTone(item.priority)}`}>
-                            {item.priority}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-slate-600">{formatDate(item.receivedDate)}</td>
-                        <td className="px-4 py-3 text-right">
-                          <button
-                            type="button"
-                            onClick={() => router.push(`/cases/${item.id}`)}
-                            className="rounded-md bg-blue-700 px-3 py-1 text-xs font-bold text-white transition hover:bg-blue-800"
-                          >
-                            Mở
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
+              </SelectContent>
+            </Select>
+            <Button type="button" onClick={() => void loadCases()}>
+              Lọc
+            </Button>
           </div>
 
-          <form onSubmit={createCase} className="rounded-lg border border-slate-200 bg-white p-4">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <Table className="min-w-[920px]">
+              <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <TableRow>
+                  <TableHead className="font-black">Mã hồ sơ</TableHead>
+                  <TableHead className="font-black">Tên vụ án</TableHead>
+                  <TableHead className="font-black">Giai đoạn</TableHead>
+                  <TableHead className="font-black">Trạng thái</TableHead>
+                  <TableHead className="font-black">Ưu tiên</TableHead>
+                  <TableHead className="font-black">Ngày nhận</TableHead>
+                  <TableHead className="font-black text-right">Thao tác</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="py-10 text-center text-slate-500">
+                      Đang tải hồ sơ...
+                    </TableCell>
+                  </TableRow>
+                ) : null}
+
+                {!isLoading && cases.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="py-10 text-center text-slate-500">
+                      Chưa có hồ sơ phù hợp.
+                    </TableCell>
+                  </TableRow>
+                ) : null}
+
+                {!isLoading &&
+                  cases.map((item) => (
+                    <TableRow key={item.id} className="align-top">
+                      <TableCell className="font-bold text-slate-950">
+                        {item.caseCode}
+                        {item.nationalCaseCode ? (
+                          <div className="mt-1 text-xs font-medium text-slate-500">
+                            {item.nationalCaseCode}
+                          </div>
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="max-w-md">
+                        <div className="font-semibold text-slate-900">{item.caseTitle}</div>
+                        {item.caseSummary ? (
+                          <div className="mt-1 line-clamp-2 text-xs text-slate-500">
+                            {item.caseSummary}
+                          </div>
+                        ) : null}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap align-middle text-slate-600">{item.currentStage}</TableCell>
+                      <TableCell className="whitespace-nowrap align-middle">
+                        <StatusBadge type="case" value={item.currentStatus} />
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap align-middle">
+                        <StatusBadge type="priority" value={item.priority} />
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap align-middle text-slate-600">{formatDate(item.receivedDate)}</TableCell>
+                      <TableCell className="text-right align-middle">
+                        <Button
+                          type="button"
+                          size="sm"
+                          onClick={() => router.push(`/cases/${item.id}`)}
+                        >
+                          Mở
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+        </PageSection>
+
+        <PageSection className="h-fit p-5">
+          <form onSubmit={createCase}>
             <h2 className="text-base font-black text-slate-950">Tạo hồ sơ mới</h2>
             <div className="mt-4 space-y-3">
               <label className="block">
                 <span className="text-xs font-bold text-slate-600">Mã hồ sơ</span>
-                <input
+                <Input
                   value={draft.caseCode}
                   onChange={(event) => setDraft((value) => ({ ...value, caseCode: event.target.value }))}
                   placeholder="Để trống để tự sinh"
-                  className="mt-1 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
+                  className="mt-1 text-sm"
                 />
               </label>
               <label className="block">
                 <span className="text-xs font-bold text-slate-600">Tên vụ án</span>
-                <input
+                <Input
                   required
                   value={draft.caseTitle}
                   onChange={(event) => setDraft((value) => ({ ...value, caseTitle: event.target.value }))}
-                  className="mt-1 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
+                  className="mt-1 text-sm"
                 />
               </label>
               <label className="block">
                 <span className="text-xs font-bold text-slate-600">Ngày tiếp nhận</span>
-                <input
+                <Input
                   type="date"
                   value={draft.receivedDate}
                   onChange={(event) => setDraft((value) => ({ ...value, receivedDate: event.target.value }))}
-                  className="mt-1 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
+                  className="mt-1 text-sm"
                 />
               </label>
               <label className="block">
                 <span className="text-xs font-bold text-slate-600">Ưu tiên</span>
-                <select
+                <Select
                   value={draft.priority}
-                  onChange={(event) => setDraft((value) => ({ ...value, priority: event.target.value }))}
-                  className="mt-1 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none focus:border-blue-400"
+                  onValueChange={(value) => setDraft((current) => ({ ...current, priority: value }))}
                 >
-                  <option value="LOW">Thấp</option>
-                  <option value="NORMAL">Bình thường</option>
-                  <option value="HIGH">Cao</option>
-                  <option value="URGENT">Khẩn</option>
-                </select>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Chọn mức ưu tiên" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="LOW">Thấp</SelectItem>
+                    <SelectItem value="NORMAL">Bình thường</SelectItem>
+                    <SelectItem value="HIGH">Cao</SelectItem>
+                    <SelectItem value="URGENT">Khẩn</SelectItem>
+                  </SelectContent>
+                </Select>
               </label>
               <label className="block">
                 <span className="text-xs font-bold text-slate-600">Tóm tắt</span>
-                <textarea
+                <Textarea
                   value={draft.caseSummary}
                   onChange={(event) => setDraft((value) => ({ ...value, caseSummary: event.target.value }))}
                   rows={4}
-                  className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-400"
+                  className="mt-1 text-sm"
                 />
               </label>
             </div>
-            <button
+            <Button
               type="submit"
               disabled={isCreating || !draft.caseTitle.trim()}
-              className="mt-4 h-10 w-full rounded-md bg-blue-700 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className="mt-4 w-full"
             >
               {isCreating ? "Đang tạo..." : "Tạo hồ sơ"}
-            </button>
+            </Button>
           </form>
-        </section>
-      </div>
-    </div>
+        </PageSection>
+      </section>
+    </PageShell>
   );
 }

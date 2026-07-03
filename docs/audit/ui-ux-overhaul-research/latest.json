@@ -1,0 +1,339 @@
+{
+  "auditDate": "2026-07-03",
+  "status": "READY_FOR_OVERHAUL_RESEARCH_COMPLETE",
+  "auditor": "Cursor (research-only, no implementation)",
+  "scope": "QLLaw / QUANLYVKS frontend surfaces - apps/web/src",
+  "stack": {
+    "framework": "Next.js 16 (App Router)",
+    "styling": "Tailwind CSS v4 with @theme inline",
+    "uiLibrary": "shadcn/ui patterns + Radix UI primitives",
+    "variants": "class-variance-authority (CVA)",
+    "icons": "lucide-react v1.21.0"
+  },
+  "executiveSummary": {
+    "overallStatus": "READY_FOR_OVERHAUL_RESEARCH_COMPLETE",
+    "strongestFindings": [
+      "Per-form sticky action bars duplicated in 100+ files with identical inline styles",
+      "Inline hardcoded status color classes scattered across dashboard, cases, admin, review queue",
+      "PageShell/PageSection adoption not enforced - pages define their own layout structures",
+      "rounded-[18px] hardcoded in nav-items vs rounded-2xl in form workspaces - inconsistent radius",
+      "Auth shell decorative gradient hardcoded without CSS variable"
+    ],
+    "highestRiskAreas": [
+      "BM form action bars (100+ files) - extraction requires Playwright screenshots",
+      "Dashboard KPI layout - refactoring changes visual appearance",
+      "Template preview workspace header - high visibility surface",
+      "Review queue item cards - hover states may need review",
+      "Form studio workspace - complex three-pane layout with drag handles"
+    ],
+    "recommendedFirstPR": {
+      "title": "refactor(ui): extract BM form action bar + anti-slop cleanup",
+      "phases": ["Design tokens + anti-slop cleanup"],
+      "filesTouchedCount": 10,
+      "risk": "LOW"
+    }
+  },
+  "architecture": {
+    "framework": "Next.js 16 (App Router)",
+    "stylingStack": "Tailwind CSS v4 + CSS variables + CVA + shadcn/ui",
+    "componentSystem": {
+      "ui": "30+ shadcn-style base components",
+      "common": "shared utility components (PageShell, StatusBadge, EmptyState, LoadingState, ErrorBanner, etc.)",
+      "documents": "130+ components (BM forms + workspaces)",
+      "layout": "AppShell, Sidebar, Topbar, NavItems",
+      "auth": "AuthGate, AuthShell"
+    },
+    "tokenSystem": {
+      "radius": {
+        "defined": true,
+        "tokens": ["--radius (0.5rem / 8px base)", "--qvks-card-radius: 18px (custom)"],
+        "gap": "Inconsistent usage: rounded-3xl (16px), rounded-2xl (12px), rounded-[18px] (custom)"
+      },
+      "shadow": {
+        "defined": false,
+        "gap": "No semantic shadow tokens; shadow-sm/shadow-lg/shadow-xl used inconsistently"
+      },
+      "statusColors": {
+        "defined": "partial",
+        "tokens": ["--success", "--warning", "--destructive"],
+        "gap": "Blue/indigo/amber/emerald/rose status tones not mapped to CSS variables"
+      },
+      "brandColors": {
+        "defined": "partial",
+        "tokens": ["--primary: 222 70% 26%", "--sidebar-primary"],
+        "gap": "#173E86 and #0B1F3A used as hardcoded values instead of CSS variables"
+      }
+    },
+    "majorDuplicatedPatterns": [
+      {
+        "pattern": "Sticky action bar",
+        "occurrences": "100+ files",
+        "value": "rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl backdrop-blur"
+      },
+      {
+        "pattern": "Status color tones",
+        "occurrences": "Dozens of files",
+        "value": "bg-*-50 text-*-700 inline classes"
+      },
+      {
+        "pattern": "Card container",
+        "occurrences": "Multiple surfaces",
+        "value": "rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+      },
+      {
+        "pattern": "Inline SVG vs Lucide",
+        "occurrences": "nav-items vs other surfaces",
+        "value": "Custom SvgIcon helper vs lucide-react"
+      }
+    ]
+  },
+  "aiSlopAudit": {
+    "confirmedFindings": [
+      {
+        "pattern": "Sticky action bar duplication",
+        "locations": "100+ bm-*-form-inputs.tsx files",
+        "remediation": "Extract to shared FormActionBar component"
+      },
+      {
+        "pattern": "rounded-[18px] hardcoded",
+        "locations": "nav-items.tsx lines 268, 297",
+        "remediation": "Use consistent --radius or rounded-2xl"
+      },
+      {
+        "pattern": "bg-[#123B66] hardcoded",
+        "locations": "admin/auth/identities/page.tsx line 341",
+        "remediation": "Use --primary CSS variable or variant=default"
+      },
+      {
+        "pattern": "bg-[#0B1F3A] hardcoded",
+        "locations": "nav-items.tsx line 58",
+        "remediation": "Add to --primary or --sidebar-primary"
+      },
+      {
+        "pattern": "Hardcoded dark gradient",
+        "locations": "auth-shell.tsx line 24",
+        "remediation": "Move to CSS variable; support dark mode"
+      },
+      {
+        "pattern": "Inline SVG vs Lucide inconsistency",
+        "locations": "nav-items.tsx vs other surfaces",
+        "remediation": "Standardize on Lucide or consistent icon system"
+      },
+      {
+        "pattern": "Emoji in nav logo",
+        "locations": "nav-items.tsx line 59",
+        "remediation": "Replace with SVG icon"
+      },
+      {
+        "pattern": "Inline status color tones",
+        "locations": "app/page.tsx, cases page, review queue, admin",
+        "remediation": "Consolidate to StatusBadge or CSS variables"
+      }
+    ],
+    "suspectedFindings": [
+      {
+        "pattern": "Excessive shadow-xl on sticky action bars",
+        "locations": "BM form files",
+        "notes": "May be over-elevated; shadow-lg may be sufficient"
+      },
+      {
+        "pattern": "rounded-full overuse",
+        "locations": "Template badges, status badges",
+        "notes": "Functional but visually heavy for dense surfaces"
+      },
+      {
+        "pattern": "Card shadow inconsistency",
+        "locations": "Various surfaces",
+        "notes": "shadow-sm vs shadow-none creates uneven visual weight"
+      }
+    ],
+    "notFound": [
+      "Decorative gradient text (bg-clip-text text-transparent)",
+      "Purple/cyan AI palette",
+      "Glassmorphism (backdrop-blur is functional, not decorative)",
+      "Generic 'Seamless/Elevate/Unleash' copy",
+      "Decorative emoji in product surfaces (except nav logo)",
+      "AI dashboard template look",
+      "Excessive card nesting"
+    ]
+  },
+  "accessibilityAudit": {
+    "keyboardFocus": {
+      "status": "PARTIAL",
+      "found": ["Button component has correct focus-visible", "Skip-to-content link in root layout", "aria-label on review queue download buttons"],
+      "issues": ["Nav items lack explicit keyboard focus indicator", "BM form inputs override shadcn focus ring", "Custom buttons lack focus-visible handling"]
+    },
+    "colorContrast": {
+      "status": "PARTIAL",
+      "found": ["Semantic CSS variables for primary/destructive/success/warning", "Dark text on white background"],
+      "issues": ["text-cyan-200 low contrast on dark background", "text-slate-400 may be below WCAG AA", "Status tone colors not formally verified"]
+    },
+    "motionReducedMotion": {
+      "status": "PARTIAL",
+      "found": ["globals.css has prefers-reduced-motion for auth animations", "Radix animations use data-[state] for controlled transitions"],
+      "issues": ["No prefers-reduced-motion for nav item transitions", "No prefers-reduced-motion for sticky action bar"]
+    },
+    "formsErrors": {
+      "status": "PARTIAL",
+      "found": ["form-validation-errors.ts provides centralized error extraction", "Some BM forms use errorMessage prop"],
+      "issues": ["aria-describedby not consistent across all BM forms", "No centralized form error boundary pattern"]
+    },
+    "dialogsPopovers": {
+      "status": "PARTIAL",
+      "found": ["Radix Dialog and Sheet for overlays", "Functional backdrop"],
+      "issues": ["Custom modals in admin auth identities don't use shared Dialog", "No explicit focus trap verification"]
+    }
+  },
+  "designSystemGaps": {
+    "missingTokens": [
+      "Semantic radius names (--radius-card, --radius-input, --radius-nav)",
+      "Semantic shadow scale (--shadow-card, --shadow-menu, --shadow-overlay, --shadow-sticky)",
+      "Status color scale as CSS variables",
+      "Brand color consistency (#173E86 vs #0B1F3A vs --primary)"
+    ],
+    "inconsistentPatterns": [
+      "Radius: rounded-3xl vs rounded-2xl vs rounded-[18px]",
+      "Shadow: shadow-sm vs shadow-lg vs shadow-xl vs shadow-none",
+      "Card padding: p-4 vs p-5 vs p-6 vs p-7",
+      "Section gap: gap-3 vs gap-4 vs gap-5",
+      "Font weight on labels: font-semibold vs font-bold vs font-black",
+      "Input focus ring color: focus:ring-slate-200 vs focus:ring-blue-100"
+    ],
+    "componentsToGeneralize": [
+      "FormActionBar (sticky bottom action bar - 100+ files)",
+      "KpiCard (dashboard KPI display)",
+      "ModuleLinkCard (dashboard module navigation)",
+      "AdminTable (admin auth identities table)",
+      "InlineStatusTone (non-badge status display)"
+    ],
+    "componentsNotYetGeneralizable": [
+      "TemplatePreviewHeader (specific to runtime template workspace)",
+      "GeneratedDocumentHeader (specific to persisted document workspace)",
+      "Individual BM form components (unique field layouts)"
+    ]
+  },
+  "redesignPhases": [
+    {
+      "phase": 1,
+      "title": "Design Tokens + Anti-Slop Cleanup",
+      "risk": "LOW",
+      "tasks": [
+        "Extract FormActionBar from 5 representative BM forms",
+        "Fix nav radius: rounded-[18px] to rounded-2xl",
+        "Replace brand color hardcodes with CSS variables",
+        "Move auth shell gradient to CSS variable",
+        "Replace emoji in nav logo with SVG",
+        "Add prefers-reduced-motion to nav transitions",
+        "Fix focus-visible on custom buttons"
+      ]
+    },
+    {
+      "phase": 2,
+      "title": "Shared Primitives - Buttons/Forms/Status Surfaces",
+      "risk": "MEDIUM",
+      "tasks": [
+        "PageShell/PageSection adoption audit",
+        "Consolidate status tones to CSS variables",
+        "Replace custom admin modals with shared Dialog",
+        "Add aria-describedby to BM form errors",
+        "Create shared KpiCard and InlineStatusTone"
+      ]
+    },
+    {
+      "phase": 3,
+      "title": "Runtime Template Workspace Overhaul",
+      "risk": "MEDIUM",
+      "tasks": [
+        "Reduce header visual weight",
+        "Extract template badge component",
+        "Standardize action bar across all BM forms",
+        "Review responsive behavior",
+        "Audit BM form input component usage"
+      ]
+    },
+    {
+      "phase": 4,
+      "title": "Generated Document Workspace Polish",
+      "risk": "LOW-MEDIUM",
+      "tasks": [
+        "Audit generated-document-workspace.tsx card styling",
+        "Standardize preview panel styling",
+        "Review action panel button styling"
+      ]
+    },
+    {
+      "phase": 5,
+      "title": "Admin/Review Surfaces",
+      "risk": "LOW",
+      "tasks": [
+        "Migrate admin auth identities to PageShell",
+        "Review review queue card hover states",
+        "Audit admin table accessibility",
+        "Standardize pagination buttons"
+      ]
+    },
+    {
+      "phase": 6,
+      "title": "Visual Regression / Screenshots / E2E Hardening",
+      "risk": "MEDIUM",
+      "tasks": [
+        "Add Playwright screenshot tests",
+        "Add lint/typecheck to CI gates",
+        "Add axe-core accessibility checks",
+        "Add visual regression baselines"
+      ]
+    }
+  ],
+  "firstImplementationPR": {
+    "title": "refactor(ui): extract BM form action bar + anti-slop cleanup",
+    "summary": "Extract sticky action bar to shared component, fix nav radius, replace emoji with SVG, add prefers-reduced-motion, convert hardcoded brand colors to CSS variables",
+    "filesTouched": [
+      "apps/web/src/components/common/form-action-bar.tsx (new)",
+      "apps/web/src/components/layout/nav-items.tsx",
+      "apps/web/src/components/auth/auth-shell.tsx",
+      "apps/web/src/app/admin/(shared)/auth/identities/page.tsx",
+      "apps/web/src/components/documents/bm-001-form-inputs.tsx",
+      "apps/web/src/components/documents/bm-027-form-inputs.tsx",
+      "apps/web/src/components/documents/bm-049-form-inputs.tsx",
+      "apps/web/src/components/documents/bm-053-form-inputs.tsx",
+      "apps/web/src/components/documents/bm-071-form-inputs.tsx"
+    ],
+    "nonGoals": [
+      "No BM form data/logic changes",
+      "No new dependencies",
+      "No new design system abstractions beyond FormActionBar",
+      "No changes to Smart Generic Prefill, sample data, DOCX contracts, auth/RBAC, DB schema"
+    ],
+    "acceptanceCriteria": [
+      "pnpm --filter web lint passes",
+      "pnpm --filter web exec tsc --noEmit passes",
+      "FormActionBar component created and used in 5 representative BM forms",
+      "Nav items use rounded-2xl instead of rounded-[18px]",
+      "Nav logo uses SVG icon instead of emoji",
+      "Auth shell brand colors reference CSS variables",
+      "Admin auth identities uses Button component with variant='default'",
+      "No emoji found in web source"
+    ],
+    "validationCommands": [
+      "pnpm --filter web lint",
+      "pnpm --filter web exec tsc --noEmit",
+      "rg 'emoji' apps/web/src"
+    ],
+    "rollbackPlan": "git checkout of all modified files"
+  },
+  "notInspected": [
+    "app/documents/page.tsx - Document creation workspace",
+    "app/imports/page.tsx - Import workspace",
+    "app/reports/page.tsx - Reports page",
+    "app/settings/page.tsx - Settings page",
+    "app/admin/form-studio/page.tsx - Form Studio admin surface",
+    "Full review of all 100+ bm-*-form-inputs.tsx files"
+  ],
+  "uncertainties": [
+    "BM form input focus ring - full extent of custom styling unclear from static analysis",
+    "Mobile/touch behavior - requires runtime testing",
+    "Color contrast - requires axe-core or Lighthouse",
+    "Dark mode behavior - not verified at runtime",
+    "Audit gate failures - not run as part of research"
+  ]
+}

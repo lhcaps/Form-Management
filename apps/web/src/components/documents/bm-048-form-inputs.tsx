@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { absoluteApiUrl, extractApiError } from "@/lib/api-client";
 import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormSection, BmFormMetaBar } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 import { useCasePayload } from "@/lib/case-payload-context";
 import { applyCasePayloadToGenericForm, type GenericCaseFormInputs } from "@/lib/bm-auto-populate/generic-case-defaults";
 
@@ -249,13 +250,16 @@ export function Bm048FormInputsPanel({ documentId, onSaved }: { documentId: stri
         <Field label="Người ký" value={form.signature.signerName} onChange={(v) => patch("signature", "signerName", v)} className="md:col-span-2" />
       </BmFormSection>
 
-      <div className="sticky bottom-4 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <FormActionBar
+        className="flex flex-wrap items-center justify-between gap-3"
+        printHidden={false}
+      >
         <div className="flex flex-wrap gap-2">
           <button type="button" onClick={handleApplyFromCase} disabled={!casePayload} className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 disabled:opacity-40">Lấy từ vụ án</button>
           <button type="button" onClick={() => void load()} className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Tải lại</button>
         </div>
         <button type="button" onClick={handleSave} disabled={isSaving} className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-700 disabled:bg-slate-400">{isSaving ? "Đang lưu..." : "Lưu BM-048"}</button>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

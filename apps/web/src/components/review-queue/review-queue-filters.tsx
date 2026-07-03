@@ -64,14 +64,14 @@ export function ReviewQueueFilters({
                 aria-pressed={isActive}
                 className={
                   isActive
-                    ? "rounded-full bg-slate-950 px-4 py-2 text-sm font-bold text-white"
-                    : "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    ? "rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
+                    : "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 }
               >
                 {filter.label}
                 <span
                   className={`ml-1.5 rounded-full px-1.5 py-0.5 text-xs ${
-                    isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                    isActive ? "bg-white/20 text-primary-foreground" : "bg-slate-100 text-slate-500"
                   }`}
                   aria-label={`${count} biểu mẫu`}
                 >
@@ -111,7 +111,7 @@ export function ReviewQueueFilters({
             size="default"
             onClick={() => void onReload()}
             disabled={isLoading}
-            className="h-11 shrink-0 rounded-2xl px-4 text-sm font-bold"
+            className="h-11 shrink-0 rounded-md px-4 text-sm font-semibold"
           >
             {isLoading ? "Đang tải..." : "Tải lại"}
           </Button>

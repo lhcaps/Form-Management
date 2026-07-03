@@ -40,6 +40,29 @@ import {
   type CaseEvent,
   type RecentGeneratedDocument,
 } from "@/lib/case-detail-api";
+import { ErrorBanner } from "@/components/common/error-banner";
+import { PageHeader, PageSection, PageShell } from "@/components/common/page-shell";
+import { StatusBadge } from "@/components/common/status-badge";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 
 // =========================================================================
 // Tab definitions
@@ -80,6 +103,8 @@ const LEGAL_STATUS_OPTIONS = [
   { value: "OTHER", label: "Khác" },
 ] as const;
 
+const NO_SELECTION_VALUE = "__none__";
+
 // =========================================================================
 // Helpers
 // =========================================================================
@@ -111,6 +136,14 @@ function confirmAction(message: string): boolean {
   return window.confirm(message);
 }
 
+function toOptionalSelectValue(value: string | null | undefined) {
+  return value || NO_SELECTION_VALUE;
+}
+
+function fromOptionalSelectValue(value: string) {
+  return value === NO_SELECTION_VALUE ? "" : value;
+}
+
 type OfficialOption = {
   id: string;
   fullName: string;
@@ -140,14 +173,16 @@ function Modal({ open, title, onClose, children, footer }: ModalProps) {
       <div className="w-full max-w-2xl rounded-lg bg-white shadow-2xl ring-1 ring-slate-200">
         <div className="flex items-center justify-between border-b border-slate-200 px-5 py-3">
           <h2 className="text-base font-black text-slate-950">{title}</h2>
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1 text-slate-500 hover:bg-slate-100"
+            variant="ghost"
+            size="icon-sm"
+            className="text-slate-500"
             aria-label="Đóng"
           >
             ✕
-          </button>
+          </Button>
         </div>
         <div className="max-h-[70vh] overflow-y-auto px-5 py-4">{children}</div>
         {footer ? (
@@ -192,91 +227,75 @@ export function CaseDetailWorkspace({ caseId }: CaseDetailWorkspaceProps) {
   }, [load]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-6">
-      <div className="mx-auto max-w-7xl space-y-5">
-        <header className="border-b border-slate-200 pb-5">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <Link
-                href="/cases"
-                className="text-xs font-bold text-slate-500 hover:text-slate-700"
-              >
-                ← Quay lại danh sách
-              </Link>
-              <h1 className="mt-2 text-2xl font-black text-slate-950">
-                {detail?.caseTitle ?? "Đang tải..."}
-              </h1>
-              {detail ? (
-                <p className="mt-1 text-sm text-slate-600">
-                  Mã hồ sơ: <span className="font-bold">{detail.caseCode}</span>
-                  {detail.nationalCaseCode ? (
-                    <span className="ml-2 text-xs text-slate-500">
-                      ({detail.nationalCaseCode})
-                    </span>
-                  ) : null}
-                </p>
+    <PageShell className="bg-slate-50">
+      <PageHeader className="border-b border-slate-200 pb-5">
+        <div>
+          <Button asChild variant="ghost" size="sm" className="-ml-3 w-fit text-slate-600">
+            <Link href="/cases">← Quay lại danh sách</Link>
+          </Button>
+          <h1 className="mt-2 text-2xl font-black text-slate-950">
+            {detail?.caseTitle ?? "Đang tải..."}
+          </h1>
+          {detail ? (
+            <p className="mt-1 text-sm text-slate-600">
+              Mã hồ sơ: <span className="font-bold">{detail.caseCode}</span>
+              {detail.nationalCaseCode ? (
+                <span className="ml-2 text-xs text-slate-500">
+                  ({detail.nationalCaseCode})
+                </span>
               ) : null}
-            </div>
-            {detail ? (
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">
-                  {detail.currentStage}
-                </span>
-                <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
-                  {detail.currentStatus}
-                </span>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
-                  {detail.priority}
-                </span>
-              </div>
-            ) : null}
-          </div>
-        </header>
-
-        {error ? (
-          <div className="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700">
-            {error}
+            </p>
+          ) : null}
+        </div>
+        {detail ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className="bg-white font-bold text-slate-700">
+              {detail.currentStage}
+            </Badge>
+            <StatusBadge type="case" value={detail.currentStatus} />
+            <StatusBadge type="priority" value={detail.priority} />
           </div>
         ) : null}
+      </PageHeader>
 
-        <nav className="flex flex-wrap gap-2 border-b border-slate-200">
+      {error ? (
+        <ErrorBanner error={error} />
+      ) : null}
+
+      <Tabs value={tab} onValueChange={(value) => setTab(value as TabId)}>
+        <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1 rounded-none border-b border-slate-200 bg-transparent p-0">
           {TABS.map((item) => (
-            <button
+            <TabsTrigger
               key={item.id}
-              type="button"
-              onClick={() => setTab(item.id)}
-              className={`-mb-px rounded-t-md border border-b-0 px-4 py-2 text-sm font-bold transition ${
-                tab === item.id
-                  ? "border-slate-200 bg-white text-slate-950"
-                  : "border-transparent text-slate-500 hover:text-slate-700"
-              }`}
+              value={item.id}
+              className="rounded-t-md border border-transparent border-b-0 px-4 py-2 data-[state=active]:border-slate-200 data-[state=active]:bg-white data-[state=active]:shadow-none"
             >
               {item.label}
-            </button>
+            </TabsTrigger>
           ))}
-        </nav>
+        </TabsList>
+      </Tabs>
 
-        <section className="rounded-lg border border-slate-200 bg-white p-5">
-          {isLoading || !detail ? (
-            <div className="py-10 text-center text-sm text-slate-500">
-              Đang tải dữ liệu hồ sơ...
-            </div>
-          ) : tab === "overview" ? (
-            <OverviewTab detail={detail} />
-          ) : tab === "people" ? (
-            <PeopleTab caseId={caseId} onChanged={load} />
-          ) : tab === "offenses" ? (
-            <OffensesTab caseId={caseId} onChanged={load} />
-          ) : tab === "assignments" ? (
-            <AssignmentsTab caseId={caseId} onChanged={load} />
-          ) : tab === "evidence" ? (
-            <EvidenceTab caseId={caseId} onChanged={load} />
-          ) : (
-            <DocumentsTab recent={detail.recentGeneratedDocuments} />
-          )}
-        </section>
-      </div>
-    </main>
+      <PageSection className="p-5">
+        {isLoading || !detail ? (
+          <div className="py-10 text-center text-sm text-slate-500">
+            Đang tải dữ liệu hồ sơ...
+          </div>
+        ) : tab === "overview" ? (
+          <OverviewTab detail={detail} />
+        ) : tab === "people" ? (
+          <PeopleTab caseId={caseId} onChanged={load} />
+        ) : tab === "offenses" ? (
+          <OffensesTab caseId={caseId} onChanged={load} />
+        ) : tab === "assignments" ? (
+          <AssignmentsTab caseId={caseId} onChanged={load} />
+        ) : tab === "evidence" ? (
+          <EvidenceTab caseId={caseId} onChanged={load} />
+        ) : (
+          <DocumentsTab recent={detail.recentGeneratedDocuments} />
+        )}
+      </PageSection>
+    </PageShell>
   );
 }
 
@@ -293,9 +312,18 @@ function OverviewTab({ detail }: { detail: CaseDetail }) {
             Thông tin chung
           </h2>
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">
-            <Field label="Giai đoạn" value={detail.currentStage} />
-            <Field label="Trạng thái" value={detail.currentStatus} />
-            <Field label="Ưu tiên" value={detail.priority} />
+            <Field
+              label="Giai đoạn"
+              value={<Badge variant="outline">{detail.currentStage}</Badge>}
+            />
+            <Field
+              label="Trạng thái"
+              value={<StatusBadge type="case" value={detail.currentStatus} />}
+            />
+            <Field
+              label="Ưu tiên"
+              value={<StatusBadge type="priority" value={detail.priority} />}
+            />
             <Field label="Loại vụ án" value={detail.caseType} />
             <Field label="Ngày tiếp nhận" value={formatDate(detail.receivedDate)} />
             <Field label="Ngày chấp nhận" value={formatDate(detail.acceptedDate)} />
@@ -343,7 +371,7 @@ function OverviewTab({ detail }: { detail: CaseDetail }) {
   );
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
       <dt className="text-xs font-bold text-slate-500">{label}</dt>
@@ -431,19 +459,17 @@ function PeopleTab({
         <h2 className="text-base font-black text-slate-950">
           Danh sách người liên quan ({items.length})
         </h2>
-        <button
+        <Button
           type="button"
           onClick={() => setAdding(true)}
-          className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800"
+          size="sm"
         >
           + Thêm người liên quan
-        </button>
+        </Button>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} />
       ) : null}
 
       {isLoading ? (
@@ -453,55 +479,57 @@ function PeopleTab({
           Chưa có người liên quan.
         </p>
       ) : (
-        <table className="w-full border-collapse text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-3 py-2 font-black">#</th>
-              <th className="px-3 py-2 font-black">Họ tên</th>
-              <th className="px-3 py-2 font-black">Vai trò</th>
-              <th className="px-3 py-2 font-black">Trạng thái PL</th>
-              <th className="px-3 py-2 font-black">Chính</th>
-              <th className="px-3 py-2 font-black">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <TableRow>
+              <TableHead className="px-3 py-2 font-black">#</TableHead>
+              <TableHead className="px-3 py-2 font-black">Họ tên</TableHead>
+              <TableHead className="px-3 py-2 font-black">Vai trò</TableHead>
+              <TableHead className="px-3 py-2 font-black">Trạng thái PL</TableHead>
+              <TableHead className="px-3 py-2 font-black">Chính</TableHead>
+              <TableHead className="px-3 py-2 font-black">Thao tác</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {items.map((row) => (
-              <tr key={row.id} className="border-t border-slate-100">
-                <td className="px-3 py-2 text-slate-500">{row.personOrder}</td>
-                <td className="px-3 py-2 font-semibold text-slate-900">
+              <TableRow key={row.id}>
+                <TableCell className="px-3 py-2 text-slate-500">{row.personOrder}</TableCell>
+                <TableCell className="px-3 py-2 font-semibold text-slate-900">
                   {row.person?.fullName ?? "—"}
-                </td>
-                <td className="px-3 py-2 text-slate-600">{row.roleType}</td>
-                <td className="px-3 py-2 text-slate-600">
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{row.roleType}</TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">
                   {row.legalStatus ?? "—"}
-                </td>
-                <td className="px-3 py-2">
+                </TableCell>
+                <TableCell className="px-3 py-2">
                   {row.isPrimary ? (
-                    <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-bold text-blue-700">
+                    <Badge variant="blue">
                       Chính
-                    </span>
+                    </Badge>
                   ) : null}
-                </td>
-                <td className="px-3 py-2 space-x-2">
-                  <button
+                </TableCell>
+                <TableCell className="space-x-2 px-3 py-2">
+                  <Button
                     type="button"
                     onClick={() => setEditing(row)}
-                    className="rounded-md border border-slate-200 px-2 py-1 text-xs font-bold hover:bg-slate-50"
+                    variant="outline"
+                    size="sm"
                   >
                     Sửa
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
                     onClick={() => void handleDelete(row)}
-                    className="rounded-md border border-rose-200 px-2 py-1 text-xs font-bold text-rose-700 hover:bg-rose-50"
+                    variant="destructive"
+                    size="sm"
                   >
                     Xoá
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
 
       <PersonFormModal
@@ -625,69 +653,82 @@ function PersonFormModal({
       title={isEdit ? "Cập nhật người liên quan" : "Thêm người liên quan"}
       footer={
         <>
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-bold hover:bg-slate-50"
+            variant="outline"
+            size="sm"
           >
             Huỷ
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => void submit()}
             disabled={isSubmitting}
-            className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 disabled:bg-slate-300"
+            size="sm"
           >
             {isSubmitting ? "Đang lưu..." : "Lưu"}
-          </button>
+          </Button>
         </>
       }
     >
       {error ? (
-        <div className="mb-3 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} className="mb-3" />
       ) : null}
       <div className="space-y-3">
         {!isEdit ? (
           <FormField label="Họ tên">
-            <input
+            <Input
               value={form.fullName ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
         ) : null}
         <FormField label="Vai trò">
-          <select
+          <Select
             value={form.roleType ?? "ACCUSED"}
             disabled={isEdit}
-            onChange={(e) => setForm((f) => ({ ...f, roleType: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm disabled:bg-slate-100"
+            onValueChange={(value) => setForm((f) => ({ ...f, roleType: value }))}
           >
-            {ROLE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {form.roleType && !ROLE_OPTIONS.some((opt) => opt.value === form.roleType) ? (
+                <SelectItem value={form.roleType}>{form.roleType}</SelectItem>
+              ) : null}
+              {ROLE_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
         <FormField label="Trạng thái pháp lý">
-          <select
-            value={form.legalStatus ?? ""}
-            onChange={(e) => setForm((f) => ({ ...f, legalStatus: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+          <Select
+            value={toOptionalSelectValue(form.legalStatus)}
+            onValueChange={(value) => setForm((f) => ({ ...f, legalStatus: fromOptionalSelectValue(value) }))}
           >
-            <option value="">— Không —</option>
-            {LEGAL_STATUS_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NO_SELECTION_VALUE}>— Không —</SelectItem>
+              {form.legalStatus && !LEGAL_STATUS_OPTIONS.some((opt) => opt.value === form.legalStatus) ? (
+                <SelectItem value={form.legalStatus}>{form.legalStatus}</SelectItem>
+              ) : null}
+              {LEGAL_STATUS_OPTIONS.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
         <FormField label="Thứ tự">
-          <input
+          <Input
             type="number"
             min={1}
             value={form.personOrder ?? ""}
@@ -697,7 +738,7 @@ function PersonFormModal({
                 personOrder: e.target.value ? Number(e.target.value) : undefined,
               }))
             }
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+            className="text-sm"
           />
         </FormField>
         <label className="flex items-center gap-2 text-sm">
@@ -709,11 +750,11 @@ function PersonFormModal({
           Là đối tượng chính
         </label>
         <FormField label="Ghi chú">
-          <textarea
+          <Textarea
             value={form.note ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
             rows={3}
-            className="w-full rounded-md border border-slate-200 px-2 py-1 text-sm"
+            className="text-sm"
           />
         </FormField>
       </div>
@@ -773,19 +814,17 @@ function OffensesTab({
         <h2 className="text-base font-black text-slate-950">
           Danh sách tội danh ({items.length})
         </h2>
-        <button
+        <Button
           type="button"
           onClick={() => setAdding(true)}
-          className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800"
+          size="sm"
         >
           + Thêm tội danh
-        </button>
+        </Button>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} />
       ) : null}
 
       {isLoading ? (
@@ -793,45 +832,47 @@ function OffensesTab({
       ) : items.length === 0 ? (
         <p className="py-6 text-center text-sm text-slate-500">Chưa có tội danh.</p>
       ) : (
-        <table className="w-full border-collapse text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-3 py-2 font-black">#</th>
-              <th className="px-3 py-2 font-black">Tên tội danh</th>
-              <th className="px-3 py-2 font-black">Mô tả</th>
-              <th className="px-3 py-2 font-black">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <TableRow>
+              <TableHead className="px-3 py-2 font-black">#</TableHead>
+              <TableHead className="px-3 py-2 font-black">Tên tội danh</TableHead>
+              <TableHead className="px-3 py-2 font-black">Mô tả</TableHead>
+              <TableHead className="px-3 py-2 font-black">Thao tác</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {items.map((row) => (
-              <tr key={row.id} className="border-t border-slate-100">
-                <td className="px-3 py-2 text-slate-500">{row.id}</td>
-                <td className="px-3 py-2 font-semibold text-slate-900">
+              <TableRow key={row.id}>
+                <TableCell className="px-3 py-2 text-slate-500">{row.id}</TableCell>
+                <TableCell className="px-3 py-2 font-semibold text-slate-900">
                   {row.offense?.offenseName ?? "—"}
-                </td>
-                <td className="px-3 py-2 text-slate-600">
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">
                   {row.offenseDescription ?? "—"}
-                </td>
-                <td className="px-3 py-2 space-x-2">
-                  <button
+                </TableCell>
+                <TableCell className="space-x-2 px-3 py-2">
+                  <Button
                     type="button"
                     onClick={() => setEditing(row)}
-                    className="rounded-md border border-slate-200 px-2 py-1 text-xs font-bold hover:bg-slate-50"
+                    variant="outline"
+                    size="sm"
                   >
                     Sửa
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
                     onClick={() => void handleDelete(row)}
-                    className="rounded-md border border-rose-200 px-2 py-1 text-xs font-bold text-rose-700 hover:bg-rose-50"
+                    variant="destructive"
+                    size="sm"
                   >
                     Xoá
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
 
       <OffenseFormModal
@@ -947,62 +988,61 @@ function OffenseFormModal({
       title={isEdit ? "Cập nhật tội danh" : "Thêm tội danh"}
       footer={
         <>
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-bold hover:bg-slate-50"
+            variant="outline"
+            size="sm"
           >
             Huỷ
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => void submit()}
             disabled={isSubmitting}
-            className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 disabled:bg-slate-300"
+            size="sm"
           >
             {isSubmitting ? "Đang lưu..." : "Lưu"}
-          </button>
+          </Button>
         </>
       }
     >
       {error ? (
-        <div className="mb-3 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} className="mb-3" />
       ) : null}
       <div className="space-y-3">
         <FormField label="Tên tội danh *">
-          <input
+          <Input
             disabled={isEdit}
             value={form.offenseName}
             onChange={(e) => setForm((f) => ({ ...f, offenseName: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm disabled:bg-slate-100"
+            className="text-sm"
           />
         </FormField>
         {!isEdit ? (
           <>
             <FormField label="Mã tội danh">
-              <input
+              <Input
                 value={form.offenseCode ?? ""}
                 onChange={(e) => setForm((f) => ({ ...f, offenseCode: e.target.value }))}
-                className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+                className="text-sm"
               />
             </FormField>
             <FormField label="Nhóm tội danh">
-              <input
+              <Input
                 value={form.offenseGroup ?? ""}
                 onChange={(e) => setForm((f) => ({ ...f, offenseGroup: e.target.value }))}
-                className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+                className="text-sm"
               />
             </FormField>
           </>
         ) : null}
         <FormField label="Mô tả">
-          <textarea
+          <Textarea
             value={form.offenseDescription ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, offenseDescription: e.target.value }))}
             rows={3}
-            className="w-full rounded-md border border-slate-200 px-2 py-1 text-sm"
+            className="text-sm"
           />
         </FormField>
       </div>
@@ -1066,19 +1106,17 @@ function AssignmentsTab({
         <h2 className="text-base font-black text-slate-950">
           Phân công trong hồ sơ ({items.length})
         </h2>
-        <button
+        <Button
           type="button"
           onClick={() => setAdding(true)}
-          className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800"
+          size="sm"
         >
           + Thêm phân công
-        </button>
+        </Button>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} />
       ) : null}
 
       {isLoading ? (
@@ -1086,49 +1124,51 @@ function AssignmentsTab({
       ) : items.length === 0 ? (
         <p className="py-6 text-center text-sm text-slate-500">Chưa có phân công.</p>
       ) : (
-        <table className="w-full border-collapse text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-3 py-2 font-black">Vai trò</th>
-              <th className="px-3 py-2 font-black">Cán bộ</th>
-              <th className="px-3 py-2 font-black">Ngày bắt đầu</th>
-              <th className="px-3 py-2 font-black">Ngày kết thúc</th>
-              <th className="px-3 py-2 font-black">QĐ số</th>
-              <th className="px-3 py-2 font-black">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <TableRow>
+              <TableHead className="px-3 py-2 font-black">Vai trò</TableHead>
+              <TableHead className="px-3 py-2 font-black">Cán bộ</TableHead>
+              <TableHead className="px-3 py-2 font-black">Ngày bắt đầu</TableHead>
+              <TableHead className="px-3 py-2 font-black">Ngày kết thúc</TableHead>
+              <TableHead className="px-3 py-2 font-black">QĐ số</TableHead>
+              <TableHead className="px-3 py-2 font-black">Thao tác</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {items.map((row) => (
-              <tr key={row.id} className="border-t border-slate-100">
-                <td className="px-3 py-2 font-semibold text-slate-900">
+              <TableRow key={row.id}>
+                <TableCell className="px-3 py-2 font-semibold text-slate-900">
                   {row.assignmentRole}
-                </td>
-                <td className="px-3 py-2 text-slate-600">
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">
                   {row.official?.fullName ?? "—"}
-                </td>
-                <td className="px-3 py-2 text-slate-600">{formatDate(row.assignedDate)}</td>
-                <td className="px-3 py-2 text-slate-600">{formatDate(row.endedDate)}</td>
-                <td className="px-3 py-2 text-slate-600">{row.decisionNo ?? "—"}</td>
-                <td className="px-3 py-2 space-x-2">
-                  <button
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{formatDate(row.assignedDate)}</TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{formatDate(row.endedDate)}</TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{row.decisionNo ?? "—"}</TableCell>
+                <TableCell className="space-x-2 px-3 py-2">
+                  <Button
                     type="button"
                     onClick={() => setEditing(row)}
-                    className="rounded-md border border-slate-200 px-2 py-1 text-xs font-bold hover:bg-slate-50"
+                    variant="outline"
+                    size="sm"
                   >
                     Sửa
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
                     onClick={() => void handleDelete(row)}
-                    className="rounded-md border border-rose-200 px-2 py-1 text-xs font-bold text-rose-700 hover:bg-rose-50"
+                    variant="destructive"
+                    size="sm"
                   >
                     Xoá
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
 
       <AssignmentFormModal
@@ -1260,93 +1300,101 @@ function AssignmentFormModal({
       title={isEdit ? "Cập nhật phân công" : "Thêm phân công"}
       footer={
         <>
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-bold hover:bg-slate-50"
+            variant="outline"
+            size="sm"
           >
             Huỷ
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => void submit()}
             disabled={isSubmitting}
-            className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 disabled:bg-slate-300"
+            size="sm"
           >
             {isSubmitting ? "Đang lưu..." : "Lưu"}
-          </button>
+          </Button>
         </>
       }
     >
       {error ? (
-        <div className="mb-3 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} className="mb-3" />
       ) : null}
       <div className="space-y-3">
         <FormField label="Vai trò *">
-          <input
+          <Input
             value={form.assignmentRole ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, assignmentRole: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+            className="text-sm"
           />
         </FormField>
         <FormField label="Cán bộ">
-          <select
-            value={form.officialId ?? ""}
-            onChange={(e) => setForm((f) => ({ ...f, officialId: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+          <Select
+            value={toOptionalSelectValue(form.officialId)}
+            onValueChange={(value) => setForm((f) => ({ ...f, officialId: fromOptionalSelectValue(value) }))}
           >
-            <option value="">— Chưa chọn —</option>
-            {officials.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.fullName}
-                {o.positionTitle ? ` (${o.positionTitle})` : ""}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NO_SELECTION_VALUE}>— Chưa chọn —</SelectItem>
+              {form.officialId && !officials.some((o) => o.id === form.officialId) ? (
+                <SelectItem value={form.officialId}>
+                  {editing?.official?.fullName ?? form.officialId}
+                </SelectItem>
+              ) : null}
+              {officials.map((o) => (
+                <SelectItem key={o.id} value={o.id}>
+                  {o.fullName}
+                  {o.positionTitle ? ` (${o.positionTitle})` : ""}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
         <div className="grid gap-3 sm:grid-cols-2">
           <FormField label="Ngày bắt đầu">
-            <input
+            <Input
               type="date"
               value={form.assignedDate ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, assignedDate: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
           <FormField label="Ngày kết thúc">
-            <input
+            <Input
               type="date"
               value={form.endedDate ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, endedDate: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <FormField label="Số QĐ">
-            <input
+            <Input
               value={form.decisionNo ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, decisionNo: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
           <FormField label="Ngày QĐ">
-            <input
+            <Input
               type="date"
               value={form.decisionDate ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, decisionDate: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
         </div>
         <FormField label="Ghi chú">
-          <textarea
+          <Textarea
             value={form.note ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
             rows={3}
-            className="w-full rounded-md border border-slate-200 px-2 py-1 text-sm"
+            className="text-sm"
           />
         </FormField>
       </div>
@@ -1405,19 +1453,17 @@ function EvidenceTab({
         <h2 className="text-base font-black text-slate-950">
           Tang vật/vật chứng ({items.length})
         </h2>
-        <button
+        <Button
           type="button"
           onClick={() => setAdding(true)}
-          className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800"
+          size="sm"
         >
           + Thêm tang vật
-        </button>
+        </Button>
       </div>
 
       {error ? (
-        <div className="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} />
       ) : null}
 
       {isLoading ? (
@@ -1425,49 +1471,51 @@ function EvidenceTab({
       ) : items.length === 0 ? (
         <p className="py-6 text-center text-sm text-slate-500">Chưa có tang vật.</p>
       ) : (
-        <table className="w-full border-collapse text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-3 py-2 font-black">Tên tang vật</th>
-              <th className="px-3 py-2 font-black">Loại</th>
-              <th className="px-3 py-2 font-black">Số lượng</th>
-              <th className="px-3 py-2 font-black">Nơi lưu</th>
-              <th className="px-3 py-2 font-black">Trạng thái</th>
-              <th className="px-3 py-2 font-black">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+            <TableRow>
+              <TableHead className="px-3 py-2 font-black">Tên tang vật</TableHead>
+              <TableHead className="px-3 py-2 font-black">Loại</TableHead>
+              <TableHead className="px-3 py-2 font-black">Số lượng</TableHead>
+              <TableHead className="px-3 py-2 font-black">Nơi lưu</TableHead>
+              <TableHead className="px-3 py-2 font-black">Trạng thái</TableHead>
+              <TableHead className="px-3 py-2 font-black">Thao tác</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {items.map((row) => (
-              <tr key={row.id} className="border-t border-slate-100">
-                <td className="px-3 py-2 font-semibold text-slate-900">
+              <TableRow key={row.id}>
+                <TableCell className="px-3 py-2 font-semibold text-slate-900">
                   {row.evidenceName}
-                </td>
-                <td className="px-3 py-2 text-slate-600">{row.evidenceType ?? "—"}</td>
-                <td className="px-3 py-2 text-slate-600">
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{row.evidenceType ?? "—"}</TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">
                   {row.quantity ?? "—"} {row.unit ?? ""}
-                </td>
-                <td className="px-3 py-2 text-slate-600">{row.storageLocation ?? "—"}</td>
-                <td className="px-3 py-2 text-slate-600">{row.currentStatus}</td>
-                <td className="px-3 py-2 space-x-2">
-                  <button
+                </TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{row.storageLocation ?? "—"}</TableCell>
+                <TableCell className="px-3 py-2 text-slate-600">{row.currentStatus}</TableCell>
+                <TableCell className="space-x-2 px-3 py-2">
+                  <Button
                     type="button"
                     onClick={() => setEditing(row)}
-                    className="rounded-md border border-slate-200 px-2 py-1 text-xs font-bold hover:bg-slate-50"
+                    variant="outline"
+                    size="sm"
                   >
                     Sửa
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
                     onClick={() => void handleDelete(row)}
-                    className="rounded-md border border-rose-200 px-2 py-1 text-xs font-bold text-rose-700 hover:bg-rose-50"
+                    variant="destructive"
+                    size="sm"
                   >
                     Xoá
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
 
       <EvidenceFormModal
@@ -1608,89 +1656,88 @@ function EvidenceFormModal({
       title={isEdit ? "Cập nhật tang vật" : "Thêm tang vật"}
       footer={
         <>
-          <button
+          <Button
             type="button"
             onClick={onClose}
-            className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-bold hover:bg-slate-50"
+            variant="outline"
+            size="sm"
           >
             Huỷ
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => void submit()}
             disabled={isSubmitting}
-            className="rounded-md bg-blue-700 px-3 py-1.5 text-sm font-bold text-white hover:bg-blue-800 disabled:bg-slate-300"
+            size="sm"
           >
             {isSubmitting ? "Đang lưu..." : "Lưu"}
-          </button>
+          </Button>
         </>
       }
     >
       {error ? (
-        <div className="mb-3 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-          {error}
-        </div>
+        <ErrorBanner error={error} className="mb-3" />
       ) : null}
       <div className="space-y-3">
         <FormField label="Tên tang vật *">
-          <input
+          <Input
             value={form.evidenceName}
             onChange={(e) => setForm((f) => ({ ...f, evidenceName: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+            className="text-sm"
           />
         </FormField>
         <div className="grid gap-3 sm:grid-cols-2">
           <FormField label="Mã tang vật">
-            <input
+            <Input
               value={form.evidenceCode ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, evidenceCode: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
           <FormField label="Loại">
-            <input
+            <Input
               value={form.evidenceType ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, evidenceType: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <FormField label="Số lượng">
-            <input
+            <Input
               value={form.quantity ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
           <FormField label="Đơn vị">
-            <input
+            <Input
               value={form.unit ?? ""}
               onChange={(e) => setForm((f) => ({ ...f, unit: e.target.value }))}
-              className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+              className="text-sm"
             />
           </FormField>
         </div>
         <FormField label="Trạng thái">
-          <input
+          <Input
             value={form.currentStatus ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, currentStatus: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+            className="text-sm"
           />
         </FormField>
         <FormField label="Nơi lưu">
-          <input
+          <Input
             value={form.storageLocation ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, storageLocation: e.target.value }))}
-            className="h-9 w-full rounded-md border border-slate-200 px-2 text-sm"
+            className="text-sm"
           />
         </FormField>
         <FormField label="Mô tả">
-          <textarea
+          <Textarea
             value={form.description ?? ""}
             onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
             rows={3}
-            className="w-full rounded-md border border-slate-200 px-2 py-1 text-sm"
+            className="text-sm"
           />
         </FormField>
       </div>
@@ -1721,41 +1768,40 @@ function DocumentsTab({ recent }: { recent: RecentGeneratedDocument[] }) {
   }
 
   return (
-    <table className="w-full border-collapse text-left text-sm">
-      <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
-        <tr>
-          <th className="px-3 py-2 font-black">Mã BM</th>
-          <th className="px-3 py-2 font-black">Tiêu đề</th>
-          <th className="px-3 py-2 font-black">Trạng thái</th>
-          <th className="px-3 py-2 font-black">Ngày tạo</th>
-          <th className="px-3 py-2 font-black">Mở</th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHeader className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+        <TableRow>
+          <TableHead className="px-3 py-2 font-black">Mã BM</TableHead>
+          <TableHead className="px-3 py-2 font-black">Tiêu đề</TableHead>
+          <TableHead className="px-3 py-2 font-black">Trạng thái</TableHead>
+          <TableHead className="px-3 py-2 font-black">Ngày tạo</TableHead>
+          <TableHead className="px-3 py-2 font-black">Mở</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {sorted.map((doc) => (
-          <tr key={doc.id} className="border-t border-slate-100">
-            <td className="px-3 py-2 font-mono text-xs text-slate-500">
+          <TableRow key={doc.id}>
+            <TableCell className="px-3 py-2 font-mono text-xs text-slate-500">
               {doc.documentCode ?? "—"}
-            </td>
-            <td className="px-3 py-2 font-semibold text-slate-900">
+            </TableCell>
+            <TableCell className="px-3 py-2 font-semibold text-slate-900">
               {doc.documentTitle}
-            </td>
-            <td className="px-3 py-2 text-slate-600">{doc.reviewStatus}</td>
-            <td className="px-3 py-2 text-slate-600">
+            </TableCell>
+            <TableCell className="px-3 py-2">
+              <StatusBadge type="review" value={doc.reviewStatus} />
+            </TableCell>
+            <TableCell className="px-3 py-2 text-slate-600">
               {formatDateTime(doc.generatedAt)}
-            </td>
-            <td className="px-3 py-2">
-              <Link
-                href={`/documents/${doc.id}`}
-                className="rounded-md bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100"
-              >
-                Mở
-              </Link>
-            </td>
-          </tr>
+            </TableCell>
+            <TableCell className="px-3 py-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href={`/documents/${doc.id}`}>Mở</Link>
+              </Button>
+            </TableCell>
+          </TableRow>
         ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }
 

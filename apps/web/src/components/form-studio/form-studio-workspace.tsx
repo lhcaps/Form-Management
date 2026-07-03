@@ -297,7 +297,7 @@ export function FormStudioWorkspace() {
             <button
               type="button"
               onClick={() => setCreateOpen(true)}
-              className="min-h-11 rounded-lg bg-[#123B66] px-4 text-sm font-extrabold text-white shadow-sm hover:bg-[#0B2D50]"
+              className="min-h-11 rounded-lg bg-primary px-4 text-sm font-extrabold text-primary-foreground shadow-sm hover:bg-primary/90"
             >
               + Biểu mẫu trống
             </button>
@@ -525,7 +525,7 @@ function CreateBlankDialog({
           </button>
           <button
             disabled={saving || !title.trim()}
-            className="rounded-lg bg-[#123B66] px-4 py-2 font-bold text-white disabled:opacity-50"
+            className="rounded-lg bg-primary px-4 py-2 font-bold text-primary-foreground disabled:opacity-50"
           >
             {saving ? "Đang tạo…" : "Tạo draft"}
           </button>
@@ -876,7 +876,7 @@ function StudioEditor({
                     "Đã gửi phiên bản sang hàng đợi duyệt.",
                   )
                 }
-                className="h-10 rounded-lg bg-[#123B66] px-4 text-sm font-extrabold text-white"
+                className="h-10 rounded-lg bg-primary px-4 text-sm font-extrabold text-primary-foreground"
               >
                 Gửi duyệt
               </button>
@@ -1681,7 +1681,7 @@ function PreviewPanel({
         <button
           type="button"
           onClick={onRun}
-          className="mt-5 rounded-lg bg-[#123B66] px-5 py-3 text-sm font-extrabold text-white"
+          className="mt-5 rounded-lg bg-primary px-5 py-3 text-sm font-extrabold text-primary-foreground"
         >
           Tạo preview mới
         </button>

@@ -39,6 +39,7 @@ import { useEffect, useState } from "react";
 import { absoluteApiUrl, extractApiError } from "@/lib/api-client";
 import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormSection, BmFormMetaBar } from "@/components/documents/bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 import { useCasePayload } from "@/lib/case-payload-context";
 import { applyCasePayloadToGenericForm, type GenericCaseFormInputs } from "@/lib/bm-auto-populate/generic-case-defaults";
 
@@ -402,7 +403,10 @@ export function Bm027FormInputsPanel({
       </BmFormSection>
 
       {/* Actions */}
-      <div className="sticky bottom-4 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <FormActionBar
+        className="flex flex-wrap items-center justify-between gap-3"
+        printHidden={false}
+      >
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
@@ -428,7 +432,7 @@ export function Bm027FormInputsPanel({
         >
           {isSaving ? "Đang lưu..." : "Lưu BM-027"}
         </button>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

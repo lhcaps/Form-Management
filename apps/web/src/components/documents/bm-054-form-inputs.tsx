@@ -7,6 +7,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
+import { FormActionBar } from "@/components/common/form-action-bar";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
@@ -824,7 +825,7 @@ export function Bm054FormInputsPanel({
         <BmFieldText label="Người ký" value={form.signature.signerName} onChange={(value) => updateField("signature", "signerName", value)} fullWidth />
       </SectionCard>
 
-      <div className="sticky bottom-4 z-10 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <FormActionBar printHidden={false}>
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-sm text-slate-600">
             Sau khi lưu, backend tự sinh các dòng như <b>identityDocumentLine</b>,
@@ -840,7 +841,7 @@ export function Bm054FormInputsPanel({
             {isSaving ? "Đang lưu..." : "Lưu dữ liệu BM-054"}
           </button>
         </div>
-      </div>
+      </FormActionBar>
     </div>
   );
 }

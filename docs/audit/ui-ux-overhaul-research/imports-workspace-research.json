@@ -1,0 +1,212 @@
+{
+  "pr": 12,
+  "title": "docs(ui): research imports workspace shadcn migration plan",
+  "scope": "research-only",
+  "stacked_on": [
+    "PR #1 shadcn convergence starter",
+    "PR #2 FormActionBar rollout",
+    "PR #3 admin auth identities shadcn migration",
+    "PR #4 dashboard KPI shadcn convergence",
+    "PR #5 generated document workspace shadcn migration",
+    "PR #6 BM-172 special action surface",
+    "PR #7 cases list PageShell/StatusBadge convergence",
+    "PR #8 case detail workspace shadcn/status convergence",
+    "PR #9 pre-export form controls shadcn convergence",
+    "PR #10 remaining admin/reporting surface triage",
+    "PR #11 settings PageShell/Table convergence",
+    "light-surface hotfix",
+    "light-surface visual QA"
+  ],
+  "route": "/imports",
+  "files_in_scope": [
+    "apps/web/src/app/imports/page.tsx",
+    "apps/web/src/components/imports/import-workspace.tsx",
+    "apps/web/src/lib/imports-api.ts"
+  ],
+  "implementation_files_changed": [],
+  "added_guards": [
+    "apps/web/src/app/imports/imports-workspace-contract.test.ts"
+  ],
+  "added_docs": [
+    "docs/audit/ui-ux-overhaul-research/imports-workspace-research.md",
+    "docs/audit/ui-ux-overhaul-research/imports-workspace-research.json"
+  ],
+  "behavior": {
+    "dropzone": {
+      "accept": ".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.json,.png,.jpg,.jpeg,.webp,.tif,.tiff",
+      "max_files_per_drop": 20,
+      "primary_cta_class": "bg-primary",
+      "drag_handlers": ["onDragOver", "onDragLeave", "onDrop"],
+      "uses_xhr_for_progress": true
+    },
+    "preview": {
+      "table_kind_enum": ["text", "json", "table", "image", "binary"],
+      "rendered": ["table", "json.preview", "previewText"],
+      "column_mapping_field": "candidateColumns[].{id,columnName,mappedField,confidence}",
+      "empty_cell_placeholder": "Trống"
+    },
+    "confirm": {
+      "payload_type": "ConfirmImportPayload",
+      "required_keys": ["targetType"],
+      "optional_keys": ["note", "existingCaseId", "newCase", "createdByName"],
+      "new_case_keys": ["caseCode", "caseTitle", "relatedPersonName", "offenseName", "createdDate"],
+      "endpoint": "POST /import/batches/{batchId}/confirm",
+      "history_helper_args": [1, 12]
+    },
+    "history": {
+      "endpoint": "GET /import/history?page=&pageSize=",
+      "default_call": "getImportHistory(1, 12)",
+      "pagination_in_ui": false,
+      "shape": "grid (md:2 xl:3)"
+    },
+    "status": {
+      "enum": [
+        "UPLOADED",
+        "PARSED",
+        "PARTIAL",
+        "FAILED",
+        "CONFIRMED",
+        "STORED_ONLY",
+        "PARSED_WITH_WARNINGS",
+        "REJECTED"
+      ],
+      "confidence_enum": ["cao", "vừa", "thấp"]
+    },
+    "auth": {
+      "guard_in_route": false,
+      "auth_helper": "readApi (withCredentials)",
+      "session_cookie_required": true,
+      "qlv_session_used": false
+    }
+  },
+  "ui_debt_summary": {
+    "raw_button_count": 6,
+    "raw_input_count": 7,
+    "raw_textarea_count": 1,
+    "raw_table_count": 1,
+    "raw_svg_count": 1,
+    "radio_inputs_count": 1,
+    "custom_status_pill_call_sites": 4,
+    "custom_section_card_call_sites": 4,
+    "hardcoded_tone_class_sites": 6,
+    "bg_primary_uses": 1,
+    "dark_surface_uses": 0,
+    "primary_as_surface_uses": 0,
+    "missing_pageshell": true,
+    "custom_loading_sites": 1,
+    "custom_error_banner_sites": 3,
+    "custom_empty_state_sites": 2
+  },
+  "risk_classes": {
+    "LOW": [
+      "PageShell wrapper",
+      "PageSection wrapper",
+      "ErrorBanner swap",
+      "LoadingState swap",
+      "EmptyState swap",
+      "Textarea migration",
+      "input migrations",
+      "badge replacement",
+      "preview <pre> swap",
+      "icon swap"
+    ],
+    "MEDIUM": [
+      "dropzone visual shell",
+      "StatusPill -> StatusBadge (needs import type)",
+      "history grid -> Table (UX decision)",
+      "button migration (dropzone label, confirm, upload)",
+      "radio group migration",
+      "preview table migration"
+    ],
+    "HIGH": [
+      "upload XHR",
+      "confirm payload key names",
+      "drag/drop handlers",
+      "history helper signature",
+      "file accept string",
+      "ImportTargetType literal set",
+      "ImportParsedPayload kind union"
+    ]
+  },
+  "migration_plan": [
+    {
+      "id": "PR A",
+      "title": "Imports shell + read-only state surfaces",
+      "files": [
+        "apps/web/src/app/imports/page.tsx",
+        "apps/web/src/components/imports/import-workspace.tsx"
+      ],
+      "touches": [
+        "PageShell/PageHeader wrap",
+        "ErrorBanner x3",
+        "LoadingState (history card)",
+        "EmptyState x2",
+        "PageSection card (replaces SectionCard visually — SectionCard helper kept)"
+      ]
+    },
+    {
+      "id": "PR B",
+      "title": "Imports history + status pills",
+      "files": [
+        "apps/web/src/components/common/status-badge.tsx",
+        "apps/web/src/components/imports/import-workspace.tsx"
+      ],
+      "touches": [
+        "Add import status type",
+        "Move statusLabelMap / statusTone",
+        "Swap StatusPill for StatusBadge type=import"
+      ]
+    },
+    {
+      "id": "PR C",
+      "title": "Parsed preview table",
+      "files": [
+        "apps/web/src/components/imports/import-workspace.tsx"
+      ],
+      "touches": [
+        "PreviewTable <table> -> shadcn Table",
+        "Confidence pills -> Badge variants",
+        "Parsed JSON <pre> -> Textarea readOnly or kept <pre>"
+      ]
+    },
+    {
+      "id": "PR D",
+      "title": "Dropzone / button / input / radio visual cleanup",
+      "files": [
+        "apps/web/src/components/imports/import-workspace.tsx"
+      ],
+      "touches": [
+        "Button migrations (6)",
+        "dropzone label -> Button asChild",
+        "Input migrations (6)",
+        "Textarea migration (1)",
+        "RadioGroup migration (1)",
+        "<svg> -> Lucide icon"
+      ]
+    },
+    {
+      "id": "PR E",
+      "title": "Source guards + visual smoke route expansion",
+      "files": [
+        "apps/web/src/app/imports/imports-workspace-contract.test.ts",
+        "scripts/audit/ui-light-surface-smoke.mjs"
+      ],
+      "touches": [
+        "extend guard assertions",
+        "add /imports to smoke route list behind fixture"
+      ]
+    }
+  ],
+  "source_guard_added": true,
+  "form_studio_deferred": true,
+  "ready_for_implementation_pr": true,
+  "next_implementation_pr_id": "PR A",
+  "validation_commands": [
+    "pnpm --filter web lint",
+    "pnpm --filter web exec tsc --noEmit",
+    "pnpm test:web-unit",
+    "pnpm test:e2e:auth",
+    "node scripts/audit/ui-light-surface-smoke.mjs",
+    "pnpm --filter web test -- --testPathPattern=imports-workspace-contract"
+  ]
+}

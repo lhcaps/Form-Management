@@ -7,6 +7,7 @@ import { ErrorBanner } from "@/components/common/error-banner";
 import { RuntimePdfPreview } from "@/components/documents/runtime-pdf-preview";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
 import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
+import { Button } from "@/components/ui/button";
 import { getCaseDetail, type CaseDetail } from "@/lib/case-detail-api";
 import {
   DEFAULT_RUNTIME_TEMPLATE_PLACE,
@@ -578,34 +579,37 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2">
-                      <button
+                      <Button
                         type="button"
+                        variant="outline"
+                        size="sm"
                         onClick={() =>
                           void downloadRuntimePreviewDocxByUrl(
                             previewSession.docxDownloadUrl,
                             previewSession.fileName,
                           )
                         }
-                        className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
                       >
                         Tải DOCX
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
+                        variant="outline"
+                        size="sm"
                         disabled
                         title="Tính năng tạo văn bản từ hồ sơ sẽ được bổ sung trong phiên bản tới."
-                        className="cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-400 opacity-60"
                       >
                         Tạo văn bản từ hồ sơ
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
+                        variant="ghost"
+                        size="sm"
                         onClick={() => void previewDocx()}
                         disabled={isExporting}
-                        className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
                       >
                         Tạo lại
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -748,46 +752,58 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                   Dữ liệu demo chỉ dùng để kiểm thử/xem thử biểu mẫu, không dùng cho văn bản thật.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-                <button
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
+                <Button
                   type="button"
+                  variant="outline"
+                  size="default"
+                  className="min-w-[14rem] whitespace-normal text-center leading-snug sm:min-h-11"
                   onClick={applySmartPrefill}
-                  className="min-h-10 rounded-xl bg-blue-600 px-4 text-sm font-bold text-white disabled:opacity-50 sm:min-h-11"
+                  disabled={isSaving || isExporting}
                 >
                   Điền nhanh thông tin chung
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="outline"
+                  size="default"
+                  className="sm:min-h-11"
                   onClick={applySampleData}
+                  disabled={isSaving || isExporting}
                   title="Dữ liệu demo — không dùng cho vụ việc thực"
-                  className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-500 sm:min-h-11"
                 >
                   Dữ liệu demo
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="default"
+                  className="sm:min-h-11"
                   onClick={() => saveDraft()}
-                  disabled={isSaving || !isDirty}
-                  className="min-h-10 rounded-xl bg-slate-950 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
+                  disabled={isSaving || !isDirty || isExporting}
                 >
                   {isSaving ? "Đang lưu..." : "Lưu bản nháp"}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="default"
+                  size="default"
+                  className="sm:min-h-11"
                   onClick={() => void previewDocx()}
-                  disabled={isExporting}
-                  className="min-h-10 rounded-xl bg-blue-600 px-5 text-sm font-extrabold text-white disabled:opacity-50 sm:min-h-11"
+                  disabled={isSaving || isExporting}
                 >
                   {isExporting ? "Đang tạo..." : "Xem trước bản in"}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="default"
+                  className="sm:min-h-11"
                   onClick={resetDraft}
-                  disabled={!isDirty}
-                  className="min-h-10 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 disabled:opacity-50 sm:min-h-11"
+                  disabled={!isDirty || isSaving || isExporting}
                 >
                   Xóa bản nháp
-                </button>
+                </Button>
               </div>
             </section>
           </>

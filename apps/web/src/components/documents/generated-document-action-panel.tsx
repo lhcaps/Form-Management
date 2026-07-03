@@ -13,6 +13,10 @@ import {
   PreExportCustomizationPanel,
   type RenderedFileMetadata,
 } from "@/components/documents/pre-export-customization-panel";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ErrorBanner } from "@/components/common/error-banner";
+import { StatusBadge } from "@/components/common/status-badge";
 import { downloadFile, DownloadError } from "@/lib/file-download";
 
 type Props = {
@@ -55,11 +59,7 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [latestPreviewMeta, setLatestPreviewMeta] = useState<RenderedFileMetadata | null>(null);
 
-  function clearDownloadError() {
-    setDownloadError(null);
-  }
-
-  async function handleDownloadLatest(file: GeneratedDocumentFile | undefined, format: "DOCX" | "PDF") {
+  async function handleDownloadLatest(file: GeneratedDocumentFile | undefined, _format: "DOCX" | "PDF") {
     if (!file) return;
     setDownloadError(null);
     try {
@@ -257,20 +257,34 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
         <h2 className="mt-1 text-lg font-semibold text-slate-900">
           {data?.documentTitle || `Document #${documentId}`}
         </h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Trạng thái: <span className="font-medium">{data?.reviewStatus}</span>
-        </p>
+        {data?.reviewStatus ? (
+          <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
+            <span>Trạng thái:</span>
+            <StatusBadge type="review" value={data.reviewStatus} />
+          </div>
+        ) : null}
       </div>
 
+      {error ? (
+        <ErrorBanner
+          error={error}
+          title="Không thể cập nhật tệp đã tạo"
+          className="mb-4"
+        />
+      ) : null}
+
       {downloadError ? (
-        <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert">
-          {downloadError}
-        </div>
+        <ErrorBanner
+          error={downloadError}
+          title="Không tải được tệp"
+          className="mb-4"
+        />
       ) : null}
 
       {successMessage ? (
-        <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
-          {successMessage}
+        <div className="mb-4 flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+          <Badge variant="success">Hoàn tất</Badge>
+          <span>{successMessage}</span>
         </div>
       ) : null}
 
@@ -282,75 +296,62 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
 
       {/* Preview success panel - shown only after preview is generated */}
       {latestPreviewMeta ? (
-        <div className="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm">
+        <div className="mb-5 rounded-xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
           <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                Đã tạo bản xem trước
-              </p>
-              <h3 className="mt-1 text-lg font-semibold text-emerald-900">
+              <Badge variant="success">Đã tạo bản xem trước</Badge>
+              <h3 className="mt-2 text-lg font-semibold text-slate-900">
                 Bạn có thể kiểm tra định dạng trước khi tải file DOCX.
               </h3>
               {latestPreviewMeta.fileName ? (
-                <p className="mt-1 text-sm text-emerald-700">
+                <p className="mt-1 text-sm text-slate-600">
                   File: {latestPreviewMeta.fileName}
                 </p>
               ) : null}
               <div className="mt-2 flex flex-wrap gap-2">
-                <a
-                  href={`/documents/${documentId}?tab=preview`}
-                  className="rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
-                >
-                  Mở bản xem trước
-                </a>
-                <a
-                  href={`/documents/${documentId}?tab=history`}
-                  className="rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
-                >
-                  Lịch sử xử lý
-                </a>
+                <Button asChild variant="outline" size="sm">
+                  <a href={`/documents/${documentId}?tab=preview`}>
+                    Mở bản xem trước
+                  </a>
+                </Button>
+                <Button asChild variant="outline" size="sm">
+                  <a href={`/documents/${documentId}?tab=history`}>
+                    Lịch sử xử lý
+                  </a>
+                </Button>
               </div>
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
-              <button
+              <Button
                 type="button"
                 onClick={handleDownloadPreview}
                 disabled={!latestPreviewMeta?.fileId}
-                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
               >
                 Tải DOCX
-              </button>
+              </Button>
             </div>
           </div>
         </div>
       ) : null}
 
       <div className="grid gap-3 md:grid-cols-2">
-        <button
+        <Button
           type="button"
           onClick={() => handleDownloadLatest(latestDocx, "DOCX")}
           disabled={!latestDocx}
-          className={`rounded-lg border px-4 py-2 text-center text-sm font-semibold ${
-            latestDocx
-              ? "border-slate-300 text-slate-800 hover:bg-slate-50"
-              : "pointer-events-none border-slate-200 text-slate-400"
-          }`}
+          variant="outline"
         >
           Tải DOCX mới nhất
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() => handleDownloadLatest(latestPdf, "PDF")}
           disabled={!latestPdf}
-          className={`rounded-lg border px-4 py-2 text-center text-sm font-semibold ${
-            latestPdf
-              ? "border-slate-300 text-slate-800 hover:bg-slate-50"
-              : "pointer-events-none border-slate-200 text-slate-400"
-          }`}
+          variant="outline"
         >
           Tải PDF mới nhất
-        </button>
+        </Button>
       </div>
 
       <div className="mt-5">
@@ -363,34 +364,37 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button
+            <Button
               type="button"
               onClick={toggleSelectAll}
               disabled={files.length === 0 || actionLoading !== null}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="outline"
+              size="sm"
             >
               {allVisibleSelected ? "Bỏ chọn tất cả" : "Chọn tất cả"}
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               onClick={handleDeleteSelected}
               disabled={selectedFileIds.size === 0 || actionLoading !== null}
-              className="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="destructive"
+              size="sm"
             >
               {actionLoading === "DELETE_SELECTED"
                 ? "Đang xóa..."
                 : `Xóa tệp đã chọn (${selectedFileIds.size})`}
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               onClick={handleCleanupOldFiles}
               disabled={files.length <= 2 || actionLoading !== null}
-              className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="warning"
+              size="sm"
             >
               {actionLoading === "CLEANUP" ? "Đang dọn..." : "Dọn tệp cũ"}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -429,13 +433,14 @@ export function GeneratedDocumentActionPanel({ documentId }: Props) {
                     </p>
                   </div>
 
-                  <button
+                  <Button
                     type="button"
                     onClick={() => handleDownloadFile(file)}
-                    className="shrink-0 text-sm font-semibold text-blue-700 hover:underline disabled:cursor-not-allowed disabled:text-slate-400"
+                    variant="ghost"
+                    size="sm"
                   >
                     Tải
-                  </button>
+                  </Button>
                 </div>
               );
             })}
