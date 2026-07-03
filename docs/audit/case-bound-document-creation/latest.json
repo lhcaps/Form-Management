@@ -1,0 +1,138 @@
+{
+  "generatedAt": "2026-07-03T06:42:00.0000000Z",
+  "feature": "case-bound-document-creation",
+  "status": "DISCOVERY_ONLY",
+  "recommendedApproach": "Option B — new thin POST /api/v1/documents/from-template endpoint",
+  "requiresNewEndpoint": true,
+  "endpoint": {
+    "method": "POST",
+    "path": "/api/v1/documents/from-template",
+    "body": {
+      "templateCode": "string (required)",
+      "caseId": "string (required)"
+    },
+    "response": {
+      "documentId": "string",
+      "templateCode": "string",
+      "caseId": "string",
+      "reviewStatus": "WAITING_REVIEW",
+      "created": "boolean",
+      "existingDraft": "boolean",
+      "route": "string (/documents/{id}?tab=preview)"
+    },
+    "errors": {
+      "400": "Invalid IDs",
+      "401": "Not authenticated",
+      "403": "Cross-agency access denied",
+      "404": "Template or case not found",
+      "500": "Unexpected server error"
+    }
+  },
+  "touchesRuntimePreviewSession": false,
+  "writesGeneratedDocuments": true,
+  "writesGeneratedDocumentFiles": false,
+  "writesGeneratedDocumentAuditLogs": true,
+  "touchesLockedContracts": false,
+  "requiresMigration": false,
+  "requiresSchemaChange": false,
+  "requiresNewDependency": false,
+  "touchesRuntimeFormData": false,
+  "frontendChanges": [
+    "template-preview-workspace.tsx — enable CTA button",
+    "generated-documents-api.ts — add createDocumentFromTemplate client",
+    "New E2E spec for case-bound document creation flow"
+  ],
+  "backendChanges": [
+    "dto/CreateFromTemplateDto.ts — new DTO",
+    "documents.service.ts — add createFromTemplate method",
+    "documents.controller.ts — add POST /from-template endpoint",
+    "documents.service.spec.ts — new unit tests"
+  ],
+  "testChanges": [
+    "Backend unit tests for createFromTemplate",
+    "E2E test: authenticated user creates document from template",
+    "E2E test: cross-agency → 403 error"
+  ],
+  "openQuestions": [
+    {
+      "id": 1,
+      "question": "Should initialFormData be accepted from client runtime form?",
+      "recommendation": "NO for v1. Create with empty formInputs. User edits in workspace.",
+      "decisionNeeded": "Planner/PO to confirm"
+    },
+    {
+      "id": 2,
+      "question": "Should CTA auto-use already-selected case from data import flow?",
+      "recommendation": "YES — if selectedCase is set, call creation API directly without re-opening picker",
+      "decisionNeeded": "Planner/PO to confirm"
+    },
+    {
+      "id": 3,
+      "question": "Should case picker rows show agency name for cross-agency awareness?",
+      "recommendation": "Add in follow-up if needed. Not a v1 blocker.",
+      "decisionNeeded": "Planner/PO to decide"
+    },
+    {
+      "id": 4,
+      "question": "What document_code format to use?",
+      "recommendation": "{templateCode}-{Date.now()} — same pattern as batch creation",
+      "decisionNeeded": "Planner/PO to confirm"
+    }
+  ],
+  "risks": [
+    {
+      "risk": "Idempotency query might match batch-created documents instead of standalone",
+      "mitigation": "Filter by batch_id IS NULL — standalone documents have no batch"
+    },
+    {
+      "risk": "Form data from runtime state persisted unvalidated",
+      "mitigation": "v1 creates with empty formInputs. No initialFormData accepted."
+    },
+    {
+      "risk": "Case picker loads 100 cases without pagination — performance on large agencies",
+      "mitigation": "Same pattern as existing data-import flow. Follow-up pagination if needed."
+    },
+    {
+      "risk": "Generated document without template_version_id — rendering might fail",
+      "mitigation": "Same pattern as batch creation. Uses MISSING contractLookupStatus."
+    }
+  ],
+  "filesInspected": [
+    "apps/api/src/modules/documents/documents.controller.ts",
+    "apps/api/src/modules/documents/documents.service.ts",
+    "apps/api/src/modules/documents/documents.service.spec.ts",
+    "apps/api/src/modules/documents/generated-document-audit.service.ts",
+    "apps/api/src/modules/documents/document-reviews.service.ts",
+    "apps/api/src/modules/documents/document-renderer.service.ts",
+    "apps/api/src/modules/documents/runtime-template-render.controller.ts",
+    "apps/api/src/modules/cases/cases.controller.ts",
+    "apps/api/src/modules/cases/cases.service.ts",
+    "apps/api/src/modules/auth/agency-resource-access.service.ts",
+    "apps/api/prisma/schema.prisma",
+    "apps/web/src/app/templates/[templateCode]/page.tsx",
+    "apps/web/src/app/documents/[documentId]/page.tsx",
+    "apps/web/src/components/documents/template-preview-workspace.tsx",
+    "apps/web/src/components/documents/generated-document-workspace.tsx",
+    "apps/web/src/lib/generated-documents-api.ts",
+    "apps/web/src/lib/runtime-template-preview.ts",
+    "apps/web/src/lib/api-client.ts",
+    "apps/web/src/lib/cases-api.ts",
+    "apps/web/src/lib/case-detail-api.ts",
+    "tests/e2e/runtime-preview-session.auth.spec.ts",
+    "tests/e2e/preview-panel-honest-ux.auth.spec.ts",
+    "docs/PROJECT_SPEC.md",
+    "docs/AUTH_RBAC_POLICY.md",
+    "docs/SECURITY_POLICY.md",
+    "docs/TESTING_STRATEGY.md",
+    "docs/RELEASE_CHECKLIST.md",
+    "docs/audit/runtime-visual-preview/architecture-notes.md",
+    "docs/audit/runtime-visual-preview/latest.md",
+    "docs/audit/runtime-visual-preview/latest.json"
+  ],
+  "validationResults": {
+    "gitDiffCheck": "PASS",
+    "secretPatternScan": "PASS — matches only in docs/specs, no runtime code",
+    "lockedContractDiff": "PASS — no contract/template paths changed",
+    "forbiddenFileStatus": "PASS — no .env.local, playwright/.clerk, runtime sessions in git status"
+  }
+}
