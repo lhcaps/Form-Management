@@ -102,6 +102,8 @@
     "audit:workflow:e2e": "node scripts/audit/run-primary-form-export-workflow-e2e.mjs",
     "audit:docx": "pnpm audit:docx:inventory && pnpm audit:docx:extract && pnpm audit:docx:draft && pnpm audit:docx:verify && pnpm audit:docx:compare && pnpm audit:docx:report && pnpm audit:docx:pilot",
     "audit:bm:gene": "node scripts/audit-bm-panel-gene.mjs",
+    "audit:bm-final": "pnpm --filter api exec tsx ../../scripts/audit/audit-bm-final.mjs",
+    "audit:bm-final:test": "pnpm --filter api exec tsx --test ../../test/audit-bm-final.spec.mjs",
     "audit:forms:corpus": "node scripts/docx-contract/reconcile-form-corpus.mjs",
     "audit:forms:runtime-readiness": "node scripts/docx-contract/generate-form-runtime-readiness.mjs",
     "audit:encoding": "node scripts/audit-encoding-bom.mjs",
