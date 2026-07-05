@@ -68,6 +68,7 @@ import type {
   DocxStyleProfileDropParagraphRule,
   DocxStyleProfileDropTrailingEmptyRule,
   DocxStyleProfilePart,
+  DocxStyleProfileReplaceTextRule,
   DocxStyleProfileRule,
   DocxStyleProfileRunStyleRule,
   DocxStyleProfileSafety,
@@ -347,11 +348,24 @@ function applyRulesToParagraphs(
   // is still present at the time the between-rule needs it. Each
   // rule mutates a SHARED `working` list; run-style rules see the
   // final, narrowed paragraph list.
+  //
+  // PR7B.1: `replaceText` rules run AFTER drop rules but BEFORE
+  // run-style rules. This is the safest order:
+  //   1. Drop rules first (no orphan paragraphs, no anchors lost).
+  //   2. Text replacement next (operates on the post-drop paragraph
+  //      list; doesn't depend on drop-rule output).
+  //   3. Run-style rules last (their matcher sees the final text
+  //      AFTER any replaceText mutations, so e.g. "QUYẾT ĐỊNH"
+  //      styling still targets the heading paragraph even if the
+  //      preceding text was slightly tweaked by a replaceText rule).
   const runRules: DocxStyleProfileRule[] = [];
+  const replaceTextRules: DocxStyleProfileReplaceTextRule[] = [];
   const orderedDropRules: DocxStyleProfileRule[] = [];
   for (const rule of rules) {
     if (isDropRule(rule)) {
       orderedDropRules.push(rule);
+    } else if (isReplaceTextRule(rule)) {
+      replaceTextRules.push(rule);
     } else {
       runRules.push(rule);
     }
@@ -386,6 +400,17 @@ function applyRulesToParagraphs(
     }
   }
 
+  for (const rule of replaceTextRules) {
+    const replaced = applyReplaceTextRule(part, working, rule, warnings);
+    if (replaced.applied && replaced.remaining) {
+      appliedRuleIds.add(rule.id);
+      anyApplied = true;
+      working = replaced.remaining;
+    } else {
+      skippedRuleIds.add(rule.id);
+    }
+  }
+
   for (const rule of runRules) {
     const matchResult = applyRunStyleRule(
       part,
@@ -415,6 +440,12 @@ function isDropRule(rule: DocxStyleProfileRule): boolean {
   );
 }
 
+function isReplaceTextRule(
+  rule: DocxStyleProfileRule,
+): rule is DocxStyleProfileReplaceTextRule {
+  return 'action' in rule && rule.action === 'replaceText';
+}
+
 type DropApplicationResult = Readonly<{
   removedAny: boolean;
   remaining: ParagraphContext[];
@@ -434,6 +465,105 @@ function removeParagraphFromBody(
     return [...paragraphs];
   }
   return paragraphs.filter((p) => p !== paragraph);
+}
+
+/**
+ * Apply a `replaceText` rule (PR7B.1).
+ *
+ * Selects paragraphs whose normalised visible text `contains`
+ * `paragraphMatch`. For each selected paragraph, scans the runs
+ * for occurrences of `rule.match` (raw substring, not normalised)
+ * and replaces them with `rule.replacement`. Replacement is performed
+ * via the existing run-splitting helper `styleTextRangeInParagraph`
+ * path: the matched substring is split into its own run inheriting
+ * the first affected run's properties, and the surrounding fragments
+ * are kept verbatim.
+ *
+ * The rule only fires on the FIRST occurrence per paragraph. The
+ * intent is a surgical fix (e.g. inject one missing space after
+ * `Số:`); a profile that wants to rewrite every occurrence should
+ * add multiple single-occurrence rules with disjoint match strings,
+ * or extend this function later.
+ *
+ * Returns `applied: true` only when at least one paragraph was
+ * successfully mutated. Returns `applied: false` (with a warning)
+ * when no paragraph matches or when run-splitting safety rejects
+ * the replacement.
+ */
+function applyReplaceTextRule(
+  part: DocxStyleProfilePart,
+  paragraphs: ReadonlyArray<ParagraphContext>,
+  rule: DocxStyleProfileReplaceTextRule,
+  warnings: string[],
+): { applied: boolean; remaining: ParagraphContext[] | null } {
+  if (rule.match.length === 0) {
+    warnings.push(
+      `[style-profile] part=${part} rule=${rule.id}: empty match string — rule skipped`,
+    );
+    return { applied: false, remaining: null };
+  }
+  const paragraphAnchor = normaliseForSearch(rule.paragraphMatch);
+  const candidates: ParagraphContext[] = [];
+  for (const paragraph of paragraphs) {
+    const text = normaliseForSearch(paragraph.text);
+    if (paragraphAnchor.length === 0) continue;
+    if (text.includes(paragraphAnchor)) candidates.push(paragraph);
+  }
+  if (candidates.length === 0) {
+    warnings.push(
+      `[style-profile] part=${part} rule=${rule.id}: no paragraph matched paragraphMatch="${rule.paragraphMatch}"`,
+    );
+    return { applied: false, remaining: null };
+  }
+  let anyApplied = false;
+  let workingParagraphs: ParagraphContext[] | null = null;
+  for (const paragraph of candidates) {
+    if (!paragraph.text.includes(rule.match)) {
+      // The matched paragraph doesn't actually carry the substring
+      // to replace. This can happen when Docxtemplater emits the
+      // text across runs that the engine collapses slightly
+      // differently per run. Treat as no-op for this paragraph.
+      continue;
+    }
+    const replaced = replaceFirstInParagraph(
+      paragraph,
+      rule.match,
+      rule.replacement,
+      warnings,
+    );
+    if (replaced) {
+      anyApplied = true;
+      if (!workingParagraphs) workingParagraphs = [...paragraphs];
+    }
+  }
+  return { applied: anyApplied, remaining: workingParagraphs };
+}
+
+/**
+ * Replace the FIRST occurrence of `search` in `paragraph.text` with
+ * `replacement`. Splits the run that carries the match so the
+ * replacement inherits the original run's properties (bold, italic,
+ * sz). The replacement string may contain whitespace; if the new
+ * text contains leading/trailing whitespace the engine sets
+ * `xml:space="preserve"` on the replacement run to prevent Word
+ * from collapsing it.
+ */
+function replaceFirstInParagraph(
+  paragraph: ParagraphContext,
+  search: string,
+  replacement: string,
+  warnings: string[],
+): boolean {
+  const start = paragraph.text.indexOf(search);
+  if (start < 0) return false;
+  const end = start + search.length;
+  // No-op style: the helper expects a DocxStyleProfileStyle object,
+  // but `applyRunStyle` is a no-op when every style field is
+  // undefined. This keeps the replacement run's properties
+  // unchanged from the original.
+  return styleTextRangeInParagraph(paragraph, start, end, {}, warnings, {
+    replacementText: replacement,
+  });
 }
 
 function applyDropParagraphRule(
@@ -707,6 +837,12 @@ function paragraphMatchesRunStyleMatcher(
       return normaliseForSearch(paragraph.text).includes(
         normaliseForSearch(match.text),
       );
+    case 'paragraphAll':
+      // Same semantics as `startsWith` for paragraph-level filter;
+      // `findAllMatches` then widens the span to the whole paragraph.
+      return normaliseForSearch(paragraph.text).startsWith(
+        normaliseForSearch(match.text),
+      );
   }
 }
 
@@ -838,6 +974,15 @@ function findAllMatches(
       }
       return matches;
     }
+    case 'paragraphAll': {
+      // PR7B.2 — match the WHOLE paragraph when it starts with
+      // the normalised target. The match span is the entire
+      // paragraph text so style rules apply to every run, not
+      // only the matched anchor substring.
+      if (!normalised.startsWith(normalisedTarget)) return matches;
+      matches.push({ start: 0, end: text.length });
+      return matches;
+    }
   }
 }
 
@@ -916,10 +1061,24 @@ function styleTextRangeInParagraph(
   end: number,
   style: DocxStyleProfileRunStyleRule['style'],
   warnings: string[],
+  options?: { replacementText?: string },
 ): boolean {
   const segments = paragraph.segments;
   const affected = segments.filter((s) => s.end > start && s.start < end);
   if (affected.length === 0) return false;
+
+  // PR7B.1 — `replaceText` rule path: when the match crosses multiple
+  // runs, only the FIRST affected segment (the one with the earliest
+  // `start`) emits the replacement text. Subsequent segments in the
+  // loop only contribute their `afterText` fragment. The loop
+  // iterates in REVERSE, so the "first affected" segment is the
+  // LAST iteration; we mark it explicitly so the styledText is
+  // emitted exactly once.
+  const isReplaceMode = options?.replacementText !== undefined;
+  const firstAffected = affected.reduce(
+    (acc, cur) => (acc === null || cur.start < acc.start ? cur : acc),
+    null as null | (typeof affected)[number],
+  );
 
   // Per-rule style is applied to the first run only (we keep behaviour
   // aligned with `DocumentPreExportService.styleTextRangeInParagraph`).
@@ -940,12 +1099,25 @@ function styleTextRangeInParagraph(
     }
     const nextSibling = segment.runElement.nextSibling;
 
+    // PR7B.1 — only the first affected segment emits the
+    // replacement text; subsequent segments drop their matched
+    // fragment (because the replacement has already been emitted
+    // and re-emitting it would duplicate). The styledText equals
+    // matchedText for run-style rules (the existing behaviour).
+    const isFirstSegment = segment === firstAffected;
+    const styledText =
+      isReplaceMode && isFirstSegment
+        ? (options.replacementText as string)
+        : isReplaceMode
+          ? ''
+          : matchedText;
+
     const replacements: any[] = [];
     if (beforeText.length > 0) {
       replacements.push(cloneRunWithText(segment.runElement, beforeText));
     }
-    if (matchedText.length > 0) {
-      const styled = cloneRunWithText(segment.runElement, matchedText);
+    if (styledText.length > 0) {
+      const styled = cloneRunWithText(segment.runElement, styledText);
       applyRunStyle(styled, style);
       replacements.push(styled);
     }

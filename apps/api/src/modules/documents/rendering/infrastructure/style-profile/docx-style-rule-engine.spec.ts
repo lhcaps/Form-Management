@@ -633,6 +633,162 @@ describe('PR6G.4 — Generic Style Profile Engine', () => {
       expect(codes).toEqual(sorted);
     });
   });
+
+  // PR7B.1 — `replaceText` rule action.
+  describe('PR7B.1 — replaceText rule action', () => {
+    it('injects the missing space after `Số:` for the BM-171 documentCode paragraph', () => {
+      const input = buildSyntheticDocx([
+        'Số:01/QĐ-VKSKV7',
+        'Some other paragraph that must NOT be touched',
+      ]);
+      const profile: DocxStyleProfile = {
+        templateCode: 'BM-PR7B',
+        profileId: 'pr7b-replace-text',
+        profileName: 'replace-text smoke',
+        rules: [
+          {
+            id: 'doc_no_space',
+            part: 'document',
+            action: 'replaceText',
+            paragraphMatch: '01/QĐ-VKSKV7',
+            match: 'Số:01',
+            replacement: 'Số: 01',
+          },
+        ],
+      };
+      const result = applyStyleProfileToDocxBuffer(input, profile);
+      expect(result.profileApplied).toBe(true);
+      expect(result.appliedRuleIds).toContain('doc_no_space');
+      const xml = extractDocumentXml(result.buffer);
+      expect(concatRuns(xml)).toContain('Số: 01/QĐ-VKSKV7');
+      // Untouched paragraph survives byte-identical
+      expect(concatRuns(xml)).toContain(
+        'Some other paragraph that must NOT be touched',
+      );
+    });
+
+    it('records a warning and skips when no paragraph matches `paragraphMatch`', () => {
+      const input = buildSyntheticDocx(['Unrelated body text']);
+      const profile: DocxStyleProfile = {
+        templateCode: 'BM-PR7B-NOOP',
+        profileId: 'no-match',
+        profileName: 'no-match',
+        rules: [
+          {
+            id: 'doc_no_space',
+            part: 'document',
+            action: 'replaceText',
+            paragraphMatch: '01/QĐ-VKSKV7',
+            match: 'Số:01',
+            replacement: 'Số: 01',
+          },
+        ],
+      };
+      const result = applyStyleProfileToDocxBuffer(input, profile);
+      expect(result.profileApplied).toBe(false);
+      expect(result.skippedRuleIds).toContain('doc_no_space');
+      expect(result.warnings.join('\n')).toMatch(/no paragraph matched/);
+    });
+
+    it('skips an empty `match` string with a warning (safety guard)', () => {
+      const input = buildSyntheticDocx(['Số:01/QĐ-VKSKV7']);
+      const profile: DocxStyleProfile = {
+        templateCode: 'BM-PR7B-EMPTY',
+        profileId: 'empty-match',
+        profileName: 'empty-match',
+        rules: [
+          {
+            id: 'doc_no_space_empty',
+            part: 'document',
+            action: 'replaceText',
+            paragraphMatch: 'Số:01',
+            match: '',
+            replacement: 'whatever',
+          },
+        ],
+      };
+      const result = applyStyleProfileToDocxBuffer(input, profile);
+      expect(result.profileApplied).toBe(false);
+      expect(result.skippedRuleIds).toContain('doc_no_space_empty');
+      expect(result.warnings.join('\n')).toMatch(/empty match string/);
+    });
+
+    it('runs replaceText BEFORE run-style rules so heading styling still fires after the rewrite', () => {
+      const input = buildSyntheticDocx(['Số:01/QĐ-VKSKV7']);
+      const profile: DocxStyleProfile = {
+        templateCode: 'BM-PR7B-ORDER',
+        profileId: 'order',
+        profileName: 'order',
+        rules: [
+          // Run-style rule that targets the same paragraph and
+          // bolds any `01/QĐ` substring. Must fire AFTER replaceText.
+          {
+            id: 'bold_doc_no',
+            part: 'document',
+            match: { type: 'contains', text: '01/QĐ' },
+            style: { bold: true, fontSizePt: 14 },
+          },
+          {
+            id: 'doc_no_space',
+            part: 'document',
+            action: 'replaceText',
+            paragraphMatch: '01/QĐ-VKSKV7',
+            match: 'Số:01',
+            replacement: 'Số: 01',
+          },
+        ],
+      };
+      const result = applyStyleProfileToDocxBuffer(input, profile);
+      expect(result.profileApplied).toBe(true);
+      expect(result.appliedRuleIds).toContain('doc_no_space');
+      expect(result.appliedRuleIds).toContain('bold_doc_no');
+      const xml = extractDocumentXml(result.buffer);
+      expect(concatRuns(xml)).toContain('Số: 01/QĐ-VKSKV7');
+    });
+
+    it('does NOT duplicate the replacement when the match crosses run boundaries', () => {
+      // The BM-171 normalized template splits `Số:{{document.documentCode}}`
+      // into two runs: `Số:` and `01/QĐ-VKSKV7`. The cross-run match
+      // `Số:01` was being replaced TWICE in the engine's first
+      // implementation, producing `Số: 01Số: 01/QĐ-VKSKV7`. The fix
+      // emits the replacement exactly once, attached to the FIRST
+      // affected segment.
+      const docxXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    <w:p>
+      <w:r><w:rPr><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr><w:t>Số:</w:t></w:r>
+      <w:r><w:rPr><w:sz w:val="26"/><w:szCs w:val="26"/></w:rPr><w:t>01/QĐ-VKSKV7</w:t></w:r>
+    </w:p>
+  </w:body>
+</w:document>`;
+      const zip = new PizZip();
+      zip.file('word/document.xml', docxXml);
+      const input = zip.generate({ type: 'nodebuffer' });
+      const profile: DocxStyleProfile = {
+        templateCode: 'BM-PR7B-CROSSRUN',
+        profileId: 'cross-run',
+        profileName: 'cross-run replacement',
+        rules: [
+          {
+            id: 'doc_no_space',
+            part: 'document',
+            action: 'replaceText',
+            paragraphMatch: '01/QĐ-VKSKV7',
+            match: 'Số:01',
+            replacement: 'Số: 01',
+          },
+        ],
+      };
+      const result = applyStyleProfileToDocxBuffer(input, profile);
+      expect(result.profileApplied).toBe(true);
+      const xml = extractDocumentXml(result.buffer);
+      expect(concatRuns(xml)).toBe('Số: 01/QĐ-VKSKV7');
+      // No duplication: count occurrences of "Số: 01".
+      const occurrences = (concatRuns(xml).match(/Số: 01/g) ?? []).length;
+      expect(occurrences).toBe(1);
+    });
+  });
 });
 
 function concatRuns(documentXml: string): string {

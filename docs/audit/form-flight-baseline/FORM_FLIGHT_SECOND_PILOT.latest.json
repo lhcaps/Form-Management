@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-06T00:00:00.000Z",
+  "task": "FORM_FLIGHT_CORE_SHARED_ADAPTERS_AND_ROLLOUT_FACTORY_V1",
+  "artifact": "FORM_FLIGHT_SECOND_PILOT",
+  "selectedBm": "BM-001",
+  "reason": "Largest READY_FOR_PROFILE_PORT form (39 fields / 28 required). Mature typed API helper (bm001-form-inputs-api.ts). Proves the rollout factory's classification is honest and the shared core absorbs a different data shape without BM-171's specific structure.",
+  "skeleton_profile": "apps/web/src/lib/form-flight/profiles/bm001.ts",
+  "test_file": "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts",
+  "tests": [
+    "registers a BM-001 skeleton profile",
+    "fieldPaths covers the full Bm001FormInputs key set",
+    "requiredFieldPaths includes the BM-001 mandatory keys (reception.startedAtTimeText, informant.fullName, crimeReport.content)",
+    "profile invariant holds: requiredFieldPaths ⊆ fieldPaths",
+    "skeleton is honest: demo is empty + summaryLines absent + acceptance has no anchors",
+    "validation gate fires on every empty draft against BM-001 requiredFieldPaths (no real PII, just path strings)"
+  ],
+  "tests_result": "PASS — 6/6",
+  "honest_gaps": {
+    "demo": "empty {} — hand-curated synthetic fixture must be authored by a future task",
+    "summaryLines": "undefined — BM-001 quick-check lines were never authored in the original component",
+    "acceptance": "empty requiredText + empty forbiddenText — BM-001 has no acceptance anchors yet"
+  },
+  "forbiddenScope": {
+    "noComponentRewrite": true,
+    "noApiHelperRewrite": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noSourceDocxMutation": true,
+    "noProductionClaim": true,
+    "noMassRollout": true
+  }
+}

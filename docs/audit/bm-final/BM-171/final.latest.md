@@ -6,7 +6,7 @@
 - BM final audit status: **PASS** (this specific BM's audit outcome).
 - Rollout readiness: **YES** — Every section is PASS and every safety probe is green.
 
-- generatedAt: 2026-07-05T11:48:31.684Z
+- generatedAt: 2026-07-05T20:38:02.742Z
 - schemaVersion: 1
 - harnessReady: true
 - rolloutReady: true

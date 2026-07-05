@@ -1,8 +1,8 @@
 # PR7A.4 — BM-171 Source-vs-Render Parity Audit
 
 **STATUS**: `READY_FOR_PLANNER_REVIEW`
-**Generated**: 2026-07-05T11:03:30.837Z
-**Fixture variant**: --fixture
+**Generated**: 2026-07-05T20:38:50.305Z
+**Fixture variant**: full
 
 ## Source DOCX
 
@@ -14,7 +14,7 @@
 ## Rendered DOCX
 
 - Path: `D:\Study\Project\QLLaw-main\docs\audit\bm-visual-signoff\BM-171\rendered.latest.docx`
-- sha256: `3ed18e0fb3583d0c5402e18505681cea00c07b70a55f4b9c219b85ddf09c79b1`
+- sha256: `1c7a9f70ce25433a62afef1bf83e671de71c4a8c454c5a7a8c4f7c2b4fa4417c`
 - bytes: 21557
 - parts: 21
 - visible-text length: 2337

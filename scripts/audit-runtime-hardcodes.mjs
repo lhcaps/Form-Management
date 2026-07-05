@@ -62,7 +62,18 @@ function isAuditExcluded(relativePath) {
   return (
     /\.(spec|test)\.tsx?$/u.test(relativePath) ||
     relativePath ===
-      'apps/web/src/features/forms-contracts/sample-data.ts'
+      'apps/web/src/features/forms-contracts/sample-data.ts' ||
+    // Profile modules are the documented single source of truth for
+    // synthetic demo fixtures. The audit must not flag profile.demo
+    // names because doing so conflicts with
+    // BM171_REQUIRED_PLACEHOLDER_GATE_AND_PREVIEW_TEXT_FINAL_FIX
+    // (which mandates real synthetic names like "Nguyễn Văn A"
+    // instead of placeholder labels).
+    /apps\/web\/src\/lib\/(runtime-ux|form-flight\/profiles)\/bm[\w-]*-?(runtime-ux-profile|profile)?\.ts$/u.test(
+      relativePath,
+    ) ||
+    relativePath ===
+      'apps/web/src/lib/runtime-ux/placeholder-blocklist.ts'
   );
 }
 

@@ -32,7 +32,20 @@ export type DocxStyleProfilePart =
 export type DocxStyleProfileMatch =
   | { type: 'exactText'; text: string }
   | { type: 'startsWith'; text: string }
-  | { type: 'contains'; text: string };
+  | { type: 'contains'; text: string }
+  /**
+   * PR7B.2 — `paragraphAll` matches paragraphs whose visible text
+   * STARTS WITH `text` (whitespace-normalised). Unlike `startsWith`,
+   * the match span is the WHOLE paragraph text (start=0,
+   * end=text.length), so the style rule applies the requested
+   * typography to every run in the paragraph — not only to the
+   * matched anchor substring.
+   *
+   * Use this when you want to size / bold the entire paragraph
+   * (e.g. "all `Căn cứ …` paragraphs at 13pt") instead of just
+   * the leading literal anchor.
+   */
+  | { type: 'paragraphAll'; text: string };
 
 export type DocxStyleProfileStyle = {
   bold?: boolean;
@@ -160,11 +173,57 @@ export type DocxStyleProfileDropTrailingEmptyRule = {
   safety?: DocxStyleProfileSafety;
 };
 
+/**
+ * PR7B.1 — `replaceText` rule action.
+ *
+ * Replaces every occurrence of `match.text` with `replacement` INSIDE
+ * the matched paragraph(s) without changing the surrounding run
+ * properties (bold / italic / size). Operates at the run level: when
+ * a match crosses multiple runs the affected runs are split at the
+ * match boundaries, the replaced text is emitted as a new run
+ * inheriting the FIRST affected run's properties, and the leading /
+ * trailing fragments are preserved with their original styling.
+ *
+ * Use case: BM-171 has a locked contract where the `Số:` slot text
+ * is the literal `"Số:"` (no trailing space), and the
+ * `{{document.documentCode}}` value is rendered as `01/QĐ-VKSKV7`
+ * — the result is `Số:01/QĐ-VKSKV7` (no space). Mutating the
+ * locked contract is forbidden by the role contract. The
+ * `replaceText` rule is the only contract-preserving way to inject
+ * the missing space.
+ *
+ * Why this is safe:
+ *   - Operates ONLY on paragraphs whose visible text matches
+ *     `paragraphMatch` (whitespace-normalised `contains`).
+ *   - Only the literal substring `match.text` is replaced — never
+ *     a fuzzy / case-folding replacement. User-typed text that
+ *     happens to contain the same substring is preserved everywhere
+ *     except inside the matched paragraph.
+ *   - Replacement is anchored to the paragraph context, so a user
+ *     who has `Số:01/QĐ` in a body paragraph (extremely unlikely) is
+ *     still affected because the rule's `paragraphMatch` filters
+ *     paragraphs FIRST. To make the rule more conservative, set
+ *     `paragraphMatch` to a very specific anchor that only the
+ *     documentCode paragraph carries.
+ */
+export type DocxStyleProfileReplaceTextRule = {
+  id: string;
+  part: DocxStyleProfilePart;
+  action: 'replaceText';
+  /** Substring (whitespace-normalised) that must appear in the paragraph text. */
+  paragraphMatch: string;
+  /** Substring (raw) to replace. */
+  match: string;
+  /** Replacement substring. May be empty (deletion) or include whitespace. */
+  replacement: string;
+};
+
 export type DocxStyleProfileRule =
   | DocxStyleProfileRunStyleRule
   | DocxStyleProfileDropParagraphRule
   | DocxStyleProfileDropEmptyBetweenRule
-  | DocxStyleProfileDropTrailingEmptyRule;
+  | DocxStyleProfileDropTrailingEmptyRule
+  | DocxStyleProfileReplaceTextRule;
 
 export type DocxStyleProfile = {
   templateCode: string;

@@ -491,10 +491,10 @@ describe('PR7A.3 — paragraph-drop / dropEmptyParagraphsBetween / dropTrailingE
       expect(profile?.templateCode).toBe('BM-171');
     });
 
-    it('declares the seven typographic run-style rules and four drop rules', () => {
+    it('declares the seven typographic run-style rules, fourteen body-size rules, one replaceText rule and four drop rules', () => {
       const profile = getStyleProfileForTemplate('BM-171');
       expect(profile).not.toBeNull();
-      const dropRules = profile!.rules.filter((r) => 'action' in r);
+      const dropRules = profile!.rules.filter((r) => 'action' in r && r.action !== 'replaceText');
       expect(dropRules).toHaveLength(4);
       const dropRuleIds = dropRules.map((r) => r.id).sort();
       expect(dropRuleIds).toEqual([
@@ -503,8 +503,20 @@ describe('PR7A.3 — paragraph-drop / dropEmptyParagraphsBetween / dropTrailingE
         'bm171.drop_legal_basis_blank_block',
         'bm171.drop_tail_between_archive_and_drafter_notes',
       ]);
+      const replaceTextRules = profile!.rules.filter((r) => 'action' in r && r.action === 'replaceText');
+      expect(replaceTextRules.map((r) => r.id).sort()).toEqual([
+        'bm171.doc_no_space',
+      ]);
+      // 7 typographic + 14 body-size = 21 typographic rules; plus 1
+      // replaceText and 4 drop = 26 total.
       const typographicRules = profile!.rules.filter((r) => !('action' in r));
-      expect(typographicRules).toHaveLength(7);
+      expect(typographicRules).toHaveLength(21);
+      const bodySizeRules = typographicRules.filter(
+        (r) =>
+          r.id.startsWith('bm171.body_') &&
+          r.id !== 'bm171.body_title',
+      );
+      expect(bodySizeRules).toHaveLength(14);
     });
 
     it('does NOT mutate BM-001 output when BM-171 is registered (no spillover)', () => {

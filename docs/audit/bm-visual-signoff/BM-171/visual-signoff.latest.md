@@ -5,9 +5,9 @@
 **rolloutReady**: false
 **manualApproval**: GRANTED (D:\Study\Project\QLLaw-main\docs\audit\bm-visual-signoff\BM-171\manual-approval.latest.json)
 **Fixture variant**: FULL_SYNTHETIC_PR7A_4 (all 34 slots populated)
-**Generated**: 2026-07-05T11:37:42.637Z
+**Generated**: 2026-07-05T16:51:06.612Z
 **Render path**: production
-**Rendered DOCX sha256**: `fb78c229bf7ee675267eca7d3c86d6a6b6c6a67ae0122371a75e6ce330bb1241`
+**Rendered DOCX sha256**: `1c7a9f70ce25433a62afef1bf83e671de71c4a8c454c5a7a8c4f7c2b4fa4417c`
 **Rendered DOCX bytes**: 21557
 **Render plan**: {"templateCode":"BM-171","fieldCount":34,"bindingCount":34,"missingRequiredCount":0,"warnings":[]}
 
