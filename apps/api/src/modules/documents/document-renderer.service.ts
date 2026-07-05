@@ -6020,11 +6020,12 @@ export class DocumentRendererService {
         isoDate: sharedIsoStringOrNull(bm001ReceptionEndedAtDate),
       });
     })();
-    const bm001DocumentIssuePlaceDateLineAligned = sharedFormatVietnamesePlaceDateLine({
-      place: documentIssuePlace ?? '',
-      isoDate: sharedIsoStringOrNull(documentIssueDate),
-      defaultPlace: 'TP. Hồ Chí Minh',
-    });
+    const bm001DocumentIssuePlaceDateLineAligned =
+      sharedFormatVietnamesePlaceDateLine({
+        place: documentIssuePlace ?? '',
+        isoDate: sharedIsoStringOrNull(documentIssueDate),
+        defaultPlace: 'TP. Hồ Chí Minh',
+      });
     const bm001ArchiveLineAligned = sharedBuildArchiveLine(
       recipientsInput.archiveLine,
       // No leading dash: BM-001's source DOCX template
@@ -6603,13 +6604,10 @@ export class DocumentRendererService {
         personLine:
           str(recipientsInput.personLine) ??
           (personFullName ? `- ${personFullName};` : null),
-        archiveLine:
-          isBm001Template
-            ? bm001ArchiveLineAligned
-            : str(recipientsInput.archiveLine) ??
-              (isBm001Template
-                ? 'Lưu: HSVV, VP.'
-                : '- Lưu: HSVA, HSKS, VP.'),
+        archiveLine: isBm001Template
+          ? bm001ArchiveLineAligned
+          : (str(recipientsInput.archiveLine) ??
+            (isBm001Template ? 'Lưu: HSVV, VP.' : '- Lưu: HSVA, HSKS, VP.')),
         noteLine: str(recipientsInput.noteLine),
         // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
         // The DOCX slot `recipients.archiveLine` is bound to the shared

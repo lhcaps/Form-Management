@@ -58,10 +58,7 @@
  * @module rendering/infrastructure/style-profile
  */
 
-import {
-  DOMParser,
-  XMLSerializer,
-} from '@xmldom/xmldom';
+import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import * as xpath from 'xpath';
 import PizZip from 'pizzip';
 
@@ -112,9 +109,6 @@ const DEFAULT_DROP_MAX_PARAGRAPHS = 100;
 const DROP_RULE_PUNCTUATION_ONLY = /^[\s.,;:()\-+/\\|]+$/u;
 
 type RunStyleRule = DocxStyleProfileRunStyleRule;
-type DropParagraphRule = DocxStyleProfileDropParagraphRule;
-type DropEmptyBetweenRule = DocxStyleProfileDropEmptyBetweenRule;
-type DropTrailingEmptyRule = DocxStyleProfileDropTrailingEmptyRule;
 
 type RunSegment = {
   runElement: any;
@@ -176,7 +170,10 @@ export function applyStyleProfileToDocxBuffer(
       const partFile = zip.file(partPath);
       if (!partFile) continue;
       const originalXml = partFile.asText();
-      const doc = new DOMParser().parseFromString(originalXml, 'application/xml');
+      const doc = new DOMParser().parseFromString(
+        originalXml,
+        'application/xml',
+      );
       const paragraphs = collectParagraphs(doc);
       const partApplied = applyRulesToParagraphs(
         part,
@@ -289,7 +286,8 @@ function collectParagraphs(doc: any): ParagraphContext[] {
 function hasParagraphSuperscriptRun(paragraphElement: any): boolean {
   const matches = selectElementsLocal('.//w:vertAlign', paragraphElement);
   for (const va of matches) {
-    const valAttr = va.getAttribute?.('w:val') ?? va.getAttribute?.('val') ?? '';
+    const valAttr =
+      va.getAttribute?.('w:val') ?? va.getAttribute?.('val') ?? '';
     if (valAttr === 'superscript') return true;
   }
   return false;
@@ -299,9 +297,13 @@ function paragraphIsEmpty(paragraph: ParagraphContext): boolean {
   return paragraph.nonWhitespaceCharCount === 0;
 }
 
-function paragraphContentIsPunctuationOnly(paragraph: ParagraphContext): boolean {
-  return paragraph.nonWhitespaceCharCount > 0
-    && DROP_RULE_PUNCTUATION_ONLY.test(paragraph.text);
+function paragraphContentIsPunctuationOnly(
+  paragraph: ParagraphContext,
+): boolean {
+  return (
+    paragraph.nonWhitespaceCharCount > 0 &&
+    DROP_RULE_PUNCTUATION_ONLY.test(paragraph.text)
+  );
 }
 
 function isDropParagraphRule(
@@ -313,9 +315,7 @@ function isDropParagraphRule(
 function isDropEmptyBetweenRule(
   rule: DocxStyleProfileRule,
 ): rule is DocxStyleProfileDropEmptyBetweenRule {
-  return (
-    'action' in rule && rule.action === 'dropEmptyParagraphsBetween'
-  );
+  return 'action' in rule && rule.action === 'dropEmptyParagraphsBetween';
 }
 
 function isDropTrailingEmptyRule(
@@ -409,9 +409,9 @@ function applyRulesToParagraphs(
 
 function isDropRule(rule: DocxStyleProfileRule): boolean {
   return (
-    isDropParagraphRule(rule)
-    || isDropEmptyBetweenRule(rule)
-    || isDropTrailingEmptyRule(rule)
+    isDropParagraphRule(rule) ||
+    isDropEmptyBetweenRule(rule) ||
+    isDropTrailingEmptyRule(rule)
   );
 }
 
@@ -507,15 +507,12 @@ function applyDropEmptyBetweenRule(
   for (let i = afterIndex + 1; i < beforeIndex; i += 1) {
     const paragraph = paragraphs[i];
     if (!paragraph) continue;
-    if (
-      safety.onlyIfAllEmpty === true
-      && !paragraphIsEmpty(paragraph)
-    ) {
+    if (safety.onlyIfAllEmpty === true && !paragraphIsEmpty(paragraph)) {
       continue;
     }
     if (
-      safety.keepTrailingPunctuationParagraphs === true
-      && paragraphContentIsPunctuationOnly(paragraph)
+      safety.keepTrailingPunctuationParagraphs === true &&
+      paragraphContentIsPunctuationOnly(paragraph)
     ) {
       continue;
     }
@@ -578,8 +575,10 @@ function applyDropTrailingEmptyRule(
       if (candidates.length >= maxParagraphs) break;
       continue;
     }
-    if (safety.keepTrailingPunctuationParagraphs === true
-      && paragraphContentIsPunctuationOnly(paragraph)) {
+    if (
+      safety.keepTrailingPunctuationParagraphs === true &&
+      paragraphContentIsPunctuationOnly(paragraph)
+    ) {
       candidates.push(paragraph);
       if (candidates.length >= maxParagraphs) break;
       continue;
@@ -697,7 +696,9 @@ function paragraphMatchesRunStyleMatcher(
 ): boolean {
   switch (match.type) {
     case 'exactText':
-      return normaliseForSearch(paragraph.text) === normaliseForSearch(match.text);
+      return (
+        normaliseForSearch(paragraph.text) === normaliseForSearch(match.text)
+      );
     case 'startsWith':
       return normaliseForSearch(paragraph.text).startsWith(
         normaliseForSearch(match.text),
@@ -734,7 +735,11 @@ function applyRunStyleRule(
   let anyApplied = false;
   let workingParagraphs: ParagraphContext[] | null = null;
   for (const paragraph of matches) {
-    const changed = styleParagraphForRule(paragraph, rule as RunStyleRule, warnings);
+    const changed = styleParagraphForRule(
+      paragraph,
+      rule as RunStyleRule,
+      warnings,
+    );
     if (changed) {
       anyApplied = true;
       if (!workingParagraphs) {
@@ -843,7 +848,6 @@ function buildNormalisedText(text: string): {
   const normalised: string[] = [];
   const rawIndex: number[] = [];
   let inWhitespace = false;
-  let leadingWs = true;
 
   for (let i = 0; i < text.length; i += 1) {
     const char = text.charAt(i);
@@ -862,16 +866,12 @@ function buildNormalisedText(text: string): {
     normalised.push(char);
     rawIndex.push(i);
     inWhitespace = false;
-    leadingWs = false;
   }
 
   // Trim trailing whitespace from both arrays to keep
   // normalised.length === rawIndex.length and to make `normalised`
   // directly comparable with `normaliseForSearch(target)`.
-  while (
-    normalised.length > 0 &&
-    normalised[normalised.length - 1] === ' '
-  ) {
+  while (normalised.length > 0 && normalised[normalised.length - 1] === ' ') {
     normalised.pop();
     rawIndex.pop();
   }
@@ -898,7 +898,13 @@ function styleParagraphForRule(
   // Sort by start descending so earlier split indices remain valid.
   const sorted = [...matches].sort((a, b) => b.start - a.start);
   for (const range of sorted) {
-    const applied = styleTextRangeInParagraph(paragraph, range.start, range.end, rule.style, warnings);
+    const applied = styleTextRangeInParagraph(
+      paragraph,
+      range.start,
+      range.end,
+      rule.style,
+      warnings,
+    );
     if (applied) anyApplied = true;
   }
   return anyApplied;
@@ -983,7 +989,10 @@ function clearRunContent(runElement: any): void {
   }
 }
 
-function applyRunStyle(runElement: any, style: DocxStyleProfileRunStyleRule['style']): void {
+function applyRunStyle(
+  runElement: any,
+  style: DocxStyleProfileRunStyleRule['style'],
+): void {
   const rPr = ensureChildElementLocal(runElement, 'rPr');
 
   if (style.bold === true) {
@@ -1003,11 +1012,19 @@ function applyRunStyle(runElement: any, style: DocxStyleProfileRunStyleRule['sty
   }
 }
 
-function computeHalfPoints(style: DocxStyleProfileRunStyleRule['style']): number | null {
-  if (typeof style.fontSizeHalfPt === 'number' && Number.isFinite(style.fontSizeHalfPt)) {
+function computeHalfPoints(
+  style: DocxStyleProfileRunStyleRule['style'],
+): number | null {
+  if (
+    typeof style.fontSizeHalfPt === 'number' &&
+    Number.isFinite(style.fontSizeHalfPt)
+  ) {
     return Math.max(2, Math.round(style.fontSizeHalfPt));
   }
-  if (typeof style.fontSizePt === 'number' && Number.isFinite(style.fontSizePt)) {
+  if (
+    typeof style.fontSizePt === 'number' &&
+    Number.isFinite(style.fontSizePt)
+  ) {
     return Math.max(1, Math.round(style.fontSizePt * 2));
   }
   return null;
@@ -1033,7 +1050,12 @@ function getParagraphRunSegments(paragraph: any): RunSegment[] {
   for (const run of runs) {
     const text = getRunText(run);
     if (text.length === 0) continue;
-    segments.push({ runElement: run, text, start: cursor, end: cursor + text.length });
+    segments.push({
+      runElement: run,
+      text,
+      start: cursor,
+      end: cursor + text.length,
+    });
     cursor += text.length;
   }
   return segments;
