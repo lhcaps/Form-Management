@@ -10,7 +10,7 @@
  *
  *   BM-001 normalized DOCX
  *     -> DocxtemplaterContractRenderEngine.renderShadow(plan, payload)
- *     -> applyBm001StyleOverrides(buffer, "BM-001")  (idempotent post-processor)
+ *     -> applyStyleProfileToDocxBuffer(buffer, profile)  (idempotent post-processor)
  *     -> inspectDocxPackage(...)
  *
  * We assert:
@@ -39,10 +39,22 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 import { ContractRenderPlanBuilder } from '../../application/contract-render-plan.builder';
-import { applyBm001StyleOverrides } from '../bm001-style-overrides';
 import { DocxtemplaterContractRenderEngine } from '../docxtemplater-contract-render-engine';
+import {
+  applyStyleProfileToDocxBuffer,
+  getStyleProfileForTemplate,
+} from '../style-profile';
 import { inspectDocxPackage } from './docx-package-reader';
 import type { WorkspacePathsService } from '../../../../../infrastructure/paths/workspace-paths.service';
+
+function applyStyleProfileForTemplate(
+  buffer: Buffer,
+  templateCode: string,
+): Buffer {
+  const profile = getStyleProfileForTemplate(templateCode);
+  if (!profile) return buffer;
+  return applyStyleProfileToDocxBuffer(buffer, profile).buffer;
+}
 
 const REPO_ROOT = join(process.cwd(), '..', '..');
 const OUTPUT_ROOT = join(tmpdir(), 'qllaw-pr6g1-rendered-preservation');
@@ -145,8 +157,8 @@ describe('PR6G.1 — rendered DOCX preservation', () => {
         makeWorkspacePaths(),
       ).renderShadow(plan, FULL_PAYLOAD, OUTPUT_ROOT);
       const rendered = readFileSync(result.artifacts.docxPath);
-      // Apply the BM-001 style override (idempotent, scoped to "BM-001").
-      const styled = applyBm001StyleOverrides(rendered, 'BM-001');
+      // Apply the BM-001 style profile (idempotent, scoped to "BM-001").
+      const styled = applyStyleProfileForTemplate(rendered, 'BM-001');
       sourceInspection = inspectDocxPackage(readFileSync(BM001_PATH));
       renderedInspection = inspectDocxPackage(styled);
     });
@@ -189,9 +201,10 @@ describe('PR6G.1 — rendered DOCX preservation', () => {
     });
 
     it('rendered DOCX main body still contains canonical BM-001 content', () => {
-      // The renderer + style override MUST NOT regress content. The
-      // post-processor only patches `<w:sz>` elements; it never
-      // touches `<w:t>` runs.
+      // The renderer + style profile MUST NOT regress content. The
+      // post-processor only patches run-property elements
+      // (`<w:b/>` / `<w:i/>` / `<w:sz>` / `<w:szCs/>`); it never
+      // touches `<w:t>` text runs.
       expect(renderedInspection.mainDocument.text).toContain('VIỆN KIỂM SÁT');
       expect(renderedInspection.mainDocument.text).toContain('BIÊN BẢN');
       expect(renderedInspection.mainDocument.text).toContain(
@@ -230,8 +243,8 @@ describe('PR6G.1 — rendered DOCX preservation', () => {
           makeWorkspacePaths(),
         ).renderShadow(plan, FULL_PAYLOAD, OUTPUT_ROOT);
         const rendered = readFileSync(result.artifacts.docxPath);
-        const once = applyBm001StyleOverrides(rendered, 'BM-001');
-        const twice = applyBm001StyleOverrides(once, 'BM-001');
+        const once = applyStyleProfileForTemplate(rendered, 'BM-001');
+        const twice = applyStyleProfileForTemplate(once, 'BM-001');
         // Same buffer length and same inspection result.
         expect(twice.byteLength).toBe(once.byteLength);
         const inspOnce = inspectDocxPackage(once);
@@ -244,7 +257,7 @@ describe('PR6G.1 — rendered DOCX preservation', () => {
 
     it('style-override is scoped — applying it to a non-BM-001 buffer is a no-op', () => {
       const buf = readFileSync(BM001_PATH);
-      const after = applyBm001StyleOverrides(buf, 'BM-999');
+      const after = applyStyleProfileForTemplate(buf, 'BM-999');
       // The post-processor must return the input unchanged.
       expect(Buffer.compare(after, buf)).toBe(0);
     });

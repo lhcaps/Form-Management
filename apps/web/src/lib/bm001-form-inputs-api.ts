@@ -1,6 +1,11 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
+import {
+  emptyStringIfMissing,
+  normalizeTextInput,
+} from "./bm-form-mapping";
+
 type JsonObject = Record<string, unknown>;
 
 export type Bm001FormInputs = {
@@ -195,11 +200,7 @@ async function readApi<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 function asString(value: unknown): string {
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value);
+  return emptyStringIfMissing(value);
 }
 
 function normalizeDate(value: unknown): string {

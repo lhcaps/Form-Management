@@ -16,6 +16,10 @@ import {
   auditDocxPackageIntegrity,
   renderDocxTemplate,
 } from './docx-template-renderer';
+import {
+  applyStyleProfileToDocxBuffer,
+  getStyleProfileForTemplate,
+} from './style-profile';
 
 export type ShadowArtifactPath = Readonly<{
   docxPath: string;
@@ -126,14 +130,18 @@ export class DocxtemplaterContractRenderEngine {
     }
 
     const renderedDocx = await this.fillTemplate(contractDocx, bindingMap);
+    const styledDocx = this.applyTemplateStyleProfile(
+      renderedDocx,
+      plan.templateCode,
+    );
 
     const docxPath = join(shadowDir, 'contract.docx');
-    writeFileSync(docxPath, renderedDocx);
+    writeFileSync(docxPath, styledDocx);
 
     const legacyDocx = await this.loadTemplate(plan.templateCode);
     const [legacyDocumentXml, renderedDocumentXml] = await Promise.all([
       extractDocumentXmlFromZip(legacyDocx),
-      extractDocumentXmlFromZip(renderedDocx),
+      extractDocumentXmlFromZip(styledDocx),
     ]);
     const semanticComparison = compareDocxSemantic(
       legacyDocumentXml,
@@ -153,7 +161,7 @@ export class DocxtemplaterContractRenderEngine {
       this.formatSemanticDiffMd(semanticComparison),
     );
 
-    const formatAudit = await this.auditRenderedDocx(renderedDocx);
+    const formatAudit = await this.auditRenderedDocx(styledDocx);
 
     const formatAuditJsonPath = join(shadowDir, 'format-audit.json');
     writeFileSync(formatAuditJsonPath, JSON.stringify(formatAudit, null, 2));
@@ -163,7 +171,7 @@ export class DocxtemplaterContractRenderEngine {
 
     const packageIntegrity = auditDocxPackageIntegrity(
       contractDocx,
-      renderedDocx,
+      styledDocx,
     );
     const packageIntegrityJsonPath = join(shadowDir, 'package-integrity.json');
     writeFileSync(
@@ -258,7 +266,23 @@ export class DocxtemplaterContractRenderEngine {
         bindingMap.set(key, String(value));
       }
     }
-    return this.fillTemplate(contractDocx, bindingMap);
+    const renderedDocx = await this.fillTemplate(contractDocx, bindingMap);
+    return this.applyTemplateStyleProfile(renderedDocx, plan.templateCode);
+  }
+
+  private applyTemplateStyleProfile(
+    renderedDocx: Buffer,
+    templateCode: string,
+  ): Buffer {
+    const profile = getStyleProfileForTemplate(templateCode);
+    if (!profile) return renderedDocx;
+    const result = applyStyleProfileToDocxBuffer(renderedDocx, profile);
+    if (result.warnings.length > 0) {
+      for (const warning of result.warnings) {
+        this.logger.warn(warning);
+      }
+    }
+    return result.buffer;
   }
 
   async persistActiveRender(
