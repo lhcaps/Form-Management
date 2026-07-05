@@ -1,4 +1,4 @@
-# BM Final Audit — BM-001
+# BM Final Audit — BM-171
 
 ## Readiness summary
 
@@ -6,7 +6,7 @@
 - BM final audit status: **PASS** (this specific BM's audit outcome).
 - Rollout readiness: **YES** — Every section is PASS and every safety probe is green.
 
-- generatedAt: 2026-07-05T11:48:32.491Z
+- generatedAt: 2026-07-05T11:48:31.684Z
 - schemaVersion: 1
 - harnessReady: true
 - rolloutReady: true
@@ -15,32 +15,32 @@
 
 ## sourceDocx
 
-- path: `storage\templates\normalized-docx\BM-001\BM-001_normalized.docx`
-- lockedContract: `docs\audit\docx\contracts\locked\BM-001__f4c2aa3682d3.contract.locked.json`
+- path: `storage\templates\normalized-docx\BM-171\BM-171_normalized.docx`
+- lockedContract: `docs\audit\docx\contracts\locked\BM-171__46b9a8be4e01.contract.locked.json`
 - exists: true
-- sha256: `e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77`
-- byteLength: 116232
-- parts: 19
-- relationships: 10
+- sha256: `bbfd0720691ed6ea85b106f2abbf6734e4297d4120a1e17c84d498f78ed623a2`
+- byteLength: 26445
+- parts: 14
+- relationships: 5
 
 ## fieldCoverage
 
 - status: PASS
-- source: BM-001_FIELD_COVERAGE.latest.json
-- totalSlots: 39
-- coveredSlots: 39
+- source: BM-171_FIELD_COVERAGE.latest.json
+- totalSlots: 34
+- coveredSlots: 34
 - missingSlots: []
 
 ## renderedContent
 
 - status: NOT_RUN
-- sourceDocxPath: storage\templates\normalized-docx\BM-001\BM-001_normalized.docx
+- sourceDocxPath: storage\templates\normalized-docx\BM-171\BM-171_normalized.docx
 - leakedTokens: []
 
 ## docxParts
 
 - mainDocument: PASS
-- headers: PASS
+- headers: NOT_APPLICABLE
 - footers: NOT_APPLICABLE
 - footnotes: NOT_APPLICABLE_BY_TEMPLATE
 - endnotes: NOT_APPLICABLE_BY_TEMPLATE
@@ -54,8 +54,8 @@
 ## style
 
 - status: PASS
-- source: manual-approval: docs\audit\bm-visual-signoff\BM-001\manual-approval.latest.json
-- counts: {"total":8,"passed":8,"failed":0,"manual":0}
+- source: manual-approval: docs\audit\bm-visual-signoff\BM-171\manual-approval.latest.json
+- counts: {"total":18,"passed":18,"failed":0,"manual":0}
 
 ## safety
 

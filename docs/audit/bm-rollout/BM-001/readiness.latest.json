@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1",
+  "templateCode": "BM-001",
+  "generatedAt": "2026-07-05T11:48:33.173Z",
+  "status": "READY",
+  "harnessReady": true,
+  "technicalReady": true,
+  "manualReviewRequired": false,
+  "rolloutReady": true,
+  "finalAudit": {
+    "status": "PASS",
+    "harnessReady": true,
+    "rolloutReady": true,
+    "blockers": []
+  },
+  "gates": [
+    {
+      "id": "final-audit-artifact",
+      "label": "PR6G.2 final audit artefact exists for this BM",
+      "status": "PASS",
+      "evidence": "docs\\audit\\bm-final\\BM-001\\final.latest.json"
+    },
+    {
+      "id": "field-coverage",
+      "label": "PR6F BM-001 field coverage (or equivalent per-BM) PASS",
+      "status": "PASS",
+      "evidence": "docs\\audit\\unified-bm-workspace\\BM001_FIELD_COVERAGE.latest.json all 39 slot row(s) PASS"
+    },
+    {
+      "id": "docx-parts",
+      "label": "PR6G.1 docx parts inspection (header/footer/footnote/endnote) PASS",
+      "status": "PASS",
+      "evidence": "final audit docxParts: mainDocument=PASS headers=PASS footers=NOT_APPLICABLE comments=NOT_APPLICABLE"
+    },
+    {
+      "id": "footnotes-endnotes",
+      "label": "PR6G.1 footnotes / endnotes either PASS or NOT_APPLICABLE_BY_TEMPLATE",
+      "status": "PASS",
+      "evidence": "final audit footnotes=NOT_APPLICABLE_BY_TEMPLATE endnotes=NOT_APPLICABLE_BY_TEMPLATE"
+    },
+    {
+      "id": "mapping-shared-source",
+      "label": "PR6G.3 / PR6G.3.1 shared mapping source of truth consumed",
+      "status": "PASS",
+      "evidence": "packages\\form-contracts\\src\\bm-form-mapping\\index.ts consumed by 2 consumer(s)"
+    },
+    {
+      "id": "rendered-docx-mapping-parity",
+      "label": "PR6G.3.1 rendered-DOCX mapping parity spec green for this BM",
+      "status": "PASS",
+      "evidence": "apps\\api\\src\\modules\\documents\\rendering\\infrastructure\\pr6g31-bm001-rendered-docx-parity.spec.ts"
+    },
+    {
+      "id": "style-profile-engine",
+      "label": "PR6G.4 generic style profile engine available and not broken",
+      "status": "PASS",
+      "evidence": "apps\\api\\src\\modules\\documents\\rendering\\infrastructure\\style-profile\\index.ts + apps\\api\\src\\modules\\documents\\rendering\\infrastructure\\style-profile\\bm001-style-profile.ts"
+    },
+    {
+      "id": "style-profile-no-legacy-overrides",
+      "label": "PR6G.4 cleanup: no legacy BM-001 style override runtime path remains",
+      "status": "PASS",
+      "evidence": "no legacy applyBm001StyleOverrides import found"
+    },
+    {
+      "id": "rendered-style-evidence",
+      "label": "PR6G.4 style-profile integration spec green for this BM",
+      "status": "NOT_APPLICABLE",
+      "evidence": "per-BM style-profile integration spec not present at apps\\api\\src\\modules\\documents\\rendering\\infrastructure\\style-profile\\docxtemplater-contract-render-engine-bm001-style-profile.spec.ts; PR7B factory will produce it on demand"
+    },
+    {
+      "id": "locked-compiled",
+      "label": "audit:locked-compiled consistent (this BM is not stale vs compiled-v2)",
+      "status": "PASS",
+      "evidence": "BM-001 has 1 warning(s) (no blocking issue) in docs\\audit\\sot-gates-v1\\latest.json"
+    },
+    {
+      "id": "contract-sync",
+      "label": "audit:contract-sync green (DB has the locked contract)",
+      "status": "NOT_APPLICABLE",
+      "evidence": "pnpm audit:contract-sync is the source of truth — run it separately; the PR6G.5 gate does not re-execute it inline to keep the gate read-only and fast"
+    },
+    {
+      "id": "safety-no-fake-generated-document-id",
+      "label": "No fake generatedDocumentId in runtime code",
+      "status": "PASS",
+      "evidence": "scanned 11 runtime file(s) — no fake generatedDocumentId"
+    },
+    {
+      "id": "safety-no-template-db-write",
+      "label": "No DB write from /templates/:templateCode runtime path",
+      "status": "PASS",
+      "evidence": "scanned 4 runtime file(s) — no DB writes from /templates path"
+    },
+    {
+      "id": "safety-no-mass-rollout",
+      "label": "No mass rollout of BM-002..BM-213 from this single command",
+      "status": "PASS",
+      "evidence": "script accepts one explicit BM-XXX target and writes artefacts only for that target; no loop over the 213 BMs and no readdirSync of docs/audit/bm-rollout/ (verified by the node:test spec)"
+    },
+    {
+      "id": "visual-style-signoff",
+      "label": "Visual style sign-off (human review of rendered DOCX)",
+      "status": "PASS",
+      "evidence": "final audit style.status=PASS + manual approval GRANTED (Planner) at docs\\audit\\bm-visual-signoff\\BM-001\\manual-approval.latest.json"
+    },
+    {
+      "id": "template-draft-ui",
+      "label": "PR7A.1 templateDraft-ui — generic /templates/[templateCode] route works for this BM with no fake generatedDocumentId and no DB write",
+      "status": "NOT_APPLICABLE",
+      "evidence": "BM-001 is the previous baseline; the templateDraft-ui gate is introduced by PR7A.1 for BM-171 and is not a retroactive blocker for BM-001 (BM-001 uses the generated-document flow, not the TemplateDraft flow)"
+    }
+  ],
+  "blockers": [],
+  "nextAction": "BM BM-001 is rollout-ready. Planner can sign off and open the next BM (e.g. BM-171) as a single rollout.",
+  "evidenceSources": [
+    "docs\\audit\\bm-final\\BM-001\\final.latest.json",
+    "docs\\audit\\sot-gates-v1\\latest.json",
+    "docs\\audit\\unified-bm-workspace\\BM001_FIELD_COVERAGE.latest.json"
+  ]
+}
