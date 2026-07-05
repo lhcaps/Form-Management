@@ -206,11 +206,13 @@ test('renderMarkdown: produces a stable markdown artefact shape', () => {
 });
 
 test('Scenario 1 — full harness invocation writes the BM-001 artefact', { skip: !existsSync(BM001_NORM) }, async () => {
-  // We invoke the harness by spawning a child process that runs
-  // `tsx scripts/audit/audit-bm-final.mjs`. tsx (already in
-  // `apps/api` devDeps) is the runtime that resolves the PR6G.1
-  // TypeScript import. The harness itself is plain `.mjs`; only
-  // its import target is TypeScript.
+  // PR6G.5.2 — with Planner's manual visual sign-off artefact in place
+  // for BM-001, the harness's `summariseStyle` consumes the approval
+  // and reports `style.status = PASS`, the aggregate status rolls up
+  // to PASS, and `rolloutReady` flips to true. Scenario 1b below
+  // exercises the same harness on the BM-001 (without manual
+  // approval) side path to keep the MANUAL_REQUIRED regression
+  // coverage.
   const { spawnSync } = require_('node:child_process');
   const outDir = join(tmpdir(), `audit-bm-final-scenario1-${Date.now()}`);
   const outJson = join(outDir, 'final.latest.json');
@@ -226,7 +228,9 @@ test('Scenario 1 — full harness invocation writes the BM-001 artefact', { skip
   assert.equal(existsSync(outJson), true, `expected artefact at ${outJson}`);
   const parsed = JSON.parse(readFileSync(outJson, 'utf8'));
   assert.equal(parsed.templateCode, 'BM-001');
-  assert.equal(parsed.status, 'MANUAL_REQUIRED');
+  // PR6G.5.2 — manual visual sign-off was granted for BM-001 by the
+  // Planner; status must now be PASS, not MANUAL_REQUIRED.
+  assert.equal(parsed.status, 'PASS');
   assert.equal(parsed.docxParts.footnotes, 'NOT_APPLICABLE_BY_TEMPLATE');
   assert.match(parsed.docxParts.footnotes, /NOT_APPLICABLE_BY_TEMPLATE/);
   // Evidence line must mention the OOXML fact observed in PR6G.1.
@@ -238,24 +242,80 @@ test('Scenario 1 — full harness invocation writes the BM-001 artefact', { skip
   assert.equal(parsed.sourceDocx.exists, true);
   assert.match(parsed.fieldCoverage.source, /BM-001_FIELD_COVERAGE\.latest\.json/);
 
-  // Semantic guard (Planner-required): a `MANUAL_REQUIRED` BM is
-  // NOT rollout-ready, even when the harness itself is healthy. The
-  // harness must report `harnessReady: true` (infra works) AND
-  // `rolloutReady: false` (BM-001 cannot be a baseline for the next
-  // BM until visual style sign-off lands). Bug fixed in PR6G.2
-  // round 2 — the previous version wrongly reported
-  // `rolloutReady: true` here.
+  // PR6G.5.2 — `harnessReady: true` stays (harness ran cleanly) and
+  // `rolloutReady: true` (Planner sign-off flips readiness).
   assert.equal(parsed.harnessReady, true, 'harnessReady must be true when artefact is written');
   assert.equal(
     parsed.rolloutReady,
-    false,
-    'rolloutReady must be false while status is MANUAL_REQUIRED',
+    true,
+    'rolloutReady must be true after Planner manual visual sign-off (PR6G.5.2)',
   );
-  assert.ok(
-    parsed.blockers.some((b) => /visual style sign-off is still pending/u.test(b)),
-    'blockers[] must mention the visual style sign-off when style.status is MANUAL_REQUIRED',
+  // The aggregate blockers list is empty after the approval flips style.status.
+  assert.equal(
+    parsed.blockers.length,
+    0,
+    'blockers[] must be empty once the manual-approval flips style.status',
   );
+  // style block must report the manual-approval provenance.
+  assert.equal(parsed.style.status, 'PASS');
+  assert.match(parsed.style.source, /manual-approval/);
   rmSync(outDir, { recursive: true, force: true });
+});
+
+test('Scenario 1b — BM-001 WITHOUT manual-approval artefact stays MANUAL_REQUIRED (regression)', { skip: !existsSync(BM001_NORM) }, async () => {
+  // Hide the manual-approval artefact for the duration of this test
+  // so we can assert the pre-PR6G.5.2 behaviour still holds when the
+  // approval file is absent. We rename it to `<hidden>.json` rather
+  // than delete it so the rest of the suite keeps its approval.
+  const repoRoot = join(import.meta.dirname, '..');
+  const approvalPath = join(
+    repoRoot,
+    'docs',
+    'audit',
+    'bm-visual-signoff',
+    'BM-001',
+    'manual-approval.latest.json',
+  );
+  const hiddenPath = join(
+    repoRoot,
+    'docs',
+    'audit',
+    'bm-visual-signoff',
+    'BM-001',
+    '__hidden_for_scenario1b.json',
+  );
+  if (!existsSync(approvalPath)) {
+    return; // nothing to test against — the regression invariant is
+    // already covered by Scenario 1 above.
+  }
+  const { renameSync } = require_('node:fs');
+  renameSync(approvalPath, hiddenPath);
+  try {
+    const { spawnSync } = require_('node:child_process');
+    const outDir = join(tmpdir(), `audit-bm-final-scenario1b-${Date.now()}`);
+    const outJson = join(outDir, 'final.latest.json');
+    const apiDir = join(repoRoot, 'apps', 'api');
+    const tsxBin = join(apiDir, 'node_modules', '.bin', 'tsx.cmd');
+    const result = spawnSync(
+      tsxBin,
+      [join(repoRoot, 'scripts', 'audit', 'audit-bm-final.mjs'), '--bm=BM-001', `--output=${outJson}`],
+      { cwd: apiDir, encoding: 'utf8', shell: true },
+    );
+    assert.equal(result.status, 0);
+    const parsed = JSON.parse(readFileSync(outJson, 'utf8'));
+    // Without the approval artefact, BM-001 keeps the pre-PR6G.5.2
+    // behaviour: status=MANUAL_REQUIRED, rolloutReady=false,
+    // blockers mentions the visual style sign-off.
+    assert.equal(parsed.status, 'MANUAL_REQUIRED');
+    assert.equal(parsed.rolloutReady, false);
+    assert.ok(
+      parsed.blockers.some((b) => /visual style sign-off is still pending/u.test(b)),
+      'blockers[] must mention the visual style sign-off when style.status is MANUAL_REQUIRED',
+    );
+    rmSync(outDir, { recursive: true, force: true });
+  } finally {
+    renameSync(hiddenPath, approvalPath);
+  }
 });
 
 test('Scenario 7 — unknown BM exits 2 and writes nothing', () => {
