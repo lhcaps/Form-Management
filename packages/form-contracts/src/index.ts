@@ -9,3 +9,4 @@ export * from "./payload.js";
 export * from "./derive-form-input-schema.js";
 export * from "./field-labels.js";
 export * from "./section-titles.js";
+export * from "./bm-form-mapping/index.js";

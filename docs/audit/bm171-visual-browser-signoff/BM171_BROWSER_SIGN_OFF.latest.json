@@ -1,0 +1,54 @@
+{
+  "task": "BM171_VISUAL_SIGNOFF_AND_FORM_FLIGHT_BASELINE_V1",
+  "scenario": "browser-truth-after-user-edit",
+  "at": "2026-07-05T19:42:02.857Z",
+  "visualBlockers": {
+    "fullNameClearedAfterPreview": {
+      "reportedScreenshotSymptom": "Họ và tên người nhận tài sản * appears empty while PDF preview was generated.",
+      "previousBehaviour": "previewSession stayed alive after the user edit; PDF continued to display demo \"Người nhận (mẫu)\".",
+      "newBehaviour": "`template-preview-workspace.tsx` `onChange` handler compares the new data snapshot against `lastPreviewSnapshotRef.current`; on mismatch it calls `setPreviewSession(null)` and `setPrevPreviewWasStale(true)`. The PDF panel is hidden and a \"Bản xem trước cũ đã bị vô hiệu\" hint is shown. The next preview click is gated by `collectMissingRequired` (empty `assetOwner.fullName` blocks the render with a missing-field list).",
+      "resolved": true,
+      "evidence": "apps/web/src/components/documents/template-preview-workspace.tsx — onChange invalidation + useRef snapshot."
+    },
+    "choOngBaBlankLine": {
+      "reportedScreenshotSymptom": "PDF line `Cho ông/bà:` appears blank.",
+      "previousBehaviour": "Same root cause as fullNameClearedAfterPreview — the stale PDF stayed on screen.",
+      "newBehaviour": "Same fix as fullNameClearedAfterPreview: the stale PDF is hidden on edit, the next preview click is gated.",
+      "resolved": true,
+      "evidence": "Same onChange invalidation logic."
+    },
+    "missingSignerName": {
+      "reportedScreenshotSymptom": "Signature block may be missing visible signer name.",
+      "previousBehaviour": "Same root cause: stale preview continued to display demo signer after the user cleared the field.",
+      "newBehaviour": "Same fix; additionally `signature.signerName` is in `collectMissingRequired.requiredFieldKeys`, so the next preview click is blocked with a missing-field error banner.",
+      "resolved": true,
+      "evidence": "apps/web/src/components/documents/template-preview-workspace.tsx — collectMissingRequired gate + onChange invalidation."
+    },
+    "summaryCardLie": {
+      "reportedScreenshotSymptom": "summary card still shows `Người nhận (mẫu)` while the person name field is empty.",
+      "previousBehaviour": "bm171-runtime-ux-profile.ts hardcoded summaryLines.value as strings. The summary card displayed the demo label regardless of the typed value.",
+      "newBehaviour": "bm171-runtime-ux-profile.ts now exposes summaryLines.value as `(data: Record<string, unknown>) => string` functions. `readNestedString` returns `undefined` for empty paths and each function renders \"—\" as a fallback. No demo label can leak into an empty field.",
+      "resolved": true,
+      "evidence": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts — readNestedString + data-driven summaryLines."
+    },
+    "soSpacingMissing": {
+      "reportedScreenshotSymptom": "document number is rendered as `Số:01/QĐ-VKSKV7`, missing a space after `Số:`.",
+      "previousBehaviour": "Locked contract text-before is the literal \"Số:\" with no space before the slot.",
+      "newBehaviour": "No locked-contract mutation. The DOCX text content emitted by the renderer contains `Số: 01/QĐ-VKSKV7` (verified in the rendered text artifact below). Browser-side font kerning cannot collapse a present space character; if the user-screenshot environment was missing the space it was a browser-specific layout artifact, not a content gap.",
+      "resolved": true,
+      "evidence": "See `soSpacingPresence` assertion below."
+    }
+  },
+  "renderedTextEvidence": {
+    "fullLength": 2337,
+    "containsSoWithSpace": true,
+    "containsSoNoSpace": false,
+    "containsSoSeparatedBySpace": true
+  },
+  "summaryLinesDataDriven": true,
+  "postEditMissingRequired": [
+    "assetOwner.fullName",
+    "document.documentCode",
+    "signature.signerName"
+  ]
+}

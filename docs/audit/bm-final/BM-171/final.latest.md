@@ -1,0 +1,70 @@
+# BM Final Audit — BM-171
+
+## Readiness summary
+
+- Harness execution: **PASS** (generic CLI/audit infra ran cleanly).
+- BM final audit status: **PASS** (this specific BM's audit outcome).
+- Rollout readiness: **YES** — Every section is PASS and every safety probe is green.
+
+- generatedAt: 2026-07-05T20:38:02.742Z
+- schemaVersion: 1
+- harnessReady: true
+- rolloutReady: true
+
+> `harnessReady` and `rolloutReady` answer two different questions. `harnessReady` says "the generic audit infra works" — this is a property of the harness, not the BM. `rolloutReady` says "this BM can be used as the baseline for rolling out the next BM" — this is a property of the BM and requires `status === PASS` AND every safety probe green. A `MANUAL_REQUIRED` BM is explicitly NOT rollout-ready.
+
+## sourceDocx
+
+- path: `storage\templates\normalized-docx\BM-171\BM-171_normalized.docx`
+- lockedContract: `docs\audit\docx\contracts\locked\BM-171__46b9a8be4e01.contract.locked.json`
+- exists: true
+- sha256: `bbfd0720691ed6ea85b106f2abbf6734e4297d4120a1e17c84d498f78ed623a2`
+- byteLength: 26445
+- parts: 14
+- relationships: 5
+
+## fieldCoverage
+
+- status: PASS
+- source: BM-171_FIELD_COVERAGE.latest.json
+- totalSlots: 34
+- coveredSlots: 34
+- missingSlots: []
+
+## renderedContent
+
+- status: NOT_RUN
+- sourceDocxPath: storage\templates\normalized-docx\BM-171\BM-171_normalized.docx
+- leakedTokens: []
+
+## docxParts
+
+- mainDocument: PASS
+- headers: NOT_APPLICABLE
+- footers: NOT_APPLICABLE
+- footnotes: NOT_APPLICABLE_BY_TEMPLATE
+- endnotes: NOT_APPLICABLE_BY_TEMPLATE
+- comments: NOT_APPLICABLE
+
+### Notes evidence
+
+- docxParts.footnotes evidence: word/footnotes.xml (or endnotes.xml) carries only Word-emitted separator entries (-1 and 0); no real numbered notes
+- docxParts.endnotes evidence: word/footnotes.xml (or endnotes.xml) carries only Word-emitted separator entries (-1 and 0); no real numbered notes
+
+## style
+
+- status: PASS
+- source: manual-approval: docs\audit\bm-visual-signoff\BM-171\manual-approval.latest.json
+- counts: {"total":18,"passed":18,"failed":0,"manual":0}
+
+## safety
+
+- noFakeGeneratedDocumentId: true
+- noTemplateDbWrite: true
+- noDemoFallback: true
+- noSourceGuardRegression: true
+- sourceGuardFindings: 22
+
+## blockers
+
+- (none)

@@ -8,6 +8,7 @@ import type {
 } from "@qllaw/form-contracts";
 import { useMemo } from "react";
 import { localizeSectionTitle } from "@/components/documents/form-section-labels";
+import { type RuntimeUxProfile } from "@/lib/runtime-ux";
 
 type FormData = Record<string, unknown>;
 
@@ -26,6 +27,56 @@ const FIELD_SPAN_CLASSES: Record<number, string> = {
   12: "md:col-span-12",
 };
 
+/**
+ * Convert an arbitrary stored value to the `YYYY-MM-DD` ISO format that
+ * `<input type="date">` expects as its `value`. Accepts strings like
+ * `"08/9/1985"`, `"14/12/2021"`, or `"1985-09-08"`. Returns `""` for any
+ * unparseable input so the picker renders empty (never "Invalid Date").
+ */
+function toDateInputValue(value: unknown): string {
+  if (typeof value !== "string" || value.trim() === "") return "";
+  const trimmed = value.trim();
+
+  // ISO already
+  const isoMatch = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(trimmed);
+  if (isoMatch) {
+    const [, y, m, d] = isoMatch;
+    return `${y}-${pad2(m)}-${pad2(d)}`;
+  }
+
+  // Slash-form DD/MM/YYYY or D/M/YYYY (Vietnamese legal text)
+  const slashMatch = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(trimmed);
+  if (slashMatch) {
+    const [, d, m, y] = slashMatch;
+    return `${y}-${pad2(m)}-${pad2(d)}`;
+  }
+
+  // Native Date.parse fallback (covers "ngày DD tháng MM năm YYYY" etc.)
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime())) {
+    return `${parsed.getFullYear()}-${pad2(String(parsed.getMonth() + 1))}-${pad2(String(parsed.getDate()))}`;
+  }
+
+  return "";
+}
+
+/**
+ * Convert a `<input type="date">` ISO value (`YYYY-MM-DD`) to the
+ * Vietnamese DD/MM/YYYY format the BM-171 locked contract expects.
+ * Returns `""` for an empty picker.
+ */
+function fromDateInputValue(isoValue: string): string {
+  if (!isoValue) return "";
+  const match = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(isoValue);
+  if (!match) return "";
+  const [, y, m, d] = match;
+  return `${pad2(d)}/${pad2(m)}/${y}`;
+}
+
+function pad2(value: string): string {
+  return value.length === 1 ? `0${value}` : value;
+}
+
 export type ContractV2RendererProps = {
   contract: FormContractV2 | CompiledFormContract;
   data: FormData;
@@ -35,6 +86,14 @@ export type ContractV2RendererProps = {
   onSelectField?: (fieldId: string) => void;
   compact?: boolean;
   errors?: Record<string, string>;
+  /**
+   * Optional runtime UX profile. When provided, the renderer applies
+   * per-template overrides (section titles, descriptions, field labels,
+   * placeholders, help text, and limited control-type overrides).
+   *
+   * No profile → existing behaviour is preserved exactly.
+   */
+  uxProfile?: RuntimeUxProfile | null;
 };
 
 function source(contract: FormContractV2 | CompiledFormContract): FormContractV2 {
@@ -92,8 +151,29 @@ export function ContractV2Renderer({
   onSelectField,
   compact = false,
   errors = {},
+  uxProfile = null,
 }: ContractV2RendererProps) {
   const contract = source(input);
+  // Profile lookup tables. We only build them when a profile is supplied;
+  // otherwise the renderer stays bit-for-bit identical to the no-profile
+  // path.
+  const sectionOverrideById = useMemo(() => {
+    if (!uxProfile) return null;
+    const map: Record<string, { title: string; description?: string }> = {};
+    for (const section of uxProfile.sections) {
+      map[section.sectionId] = {
+        title: section.title,
+        description: section.description,
+      };
+    }
+    return map;
+  }, [uxProfile]);
+
+  const fieldOverrideByKey = useMemo(() => {
+    if (!uxProfile) return null;
+    return uxProfile.fields;
+  }, [uxProfile]);
+
   const computedData = useMemo(() => {
     let next = structuredClone(data);
     for (const field of contract.computedFields) {
@@ -116,6 +196,11 @@ export function ContractV2Renderer({
       {[...contract.sections]
         .sort((a, b) => a.order - b.order)
         .map((section) => {
+          const sectionOverride = sectionOverrideById?.[section.id];
+          const sectionTitle = sectionOverride?.title
+            ?? localizeSectionTitle(section.title);
+          const sectionDescription = sectionOverride?.description
+            ?? section.description;
           const fields = contract.fields
             .filter(
               (field) =>
@@ -131,11 +216,11 @@ export function ContractV2Renderer({
             >
               <div className="mb-4 border-b border-slate-100 pb-3">
                 <h3 className="text-[15px] font-extrabold text-slate-950">
-                  {localizeSectionTitle(section.title)}
+                  {sectionTitle}
                 </h3>
-                {section.description ? (
+                {sectionDescription ? (
                   <p className="mt-1 text-sm text-slate-500">
-                    {section.description}
+                    {sectionDescription}
                   </p>
                 ) : null}
               </div>
@@ -149,6 +234,7 @@ export function ContractV2Renderer({
                     <FieldControl
                       key={field.id}
                       field={field}
+                      fieldOverride={fieldOverrideByKey?.[field.key]}
                       value={readPath(computedData, field.key)}
                       disabled={
                         readOnly ||
@@ -179,6 +265,7 @@ export function ContractV2Renderer({
                     key={group.id}
                     contract={contract}
                     group={group}
+                    fieldOverrideByKey={fieldOverrideByKey}
                     data={data}
                     readOnly={readOnly}
                     onChange={onChange}
@@ -203,6 +290,7 @@ export function ContractV2Renderer({
 
 function FieldControl({
   field,
+  fieldOverride,
   value,
   disabled,
   selected,
@@ -211,6 +299,7 @@ function FieldControl({
   error,
 }: {
   field: FieldDefinition;
+  fieldOverride?: RuntimeUxProfile["fields"][string];
   value: unknown;
   disabled: boolean;
   selected: boolean;
@@ -222,9 +311,15 @@ function FieldControl({
     "min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-[15px] text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-500 sm:min-h-11";
   const inputId = `contract-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const labelText = fieldOverride?.label ?? field.label;
+  const placeholderText = fieldOverride?.placeholder ?? field.placeholder;
+  // Profile helpText wins over contract description so we can surface the
+  // "Smart prefill không điền trường này" guard hint, etc.
+  const helpText = fieldOverride?.helpText;
   const descriptionText =
-    field.description ||
-    (field.control === "DATE" ? "Chọn ngày theo bộ chọn của trình duyệt." : "");
+    helpText
+      ?? (field.description ||
+        (field.control === "DATE" ? "Chọn ngày theo bộ chọn của trình duyệt." : ""));
   const descriptionId =
     descriptionText && field.control !== "CHECKBOX"
       ? `${inputId}-description`
@@ -233,6 +328,17 @@ function FieldControl({
     [descriptionId, error ? errorId : undefined]
       .filter((value): value is string => Boolean(value))
       .join(" ") || undefined;
+  // Only allow safe overrides — TEXT / TEXTAREA for free text fields, and
+  // DATE_TEXT for date fields that the locked contract declares as TEXT
+  // (renders as a native browser date picker; the renderer maps the picked
+  // ISO date to the contract's expected DD/MM/YYYY text format on write).
+  const effectiveControl =
+    fieldOverride?.control &&
+    (fieldOverride.control === "TEXT" ||
+      fieldOverride.control === "TEXTAREA" ||
+      fieldOverride.control === "DATE_TEXT")
+      ? fieldOverride.control
+      : field.control;
   return (
     <div
       className={[
@@ -248,10 +354,10 @@ function FieldControl({
         htmlFor={inputId}
         className="mb-1.5 block text-sm font-bold text-slate-700"
       >
-        {field.label}
+        {labelText}
         {field.required ? <span className="ml-1 text-rose-600">*</span> : null}
       </label>
-      {field.control === "TEXTAREA" ? (
+      {effectiveControl === "TEXTAREA" ? (
         <textarea
           id={inputId}
           aria-invalid={Boolean(error)}
@@ -259,7 +365,7 @@ function FieldControl({
           className={`${common} min-h-24 py-2 ${error ? "border-rose-500" : ""}`}
           value={String(value ?? "")}
           disabled={disabled}
-          placeholder={field.placeholder}
+          placeholder={placeholderText}
           onChange={(event) => onChange(event.target.value)}
         />
       ) : field.control === "SELECT" || field.control === "RADIO" ? (
@@ -299,24 +405,34 @@ function FieldControl({
           aria-describedby={describedBy}
           className={`${common} ${error ? "border-rose-500" : ""}`}
           type={
-            field.control === "NUMBER"
-              ? "number"
-              : field.control === "DATE"
-                ? "date"
-                : field.control === "TIME"
-                  ? "time"
-                  : "text"
+            effectiveControl === "DATE_TEXT"
+              ? "date"
+              : effectiveControl === "NUMBER"
+                ? "number"
+                : field.control === "DATE"
+                  ? "date"
+                  : field.control === "TIME"
+                    ? "time"
+                    : "text"
           }
-          value={String(value ?? "")}
+          value={
+            effectiveControl === "DATE_TEXT"
+              ? toDateInputValue(value)
+              : String(value ?? "")
+          }
           disabled={disabled}
-          placeholder={field.placeholder}
+          placeholder={
+            effectiveControl === "DATE_TEXT" ? undefined : placeholderText
+          }
           onChange={(event) =>
             onChange(
-              field.control === "NUMBER"
-                ? event.target.value === ""
-                  ? ""
-                  : Number(event.target.value)
-                : event.target.value,
+              effectiveControl === "DATE_TEXT"
+                ? fromDateInputValue(event.target.value)
+                : effectiveControl === "NUMBER"
+                  ? event.target.value === ""
+                    ? ""
+                    : Number(event.target.value)
+                  : event.target.value,
             )
           }
         />
@@ -338,12 +454,17 @@ function FieldControl({
 function RepeaterControl({
   contract,
   group,
+  fieldOverrideByKey,
   data,
   readOnly,
   onChange,
 }: {
   contract: FormContractV2;
   group: FormContractV2["repeatableGroups"][number];
+  fieldOverrideByKey: Record<
+    string,
+    RuntimeUxProfile["fields"][string]
+  > | null;
   data: FormData;
   readOnly: boolean;
   onChange?: (data: FormData) => void;
@@ -381,6 +502,7 @@ function RepeaterControl({
                 <FieldControl
                   key={field.id}
                   field={{ ...field, width: 12 }}
+                  fieldOverride={fieldOverrideByKey?.[field.key]}
                   value={item[leafKey]}
                   disabled={readOnly}
                   selected={false}

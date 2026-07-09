@@ -1,0 +1,156 @@
+{
+  "documentId": "BM-001__f4c2aa3682d3",
+  "templateCode": "BM-001",
+  "timestamp": "2026-07-05T19-26-41-658Z",
+  "renderPlan": {
+    "sourceId": "BM-001__f4c2aa3682d3",
+    "contractStatus": "locked",
+    "fieldCount": 39,
+    "bindingCount": 39,
+    "missingRequiredCount": 23,
+    "warnings": []
+  },
+  "artifacts": {
+    "docx": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\contract.docx",
+    "semanticDiffJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\semantic-diff.json",
+    "semanticDiffMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\semantic-diff.md",
+    "formatAuditJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\format-audit.json",
+    "formatAuditMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\format-audit.md",
+    "packageIntegrityJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\package-integrity.json",
+    "packageIntegrityMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm001-completion\\BM-001\\2026-07-05T19-26-41-658Z\\package-integrity.md"
+  },
+  "semanticComparison": {
+    "status": "warning",
+    "legacyTextLength": 2326,
+    "contractTextLength": 1389,
+    "missingExpectedText": [],
+    "unexpectedUnresolvedPlaceholders": [],
+    "unexpectedLiteralValues": [],
+    "notes": [
+      "Text length differs by 40.3% but no specific missing values found."
+    ]
+  },
+  "formatAudit": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "FMT-001",
+        "requirement": "Times New Roman size 13 baseline",
+        "status": "pass",
+        "evidence": "Normal style: Times New Roman=true, size13=true"
+      },
+      {
+        "id": "FMT-002",
+        "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+        "status": "pass",
+        "evidence": "Agency header found in document XML"
+      },
+      {
+        "id": "FMT-003",
+        "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 bold",
+        "status": "pass",
+        "evidence": "KHU VỰC 7 found; bold tag proximity: true"
+      },
+      {
+        "id": "FMT-004",
+        "requirement": "Underline under KHU VỰC 7 only (not full line)",
+        "status": "not_detectable",
+        "evidence": "Underline not detectable from OOXML proximity check"
+      },
+      {
+        "id": "FMT-005",
+        "requirement": "Legal basis line size 8 (w:sz val=16 in half-points)",
+        "status": "pass",
+        "evidence": "Legal basis line found; font size 8 proximity check"
+      },
+      {
+        "id": "FMT-006",
+        "requirement": "Quốc hiệu size 13",
+        "status": "pass",
+        "evidence": "National motto found in document XML"
+      },
+      {
+        "id": "FMT-007",
+        "requirement": "Độc lập - Tự do - Hạnh phúc size 14",
+        "status": "pass",
+        "evidence": "Motto found; size 14 (w:val=28) proximity check"
+      },
+      {
+        "id": "FMT-008",
+        "requirement": "Underline under motto matches exact line width",
+        "status": "not_detectable",
+        "evidence": "Underline not detectable from OOXML proximity check"
+      },
+      {
+        "id": "FMT-009",
+        "requirement": "Issue date line italic size 14",
+        "status": "pass",
+        "evidence": "Issue date pattern found in document XML"
+      },
+      {
+        "id": "FMT-010",
+        "requirement": "Số... line and ngày/tháng/năm line on same horizontal level",
+        "status": "not_detectable",
+        "evidence": "Số line found; horizontal alignment requires visual/PDF pipeline"
+      },
+      {
+        "id": "FMT-011",
+        "requirement": "Body titles / main title bold size 14",
+        "status": "pass",
+        "evidence": "Known title runs=1, bold14=true"
+      },
+      {
+        "id": "FMT-012",
+        "requirement": "Điều 1, Điều 2, or section headings 1., 2. bold",
+        "status": "pass",
+        "evidence": "2/3 Điều/section runs are bold"
+      },
+      {
+        "id": "FMT-013",
+        "requirement": "Footer: Nơi nhận: bold italic size 12",
+        "status": "not_detectable"
+      },
+      {
+        "id": "FMT-014",
+        "requirement": "Footer recipient lines size 11",
+        "status": "not_detectable",
+        "evidence": "No Nơi nhận paragraph found"
+      },
+      {
+        "id": "FMT-015",
+        "requirement": "Signature title bold size 14; 2-3 lines between title and name",
+        "status": "not_detectable",
+        "evidence": "No signature title (Viện trưởng/Kiểm sát viên) found"
+      },
+      {
+        "id": "FMT-016",
+        "requirement": "Page number present for documents > 2 pages",
+        "status": "pass",
+        "evidence": "PAGE field found in document"
+      },
+      {
+        "id": "FMT-017",
+        "requirement": "Different First Page section property enabled",
+        "status": "pass",
+        "evidence": "w:titlePg element found in document section properties"
+      },
+      {
+        "id": "FMT-018",
+        "requirement": "BM-001 receiver identity legal content uses explicit black text",
+        "status": "pass",
+        "evidence": "Visible runs=4, all explicit black=true"
+      },
+      {
+        "id": "FMT-019",
+        "requirement": "BM-001 Mẫu số 01/HS form note uses explicit black text at 8pt",
+        "status": "pass",
+        "evidence": "Visible runs=9, all black8pt=true"
+      }
+    ]
+  },
+  "packageIntegrity": {
+    "status": "pass",
+    "missingParts": [],
+    "changedPreservedParts": []
+  }
+}

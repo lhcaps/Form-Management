@@ -17,6 +17,11 @@ import { UpdateGeneratedDocumentFormInputsDto } from './dto/update-generated-doc
 import { UpdateGeneratedDocumentPreExportConfigDto } from './dto/update-generated-document-pre-export-config.dto';
 import type { CurrentUser } from '../auth/current-user.type';
 import { sanitizeRenderPayloadRuntimeDefaults } from './render-payload-sanitizer';
+import {
+  formatVietnamesePlaceDateLine as sharedFormatVietnamesePlaceDateLine,
+  formatIdentityIssueDateLine as sharedFormatIdentityIssueDateLine,
+  buildArchiveLine as sharedBuildArchiveLine,
+} from '@qllaw/form-contracts';
 
 function toPublicId(value: bigint | number | null | undefined): string | null {
   if (value === null || value === undefined) return null;
@@ -5975,6 +5980,61 @@ export class DocumentRendererService {
       bm001InformantIdentityIssuedDate,
     );
 
+    // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
+    //
+    // The DOCX templates compose most date strings from separate
+    // day / month / year parts, so the historical `monthNoZero`
+    // behaviour cannot be flipped globally without breaking other
+    // BMs. Instead, BM-001 receives an `*Aligned` companion field per
+    // evidence string, produced by the shared toolkit
+    // (`@qllaw/form-contracts`). The DOCX templates and the audit
+    // tooling can opt into the aligned output without disturbing
+    // BM-002..BM-213. When every BM eventually consumes the shared
+    // contract, these suffixed fields become the only fields.
+    const sharedIsoStringOrNull = (
+      value: string | Date | null | undefined,
+    ): string | null => {
+      if (value === null || value === undefined) return null;
+      if (typeof value === 'string') return value;
+      if (value instanceof Date) {
+        const ms = value.getTime();
+        if (Number.isNaN(ms)) return null;
+        return value.toISOString().slice(0, 10);
+      }
+      return null;
+    };
+    const bm001IdentityIssueDateLineAligned = sharedFormatIdentityIssueDateLine(
+      sharedIsoStringOrNull(bm001InformantIdentityIssuedDate),
+    );
+    const bm001ReceptionStartedAtDateTextAligned = (() => {
+      if (!bm001ReceptionStartedParts.full) return '';
+      return sharedFormatVietnamesePlaceDateLine({
+        place: '',
+        isoDate: sharedIsoStringOrNull(bm001ReceptionStartedAtDate),
+      });
+    })();
+    const bm001ReceptionEndedAtDateTextAligned = (() => {
+      if (!bm001ReceptionEndedParts.full) return '';
+      return sharedFormatVietnamesePlaceDateLine({
+        place: '',
+        isoDate: sharedIsoStringOrNull(bm001ReceptionEndedAtDate),
+      });
+    })();
+    const bm001DocumentIssuePlaceDateLineAligned =
+      sharedFormatVietnamesePlaceDateLine({
+        place: documentIssuePlace ?? '',
+        isoDate: sharedIsoStringOrNull(documentIssueDate),
+        defaultPlace: 'TP. Hồ Chí Minh',
+      });
+    const bm001ArchiveLineAligned = sharedBuildArchiveLine(
+      recipientsInput.archiveLine,
+      // No leading dash: BM-001's source DOCX template
+      // (`storage/templates/normalized-docx/BM-001/BM-001_normalized.docx`)
+      // renders the archive line slot directly with no prefix dash or
+      // bullet — the slot text is the full `Lưu: ...` line.
+      'Lưu: HSVA, HSKS, VP.',
+    );
+
     const bm001InformantFullName =
       nonEmptyText(informantInput.fullName) ??
       personFullName ??
@@ -6335,7 +6395,21 @@ export class DocumentRendererService {
         issueYear: documentIssueParts.year,
         issueDateText: dateSlashText(documentIssueParts),
         issuePlaceAndDateLine,
-        issuePlaceDateLine: issuePlaceAndDateLine,
+        // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
+        // The DOCX slot `document.issuePlaceDateLine` is bound to the
+        // shared toolkit output (`formatVietnamesePlaceDateLine`) which
+        // preserves leading zeros on day and month. The legacy
+        // `issuePlaceAndDateLine` path used `monthNoZero` and produced
+        // `ngày 04 tháng 7 năm 2026` — that path stays in place for
+        // BM-002..BM-213. BM-001 opts into the shared contract here so
+        // the rendered DOCX consumes the aligned value, not just emits
+        // a companion field.
+        issuePlaceDateLine: isBm001Template
+          ? bm001DocumentIssuePlaceDateLineAligned
+          : issuePlaceAndDateLine,
+        issuePlaceDateLineAligned: isBm001Template
+          ? bm001DocumentIssuePlaceDateLineAligned
+          : null,
       },
       caseDecision: {
         decisionNo: caseDecisionNo,
@@ -6530,10 +6604,22 @@ export class DocumentRendererService {
         personLine:
           str(recipientsInput.personLine) ??
           (personFullName ? `- ${personFullName};` : null),
-        archiveLine:
-          str(recipientsInput.archiveLine) ??
-          (isBm001Template ? 'Lưu: HSVV, VP.' : '- Lưu: HSVA, HSKS, VP.'),
+        archiveLine: isBm001Template
+          ? bm001ArchiveLineAligned
+          : (str(recipientsInput.archiveLine) ??
+            (isBm001Template ? 'Lưu: HSVV, VP.' : '- Lưu: HSVA, HSKS, VP.')),
         noteLine: str(recipientsInput.noteLine),
+        // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
+        // The DOCX slot `recipients.archiveLine` is bound to the shared
+        // toolkit output (`buildArchiveLine`) for BM-001. The legacy
+        // `'Lưu: HSVV, VP.'` fallback (a BM-001 hardcode that pre-dated
+        // the shared contract) is no longer reachable for BM-001. BM-001
+        // uses the caller-supplied value, falling back to `'Lưu: HSVA,
+        // HSKS, VP.'` (the canonical BM-001 wording) when missing. The
+        // dash is intentionally NOT included here — the BM-001 source
+        // template does not emit a dash outside the slot (verified
+        // against `storage/templates/normalized-docx/BM-001/`).
+        archiveLineAligned: isBm001Template ? bm001ArchiveLineAligned : null,
       },
       signature: {
         signMode: signatureSignMode,
@@ -6672,6 +6758,13 @@ export class DocumentRendererService {
           nonEmptyText(receptionInput.endedAtYear) ??
           bm001ReceptionEndedParts.year ??
           documentIssueParts.year,
+        // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
+        startedAtDateTextAligned: isBm001Template
+          ? bm001ReceptionStartedAtDateTextAligned
+          : null,
+        endedAtDateTextAligned: isBm001Template
+          ? bm001ReceptionEndedAtDateTextAligned
+          : null,
       },
       receiver: {
         fullName: bm001ReceiverFullName,
@@ -6708,6 +6801,10 @@ export class DocumentRendererService {
         phone: bm001InformantPhone,
         representedOrganization: bm001InformantRepresentedOrganization,
         signerName: bm001InformantSignerName,
+        // PR6G.3.1 — BM-001 Shared Mapping Contract alignment.
+        identityIssueDateLineAligned: isBm001Template
+          ? bm001IdentityIssueDateLineAligned
+          : null,
       },
       crimeReport: {
         content: bm001CrimeReportContent,
