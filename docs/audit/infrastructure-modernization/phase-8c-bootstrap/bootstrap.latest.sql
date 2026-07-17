@@ -1,5 +1,5 @@
 -- Phase 8C.2 Governed Contract Bootstrap (Schema-Aligned)
--- Generated at: 2026-07-17T13:20:09.578Z
+-- Generated at: 2026-07-17T15:03:07.942Z
 -- Corpus fingerprint (sha256): ab417791bfa58dbd831fcb33190593c050ba7730f5c6660de4c23bf8d16a4e14
 -- Locked contract count: 213
 -- Schema authority: apps/api/prisma/schema.prisma + active squashed baseline
