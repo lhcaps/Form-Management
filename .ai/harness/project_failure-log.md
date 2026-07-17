@@ -1,5 +1,12 @@
 # Failure Log
 
+## 2026-07-17 — Production probe migration check contained invalid Bash quoting
+**Request**: Complete the production Docker probe so it can be trusted for release tagging.
+**What I tried**: Parsed every workflow `run` block with the self-hosted runner's Bash-compatible shell.
+**Root cause**: The migration baseline SQL was escaped as `\"SELECT` inside a command substitution, so Bash treated the quote literally and rejected the probe script before Docker could start.
+**Skill that should have caught it**: verification-before-completion — YAML validity is insufficient; every embedded shell block must also parse.
+**Fix**: Remove the incorrect escapes, add a regression assertion against the broken token, and verify all three shell blocks with Bash syntax checking.
+
 ## 2026-07-17 — ESLint 10 Wave 2 is blocked by Next's plugin peer graph
 **Request**: Upgrade ESLint 9 to 10 only if full regression remains green.
 **What I tried**: Updated API/web ESLint to 10.7.0 and current compatible API lint tooling, then ran the repository lint command.

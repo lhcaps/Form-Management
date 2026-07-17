@@ -51,6 +51,31 @@ describe("production Docker runtime contract", () => {
     assert.doesNotMatch(wrapper, /args:\s*\$\*/);
   });
 
+  it("provides the Prisma schema before root postinstall runs in every dependency stage", () => {
+    const dockerfiles = ["docker/api.Dockerfile", "docker/web.Dockerfile"];
+
+    for (const dockerfilePath of dockerfiles) {
+      const dockerfile = read(dockerfilePath);
+      const install = dockerfile.indexOf("RUN pnpm install --frozen-lockfile");
+      const prismaConfig = dockerfile.indexOf(
+        "COPY apps/api/prisma.config.ts ./apps/api/prisma.config.ts",
+      );
+      const prismaSchema = dockerfile.indexOf(
+        "COPY apps/api/prisma/schema.prisma ./apps/api/prisma/schema.prisma",
+      );
+
+      assert.ok(install >= 0, `${dockerfilePath} must install workspace dependencies`);
+      assert.ok(
+        prismaConfig >= 0 && prismaConfig < install,
+        `${dockerfilePath} must copy Prisma config before postinstall`,
+      );
+      assert.ok(
+        prismaSchema >= 0 && prismaSchema < install,
+        `${dockerfilePath} must copy Prisma schema before postinstall`,
+      );
+    }
+  });
+
   it("keeps Compose private-by-default and health-gated", () => {
     const compose = read("docker-compose.prod.yml");
 

@@ -13,6 +13,10 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/package.json ./apps/web/package.json
 COPY packages/form-contracts/package.json ./packages/form-contracts/package.json
+# The root postinstall generates the API Prisma client for the workspace,
+# even in the web dependency stage.
+COPY apps/api/prisma.config.ts ./apps/api/prisma.config.ts
+COPY apps/api/prisma/schema.prisma ./apps/api/prisma/schema.prisma
 
 RUN pnpm install --frozen-lockfile
 

@@ -2,6 +2,11 @@ name: Production Docker probe
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Immutable SemVer release tag to create only after this probe passes (for example, v1.2.3).
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -17,11 +22,16 @@ jobs:
 
       - name: Verify licensed font mount is available
         shell: bash
+        env:
+          QLLAW_TNR_FONT_DIR: ${{ vars.QLLAW_TNR_FONT_DIR }}
         run: |
           set -euo pipefail
-          test -n "${{ vars.QLLAW_TNR_FONT_DIR }}"
-          test -d "${{ vars.QLLAW_TNR_FONT_DIR }}"
-          test -r "${{ vars.QLLAW_TNR_FONT_DIR }}"
+          : "${QLLAW_TNR_FONT_DIR:?missing production variable}"
+          test -d "$QLLAW_TNR_FONT_DIR"
+          test -r "$QLLAW_TNR_FONT_DIR"
+          QLLAW_FONT_POLICY=required \
+          QLLAW_REQUIRED_FONT_FAMILY='Times New Roman' \
+          node scripts/fonts/verify-font-policy.mjs "$QLLAW_TNR_FONT_DIR" --stdout >/dev/null
 
       - name: Run isolated production probe
         shell: bash
@@ -109,7 +119,7 @@ jobs:
           wait_for_url "http://127.0.0.1:${WEB_PORT}/healthz"
           "${compose[@]}" restart api
           wait_for_url "http://127.0.0.1:${API_PORT}/api/v1/ready"
-          baseline_count="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e \"SELECT COUNT(*) FROM _prisma_migrations WHERE migration_name = '20260711000000_squashed_baseline' AND finished_at IS NOT NULL AND rolled_back_at IS NULL;\")"
+          baseline_count="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e "SELECT COUNT(*) FROM _prisma_migrations WHERE migration_name = '20260711000000_squashed_baseline' AND finished_at IS NOT NULL AND rolled_back_at IS NULL;")"
           test "$baseline_count" = "1"
           invalid_migrations="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e 'SELECT COUNT(*) FROM _prisma_migrations WHERE finished_at IS NULL OR rolled_back_at IS NOT NULL;')"
           test "$invalid_migrations" = "0"
@@ -122,3 +132,31 @@ jobs:
             test "$memory_limit" -gt 0
             test "$pids_limit" -gt 0
           done
+
+  tag:
+    name: Tag verified production release
+    needs: probe
+    runs-on: self-hosted
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create immutable release tag
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          tag="$RELEASE_TAG"
+          [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+            echo "Release tag already exists."
+            exit 1
+          fi
+          git config user.name "QLLaw production probe"
+          git config user.email "production-probe@users.noreply.github.com"
+          git tag --annotate "$tag" "$GITHUB_SHA" -m "Verified production release $tag"
+          git push origin "refs/tags/$tag"
