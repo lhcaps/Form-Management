@@ -1,5 +1,12 @@
 # Failure Log
 
+## 2026-07-17 — Production probe workflow commit continued after unavailable formatter
+**Request**: Add a protected, fail-closed production Docker probe.
+**What I tried**: Ran the repository formatter against the new GitHub Actions YAML before committing.
+**Root cause**: Prettier is not exposed as a root executable in this workspace, and the shell sequence did not stop after that unavailable command.
+**Skill that should have caught it**: verification-before-completion — an unavailable verifier is not a pass and must be recorded before commit.
+**Fix**: Validate YAML with an available parser, retain the workflow's fail-closed behavior, and amend the commit with this failure record.
+
 ## 2026-07-17 — Import hardening commit needed a whitespace correction
 **Request**: Harden untrusted import files without lowering release quality gates.
 **What I tried**: Staged the new policy and tests after focused test/build checks.
