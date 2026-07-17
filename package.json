@@ -45,6 +45,7 @@
     "test:web-unit": "pnpm --filter api exec tsx --test \"../web/src/**/*.test.ts\" \"../web/src/**/*.test.mjs\"",
     "lint": "pnpm --filter @qllaw/form-contracts lint && pnpm --filter api lint && pnpm --filter web lint",
     "typecheck": "pnpm --filter @qllaw/form-contracts typecheck && pnpm --filter api exec tsc --noEmit && pnpm --filter web exec tsc --noEmit",
+    "security:dependencies": "node scripts/audit/dependency-security.mjs",
     "verify:quick": "pnpm typecheck && pnpm audit:hardcode && node --test \"test/infrastructure/*.guard.test.mjs\"",
     "verify:full": "pnpm audit:docx-slot-inventory && pnpm verify:quick && pnpm lint && pnpm test && pnpm build && pnpm audit:locked-compiled && pnpm audit:contract-sync && pnpm audit:encoding",
     "verify:ci": "pnpm verify:full && pnpm audit:templates && pnpm smoke:bm001-shadow-render && pnpm audit:docx:verify-locked:ci && pnpm gate:forms:213 --allow-source-unknown && node scripts/audit/apply-all-current-evidence.mjs --check",
@@ -157,6 +158,7 @@
   },
   "devDependencies": {
     "@clerk/testing": "^2.2.2",
+    "@cyclonedx/cyclonedx-npm": "6.0.0",
     "@playwright/test": "^1.61.0",
     "@types/pizzip": "^3.1.2",
     "concurrently": "^9.1.0",
