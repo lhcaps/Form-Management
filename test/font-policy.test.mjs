@@ -4,14 +4,15 @@ import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { inspectFont, verifyFontDirectory } from "file:///D:/Study/Project/QLLaw-main/scripts/fonts/ttf-inspector.mjs";
+import { inspectFont, verifyFontDirectory } from "../scripts/fonts/ttf-inspector.mjs";
 
 const ROOT = process.cwd().replace(/\\/g, "/");
+const WINDOWS_ONLY = process.platform !== "win32";
 
 describe("Phase 8C TTF inspector", () => {
   const windowsTnrDir = "C:/Windows/Fonts";
 
-  it("detects exact Times New Roman family and all four styles on Windows", () => {
+  it("detects exact Times New Roman family and all four styles on Windows", { skip: WINDOWS_ONLY }, () => {
     const report = verifyFontDirectory({
       fontDir: windowsTnrDir,
       requiredFamily: "Times New Roman",
@@ -30,7 +31,7 @@ describe("Phase 8C TTF inspector", () => {
     assert.equal(regular.postscriptName, "TimesNewRomanPSMT");
   });
 
-  it("classifies Liberation Serif aliases as ALIAS_ONLY under required policy", () => {
+  it("classifies Liberation Serif aliases as ALIAS_ONLY under required policy", { skip: WINDOWS_ONLY }, () => {
     const tmpDir = join(tmpdir(), "qllaw-font-" + Date.now());
     mkdirSync(tmpDir, { recursive: true });
     try {
@@ -65,7 +66,7 @@ describe("Phase 8C TTF inspector", () => {
     }
   });
 
-  it("returns STYLE_INCOMPLETE when only three of the four required styles are present", () => {
+  it("returns STYLE_INCOMPLETE when only three of the four required styles are present", { skip: WINDOWS_ONLY }, () => {
     const tmpDir = join(tmpdir(), "qllaw-font-" + Date.now());
     mkdirSync(tmpDir, { recursive: true });
     try {
@@ -96,7 +97,7 @@ describe("Phase 8C TTF inspector", () => {
     }
   });
 
-  it("honours fallback-allowed mode instead of failing on missing exact family", () => {
+  it("honours fallback-allowed mode instead of failing on missing exact family", { skip: WINDOWS_ONLY }, () => {
     const tmpDir = join(tmpdir(), "qllaw-font-" + Date.now());
     mkdirSync(tmpDir, { recursive: true });
     try {
@@ -153,7 +154,7 @@ describe("Phase 8C TTF inspector", () => {
 describe("Phase 8C font binary leak guard", () => {
   const windowsTnrDir = "C:/Windows/Fonts";
 
-  it("does not embed font binary content in the verification output", () => {
+  it("does not embed font binary content in the verification output", { skip: WINDOWS_ONLY }, () => {
     const report = verifyFontDirectory({
       fontDir: windowsTnrDir,
       requiredFamily: "Times New Roman",

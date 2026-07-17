@@ -30,14 +30,11 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 
 const REPO_ROOT = resolve(
   process.env.QLLAW_REPO_ROOT ||
-    (() => {
-      // Walk up from this test file to find the repo root.
-      const url = new URL(import.meta.url);
-      return url.pathname.replace(/^[/\\]+/, '').replace(/\/test\/.*$/, '');
-    })(),
+    fileURLToPath(new URL('..', import.meta.url)),
 );
 
 const SCRIPT = join(REPO_ROOT, 'scripts', 'audit', 'build-phase-8c-bootstrap-sql.mjs');
