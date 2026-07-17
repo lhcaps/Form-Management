@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { ConfigurationError } from '../../common/application-error';
 import { AppConfigService } from './app-config.service';
 
@@ -305,8 +308,8 @@ describe('AppConfigService', () => {
       requiredStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
       perFont: [],
     };
-    const tmpPath = 'D:/tmp/qllaw-font-verification.test.json';
-    const { writeFileSync, unlinkSync } = require('node:fs');
+    const tempDirectory = mkdtempSync(join(tmpdir(), 'qllaw-font-verification-'));
+    const tmpPath = join(tempDirectory, 'report.json');
     writeFileSync(tmpPath, JSON.stringify(report), 'utf8');
 
     const config = new AppConfigService({
@@ -316,7 +319,7 @@ describe('AppConfigService', () => {
     try {
       expect(config.readFontVerificationReport()).toEqual(report);
     } finally {
-      try { unlinkSync(tmpPath); } catch {}
+      rmSync(tempDirectory, { recursive: true, force: true });
     }
   });
 });
