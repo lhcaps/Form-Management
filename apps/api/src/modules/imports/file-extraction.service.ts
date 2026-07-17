@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
 import * as ExcelJS from 'exceljs';
 import { PDFParse } from 'pdf-parse';
@@ -10,11 +10,16 @@ import {
   type ImportExtractionResult,
   type ImportTablePreview,
 } from './import.types';
+import { ImportFilePolicyService } from './import-file-policy.service';
 
 const MAX_TEXT_LENGTH = 250_000;
 const MAX_PREVIEW_TEXT_LENGTH = 4_000;
 const MAX_TABLE_ROWS = 10;
-const MAX_TABLES = 3;
+const MAX_TABLES = 20;
+const MAX_ROWS_PER_SHEET = 100_000;
+const MAX_COLUMNS_PER_SHEET = 256;
+const MAX_JSON_DEPTH = 32;
+const MAX_JSON_NODES = 100_000;
 
 type CandidateSeed = Omit<ImportDetectedCandidate, 'id'>;
 
@@ -250,7 +255,17 @@ function buildWorkbookPreview(workbook: ExcelJS.Workbook): {
   const tables: ImportTablePreview[] = [];
   let totalRows = 0;
 
-  for (const sheet of workbook.worksheets.slice(0, MAX_TABLES)) {
+  if (workbook.worksheets.length > MAX_TABLES) {
+    throw new Error('IMPORT_XLSX_WORKSHEET_LIMIT');
+  }
+
+  for (const sheet of workbook.worksheets) {
+    if (sheet.rowCount > MAX_ROWS_PER_SHEET) {
+      throw new Error('IMPORT_XLSX_ROW_LIMIT');
+    }
+    if (sheet.columnCount > MAX_COLUMNS_PER_SHEET) {
+      throw new Error('IMPORT_XLSX_COLUMN_LIMIT');
+    }
     const rawRows: string[][] = [];
     sheet.eachRow({ includeEmpty: false }, (row) => {
       const values: string[] = [];
@@ -298,14 +313,41 @@ function buildWorkbookPreview(workbook: ExcelJS.Workbook): {
   };
 }
 
+function assertJsonLimits(value: unknown, depth = 0, nodes = { value: 0 }): void {
+  nodes.value += 1;
+  if (depth > MAX_JSON_DEPTH) throw new Error('IMPORT_JSON_DEPTH_LIMIT');
+  if (nodes.value > MAX_JSON_NODES) throw new Error('IMPORT_JSON_NODE_LIMIT');
+  if (!value || typeof value !== 'object') return;
+  for (const child of Array.isArray(value) ? value : Object.values(value)) {
+    assertJsonLimits(child, depth + 1, nodes);
+  }
+}
+
 @Injectable()
 export class FileExtractionService {
+  private readonly logger = new Logger(FileExtractionService.name);
+
+  constructor(
+    private readonly policy: ImportFilePolicyService = new ImportFilePolicyService(),
+  ) {}
+
   async extractFile(
     absolutePath: string,
     extension: string,
     mimeType: string | null,
   ): Promise<ImportExtractionResult> {
     try {
+      if (extension === '.xls') return this.rejectLegacyXls();
+      const policy = await this.policy.validate(absolutePath, extension, mimeType);
+      if (!policy.accepted) {
+        this.logger.warn(`Import rejected by policy: ${policy.reasonCode}`);
+        return {
+          extractionStatus: 'REJECTED', rawText: null, parsedJson: null,
+          warnings: ['Tệp không đạt chính sách an toàn để xử lý.'],
+          errorMessage: 'Tệp không thể được xử lý an toàn.',
+          candidates: [], previewText: null, totalRows: 0,
+        };
+      }
       switch (extension) {
         case '.pdf':
           return await this.extractPdf(absolutePath);
@@ -344,16 +386,15 @@ export class FileExtractionService {
             totalRows: 0,
           };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const reasonCode = error instanceof Error ? error.message : 'IMPORT_PARSER_FAILED';
+      this.logger.warn(`Import parser rejected file: ${reasonCode}`);
       return {
         extractionStatus: 'FAILED',
         rawText: null,
         parsedJson: null,
         warnings: [],
-        errorMessage:
-          typeof error?.message === 'string'
-            ? error.message
-            : 'Không thể trích xuất dữ liệu từ tệp này.',
+        errorMessage: 'Không thể trích xuất dữ liệu từ tệp này.',
         candidates: [],
         previewText: null,
         totalRows: 0,
@@ -539,6 +580,7 @@ export class FileExtractionService {
   ): Promise<ImportExtractionResult> {
     const raw = await fs.promises.readFile(absolutePath, 'utf8');
     const parsed = JSON.parse(raw) as Record<string, unknown> | unknown[];
+    assertJsonLimits(parsed);
     const pretty = JSON.stringify(parsed, null, 2);
     const topLevelKeys = Array.isArray(parsed)
       ? ['[array]']

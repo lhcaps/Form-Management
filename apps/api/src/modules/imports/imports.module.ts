@@ -6,6 +6,7 @@ import { createImportUploadStorage } from './import-upload-storage';
 import { ImportsController } from './imports.controller';
 import { ImportsService, MAX_IMPORT_FILE_SIZE_BYTES } from './imports.service';
 import { ImportStorageService } from './import-storage.service';
+import { ImportFilePolicyService } from './import-file-policy.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { ImportStorageService } from './import-storage.service';
     }),
   ],
   controllers: [ImportsController],
-  providers: [ImportsService, ImportStorageService, FileExtractionService],
+  providers: [ImportsService, ImportStorageService, ImportFilePolicyService, FileExtractionService],
 })
 export class ImportsModule {}

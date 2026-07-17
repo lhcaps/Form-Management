@@ -1,5 +1,12 @@
 # Failure Log
 
+## 2026-07-17 — Import hardening commit needed a whitespace correction
+**Request**: Harden untrusted import files without lowering release quality gates.
+**What I tried**: Staged the new policy and tests after focused test/build checks.
+**Root cause**: A trailing space remained in the new spoofed-DOCX fixture; `git diff --cached --check` reported it but the shell sequence did not stop before commit.
+**Skill that should have caught it**: verification-before-completion — a reported staged diff error must block the commit.
+**Fix**: Remove the whitespace, re-run staged diff checks, and amend the same isolated import-hardening commit with no hook bypass.
+
 ## 2026-07-17 — Fresh production Docker proof cannot establish web readiness with synthetic Clerk credentials
 **Request**: Prove a full fresh database Docker boot, including API and web readiness, after production hardening.
 **What I tried**: Created an isolated Compose project with disposable database and bootstrap secrets, ran the squashed migration and governed 213-contract corpus successfully, then started API and web on isolated ports.
