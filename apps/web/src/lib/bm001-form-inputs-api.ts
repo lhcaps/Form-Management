@@ -1,10 +1,9 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
-
+import { readApi } from "./api-client";
 import {
   emptyStringIfMissing,
   normalizeTextInput,
 } from "./bm-form-mapping";
+import { saveDocumentFormInputs } from "./document-form-api";
 
 type JsonObject = Record<string, unknown>;
 
@@ -130,75 +129,9 @@ export const EMPTY_BM001_FORM_INPUTS: Bm001FormInputs = {
   },
 };
 
-class ApiClientError extends Error {
-  constructor(
-    message: string,
-    public readonly status: number,
-  ) {
-    super(message);
-  }
-}
-
 function isJsonObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
-
-function unwrapApiData<T>(json: unknown): T {
-  if (isJsonObject(json)) {
-    if ("data" in json && json.data !== undefined) {
-      return json.data as T;
-    }
-
-    if ("result" in json && json.result !== undefined) {
-      return json.result as T;
-    }
-  }
-
-  return json as T;
-}
-
-async function readApi<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...init,
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-      ...(init?.body ? { "Content-Type": "application/json; charset=utf-8" } : {}),
-      ...init?.headers,
-    },
-    cache: "no-store",
-  });
-
-  const text = await response.text();
-  let json: unknown = null;
-
-  if (text.trim().length > 0) {
-    try {
-      json = JSON.parse(text);
-    } catch {
-      json = text;
-    }
-  }
-
-  if (!response.ok) {
-    let message = `HTTP ${response.status}`;
-
-    if (isJsonObject(json)) {
-      const maybeMessage = json.message;
-
-      if (typeof maybeMessage === "string") {
-        message = maybeMessage;
-      } else if (Array.isArray(maybeMessage)) {
-        message = maybeMessage.join(", ");
-      }
-    }
-
-    throw new ApiClientError(message, response.status);
-  }
-
-  return unwrapApiData<T>(json);
-}
-
 function asString(value: unknown): string {
   return emptyStringIfMissing(value);
 }
@@ -549,15 +482,7 @@ export async function saveBm001FormInputs(
 
   const normalizedInputs = syncBm001PersonAliasesBeforeSave(formInputs);
 
-  const response = await fetch(
-    `${apiBase}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+  await saveDocumentFormInputs(documentId, {
         ...normalizedInputs,
         formInputs: normalizedInputs,
         payloadOverrides: normalizedInputs,
@@ -567,17 +492,7 @@ export async function saveBm001FormInputs(
           payloadOverrides: normalizedInputs,
           renderPayloadOverrides: normalizedInputs,
         },
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    const message = await response.text().catch(() => "");
-    throw new Error(
-      message || "Không lưu được dữ liệu biểu mẫu BM-001.",
-    );
-  }
-
+      });
   // Không tin render-payload trả về từ BE nếu BE còn seed cũ.
   // Source of truth sau khi lưu là dữ liệu khách vừa nhập.
   return normalizedInputs as unknown as Bm001RenderPayload;

@@ -1,4 +1,6 @@
 import { AppConfigService } from '../../../../infrastructure/config/app-config.service';
+import { ApiRenderOrchestrator } from './api-render-core/api-render-orchestrator';
+import { GeneratedDocumentRenderAdapter } from './api-render-core/generated-document-render.adapter';
 import type {
   ContractDocumentRendererPort,
   DocumentRenderCommand,
@@ -19,7 +21,7 @@ const command: DocumentRenderCommand = {
   actor: null,
 };
 
-function createHarness(env: Record<string, string> = {}) {
+function createAdapterHarness(env: Record<string, string> = {}) {
   const legacyResult: DocumentRenderResult = {
     skipped: false,
     renderer: 'legacy',
@@ -55,8 +57,7 @@ function createHarness(env: Record<string, string> = {}) {
       calls.active += 1;
       return contractResult;
     },
-    async renderShadow() {
-    },
+    async renderShadow() {},
   };
   const shadowOrchestrator = {
     renderShadow: jest.fn().mockImplementation(async () => {
@@ -64,7 +65,7 @@ function createHarness(env: Record<string, string> = {}) {
     }),
   } as unknown as ContractShadowRendererOrchestrator;
   const policy = new DocumentRendererRoutingPolicy(new AppConfigService(env));
-  const useCase = new RenderGeneratedDocumentUseCase(
+  const adapter = new GeneratedDocumentRenderAdapter(
     legacy,
     contract,
     descriptor,
@@ -73,21 +74,43 @@ function createHarness(env: Record<string, string> = {}) {
   );
 
   return {
+    adapter,
     calls,
     contract,
     contractResult,
     descriptor,
     legacyResult,
-    useCase,
     shadowOrchestrator,
   };
 }
 
 describe('RenderGeneratedDocumentUseCase', () => {
-  it('preserves the legacy path without descriptor lookup when mode is off', async () => {
-    const harness = createHarness();
+  it('delegates generated DOCX render to the shared API render orchestrator', async () => {
+    const result: DocumentRenderResult = {
+      skipped: false,
+      renderer: 'legacy',
+      file: {
+        id: '99',
+        fileFormat: 'DOCX',
+      },
+    };
+    const orchestrator = {
+      renderGeneratedDocumentDocx: jest.fn().mockResolvedValue(result),
+    } as unknown as ApiRenderOrchestrator;
+    const useCase = new RenderGeneratedDocumentUseCase(orchestrator);
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(useCase.execute(command)).resolves.toBe(result);
+    expect(orchestrator.renderGeneratedDocumentDocx).toHaveBeenCalledWith(
+      command,
+    );
+  });
+});
+
+describe('GeneratedDocumentRenderAdapter', () => {
+  it('preserves the legacy path without descriptor lookup when mode is off', async () => {
+    const harness = createAdapterHarness();
+
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.legacyResult,
     );
     expect(harness.calls).toEqual({
@@ -99,12 +122,12 @@ describe('RenderGeneratedDocumentUseCase', () => {
   });
 
   it('uses legacy for templates outside the active allow-list', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'active',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-002',
     });
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.legacyResult,
     );
     expect(harness.calls).toEqual({
@@ -116,12 +139,12 @@ describe('RenderGeneratedDocumentUseCase', () => {
   });
 
   it('uses the contract renderer for an active allow-listed template', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'active',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001',
     });
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.contractResult,
     );
     expect(harness.calls).toEqual({
@@ -133,7 +156,7 @@ describe('RenderGeneratedDocumentUseCase', () => {
   });
 
   it('does not silently fall back when active contract rendering fails', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'active',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001',
     });
@@ -142,19 +165,19 @@ describe('RenderGeneratedDocumentUseCase', () => {
       throw new Error('contract renderer failed');
     };
 
-    await expect(harness.useCase.execute(command)).rejects.toThrow(
+    await expect(harness.adapter.renderDocx(command)).rejects.toThrow(
       'contract renderer failed',
     );
     expect(harness.calls.legacy).toBe(0);
   });
 
   it('returns the legacy result when shadow comparison succeeds', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'shadow',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001',
     });
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.legacyResult,
     );
     expect(harness.calls).toEqual({
@@ -167,7 +190,7 @@ describe('RenderGeneratedDocumentUseCase', () => {
   });
 
   it('keeps the user request successful when shadow comparison fails', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'shadow',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001',
     });
@@ -175,7 +198,7 @@ describe('RenderGeneratedDocumentUseCase', () => {
       new Error('shadow unavailable'),
     );
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.legacyResult,
     );
     expect(harness.calls.legacy).toBe(1);
@@ -183,7 +206,7 @@ describe('RenderGeneratedDocumentUseCase', () => {
   });
 
   it('keeps the user request successful when shadow orchestrator throws', async () => {
-    const harness = createHarness({
+    const harness = createAdapterHarness({
       DOCUMENT_RENDERER_MODE: 'shadow',
       DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-001',
     });
@@ -191,19 +214,25 @@ describe('RenderGeneratedDocumentUseCase', () => {
       new Error('orchestrator error'),
     );
 
-    await expect(harness.useCase.execute(command)).resolves.toBe(
+    await expect(harness.adapter.renderDocx(command)).resolves.toBe(
       harness.legacyResult,
     );
     expect(harness.calls.legacy).toBe(1);
     expect(harness.shadowOrchestrator.renderShadow).toHaveBeenCalledTimes(1);
   });
 
-  it('returns the legacy result when template is not BM-001 in shadow mode', async () => {
-    // In shadow mode, contract.renderShadow IS called (port contract).
-    // It delegates to orchestrator which skips non-BM-001.
+  it('returns the legacy result when template is allow-listed in shadow mode', async () => {
     const calls = { legacy: 0, descriptor: 0, active: 0, orchestrator: 0 };
-    const legacyResult: DocumentRenderResult = { skipped: false, renderer: 'legacy' };
-    const legacy: LegacyDocumentRendererPort = { async render() { calls.legacy += 1; return legacyResult; } };
+    const legacyResult: DocumentRenderResult = {
+      skipped: false,
+      renderer: 'legacy',
+    };
+    const legacy: LegacyDocumentRendererPort = {
+      async render() {
+        calls.legacy += 1;
+        return legacyResult;
+      },
+    };
     const descriptor: GeneratedDocumentDescriptorPort = {
       async findByDocumentId() {
         calls.descriptor += 1;
@@ -211,23 +240,32 @@ describe('RenderGeneratedDocumentUseCase', () => {
       },
     };
     const contract: ContractDocumentRendererPort = {
-      async renderActive() { calls.active += 1; return {}; },
+      async renderActive() {
+        calls.active += 1;
+        return {};
+      },
       async renderShadow() {},
     };
     const shadowOrchestrator = {
-      renderShadow: jest.fn().mockImplementation(async () => { calls.orchestrator += 1; }),
+      renderShadow: jest.fn().mockImplementation(async () => {
+        calls.orchestrator += 1;
+      }),
     } as unknown as ContractShadowRendererOrchestrator;
-    const policy = new DocumentRendererRoutingPolicy(new AppConfigService({
-      DOCUMENT_RENDERER_MODE: 'shadow',
-      DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-002',
-    }));
-    const useCase = new RenderGeneratedDocumentUseCase(
-      legacy, contract, descriptor, policy, shadowOrchestrator,
+    const policy = new DocumentRendererRoutingPolicy(
+      new AppConfigService({
+        DOCUMENT_RENDERER_MODE: 'shadow',
+        DOCUMENT_RENDERER_CONTRACT_TEMPLATES: 'BM-002',
+      }),
+    );
+    const adapter = new GeneratedDocumentRenderAdapter(
+      legacy,
+      contract,
+      descriptor,
+      policy,
+      shadowOrchestrator,
     );
 
-    await expect(useCase.execute(command)).resolves.toBe(legacyResult);
-    // contract.renderShadow is called in shadow mode (delegates to orchestrator)
-    // orchestrator skips non-BM-001 but renderShadow IS called
+    await expect(adapter.renderDocx(command)).resolves.toBe(legacyResult);
     expect(shadowOrchestrator.renderShadow).toHaveBeenCalledTimes(1);
   });
 });

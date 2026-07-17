@@ -1,6 +1,6 @@
 # DOCX Runtime Parity — K0 Step 4
 
-Generated: 2026-06-25T14:55:14.686Z
+Generated: 2026-07-15T17:17:54.368Z
 Mode: **AUDIT_COMPARISON** (fresh render vs audit cache comparison)
 
 | Metric | Value |
@@ -14,7 +14,7 @@ Mode: **AUDIT_COMPARISON** (fresh render vs audit cache comparison)
 
 | templateCode | status | auditP | freshP | textDelta% |
 |--------------|--------|--------|---------|------------|
-| BM-001 | PASS | 2121 | 2121 | 0% |
+| BM-001 | PASS | 2327 | 2327 | 0% |
 | BM-051 | PASS | 1751 | 1751 | 0% |
 | BM-053 | PASS | 1445 | 1445 | 0% |
 | BM-100 | PASS | 984 | 984 | 0% |

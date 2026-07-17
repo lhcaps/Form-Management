@@ -364,9 +364,7 @@ const preprocessDocxZip = (buf) => {
 const renderOneSync = (templateCode, contractPath, normalizedDocxPath, outputBinPath) => {
   const { writeFileSync, readFileSync: readF, existsSync, mkdirSync } = $require('node:fs');
   const { join: j2join } = $require('node:path');
-  const { tmpdir: otmpdir } = $require('node:os');
-
-  const scriptDir = j2join(otmpdir(), `f3-render-${process.pid}`);
+  const scriptDir = j2join(ROOT, 'apps', 'api', '.cache', `f3-render-${process.pid}`);
   mkdirSync(scriptDir, { recursive: true });
   const scriptPath = j2join(scriptDir, `_render_${templateCode}.ts`);
 

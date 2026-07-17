@@ -4,7 +4,12 @@ import type { CompiledFormContract } from "@qllaw/form-contracts";
 import { readPath } from "@qllaw/form-contracts/browser";
 import { useEffect, useMemo, useState } from "react";
 import { ContractV2Renderer } from "@/features/forms-contracts/ContractV2Renderer";
-import { getSampleData, mergeWithSampleData } from "@/features/forms-contracts/sample-data";
+import {
+  filterContractData,
+  getSampleData,
+  migrateLegacyDataToContract,
+  mergeWithSampleData,
+} from "@/features/forms-contracts/sample-data";
 import { readApi } from "@/lib/api-client";
 import { savePublishedContractFormInputs } from "@/lib/document-form-api";
 
@@ -63,6 +68,13 @@ export function PublishedContractFormInputsPanel({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const contractPaths = useMemo(
+    () => [
+      ...contract.source.fields.map((field) => field.key),
+      ...contract.source.tables.map((table) => table.key),
+    ],
+    [contract],
+  );
   const currentSnapshot = useMemo(() => stableSnapshot(data), [data]);
   const savedSnapshot = useMemo(() => stableSnapshot(savedData), [savedData]);
   const isDirty = !loading && currentSnapshot !== savedSnapshot;
@@ -88,10 +100,17 @@ export function PublishedContractFormInputsPanel({
     )
       .then((payload) => {
         if (!active) return;
-        const loadedData = {
+        const rawData = {
           ...record(payload.formInputs),
           ...record(payload.renderPayloadOverrides),
         };
+        const loadedData = filterContractData(
+          {
+            ...rawData,
+            ...migrateLegacyDataToContract(rawData, contract.source.fields),
+          },
+          contractPaths,
+        );
         setData(loadedData);
         setSavedData(loadedData);
       })
@@ -160,7 +179,10 @@ export function PublishedContractFormInputsPanel({
       setError("Không có dữ liệu mẫu cho biểu mẫu này.");
       return;
     }
-    const merged = mergeWithSampleData(data, sample);
+    const merged = filterContractData(
+      mergeWithSampleData(data, sample),
+      contractPaths,
+    );
     setData(merged);
     setSampleMode(true);
     setError("");

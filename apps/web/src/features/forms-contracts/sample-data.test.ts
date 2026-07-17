@@ -1,6 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import {
+  filterContractData,
+  migrateLegacyDataToContract,
   mergeWithSampleData,
   formatDemoVietnameseLegalDate,
   formatDemoVietnamesePlaceDate,
@@ -90,6 +92,60 @@ describe("mergeWithSampleData", () => {
     const sample = { name: "Nguyễn Văn A" };
     mergeWithSampleData(existing, sample);
     assert.equal(existing.name, "");
+  });
+});
+
+describe("filterContractData", () => {
+  it("keeps only exact contract paths and preserves their nested values", () => {
+    const result = filterContractData(
+      {
+        agency: {
+          parentName: "Viện kiểm sát nhân dân tối cao",
+          staleAlias: "must not be persisted",
+        },
+        legacyPayload: { value: "must not be persisted" },
+      },
+      ["agency.parentName"],
+    );
+
+    assert.deepStrictEqual(result, {
+      agency: { parentName: "Viện kiểm sát nhân dân tối cao" },
+    });
+  });
+
+  it("keeps an explicitly declared table value", () => {
+    const rows = [{ sequence: 1, name: "Nguyễn Văn A" }];
+    const result = filterContractData(
+      { witnesses: rows, legacyRows: rows },
+      ["witnesses"],
+    );
+
+    assert.deepStrictEqual(result, { witnesses: rows });
+  });
+});
+
+describe("migrateLegacyDataToContract", () => {
+  it("maps a legacy agency header alias into an exact uppercase contract field", () => {
+    const result = migrateLegacyDataToContract(
+      {
+        agency: {
+          parentName: "Viện kiểm sát nhân dân tối cao",
+          name: "Viện kiểm sát nhân dân khu vực 7",
+          staleAlias: "must not be persisted",
+        },
+      },
+      [
+        { key: "agency.parentNameUpper" },
+        { key: "agency.nameUpper" },
+      ],
+    );
+
+    assert.deepStrictEqual(result, {
+      agency: {
+        parentNameUpper: "VIỆN KIỂM SÁT NHÂN DÂN TỐI CAO",
+        nameUpper: "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      },
+    });
   });
 });
 

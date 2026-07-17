@@ -13,7 +13,7 @@ import {
 } from "./bm-form";
 import { FormActionBar } from "@/components/common/form-action-bar";
 import { readApi } from "@/lib/api-client";
-import { patchBm031DirectFormInputs, saveBm031DirectFormInputs } from "@/lib/document-form-api";
+import { saveBm031DirectFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 
@@ -614,29 +614,6 @@ async function getBm031RenderPayload(
     `/documents/generated/${documentId}/bm031-direct-render-payload`,
     { noStore: true },
   );
-}
-
-async function requestSave(
-  documentId: string | number,
-  method: "POST" | "PATCH",
-  body: unknown,
-): Promise<{
-  ok: boolean;
-  status: number;
-  text: string;
-}> {
-  try {
-    if (method === "POST") {
-      await saveBm031DirectFormInputs(documentId, body as Record<string, unknown>);
-    } else {
-      await patchBm031DirectFormInputs(documentId, body as Record<string, unknown>);
-    }
-    return { ok: true, status: 200, text: "" };
-  } catch (err) {
-    const status = err && typeof err === "object" && "status" in err ? (err as { status: number }).status : 500;
-    const message = err instanceof Error ? err.message : String(err);
-    return { ok: false, status, text: message };
-  }
 }
 
 function buildBm031SavePayload(ready: Bm031FormInputs): Record<string, unknown> {

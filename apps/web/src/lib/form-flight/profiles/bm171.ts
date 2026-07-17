@@ -273,6 +273,13 @@ function readSummaryValue(
 export const BM171_FORM_FLIGHT_PROFILE: FormFlightProfile = {
   templateCode: "BM-171",
   title: "QĐ trả lại tài sản",
+  // PR-A3: explicit runtime-readiness opt-in. Required by the
+  // `isRuntimeReadyProfile` guard adopted in
+  // RESTORE_BM001_PRE_PR7B_RUNTIME_UI_AND_BLOCK_SKELETON_TAKEOVER.
+  // Without these two flags the adapter helpers treat BM-171 as
+  // "no profile" and the gates collapse to the fail-closed default.
+  runtimeReady: true,
+  profileStatus: "runtime-ready",
   fieldPaths: BM171_FIELD_PATHS,
   requiredFieldPaths: BM171_REQUIRED_FIELD_PATHS,
   demo: BM171_DEMO,

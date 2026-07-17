@@ -9,8 +9,7 @@ import {
 } from "@/components/documents/bm-form";
 import { FormActionBar } from "@/components/common/form-action-bar";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 
@@ -649,20 +648,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm040FormInputs 
   return buildDerivedLines(form);
 }
 
-async function getBm040RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/render-payload`, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-040. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
 function withBm040DateAliases(input: Bm040FormInputs): Bm040FormInputs {
   const form = JSON.parse(JSON.stringify(input)) as Bm040FormInputs;
 
@@ -745,28 +730,6 @@ function withBm040DateAliases(input: Bm040FormInputs): Bm040FormInputs {
   form.measure.detentionToDateText = detentionEndDate;
 
   return form;
-}
-async function saveBm040FormInputs(documentId: string | number, form: Bm040FormInputs): Promise<void> {
-  const savePayload = withBm040DateAliases(buildDerivedLines(form));
-  const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/form-inputs`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      updatedByName,
-      formInputs: savePayload,
-      ...savePayload,
-    }),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(detail || `Không lưu được dữ liệu BM-040. HTTP ${response.status}`);
-  }
 }
 
 function getValue(form: Bm040FormInputs, section: SectionKey, field: string): string {
@@ -976,7 +939,7 @@ export function Bm040FormInputsPanel({
       setSuccessMessage("");
 
       try {
-        const payload = await getBm040RenderPayload(documentId);
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
         const nextForm = normalizeFormInputs(payload);
 
         if (!isMounted) return;
@@ -1028,7 +991,13 @@ export function Bm040FormInputsPanel({
 
     try {
       const savePayload = withBm040DateAliases(buildDerivedLines(form));
-      await saveBm040FormInputs(documentId, savePayload);
+      const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+        formInputs: savePayload,
+        ...savePayload,
+      });
 
       setForm(savePayload);
       setInitialSnapshot(JSON.stringify(savePayload));

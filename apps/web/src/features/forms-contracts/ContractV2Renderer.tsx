@@ -9,6 +9,12 @@ import type {
 import { useMemo } from "react";
 import { localizeSectionTitle } from "@/components/documents/form-section-labels";
 import { type RuntimeUxProfile } from "@/lib/runtime-ux";
+import {
+  formatVietnameseIssueLine,
+  parseIsoDate,
+  toDayMonthYear,
+  type SmartField,
+} from "@/lib/runtime-ux/smart-field-helpers";
 
 type FormData = Record<string, unknown>;
 
@@ -174,6 +180,42 @@ export function ContractV2Renderer({
     return uxProfile.fields;
   }, [uxProfile]);
 
+  // Smart-field registry: flatten `fields[*].smart` into an array the
+  // renderer can use for visibility filtering + control selection.
+  // Empty array (not null) when no smart metadata exists, so the
+  // dependent hooks can branch on truthiness instead of nullability.
+  const smartEntries = useMemo<SmartField[]>(() => {
+    if (!uxProfile) return [];
+    const out: SmartField[] = [];
+    for (const [fieldKey, override] of Object.entries(uxProfile.fields)) {
+      if (override && override.smart) {
+        out.push({ ...override.smart, key: override.smart.key || fieldKey });
+      }
+    }
+    return out;
+  }, [uxProfile]);
+
+  // Set of contract field keys hidden by smart overrides — fields
+  // whose values are produced by a smart control's `derivedTargets`
+  // must NOT also render as a raw <input>.
+  const hiddenBySmart = useMemo(() => {
+    const hidden = new Set<string>();
+    for (const entry of smartEntries) {
+      if (!entry.derivedTargets) continue;
+      for (const target of entry.derivedTargets) hidden.add(target);
+    }
+    return hidden;
+  }, [smartEntries]);
+
+  // Map of contract field key → smart override. Used by `FieldControl`
+  // to know whether to render a smart control instead of the legacy
+  // text/textarea/select branch.
+  const smartByKey = useMemo(() => {
+    const out = new Map<string, SmartField>();
+    for (const entry of smartEntries) out.set(entry.key, entry);
+    return out;
+  }, [smartEntries]);
+
   const computedData = useMemo(() => {
     let next = structuredClone(data);
     for (const field of contract.computedFields) {
@@ -206,7 +248,8 @@ export function ContractV2Renderer({
               (field) =>
                 field.sectionId === section.id &&
                 !field.repeatableGroupId &&
-                isVisible(contract, field, computedData),
+                isVisible(contract, field, computedData) &&
+                !hiddenBySmart.has(field.key),
             )
             .sort((a, b) => a.order - b.order);
           return (
@@ -235,6 +278,7 @@ export function ContractV2Renderer({
                       key={field.id}
                       field={field}
                       fieldOverride={fieldOverrideByKey?.[field.key]}
+                      smart={smartByKey.get(field.key) ?? null}
                       value={readPath(computedData, field.key)}
                       disabled={
                         readOnly ||
@@ -244,9 +288,28 @@ export function ContractV2Renderer({
                       selected={selectedFieldId === field.id}
                       error={errors[field.key]}
                       onSelect={() => onSelectField?.(field.id)}
-                      onChange={(value) =>
-                        onChange?.(setPath(data, field.key, value))
-                      }
+                      onChange={(value) => {
+                        // Smart derived fields emit a multi-target write
+                        // envelope instead of a single value. Apply it
+                        // here so the parent only sees one `setData`
+                        // shape.
+                        if (
+                          value &&
+                          typeof value === "object" &&
+                          "__smartWrites" in (value as Record<string, unknown>)
+                        ) {
+                          const writes = (
+                            value as { __smartWrites: Array<[string, string]> }
+                          ).__smartWrites;
+                          let next = data;
+                          for (const [path, val] of writes) {
+                            next = setPath(next, path, val);
+                          }
+                          onChange?.(next);
+                          return;
+                        }
+                        onChange?.(setPath(data, field.key, value));
+                      }}
                     />
                   ))}
                 </div>
@@ -266,6 +329,7 @@ export function ContractV2Renderer({
                     contract={contract}
                     group={group}
                     fieldOverrideByKey={fieldOverrideByKey}
+                    smartByKey={smartByKey}
                     data={data}
                     readOnly={readOnly}
                     onChange={onChange}
@@ -291,6 +355,7 @@ export function ContractV2Renderer({
 function FieldControl({
   field,
   fieldOverride,
+  smart,
   value,
   disabled,
   selected,
@@ -300,6 +365,13 @@ function FieldControl({
 }: {
   field: FieldDefinition;
   fieldOverride?: RuntimeUxProfile["fields"][string];
+  /**
+   * Optional smart-field override. When present, the field renders a
+   * smart control (date picker / time picker / select / textarea / or
+   * derived multi-target fields). When absent, the legacy renderer
+   * branches unchanged.
+   */
+  smart?: SmartField | null;
   value: unknown;
   disabled: boolean;
   selected: boolean;
@@ -357,7 +429,20 @@ function FieldControl({
         {labelText}
         {field.required ? <span className="ml-1 text-rose-600">*</span> : null}
       </label>
-      {effectiveControl === "TEXTAREA" ? (
+      {smart ? (
+        <SmartControl
+          field={field}
+          smart={smart}
+          fieldOverride={fieldOverride}
+          value={value}
+          disabled={disabled}
+          inputId={inputId}
+          error={error}
+          descriptionId={descriptionId}
+          describedBy={describedBy}
+          onChange={onChange}
+        />
+      ) : effectiveControl === "TEXTAREA" ? (
         <textarea
           id={inputId}
           aria-invalid={Boolean(error)}
@@ -451,10 +536,281 @@ function FieldControl({
   );
 }
 
+/**
+ * Smart-field branch of `FieldControl`. Renders a smart control based
+ * on `smart.kind`. Each kind produces a small visual block that maps
+ * the operator's input back into the contract payload via
+ * `applySmartFieldWrites` (multi-target helpers) or the simple
+ * raw-value write for `text` / `textarea` / `date` / `time` / `select`.
+ *
+ * The component never reaches into `data` for sibling lookups; the
+ * renderer wires derived writes through `onChange`. The smart control
+ * ALSO fires `onChange` for the visible key when a visible value
+ * exists (so a UI re-render reflects the typed ISO date string),
+ * but for `date-parts` / `year-or-date` the visible key is the
+ * synthetic "display" key, not the derived target.
+ */
+function SmartControl({
+  field,
+  smart,
+  fieldOverride,
+  value,
+  disabled,
+  inputId,
+  error,
+  descriptionId,
+  describedBy,
+  onChange,
+}: {
+  field: FieldDefinition;
+  smart: SmartField;
+  fieldOverride?: RuntimeUxProfile["fields"][string];
+  value: unknown;
+  disabled: boolean;
+  inputId: string;
+  error?: string;
+  descriptionId?: string;
+  describedBy?: string;
+  onChange: (value: unknown) => void;
+}) {
+  const common =
+    "min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-[15px] text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-500 sm:min-h-11";
+  const kind = smart.kind ?? "text";
+  const placeholderText = smart.placeholder ?? fieldOverride?.placeholder ?? field.placeholder;
+
+  // For derived smart kinds the visible "value" passed in by the
+  // renderer is the value at the contract field key — which is one
+  // of the derived targets (e.g. `informant.birthDay = "08"`). We
+  // re-construct the ISO representation the picker expects.
+  const isoFromParts = (): string => {
+    if (typeof value !== "string") return "";
+    const parts = toDayMonthYear(value);
+    if (!parts) return "";
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  };
+
+  switch (kind) {
+    case "date": {
+      const iso = typeof value === "string" ? value : "";
+      return (
+        <input
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`${common} ${error ? "border-rose-500" : ""}`}
+          type="date"
+          value={iso}
+          disabled={disabled}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      );
+    }
+    case "time": {
+      const t = typeof value === "string" ? value : "";
+      return (
+        <input
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`${common} ${error ? "border-rose-500" : ""}`}
+          type="time"
+          value={t}
+          disabled={disabled}
+          onChange={(event) => {
+            // BM-001 stores reception.*TimeText as "08 giờ 00 phút";
+            // the contract expects that exact Vietnamese phrasing on
+            // render. The smart control writes HH:mm to the visible
+            // key; the locked contract render still sees the original
+            // string. To stay backward-compatible we format the HH:mm
+            // into the Vietnamese phrase before writing.
+            const v = event.target.value;
+            if (!v) return onChange("");
+            const [hh, mm] = v.split(":");
+            onChange(`${hh} giờ ${mm} phút`);
+          }}
+        />
+      );
+    }
+    case "select": {
+      const options = smart.options ?? [];
+      const current = typeof value === "string" ? value : "";
+      return (
+        <select
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`${common} ${error ? "border-rose-500" : ""}`}
+          value={current}
+          disabled={disabled}
+          onChange={(event) => onChange(event.target.value)}
+        >
+          <option value="">Chọn giá trị</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      );
+    }
+    case "textarea": {
+      const rows = smart.rows ?? 3;
+      return (
+        <textarea
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          rows={rows}
+          className={`${common} min-h-24 py-2 ${error ? "border-rose-500" : ""}`}
+          value={typeof value === "string" ? value : ""}
+          disabled={disabled}
+          placeholder={placeholderText}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      );
+    }
+    case "date-parts":
+    case "year-or-date": {
+      const iso = isoFromParts();
+      return (
+        <input
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`${common} ${error ? "border-rose-500" : ""}`}
+          type="date"
+          value={iso}
+          disabled={disabled}
+          onChange={(event) => {
+            // Fire the derived write via the helper. We pass the
+            // CURRENT data + the smart override so the helper can
+            // spread the derived triplet onto the right keys. The
+            // renderer's `onChange` only takes a `value`, so we
+            // reconstruct the derived triplet here and let the
+            // parent's `setPath` overwrite each derived key. To stay
+            // minimal we emit a single value: the ISO string. The
+            // parent writes it to `field.key` (the visible synthetic
+            // key — same as the contract field key when the smart
+            // override binds to it). For date-parts the binding is to
+            // the FIRST derived target (Day), so the helper output
+            // materialises via the renderer's existing `setPath`.
+            const v = event.target.value;
+            // Compute the parts; the renderer is responsible for
+            // calling applySmartFieldWrites via its own internal
+            // smart-aware onChange wiring. We surface the ISO value
+            // so the caller can re-derive; simpler: we emit the parts
+            // object as an array of [path, value] pairs.
+            const parsed = parseIsoDate(v);
+            if (!parsed) {
+              onChange({ __smartWrites: (smart.derivedTargets ?? []).map((t) => [t, ""] as [string, string]) });
+              return;
+            }
+            const day = String(parsed.d).padStart(2, "0");
+            const month = String(parsed.m).padStart(2, "0");
+            const year = String(parsed.y);
+            onChange({
+              __smartWrites: [
+                [smart.derivedTargets?.[0] ?? "", day],
+                [smart.derivedTargets?.[1] ?? "", month],
+                [smart.derivedTargets?.[2] ?? "", year],
+              ].filter(([p]) => p.length > 0),
+            });
+          }}
+        />
+      );
+    }
+    case "issue-place-date-line": {
+      // The visible value at this key is the locked-contract string
+      // ("<place>, ngày DD tháng MM năm YYYY"). We split it back into
+      // a place + ISO date so the operator can edit each part.
+      const current = typeof value === "string" ? value : "";
+      // Parse the current line so the place input and date picker
+      // both repopulate on reload.
+      const placeMatch = /^(.*?),\s*ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})\s*$/.exec(current);
+      let place = "";
+      let iso = "";
+      if (placeMatch) {
+        place = placeMatch[1] ?? "";
+        const d = placeMatch[2]?.padStart(2, "0") ?? "";
+        const m = placeMatch[3]?.padStart(2, "0") ?? "";
+        const y = placeMatch[4] ?? "";
+        iso = `${y}-${m}-${d}`;
+      } else {
+        // No current line: start with empty place and today's date.
+        place = "";
+        iso = "";
+      }
+      return (
+        <div className="space-y-2">
+          <input
+            id={`${inputId}-place`}
+            aria-invalid={Boolean(error)}
+            aria-describedby={describedBy}
+            className={`${common} ${error ? "border-rose-500" : ""}`}
+            type="text"
+            value={place}
+            disabled={disabled}
+            placeholder={smart.placeholder ?? "Thành phố Hồ Chí Minh"}
+            onChange={(event) => {
+              const newPlace = event.target.value;
+              const line = formatVietnameseIssueLine(newPlace, iso);
+              // Emit a multi-target write: visible key + the first
+              // derived target (same for BM-001).
+              const writes: Array<[string, string]> = [[smart.key, line]];
+              if (smart.derivedTargets?.[0] && smart.derivedTargets[0] !== smart.key) {
+                writes.push([smart.derivedTargets[0], line]);
+              }
+              onChange({ __smartWrites: writes });
+            }}
+          />
+          <input
+            id={inputId}
+            aria-invalid={Boolean(error)}
+            aria-describedby={describedBy}
+            className={`${common} ${error ? "border-rose-500" : ""}`}
+            type="date"
+            value={iso}
+            disabled={disabled}
+            onChange={(event) => {
+              const newIso = event.target.value;
+              const line = formatVietnameseIssueLine(place, newIso);
+              const writes: Array<[string, string]> = [[smart.key, line]];
+              if (smart.derivedTargets?.[0] && smart.derivedTargets[0] !== smart.key) {
+                writes.push([smart.derivedTargets[0], line]);
+              }
+              onChange({ __smartWrites: writes });
+            }}
+          />
+          <p className="text-[11px] text-slate-500">
+            Dòng sẽ sinh: <span className="font-mono">{formatVietnameseIssueLine(place, iso) || "(trống)"}</span>
+          </p>
+        </div>
+      );
+    }
+    case "text":
+    default: {
+      return (
+        <input
+          id={inputId}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`${common} ${error ? "border-rose-500" : ""}`}
+          type="text"
+          value={typeof value === "string" ? value : ""}
+          disabled={disabled}
+          placeholder={placeholderText}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      );
+    }
+  }
+}
+
 function RepeaterControl({
   contract,
   group,
   fieldOverrideByKey,
+  smartByKey,
   data,
   readOnly,
   onChange,
@@ -465,11 +821,25 @@ function RepeaterControl({
     string,
     RuntimeUxProfile["fields"][string]
   > | null;
+  smartByKey: ReadonlyMap<string, SmartField> | null;
   data: FormData;
   readOnly: boolean;
   onChange?: (data: FormData) => void;
 }) {
   const items = (readPath(data, group.key) as FormData[] | undefined) ?? [];
+  // Repeater internal fields explicitly opt out of smart metadata
+  // (smart={null} is passed to nested FieldControl). The filter here
+  // is defensive — if a smart control ever leaks in, hide its derived
+  // targets the same way the parent grid does.
+  const hiddenBySmart = useMemo(() => {
+    const set = new Set<string>();
+    if (!smartByKey) return set;
+    for (const entry of smartByKey.values()) {
+      if (!entry.derivedTargets) continue;
+      for (const target of entry.derivedTargets) set.add(target);
+    }
+    return set;
+  }, [smartByKey]);
   const fields = contract.fields.filter((field) =>
     group.fieldKeys.includes(field.key),
   );
@@ -496,26 +866,29 @@ function RepeaterControl({
             key={index}
             className="grid grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-white p-3 md:grid-cols-12"
           >
-            {fields.map((field) => {
-              const leafKey = field.key.split(".").at(-1) ?? field.key;
-              return (
-                <FieldControl
-                  key={field.id}
-                  field={{ ...field, width: 12 }}
-                  fieldOverride={fieldOverrideByKey?.[field.key]}
-                  value={item[leafKey]}
-                  disabled={readOnly}
-                  selected={false}
-                  onSelect={() => {}}
-                  onChange={(value) => {
-                    const next = [...items];
-                    next[index] = { ...item, [leafKey]: value };
-                    updateItems(next);
-                  }}
-                  error={undefined}
-                />
-              );
-            })}
+            {fields
+              .filter((field) => !hiddenBySmart.has(field.key))
+              .map((field) => {
+                const leafKey = field.key.split(".").at(-1) ?? field.key;
+                return (
+                  <FieldControl
+                    key={field.id}
+                    field={{ ...field, width: 12 }}
+                    fieldOverride={fieldOverrideByKey?.[field.key]}
+                    smart={null}
+                    value={item[leafKey]}
+                    disabled={readOnly}
+                    selected={false}
+                    onSelect={() => {}}
+                    onChange={(value) => {
+                      const next = [...items];
+                      next[index] = { ...item, [leafKey]: value };
+                      updateItems(next);
+                    }}
+                    error={undefined}
+                  />
+                );
+              })}
             {!readOnly ? (
               <button
                 type="button"

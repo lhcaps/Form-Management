@@ -12,8 +12,7 @@ import {
   BmFormMetaBar,
 } from "./bm-form";
 import { FormActionBar } from "@/components/common/form-action-bar";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 
@@ -418,74 +417,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm043FormInputs 
   };
 }
 
-async function getBm043RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/render-payload`, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-043. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm043FormInputs(
-  documentId: string | number,
-  form: Bm043FormInputs,
-): Promise<void> {
-  const normalizedForm: Bm043FormInputs = {
-    ...form,
-    legalBasis: {
-      ...form.legalBasis,
-      juvenileLegalBasisLine:
-        form.legalBasis.isJuvenile === "true"
-          ? form.legalBasis.juvenileLegalBasisLine
-          : "",
-    },
-  };
-
-  const editableDocumentCode =
-    normalizedForm.document.documentCodeLine?.trim() ||
-    normalizedForm.document.documentCode?.trim() ||
-    normalizedForm.document.documentNo?.trim() ||
-    "";
-
-  const savePayload: Bm043FormInputs = {
-    ...normalizedForm,
-    document: {
-      ...normalizedForm.document,
-      documentCodeLine: editableDocumentCode,
-      documentCode: editableDocumentCode,
-      documentNo: editableDocumentCode,
-      fullDocumentCode: editableDocumentCode,
-    },
-  };
-
-  const updatedByName =
-    savePayload.signature.signerName?.trim() || "";
-
-  const response = await fetch(`${API_BASE_URL}/documents/generated/${documentId}/form-inputs`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify({
-      updatedByName,
-      formInputs: savePayload,
-      ...savePayload,
-    }),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text();
-    throw new Error(detail || `Không lưu được dữ liệu BM-043. HTTP ${response.status}`);
-  }
-}
-
 
 function TextInput({
   label,
@@ -669,7 +600,7 @@ export function Bm043FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const payload = await getBm043RenderPayload(documentId);
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       const nextForm = normalizeFormInputs(payload);
 
       setForm(nextForm);
@@ -858,7 +789,41 @@ export function Bm043FormInputsPanel({
     setErrorMessage("");
 
     try {
-      await saveBm043FormInputs(documentId, form);
+      const normalizedForm: Bm043FormInputs = {
+        ...form,
+        legalBasis: {
+          ...form.legalBasis,
+          juvenileLegalBasisLine:
+            form.legalBasis.isJuvenile === "true"
+              ? form.legalBasis.juvenileLegalBasisLine
+              : "",
+        },
+      };
+
+      const editableDocumentCode =
+        normalizedForm.document.documentCodeLine?.trim() ||
+        normalizedForm.document.documentCode?.trim() ||
+        normalizedForm.document.documentNo?.trim() ||
+        "";
+
+      const savePayload: Bm043FormInputs = {
+        ...normalizedForm,
+        document: {
+          ...normalizedForm.document,
+          documentCodeLine: editableDocumentCode,
+          documentCode: editableDocumentCode,
+          documentNo: editableDocumentCode,
+          fullDocumentCode: editableDocumentCode,
+        },
+      };
+
+      const updatedByName = savePayload.signature.signerName?.trim() || "";
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+        formInputs: savePayload,
+        ...savePayload,
+      });
 
       setInitialSnapshot(JSON.stringify(form));
       setSavedAt(new Date());

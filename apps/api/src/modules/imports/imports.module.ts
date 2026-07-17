@@ -4,7 +4,7 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
 import { FileExtractionService } from './file-extraction.service';
 import { createImportUploadStorage } from './import-upload-storage';
 import { ImportsController } from './imports.controller';
-import { ImportsService } from './imports.service';
+import { ImportsService, MAX_IMPORT_FILE_SIZE_BYTES } from './imports.service';
 import { ImportStorageService } from './import-storage.service';
 
 @Module({
@@ -13,6 +13,9 @@ import { ImportStorageService } from './import-storage.service';
       inject: [WorkspacePathsService],
       useFactory: (paths: WorkspacePathsService) => ({
         storage: createImportUploadStorage(paths),
+        limits: {
+          fileSize: MAX_IMPORT_FILE_SIZE_BYTES,
+        },
       }),
     }),
   ],

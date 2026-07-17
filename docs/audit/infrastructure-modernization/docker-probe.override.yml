@@ -1,0 +1,14 @@
+services:
+  api:
+    image: qllaw-infra-api:20260710
+    build: null
+    volumes:
+      - probe_storage:/app/storage
+      - probe_logs:/app/logs
+  web:
+    image: qllaw-infra-web:20260710
+    build: null
+
+volumes:
+  probe_storage:
+  probe_logs:

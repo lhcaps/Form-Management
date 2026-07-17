@@ -39,40 +39,6 @@ export async function saveDocumentFormInputs<T = Record<string, unknown>>(
 }
 
 /**
- * PATCH /documents/generated/:id/form-inputs
- * Partially updates form input data.
- */
-export async function patchDocumentFormInputs<T = Record<string, unknown>>(
-  documentId: string | number,
-  payload: T,
-): Promise<Record<string, unknown>> {
-  return readApi<Record<string, unknown>>(
-    `/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "PATCH",
-      body: JSON.stringify(payload),
-    },
-  );
-}
-
-/**
- * PUT /documents/generated/:id/form-inputs
- * Full replacement of form input data.
- */
-export async function replaceDocumentFormInputs<T = Record<string, unknown>>(
-  documentId: string | number,
-  payload: T,
-): Promise<Record<string, unknown>> {
-  return readApi<Record<string, unknown>>(
-    `/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "PUT",
-      body: JSON.stringify(payload),
-    },
-  );
-}
-
-/**
  * PUT /documents/generated/:id/contract-form-inputs
  * Saves published contract form inputs.
  */
@@ -101,23 +67,6 @@ export async function saveBm031DirectFormInputs(
     `/documents/generated/${documentId}/bm031-direct-form-inputs`,
     {
       method: "POST",
-      body: JSON.stringify(payload),
-    },
-  );
-}
-
-/**
- * PATCH /documents/generated/:id/bm031-direct-form-inputs
- * Partially updates BM031 direct form inputs.
- */
-export async function patchBm031DirectFormInputs(
-  documentId: string | number,
-  payload: Record<string, unknown>,
-): Promise<Record<string, unknown>> {
-  return readApi<Record<string, unknown>>(
-    `/documents/generated/${documentId}/bm031-direct-form-inputs`,
-    {
-      method: "PATCH",
       body: JSON.stringify(payload),
     },
   );

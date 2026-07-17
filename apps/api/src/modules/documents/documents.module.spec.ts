@@ -3,6 +3,11 @@ import { AuthModule } from '../auth/auth.module';
 import { InfrastructureModule } from '../../infrastructure/infrastructure.module';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { DocumentsModule } from './documents.module';
+import { FormsContractsModule } from '../forms-contracts/forms-contracts.module';
+import { TemplatesModule } from '../templates/templates.module';
+import { ContractPlatformModule } from '../contract-platform/contract-platform.module';
+import { Bm031DirectModule } from '../bm031-direct/bm031-direct.module';
+import { GeneratedInputSaveModule } from './rendering/application/generated-input-save-core/generated-input-save.module';
 import {
   CONTRACT_DOCUMENT_RENDERER,
   GENERATED_DOCUMENT_DESCRIPTOR,
@@ -13,7 +18,22 @@ import { RenderGeneratedDocumentUseCase } from './rendering/application/render-g
 describe('DocumentsModule renderer seam', () => {
   it('resolves the use case and every renderer port through Nest DI', async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AuthModule, InfrastructureModule, PrismaModule, DocumentsModule],
+      imports: [
+        AuthModule,
+        InfrastructureModule,
+        PrismaModule,
+        // PR-E: the three sibling modules provide the generated-save
+        // adapters; the orchestrator is provided by
+        // GeneratedInputSaveModule. All three feature modules plus the
+        // core are imported here because the controller wires use a
+        // forwardRef-based dependency graph.
+        FormsContractsModule,
+        TemplatesModule,
+        ContractPlatformModule,
+        Bm031DirectModule,
+        GeneratedInputSaveModule,
+        DocumentsModule,
+      ],
     }).compile();
 
     expect(moduleRef.get(RenderGeneratedDocumentUseCase)).toBeDefined();

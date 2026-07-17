@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "auditMode": "READ_ONLY_SOURCE_AUDIT",
+  "gitPolicy": "NO_STAGE_NO_COMMIT_NO_PUSH_NO_PR",
+  "capturedAt": "2026-07-10T23:12:00Z",
+  "auditor": "phase7-independent-auditor",
+  "repositoryRoot": "D:/Study/Project/QLLaw-main",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "remoteMainHead": "12749f1fefaca7e63e1f0df7cf5c0d5b19f126f4",
+  "platform": {
+    "os": "Microsoft Windows 11 Pro 10.0.26200",
+    "architecture": "X64",
+    "shell": "PowerShell",
+    "powershell": "5.1.26100.8655",
+    "freeBytesCDrive": 47641522176,
+    "freeBytesCDriveGB": 44.37,
+    "totalBytesCDrive": 378329825280,
+    "totalBytesCDriveGB": 352.29,
+    "note": "Codex reported D: free bytes = 483,890,327,552 (451 GB) at baseline. Re-measurement showed only C: drive available via PowerShell CimInstance; D: drive enumeration returned null in this PS environment."
+  },
+  "toolVersions": {
+    "node": "v22.23.1",
+    "pnpm": "10.33.2",
+    "git": "2.54.0.windows.1",
+    "dockerClient": "29.5.3",
+    "dockerCompose": "v5.1.4"
+  },
+  "gitStatus": {
+    "stagedFiles": 0,
+    "modifiedFiles": 215,
+    "deletedFiles": 32,
+    "untrackedFiles": 849,
+    "totalPorcelainEntries": 1096,
+    "gitStatusShortSummary": "215 M + 32 D + 849 ?? = 1096 porcelain lines; 247 in `git diff --name-status` (M+A+D).",
+    "discrepancyVsCodex": {
+      "codexReportedBaseline": "208 modified, 1232 untracked, 1440 total porcelain entries; final 247 / 1260 / 1507",
+      "freshObserved": "215 modified, 32 deleted, 849 untracked, 1096 total porcelain; `git diff --name-status` returns 247 lines (215 M + 32 D + 0 A)",
+      "delta": "Dirty tree grew between Codex baseline and final report (1096 → 1507). Codex-modified files now include 32 deletions that did not exist in their initial 208 baseline count. Additional `.gitattributes` (untracked at baseline) is now in the working tree but reported as untracked."
+    },
+    "crlfWarningCount": "200+ files have CRLF/LF warnings; inconsistent line endings across both application and infrastructure files. Many warnings are not from Codex edits but are pre-existing in the repo (Codex only fixed the entrypoint script)."
+  },
+  "diffCheck": {
+    "diffCheckIssues": "3 'new blank line at EOF' findings in apps/web/src/lib/bm001-form-inputs-api.ts:501, bm090-form-inputs-api.ts:320, bm097-form-inputs-api.ts:352.",
+    "interpretation": "Cosmetic only; does not affect correctness."
+  },
+  "applicableInstructions": [
+    "AGENTS.md",
+    "apps/web/AGENTS.md",
+    ".harness/manifest.yaml",
+    ".ai/harness/project-intake.md",
+    ".ai/harness/project_failure-log.md",
+    ".cursor/rules/00-meta.mdc",
+    ".cursor/rules/10-coding-style.mdc",
+    ".cursor/rules/20-safety.mdc",
+    ".cursor/rules/30-tooling.mdc",
+    ".cursor/rules/50-codegraph-context.mdc"
+  ],
+  "codeGraphHealth": {
+    "cliFound": null,
+    "projectInitialized": null,
+    "cursorMcpConfigured": null,
+    "mcpToolAvailableInAgent": null,
+    "exploreQuerySucceeded": null,
+    "note": "Phase 7 audit did not depend on CodeGraph MCP. Independent verification was performed via direct file reads, git, docker, and command execution per stage requirements."
+  },
+  "auditOutputDirectory": "docs/audit/infrastructure-modernization/post-codex-independent-audit",
+  "forbiddenActionsConfirmed": "No source code, test code, CI, Docker, package.json, Prisma schema, migrations, source/normalized DOCX, locked/compiled contracts, or persistent DB data were modified during Phase 7 audit.",
+  "assumptions": [
+    "Codex-authored Markdown/JSON reports are claims, not evidence.",
+    "A passing wrapper exit code is not proof that every sub-check passed.",
+    "A modified test passing is not proof that behavior is correct; tests themselves must be audited.",
+    "Baseline-critical hashes captured by Codex (Prisma schema, BM-006 normalized DOCX, canonical matrix) are treated as authoritative for protection boundary; their current state must be re-hashed to confirm no mutation."
+  ],
+  "unknowns": [
+    "Whether any tests asserted against code paths that were modified but not re-verified.",
+    "Whether the 124 reported browser-evidence rows in the matrix are real or synthetic.",
+    "Whether apply-all-current-evidence.mjs is truly idempotent in independent re-run.",
+    "Whether Docker production images still build and boot on the current dirty tree.",
+    "Whether API image non-root user and healthchecks are actually present at runtime."
+  ]
+}

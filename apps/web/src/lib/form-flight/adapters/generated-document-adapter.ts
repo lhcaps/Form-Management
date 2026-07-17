@@ -31,6 +31,7 @@ import {
 import { resolveFormFlightSummary } from "../summary";
 import { scanFormFlightAcceptance } from "../acceptance";
 import { getFormFlightProfile } from "../registry";
+import { isRuntimeReadyProfile } from "../profile-status";
 import type {
   FormFlightAdapter,
   FormFlightPayloadMode,
@@ -52,6 +53,26 @@ export type GeneratedDocumentAdapterInput = {
 };
 
 /**
+ * Resolve the registered Form Flight profile, but only when the profile
+ * is runtime-authoritative. Audit-only / skeleton / missing profiles
+ * are treated as "no profile" — the shared-core payload builder then
+ * becomes a pass-through and the gates collapse to the no-profile
+ * default.
+ *
+ * PR-A invariant repair (RESTORE_BM001_PRE_PR7B_RUNTIME_UI_AND_BLOCK_SKELETON_TAKEOVER):
+ * a skeleton / audit-only profile must never become runtime-authoritative,
+ * even for the generated-document flow. The BM panel / legacy render path
+ * remains in charge of the document until a `runtime-ready` profile exists.
+ */
+function resolveAuthoritativeProfile(
+  templateCode: string,
+): FormFlightProfile | null {
+  const profile = getFormFlightProfile(templateCode);
+  if (!isRuntimeReadyProfile(profile)) return null;
+  return profile;
+}
+
+/**
  * Build a generated-document adapter for `/documents/:id`. The host
  * (per-BM panel like `bm-171-form-inputs.tsx`) wires `loadDraft` /
  * `saveDraft` to the existing `getDocumentRenderPayload` /
@@ -61,7 +82,7 @@ export function createGeneratedDocumentAdapter(
   input: GeneratedDocumentAdapterInput,
 ): FormFlightAdapter {
   const profile = (): FormFlightProfile | null =>
-    getFormFlightProfile(input.templateCode);
+    resolveAuthoritativeProfile(input.templateCode);
 
   return {
     mode: "generated-document",
@@ -118,7 +139,7 @@ export function gateGeneratedDocumentSave(
   draft: Record<string, unknown>,
   templateCode: string,
 ): { ok: true } | { ok: false; missing: string[] } {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return { ok: true };
   const missing = listFormFlightMissingPaths(draft, profile);
   if (missing.length > 0) return { ok: false, missing };
@@ -136,7 +157,7 @@ export function buildGeneratedDocumentSavePayload(
 ) {
   return buildFormFlightPayload({
     draft,
-    profile: getFormFlightProfile(templateCode),
+    profile: resolveAuthoritativeProfile(templateCode),
     mode: "save",
   });
 }
@@ -151,7 +172,7 @@ export function buildGeneratedDocumentDemoPayload(
 ) {
   return buildFormFlightPayload({
     draft,
-    profile: getFormFlightProfile(templateCode),
+    profile: resolveAuthoritativeProfile(templateCode),
     mode: "demo-reset",
   });
 }
@@ -165,7 +186,7 @@ export function resolveGeneratedDocumentSummary(
   draft: Record<string, unknown>,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return null;
   return resolveFormFlightSummary(draft, profile);
 }
@@ -179,7 +200,7 @@ export function acceptGeneratedDocumentRenderedText(
   renderedText: string,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return { passed: true, missingRequired: [], foundForbidden: [] };
   return scanFormFlightAcceptance(renderedText, profile);
 }
@@ -192,7 +213,7 @@ export function listGeneratedDocumentMissingFields(
   draft: Record<string, unknown>,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return [];
   return collectFormFlightMissingRequired(draft, profile);
 }

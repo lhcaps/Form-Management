@@ -1,4 +1,5 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
+import { existsSync, readFileSync } from 'node:fs';
 import { ConfigurationError } from '../../common/application-error';
 import {
   resolveCorsPolicy,
@@ -8,6 +9,33 @@ import {
 type Environment = Readonly<Record<string, string | undefined>>;
 type AuthCookieSameSite = 'lax' | 'strict' | 'none';
 export type DocumentRendererMode = 'off' | 'shadow' | 'active';
+
+/** Phase 8C font verification report shape (produced by verify-font-policy.mjs). */
+export type FontVerificationReport = {
+  policy: 'required' | 'fallback-allowed';
+  requiredFamily: string;
+  fontDir: string;
+  aggregate:
+    | 'EXACT_REQUIRED_FONT_PASS'
+    | 'EXACT_REQUIRED_FONT_MISSING'
+    | 'STYLE_INCOMPLETE'
+    | 'ALIAS_ONLY'
+    | 'FALLBACK_ALLOWED'
+    | 'INVALID_FONT_METADATA';
+  presentStyles: string[];
+  missingStyles: string[];
+  requiredStyles: string[];
+  perFont: Array<{
+    basename: string;
+    family: string | null;
+    subfamily: string | null;
+    size: number;
+    sha256: string;
+    os2: { usWeightClass: number; usWidthClass: number } | null;
+    status: string;
+    reason: string;
+  }>;
+};
 
 export const APP_ENV = Symbol('APP_ENV');
 
@@ -38,7 +66,7 @@ export class AppConfigService {
   }
 
   get apiPort(): number {
-    const raw = this.read('API_PORT') ?? '3001';
+    const raw = this.read('API_PORT') ?? this.read('PORT') ?? '3001';
     const port = Number(raw);
     if (!Number.isInteger(port) || port < 1 || port > 65_535) {
       throw new ConfigurationError(
@@ -186,6 +214,54 @@ export class AppConfigService {
     }
 
     return templates;
+  }
+
+  // Phase 8C: font policy.
+  // Production default is "required" so the API refuses to declare
+  // readiness unless the operator-provided Times New Roman bind mount
+  // carries all four required styles. Development and tests may set
+  // QLLAW_FONT_POLICY=fallback-allowed to keep the legacy Liberation
+  // path working.
+  get fontPolicy(): 'required' | 'fallback-allowed' {
+    const raw = (this.read('QLLAW_FONT_POLICY') ?? 'required').toLowerCase();
+    if (raw === 'fallback-allowed') return 'fallback-allowed';
+    if (raw === 'required') return 'required';
+    throw new ConfigurationError(
+      'INVALID_FONT_POLICY',
+      `QLLAW_FONT_POLICY must be 'required' or 'fallback-allowed'; received "${raw}".`,
+    );
+  }
+
+  get requiredFontFamily(): string {
+    return this.read('QLLAW_REQUIRED_FONT_FAMILY') ?? 'Times New Roman';
+  }
+
+  /** Container-side path of the operator-provided font directory. */
+  get containerFontDir(): string {
+    return (
+      this.read('QLLAW_CONTAINER_TNR_FONT_DIR') ??
+      '/opt/qllaw/fonts/times-new-roman'
+    );
+  }
+
+  /**
+   * Inspect the runtime font status. The entrypoint writes
+   * /tmp/qllaw-font-verification.json before starting the API; this
+   * reader deserializes it for /ready. Returns null when no report is
+   * present (e.g. local dev) so callers can fall back to filesystem
+   * discovery.
+   */
+  readFontVerificationReport(): FontVerificationReport | null {
+    const reportPath =
+      this.read('QLLAW_FONT_VERIFICATION_REPORT') ??
+      '/tmp/qllaw-font-verification.json';
+    if (!existsSync(reportPath)) return null;
+    try {
+      const raw = readFileSync(reportPath, 'utf8');
+      return JSON.parse(raw) as FontVerificationReport;
+    } catch {
+      return null;
+    }
   }
 
   assertProductionSafety(): void {

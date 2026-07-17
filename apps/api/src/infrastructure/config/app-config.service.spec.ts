@@ -225,6 +225,13 @@ describe('AppConfigService', () => {
     expect(() => config.apiPort).toThrow('API_PORT must be an integer');
   });
 
+  it('uses API_PORT before the platform PORT fallback', () => {
+    expect(new AppConfigService({ PORT: '4100' }).apiPort).toBe(4100);
+    expect(
+      new AppConfigService({ API_PORT: '4200', PORT: '4100' }).apiPort,
+    ).toBe(4200);
+  });
+
   it('defaults contract rendering to off with an empty allow-list', () => {
     const config = new AppConfigService({});
 
@@ -259,5 +266,57 @@ describe('AppConfigService', () => {
     expect(() => invalidTemplate.documentRendererContractTemplates).toThrow(
       'DOCUMENT_RENDERER_CONTRACT_TEMPLATES contains invalid code',
     );
+  });
+
+  it('defaults font policy to required and exposes container font dir', () => {
+    const config = new AppConfigService({});
+
+    expect(config.fontPolicy).toBe('required');
+    expect(config.requiredFontFamily).toBe('Times New Roman');
+    expect(config.containerFontDir).toBe('/opt/qllaw/fonts/times-new-roman');
+  });
+
+  it('accepts fallback-allowed font policy and rejects unknown values', () => {
+    const fallback = new AppConfigService({
+      QLLAW_FONT_POLICY: 'fallback-allowed',
+    });
+    expect(fallback.fontPolicy).toBe('fallback-allowed');
+
+    const invalid = new AppConfigService({
+      QLLAW_FONT_POLICY: 'liberation-everywhere',
+    });
+    expect(() => invalid.fontPolicy).toThrow(
+      "QLLAW_FONT_POLICY must be 'required' or 'fallback-allowed'",
+    );
+  });
+
+  it('returns null from font verification report when the entrypoint file is absent', () => {
+    const config = new AppConfigService({});
+    expect(config.readFontVerificationReport()).toBeNull();
+  });
+
+  it('parses the entrypoint font verification report when present', async () => {
+    const report = {
+      policy: 'required',
+      requiredFamily: 'Times New Roman',
+      aggregate: 'EXACT_REQUIRED_FONT_PASS',
+      presentStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+      missingStyles: [],
+      requiredStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+      perFont: [],
+    };
+    const tmpPath = 'D:/tmp/qllaw-font-verification.test.json';
+    const { writeFileSync, unlinkSync } = require('node:fs');
+    writeFileSync(tmpPath, JSON.stringify(report), 'utf8');
+
+    const config = new AppConfigService({
+      QLLAW_FONT_VERIFICATION_REPORT: tmpPath,
+    });
+
+    try {
+      expect(config.readFontVerificationReport()).toEqual(report);
+    } finally {
+      try { unlinkSync(tmpPath); } catch {}
+    }
   });
 });

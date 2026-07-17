@@ -1,8 +1,43 @@
 # Failure Log
 
+## 2026-07-17 — Fresh production Docker proof cannot establish web readiness with synthetic Clerk credentials
+**Request**: Prove a full fresh database Docker boot, including API and web readiness, after production hardening.
+**What I tried**: Created an isolated Compose project with disposable database and bootstrap secrets, ran the squashed migration and governed 213-contract corpus successfully, then started API and web on isolated ports.
+**Root cause**: The API became healthy, but the web health route did not reach HTTP 200 when built with a synthetic Clerk publishable key. The web SDK validates Clerk key format/configuration at startup, so a fabricated credential is not valid evidence for Clerk production mode.
+**Skill that should have caught it**: verification-before-completion — a synthetic secret must not be treated as an equivalent substitute for an operator-provisioned Clerk key.
+**Fix**: Keep the fail-closed production validation. Run the final web production readiness check only through the deployment secret provider with a valid Clerk publishable/secret key pair; do not commit or weaken the credential checks.
+
+## 2026-07-17 — Generated-document E2E cannot prove a valid contract-native save on the current local data
+**Request**: Complete the 213 persisted-form workflow and prove the authenticated BM-039 save/export path.
+**What I tried**: Started the web app with the root environment, isolated the API to port 3101 because port 3001 belongs to an unrelated Hotpot container, then ran the Clerk ticket/storage-state Playwright workflow.
+**Root cause**: Clerk authentication, case selection, document creation, and contract-native PUT all ran. The active local case's agency payload contains blank parent/name values, while BM-039 has required agency header fields (including a self-referential computed `agency.parentNameUpper`); the API correctly rejects the save with `CONTRACT_INPUT_VALIDATION_FAILED` instead of inventing legal agency data.
+**Skill that should have caught it**: verification-before-completion — a passing auth setup cannot substitute for a validated seeded agency fixture and a successful legal-document save.
+**Fix**: Add a deterministic, valid agency hierarchy to the disposable E2E/bootstrap fixture and repair/normalize self-referential required contract fields before using this flow as the 213-form acceptance gate. Do not weaken the API's unknown/required field validation.
+
+## 2026-07-16 — pnpm production dependency audit endpoint retired
+**Request**: Complete a current local release-readiness audit, including production dependency advisories.
+**What I tried**: Ran `pnpm audit --prod --audit-level=high` against the configured npm registry.
+**Root cause**: Both npm audit endpoints used by the installed pnpm client returned HTTP 410 because the registry has retired them; no advisory result was available.
+**Skill that should have caught it**: verification-before-completion — an unavailable advisory source cannot be reported as a clean dependency audit.
+**Fix**: Treat dependency advisory status as unverified until the project upgrades/configures a package manager or scanner using npm's supported bulk advisory API, then rerun the production audit.
+
+## 2026-07-10 — Parallel Docker Desktop fresh builds lost the engine pipe
+**Request**: Prove fresh production API and web image builds after Docker hardening.
+**What I tried**: Started two independent `docker build --pull --no-cache` commands concurrently against the same Docker Desktop Linux engine.
+**Root cause**: Docker Desktop closed its named-pipe HTTP/2 connection while both BuildKit clients were active; neither requested tag was produced. The repository sources were not mutated by the failed builds.
+**Skill that should have caught it**: `dispatching-parallel-agents` — CPU/network-heavy operations sharing one local daemon are not independent even when their source trees are.
+**Fix**: Run the API and web fresh builds sequentially, retain parallelism only for read-only or daemon-independent checks, and verify each requested image tag immediately after build.
+
 > The agent appends here whenever it (or a sub-agent) fails a task.
 > The `failure-log` skill governs what to record.
 > Format: most recent entry first.
+
+## 2026-07-10 — Read-only audit sub-agents exhausted usage quota before final reports
+**Request**: Complete the production infrastructure modernization, evidence-integrity audit, and blocker elimination on the current local-only working tree.
+**What I tried**: Dispatched independent read-only agents to reconcile the 213-form matrix and audit API production reliability while the root agent ran the fresh baseline.
+**Root cause**: The evidence and API agents exhausted the shared product usage quota while composing their final responses. They had already returned live counts, mutation boundaries, temp-copy recovery proof, environment-precedence findings, and API reliability checkpoints; neither made a repository mutation. The root agent retained those evidence messages and continued with direct local verification.
+**Skill that should have caught it**: `dispatching-parallel-agents` — long investigations need an explicit early report checkpoint so quota exhaustion cannot discard the final synthesis.
+**Fix**: Require read-only investigation agents to send compact checkpoint findings after each confirmed root cause, keep authoritative command evidence in the root task, and never make completion depend on a single agent's final message.
 
 ## 2026-07-06 — Cursor git wrapper auto-injected Co-authored-by trailer
 **Request**: Create PR7B single commit (BM-171 baseline + Form Flight core + BM-001 canonical-render audit wording corrected) with whitelist staging, no `git add .`, no extra trailers, no `--no-verify`.

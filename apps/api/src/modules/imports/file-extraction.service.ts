@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'node:fs';
+import * as ExcelJS from 'exceljs';
 import { PDFParse } from 'pdf-parse';
 import mammoth from 'mammoth';
-import * as XLSX from 'xlsx';
 import {
   type CandidateConfidence,
   type ImportDetectedCandidate,
@@ -243,54 +243,51 @@ function detectCandidatesFromText(source: string): ImportDetectedCandidate[] {
   return Array.from(bucket.values()).slice(0, 20);
 }
 
-function buildWorkbookPreview(workbook: XLSX.WorkBook): {
+function buildWorkbookPreview(workbook: ExcelJS.Workbook): {
   tables: ImportTablePreview[];
   totalRows: number;
 } {
   const tables: ImportTablePreview[] = [];
   let totalRows = 0;
 
-  for (const sheetName of workbook.SheetNames.slice(0, MAX_TABLES)) {
-    const sheet = workbook.Sheets[sheetName];
-
-    if (!sheet) {
-      continue;
-    }
-
-    const rawRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, {
-      defval: '',
-      raw: false,
+  for (const sheet of workbook.worksheets.slice(0, MAX_TABLES)) {
+    const rawRows: string[][] = [];
+    sheet.eachRow({ includeEmpty: false }, (row) => {
+      const values: string[] = [];
+      row.eachCell({ includeEmpty: true }, (cell, columnNumber) => {
+        values[columnNumber - 1] = String(cell.text ?? cell.value ?? '').trim();
+      });
+      rawRows.push(values);
     });
 
-    totalRows += rawRows.length;
-
-    const headers = Array.from(
-      rawRows.reduce((acc, row) => {
-        Object.keys(row).forEach((key) => {
-          if (key !== '__EMPTY') {
-            acc.add(String(key));
-          }
-        });
-
-        return acc;
-      }, new Set<string>()),
+    const headerRow = rawRows.shift() ?? [];
+    const seenHeaders = new Map<string, number>();
+    const headers = headerRow.map((value, index) => {
+      const base = value || `Cột ${index + 1}`;
+      const count = (seenHeaders.get(base) ?? 0) + 1;
+      seenHeaders.set(base, count);
+      return count === 1 ? base : `${base}_${count}`;
+    });
+    const dataRows = rawRows.filter((row) =>
+      row.some((value) => value.trim().length > 0),
     );
+    totalRows += dataRows.length;
 
-    const rows = rawRows.slice(0, MAX_TABLE_ROWS).map((row) => {
+    const rows = dataRows.slice(0, MAX_TABLE_ROWS).map((row) => {
       const normalized: Record<string, string> = {};
 
-      for (const header of headers) {
-        normalized[header] = String(row[header] ?? '').trim();
+      for (const [index, header] of headers.entries()) {
+        normalized[header] = row[index] ?? '';
       }
 
       return normalized;
     });
 
     tables.push({
-      sheetName,
+      sheetName: sheet.name,
       headers,
       rows,
-      totalRows: rawRows.length,
+      totalRows: dataRows.length,
       candidateColumns: detectColumns(headers),
     });
   }
@@ -317,8 +314,9 @@ export class FileExtractionService {
         case '.doc':
           return this.extractDoc();
         case '.xlsx':
-        case '.xls':
           return await this.extractSpreadsheet(absolutePath);
+        case '.xls':
+          return this.rejectLegacyXls();
         case '.csv':
           return await this.extractCsv(absolutePath);
         case '.txt':
@@ -435,12 +433,29 @@ export class FileExtractionService {
     };
   }
 
+  private rejectLegacyXls(): ImportExtractionResult {
+    return {
+      extractionStatus: 'REJECTED',
+      rawText: null,
+      parsedJson: null,
+      warnings: [
+        'File XLS cũ không còn được hỗ trợ vì lý do an toàn. Hãy chuyển đổi sang XLSX hoặc CSV.',
+      ],
+      errorMessage: 'Định dạng tệp không được hỗ trợ.',
+      candidates: [],
+      previewText: null,
+      totalRows: 0,
+    };
+  }
+
   private async extractSpreadsheet(
     absolutePath: string,
   ): Promise<ImportExtractionResult> {
-    const workbook = XLSX.readFile(absolutePath, {
-      cellDates: false,
-    });
+    const workbook = new ExcelJS.Workbook();
+    const fileBuffer = await fs.promises.readFile(absolutePath);
+    await workbook.xlsx.load(
+      fileBuffer as unknown as Parameters<typeof workbook.xlsx.load>[0],
+    );
     const preview = buildWorkbookPreview(workbook);
     const flattenedText = preview.tables
       .flatMap((table) => [
@@ -455,7 +470,7 @@ export class FileExtractionService {
       rawText: truncateText(cleanText(flattenedText), MAX_TEXT_LENGTH) || null,
       parsedJson: {
         kind: 'table',
-        sheetNames: workbook.SheetNames,
+        sheetNames: workbook.worksheets.map((sheet) => sheet.name),
         tables: preview.tables,
       },
       warnings: [],
@@ -473,10 +488,11 @@ export class FileExtractionService {
     const fileBuffer = await fs.promises.readFile(absolutePath);
     const content = this.decodeText(fileBuffer);
     const delimiter = detectDelimiterSample(content);
-    const workbook = XLSX.read(content, {
-      type: 'string',
-      raw: false,
-      FS: delimiter,
+    const workbook = new ExcelJS.Workbook();
+    await workbook.csv.readFile(absolutePath, {
+      parserOptions: {
+        delimiter,
+      },
     });
 
     const preview = buildWorkbookPreview(workbook);
@@ -487,7 +503,7 @@ export class FileExtractionService {
       rawText: truncateText(flattenedText, MAX_TEXT_LENGTH) || null,
       parsedJson: {
         kind: 'table',
-        sheetNames: workbook.SheetNames,
+        sheetNames: workbook.worksheets.map((sheet) => sheet.name),
         tables: preview.tables,
       },
       warnings: [],

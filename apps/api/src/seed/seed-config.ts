@@ -8,6 +8,12 @@ export type SeedAdminConfig = {
   positionTitle: string;
 };
 
+export type SeedAgencyConfig = {
+  agencyCode: string;
+  agencyName: string;
+  parentAgencyName: string;
+};
+
 export type SeedLeHuyConfig = {
   enabled: boolean;
   fullName: string;
@@ -16,6 +22,14 @@ export type SeedLeHuyConfig = {
   email: string;
   positionTitle: string;
   clerkUserId: string | null;
+};
+
+export type SeedTestAccountConfig = {
+  enabled: boolean;
+  fullName: string;
+  username: string;
+  password: string | null;
+  positionTitle: string;
 };
 
 export type TemplateCatalogEntry = {
@@ -68,6 +82,47 @@ export function getSeedAdminConfig(
     username: (env.SEED_ADMIN_USERNAME?.trim() || 'admin').toLowerCase(),
     password: env.SEED_ADMIN_PASSWORD?.trim() || 'admin123',
     positionTitle: env.SEED_ADMIN_POSITION?.trim() || 'Quan tri he thong',
+  };
+}
+
+export function getSeedAgencyConfig(
+  env: Record<string, string | undefined> = process.env,
+): SeedAgencyConfig {
+  return {
+    agencyCode: env.SEED_AGENCY_CODE?.trim() || 'VKS-DEFAULT',
+    agencyName: env.SEED_AGENCY_NAME?.trim() || 'Viện kiểm sát',
+    parentAgencyName:
+      env.SEED_PARENT_AGENCY_NAME?.trim() || 'Viện kiểm sát nhân dân tối cao',
+  };
+}
+
+export function getSeedTestAccountConfig(
+  env: Record<string, string | undefined> = process.env,
+): SeedTestAccountConfig {
+  const enabledValue = (
+    env.SEED_TEST_ACCOUNT_ENABLED?.trim() || 'false'
+  ).toLowerCase();
+  if (enabledValue !== 'true' && enabledValue !== 'false') {
+    throw new Error('SEED_TEST_ACCOUNT_ENABLED must be "true" or "false".');
+  }
+
+  const enabled = enabledValue === 'true';
+  const password = env.SEED_TEST_ACCOUNT_PASSWORD?.trim() || null;
+  if (enabled && (!password || password.length < 12)) {
+    throw new Error(
+      'SEED_TEST_ACCOUNT_PASSWORD must be set to a non-default value of at least 12 characters when SEED_TEST_ACCOUNT_ENABLED=true.',
+    );
+  }
+
+  return {
+    enabled,
+    fullName: env.SEED_TEST_ACCOUNT_FULL_NAME?.trim() || 'Tai khoan Test',
+    username: (
+      env.SEED_TEST_ACCOUNT_USERNAME?.trim() || 'tester'
+    ).toLowerCase(),
+    password,
+    positionTitle:
+      env.SEED_TEST_ACCOUNT_POSITION?.trim() || 'Nhan vien kiem thu',
   };
 }
 

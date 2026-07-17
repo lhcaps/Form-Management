@@ -55,5 +55,5 @@ BM BM-001 is rollout-ready. Planner can sign off and open the next BM (e.g. BM-1
 
 ---
 
-generatedAt: 2026-07-05T20:38:34.207Z
+generatedAt: 2026-07-05T21:31:54.662Z
 schemaVersion: 1

@@ -49,6 +49,12 @@ export type FormFlightPayloadMode =
  * run `scanAcceptance(renderedText, profile)` to verify the DOCX
  * contains the required anchors and never leaks forbidden garbage.
  */
+export type FormFlightProfileStatus =
+  | "runtime-ready"
+  | "persisted-ready"
+  | "audit-only"
+  | "skeleton";
+
 export type FormFlightProfile = {
   readonly templateCode: string;
   readonly title: string;
@@ -67,6 +73,21 @@ export type FormFlightProfile = {
     readonly requiredText: readonly string[];
     readonly forbiddenText: readonly string[];
   };
+  /**
+   * Runtime readiness signal — adopted in
+   * RESTORE_BM001_PRE_PR7B_RUNTIME_UI_AND_BLOCK_SKELETON_TAKEOVER.
+   * Optional for backward compatibility with pre-PR7B profiles that did
+   * not declare the flag. When absent, `isRuntimeReadyProfile` returns
+   * false (fail-closed).
+   */
+  readonly runtimeReady?: boolean;
+  /**
+   * Generated-document readiness signal. This does not authorize the
+   * standalone template-runtime route; `isPersistedReadyProfile` is the
+   * only consumer that may treat it as authoritative.
+   */
+  readonly persistedReady?: boolean;
+  readonly profileStatus?: FormFlightProfileStatus;
 };
 
 /**

@@ -8,6 +8,9 @@ const apiPackageJson = JSON.parse(
     'utf8',
   ),
 );
+const rootPackageJson = JSON.parse(
+  await readFile(new URL('../package.json', import.meta.url), 'utf8'),
+);
 const ciWorkflow = await readFile(
   new URL('../.github/workflows/ci.yml', import.meta.url),
   'utf8',
@@ -23,12 +26,10 @@ test('API lint is check-only and exposes an explicit fix command', () => {
 });
 
 test('CI forwards Jest arguments without adding a positional separator', () => {
-  assert.match(
-    ciWorkflow,
-    /pnpm --filter api test --runInBand/u,
-  );
+  assert.match(ciWorkflow, /pnpm verify:ci/u);
+  assert.match(rootPackageJson.scripts['test:api'], /pnpm --filter api test --runInBand/u);
   assert.doesNotMatch(
-    ciWorkflow,
+    rootPackageJson.scripts['test:api'],
     /pnpm --filter api test -- --runInBand/u,
   );
 });

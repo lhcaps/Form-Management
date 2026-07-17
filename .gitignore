@@ -80,6 +80,15 @@ audit_renders/
 .gsd/
 .planning/
 
+# Release-verification artifacts kept only on the machine that produced them.
+/.artifacts/
+/verify-current-state.json
+/quanlynew-main.zip
+
+# Timestamped local bootstrap emissions; canonical latest evidence stays versioned.
+/docs/audit/infrastructure-modernization/phase-8c-bootstrap/bootstrap-[0-9]*.json
+/docs/audit/infrastructure-modernization/phase-8c-bootstrap/bootstrap-[0-9]*.sql
+
 # Temporary scripts and debug files
 check_labels.cjs
 check_o_trong_docx.cjs
@@ -92,6 +101,26 @@ recent_runs.json
 run-compile.bat
 tmp-candidates.json
 test-guard-paths.mjs
+
+# DOCX download smoke temp artifacts (Phase 5 — runtime preview-session audit)
+.tmp-docx-download-smoke/
+.tmp-curated-37-docx-download.raw.json
+.tmp-extract-docx-summary.cjs
+.tmp-docx-summary.json
+.tmp-matrix-check.cjs
+.tmp-debug.cjs
+.tmp-tsc-web.log
+.tmp-tsc-api.log
+
+# Batch 3 DOCX download smoke temp artifacts
+.tmp-batch3-docx-download-smoke/
+.tmp-batch3-docx-download.raw.json
+.tmp-batch3-docx-download.parsed.json
+.tmp-batch3-docx-download.utf8.json
+.tmp-batch3-docx-download.rerun.raw.json
+.tmp-batch3-docx-download.rerun.parsed.json
+.tmp-batch4-visual-pdf-review/
+.tmp-clerk-setup-batch3-docx.log
 
 # Pre-export configs (local development)
 storage/pre-export-config/

@@ -1,0 +1,130 @@
+{
+  "contract": "FORM_LIFECYCLE_WIRING_CONTRACT",
+  "phase": "FORM LIFECYCLE WIRING CONTRACT + RUNTIME-READY ROUTING GUARDS",
+  "generatedAt": "2026-07-07",
+  "status": "PASS",
+  "approvedRuntimeReadyCodes": ["BM-001", "BM-171"],
+  "skeletonOrMissingCodes": 211,
+  "totalForms": 213,
+  "rootCause": {
+    "summary": "/templates/BM-001 still rendered the legacy UI because TemplatePreviewWorkspace only imported profiles/bm171 and only consulted the runtime-ux registry (getRuntimeUxProfile). BM-001's Form Flight profile existed but was never registered into the runtime route's visible profile set, so gateRuntimePreview returned ok for every draft and the canonical Form Flight path was never consulted.",
+    "fixApproach": "Introduce a single pure decision helper (decideFormLifecycle) plus an explicit runtime-ready profile registration set (registerRuntimeReadyFormFlightProfiles). Both /templates and /documents call the helper, so the two lifecycles cannot drift."
+  },
+  "lifecycleContract": {
+    "templateRuntime": {
+      "url": "/templates/:templateCode",
+      "purpose": "Runtime preview / temporary form input. No DB write, no generatedDocumentId.",
+      "mustNot": [
+        "require generatedDocumentId",
+        "call saveDocumentFormInputs",
+        "call /documents/generated/:id/form-inputs",
+        "instantiate createGeneratedDocumentAdapter"
+      ],
+      "decision": {
+        "runtimeReadyProfile": "useFormFlight=true, panelKind=form-flight-runtime",
+        "skeletonOrMissing": "useFormFlight=false, panelKind=legacy|generic"
+      },
+      "hostComponent": "apps/web/src/components/documents/template-preview-workspace.tsx"
+    },
+    "generatedDocument": {
+      "url": "/documents/:id",
+      "purpose": "Persisted generated document workspace. Real DB rows, audit log, file write.",
+      "must": [
+        "require real generatedDocumentId before save/read"
+      ],
+      "mustNot": [
+        "set useFormFlight=true when hasRealGeneratedDocumentId is false",
+        "import template-runtime-adapter"
+      ],
+      "decision": {
+        "runtimeReadyProfileAndRealId": "useFormFlight=true, panelKind=form-flight-generated",
+        "skeletonOrMissingOrFakeId": "useFormFlight=false, panelKind=legacy|generic"
+      },
+      "hostComponent": "apps/web/src/components/documents/generated-document-workspace.tsx"
+    },
+    "skeletonBehavior": {
+      "invariant": "Skeleton / audit-only profiles MUST stay fail-closed at every layer.",
+      "enforcement": [
+        "isRuntimeReadyProfile returns false when runtimeReady !== true OR profileStatus !== 'runtime-ready'",
+        "decideFormLifecycle returns useFormFlight=false for skeleton profiles",
+        "registerRuntimeReadyFormFlightProfiles does NOT import any skeleton profile"
+      ]
+    },
+    "runtimeReadyBehavior": {
+      "invariant": "A form is runtime-ready only when runtimeReady === true AND profileStatus === 'runtime-ready' AND the code appears in RUNTIME_READY_FORM_FLIGHT_PROFILES.",
+      "enforcement": [
+        "profile-registry-guard.test.mjs: only BM-001 + BM-171 may carry the flags",
+        "form-lifecycle-wiring.guard.test.mjs: form-lifecycle.ts must import exactly 2 profiles (bm001 + bm171)",
+        "form-lifecycle-wiring.guard.test.mjs: decideFormLifecycle shim must agree with production source"
+      ]
+    }
+  },
+  "architectureDecision": {
+    "decision": "Centralize lifecycle routing in one pure helper, drive both routes via side-effect registration of an explicit allowlist (BM-001 + BM-171).",
+    "alternativesConsidered": [
+      "Per-form wiring in each route — rejected: bug reproduces each time a new form is promoted.",
+      "Auto-import all 213 profile files at module load — rejected: 211 skeletons would touch startup cost and risks promoting by accident.",
+      "Mutate generated-document-workspace panel registry — rejected: violates the no-public-API-route-path-change constraint."
+    ]
+  },
+  "filesChanged": [
+    "apps/web/src/lib/form-flight/form-lifecycle.ts (NEW)",
+    "apps/web/src/lib/form-flight/index.ts (re-export helper)",
+    "apps/web/src/lib/form-flight/form-lifecycle-wiring.guard.test.mjs (NEW)",
+    "apps/web/src/components/documents/template-preview-workspace.tsx (import lifecycle helper, register runtime-ready, use decideFormLifecycle)",
+    "apps/web/src/components/documents/generated-document-workspace.tsx (import lifecycle helper, register runtime-ready)",
+    "scripts/audit/generate-form-lifecycle-wiring-matrix.cjs (NEW)",
+    "docs/audit/unified-bm-workspace/FORM_LIFECYCLE_WIRING_MATRIX.latest.json (NEW)",
+    "docs/audit/unified-bm-workspace/FORM_LIFECYCLE_WIRING_MATRIX.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/FORM_LIFECYCLE_WIRING_CONTRACT.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/FORM_LIFECYCLE_WIRING_CONTRACT.latest.json (NEW)"
+  ],
+  "filesNotChanged": [
+    "apps/web/src/lib/form-flight/profiles/bm001.ts — UNCHANGED",
+    "apps/web/src/lib/form-flight/profiles/bm171.ts — UNCHANGED",
+    "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts — UNCHANGED",
+    "apps/web/src/components/documents/bm-001-form-inputs.tsx — UNCHANGED",
+    "apps/web/src/components/documents/bm-171-form-inputs.tsx — UNCHANGED",
+    "apps/web/src/lib/bm001-form-inputs-api.ts — UNCHANGED",
+    "All 211 skeleton profile files — UNCHANGED",
+    "Prisma schema, migrations, DB, locked DOCX contracts — UNCHANGED"
+  ],
+  "wiringMatrix": "docs/audit/unified-bm-workspace/FORM_LIFECYCLE_WIRING_MATRIX.latest.json",
+  "guardTests": {
+    "formLifecycleWiring": "apps/web/src/lib/form-flight/form-lifecycle-wiring.guard.test.mjs",
+    "profileRegistry": "apps/web/src/lib/form-flight/profile-registry-guard.test.mjs",
+    "bm001RuntimeReady": "apps/web/src/lib/form-flight/bm001-runtime-ready.guard.test.mjs",
+    "bm001RenderExportGolden": "apps/web/src/lib/form-flight/bm001-render-export-golden.guard.test.mjs",
+    "runtimeConsumer": "apps/web/src/lib/form-flight/runtime-consumer-guard.test.mjs"
+  },
+  "testsPassed": {
+    "formLifecycleWiring": "21/21 PASS",
+    "profileRegistry": "10/10 PASS",
+    "bm001RuntimeReady": "15/15 PASS",
+    "bm001RenderExportGolden": "17/17 PASS",
+    "runtimeConsumer": "2/2 PASS"
+  },
+  "testsPreExistingFailing": [
+    "apps/web/src/lib/form-flight/profile-status.test.ts (extensionless imports; pre-existing debt, not introduced this phase)",
+    "apps/web/src/lib/form-flight/bm171-shared-core.test.ts (extensionless imports; pre-existing debt)",
+    "apps/web/src/lib/form-flight/bm171-required-placeholder-gate.test.ts (extensionless imports; pre-existing debt)",
+    "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts (extensionless imports; pre-existing debt)"
+  ],
+  "manualVerificationChecklist": [
+    "Open http://localhost:3000/templates/BM-001 — must show the same runtime-ready shell style as BM-171 (Form Flight profile consulted via decideFormLifecycle).",
+    "Open http://localhost:3000/templates/BM-171 — must remain unchanged.",
+    "Open http://localhost:3000/templates/BM-002 — must stay in legacy / generic fallback path (skeleton fail-closed).",
+    "Open http://localhost:3000/templates/BM-172 — must stay in legacy / generic fallback path (skeleton fail-closed).",
+    "Open http://localhost:3000/documents/<real-bm001-id> — Form Flight path active when profile runtime-ready AND real id present.",
+    "Confirm no fake generatedDocumentId is created in any /templates page state.",
+    "Confirm /templates never POSTs to /documents/generated/.../form-inputs.",
+    "Confirm 211 skeleton profiles do NOT takeover the runtime UI."
+  ],
+  "remainingRisks": [
+    "TS extensionless imports in pre-existing .test.ts files still fail under node --test; they are documented as pre-existing debt.",
+    "BM-001 currently lacks a runtime-ux profile (only Form Flight). The legacy ContractV2Renderer path renders via the locked contract; the Form Flight runtime panel decision is logged in setMessage so operators see why the path is 'skeleton' (none for runtime-ready) or 'runtime-ready' (for BM-001).",
+    "Future runtime-ready promotions require a 3-step change (profile flag + import in form-lifecycle.ts + add to RUNTIME_READY_FORM_FLIGHT_PROFILES) — drift is enforced by form-lifecycle-wiring.guard.test.mjs #11."
+  ],
+  "nextRecommendedPhase": "2. Generalize Render / Export Golden Validation to BM-NNN",
+  "qualityBar": "PASS"
+}

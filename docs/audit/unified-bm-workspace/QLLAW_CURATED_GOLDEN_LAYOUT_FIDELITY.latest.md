@@ -1,6 +1,6 @@
 # QLLAW Curated 37 — Golden / Layout Fidelity Audit
 
-> **Generated**: 2026-07-09T17:59:45.003Z
+> **Generated**: 2026-07-10T02:54:02.990Z
 > **STATUS**: PASS
 > **STATUS_NOTE**: All 37 form(s) PASS all machine-checkable fidelity criteria. No placeholder/stale-token leaks. Major legal document structure present. Formatting within tolerance. FIDELITY_COMPLETE_EVIDENCED not claimed: visual equivalence requires human review.
 > **FIDELITY_COMPLETE_EVIDENCED**: false

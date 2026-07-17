@@ -1,16 +1,12 @@
 /**
- * BM-001 second-pilot skeleton tests.
+ * BM-001 second-pilot runtime-ready tests.
  *
- * Proves the BM-001 skeleton profile:
- *   - registers with the canonical shape
- *   - has fieldPaths that match every key in Bm001FormInputs
- *   - has requiredFieldPaths that match the panel's REQUIRED_FIELDS list
- *   - skeleton asserts (demo/summary/acceptance empty) are honest
- *
- * This file is the second pilot's proof. It does NOT exercise the
- * full payload builder (BM-001 has no demo yet — that is a future
- * task). It DOES exercise the validation gate and registry contract
- * so the rollout factory's promise is testable.
+ * Proves that the promoted BM-001 profile:
+ *   - registers with the canonical runtime-ready shape
+ *   - covers all 39 locked-contract field paths
+ *   - keeps requiredFieldPaths inside fieldPaths
+ *   - provides authored demo, summary, and acceptance evidence
+ *   - blocks an empty draft on the required legal fields
  */
 
 import { strict as assert } from "node:assert";
@@ -25,20 +21,22 @@ import { BM001_FORM_FLIGHT_PROFILE } from "./profiles/bm001";
 import { assertProfileInvariant } from "./adapters/generated-document-adapter";
 import { listFormFlightMissingPaths } from "./validation";
 
-describe("BM-001 second pilot skeleton", () => {
+describe("BM-001 second pilot runtime-ready profile", () => {
   beforeEach(() => {
     __resetFormFlightProfilesForTests();
     registerFormFlightProfile(BM001_FORM_FLIGHT_PROFILE);
   });
 
-  it("registers a BM-001 skeleton profile", () => {
+  it("registers the BM-001 runtime-ready profile", () => {
     const profile = getFormFlightProfile("BM-001");
-    assert.ok(profile, "BM-001 skeleton profile must be registered");
+    assert.ok(profile, "BM-001 runtime-ready profile must be registered");
     assert.equal(profile.templateCode, "BM-001");
     assert.equal(
       profile.title,
       "Biên bản tiếp nhận nguồn tin về tội phạm",
     );
+    assert.equal(profile.runtimeReady, true);
+    assert.equal(profile.profileStatus, "runtime-ready");
   });
 
   it("fieldPaths covers the full Bm001FormInputs key set", () => {
@@ -47,15 +45,15 @@ describe("BM-001 second pilot skeleton", () => {
     // Sample the highest-impact fields. If any of these is missing
     // the rollout factory has drifted from the BM-001 type.
     const required = [
-      "agency.parentName",
-      "agency.name",
-      "agency.issuePlace",
-      "document.issueDate",
-      "reception.startedAtTimeText",
-      "reception.startedAtDate",
-      "reception.locationName",
+      "document.issuePlaceDateLine",
       "receiver.fullName",
+      "receiver.positionTitle",
+      "receiver.departmentName",
       "informant.fullName",
+      "informant.birthYear",
+      "reception.startedAtTimeText",
+      "reception.startedAtDay",
+      "reception.locationName",
       "crimeReport.content",
       "recipients.archiveLine",
     ];
@@ -87,26 +85,19 @@ describe("BM-001 second pilot skeleton", () => {
     assert.equal(assertProfileInvariant(BM001_FORM_FLIGHT_PROFILE), "");
   });
 
-  it(
-    "skeleton is honest: demo is empty + summaryLines absent + " +
-      "acceptance has no anchors",
-    () => {
-      const profile = getFormFlightProfile("BM-001");
-      assert.ok(profile);
-      assert.equal(
-        Object.keys(profile.demo).length,
-        0,
-        "BM-001 skeleton demo must be empty until authored",
-      );
-      assert.equal(
-        profile.summaryLines,
-        undefined,
-        "BM-001 skeleton summary lines must be undefined until authored",
-      );
-      assert.equal(profile.acceptance.requiredText.length, 0);
-      assert.equal(profile.acceptance.forbiddenText.length, 0);
-    },
-  );
+  it("ships authored runtime-ready demo, summary, and acceptance evidence", () => {
+    const profile = getFormFlightProfile("BM-001");
+    assert.ok(profile);
+    assert.equal(
+      Object.keys(profile.demo).length,
+      profile.fieldPaths.length,
+      "BM-001 demo must cover every locked-contract field path",
+    );
+    assert.equal(profile.fieldPaths.length, 39);
+    assert.equal(profile.summaryLines?.length, 8);
+    assert.ok(profile.acceptance.requiredText.length > 0);
+    assert.ok(profile.acceptance.forbiddenText.length > 0);
+  });
 
   it(
     "validation gate fires on every empty draft against BM-001 " +
@@ -117,7 +108,7 @@ describe("BM-001 second pilot skeleton", () => {
         BM001_FORM_FLIGHT_PROFILE,
       );
       assert.ok(missing.length > 0);
-      assert.ok(missing.includes("agency.parentName"));
+      assert.ok(missing.includes("document.issuePlaceDateLine"));
       assert.ok(missing.includes("informant.fullName"));
       assert.ok(missing.includes("crimeReport.content"));
     },

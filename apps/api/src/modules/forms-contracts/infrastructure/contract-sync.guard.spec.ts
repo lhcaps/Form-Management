@@ -1,6 +1,8 @@
 /**
  * C1 — Contract Sync Guard Tests
  */
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import {
   ContractSyncGuard,
@@ -69,5 +71,23 @@ describe('ContractSyncGuard', () => {
         join(repoRoot, 'docs', 'audit', 'docx', 'compiled-v2'),
       );
     });
+  });
+
+  it('fails closed when the governed locked-contract corpus is absent', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'qllaw-contract-guard-'));
+    writeFileSync(join(root, 'pnpm-workspace.yaml'), 'packages: []\n');
+    mkdirSync(join(root, 'docs', 'audit', 'docx'), { recursive: true });
+    const isolatedGuard = new ContractSyncGuard({ repoRoot: root });
+    const previousDatabaseUrl = process.env.DATABASE_URL;
+    delete process.env.DATABASE_URL;
+
+    try {
+      await expect(isolatedGuard.verify()).rejects.toThrow(
+        'Expected 213 locked contracts',
+      );
+    } finally {
+      if (previousDatabaseUrl) process.env.DATABASE_URL = previousDatabaseUrl;
+      rmSync(root, { recursive: true, force: true });
+    }
   });
 });

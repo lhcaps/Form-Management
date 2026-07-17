@@ -700,6 +700,62 @@ function setValueByPath(
   return result;
 }
 
+/**
+ * Keep only values declared by the active compiled contract.
+ *
+ * A generated document can contain legacy payload aliases from an earlier
+ * adapter. Contract-native saves reject those aliases deliberately, so they
+ * must never be carried from a read response into a later contract save.
+ */
+export function filterContractData(
+  existing: Record<string, unknown>,
+  contractPaths: readonly string[],
+): Record<string, unknown> {
+  let result: Record<string, unknown> = {};
+
+  for (const path of contractPaths) {
+    const value = readValueByPath(existing, path);
+    if (value !== undefined) {
+      result = setValueByPath(result, path, value);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Translate only the legacy header aliases needed by a compiled contract.
+ *
+ * Older generated-document snapshots stored agency header values as
+ * `agency.parentName` / `agency.name`, while the locked contract names the
+ * corresponding visible header fields with the `Upper` suffix. The result is
+ * still filtered to contract keys, so no legacy path can reach a save request.
+ */
+export function migrateLegacyDataToContract(
+  existing: Record<string, unknown>,
+  contractFields: readonly { key: string }[],
+): Record<string, unknown> {
+  const contractPaths = contractFields.map((field) => field.key);
+  let result = filterContractData(existing, contractPaths);
+
+  for (const field of contractFields) {
+    if (!field.key.endsWith("Upper")) continue;
+    if (!isEmpty(readValueByPath(result, field.key))) continue;
+
+    const legacyPath = field.key.slice(0, -"Upper".length);
+    const legacyValue = readValueByPath(existing, legacyPath);
+    if (typeof legacyValue === "string" && legacyValue.trim()) {
+      result = setValueByPath(
+        result,
+        field.key,
+        legacyValue.toLocaleUpperCase("vi-VN"),
+      );
+    }
+  }
+
+  return result;
+}
+
 export function mergeWithSampleData(
   existing: Record<string, unknown>,
   sample: SampleData,

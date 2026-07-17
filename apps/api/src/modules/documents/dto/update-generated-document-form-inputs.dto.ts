@@ -130,6 +130,19 @@ export class UpdateGeneratedDocumentFormInputsDto {
   measure?: JsonObject;
 
   @ApiPropertyOptional({
+    description: 'Thông tin lệnh bắt bị can để tạm giam dùng cho BM-039.',
+    example: {
+      accusedName: 'Tên bị can',
+      offenseName: 'Đánh bạc',
+      legalArticle: 'khoản 1 Điều 321 Bộ luật Hình sự',
+      detentionDurationText: '02 tháng',
+    },
+  })
+  @IsOptional()
+  @IsObject()
+  detentionArrest?: JsonObject;
+
+  @ApiPropertyOptional({
     description: 'Thông tin đơn vị quản lý, theo dõi bị can.',
     example: {
       unitName: 'Ủy ban nhân dân xã Đông Thạnh, Thành phố Hồ Chí Minh',
@@ -314,7 +327,12 @@ export class UpdateGeneratedDocumentFormInputsDto {
   @IsObject()
   renderPayloadOverrides?: JsonObject;
 
+  @IsOptional()
+  @IsObject()
   prosecutionCaseSuspension?: JsonObject;
+
+  @IsOptional()
+  @IsObject()
   prosecutionCaseTermination?: JsonObject;
 
   @IsOptional()

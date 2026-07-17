@@ -72,14 +72,27 @@ setup("authenticate via ticket and persist session state", async ({ page }) => {
 
   await page.goto("/sign-in", { waitUntil: "networkidle" });
 
-  // Wait for Clerk SDK to fully load on the page.
+  // Wait for Clerk SDK and its sign-in resource to be fully initialized.
+  // The global object is installed before `loaded` resolves, so checking only
+  // for `window.Clerk` races the ticket call on current Clerk builds.
   await page.waitForFunction(
-    () => typeof window !== "undefined" && (window as unknown as { Clerk?: unknown }).Clerk !== undefined,
-    { timeout: 15_000 },
+    () => {
+      const clerk = (window as unknown as {
+        Clerk?: {
+          loaded?: boolean;
+          client?: { signIn?: unknown };
+          signIn?: unknown;
+        };
+      }).Clerk;
+      return Boolean(clerk?.loaded && (clerk.client?.signIn ?? clerk.signIn));
+    },
+    { timeout: 30_000 },
   );
 
   // Inject the ticket and call setActive().
-  // In Clerk v7, signIn lives on clerk.client.signIn (not clerk.signIn).
+  // Clerk SDK shapes differ across compatible @clerk/nextjs releases. Prefer
+  // the current client-scoped value but retain the direct value used by the
+  // browser SDK exposed by the installed runtime.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await page.evaluate(async (tk: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,14 +102,18 @@ setup("authenticate via ticket and persist session state", async ({ page }) => {
           create: (p: object) => Promise<{ status: string; createdSessionId?: string }>;
         };
       };
+      signIn?: {
+        create: (p: object) => Promise<{ status: string; createdSessionId?: string }>;
+      };
       setActive: (p: { session: string }) => Promise<void>;
     };
 
-    if (!clerk.client?.signIn) {
-      throw new Error("Clerk client.signIn is not available");
+    const signIn = clerk.client?.signIn ?? clerk.signIn;
+    if (!signIn) {
+      throw new Error("Clerk signIn is not available");
     }
 
-    const result = await clerk.client.signIn.create({ strategy: "ticket", ticket: tk });
+    const result = await signIn.create({ strategy: "ticket", ticket: tk });
     if (result.status !== "complete" || !result.createdSessionId) {
       throw new Error(`Sign-in incomplete: status=${result.status}`);
     }

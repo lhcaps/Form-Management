@@ -10,8 +10,7 @@ import {
 } from "@/components/documents/bm-form";
 import { FormActionBar } from "@/components/common/form-action-bar";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 const DEFAULT_PERSON_NAME = '';
 const DEFAULT_INVESTIGATION_AGENCY =
@@ -884,20 +883,7 @@ function buildBm033RenderData(form: Bm033FormInputs): Record<string, unknown> {
 async function getBm033RenderPayload(
   documentId: string | number,
 ): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-033. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
+  return getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveBm033FormInputs(
@@ -909,41 +895,23 @@ async function saveBm033FormInputs(
   const updatedByName =
     text(ready.signature.signerName) || DEFAULT_SIGNER_NAME;
 
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        ...savePayload,
-        formInputs: savePayload,
-        payloadOverrides: savePayload,
-        renderPayloadOverrides: savePayload,
-        metadata: {
-          templateCode: "BM-033",
-          template_code: "BM-033",
-          code: "BM-033",
-          formInputs: savePayload,
-          payloadOverrides: savePayload,
-          renderPayloadOverrides: savePayload,
-        },
-        updatedByName,
-        renderedByName: updatedByName,
-        convertedByName: updatedByName,
-      }),
+  await saveDocumentFormInputs(documentId, {
+    ...savePayload,
+    formInputs: savePayload,
+    payloadOverrides: savePayload,
+    renderPayloadOverrides: savePayload,
+    metadata: {
+      templateCode: "BM-033",
+      template_code: "BM-033",
+      code: "BM-033",
+      formInputs: savePayload,
+      payloadOverrides: savePayload,
+      renderPayloadOverrides: savePayload,
     },
-  );
-
-  if (!response.ok) {
-    const responseText = await response.text().catch(() => "");
-
-    throw new Error(responseText || `Không lưu được dữ liệu BM-033. HTTP ${response.status}`);
-  }
-
-  await response.json().catch(() => null);
+    updatedByName,
+    renderedByName: updatedByName,
+    convertedByName: updatedByName,
+  });
 
   return ready;
 }

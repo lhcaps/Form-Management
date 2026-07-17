@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useClerk, useUser as useClerkUser } from "@clerk/react";
 import { Scale } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { canOpenFormStudio, isAdmin } from "@/lib/permissions";
+import { isAdmin } from "@/lib/permissions";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 
 // ─── Icon helpers ────────────────────────────────────────────────────────────
@@ -69,20 +69,6 @@ const QUANLYVKS_LOGO = (
     </div>
   </div>
 );
-
-const FORM_STUDIO_ITEM: MenuItem = {
-  href: "/admin/form-studio",
-  label: "Form Studio",
-  icon: (
-    <SvgIcon>
-      <path d="M4 5h16v14H4z" />
-      <path d="M8 9h8" />
-      <path d="M8 13h5" />
-      <path d="M17 12v5" />
-      <path d="M14.5 14.5h5" />
-    </SvgIcon>
-  ),
-};
 
 const ADMIN_MENU_ITEMS: MenuItem[] = [
   {
@@ -241,9 +227,7 @@ export function Sidebar() {
   const initials = getInitials(displayName) || "QL";
   const avatarUrl = clerkUser?.imageUrl ?? null;
 
-  const visibleMenuItems = canOpenFormStudio(apiUser)
-    ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
-    : BASE_MENU_ITEMS;
+  const visibleMenuItems = BASE_MENU_ITEMS;
 
   const showAdminSection = isAdmin(apiUser);
   const visibleAdminItems = showAdminSection ? ADMIN_MENU_ITEMS : [];
@@ -425,9 +409,7 @@ export function MobileNav() {
   const initials = getInitials(displayName) || "QL";
   const avatarUrl = clerkUser?.imageUrl ?? null;
 
-  const visibleMenuItems = canOpenFormStudio(apiUser)
-    ? [...BASE_MENU_ITEMS, FORM_STUDIO_ITEM]
-    : BASE_MENU_ITEMS;
+  const visibleMenuItems = BASE_MENU_ITEMS;
 
   const showAdminSection = isAdmin(apiUser);
   const visibleAdminItems = showAdminSection ? ADMIN_MENU_ITEMS : [];

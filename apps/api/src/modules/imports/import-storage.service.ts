@@ -29,11 +29,11 @@ export class ImportStorageService {
   }
 
   getImportRoot(): string {
-    return path.join(this.getProjectRoot(), 'storage', 'imports');
+    return path.join(this.paths.storageRoot, 'imports');
   }
 
   getTempRoot(): string {
-    return path.join(this.getImportRoot(), '_tmp');
+    return this.paths.importsTempRoot;
   }
 
   ensureDirectory(dirPath: string): void {
@@ -56,18 +56,20 @@ export class ImportStorageService {
   }
 
   createBatchDirectory(batchCode: string, date = new Date()) {
-    const relativePath = path
-      .join(
-        'storage',
-        'imports',
+    if (!/^IMP-\d{14}-[A-F0-9]{6}$/u.test(batchCode)) {
+      throw new Error('Import batch code has an invalid format.');
+    }
+
+    const fullPath = this.assertWithinImportRoot(
+      path.join(
+        this.getImportRoot(),
         String(date.getFullYear()),
         pad2(date.getMonth() + 1),
         pad2(date.getDate()),
         batchCode,
-      )
-      .replace(/\\/g, '/');
-
-    const fullPath = path.join(this.getProjectRoot(), relativePath);
+      ),
+    );
+    const relativePath = this.toProjectRelativePath(fullPath);
 
     this.ensureDirectory(fullPath);
 
@@ -87,7 +89,8 @@ export class ImportStorageService {
   }
 
   toProjectRelativePath(fullPath: string): string {
-    return path.relative(this.getProjectRoot(), fullPath).replace(/\\/g, '/');
+    const safePath = this.assertWithinImportRoot(fullPath);
+    return path.relative(this.getProjectRoot(), safePath).replace(/\\/g, '/');
   }
 
   resolveProjectPath(storedPath: string | null | undefined): string | null {
@@ -96,15 +99,19 @@ export class ImportStorageService {
     }
 
     if (path.isAbsolute(storedPath)) {
-      return storedPath;
+      throw new Error('Persisted import path must be relative.');
     }
 
-    return path.resolve(this.getProjectRoot(), storedPath);
+    return this.assertWithinImportRoot(
+      path.resolve(this.getProjectRoot(), storedPath),
+    );
   }
 
   async moveTempFile(tempPath: string, destinationPath: string): Promise<void> {
-    this.ensureDirectory(path.dirname(destinationPath));
-    await fsp.rename(tempPath, destinationPath);
+    const safeTempPath = this.assertWithinImportRoot(tempPath);
+    const safeDestinationPath = this.assertWithinImportRoot(destinationPath);
+    this.ensureDirectory(path.dirname(safeDestinationPath));
+    await fsp.rename(safeTempPath, safeDestinationPath);
   }
 
   async deleteFileIfExists(filePath: string | null | undefined): Promise<void> {
@@ -112,8 +119,9 @@ export class ImportStorageService {
       return;
     }
 
+    const safePath = this.assertWithinImportRoot(filePath);
     try {
-      await fsp.unlink(filePath);
+      await fsp.unlink(safePath);
     } catch (error: any) {
       if (error?.code !== 'ENOENT') {
         throw error;
@@ -122,16 +130,18 @@ export class ImportStorageService {
   }
 
   sha256(filePath: string): string {
-    return createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
+    const safePath = this.assertWithinImportRoot(filePath);
+    return createHash('sha256').update(fs.readFileSync(safePath)).digest('hex');
   }
 
   async writeBatchMetadata(
     batchDirectoryRelativePath: string,
     metadata: ImportBatchMetadata,
   ): Promise<string> {
-    const metadataPath = path.join(
-      this.resolveProjectPath(batchDirectoryRelativePath) as string,
-      'metadata.json',
+    const batchPath = this.resolveProjectPath(batchDirectoryRelativePath);
+    if (!batchPath) throw new Error('Import batch path is required.');
+    const metadataPath = this.assertWithinImportRoot(
+      path.join(batchPath, 'metadata.json'),
     );
 
     await fsp.writeFile(
@@ -152,7 +162,9 @@ export class ImportStorageService {
       return null;
     }
 
-    const metadataPath = path.join(batchPath, 'metadata.json');
+    const metadataPath = this.assertWithinImportRoot(
+      path.join(batchPath, 'metadata.json'),
+    );
 
     try {
       const raw = await fsp.readFile(metadataPath, 'utf8');
@@ -170,5 +182,22 @@ export class ImportStorageService {
 
       throw error;
     }
+  }
+
+  private assertWithinImportRoot(candidatePath: string): string {
+    const root = path.resolve(this.getImportRoot());
+    const candidate = path.resolve(candidatePath);
+    const relativePath = path.relative(root, candidate);
+    const outside =
+      relativePath === '..' ||
+      relativePath.startsWith(`..${path.sep}`) ||
+      path.isAbsolute(relativePath);
+
+    if (outside) {
+      throw new Error(
+        'Import path is outside the configured import storage root.',
+      );
+    }
+    return candidate;
   }
 }

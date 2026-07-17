@@ -58,6 +58,35 @@ export type RuntimeUxProfile = {
     readonly placeholder?: string;
     readonly helpText?: string;
     readonly control?: "TEXT" | "TEXTAREA" | "DATE_TEXT";
+    /**
+     * Smart-field override. When present, the renderer routes the
+     * field through the smart-field helper pipeline (date picker,
+     * time picker, select, textarea, or derived multi-target fields).
+     * Fields without `smart` continue to render exactly as before.
+     *
+     * Documented in
+     * `docs/audit/unified-bm-workspace/RUNTIME_UX_SMART_FIELD_CONTRACT.latest.md`.
+     * The shape itself lives in `apps/web/src/lib/runtime-ux/smart-field-helpers.ts`
+     * so the renderer and the guard tests can import the same type
+     * without pulling a cycle through the profile layer.
+     */
+    readonly smart?: {
+      readonly key: string;
+      readonly label?: string;
+      readonly kind?:
+        | "text"
+        | "textarea"
+        | "date"
+        | "time"
+        | "select"
+        | "date-parts"
+        | "year-or-date"
+        | "issue-place-date-line";
+      readonly placeholder?: string;
+      readonly options?: readonly string[];
+      readonly rows?: number;
+      readonly derivedTargets?: readonly string[];
+    };
   }>>;
   /**
    * Synthetic demo fixture (non-real PII). Used when the user explicitly

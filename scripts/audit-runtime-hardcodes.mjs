@@ -22,6 +22,16 @@ const forbiddenSubstrings = [
   'G813/QĐ-VPCQCSĐT',
 ];
 
+const allowedRuntimeMarkers = {
+  'apps/web/src/components/documents/template-preview-workspace.tsx': {
+    'Nguyễn Văn A': {
+      count: 1,
+      requiredSnippet:
+        'const STALE_NAMES = new Set(["Nguyễn Văn A", "Trần Thị B"]);',
+    },
+  },
+};
+
 const actorFieldPattern =
   /\b(createdByName|updatedByName|reviewerName|renderedByName|convertedByName):\s*"(?!")([^"]+)"/g;
 
@@ -37,7 +47,19 @@ for (const dir of scanRoots) {
     const text = readFileSync(file, 'utf8');
 
     for (const needle of forbiddenSubstrings) {
-      if (text.includes(needle)) {
+      const occurrenceCount = countOccurrences(text, needle);
+      const allowance = allowedRuntimeMarkers[rel]?.[needle];
+      if (allowance) {
+        if (
+          occurrenceCount !== allowance.count ||
+          !text.includes(allowance.requiredSnippet)
+        ) {
+          findings.push(
+            `${rel}: allowlisted marker "${needle}" drifted ` +
+              `(count=${occurrenceCount}, expected=${allowance.count})`,
+          );
+        }
+      } else if (occurrenceCount > 0) {
         findings.push(`${rel}: contains forbidden runtime marker "${needle}"`);
       }
     }
@@ -57,6 +79,17 @@ if (findings.length) {
 }
 
 console.log('Runtime hardcode audit passed.');
+
+function countOccurrences(text, needle) {
+  if (!needle) return 0;
+  let count = 0;
+  let offset = 0;
+  while ((offset = text.indexOf(needle, offset)) >= 0) {
+    count += 1;
+    offset += needle.length;
+  }
+  return count;
+}
 
 function isAuditExcluded(relativePath) {
   return (

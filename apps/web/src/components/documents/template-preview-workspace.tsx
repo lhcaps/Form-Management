@@ -24,12 +24,27 @@ import {
   isKnownStaleFallback,
   type BuildPayloadWarning,
 } from "@/lib/runtime-ux";
-// Form Flight shared core — registers the canonical BM-171 profile
-// alongside the legacy UI-only profile. The runtime flow continues to
-// drive the renderer with `getRuntimeUxProfile`; the canonical profile
-// (read via `getFormFlightProfile`) is what the test suite uses to
-// prove runtime + generated-document parity.
-import "@/lib/form-flight/profiles/bm171";
+// Form Flight shared core — registers the canonical BM-001 and BM-171
+// profiles via the lifecycle wiring helper. Without this import the
+// runtime flow would silently fall back to the legacy UI even for
+// forms whose canonical profile is runtime-ready.
+//
+// The lifecycle helper (`decideFormLifecycle`) is the single source
+// of truth for which panel / which path to render. Both BM-001 and
+// BM-171 ship with a populated runtime-ux profile; `getRuntimeUxProfile`
+// returns a non-null record for both, and `ContractV2Renderer` consumes
+// the profile's `uxProfile` argument to drive BM-001 section labels,
+// demo data, summary card, and smart-field controls. The runtime-ready
+// panel contract is enforced by `selectRuntimeReadyTemplatePanel`,
+// which decides whether the route renders the form-flight panel or
+// falls back to skeleton / generic UI for non-runtime-ready codes
+// (211 skeleton forms remain fail-closed).
+import {
+  registerRuntimeReadyFormFlightProfiles,
+  decideFormLifecycle,
+  isApprovedRuntimeReadyCode,
+} from "@/lib/form-flight";
+import { selectRuntimeReadyTemplatePanel } from "@/lib/form-flight/runtime-ready-template-panel-contract";
 import {
   gateRuntimePreview,
   buildRuntimePreviewPayload as buildFlightPayload,
@@ -44,6 +59,7 @@ import {
 } from "@/lib/runtime-template-preview";
 import {
   loadRuntimeTemplateDraft,
+  removeRuntimeTemplateDraft,
   saveRuntimeTemplateDraft,
 } from "@/lib/runtime-template-draft";
 import {
@@ -67,9 +83,86 @@ type CaseOption = {
   currentStatus: string | null;
 };
 
+/**
+ * Stable JSON snapshot of the draft state. Used as the
+ * dirty-tracking key and as the BM-171 preview-invalidation
+ * fingerprint (the workspace invalidates the previous preview
+ * session whenever this string changes).
+ */
 function snapshot(data: Record<string, unknown>): string {
   return JSON.stringify(data);
 }
+
+/**
+ * BM-001 SMART UX — return true when the loaded draft still carries
+ * one of the legacy stale defaults. Pure: reads the nested record and
+ * checks the well-known bad values. Mirrored by the guard test in
+ * `apps/web/src/lib/form-flight/bm001-smart-runtime-ux.guard.test.mjs`.
+ *
+ * Detects (top-level / nested paths):
+ *   - receiver.fullName matches a known stale fixture name
+ *   - informant.fullName ∈ {"Trần Thị B"}
+ *   - informant.birthYear === "1980"
+ *   - crimeReport.content contains the legacy "Ông  cung cấp"
+ *     two-space bug, OR the legacy collapsed-spacing variant
+ *     "Ông cung cấp" (some old drafts strip the double space).
+ *   - informant.signerName === "Nguyễn Thị Hồng Hạnh"
+ *   - receiver.signerName === "Nguyễn Thị Hồng Hạnh"
+ *
+ * Detection is structural (substring contains) — never a broad
+ * substring replacement. The banner simply tells the operator to
+ * click "Dữ liệu demo" or "Xóa bản nháp".
+ */
+function detectStaleDraft(data: Record<string, unknown>): boolean {
+  const receiverName = readPathString(data, "receiver.fullName");
+  const informantName = readPathString(data, "informant.fullName");
+  const birthYear = readPathString(data, "informant.birthYear");
+  const STALE_NAMES = new Set(["Nguyễn Văn A", "Trần Thị B"]);
+  if (receiverName && STALE_NAMES.has(receiverName.trim())) return true;
+  if (informantName && STALE_NAMES.has(informantName.trim())) return true;
+  if (birthYear && birthYear.trim() === "1980") return true;
+
+  // Legacy "Ông  cung cấp" two-space bug can appear either as the
+  // two-space form (the original DOCX) OR the collapsed-spacing
+  // variant (some old localStorage drafts were saved after copy-paste
+  // collapsed the spacing). Detect both.
+  const crimeContent = readPathString(data, "crimeReport.content");
+  if (crimeContent) {
+    if (crimeContent.includes("Ông  cung cấp")) return true;
+    if (crimeContent.includes("Ông cung cấp")) return true;
+  }
+
+  // Legacy receiver / informant signer fallback "Nguyễn Thị Hồng Hạnh"
+  // also appears in old drafts.
+  const STALE_SIGNER = "Nguyễn Thị Hồng Hạnh";
+  const informantSigner = readPathString(data, "informant.signerName");
+  if (informantSigner && informantSigner.trim() === STALE_SIGNER) return true;
+  const receiverSigner = readPathString(data, "receiver.signerName");
+  if (receiverSigner && receiverSigner.trim() === STALE_SIGNER) return true;
+
+  return false;
+}
+
+function readPathString(
+  data: Record<string, unknown>,
+  path: string,
+): string | null {
+  const segments = path.split(".");
+  let cursor: unknown = data;
+  for (const segment of segments) {
+    if (!cursor || typeof cursor !== "object") return null;
+    cursor = (cursor as Record<string, unknown>)[segment];
+  }
+  return typeof cursor === "string" ? cursor : null;
+}
+
+// Form Flight — register the approved runtime-ready profile set for
+// this route. Side-effect: populates the Form Flight registry with
+// BM-001 + BM-171 (the only approved profiles as of this phase). Runs
+// once when this module first loads. Idempotent in practice — both
+// `registerFormFlightProfile(...)` and `registerRuntimeReadyFormFlightProfiles()`
+// are no-ops on subsequent calls.
+registerRuntimeReadyFormFlightProfiles();
 
 function safeTemplateCode(templateCode: string): string {
   try {
@@ -187,6 +280,11 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   // by a PDF whose `Cho ông/bà:` line, signer name, etc. no longer match
   // the typed input.
   const [prevPreviewWasStale, setPrevPreviewWasStale] = useState(false);
+  // BM-001 SMART UX — non-blocking banner when a legacy draft carries
+  // one of the known stale fixture values (name / birth year / content).
+  // The banner offers two buttons: "Dữ liệu demo"
+  // (replace with BM001_DEMO) and "Xóa bản nháp" (wipe).
+  const [hasStaleDraft, setHasStaleDraft] = useState(false);
   const lastPreviewSnapshotRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -200,6 +298,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     setPreviewSession(null);
     setSanitizationWarnings([]);
     setPrevPreviewWasStale(false);
+    setHasStaleDraft(false);
     lastPreviewSnapshotRef.current = null;
 
     try {
@@ -223,6 +322,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
         setRuntime(result);
         setData(nextData);
         setSavedSnapshot(snapshot(nextData));
+        setHasStaleDraft(detectStaleDraft(nextData));
       })
       .catch((err) => {
         if (active) {
@@ -244,11 +344,36 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
 
   const contract = runtime?.compiledContract ?? null;
   // Per-template UI overrides (titles, labels, demo fixture, summary).
-  // `null` when the template has no registered profile.
+  // `null` when the template has no registered profile. After the
+  // BM-001 runtime-ux profile is wired into `lib/runtime-ux/index.ts`,
+  // `getRuntimeUxProfile("BM-001")` returns the populated profile so
+  // the renderer applies BM-001 sections/fields/demo (instead of the
+  // generic `getSampleData(...)` heuristic).
   const uxProfile = useMemo(
     () => (runtime ? getRuntimeUxProfile(runtime.compiledContract.templateCode) : null),
     [runtime],
   );
+  // Runtime-ready template panel contract — single source of truth for
+  // which kind of panel this route exposes. Today this is purely a
+  // diagnostic mirror (the workspace still mounts <ContractV2Renderer>
+  // for both runtime-ready and legacy paths), but the selector is the
+  // place future BM-NNN promotions are validated against. The contract
+  // is documented at
+  // `docs/audit/unified-bm-workspace/RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md`.
+  const panelKindInfo = useMemo(() => {
+    const decision = decideFormLifecycle({
+      lifecycle: "template-runtime",
+      templateCode: normalizedTemplateCode,
+    });
+    return {
+      decision,
+      panel: selectRuntimeReadyTemplatePanel({
+        templateCode: normalizedTemplateCode,
+        lifecycleDecision: decision,
+        isRuntimeReadyProfileCode: (code) => isApprovedRuntimeReadyCode(code),
+      }),
+    };
+  }, [normalizedTemplateCode]);
   const currentSnapshot = useMemo(() => snapshot(data), [data]);
   const isDirty = !isLoading && currentSnapshot !== savedSnapshot;
   const hasVisualPreview = Boolean(previewSession?.pdfPreviewUrl);
@@ -336,6 +461,25 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     setError(null);
     setMessage("");
     setSanitizationWarnings([]);
+    // Form Flight lifecycle wiring — the runtime route must NEVER
+    // require a generatedDocumentId. `decideFormLifecycle` returns
+    // `useFormFlight` + `panelKind` so the host can branch on the
+    // same verdict the lifecycle helper documents. Skeleton profiles
+    // remain fail-closed: `useFormFlight=false`, `panelKind="legacy"`
+    // or `"generic"`.
+    const lifecycleDecision = decideFormLifecycle({
+      lifecycle: "template-runtime",
+      templateCode: normalizedTemplateCode,
+    });
+    if (lifecycleDecision.useFormFlight === false && lifecycleDecision.profileStatus !== "missing") {
+      // Skeleton / audit-only profile reached the runtime route. The
+      // decision helper already routes to legacy / generic; we surface
+      // a non-blocking note so operators can see why the panel is in
+      // legacy mode for a non-missing profile.
+      setMessage(
+        `Biểu mẫu ${normalizedTemplateCode} đang ở trạng thái "${lifecycleDecision.profileStatus}"; Form Flight không kích hoạt (lifecycle=${lifecycleDecision.lifecycle}).`,
+      );
+    }
     const requiredFieldKeys = runtime.compiledContract.requiredFieldKeys ?? [];
     const missing = collectMissingRequired(data, requiredFieldKeys);
     if (missing.length > 0) {
@@ -516,6 +660,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     setError(null);
     setSanitizationWarnings([]);
     setPrevPreviewWasStale(false);
+    // Demo reset replaces the stale draft, so the warning no longer applies.
+    setHasStaleDraft(false);
     // Demo reset intentionally changes the data snapshot, so the previous
     // preview session (if any) is also no longer authoritative. The user
     // must click "Xem trước bản in" again to regenerate it.
@@ -550,6 +696,22 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     setSavedSnapshot(snapshot({}));
     setMessage("");
     setError(null);
+    setHasStaleDraft(false);
+    // BM-001 SMART UX — also remove the localStorage draft entry so
+    // the operator does not reload into the same stale legacy data.
+    // Safe in SSR (window guard) and in environments without
+    // localStorage (storage layer throws → swallowed).
+    if (runtime && typeof window !== "undefined") {
+      try {
+        removeRuntimeTemplateDraft(
+          window.localStorage,
+          normalizedTemplateCode,
+          runtime.contractHash,
+        );
+      } catch {
+        // ignore — the workspace already showed the cleared state
+      }
+    }
   }
 
   async function openCasePicker() {
@@ -786,6 +948,43 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 </dl>
               </section>
             ) : null}
+
+            {hasStaleDraft ? (
+              <div className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                <p className="font-semibold">
+                  Đang dùng bản nháp cũ (chứa tên, năm sinh hoặc nội dung mẫu
+                  đã lỗi thời).
+                </p>
+                <p className="mt-1 text-xs">
+                  Bấm <span className="font-mono">Dữ liệu demo</span>{" "}
+                  để cập nhật dữ liệu mẫu mới (Nguyễn Thị Mai, Trần Văn
+                  Bình, 1985), hoặc{" "}
+                  <span className="font-mono">Xóa bản nháp</span> để bắt
+                  đầu lại từ đầu.
+                </p>
+              </div>
+            ) : null}
+
+            {/*
+              Runtime-ready template panel contract — diagnostic banner.
+              Surfaces the panel kind so an operator can see at a glance
+              whether the route is the runtime-ready panel (BM-001,
+              BM-171), a skeleton generic fallback, or something else.
+              The selector is the single source of truth; see
+              `RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md` for the
+              classification rules.
+            */}
+            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+              <span className="font-semibold uppercase tracking-wide text-slate-500">
+                Runtime-ready template panel:
+              </span>{" "}
+              <span className="font-mono text-slate-900">
+                {panelKindInfo.panel.kind}
+              </span>
+              <span className="ml-2 text-slate-500">
+                ({panelKindInfo.panel.reason})
+              </span>
+            </div>
 
             <ContractV2Renderer
               contract={contract}
@@ -1160,7 +1359,19 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                   size="default"
                   className="sm:min-h-11"
                   onClick={resetDraft}
-                  disabled={!isDirty || isSaving || isExporting}
+                  // BM-001 SMART UX — the "Xóa bản nháp" button stays
+                  // enabled whenever the workspace carries a stale draft,
+                  // even if `isDirty` is false (legacy drafts equal the
+                  // saved snapshot, so `isDirty` would never trip). Without
+                  // this carve-out, the user sees the stale-draft warning
+                  // banner but cannot actually wipe the legacy data — only
+                  // "Dữ liệu demo" would reset it, which would also overwrite
+                  // any valid user-typed values. The reset path already
+                  // removes the localStorage entry, so reloading the page
+                  // after the wipe yields a clean draft.
+                  disabled={
+                    (!isDirty && !hasStaleDraft) || isSaving || isExporting
+                  }
                 >
                   Xóa bản nháp
                 </Button>

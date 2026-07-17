@@ -1,6 +1,6 @@
 # Locked Contracts Verification Report
 
-Generated: 2026-06-30T09:40:33.265Z
+Generated: 2026-07-17T13:21:04.439Z
 Locked directory: D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
 Files checked: 213
 
@@ -8,6 +8,8 @@ Files checked: 213
 
 - **Pass: 1278** / 1278 (100.0%)
 - **Blocking: 0** (must fix before production)
+- **Acknowledged known blockers: 0** (explicit non-blocking CI debt; not production-ready)
+- **Stale known-blocker allowlist entries: 0** (CI configuration error)
 - **Remediation: 0** (requires DOCX edit, non-blocking)
 - **Warning: 47** (metadata completeness, non-blocking)
 

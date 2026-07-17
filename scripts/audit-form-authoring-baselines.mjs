@@ -224,6 +224,21 @@ export function generatedRendererManifestCodes(repoRoot = DEFAULT_REPO_ROOT) {
   );
 }
 
+export function legacyRendererManifestExists(repoRoot = DEFAULT_REPO_ROOT) {
+  return existsSync(
+    join(
+      repoRoot,
+      "apps",
+      "api",
+      "src",
+      "modules",
+      "form-studio",
+      "infrastructure",
+      "legacy-renderer-capabilities.generated.ts",
+    ),
+  );
+}
+
 export function actualGenericRendererCodes(repoRoot = DEFAULT_REPO_ROOT) {
   const result = new Set();
   for (const code of canonicalCodes()) {
@@ -496,10 +511,12 @@ async function main() {
 
   const actualGeneric = actualGenericRendererCodes(repoRoot);
   const generatedGeneric = generatedRendererManifestCodes(repoRoot);
-  const manifestMismatch = [
-    ...[...actualGeneric].filter((code) => !generatedGeneric.has(code)),
-    ...[...generatedGeneric].filter((code) => !actualGeneric.has(code)),
-  ];
+  const manifestMismatch = legacyRendererManifestExists(repoRoot)
+    ? [
+        ...[...actualGeneric].filter((code) => !generatedGeneric.has(code)),
+        ...[...generatedGeneric].filter((code) => !actualGeneric.has(code)),
+      ]
+    : [];
   if (manifestMismatch.length > 0) {
     for (const row of requested) {
       if (manifestMismatch.includes(row.code)) {

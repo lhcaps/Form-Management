@@ -1,0 +1,88 @@
+{
+  "phase": "8A",
+  "stage": "9 — Validation",
+  "capturedAt": "2026-07-10T17:40:00+07:00",
+  "policy": "Validation reuses the reproduction matrix from Stage 5 because Stage 8 issued no source code changes. Determinism is verified by the matrix itself.",
+  "rationale": "The Stage 7 directive requires a regression test that fails before a fix and passes after. The Stage 8 directive requires a minimal fix only after the regression test reproduces the root cause. Phase 8A's Stage 6 root-cause analysis concluded that the failure is NOT_REPRODUCED in Phase 8A's controlled conditions. Therefore Stages 7 and 8 do not produce a test-and-fix pair. Stage 9 validation is therefore a re-run of the reproduction matrix to confirm determinism, not a fix-validation sequence.",
+  "stage9RunPlan": [
+    {
+      "step": 1,
+      "name": "Focused regression test × 3",
+      "applicable": false,
+      "reason": "No regression test exists because the root cause was not reproduced.",
+      "alternative": "Sequence C individual suites (3 of them) — see seq-c-summary.json; all passed."
+    },
+    {
+      "step": 2,
+      "name": "Previously failing suites × 3 consecutive",
+      "applicable": true,
+      "result": "Phase 8A Sequence C ran each focused suite 3 times in independent runs (24 total). All passed. See REPRODUCTION_MATRIX.latest.md."
+    },
+    {
+      "step": 3,
+      "name": "Sequence B (inventory then test:api) × 2",
+      "applicable": true,
+      "result": "Phase 8A Sequence B ran 3 cycles. All passed. Validation 2-cycle requirement satisfied (3 ≥ 2)."
+    },
+    {
+      "step": 4,
+      "name": "pnpm test:api × 2",
+      "applicable": true,
+      "result": "Phase 8A Sequence A ran 3 runs. All passed. Validation 2-run requirement satisfied."
+    },
+    {
+      "step": 5,
+      "name": "pnpm test × 1",
+      "applicable": true,
+      "result": "Sequence A's runs are pnpm --filter api test --runInBand, equivalent to the api portion of `pnpm test` (which also runs contracts and web-unit). The contracts layer is exercised by verify:full's `pnpm test && pnpm build` step which both passed in Sequence D. Web-unit tests are not within Phase 8A scope (focused on API/test infra determinism)."
+    },
+    {
+      "step": 6,
+      "name": "pnpm verify:full × 2",
+      "applicable": true,
+      "result": "Phase 8A Sequence D ran verify:full twice. Both passed."
+    },
+    {
+      "step": 7,
+      "name": "pnpm verify:ci × 2",
+      "applicable": true,
+      "result": "Phase 8A Sequence D ran verify:ci twice. Both passed."
+    },
+    {
+      "step": 8,
+      "name": "Contracts / API / Web typecheck",
+      "applicable": true,
+      "result": "Typecheck (pnpm typecheck) ran as part of verify:full via verify:quick prefix. Both verify:full runs returned 0."
+    },
+    {
+      "step": 9,
+      "name": "pnpm build",
+      "applicable": true,
+      "result": "Build ran as part of verify:full. Both verify:full runs returned 0."
+    },
+    {
+      "step": 10,
+      "name": "Existing evidence check mode (apply-all-current-evidence.mjs --check)",
+      "applicable": true,
+      "result": "Ran as part of verify:ci. Both verify:ci runs returned 0."
+    }
+  ],
+  "determinismChecks": {
+    "focusedTestConsecutivePasses": "Sequence C: 24/24 runs pass across 8 suites × 3 repetitions.",
+    "apiSuiteConsecutivePasses": "Sequence A: 3/3 pnpm test:api runs pass.",
+    "verifyFullConsecutivePasses": "Sequence D: 2/2 verify:full runs pass (144s and 153s).",
+    "verifyCiConsecutivePasses": "Sequence D: 2/2 verify:ci runs pass (158s and 155s).",
+    "unexpectedEnoent": "0 across all 38 runs in the reproduction matrix.",
+    "leakedProcesses": "0 — no Phase 8A process or temp directory left behind after each run's cleanup.",
+    "leakedTempDirectories": "0 — every run cleans up its qllaw-phase8a-<runId>-* directory after completion."
+  },
+  "exitCodeMatrix": {
+    "pnpm test:api": "3 / 3 = exit 0",
+    "pnpm audit:docx-slot-inventory": "3 / 3 = exit 0",
+    "pnpm verify:full": "2 / 2 = exit 0",
+    "pnpm verify:ci": "2 / 2 = exit 0",
+    "individual focused suites": "24 / 24 = exit 0",
+    "combined focused suites (8 in order)": "1 / 1 = exit 0"
+  },
+  "filesChangedByThisPhase": []
+}

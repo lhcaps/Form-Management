@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-11T00:00:00Z",
+  "auditor": "phase7-independent-auditor",
+  "invariants": [
+    {
+      "id": "INV-01",
+      "name": "Standalone template route remains /templates/:templateCode",
+      "codexReported": "PRESERVED",
+      "freshVerification": "Static inspection of apps/web/src/app/templates/[templateCode]/* — preserved",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-02",
+      "name": "Persisted document route remains /documents/:id",
+      "codexReported": "PRESERVED",
+      "freshVerification": "Static inspection of apps/web/src/app/documents/[id]/* — preserved",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-03",
+      "name": "Clerk authenticates identity; DB officials authorize access",
+      "codexReported": "PRESERVED",
+      "freshVerification": "request-context middleware in apps/api/src/middleware/* — uses Clerk identity then loads DB officials",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-04",
+      "name": "213 total forms / 201 PASS / 12 PARTIAL",
+      "codexReported": "PRESERVED",
+      "freshVerification": "Canonical matrix JSON SHA-256 = 8599db87d01cfd92a7136f9d255a3496265c9e05ec422682840fa36abfdc70eb; 201 PASS, 12 PARTIAL confirmed",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-05",
+      "name": "12 holdout forms preserved",
+      "codexReported": "PRESERVED",
+      "freshVerification": "BM-024, BM-200, BM-039, BM-041, BM-049, BM-050, BM-051, BM-077, BM-079, BM-082, BM-089, BM-099 — all 12 confirmed in matrix holdouts list",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-06",
+      "name": "BM-130 canary preserved",
+      "codexReported": "PRESERVED",
+      "freshVerification": "BM-130 row in canonical matrix: status=canary, preserved",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-07",
+      "name": "BM-006 calibration v3 preserved",
+      "codexReported": "PRESERVED",
+      "freshVerification": "BM-006 normalized DOCX SHA-256 = b83c42ad... — preserved",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-08",
+      "name": "runtimeReady allowlist remains BM-001 + BM-171 only",
+      "codexReported": "PRESERVED",
+      "freshVerification": "Code inspection of runtime profile registry — BM-001, BM-171 still the only runtimeReady forms",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-09",
+      "name": "fidelityComplete=true count remains 0",
+      "codexReported": "PRESERVED (0)",
+      "freshVerification": "Canonical matrix `fidelityComplete=true` count = 0",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-10",
+      "name": "Source DOCX not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "No `docs/audit/docx/contracts/locked/*` files in git diff stat. None touched.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-11",
+      "name": "Normalized DOCX not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "BM-006 normalized DOCX hash preserved. Other normalized DOCX hashes preserved per baseline.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-12",
+      "name": "Locked contract files not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "git diff stat shows zero changes under docs/audit/docx/contracts/locked/",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-13",
+      "name": "Compiled contract files not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "packages/form-contracts/dist not in diff stat. Built artifacts not regenerated.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-14",
+      "name": "Prisma schema not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "Prisma schema SHA-256 = 057375956... — preserved",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-15",
+      "name": "Prisma migrations not modified",
+      "codexReported": "PRESERVED",
+      "freshVerification": "apps/api/prisma/migrations/* not in diff stat. Zero migration files modified.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-16",
+      "name": "Persistent DB not modified",
+      "codexReported": "PRESERVED (no manual ALTER/DROP/UPDATE/DELETE run)",
+      "freshVerification": "Audit did not run any DB-mutating commands. No evidence of any prior alteration.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-17",
+      "name": "Form-studio module preserved as standalone flow",
+      "codexReported": "PRESERVED (declared in FILES_CHANGED table)",
+      "freshVerification": "**32 files in apps/api/src/modules/form-studio/ DELETED. 3 files in apps/web/src/{app/admin/(shared)/form-studio/, components/form-studio/} DELETED.**",
+      "verificationStatus": "CONTRADICTED",
+      "discrepancy": "Codex FILES_CHANGED table does not list the form-studio deletion as a product behavior change. This is the most significant finding of this audit.",
+      "risk": "CRITICAL — a route + module has been removed from production without disclosure."
+    },
+    {
+      "id": "INV-18",
+      "name": "qlv_session is NOT valid for Clerk-protected web route E2E",
+      "codexReported": "PRESERVED (in AGENTS.md)",
+      "freshVerification": "AGENTS.md still contains this rule. No CI/test scripts modified to use qlv_session for protected routes.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-19",
+      "name": "Playwright protected web E2E uses Clerk ticket strategy + storageState",
+      "codexReported": "PRESERVED (in AGENTS.md)",
+      "freshVerification": "E2E config still references storageState and Clerk ticket strategy.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-20",
+      "name": "dotenv is standard for Node-side tooling/E2E",
+      "codexReported": "PRESERVED (in AGENTS.md)",
+      "freshVerification": "scripts/audit/* uses dotenv/config consistently.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-21",
+      "name": "No real secrets in tracked source",
+      "codexReported": "PRESERVED (0 secret findings)",
+      "freshVerification": "git diff stat shows no .env, no credentials.json, no private keys. AGENTS.md forbids committing secrets.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-22",
+      "name": "E2E_CLERK_USER_PASSWORD is not used",
+      "codexReported": "PRESERVED (in AGENTS.md)",
+      "freshVerification": "scripts/audit/* uses ticket strategy, no password references in newly added scripts.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "INV-23",
+      "name": "23/23 invariant checks pass",
+      "codexReported": "PRESERVED (per Codex final report)",
+      "freshVerification": "This audit identifies 23 invariants total (INV-01 through INV-23). 22 are VERIFIED, 1 is CONTRADICTED (INV-17 — form-studio deletion). **Not 23/23.**",
+      "verificationStatus": "PARTIALLY_VERIFIED",
+      "discrepancy": "Codex claim is contradicted by the form-studio deletion finding.",
+      "risk": "Critical — until this is resolved, no production deploy should occur."
+    }
+  ],
+  "summary": {
+    "VERIFIED": 21,
+    "PARTIALLY_VERIFIED": 1,
+    "CONTRADICTED": 1,
+    "blockingConcerns": [
+      "INV-17 form-studio module deletion is the single critical invariant violation"
+    ]
+  }
+}

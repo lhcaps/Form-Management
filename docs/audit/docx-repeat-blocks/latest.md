@@ -1,5 +1,5 @@
 # DOCX Repeat/Table/List Block Fidelity — F5 audit
-Generated: 2026-06-26T08:21:05.152Z
+Generated: 2026-07-15T17:17:43.135Z
 
 | Metric | Value |
 |--------|-------|

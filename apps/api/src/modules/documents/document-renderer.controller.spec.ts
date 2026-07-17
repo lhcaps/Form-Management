@@ -34,6 +34,7 @@ describe('DocumentRendererController', () => {
     const controller = new DocumentRendererController(
       renderer as never,
       renderUseCase as never,
+      { save: jest.fn() } as never,
     );
 
     await expect(
@@ -60,9 +61,35 @@ describe('DocumentRendererController', () => {
     const controller = new DocumentRendererController(
       renderer as never,
       { execute: jest.fn() } as never,
+      { save: jest.fn() } as never,
     );
 
     expect(controller.getRenderPayload('42', user)).toBe(payload);
     expect(renderer.getRenderPayload).toHaveBeenCalledWith('42', user);
+  });
+
+  it('routes legacy form-inputs save through the generated input save orchestrator', async () => {
+    const envelope = { ok: true, route: 'legacy-form-inputs', result: { documentId: '42' } };
+    const renderer = { updateFormInputs: jest.fn() };
+    const generatedInputSave = {
+      save: jest.fn().mockResolvedValue(envelope),
+    };
+    const controller = new DocumentRendererController(
+      renderer as never,
+      { execute: jest.fn() } as never,
+      generatedInputSave as never,
+    );
+
+    const body = { agency: { name: 'VKSKV7' } };
+    const result = await controller.updateFormInputs('42', body, user);
+
+    expect(result).toEqual({ documentId: '42' });
+    expect(generatedInputSave.save).toHaveBeenCalledWith({
+      intent: 'GENERATED_SAVE_LEGACY_INPUTS',
+      documentId: '42',
+      actor: user,
+      body: { ...body, updatedByName: user.fullName },
+    });
+    expect(renderer.updateFormInputs).not.toHaveBeenCalled();
   });
 });

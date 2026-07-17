@@ -9,6 +9,15 @@ const ROOT = path.resolve(__dirname, "..");
 const LOCKED_DIR = path.join(ROOT, "docs", "audit", "docx", "contracts", "locked");
 const LOCKED_FILE = "BM-096__a50a08efa62f.contract.locked.json";
 const LOCKED_PATH = path.join(LOCKED_DIR, LOCKED_FILE);
+const PRE_MUTATION_PATH = path.join(
+  ROOT,
+  "docs",
+  "audit",
+  "path-domain-binding-batch-1-bm096-single-candidate",
+  "backups",
+  "2026-06-27T20-01-40",
+  LOCKED_FILE,
+);
 
 const APPROVED = {
   oldPath: "document.diaChi",
@@ -22,6 +31,9 @@ const APPROVED = {
 // Load contract once at module level so both describe blocks can reference it
 assert.ok(fs.existsSync(LOCKED_PATH), `Locked file not found: ${LOCKED_PATH}`);
 const CONTRACT = JSON.parse(fs.readFileSync(LOCKED_PATH, "utf8"));
+const PRE_MUTATION_CONTRACT = JSON.parse(
+  fs.readFileSync(PRE_MUTATION_PATH, "utf8"),
+);
 assert.strictEqual(CONTRACT.templateCode, "BM-096", "must be BM-096");
 
 describe("BM096 Single Candidate Apply — Pre-Mutation State (for documentation)", () => {
@@ -30,43 +42,37 @@ describe("BM096 Single Candidate Apply — Pre-Mutation State (for documentation
   // Run the dry-run of apply-bm096-single-candidate-approved-remap.mjs to verify pre-state.
 
   it("Pre-mutation: path 'document.diaChi' must exist in canonicalFields", () => {
-    const field = CONTRACT.canonicalFields.find((f) => f.path === "document.diaChi");
-    if (!field) { assert.ok(true, "skipped — already mutated"); return; }
+    const field = PRE_MUTATION_CONTRACT.canonicalFields.find((f) => f.path === "document.diaChi");
     assert.ok(field, "PRE-MUTATION: canonicalFields should contain 'document.diaChi'");
   });
 
   it("Pre-mutation: path 'person.idNumber' must NOT exist in canonicalFields", () => {
-    const dup = CONTRACT.canonicalFields.find((f) => f.path === "person.idNumber");
-    if (dup) { assert.ok(true, "skipped — already mutated"); return; }
+    const dup = PRE_MUTATION_CONTRACT.canonicalFields.find((f) => f.path === "person.idNumber");
     assert.strictEqual(dup, undefined, "PRE-MUTATION: person.idNumber must not exist yet");
   });
 
   it("Pre-mutation: document.diaChi label must be 'Ô trống'", () => {
-    const field = CONTRACT.canonicalFields.find((f) => f.path === "document.diaChi");
-    if (!field) { assert.ok(true, "skipped — already mutated"); return; }
+    const field = PRE_MUTATION_CONTRACT.canonicalFields.find((f) => f.path === "document.diaChi");
     assert.strictEqual(field.label, "Ô trống", "PRE-MUTATION: label must be Ô trống");
   });
 
   it("Pre-mutation: slotId 'document.diaChi' must exist in docxSlots", () => {
-    const slot = CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
-    if (!slot) { assert.ok(true, "skipped — already mutated"); return; }
+    const slot = PRE_MUTATION_CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
     assert.ok(slot, "PRE-MUTATION: docxSlots should contain slotId 'document.diaChi'");
   });
 
   it("Pre-mutation: rawPattern must be '{{person.field14}}'", () => {
-    const slot = CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
-    if (!slot) { assert.ok(true, "skipped — already mutated"); return; }
+    const slot = PRE_MUTATION_CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
     assert.strictEqual(slot.evidence?.rawPattern, "{{person.field14}}");
   });
 
   it("Pre-mutation: slotId 'document.diaChi' in renderBindings", () => {
-    const binding = CONTRACT.renderBindings.find((b) => b.slotId === "document.diaChi");
-    if (!binding) { assert.ok(true, "skipped — already mutated"); return; }
+    const binding = PRE_MUTATION_CONTRACT.renderBindings.find((b) => b.slotId === "document.diaChi");
     assert.ok(binding, "PRE-MUTATION: renderBindings should contain slotId 'document.diaChi'");
   });
 });
 
-describe("BM096 Single Candidate Apply — Post-Mutation State (verified)", () => {
+describe("BM096 Single Candidate Apply — Current Reconciled State", () => {
   it("Post-mutation: path 'document.diaChi' must NOT exist in canonicalFields", () => {
     const old = CONTRACT.canonicalFields.find((f) => f.path === "document.diaChi");
     assert.strictEqual(old, undefined, "document.diaChi must be removed from canonicalFields");
@@ -97,38 +103,21 @@ describe("BM096 Single Candidate Apply — Post-Mutation State (verified)", () =
     assert.strictEqual(field.reviewRequired, false);
   });
 
-  it("Post-mutation: slotId 'document.diaChi' must NOT exist in docxSlots", () => {
-    const old = CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
-    assert.strictEqual(old, undefined, "document.diaChi must be removed from docxSlots");
-  });
-
-  it("Post-mutation: slotId 'person.idNumber' must exist in docxSlots", () => {
-    const slot = CONTRACT.docxSlots.find((s) => s.slotId === "person.idNumber");
-    assert.ok(slot, "person.idNumber must exist in docxSlots after mutation");
-  });
-
-  it("Post-mutation: slotId 'person.idNumber' label must be 'Số CCCD/CMND'", () => {
-    const slot = CONTRACT.docxSlots.find((s) => s.slotId === "person.idNumber");
+  it("Current: DOCX slot keeps the actual template token document.diaChi", () => {
+    const slot = CONTRACT.docxSlots.find((s) => s.slotId === "document.diaChi");
+    assert.ok(slot, "document.diaChi must track the current DOCX token");
     assert.strictEqual(slot.label, "Số CCCD/CMND");
+    assert.strictEqual(slot.evidence?.rawPattern, "{{document.diaChi}}");
   });
 
-  it("Post-mutation: slotId 'person.idNumber' rawPattern must be '{{person.field14}}' (unchanged)", () => {
+  it("Current: no duplicate person.idNumber DOCX slot is fabricated", () => {
     const slot = CONTRACT.docxSlots.find((s) => s.slotId === "person.idNumber");
-    assert.strictEqual(slot.evidence?.rawPattern, "{{person.field14}}");
+    assert.strictEqual(slot, undefined);
   });
 
-  it("Post-mutation: slotId 'document.diaChi' must NOT exist in renderBindings", () => {
-    const old = CONTRACT.renderBindings.find((b) => b.slotId === "document.diaChi");
-    assert.strictEqual(old, undefined, "document.diaChi must be removed from renderBindings");
-  });
-
-  it("Post-mutation: slotId 'person.idNumber' must exist in renderBindings", () => {
-    const binding = CONTRACT.renderBindings.find((b) => b.slotId === "person.idNumber");
-    assert.ok(binding, "person.idNumber must exist in renderBindings after mutation");
-  });
-
-  it("Post-mutation: renderBindings binding.from must be 'person.idNumber'", () => {
-    const binding = CONTRACT.renderBindings.find((b) => b.slotId === "person.idNumber");
+  it("Current: document.diaChi slot binds from canonical person.idNumber", () => {
+    const binding = CONTRACT.renderBindings.find((b) => b.slotId === "document.diaChi");
+    assert.ok(binding, "document.diaChi render binding must exist");
     assert.strictEqual(binding.from, "person.idNumber");
   });
 

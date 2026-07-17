@@ -57,3 +57,16 @@ export {
   listGeneratedDocumentMissingFields,
   assertProfileInvariant,
 } from "./adapters/generated-document-adapter";
+
+export {
+  decideFormLifecycle,
+  registerRuntimeReadyFormFlightProfiles,
+  listApprovedRuntimeReadyCodes,
+  isApprovedRuntimeReadyCode,
+  RUNTIME_READY_FORM_FLIGHT_PROFILES,
+  type FormLifecycleDecision,
+  type FormLifecycleKind,
+  type FormLifecyclePanelKind,
+  type FormLifecycleProfileStatus,
+  type RuntimeReadyFormFlightCode,
+} from "./form-lifecycle";

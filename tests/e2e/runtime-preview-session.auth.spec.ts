@@ -6,12 +6,16 @@
  *
  * Validates:
  *  1. /templates/BM-001 loads authenticated (no redirect to sign-in).
- *  2. POST /preview-session returns JSON session with correct shape.
- *  3. Honest UX: "Đã tạo file DOCX tạm thời" panel, not misleading preview heading.
- *  4. PDF note appears.
- *  5. Standalone has no "Lịch sử xử lý".
- *  6. Save-to-case CTA is disabled.
- *  7. Tải DOCX button is present and clickable.
+ *  2. Click "Dữ liệu demo" first to satisfy BM-001's locked-contract
+ *     requiredFieldKeys gate (otherwise the workspace short-circuits
+ *     previewDocx with a "thiếu trường bắt buộc" error and no POST is
+ *     fired — exactly the symptom that produced KNOWN_FAIL_BM001).
+ *  3. POST /preview-session returns JSON session with correct shape.
+ *  4. Honest UX: "Đã tạo file DOCX tạm thời" panel, not misleading preview heading.
+ *  5. PDF note appears.
+ *  6. Standalone has no "Lịch sử xử lý".
+ *  7. Save-to-case CTA is disabled.
+ *  8. Tải DOCX button is present and clickable.
  */
 
 import { expect, test } from "@playwright/test";
@@ -28,8 +32,24 @@ test("BM-001 standalone creates honest DOCX session and downloads DOCX", async (
   await expect(page).not.toHaveURL(/sign-in|sign-up/, { timeout: 15_000 });
   await expect(page.getByText(/BM-001/i)).toBeVisible({ timeout: 15_000 });
 
+  // ── Populate the draft via the demo button ────────────────────────────
+  // The workspace gates previewDocx on locked-contract requiredFieldKeys.
+  // Without a populated draft the frontend short-circuits before sending
+  // the request, which is exactly the failure mode this spec was
+  // previously hitting. Click "Dữ liệu demo" to seed the draft so the
+  // preview-session POST actually fires.
+  const demoBtn = page
+    .getByRole("button", { name: /^Dữ liệu demo$/i })
+    .first();
+  await expect(demoBtn).toBeVisible({ timeout: 10_000 });
+  await expect(demoBtn).toBeEnabled({ timeout: 10_000 });
+  await demoBtn.click();
+  // Allow React state to settle without arbitrary sleeps.
+  await page.waitForTimeout(500);
+
   const previewButton = page.getByRole("button", { name: /Xem trước bản in/i }).first();
   await expect(previewButton).toBeVisible();
+  await expect(previewButton).toBeEnabled();
 
   // ── Capture POST /preview-session response ──────────────────────────────
   const previewResponsePromise = page.waitForResponse(

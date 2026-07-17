@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { AppConfigService } from '../../infrastructure/config/app-config.service';
 import { FormContractRepository } from '../forms-contracts/application/form-contract.repository';
 
 const REQUIRED_LOCKED_CONTRACTS = ['BM-001', 'BM-002', 'BM-003'] as const;
@@ -18,12 +19,29 @@ export type ReadinessInfo = {
       missingLocked: string[];
       error?: string;
     };
+    fonts: {
+      ok: boolean;
+      policy: 'required' | 'fallback-allowed';
+      requiredFamily: string;
+      status:
+        | 'FONT_REQUIRED_READY'
+        | 'FONT_REQUIRED_NOT_READY'
+        | 'FONT_FALLBACK_DEV_ONLY'
+        | 'FONT_REPORT_MISSING';
+      aggregate: string | null;
+      presentStyles: string[];
+      missingStyles: string[];
+      fontDir: string | null;
+    };
   };
 };
 
 @Injectable()
 export class ReadinessService {
-  constructor(private readonly contracts: FormContractRepository) {}
+  constructor(
+    private readonly contracts: FormContractRepository,
+    private readonly config: AppConfigService,
+  ) {}
 
   async getReadiness(): Promise<ReadinessInfo> {
     const status = await this.contracts.inspect();
@@ -52,8 +70,10 @@ export class ReadinessService {
       status.invalidFiles.length === 0 &&
       missingLocked.length === 0;
 
+    const fontCheck = this.evaluateFontStatus();
+
     return {
-      ok: contractsOk,
+      ok: contractsOk && fontCheck.ok,
       service: 'QUANLYVKS API',
       timestamp: new Date().toISOString(),
       checks: {
@@ -67,7 +87,58 @@ export class ReadinessService {
           missingLocked,
           ...(error ? { error } : {}),
         },
+        fonts: fontCheck,
       },
+    };
+  }
+
+  /**
+   * Map the entrypoint-written font verification report to one of the
+   * three documented readiness states. Production under required policy
+   * reports NOT_READY when the family is missing or incomplete.
+   */
+  private evaluateFontStatus(): ReadinessInfo['checks']['fonts'] {
+    const policy = this.config.fontPolicy;
+    const requiredFamily = this.config.requiredFontFamily;
+    const report = this.config.readFontVerificationReport();
+
+    if (!report) {
+      return {
+        ok: policy === 'fallback-allowed',
+        policy,
+        requiredFamily,
+        status: 'FONT_REPORT_MISSING',
+        aggregate: null,
+        presentStyles: [],
+        missingStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+        fontDir: null,
+      };
+    }
+
+    const aggregate = report.aggregate;
+    if (policy === 'fallback-allowed') {
+      return {
+        ok: true,
+        policy,
+        requiredFamily,
+        status: 'FONT_FALLBACK_DEV_ONLY',
+        aggregate,
+        presentStyles: report.presentStyles,
+        missingStyles: report.missingStyles,
+        fontDir: report.fontDir,
+      };
+    }
+
+    const ready = aggregate === 'EXACT_REQUIRED_FONT_PASS';
+    return {
+      ok: ready,
+      policy,
+      requiredFamily,
+      status: ready ? 'FONT_REQUIRED_READY' : 'FONT_REQUIRED_NOT_READY',
+      aggregate,
+      presentStyles: report.presentStyles,
+      missingStyles: report.missingStyles,
+      fontDir: report.fontDir,
     };
   }
 }

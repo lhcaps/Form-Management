@@ -3,20 +3,17 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import { config as loadEnv } from 'dotenv';
-import { resolve } from 'node:path';
-import { AppModule } from './app.module';
 import { ApplicationErrorFilter } from './common/application-error.filter';
 import { createCorsOriginValidator } from './common/cors-origin';
 import { requestContextMiddleware } from './common/request-context.middleware';
 import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { AppConfigService } from './infrastructure/config/app-config.service';
+import { loadApiEnvironment } from './infrastructure/config/load-api-environment';
 import { ContractSyncGuard } from './modules/forms-contracts/infrastructure/contract-sync.guard';
 
-loadEnv({ path: resolve(process.cwd(), '..', '..', '.env'), override: true });
-loadEnv({ path: resolve(process.cwd(), '.env') });
-
 async function bootstrap(): Promise<void> {
+  loadApiEnvironment();
+  const { AppModule } = await import('./app.module');
   const logger = new Logger('Bootstrap');
 
   // --- C1: Contract Sync Guard ---
@@ -35,6 +32,7 @@ async function bootstrap(): Promise<void> {
     bufferLogs: false,
     rawBody: true,
   });
+  app.enableShutdownHooks();
   const config = app.get(AppConfigService);
   const corsPolicy = config.corsPolicy;
 
@@ -49,6 +47,13 @@ async function bootstrap(): Promise<void> {
       'Accept',
       'X-Requested-With',
       'X-Request-Id',
+    ],
+    exposedHeaders: [
+      'X-Request-Id',
+      'Retry-After',
+      'X-RateLimit-Limit',
+      'X-RateLimit-Remaining',
+      'X-RateLimit-Reset',
     ],
   });
 

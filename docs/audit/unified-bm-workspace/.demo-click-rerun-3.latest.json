@@ -1,0 +1,346 @@
+﻿Ôùç injected env (6) from .env.e2e.local // tip: Ôîÿ suppress logs { quiet: true }
+Ôùç injected env (0) from .env.local // tip: Ôîÿ custom filepath { path: '/custom/path/.env' }
+Ôùç injected env (37) from .env // tip: Ôîÿ custom filepath { path: '/custom/path/.env' }
+{
+  "config": {
+    "argv": [
+      "D:\\Node\\node.exe",
+      "D:\\Study\\Project\\QLLaw-main\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--project=authenticated chromium",
+      "tests/e2e/curated-37-demo-click.auth.spec.ts",
+      "-g",
+      "BM-037|BM-043|BM-171",
+      "--workers=1",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\Study\\Project\\QLLaw-main\\playwright.config.ts",
+    "rootDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "clerk setup",
+        "name": "clerk setup",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/global\\.setup\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "authenticated chromium",
+        "name": "authenticated chromium",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.auth\\.spec\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/^(?!.*\\.auth\\.spec\\.ts).*$/"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "global.setup.ts",
+      "file": "global.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create sign-in ticket for E2E user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "clerk setup",
+              "projectName": "clerk setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 765,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-07T20:52:19.968Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e4eb4d1272d956fb120f-664b4698782ea493f7e8",
+          "file": "global.setup.ts",
+          "line": 52,
+          "column": 6
+        },
+        {
+          "title": "authenticate via ticket and persist session state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "clerk setup",
+              "projectName": "clerk setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6677,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-07T20:52:20.756Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e4eb4d1272d956fb120f-d98358cc8b6749b95e90",
+          "file": "global.setup.ts",
+          "line": 62,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "curated-37-demo-click.auth.spec.ts",
+      "file": "curated-37-demo-click.auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Curated 37 ÔÇö authenticated demo-click smoke",
+          "file": "curated-37-demo-click.auth.spec.ts",
+          "line": 118,
+          "column": 6,
+          "specs": [
+            {
+              "title": "BM-037 demo click populates demo data and stays editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2026,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:52:27.835Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-842dab16e788c762003d",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            },
+            {
+              "title": "BM-043 demo click populates demo data and stays editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1978,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:52:29.942Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-03c63bbb66a3c1e6e767",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            },
+            {
+              "title": "BM-171 demo click populates demo data and stays editable",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1971,
+                      "error": {
+                        "message": "Error: BM-171: stale demo token \"Trß║ºn Thß╗ï B\" leaked into rendered demo data\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeNull\u001b[2m()\u001b[22m\n\nReceived: \u001b[31m\"Trß║ºn Thß╗ï B\"\u001b[39m",
+                        "stack": "Error: BM-171: stale demo token \"Trß║ºn Thß╗ï B\" leaked into rendered demo data\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeNull\u001b[2m()\u001b[22m\n\nReceived: \u001b[31m\"Trß║ºn Thß╗ï B\"\u001b[39m\n    at D:\\Study\\Project\\QLLaw-main\\tests\\e2e\\curated-37-demo-click.auth.spec.ts:186:9",
+                        "location": {
+                          "file": "D:\\Study\\Project\\QLLaw-main\\tests\\e2e\\curated-37-demo-click.auth.spec.ts",
+                          "column": 9,
+                          "line": 186
+                        },
+                        "snippet": "  184 |         staleToken,\n  185 |         `${templateCode}: stale demo token \"${staleToken}\" leaked into rendered demo data`,\n> 186 |       ).toBeNull();\n      |         ^\n  187 |\n  188 |       // 10) Fields still editable (a sample of fields is enough).\n  189 |       const editable = await page.$$eval("
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "D:\\Study\\Project\\QLLaw-main\\tests\\e2e\\curated-37-demo-click.auth.spec.ts",
+                            "column": 9,
+                            "line": 186
+                          },
+                          "message": "Error: BM-171: stale demo token \"Trß║ºn Thß╗ï B\" leaked into rendered demo data\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeNull\u001b[2m()\u001b[22m\n\nReceived: \u001b[31m\"Trß║ºn Thß╗ï B\"\u001b[39m\n\n  184 |         staleToken,\n  185 |         `${templateCode}: stale demo token \"${staleToken}\" leaked into rendered demo data`,\n> 186 |       ).toBeNull();\n      |         ^\n  187 |\n  188 |       // 10) Fields still editable (a sample of fields is enough).\n  189 |       const editable = await page.$$eval(\n    at D:\\Study\\Project\\QLLaw-main\\tests\\e2e\\curated-37-demo-click.auth.spec.ts:186:9"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:52:31.925Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "D:\\Study\\Project\\QLLaw-main\\test-results\\curated-37-demo-click.auth-b9818-emo-data-and-stays-editable-authenticated-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "D:\\Study\\Project\\QLLaw-main\\test-results\\curated-37-demo-click.auth-b9818-emo-data-and-stays-editable-authenticated-chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "D:\\Study\\Project\\QLLaw-main\\test-results\\curated-37-demo-click.auth-b9818-emo-data-and-stays-editable-authenticated-chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "D:\\Study\\Project\\QLLaw-main\\tests\\e2e\\curated-37-demo-click.auth.spec.ts",
+                        "column": 9,
+                        "line": 186
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-23e814c0d87f1436df61",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-07T20:52:19.624Z",
+    "duration": 14358.442,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

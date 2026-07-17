@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-07-10T15:38:38.293Z",
+  "status": "PARTIAL",
+  "repositoryRoot": "D:/Study/Project/QLLaw-main",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "measurementNote": "Same Windows/Docker Desktop host, but cache and background-load state were not normalized. Durations are operational observations, not a controlled benchmark.",
+  "metrics": {
+    "install": {
+      "before": "NOT_RUN",
+      "after": "NOT_RUN",
+      "reason": "Existing frozen-lockfile installation was usable; no dependency reinstall was required or authorized."
+    },
+    "typecheckSeconds": {
+      "before": 5.959,
+      "after": 7.116,
+      "delta": 1.157,
+      "deltaPercent": 19.416,
+      "beforeResult": "PASS",
+      "afterResult": "PASS"
+    },
+    "lintSeconds": {
+      "before": 89.83,
+      "after": 24.837,
+      "delta": -64.993,
+      "deltaPercent": -72.351,
+      "beforeResult": "PASS",
+      "afterResult": "PASS"
+    },
+    "testSeconds": {
+      "before": 51.576,
+      "after": 17.774,
+      "delta": -33.802,
+      "deltaPercent": -65.538,
+      "beforeResult": "FAIL_1_OF_696_STALE_REPORT",
+      "afterResult": "PASS_103_CONTRACT_704_API_763_NODE_1427_WEB"
+    },
+    "buildSeconds": {
+      "before": 63.694,
+      "after": 24.91,
+      "delta": -38.784,
+      "deltaPercent": -60.891,
+      "beforeResult": "PASS",
+      "afterResult": "PASS"
+    },
+    "verifyFullSeconds": {
+      "before": null,
+      "after": 137.529,
+      "result": "PASS"
+    },
+    "verifyCiSeconds": {
+      "before": null,
+      "after": 60.023,
+      "result": "PASS_WITH_EXPLICIT_BM006_KNOWN_DEBT"
+    },
+    "dockerBuildSeconds": {
+      "beforeNoCache": 90.023,
+      "afterWarmIncremental": 73.762,
+      "comparison": "NOT_LIKE_FOR_LIKE",
+      "result": "PASS"
+    },
+    "dockerBuildContextBytes": {
+      "beforeApproximate": 330000000,
+      "after": 1250000,
+      "deltaApproximate": -328750000,
+      "deltaPercentApproximate": -99.621
+    },
+    "apiImageBytes": {
+      "before": 601984503,
+      "after": 554341140,
+      "delta": -47643363,
+      "deltaPercent": -7.914,
+      "user": "node"
+    },
+    "webImageBytes": {
+      "before": 355553407,
+      "after": 355562537,
+      "delta": 9130,
+      "deltaPercent": 0.003,
+      "user": "node"
+    },
+    "apiColdStart": {
+      "result": "NOT_RUN",
+      "reason": "Production entrypoint fails closed at Prisma P3018 before Nest readiness because migration history needs user decision."
+    },
+    "apiReadiness": {
+      "result": "NOT_RUN",
+      "reason": "Blocked by the same isolated migration failure."
+    },
+    "representativeApiLatency": {
+      "result": "NOT_RUN",
+      "reason": "No production-ready API instance was available after the fail-closed migration gate."
+    },
+    "webColdReadinessMs": {
+      "after": 535,
+      "httpStatus": 200
+    },
+    "webSigtermStopMs": {
+      "after": 316,
+      "exitCode": 143,
+      "oomKilled": false,
+      "interpretation": "Direct Node PID 1 received SIGTERM and exited within the configured grace period without forced kill or OOM."
+    },
+    "bm001DocxShadowRender": {
+      "scenarioCount": 5,
+      "totalSeconds": 0.907,
+      "averageSeconds": 0.181,
+      "packageIntegrityPass": 5,
+      "semanticPass": 1,
+      "semanticWarning": 4,
+      "semanticFail": 0
+    },
+    "bm001PdfConversion": {
+      "e2eSeconds": 1.084,
+      "outputBytes": 73099,
+      "libreOffice": "7.4.7.2",
+      "requestedFont": "Times New Roman",
+      "resolvedFont": "Liberation Serif",
+      "result": "PASS_WITH_FONT_DECISION_PENDING"
+    },
+    "browserSweep": {
+      "result": "NOT_RUN",
+      "reason": "No new browser sweep was authorized or needed; existing evidence was preserved rather than recollected.",
+      "storedBrowserEvidenceRows": 124,
+      "requestCount": null,
+      "durationSeconds": null
+    },
+    "webRoutes": {
+      "routeCount": 17,
+      "result": "PASS"
+    }
+  }
+}

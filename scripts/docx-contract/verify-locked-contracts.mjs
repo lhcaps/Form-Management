@@ -10,6 +10,12 @@
  *   slot without placeholder, binding without template. These require DOCX edits.
  * - WARNING (exit 0): metadata completeness — unknown field source, reviewRequired
  *   flag remaining, unresolved questions. These require human remediation.
+ *
+ * CI may acknowledge a user-approved blocker explicitly with a repeatable
+ * `--allow-known-blocker=<TEMPLATE_CODE>:<ISSUE_CODE>` argument. The command
+ * still fails when any other blocker appears, or when an allowlist entry is
+ * no longer observed. This keeps accepted debt visible and prevents a broad
+ * report-only escape hatch.
  */
 
 import fs from "node:fs";
@@ -24,6 +30,23 @@ const REPORTS_DIR = path.join(ROOT, "docs", "audit", "docx", "reports");
 const FIELD_TAXONOMY = path.join(ROOT, "docs", "contracts", "field-taxonomy.json");
 const SOURCE_TAXONOMY = path.join(ROOT, "docs", "contracts", "source-taxonomy.json");
 const TRANSFORM_TAXONOMY = path.join(ROOT, "docs", "contracts", "transform-taxonomy.json");
+const ALLOW_KNOWN_BLOCKER_PREFIX = "--allow-known-blocker=";
+
+const allowedKnownBlockers = new Set();
+for (const arg of process.argv.slice(2)) {
+  if (!arg.startsWith(ALLOW_KNOWN_BLOCKER_PREFIX)) {
+    console.error(`Unknown argument: ${arg}`);
+    process.exit(2);
+  }
+  const key = arg.slice(ALLOW_KNOWN_BLOCKER_PREFIX.length);
+  if (!/^[A-Z]{2}-\d{3}:[A-Z][A-Z0-9_]+$/u.test(key)) {
+    console.error(
+      `Invalid known-blocker key "${key}"; expected BM-000:ISSUE_CODE`,
+    );
+    process.exit(2);
+  }
+  allowedKnownBlockers.add(key);
+}
 
 const loadJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
 
@@ -101,6 +124,13 @@ function record(label, detail, tier) {
 
 function warn(label, detail) {
   WARNING.push({ label, detail: detail ?? null });
+}
+
+function blockerKey(blocker) {
+  const match = blocker.label.match(
+    /^\[([A-Z]{2}-\d{3})\]\s+([A-Z][A-Z0-9_]+)(?:\b|$)/u,
+  );
+  return match ? `${match[1]}:${match[2]}` : null;
 }
 
 const main = () => {
@@ -296,6 +326,22 @@ const main = () => {
     });
   }
 
+  const acknowledgedBlocking = [];
+  const unacknowledgedBlocking = [];
+  const observedAllowedKeys = new Set();
+  for (const blocker of BLOCKING) {
+    const key = blockerKey(blocker);
+    if (key && allowedKnownBlockers.has(key)) {
+      acknowledgedBlocking.push({ ...blocker, key });
+      observedAllowedKeys.add(key);
+    } else {
+      unacknowledgedBlocking.push(blocker);
+    }
+  }
+  const missingAllowedBlockers = [...allowedKnownBlockers].filter(
+    (key) => !observedAllowedKeys.has(key),
+  );
+
   const totalChecks = PASS.length + BLOCKING.length;
   const passRate = totalChecks > 0 ? ((PASS.length / totalChecks) * 100).toFixed(1) : 0;
 
@@ -309,18 +355,42 @@ const main = () => {
   md.push("## Summary");
   md.push("");
   md.push("- **Pass: " + PASS.length + "** / " + totalChecks + " (" + passRate + "%)");
-  md.push("- **Blocking: " + BLOCKING.length + "** (must fix before production)");
+  md.push("- **Blocking: " + unacknowledgedBlocking.length + "** (must fix before production)");
+  md.push("- **Acknowledged known blockers: " + acknowledgedBlocking.length + "** (explicit non-blocking CI debt; not production-ready)");
+  md.push("- **Stale known-blocker allowlist entries: " + missingAllowedBlockers.length + "** (CI configuration error)");
   md.push("- **Remediation: " + REMEDIATION.length + "** (requires DOCX edit, non-blocking)");
   md.push("- **Warning: " + WARNING.length + "** (metadata completeness, non-blocking)");
   md.push("");
 
-  if (BLOCKING.length > 0) {
-    md.push("## Blocking Issues (must fix before production)");
+  if (unacknowledgedBlocking.length > 0) {
+    md.push("## Unacknowledged blocking issues (must fix before production)");
     md.push("");
-    for (const f of BLOCKING) {
+    for (const f of unacknowledgedBlocking) {
       md.push("- \u274c " + f.label);
       if (f.detail) md.push("  - " + f.detail);
     }
+    md.push("");
+  }
+
+  if (acknowledgedBlocking.length > 0) {
+    md.push("## Acknowledged Known Blockers (explicit CI debt)");
+    md.push("");
+    md.push("_These blockers remain unresolved and continue to prevent a production-ready claim._");
+    md.push("_They are accepted here only because each exact template/issue pair was supplied on the command line._");
+    md.push("");
+    for (const f of acknowledgedBlocking) {
+      md.push(`- \u26a0\ufe0f ${f.label} (allowlist key: \`${f.key}\`)`);
+      if (f.detail) md.push("  - " + f.detail);
+    }
+    md.push("");
+  }
+
+  if (missingAllowedBlockers.length > 0) {
+    md.push("## Stale Known-Blocker Allowlist Entries");
+    md.push("");
+    md.push("_The following allowlist entries were not observed; remove or correct them before CI can pass._");
+    md.push("");
+    for (const key of missingAllowedBlockers) md.push(`- \u274c \`${key}\``);
     md.push("");
   }
 
@@ -383,14 +453,20 @@ const main = () => {
 
   // Console output
   console.log("\nLocked contracts verified: " + lockedFiles.length);
-  console.log("Pass: " + PASS.length + " | Blocking: " + BLOCKING.length + " | Remediation: " + REMEDIATION.length + " | Warning: " + WARNING.length);
+  console.log("Pass: " + PASS.length + " | Blocking: " + unacknowledgedBlocking.length + " | Acknowledged: " + acknowledgedBlocking.length + " | Remediation: " + REMEDIATION.length + " | Warning: " + WARNING.length);
   console.log("Report: " + reportPath);
 
-  if (BLOCKING.length > 0) {
-    console.error("\nBlocking issues (must fix before production):");
-    for (const f of BLOCKING) {
+  if (unacknowledgedBlocking.length > 0) {
+    console.error("\nUnacknowledged blocking issues (must fix before production):");
+    for (const f of unacknowledgedBlocking) {
       console.error("  \u274c " + f.label + (f.detail ? " — " + f.detail : ""));
     }
+    process.exit(1);
+  }
+
+  if (missingAllowedBlockers.length > 0) {
+    console.error("\nKnown-blocker allowlist entries were not observed:");
+    for (const key of missingAllowedBlockers) console.error(`  \u274c ${key}`);
     process.exit(1);
   }
 
@@ -399,7 +475,11 @@ const main = () => {
     process.exit(1);
   }
 
-  console.log("\nAll blocking checks passed.");
+  if (acknowledgedBlocking.length > 0) {
+    console.warn("\nAcknowledged known blockers remain (not production-ready):");
+    for (const f of acknowledgedBlocking) console.warn(`  \u26a0\ufe0f ${f.key}`);
+  }
+  console.log("\nAll unacknowledged blocking checks passed.");
   process.exit(0);
 };
 

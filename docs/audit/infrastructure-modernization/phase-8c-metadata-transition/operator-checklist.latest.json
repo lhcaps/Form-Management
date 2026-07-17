@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-07-11T10:07:57.694Z",
+  "baselineDirectory": "apps/api/prisma/migrations/20260711000000_squashed_baseline",
+  "baselineSqlHashSha256": "002158c79fbace15308fb89caa3c65554489f10fa8ebc5622703f9953aee07d5",
+  "baselineSqlBytes": 48507,
+  "checklist": [
+    {
+      "step": 1,
+      "title": "Operator/DBA explicit approval recorded",
+      "blocking": true,
+      "how": "Operator confirms metadata-write authorisation out-of-band and records the approval ID in the transition log."
+    },
+    {
+      "step": 2,
+      "title": "Maintenance window declared and concurrent deploy processes stopped",
+      "blocking": true,
+      "how": "Stop CI deploy jobs and release pipelines for the database host."
+    },
+    {
+      "step": 3,
+      "title": "Restorable backup + _prisma_migrations export captured",
+      "blocking": true,
+      "how": "mysqldump + separate dump of `_prisma_migrations` table; verify restore in a sandbox."
+    },
+    {
+      "step": 4,
+      "title": "Active baseline SQL hash matches release artifact",
+      "blocking": true,
+      "how": "Expected hash: 002158c79fbace15308fb89caa3c65554489f10fa8ebc5622703f9953aee07d5. Source: apps/api/prisma/migrations/20260711000000_squashed_baseline/migration.sql."
+    },
+    {
+      "step": 5,
+      "title": "Read-only `prisma migrate diff` from target DB to release datamodel",
+      "blocking": true,
+      "how": "pnpm --filter api exec prisma migrate diff --from-url \"$DATABASE_URL\" --to-schema-datamodel prisma/schema.prisma --script > /tmp/diff.sql"
+    },
+    {
+      "step": 6,
+      "title": "Classify every difference — only the two retained DEFAULT 'GLOBAL' clauses are accepted",
+      "blocking": true,
+      "how": "form_contract_versions.scope_key and official_permissions.scope_key are the only expected differences. Any additional delta is a stop condition."
+    },
+    {
+      "step": 7,
+      "title": "Query migration status; select E1/E2/E3 branch",
+      "blocking": true,
+      "how": "pnpm migrate:status. If active failed row count == 0 → E1/E3. Else → E2."
+    },
+    {
+      "step": 8,
+      "title": "Run E1 branch commands in order: status, resolve --applied, status, deploy, deploy",
+      "blocking": true,
+      "how": "Documented in BASELINE_TRANSITION_OPERATOR_RUNBOOK.latest.md §E1/E3."
+    },
+    {
+      "step": 9,
+      "title": "Re-run verification query set to confirm no application-schema or row mutation",
+      "blocking": true,
+      "how": "Compare structure fingerprint and metadata fingerprint before/after the transition."
+    }
+  ]
+}

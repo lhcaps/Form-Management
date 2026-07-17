@@ -19,10 +19,7 @@ import {
   todayIsoDate,
 } from "./bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-import { getDocumentRenderPayload } from "@/lib/document-form-api";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type BM025FormInputs = {
   agency: {
@@ -244,22 +241,14 @@ export function Bm025FormInputsPanel({ documentId, onSaved }: Props) {
     setSuccessMessage(null);
     const final = derive(form);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8", Accept: "application/json" },
-          body: JSON.stringify({
-            ...final,
-            formInputs: final,
-            payloadOverrides: final,
-            renderPayloadOverrides: final,
-            templateCode: "BM-025",
-            updatedByName: final.signature.signerName,
-          }),
-        },
-      );
-      if (!res.ok) throw new Error(await res.text());
+      await saveDocumentFormInputs(documentId, {
+        ...final,
+        formInputs: final,
+        payloadOverrides: final,
+        renderPayloadOverrides: final,
+        templateCode: "BM-025",
+        updatedByName: final.signature.signerName,
+      });
       setForm(final);
       setInitialSnapshot(JSON.stringify(final));
       setSavedAt(new Date());

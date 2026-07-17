@@ -27,6 +27,7 @@ import {
 import { resolveFormFlightSummary } from "../summary";
 import { scanFormFlightAcceptance } from "../acceptance";
 import { getFormFlightProfile } from "../registry";
+import { isRuntimeReadyProfile } from "../profile-status";
 import type {
   FormFlightAdapter,
   FormFlightPayloadMode,
@@ -50,6 +51,24 @@ export type TemplateRuntimeAdapterInput = {
 };
 
 /**
+ * Resolve the registered Form Flight profile, but only when the profile
+ * is runtime-authoritative. Audit-only / skeleton / missing profiles
+ * are treated as "no profile" — the shared-core payload builder then
+ * becomes a pass-through and the gates collapse to the no-profile
+ * default.
+ *
+ * PR-A invariant repair (RESTORE_BM001_PRE_PR7B_RUNTIME_UI_AND_BLOCK_SKELETON_TAKEOVER):
+ * a skeleton / audit-only profile must never become runtime-authoritative.
+ */
+function resolveAuthoritativeProfile(
+  templateCode: string,
+): FormFlightProfile | null {
+  const profile = getFormFlightProfile(templateCode);
+  if (!isRuntimeReadyProfile(profile)) return null;
+  return profile;
+}
+
+/**
  * Build a runtime adapter for `/templates/:code`. The host (workspace
  * shell) wires `loadDraft` / `saveDraft` to localStorage and
  * `createSession` to the existing `createRuntimePreviewSession`.
@@ -58,7 +77,7 @@ export function createTemplateRuntimeAdapter(
   input: TemplateRuntimeAdapterInput,
 ): FormFlightAdapter {
   const profile = (): FormFlightProfile | null =>
-    getFormFlightProfile(input.templateCode);
+    resolveAuthoritativeProfile(input.templateCode);
 
   return {
     mode: "template-runtime",
@@ -106,7 +125,7 @@ export function gateRuntimePreview(
   draft: Record<string, unknown>,
   templateCode: string,
 ): { ok: true } | { ok: false; missing: string[] } {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return { ok: true };
   const missing = listFormFlightMissingPaths(draft, profile);
   if (missing.length > 0) return { ok: false, missing };
@@ -124,7 +143,7 @@ export function buildRuntimePreviewPayload(
 ) {
   return buildFormFlightPayload({
     draft,
-    profile: getFormFlightProfile(templateCode),
+    profile: resolveAuthoritativeProfile(templateCode),
     mode,
   });
 }
@@ -138,7 +157,7 @@ export function resolveRuntimeSummary(
   draft: Record<string, unknown>,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return null;
   return resolveFormFlightSummary(draft, profile);
 }
@@ -152,7 +171,7 @@ export function acceptRuntimeRenderedText(
   renderedText: string,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return { passed: true, missingRequired: [], foundForbidden: [] };
   return scanFormFlightAcceptance(renderedText, profile);
 }
@@ -165,7 +184,7 @@ export function listRuntimeMissingFields(
   draft: Record<string, unknown>,
   templateCode: string,
 ) {
-  const profile = getFormFlightProfile(templateCode);
+  const profile = resolveAuthoritativeProfile(templateCode);
   if (!profile) return [];
   return collectFormFlightMissingRequired(draft, profile);
 }

@@ -17,6 +17,7 @@ import * as fs from 'node:fs';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
 import { RuntimePreviewSessionService } from './runtime-preview-session.service';
+import { assertRenderIntentBoundary } from './rendering/application/api-render-core/api-render-boundary.policy';
 import { StandaloneTemplateRenderService } from './rendering/application/standalone-template-render.service';
 
 class RenderRuntimeTemplateDocxDto {
@@ -65,6 +66,11 @@ export class RuntimeTemplateRenderController {
     @Param('templateCode') templateCode: string,
     @Body() body: CreatePreviewSessionDto,
   ) {
+    assertRenderIntentBoundary({
+      lifecycle: 'runtime-template',
+      intent: 'RUNTIME_PREVIEW_SESSION',
+    });
+
     return this.previewSessionService.createPreviewSession({
       templateCode,
       data: body?.data ?? {},
@@ -184,6 +190,11 @@ export class RuntimeTemplateRenderController {
     @CurrentUserDecorator() _user: CurrentUser,
     @Res({ passthrough: true }) response: Response,
   ) {
+    assertRenderIntentBoundary({
+      lifecycle: 'runtime-template',
+      intent: 'RUNTIME_DIRECT_DOCX',
+    });
+
     const result = await this.renderer.renderDocx({
       templateCode,
       data: body?.data ?? {},

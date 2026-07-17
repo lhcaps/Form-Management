@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-07-10T09:44:00.000Z",
+  "status": "PARTIAL",
+  "installDecision": "Existing lockfile installation was usable; no reinstall performed.",
+  "commands": [
+    {
+      "command": "pnpm --filter @qllaw/form-contracts typecheck",
+      "exitCode": 0,
+      "durationSeconds": 2.708,
+      "result": "PASS",
+      "summary": "TypeScript contract package clean."
+    },
+    {
+      "command": "pnpm --filter api exec tsc --noEmit",
+      "exitCode": 0,
+      "durationSeconds": 20.557,
+      "result": "PASS",
+      "summary": "API TypeScript clean without requiring a running dev server."
+    },
+    {
+      "command": "pnpm --filter web exec tsc --noEmit",
+      "exitCode": 0,
+      "durationSeconds": 11.39,
+      "result": "PASS",
+      "summary": "Web TypeScript clean without requiring a running dev server."
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "durationSeconds": 5.959,
+      "result": "PASS",
+      "summary": "Root typecheck clean."
+    },
+    {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "durationSeconds": 89.83,
+      "result": "PASS",
+      "summary": "Contracts, API, and web lint clean."
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 1,
+      "durationSeconds": 51.576,
+      "result": "FAIL",
+      "summary": "FAIL: 1/696 API test failed because the DOCX slot inventory report was older than 24h; 695 passed."
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0,
+      "durationSeconds": 63.694,
+      "result": "PASS",
+      "summary": "Contracts, Prisma client, API, and Next production build passed."
+    },
+    {
+      "command": "pnpm audit:hardcode",
+      "exitCode": 1,
+      "durationSeconds": 0.446,
+      "result": "FAIL",
+      "summary": "FAIL: intentional legacy-draft markers were treated as forbidden runtime defaults in two web files."
+    },
+    {
+      "command": "pnpm audit:locked-compiled",
+      "exitCode": 0,
+      "durationSeconds": 0.475,
+      "result": "PASS",
+      "summary": "213/213 locked and compiled contracts consistent."
+    },
+    {
+      "command": "pnpm audit:contract-sync",
+      "exitCode": 0,
+      "durationSeconds": 1.075,
+      "result": "PASS",
+      "summary": "213/213 DB comparison matched; no mutation reported."
+    },
+    {
+      "command": "pnpm audit:encoding",
+      "exitCode": 0,
+      "durationSeconds": 0.825,
+      "result": "PASS",
+      "summary": "No BOM detected."
+    },
+    {
+      "command": "pnpm gate:forms:213",
+      "exitCode": 1,
+      "durationSeconds": 0.391,
+      "result": "FAIL",
+      "summary": "FAIL: locked-contract verification report was stale."
+    },
+    {
+      "command": "node scripts/audit/status-matrix-213.mjs",
+      "exitCode": 0,
+      "durationSeconds": 0.141,
+      "result": "FAIL_INTEGRITY",
+      "summary": "FAIL_INTEGRITY: exit 0 but rewrote canonical state from the reported 201/12 state to 177/36."
+    },
+    {
+      "command": "docker compose --env-file .env.docker -f docker-compose.prod.yml config --quiet",
+      "exitCode": 0,
+      "durationSeconds": 0.177,
+      "result": "PASS",
+      "summary": "Compose syntax/interpolation valid without printing resolved secrets."
+    },
+    {
+      "command": "docker compose (safe CI env) build --no-cache",
+      "exitCode": 0,
+      "durationSeconds": 90.023,
+      "result": "PASS",
+      "summary": "Fresh API and web images built with safe placeholder CI values."
+    },
+    {
+      "command": "docker image inspect baseline images (size)",
+      "exitCode": 0,
+      "durationSeconds": 0.158,
+      "result": "PASS",
+      "summary": "API 601,984,503 bytes; web 355,553,407 bytes; Config.User empty on both."
+    },
+    {
+      "command": "docker web image resolves @qllaw/form-contracts/browser",
+      "exitCode": 0,
+      "durationSeconds": 0.461,
+      "result": "PASS",
+      "summary": "Issue #13 import path resolves in the fresh web image."
+    },
+    {
+      "command": "docker API image seed dependency assets probe",
+      "exitCode": 1,
+      "durationSeconds": 0.413,
+      "result": "FAIL",
+      "summary": "FAIL: runner omits source/catalog files required by prisma/seed.ts."
+    },
+    {
+      "command": "docker API image locked contract corpus count",
+      "exitCode": 1,
+      "durationSeconds": 0.421,
+      "result": "FAIL",
+      "summary": "FAIL: /app/docs/audit/docx/contracts/locked is missing."
+    },
+    {
+      "command": "docker API image non-root assertion",
+      "exitCode": 1,
+      "durationSeconds": 0.43,
+      "result": "FAIL",
+      "summary": "FAIL: image UID is 0."
+    },
+    {
+      "command": "docker API image LibreOffice/font probe",
+      "exitCode": 0,
+      "durationSeconds": 0.905,
+      "result": "PARTIAL",
+      "summary": "PARTIAL: LibreOffice 7.4.7.2 exists; Times New Roman falls back to Liberation Serif."
+    },
+    {
+      "command": "docker API entrypoint seed script probe",
+      "exitCode": 1,
+      "durationSeconds": 0.473,
+      "result": "FAIL",
+      "summary": "FAIL: API package has seed but not the db:seed command invoked by entrypoint."
+    },
+    {
+      "command": "docker compose isolated verification config --quiet",
+      "exitCode": 0,
+      "durationSeconds": 0.175,
+      "result": "PASS",
+      "summary": "Isolated override config valid; no user storage or persistent DB mounted."
+    },
+    {
+      "command": "docker compose isolated verification up --no-build",
+      "exitCode": 0,
+      "durationSeconds": 11.686,
+      "result": "PASS",
+      "summary": "Isolated services created and started."
+    },
+    {
+      "command": "docker isolated boot condition wait",
+      "exitCode": 0,
+      "durationSeconds": 90.018,
+      "result": "FAIL",
+      "summary": "FAIL: API restart loop exit 255; API/web readiness never passed."
+    },
+    {
+      "command": "docker isolated API logs (redacted tail)",
+      "exitCode": 0,
+      "durationSeconds": 0.12,
+      "result": "PASS",
+      "summary": "Root cause output: exec /usr/local/bin/api-entrypoint.sh: no such file or directory."
+    },
+    {
+      "command": "docker compose isolated verification down -v",
+      "exitCode": 0,
+      "durationSeconds": 1.013,
+      "result": "PASS",
+      "summary": "Only the isolated project, network, and volumes were removed."
+    },
+    {
+      "command": "node --test all apps/web form-flight guard tests",
+      "exitCode": 0,
+      "durationSeconds": 0.394,
+      "result": "PASS",
+      "summary": "9 suites / 803 tests passed; runtime-ready allowlist and standalone boundary preserved."
+    },
+    {
+      "command": "node --test scripts/audit/assert-bm006-calibration-canary.guard.test.mjs",
+      "exitCode": 0,
+      "durationSeconds": 0.354,
+      "result": "PASS",
+      "summary": "BM-006 canary guard passed."
+    },
+    {
+      "command": "bounded status-matrix preservation guard with hash check",
+      "exitCode": 0,
+      "durationSeconds": 0.59,
+      "result": "PASS",
+      "summary": "3/3 passed under 5s timeout and canonical hash was restored."
+    },
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": null,
+      "durationSeconds": null,
+      "result": "NOT_RUN",
+      "summary": "Existing dependencies were usable; independent typechecks, lint, build, and tests executed."
+    },
+    {
+      "command": "node scripts/audit/apply-all-current-evidence.mjs (twice)",
+      "exitCode": null,
+      "durationSeconds": null,
+      "result": "BLOCKED_BASELINE",
+      "summary": "Deferred after the standalone reducer proved destructive and the orchestrator was found to invoke live browser collection without a timeout."
+    }
+  ]
+}
