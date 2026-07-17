@@ -1,5 +1,12 @@
 # Failure Log
 
+## 2026-07-17 — ESLint 10 Wave 2 is blocked by Next's plugin peer graph
+**Request**: Upgrade ESLint 9 to 10 only if full regression remains green.
+**What I tried**: Updated API/web ESLint to 10.7.0 and current compatible API lint tooling, then ran the repository lint command.
+**Root cause**: `eslint-config-next@16.2.10` still depends on `eslint-plugin-react`, `eslint-plugin-import`, and `eslint-plugin-jsx-a11y` whose published peer ranges stop at ESLint 9. The web lint process crashes while loading `react/display-name` under ESLint 10.
+**Skill that should have caught it**: verification-before-completion — package peer declarations and actual web lint must both pass before accepting a major upgrade.
+**Fix**: Revert the uncommitted experiment completely. Keep ESLint 9 until the Next ESLint dependency graph publishes ESLint 10-compatible plugins; do not force peer overrides or disable rules.
+
 ## 2026-07-17 — Full CI caught import hardening formatting and MIME-policy gaps
 **Request**: Complete dependency/import hardening without weakening any customer-ready gate.
 **What I tried**: Ran focused parser tests and TypeScript build, then started `pnpm verify:ci`.
