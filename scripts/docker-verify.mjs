@@ -86,6 +86,11 @@ function imageFor(config, service) {
 
   const project = config.name;
   if (!project) return null;
+  // BuildKit's Compose labels are not guaranteed on images emitted by every
+  // Docker Engine/Compose version. Compose's documented default tag remains
+  // stable, so resolve it before the legacy label lookup.
+  const defaultImage = `${project}-${service}`;
+  if (imageExistsLocally(defaultImage)) return defaultImage;
   return run(
     "docker",
     [

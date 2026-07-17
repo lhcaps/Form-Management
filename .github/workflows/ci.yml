@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build workspace contract package
+        run: pnpm build:contracts
+
       - name: Run deterministic CI verification
         shell: bash
         run: |

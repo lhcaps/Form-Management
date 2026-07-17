@@ -76,6 +76,16 @@ describe("production Docker runtime contract", () => {
     }
   });
 
+  it("resolves Compose's default built image name before relying on BuildKit labels", () => {
+    const verifier = read("scripts/docker-verify.mjs");
+    const defaultImage = verifier.indexOf("const defaultImage = `${project}-${service}`;");
+    const labelFallback = verifier.indexOf("label=com.docker.compose.project=${project}");
+
+    assert.ok(defaultImage >= 0, "image verifier must try Compose's default image name");
+    assert.ok(labelFallback >= 0, "image verifier must retain the label fallback");
+    assert.ok(defaultImage < labelFallback, "default image resolution must precede label lookup");
+  });
+
   it("keeps Compose private-by-default and health-gated", () => {
     const compose = read("docker-compose.prod.yml");
 
