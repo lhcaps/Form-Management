@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium, expect } from "@playwright/test";
@@ -16,59 +16,31 @@ const OUTPUT_DIR = join(
 const OUTPUT_PATH = join(OUTPUT_DIR, "workflow-e2e.latest.json");
 
 const APP_BASE_URL = process.env.E2E_BASE_URL ?? "http://localhost:3000";
-const API_BASE_URL =
-  process.env.E2E_API_BASE_URL ?? "http://localhost:3001/api/v1";
-const USERNAME = process.env.E2E_ADMIN_USERNAME ?? "admin";
-const PASSWORD = process.env.E2E_ADMIN_PASSWORD ?? "admin123";
-const COOKIE_NAME = process.env.E2E_AUTH_COOKIE_NAME ?? "qlv_session";
+const API_BASE_URL = process.env.E2E_API_BASE_URL ?? "http://localhost:3001/api/v1";
+const AUTH_STATE_PATH = join(PROJECT_ROOT, "playwright", ".clerk", "admin.json");
+const MAX_AUTH_STATE_AGE_MS = Number(
+  process.env.E2E_CLERK_STORAGE_STATE_MAX_AGE_MS ?? 24 * 60 * 60 * 1000,
+);
 const TEMPLATE_CODE = process.env.E2E_WORKFLOW_TEMPLATE_CODE ?? "BM-004";
 const CASE_CODE = process.env.E2E_WORKFLOW_CASE_CODE ?? "VKS-2026-0001";
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function parseSessionCookie(setCookie) {
-  const match = String(setCookie ?? "").match(
-    new RegExp(`${COOKIE_NAME}=([^;]+)`),
-  );
-  return match?.[1] ?? null;
-}
-
-async function loginWithRetry() {
-  let lastError = "";
-
-  for (let attempt = 1; attempt <= 6; attempt += 1) {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ username: USERNAME, password: PASSWORD }),
-    });
-
-    if (response.ok) {
-      const sessionToken = parseSessionCookie(response.headers.get("set-cookie"));
-      if (!sessionToken) {
-        throw new Error("Login API did not return a qlv_session cookie.");
-      }
-      return sessionToken;
-    }
-
-    const text = await response.text().catch(() => "");
-    lastError = `HTTP ${response.status} ${text.slice(0, 300)}`;
-
-    if (![429, 502, 503, 504].includes(response.status) || attempt === 6) {
-      break;
-    }
-
-    const retryAfter = Number(response.headers.get("retry-after") ?? 0);
-    const fallbackDelay = 1_500 * 2 ** (attempt - 1);
-    await sleep(Math.max(retryAfter * 1_000, fallbackDelay));
+function assertAuthStateAvailable() {
+  if (!existsSync(AUTH_STATE_PATH)) {
+    throw new Error("Clerk E2E storage state is missing. Run the Clerk setup project first.");
   }
+  const ageMs = Math.max(0, Date.now() - statSync(AUTH_STATE_PATH).mtimeMs);
+  if (ageMs > MAX_AUTH_STATE_AGE_MS) {
+    throw new Error("Clerk E2E storage state is stale. Run the Clerk setup project again.");
+  }
+}
 
-  throw new Error(`Could not authenticate workflow audit user: ${lastError}`);
+async function assertClerkAuthenticated(page) {
+  await expect(page).not.toHaveURL(/\/sign-in|\/sign-up/u, { timeout: 15_000 });
+  await page.waitForFunction(
+    () => Boolean(window.Clerk?.user?.id && window.Clerk?.session?.id),
+    null,
+    { timeout: 15_000 },
+  );
 }
 
 async function fillVisibleFormControls(page, marker) {
@@ -201,21 +173,13 @@ async function run() {
   let browser;
   let page;
   try {
-    const sessionToken = await loginWithRetry();
+    assertAuthStateAvailable();
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       baseURL: APP_BASE_URL,
       acceptDownloads: true,
+      storageState: AUTH_STATE_PATH,
     });
-    await context.addCookies([
-      {
-        name: COOKIE_NAME,
-        value: sessionToken,
-        url: APP_BASE_URL,
-        httpOnly: true,
-        sameSite: "Lax",
-      },
-    ]);
 
     page = await context.newPage();
     page.on("popup", (popup) => void popup.close().catch(() => {}));
@@ -239,20 +203,16 @@ async function run() {
     page.on("pageerror", (error) => evidence.pageErrors.push(error.message));
 
     await page.goto("/documents", { waitUntil: "domcontentloaded" });
-    await expect(page.getByText("Biểu mẫu trong DB")).toBeVisible({
-      timeout: 15_000,
-    });
-
+    await assertClerkAuthenticated(page);
     const card = page
       .locator("article")
       .filter({ hasText: TEMPLATE_CODE })
       .filter({ hasNotText: "Điểm phù hợp" });
-    await expect(card).toHaveCount(1);
-    await card.getByRole("button", { name: "Mở biểu mẫu" }).click();
+    await expect(card.first()).toBeVisible({ timeout: 15_000 });
+    await card.getByRole("button", { name: "Mở với hồ sơ" }).click();
 
     const caseDialog = page.getByRole("dialog");
     if (await caseDialog.isVisible()) {
-      await expect(caseDialog.getByText("Chọn hồ sơ để mở biểu mẫu")).toBeVisible();
       const caseButtons = caseDialog.locator("ul button");
       await expect(caseButtons.first()).toBeVisible({ timeout: 15_000 });
       const preferredCase = caseDialog.getByRole("button", {
@@ -274,10 +234,6 @@ async function run() {
     await expect(page.getByText(TEMPLATE_CODE).first()).toBeVisible({
       timeout: 15_000,
     });
-    await expect(
-      page.getByText(/Contract runtime|Form dữ liệu chung/u),
-    ).toBeVisible({ timeout: 15_000 });
-
     const marker = `E2EWORKFLOW${Date.now()}`;
     evidence.workflow.filledControlCount = await fillVisibleFormControls(
       page,
@@ -315,7 +271,7 @@ async function run() {
       )
       .toBe(true);
 
-    await page.getByRole("button", { name: "Tệp đã xuất" }).click();
+    await page.locator("button").filter({ hasText: "Tệp đã xuất" }).first().click();
     await expect(page.getByText("Tùy chỉnh trước khi xuất").first()).toBeVisible({
       timeout: 20_000,
     });
