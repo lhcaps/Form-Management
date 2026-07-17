@@ -17,13 +17,18 @@ type FileTypeModule = {
 // Keep the native import expression intact instead of falling back to a weaker
 // extension-only detector.
 const loadFileType = (): Promise<FileTypeModule> =>
-  new Function('specifier', 'return import(specifier)')('file-type') as Promise<FileTypeModule>;
+  new Function('specifier', 'return import(specifier)')(
+    'file-type',
+  ) as Promise<FileTypeModule>;
 
 function isTextExtension(extension: string): boolean {
   return ['.csv', '.txt', '.json'].includes(extension);
 }
 
-function expectedSignature(extension: string, detectedMime: string | null): boolean {
+function expectedSignature(
+  extension: string,
+  detectedMime: string | null,
+): boolean {
   if (isTextExtension(extension)) return detectedMime === null;
   if (extension === '.pdf') return detectedMime === 'application/pdf';
   if (extension === '.doc') return detectedMime === 'application/x-cfb';
@@ -31,10 +36,44 @@ function expectedSignature(extension: string, detectedMime: string | null): bool
     return detectedMime === 'application/zip';
   }
   if (['.png'].includes(extension)) return detectedMime === 'image/png';
-  if (['.jpg', '.jpeg'].includes(extension)) return detectedMime === 'image/jpeg';
+  if (['.jpg', '.jpeg'].includes(extension))
+    return detectedMime === 'image/jpeg';
   if (extension === '.webp') return detectedMime === 'image/webp';
-  if (['.tif', '.tiff'].includes(extension)) return detectedMime === 'image/tiff';
+  if (['.tif', '.tiff'].includes(extension))
+    return detectedMime === 'image/tiff';
   return false;
+}
+
+function isDeclaredMimeCompatible(
+  extension: string,
+  declaredMime: string | null,
+): boolean {
+  if (!declaredMime) return true;
+
+  const acceptedByExtension: Record<string, string[]> = {
+    '.pdf': ['application/pdf'],
+    '.doc': ['application/msword', 'application/x-cfb'],
+    '.docx': [
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
+    '.xlsx': [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    ],
+    '.csv': ['text/csv', 'text/plain'],
+    '.txt': ['text/plain'],
+    '.json': ['application/json', 'text/json'],
+    '.png': ['image/png'],
+    '.jpg': ['image/jpeg'],
+    '.jpeg': ['image/jpeg'],
+    '.webp': ['image/webp'],
+    '.tif': ['image/tiff'],
+    '.tiff': ['image/tiff'],
+  };
+
+  return (
+    acceptedByExtension[extension]?.includes(declaredMime.toLowerCase()) ??
+    false
+  );
 }
 
 function expectedOfficeEntry(extension: string, entries: Set<string>): boolean {
@@ -47,21 +86,25 @@ function expectedOfficeEntry(extension: string, entries: Set<string>): boolean {
 @Injectable()
 export class ImportFilePolicyService {
   constructor(
-    private readonly detectFileType: (path: string) => Promise<{ mime: string } | undefined> =
-      async (path) => {
-        const { fileTypeFromFile } = await loadFileType();
-        return fileTypeFromFile(path);
-      },
+    private readonly detectFileType: (
+      path: string,
+    ) => Promise<{ mime: string } | undefined> = async (path) => {
+      const { fileTypeFromFile } = await loadFileType();
+      return fileTypeFromFile(path);
+    },
   ) {}
 
   async validate(
     absolutePath: string,
     extension: string,
-    _declaredMime: string | null,
+    declaredMime: string | null,
   ): Promise<ImportFilePolicyResult> {
     const detected = await this.detectFileType(absolutePath);
     const detectedMime = detected?.mime ?? null;
-    if (!expectedSignature(extension, detectedMime)) {
+    if (
+      !expectedSignature(extension, detectedMime) ||
+      !isDeclaredMimeCompatible(extension, declaredMime)
+    ) {
       return { accepted: false, reasonCode: 'SIGNATURE_MISMATCH' };
     }
 
@@ -78,49 +121,55 @@ export class ImportFilePolicyService {
     extension: '.docx' | '.xlsx' | string,
   ): Promise<ImportFilePolicyResult> {
     return new Promise((resolve) => {
-      yauzl.open(absolutePath, { lazyEntries: true, autoClose: true }, (error: Error | null, zip?: yauzl.ZipFile) => {
-        if (error || !zip) {
-          resolve({ accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' });
-          return;
-        }
-
-        let entries = 0;
-        let uncompressedBytes = 0;
-        const names = new Set<string>();
-        let settled = false;
-        const finish = (result: ImportFilePolicyResult) => {
-          if (settled) return;
-          settled = true;
-          zip.close();
-          resolve(result);
-        };
-
-        zip.on('error', () => finish({ accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' }));
-        zip.on('entry', (entry: yauzl.Entry) => {
-          entries += 1;
-          const compressed = Math.max(1, entry.compressedSize);
-          uncompressedBytes += entry.uncompressedSize;
-          names.add(entry.fileName);
-
-          if (
-            entries > MAX_ZIP_ENTRIES ||
-            uncompressedBytes > MAX_ZIP_UNCOMPRESSED_BYTES ||
-            entry.uncompressedSize / compressed > MAX_ZIP_COMPRESSION_RATIO
-          ) {
-            finish({ accepted: false, reasonCode: 'ARCHIVE_LIMIT_EXCEEDED' });
+      yauzl.open(
+        absolutePath,
+        { lazyEntries: true, autoClose: true },
+        (error: Error | null, zip?: yauzl.ZipFile) => {
+          if (error || !zip) {
+            resolve({ accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' });
             return;
           }
-          zip.readEntry();
-        });
-        zip.on('end', () => {
-          finish(
-            expectedOfficeEntry(extension, names)
-              ? { accepted: true, detectedMime: 'application/zip' }
-              : { accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' },
+
+          let entries = 0;
+          let uncompressedBytes = 0;
+          const names = new Set<string>();
+          let settled = false;
+          const finish = (result: ImportFilePolicyResult) => {
+            if (settled) return;
+            settled = true;
+            zip.close();
+            resolve(result);
+          };
+
+          zip.on('error', () =>
+            finish({ accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' }),
           );
-        });
-        zip.readEntry();
-      });
+          zip.on('entry', (entry: yauzl.Entry) => {
+            entries += 1;
+            const compressed = Math.max(1, entry.compressedSize);
+            uncompressedBytes += entry.uncompressedSize;
+            names.add(entry.fileName);
+
+            if (
+              entries > MAX_ZIP_ENTRIES ||
+              uncompressedBytes > MAX_ZIP_UNCOMPRESSED_BYTES ||
+              entry.uncompressedSize / compressed > MAX_ZIP_COMPRESSION_RATIO
+            ) {
+              finish({ accepted: false, reasonCode: 'ARCHIVE_LIMIT_EXCEEDED' });
+              return;
+            }
+            zip.readEntry();
+          });
+          zip.on('end', () => {
+            finish(
+              expectedOfficeEntry(extension, names)
+                ? { accepted: true, detectedMime: 'application/zip' }
+                : { accepted: false, reasonCode: 'INVALID_OFFICE_ARCHIVE' },
+            );
+          });
+          zip.readEntry();
+        },
+      );
     });
   }
 }

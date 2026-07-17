@@ -1,8 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
-import * as ExcelJS from 'exceljs';
-import { PDFParse } from 'pdf-parse';
-import mammoth from 'mammoth';
 import {
   type CandidateConfidence,
   type ImportDetectedCandidate,
@@ -11,15 +8,11 @@ import {
   type ImportTablePreview,
 } from './import.types';
 import { ImportFilePolicyService } from './import-file-policy.service';
+import { ImportParserWorkerService } from './import-parser-worker.service';
+import type { ImportParserResult } from './import-parser-worker.types';
 
 const MAX_TEXT_LENGTH = 250_000;
 const MAX_PREVIEW_TEXT_LENGTH = 4_000;
-const MAX_TABLE_ROWS = 10;
-const MAX_TABLES = 20;
-const MAX_ROWS_PER_SHEET = 100_000;
-const MAX_COLUMNS_PER_SHEET = 256;
-const MAX_JSON_DEPTH = 32;
-const MAX_JSON_NODES = 100_000;
 
 type CandidateSeed = Omit<ImportDetectedCandidate, 'id'>;
 
@@ -39,17 +32,6 @@ function cleanText(value: string): string {
       .replace(/\r\n/g, '\n')
       .trim()
   );
-}
-
-function detectDelimiterSample(content: string): string {
-  const firstLine = content.split(/\r?\n/, 1)[0] ?? '';
-  const delimiters = [',', ';', '\t', '|'];
-  const scored = delimiters.map((delimiter) => ({
-    delimiter,
-    score: firstLine.split(delimiter).length,
-  }));
-
-  return scored.sort((a, b) => b.score - a.score)[0]?.delimiter ?? ',';
 }
 
 function snippetAround(source: string, index: number, length: number): string {
@@ -248,87 +230,13 @@ function detectCandidatesFromText(source: string): ImportDetectedCandidate[] {
   return Array.from(bucket.values()).slice(0, 20);
 }
 
-function buildWorkbookPreview(workbook: ExcelJS.Workbook): {
-  tables: ImportTablePreview[];
-  totalRows: number;
-} {
-  const tables: ImportTablePreview[] = [];
-  let totalRows = 0;
-
-  if (workbook.worksheets.length > MAX_TABLES) {
-    throw new Error('IMPORT_XLSX_WORKSHEET_LIMIT');
-  }
-
-  for (const sheet of workbook.worksheets) {
-    if (sheet.rowCount > MAX_ROWS_PER_SHEET) {
-      throw new Error('IMPORT_XLSX_ROW_LIMIT');
-    }
-    if (sheet.columnCount > MAX_COLUMNS_PER_SHEET) {
-      throw new Error('IMPORT_XLSX_COLUMN_LIMIT');
-    }
-    const rawRows: string[][] = [];
-    sheet.eachRow({ includeEmpty: false }, (row) => {
-      const values: string[] = [];
-      row.eachCell({ includeEmpty: true }, (cell, columnNumber) => {
-        values[columnNumber - 1] = String(cell.text ?? cell.value ?? '').trim();
-      });
-      rawRows.push(values);
-    });
-
-    const headerRow = rawRows.shift() ?? [];
-    const seenHeaders = new Map<string, number>();
-    const headers = headerRow.map((value, index) => {
-      const base = value || `Cột ${index + 1}`;
-      const count = (seenHeaders.get(base) ?? 0) + 1;
-      seenHeaders.set(base, count);
-      return count === 1 ? base : `${base}_${count}`;
-    });
-    const dataRows = rawRows.filter((row) =>
-      row.some((value) => value.trim().length > 0),
-    );
-    totalRows += dataRows.length;
-
-    const rows = dataRows.slice(0, MAX_TABLE_ROWS).map((row) => {
-      const normalized: Record<string, string> = {};
-
-      for (const [index, header] of headers.entries()) {
-        normalized[header] = row[index] ?? '';
-      }
-
-      return normalized;
-    });
-
-    tables.push({
-      sheetName: sheet.name,
-      headers,
-      rows,
-      totalRows: dataRows.length,
-      candidateColumns: detectColumns(headers),
-    });
-  }
-
-  return {
-    tables,
-    totalRows,
-  };
-}
-
-function assertJsonLimits(value: unknown, depth = 0, nodes = { value: 0 }): void {
-  nodes.value += 1;
-  if (depth > MAX_JSON_DEPTH) throw new Error('IMPORT_JSON_DEPTH_LIMIT');
-  if (nodes.value > MAX_JSON_NODES) throw new Error('IMPORT_JSON_NODE_LIMIT');
-  if (!value || typeof value !== 'object') return;
-  for (const child of Array.isArray(value) ? value : Object.values(value)) {
-    assertJsonLimits(child, depth + 1, nodes);
-  }
-}
-
 @Injectable()
 export class FileExtractionService {
   private readonly logger = new Logger(FileExtractionService.name);
 
   constructor(
     private readonly policy: ImportFilePolicyService = new ImportFilePolicyService(),
+    private readonly parser: ImportParserWorkerService = new ImportParserWorkerService(),
   ) {}
 
   async extractFile(
@@ -338,33 +246,37 @@ export class FileExtractionService {
   ): Promise<ImportExtractionResult> {
     try {
       if (extension === '.xls') return this.rejectLegacyXls();
-      const policy = await this.policy.validate(absolutePath, extension, mimeType);
+      const policy = await this.policy.validate(
+        absolutePath,
+        extension,
+        mimeType,
+      );
       if (!policy.accepted) {
         this.logger.warn(`Import rejected by policy: ${policy.reasonCode}`);
         return {
-          extractionStatus: 'REJECTED', rawText: null, parsedJson: null,
+          extractionStatus: 'REJECTED',
+          rawText: null,
+          parsedJson: null,
           warnings: ['Tệp không đạt chính sách an toàn để xử lý.'],
           errorMessage: 'Tệp không thể được xử lý an toàn.',
-          candidates: [], previewText: null, totalRows: 0,
+          candidates: [],
+          previewText: null,
+          totalRows: 0,
         };
       }
       switch (extension) {
         case '.pdf':
-          return await this.extractPdf(absolutePath);
         case '.docx':
-          return await this.extractDocx(absolutePath);
+        case '.xlsx':
+        case '.csv':
+        case '.json':
+          return await this.extractInWorker(absolutePath, extension);
         case '.doc':
           return this.extractDoc();
-        case '.xlsx':
-          return await this.extractSpreadsheet(absolutePath);
         case '.xls':
           return this.rejectLegacyXls();
-        case '.csv':
-          return await this.extractCsv(absolutePath);
         case '.txt':
           return await this.extractTxt(absolutePath);
-        case '.json':
-          return await this.extractJson(absolutePath);
         case '.png':
         case '.jpg':
         case '.jpeg':
@@ -387,7 +299,8 @@ export class FileExtractionService {
           };
       }
     } catch (error: unknown) {
-      const reasonCode = error instanceof Error ? error.message : 'IMPORT_PARSER_FAILED';
+      const reasonCode =
+        error instanceof Error ? error.message : 'IMPORT_PARSER_FAILED';
       this.logger.warn(`Import parser rejected file: ${reasonCode}`);
       return {
         extractionStatus: 'FAILED',
@@ -402,57 +315,65 @@ export class FileExtractionService {
     }
   }
 
-  private async extractPdf(
+  private async extractInWorker(
     absolutePath: string,
+    extension: '.pdf' | '.docx' | '.xlsx' | '.csv' | '.json',
   ): Promise<ImportExtractionResult> {
-    const buffer = await fs.promises.readFile(absolutePath);
-    const parser = new PDFParse({
-      data: buffer,
-    });
-    const parsed = await parser.getText();
-    await parser.destroy();
-    const text = cleanText(parsed.text ?? '');
-    const warnings: string[] = [];
-
-    if (!text) {
-      warnings.push('PDF có thể là bản scan, chưa trích xuất được chữ.');
-    }
-
-    return {
-      extractionStatus: warnings.length ? 'PARSED_WITH_WARNINGS' : 'PARSED',
-      rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
-      parsedJson: {
-        kind: 'text',
-      },
-      warnings,
-      errorMessage: null,
-      candidates: detectCandidatesFromText(text),
-      previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
-      totalRows: 0,
-    };
+    return this.toExtractionResult(
+      await this.parser.parse({ absolutePath, extension }),
+    );
   }
 
-  private async extractDocx(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const parsed = await mammoth.extractRawText({
-      path: absolutePath,
-    });
-    const text = cleanText(parsed.value ?? '');
-    const warnings = (parsed.messages ?? [])
-      .map((item) => item.message)
-      .slice(0, 10);
+  private toExtractionResult(
+    parsed: ImportParserResult,
+  ): ImportExtractionResult {
+    if (parsed.kind === 'text') {
+      const text = cleanText(parsed.text);
+      return {
+        extractionStatus: parsed.warnings.length
+          ? 'PARSED_WITH_WARNINGS'
+          : 'PARSED',
+        rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
+        parsedJson: { kind: 'text' },
+        warnings: parsed.warnings,
+        errorMessage: null,
+        candidates: detectCandidatesFromText(text),
+        previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
+        totalRows: 0,
+      };
+    }
 
+    if (parsed.kind === 'table') {
+      const text = cleanText(parsed.text);
+      const tables: ImportTablePreview[] = parsed.tables.map((table) => ({
+        ...table,
+        candidateColumns: detectColumns(table.headers),
+      }));
+      return {
+        extractionStatus: 'PARSED',
+        rawText: truncateText(text, MAX_TEXT_LENGTH) || null,
+        parsedJson: { kind: 'table', sheetNames: parsed.sheetNames, tables },
+        warnings: [],
+        errorMessage: null,
+        candidates: detectCandidatesFromText(text),
+        previewText: truncateText(text, MAX_PREVIEW_TEXT_LENGTH) || null,
+        totalRows: parsed.totalRows,
+      };
+    }
+
+    const pretty = parsed.pretty;
     return {
-      extractionStatus: warnings.length ? 'PARSED_WITH_WARNINGS' : 'PARSED',
-      rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
+      extractionStatus: 'PARSED',
+      rawText: truncateText(pretty, MAX_TEXT_LENGTH),
       parsedJson: {
-        kind: 'text',
+        kind: 'json',
+        preview: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
+        topLevelKeys: parsed.topLevelKeys,
       },
-      warnings,
+      warnings: [],
       errorMessage: null,
-      candidates: detectCandidatesFromText(text),
-      previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
+      candidates: detectCandidatesFromText(pretty),
+      previewText: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
       totalRows: 0,
     };
   }
@@ -489,72 +410,6 @@ export class FileExtractionService {
     };
   }
 
-  private async extractSpreadsheet(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const workbook = new ExcelJS.Workbook();
-    const fileBuffer = await fs.promises.readFile(absolutePath);
-    await workbook.xlsx.load(
-      fileBuffer as unknown as Parameters<typeof workbook.xlsx.load>[0],
-    );
-    const preview = buildWorkbookPreview(workbook);
-    const flattenedText = preview.tables
-      .flatMap((table) => [
-        table.sheetName,
-        table.headers.join(' | '),
-        ...table.rows.map((row) => Object.values(row).join(' | ')),
-      ])
-      .join('\n');
-
-    return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(cleanText(flattenedText), MAX_TEXT_LENGTH) || null,
-      parsedJson: {
-        kind: 'table',
-        sheetNames: workbook.worksheets.map((sheet) => sheet.name),
-        tables: preview.tables,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(flattenedText),
-      previewText:
-        truncateText(cleanText(flattenedText), MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: preview.totalRows,
-    };
-  }
-
-  private async extractCsv(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const fileBuffer = await fs.promises.readFile(absolutePath);
-    const content = this.decodeText(fileBuffer);
-    const delimiter = detectDelimiterSample(content);
-    const workbook = new ExcelJS.Workbook();
-    await workbook.csv.readFile(absolutePath, {
-      parserOptions: {
-        delimiter,
-      },
-    });
-
-    const preview = buildWorkbookPreview(workbook);
-    const flattenedText = cleanText(content);
-
-    return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(flattenedText, MAX_TEXT_LENGTH) || null,
-      parsedJson: {
-        kind: 'table',
-        sheetNames: workbook.worksheets.map((sheet) => sheet.name),
-        tables: preview.tables,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(flattenedText),
-      previewText: truncateText(flattenedText, MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: preview.totalRows,
-    };
-  }
-
   private async extractTxt(
     absolutePath: string,
   ): Promise<ImportExtractionResult> {
@@ -571,33 +426,6 @@ export class FileExtractionService {
       errorMessage: null,
       candidates: detectCandidatesFromText(text),
       previewText: truncateText(text, MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: 0,
-    };
-  }
-
-  private async extractJson(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const raw = await fs.promises.readFile(absolutePath, 'utf8');
-    const parsed = JSON.parse(raw) as Record<string, unknown> | unknown[];
-    assertJsonLimits(parsed);
-    const pretty = JSON.stringify(parsed, null, 2);
-    const topLevelKeys = Array.isArray(parsed)
-      ? ['[array]']
-      : Object.keys(parsed ?? {}).slice(0, 20);
-
-    return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(pretty, MAX_TEXT_LENGTH),
-      parsedJson: {
-        kind: 'json',
-        preview: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
-        topLevelKeys,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(pretty),
-      previewText: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
       totalRows: 0,
     };
   }

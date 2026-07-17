@@ -35,6 +35,19 @@ describe('ImportFilePolicyService', () => {
     }
   });
 
+  it('rejects a valid signature when the supplied MIME claims another format', async () => {
+    const policy = new ImportFilePolicyService(async () => ({
+      mime: 'application/pdf',
+    }));
+
+    await expect(
+      policy.validate('ignored.pdf', '.pdf', 'image/png'),
+    ).resolves.toMatchObject({
+      accepted: false,
+      reasonCode: 'SIGNATURE_MISMATCH',
+    });
+  });
+
   it('rejects a malformed Office ZIP without exposing archive internals', async () => {
     const dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'qllaw-import-policy-'));
     const filePath = path.join(dir, 'broken.docx');

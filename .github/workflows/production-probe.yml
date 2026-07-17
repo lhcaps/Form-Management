@@ -40,16 +40,46 @@ jobs:
           MYSQL_PORT: ${{ vars.MYSQL_PORT }}
           API_PORT: ${{ vars.API_PORT }}
           WEB_PORT: ${{ vars.WEB_PORT }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+          MYSQL_CPU_LIMIT: ${{ vars.MYSQL_CPU_LIMIT }}
+          MYSQL_MEMORY_LIMIT: ${{ vars.MYSQL_MEMORY_LIMIT }}
+          MYSQL_PIDS_LIMIT: ${{ vars.MYSQL_PIDS_LIMIT }}
+          API_CPU_LIMIT: ${{ vars.API_CPU_LIMIT }}
+          API_MEMORY_LIMIT: ${{ vars.API_MEMORY_LIMIT }}
+          API_PIDS_LIMIT: ${{ vars.API_PIDS_LIMIT }}
+          WEB_CPU_LIMIT: ${{ vars.WEB_CPU_LIMIT }}
+          WEB_MEMORY_LIMIT: ${{ vars.WEB_MEMORY_LIMIT }}
+          WEB_PIDS_LIMIT: ${{ vars.WEB_PIDS_LIMIT }}
         run: |
           set -euo pipefail
           run_id="production-probe-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           env_file="$(mktemp)"
+          compose=(docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml)
           cleanup() {
-            docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml down --volumes --remove-orphans >/dev/null 2>&1 || true
+            local status="$1"
+            "${compose[@]}" down --volumes --remove-orphans >/dev/null 2>&1 || status=1
+            test -z "$(docker ps -aq --filter "label=com.docker.compose.project=$run_id")" || status=1
+            test -z "$(docker volume ls -q --filter "label=com.docker.compose.project=$run_id")" || status=1
             rm -f "$env_file"
+            exit "$status"
           }
-          trap cleanup EXIT
+          trap 'cleanup $?' EXIT
           umask 077
+          : "${MYSQL_ROOT_PASSWORD:?missing production secret}"
+          : "${MYSQL_PASSWORD:?missing production secret}"
+          : "${CLERK_SECRET_KEY:?missing production secret}"
+          : "${CLERK_WEBHOOK_SECRET:?missing production secret}"
+          : "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?missing production secret}"
+          : "${SEED_ADMIN_PASSWORD:?missing production secret}"
+          : "${QLLAW_TNR_FONT_DIR:?missing production variable}"
+          : "${WEB_ORIGIN:?missing production variable}"
+          : "${API_CORS_ORIGIN:?missing production variable}"
+          : "${MYSQL_DATABASE:?missing production variable}"
+          : "${MYSQL_USER:?missing production variable}"
+          : "${MYSQL_PORT:?missing production variable}"
+          : "${API_PORT:?missing production variable}"
+          : "${WEB_PORT:?missing production variable}"
+          : "${NEXT_PUBLIC_API_BASE_URL:?missing production variable}"
           printf '%s\n' \
             "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" "MYSQL_PASSWORD=$MYSQL_PASSWORD" \
             "CLERK_SECRET_KEY=$CLERK_SECRET_KEY" "CLERK_WEBHOOK_SECRET=$CLERK_WEBHOOK_SECRET" \
@@ -57,13 +87,38 @@ jobs:
             "SEED_ADMIN_PASSWORD=$SEED_ADMIN_PASSWORD" "QLLAW_TNR_FONT_DIR=$QLLAW_TNR_FONT_DIR" \
             "WEB_ORIGIN=$WEB_ORIGIN" "API_CORS_ORIGIN=$API_CORS_ORIGIN" \
             "MYSQL_DATABASE=$MYSQL_DATABASE" "MYSQL_USER=$MYSQL_USER" \
-            "MYSQL_PORT=$MYSQL_PORT" "API_PORT=$API_PORT" "WEB_PORT=$WEB_PORT" > "$env_file"
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml config --quiet
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml build
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml --profile bootstrap run --rm contract-bootstrap
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml up -d
-          for _ in $(seq 1 60); do curl --fail --silent --show-error "http://127.0.0.1:${API_PORT}/api/v1/ready" && break; sleep 2; done
-          curl --fail --silent --show-error "http://127.0.0.1:${WEB_PORT}/healthz"
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml restart api
-          for _ in $(seq 1 60); do curl --fail --silent --show-error "http://127.0.0.1:${API_PORT}/api/v1/ready" && break; sleep 2; done
-          docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml exec -T mariadb mariadb -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e 'SELECT migration_name, finished_at FROM _prisma_migrations WHERE finished_at IS NULL;' | (! grep -v '^migration_name')
+            "MYSQL_PORT=$MYSQL_PORT" "API_PORT=$API_PORT" "WEB_PORT=$WEB_PORT" \
+            "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL" \
+            "MYSQL_CPU_LIMIT=${MYSQL_CPU_LIMIT:-1.00}" "MYSQL_MEMORY_LIMIT=${MYSQL_MEMORY_LIMIT:-1024m}" "MYSQL_PIDS_LIMIT=${MYSQL_PIDS_LIMIT:-256}" \
+            "API_CPU_LIMIT=${API_CPU_LIMIT:-1.50}" "API_MEMORY_LIMIT=${API_MEMORY_LIMIT:-1536m}" "API_PIDS_LIMIT=${API_PIDS_LIMIT:-512}" \
+            "WEB_CPU_LIMIT=${WEB_CPU_LIMIT:-0.75}" "WEB_MEMORY_LIMIT=${WEB_MEMORY_LIMIT:-768m}" "WEB_PIDS_LIMIT=${WEB_PIDS_LIMIT:-256}" > "$env_file"
+          "${compose[@]}" config --quiet
+          test -z "$(docker volume ls -q --filter "name=^${run_id}_mysql_data$")"
+          "${compose[@]}" build
+          "${compose[@]}" --profile bootstrap run --rm contract-bootstrap
+          "${compose[@]}" up -d
+          wait_for_url() {
+            local url="$1"
+            for _ in $(seq 1 60); do
+              if curl --fail --silent --show-error "$url" >/dev/null; then return 0; fi
+              sleep 2
+            done
+            return 1
+          }
+          wait_for_url "http://127.0.0.1:${API_PORT}/api/v1/ready"
+          wait_for_url "http://127.0.0.1:${WEB_PORT}/healthz"
+          "${compose[@]}" restart api
+          wait_for_url "http://127.0.0.1:${API_PORT}/api/v1/ready"
+          baseline_count="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e \"SELECT COUNT(*) FROM _prisma_migrations WHERE migration_name = '20260711000000_squashed_baseline' AND finished_at IS NOT NULL AND rolled_back_at IS NULL;\")"
+          test "$baseline_count" = "1"
+          invalid_migrations="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e 'SELECT COUNT(*) FROM _prisma_migrations WHERE finished_at IS NULL OR rolled_back_at IS NOT NULL;')"
+          test "$invalid_migrations" = "0"
+          "${compose[@]}" exec -T api sh -c "fc-match --format='%{family}\\n' 'Times New Roman' | grep -Fx 'Times New Roman' >/dev/null"
+          for service in mysql api web; do
+            container_id="$("${compose[@]}" ps -q "$service")"
+            test -n "$container_id"
+            read -r cpu_limit memory_limit pids_limit < <(docker inspect --format '{{.HostConfig.NanoCpus}} {{.HostConfig.Memory}} {{.HostConfig.PidsLimit}}' "$container_id")
+            test "$cpu_limit" -gt 0
+            test "$memory_limit" -gt 0
+            test "$pids_limit" -gt 0
+          done

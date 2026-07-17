@@ -1,5 +1,12 @@
 # Failure Log
 
+## 2026-07-17 — Full CI caught import hardening formatting and MIME-policy gaps
+**Request**: Complete dependency/import hardening without weakening any customer-ready gate.
+**What I tried**: Ran focused parser tests and TypeScript build, then started `pnpm verify:ci`.
+**Root cause**: Focused checks did not run the API lint command. New worker files needed repository Prettier formatting, and the prior policy accepted any declared MIME because the value was unused.
+**Skill that should have caught it**: verification-before-completion — focused tests and a build cannot substitute for the full lint gate.
+**Fix**: Apply scoped formatter output, add declared-MIME compatibility validation and its regression test, then re-run the full CI gate before committing.
+
 ## 2026-07-17 — Production probe workflow commit continued after unavailable formatter
 **Request**: Add a protected, fail-closed production Docker probe.
 **What I tried**: Ran the repository formatter against the new GitHub Actions YAML before committing.

@@ -7,6 +7,7 @@ import { ImportsController } from './imports.controller';
 import { ImportsService, MAX_IMPORT_FILE_SIZE_BYTES } from './imports.service';
 import { ImportStorageService } from './import-storage.service';
 import { ImportFilePolicyService } from './import-file-policy.service';
+import { ImportParserWorkerService } from './import-parser-worker.service';
 
 @Module({
   imports: [
@@ -21,6 +22,12 @@ import { ImportFilePolicyService } from './import-file-policy.service';
     }),
   ],
   controllers: [ImportsController],
-  providers: [ImportsService, ImportStorageService, ImportFilePolicyService, FileExtractionService],
+  providers: [
+    ImportsService,
+    ImportStorageService,
+    ImportFilePolicyService,
+    ImportParserWorkerService,
+    FileExtractionService,
+  ],
 })
 export class ImportsModule {}
