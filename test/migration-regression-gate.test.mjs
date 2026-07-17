@@ -12,11 +12,16 @@ const ciWorkflow = await readFile(
   new URL('../.github/workflows/ci.yml', import.meta.url),
   'utf8',
 );
+const migrationGate = await readFile(
+  new URL('../scripts/audit/migration-regression-gate.mjs', import.meta.url),
+  'utf8',
+);
 
 const passingResult = () => ({
   emptyDatabase: true,
-  firstDeployExit: 0,
-  secondDeployExit: 0,
+    firstDeployExit: 0,
+    secondDeployExit: 0,
+    prismaClientSmokeExit: 0,
   failedMigrationRows: 0,
   statusExit: 0,
   schemaParity: true,
@@ -59,6 +64,7 @@ test('success requires both deploys, status, parity, failed-row check, and clean
   for (const [field, badValue] of [
     ['firstDeployExit', 1],
     ['secondDeployExit', 1],
+    ['prismaClientSmokeExit', 1],
     ['statusExit', 1],
     ['schemaParity', false],
     ['failedMigrationRows', 1],
@@ -108,4 +114,12 @@ test('CI runs the gate with frozen dependencies, timeout, and failure evidence',
   assert.match(job, /if: always\(\)/u);
   assert.match(job, /actions\/upload-artifact@v4/u);
   assert.doesNotMatch(job, /continue-on-error/u);
+});
+
+test('Prisma 7 parity diff reads the disposable database through prisma.config.ts', () => {
+  assert.match(migrationGate, /--from-config-datasource/u);
+  assert.match(migrationGate, /--to-schema/u);
+  assert.doesNotMatch(migrationGate, /--from-url/u);
+  assert.match(migrationGate, /prismaClientSmoke/u);
+  assert.match(migrationGate, /@prisma\/adapter-mariadb/u);
 });

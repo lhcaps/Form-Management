@@ -8,6 +8,7 @@
     "pnpm": ">=10.0.0"
   },
   "scripts": {
+    "postinstall": "pnpm prisma:generate",
     "dev": "pnpm dev:clean && pnpm dev:run",
     "dev:clean": "node scripts/free-ports.mjs 3000,3001",
     "dev:run": "concurrently --kill-others-on-fail -n api,web,ready -c blue,green,magenta \"pnpm dev:api:stable\" \"pnpm dev:wait-api && pnpm dev:web\" \"pnpm dev:wait-ready\"",

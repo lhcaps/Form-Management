@@ -11,6 +11,7 @@ import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { evaluateFormArtifact } from "./docx-contract/lib/form-corpus-quality.mjs";
+import { createPrismaMariaDbAdapter } from "./prisma-mariadb-adapter.mjs";
 
 const THIS_FILE = fileURLToPath(import.meta.url);
 const DEFAULT_REPO_ROOT = resolve(dirname(THIS_FILE), "..");
@@ -252,7 +253,7 @@ async function collectDatabaseState(repoRoot, codes) {
   loadEnvFile(join(repoRoot, "apps", "api", ".env"), true);
   const requireFromApi = createRequire(join(repoRoot, "apps", "api", "package.json"));
   const { PrismaClient } = requireFromApi("@prisma/client");
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 
   try {
     const templates = await prisma.templates.findMany({

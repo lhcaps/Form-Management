@@ -22,6 +22,7 @@ import { Logger } from '@nestjs/common';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PrismaClient } from '@prisma/client';
+import { createPrismaMariaDbAdapter } from '../../../prisma/prisma-mariadb-adapter';
 import { resolveRepoRoot } from '../../../common/repo-root';
 
 export type ContractSyncPathsOptions = {
@@ -209,7 +210,7 @@ export class ContractSyncGuard {
       return false;
     }
 
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
     try {
       await prisma.$queryRaw`SELECT 1`;
       return true;
@@ -226,7 +227,7 @@ export class ContractSyncGuard {
       { sourceId: string; compiledHash: string | null; templateCode: string }
     >,
   ): Promise<GuardResult> {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
     const missingInDb: string[] = [];
     const stale: string[] = [];
     let matched = 0;

@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const p = new PrismaClient();
+import { createPrismaMariaDbAdapter } from "../../../scripts/prisma-mariadb-adapter.mjs";
+const p = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 (async () => {
   const docs = await p.generated_documents.findMany({
     where: { templates: { template_code: "BM-171" } },

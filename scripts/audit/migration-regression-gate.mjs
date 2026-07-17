@@ -17,6 +17,7 @@ const API_ROOT = join(ROOT, 'apps', 'api');
 const SCHEMA = join(API_ROOT, 'prisma', 'schema.prisma');
 const MIGRATIONS = join(API_ROOT, 'prisma', 'migrations');
 const PRISMA_CLI = join(API_ROOT, 'node_modules', 'prisma', 'build', 'index.js');
+const PRISMA_VERSION = JSON.parse(readFileSync(join(API_ROOT, 'node_modules', 'prisma', 'package.json'), 'utf8')).version;
 const FORBIDDEN_RESOURCE_FRAGMENTS = [
   'quanlyvks',
   'hotpot-mysql',
@@ -59,6 +60,7 @@ export function evaluateGateResult(result) {
   if (result.emptyDatabase !== true) failures.push('empty_database');
   if (result.firstDeployExit !== 0) failures.push('first_deploy');
   if (result.secondDeployExit !== 0) failures.push('second_deploy');
+  if (result.prismaClientSmokeExit !== 0) failures.push('prisma_client_smoke');
   if (result.failedMigrationRows !== 0) failures.push('failed_migration_rows');
   if (result.statusExit !== 0) failures.push('migrate_status');
   if (result.schemaParity !== true) failures.push('schema_parity');
@@ -174,12 +176,13 @@ async function main() {
   const result = {
     runId,
     startedAt: new Date().toISOString(),
-    versions: { node: process.version, prisma: '6.19.3', mariaDbImage: 'mariadb:11' },
+    versions: { node: process.version, prisma: PRISMA_VERSION, mariaDbImage: 'mariadb:11' },
     resources,
     persistentCredentialsConsumed: false,
     emptyDatabase: false,
     firstDeployExit: null,
     secondDeployExit: null,
+    prismaClientSmokeExit: null,
     failedMigrationRows: null,
     statusExit: null,
     schemaParity: false,
@@ -280,6 +283,29 @@ async function main() {
     result.secondDeployExit = result.steps.secondDeploy.exit;
     requireExitZero(result.steps.secondDeploy, 'second migrate deploy');
 
+    result.steps.prismaClientSmoke = run(process.execPath, [
+      '--input-type=module',
+      '--eval',
+      [
+        "import { PrismaClient } from '@prisma/client';",
+        "import { PrismaMariaDb } from '@prisma/adapter-mariadb';",
+        'const url = new URL(process.env.DATABASE_URL);',
+        "const client = new PrismaClient({ adapter: new PrismaMariaDb({ host: url.hostname, port: Number(url.port || 3306), user: decodeURIComponent(url.username), password: decodeURIComponent(url.password), database: decodeURIComponent(url.pathname.slice(1)), connectionLimit: 1, connectTimeout: 5000, acquireTimeout: 10000, idleTimeout: 300 }) });",
+        "try { const result = await client.$queryRawUnsafe('SELECT 1 AS prisma_adapter_ready'); if (Number(result?.[0]?.prisma_adapter_ready) !== 1) throw new Error('Prisma adapter query did not return 1'); } finally { await client.$disconnect(); }",
+      ].join(' '),
+    ], {
+      cwd: API_ROOT,
+      env: {
+        ...process.env,
+        CI: 'true',
+        NODE_ENV: 'development',
+        DATABASE_URL: databaseUrl,
+      },
+      secrets,
+    });
+    result.prismaClientSmokeExit = result.steps.prismaClientSmoke.exit;
+    requireExitZero(result.steps.prismaClientSmoke, 'Prisma Client MariaDB adapter smoke');
+
     const failedRows = requireExitZero(execRootSql(
       'SELECT COUNT(*) FROM `_prisma_migrations` WHERE finished_at IS NULL AND rolled_back_at IS NULL;',
     ), 'failed migration row check');
@@ -291,8 +317,8 @@ async function main() {
 
     result.steps.schemaDiff = prisma([
       'migrate', 'diff',
-      '--from-url', databaseUrl,
-      '--to-schema-datamodel', SCHEMA,
+      '--from-config-datasource',
+      '--to-schema', SCHEMA,
       '--script',
     ], { appendSchema: false });
     requireExitZero(result.steps.schemaDiff, 'database-to-datamodel diff');

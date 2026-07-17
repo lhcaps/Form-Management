@@ -14,6 +14,7 @@
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { PrismaClient, Prisma } from '@prisma/client';
+import { createPrismaMariaDbAdapter } from '../src/prisma/prisma-mariadb-adapter';
 import { loadApiEnvironment } from '../src/infrastructure/config/load-api-environment';
 import { hashPassword } from '../src/modules/auth/password.util';
 import {
@@ -34,7 +35,7 @@ loadApiEnvironment({
   rootEnvOverridesExisting: true,
 });
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 const REPO_ROOT = resolve(__dirname, '..', '..', '..');
 
 // ============================================================================
