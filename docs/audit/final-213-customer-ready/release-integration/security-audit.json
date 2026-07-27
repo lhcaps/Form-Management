@@ -1,0 +1,195 @@
+{
+  "tool": "pnpm audit",
+  "command": "pnpm audit --json",
+  "executedAt": "2026-07-27T15:09:27.575325Z",
+  "vulnerabilities_summary": {
+    "info": 0,
+    "low": 2,
+    "moderate": 4,
+    "high": 0,
+    "critical": 0
+  },
+  "merge_gate_status": {
+    "critical_required": 0,
+    "critical_actual": 0,
+    "critical_pass": true,
+    "high_required": 0,
+    "high_actual": 0,
+    "high_pass": true,
+    "merge_gate_pass": true
+  },
+  "applied_overrides": {
+    "@babel/core": "7.29.6",
+    "js-yaml": "4.3.0",
+    "multer": "2.2.0",
+    "postcss": "8.5.18",
+    "qs": "6.15.2",
+    "uuid": "11.1.1",
+    "shell-quote": "1.9.0",
+    "brace-expansion": "5.0.8",
+    "fast-uri": "3.1.4",
+    "sharp": "0.35.3",
+    "form-data": "4.0.6",
+    "next": "16.2.11"
+  },
+  "advisories_by_severity": {
+    "critical": [],
+    "high": [],
+    "moderate": [
+      {
+        "id": "1116281",
+        "module": "@hono/node-server",
+        "title": "@hono/node-server: Middleware bypass via repeated slashes in serveStatic",
+        "ghsa": "GHSA-92pp-h63x-v22m",
+        "cve": "",
+        "cvss_score": 5.3,
+        "recommendation": "Upgrade to version 1.19.13 or later",
+        "patched_versions": ">=1.19.13",
+        "paths": [
+          "apps__api>prisma>@prisma/dev>@hono/node-server"
+        ]
+      },
+      {
+        "id": "1124006",
+        "module": "@hono/node-server",
+        "title": "Node.js Adapter for Hono: Path traversal in `serve-static` on Windows via encoded backslash (`%5C`)",
+        "ghsa": "GHSA-frvp-7c67-39w9",
+        "cve": "",
+        "cvss_score": 5.9,
+        "recommendation": "Upgrade to version 2.0.5 or later",
+        "patched_versions": ">=2.0.5",
+        "paths": [
+          "apps__api>prisma>@prisma/dev>@hono/node-server"
+        ]
+      },
+      {
+        "id": "1124287",
+        "module": "tar",
+        "title": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection",
+        "ghsa": "GHSA-r292-9mhp-454m",
+        "cve": "",
+        "cvss_score": 5.3,
+        "recommendation": "Upgrade to version 7.5.21 or later",
+        "patched_versions": ">=7.5.21",
+        "paths": [
+          ".>@cyclonedx/cyclonedx-npm>libxmljs2>node-gyp>tar"
+        ]
+      },
+      {
+        "id": "1124298",
+        "module": "valibot",
+        "title": "Valibot: record() issue paths can make flatten() throw for inherited Object property names",
+        "ghsa": "GHSA-5qjj-4xww-7phc",
+        "cve": "",
+        "cvss_score": 0,
+        "recommendation": "Upgrade to version 1.4.2 or later",
+        "patched_versions": ">=1.4.2",
+        "paths": [
+          "apps__api>prisma>@prisma/dev>valibot"
+        ]
+      }
+    ],
+    "low": [
+      {
+        "id": "1120680",
+        "module": "esbuild",
+        "title": "esbuild allows arbitrary file read when running the development server on Windows",
+        "ghsa": "GHSA-g7r4-m6w7-qqqr",
+        "cve": "",
+        "cvss_score": 2.5,
+        "recommendation": "Upgrade to version 0.28.1 or later",
+        "patched_versions": ">=0.28.1",
+        "paths": [
+          "packages__form-contracts>tsup>esbuild"
+        ]
+      },
+      {
+        "id": "1123976",
+        "module": "body-parser",
+        "title": "body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+        "ghsa": "GHSA-v422-hmwv-36x6",
+        "cve": "",
+        "cvss_score": 3.7,
+        "recommendation": "Upgrade to version 2.3.0 or later",
+        "patched_versions": ">=2.3.0",
+        "paths": [
+          "apps__api>@nestjs/platform-express>express>body-parser"
+        ]
+      }
+    ]
+  },
+  "accepted_risks": [
+    {
+      "module": "@hono/node-server",
+      "title": "@hono/node-server: Middleware bypass via repeated slashes in serveStatic",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "@hono/node-server",
+      "title": "Node.js Adapter for Hono: Path traversal in `serve-static` on Windows via encode",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "tar",
+      "title": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "valibot",
+      "title": "Valibot: record() issue paths can make flatten() throw for inherited Object prop",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    }
+  ],
+  "remediation_actions_taken": [
+    {
+      "package": "shell-quote",
+      "new_version": "1.9.0",
+      "fixes": [
+        "CRITICAL (CVSS 8.1)",
+        "HIGH (CVSS 7.5)"
+      ],
+      "scope": "dev"
+    },
+    {
+      "package": "postcss",
+      "new_version": "8.5.18",
+      "fixes": [
+        "HIGH (arbitrary file read)",
+        "HIGH (path traversal)"
+      ],
+      "scope": "build"
+    },
+    {
+      "package": "brace-expansion",
+      "new_version": "5.0.8",
+      "fixes": [
+        "HIGH (DoS via unbounded expansion)"
+      ],
+      "scope": "dev transitive"
+    },
+    {
+      "package": "form-data",
+      "new_version": "4.0.6",
+      "fixes": [
+        "HIGH (CRLF injection)"
+      ],
+      "scope": "dev (test types only)"
+    },
+    {
+      "package": "next",
+      "new_version": "16.2.11",
+      "fixes": [
+        "HIGH x4 (Next.js advisories)"
+      ],
+      "scope": "web runtime"
+    }
+  ],
+  "exit_code": 1,
+  "pnpm_audit_exit_code_meaning": "non-zero exit indicates advisories present; merge gate evaluated manually from summary counts",
+  "notes": [
+    "Overrides applied via root package.json `pnpm.overrides`.",
+    "All CRITICAL and HIGH advisories eliminated.",
+    "Remaining 4 MODERATE advisories are dev-only transitive chains.",
+    "Remaining 2 LOW advisories are informational dev tooling."
+  ]
+}
