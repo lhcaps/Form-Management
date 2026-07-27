@@ -49,7 +49,15 @@ and `docs/CUSTOMER_LOCAL_TROUBLESHOOTING.md`.
 
 ### Security
 
-- 0 critical and 0 high dependency advisories at merge time.
+- 0 critical dependency advisories at merge time.
+- 1 high dependency advisory remains (`brace-expansion@<=5.0.7`,
+  GHSA-mh99-v99m-4gvg) in a dev-only transitive chain
+  (`@cyclonedx/cyclonedx-npm > libxmljs2 > node-gyp > make-fetch-happen > cacache > glob > minimatch > brace-expansion`).
+  The patch (5.0.8+) breaks `eslint@9`'s transitive `minimatch@3`. This
+  is documented as accepted risk; the chain is not reachable from
+  customer-local runtime and `@cyclonedx` is dev-only. Operator sign-off
+  required to merge.
+- 4 moderate and 2 low advisories remain; all dev-only transitive.
 - `audit-repository-hygiene.mjs` reports `verdict: PASS` on the
   merged main.
 - `audit-secret-scan.py` reports 0 tracked secrets and 0 tracked
