@@ -327,7 +327,7 @@ const BM171_DEMO = {
   // Sign — REAL synthetic signer name, not "Người ký (mẫu)".
   "signature.signMode": "Ký thay",
   "signature.positionTitle": "VIỆN TRƯỞNG",
-  "signature.signerName": "Trần Thị B",
+  "signature.signerName": "Nguyễn Thị Hồng C",
 } as const;
 
 const BM171_PROFILE: RuntimeUxProfile = {

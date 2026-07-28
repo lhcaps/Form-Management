@@ -28,17 +28,19 @@ import {
 const BM028_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
+    title: "Quyết định hủy bỏ quyết định thay đổi khởi tố",
+    description:
+      "Cơ quan ban hành, căn cứ và thông tin phân biệt quyết định hủy bỏ với quyết định thay đổi Quyết định khởi tố vụ án hình sự.",
   }
 ] as const;
 
 const BM028_FIELDS = {
   "agency.tenVien": {
-    label: "Tên Viện Kiểm sát",
+    label: "Viện kiểm sát ban hành",
     placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội"
   },
   "agency.coQuan": {
-    label: "Cơ quan chuyên môn",
+    label: "Cơ quan/người ra quyết định thay đổi khởi tố",
     placeholder: "Cơ quan điều tra Công an Thành phố Hà Nội"
   },
   "agency.diaDanh": {
@@ -46,16 +48,24 @@ const BM028_FIELDS = {
     placeholder: "Hà Nội"
   },
   "document.soQuyet": {
-    label: "Số quyết định",
+    label: "Số quyết định hủy bỏ",
     placeholder: "55/QĐ-VKS"
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
+    label: "Ngày ban hành quyết định hủy bỏ",
     placeholder: "ngày 04 tháng 3 năm 2026"
   },
   "legalBasis.canCu": {
     label: "Căn cứ pháp lý",
-    placeholder: "Căn cứ Điều 114 Bộ luật Tố tụng hình sự năm 2015"
+    placeholder: "Căn cứ các điều 41, 156, 161 và 165 (hoặc 432) Bộ luật Tố tụng hình sự"
+  },
+  "document.soQd": {
+    label: "Số quyết định thay đổi khởi tố cần hủy bỏ",
+    placeholder: "54/QĐ-VKS"
+  },
+  "document.ngayQd": {
+    label: "Ngày quyết định thay đổi khởi tố cần hủy bỏ",
+    placeholder: "ngày 02 tháng 3 năm 2026"
   }
 } as const;
 
@@ -65,7 +75,9 @@ const BM028_DEMO_RUNTIME_UX = {
   "agency.diaDanh": "Hà Nội",
   "document.soQuyet": "55/QĐ-VKS",
   "document.ngayBan": "ngày 04 tháng 3 năm 2026",
-  "legalBasis.canCu": "Căn cứ Điều 114 Bộ luật Tố tụng hình sự năm 2015"
+  "legalBasis.canCu": "Căn cứ các điều 41, 156, 161 và 165 Bộ luật Tố tụng hình sự",
+  "document.soQd": "54/QĐ-VKS",
+  "document.ngayQd": "ngày 02 tháng 3 năm 2026"
 } as const;
 
 const BM028_RUNTIME_UX_PROFILE: RuntimeUxProfile = {

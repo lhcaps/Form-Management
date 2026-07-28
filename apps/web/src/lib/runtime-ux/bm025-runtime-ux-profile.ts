@@ -1,23 +1,6 @@
 /**
- * BM-025 runtime-ux batch 9 curated source-render profile.
- *
- * Hand-curated upgrade of the auto-generated BM-025 profile to
- * a source/render version with real Vietnamese labels, multiple
- * section headings, and safe demo data.
- *
- * Form title: QĐ bổ sung QĐ khởi tố vụ án hình sự
- *
- * Boundaries honoured:
- *   - No mutation of the locked contract, the normalized DOCX, or
- *     the compiled contract.
- *   - No DB row creation, no generatedDocumentId fabrication.
- *   - No call to the generated-document save endpoint.
- *   - No smart controls emitted.
- *   - No legacy stale tokens in demo.
- *
- * Promotion to INPUT_CONNECTED_PASS via Batch 9 source/render smoke
- * only. Browser/demo/preview/DOCX/fidelity/visual/human evidence
- * remains NOT_RUN for Batch 9.
+ * BM-025 — Quyết định bổ sung quyết định khởi tố vụ án hình sự.
+ * This compiled contract exposes the authority header only.
  */
 
 import {
@@ -28,38 +11,40 @@ import {
 const BM025_SECTIONS = [
   {
     sectionId: "section-agency",
-    title: "Cơ quan"
+    title: "Viện kiểm sát ban hành",
+    description: "Tên viết hoa của Viện kiểm sát ban hành quyết định bổ sung.",
   },
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
-  }
+    title: "Cơ quan cấp trên và địa danh ban hành",
+    description: "Thông tin đầu trang theo chú thích của mẫu quyết định bổ sung quyết định khởi tố vụ án hình sự.",
+  },
 ] as const;
 
 const BM025_FIELDS = {
   "agency.nameUpper": {
-    label: "Viện Kiểm sát ban hành",
-    placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội"
+    label: "Tên viết hoa của Viện kiểm sát ban hành",
+    placeholder: "VIỆN KIỂM SÁT NHÂN DÂN ...",
   },
   "agency.parentNameUpper": {
-    label: "Cơ quan cấp trên",
-    placeholder: "Viện Kiểm sát nhân dân tối cao"
+    label: "Viện kiểm sát cấp trên trực tiếp",
+    placeholder: "Tên Viện kiểm sát cấp trên trực tiếp",
   },
   "agency.issuePlace": {
     label: "Địa danh ban hành",
-    placeholder: "Hà Nội"
-  }
+    placeholder: "Tên tỉnh hoặc thành phố nơi đặt trụ sở",
+  },
 } as const;
 
 const BM025_DEMO_RUNTIME_UX = {
-  "agency.nameUpper": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "agency.parentNameUpper": "Viện Kiểm sát nhân dân tối cao",
-  "agency.issuePlace": "Hà Nội"
+  "agency.nameUpper": "VIỆN KIỂM SÁT NHÂN DÂN QUẬN HOÀN KIẾM",
+  "agency.parentNameUpper": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HÀ NỘI",
+  "agency.issuePlace": "Hà Nội",
 } as const;
 
 const BM025_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-025",
-  versionLabel: `BM-025 runtime-ux batch 9 curated source-render profile`,
+  versionLabel: "BM-025 reviewed prosecution-decision supplement profile",
   sections: BM025_SECTIONS,
   fields: BM025_FIELDS,
   demo: BM025_DEMO_RUNTIME_UX,

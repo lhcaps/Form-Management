@@ -291,6 +291,7 @@ const BM047_DEMO_RUNTIME_UX = {
   "defendant.ethnicity": "Kinh",
   "defendant.religion": "Không",
   "defendant.occupation": "Lao động tự do",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 094203001234 is a format-shaped synthetic test CCCD, not derived from any real customer/case data.
   "defendant.identityNumber": "094203001234",
   "defendant.identityIssueDateLine": "12/6/2021",
   "defendant.identityIssuePlace": "Công an Tỉnh Hậu Giang",

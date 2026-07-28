@@ -29,6 +29,7 @@ const BM175_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description: "Cơ quan ban hành, số quyết định và địa danh, ngày ban hành của quyết định phê chuẩn.",
   },
 ] as const;
 

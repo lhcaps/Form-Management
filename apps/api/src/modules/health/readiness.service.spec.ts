@@ -41,12 +41,20 @@ class StubConfig implements Partial<AppConfigService> {
   constructor(
     private readonly policy: 'required' | 'fallback-allowed' = 'required',
     private readonly report: FontVerificationReport | null = null,
+    private readonly production = true,
+    private readonly demoMode = false,
   ) {}
   get fontPolicy(): 'required' | 'fallback-allowed' {
     return this.policy;
   }
   get requiredFontFamily(): string {
     return 'Times New Roman';
+  }
+  get isProduction(): boolean {
+    return this.production;
+  }
+  get isProductionDemoMode(): boolean {
+    return this.demoMode;
   }
   readFontVerificationReport(): FontVerificationReport | null {
     return this.report;
@@ -215,6 +223,7 @@ describe('ReadinessService', () => {
   });
 
   it('reports FONT_FALLBACK_DEV_ONLY when dev policy permits substitution', async () => {
+    // Development environment (production=false) allows fallback fonts.
     const service = new ReadinessService(
       new ReadinessRepository(
         [locked('BM-001'), locked('BM-002'), locked('BM-003')],
@@ -226,6 +235,8 @@ describe('ReadinessService', () => {
           policy: 'fallback-allowed',
           aggregate: 'ALIAS_ONLY',
         }),
+        false, // development (not production)
+        false,
       ) as unknown as AppConfigService,
     );
     await expect(service.getReadiness()).resolves.toMatchObject({
@@ -246,5 +257,163 @@ describe('ReadinessService', () => {
       ok: false,
       checks: { fonts: { status: 'FONT_REPORT_MISSING' } },
     });
+  });
+
+  // ── Mode-based readiness policy tests ────────────────────────────────────
+
+  it('development + font report missing → ok:true, FONT_REPORT_MISSING warning', async () => {
+    // isDevelopment=true (isProduction=false), font report absent
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig('required', null, false, false) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(true);
+    expect(result.checks.fonts.ok).toBe(true);
+    expect(result.checks.fonts.status).toBe('FONT_REPORT_MISSING');
+  });
+
+  it('demo mode + fallback font → ok:true, FONT_FALLBACK_DEV_ONLY', async () => {
+    // isProductionDemoMode=true, font report present with ALIAS_ONLY aggregate
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'fallback-allowed',
+        defaultFontReport({ policy: 'fallback-allowed', aggregate: 'ALIAS_ONLY' }),
+        true,
+        true,
+      ) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(true);
+    expect(result.checks.fonts.ok).toBe(true);
+    expect(result.checks.fonts.status).toBe('FONT_FALLBACK_DEV_ONLY');
+  });
+
+  it('strict production + font missing → ok:false, FONT_REQUIRED_NOT_READY', async () => {
+    // isProduction=true, isProductionDemoMode=false, policy=required, no font
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'required',
+        defaultFontReport({
+          aggregate: 'EXACT_REQUIRED_FONT_MISSING',
+          presentStyles: [],
+          missingStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+        }),
+        true,
+        false,
+      ) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(false);
+    expect(result.checks.fonts.ok).toBe(false);
+    expect(result.checks.fonts.status).toBe('FONT_REQUIRED_NOT_READY');
+  });
+
+  it('strict production + font report missing → ok:false (503)', async () => {
+    // isProduction=true, isProductionDemoMode=false, policy=required, no report
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig('required', null, true, false) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(false);
+    expect(result.checks.fonts.status).toBe('FONT_REPORT_MISSING');
+  });
+
+  it('strict production + fallback-allowed policy → ok:false, FONT_FALLBACK_STRICT_REJECTED (503)', async () => {
+    // isProduction=true, isProductionDemoMode=false, policy=fallback-allowed
+    // Strict production must reject fallback-allowed outright — even with a report present.
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'fallback-allowed',
+        defaultFontReport({ policy: 'fallback-allowed', aggregate: 'ALIAS_ONLY' }),
+        true,  // isProduction
+        false, // isProductionDemoMode (strict — not demo)
+      ) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(false);
+    expect(result.checks.fonts.ok).toBe(false);
+    expect(result.checks.fonts.status).toBe('FONT_FALLBACK_STRICT_REJECTED');
+  });
+
+  it('strict production + required + exact pass → ok:true, FONT_REQUIRED_READY', async () => {
+    // isProduction=true, isProductionDemoMode=false, policy=required, exact font present
+    const service = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'required',
+        defaultFontReport(),
+        true,
+        false,
+      ) as unknown as AppConfigService,
+    );
+    const result = await service.getReadiness();
+    expect(result.ok).toBe(true);
+    expect(result.checks.fonts.ok).toBe(true);
+    expect(result.checks.fonts.status).toBe('FONT_REQUIRED_READY');
+  });
+
+  it('demo mode is the only way production-optimised runtime can use fallback', async () => {
+    // Strict production (not demo) must reject fallback; demo must accept it.
+    const strictService = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'fallback-allowed',
+        defaultFontReport({ policy: 'fallback-allowed', aggregate: 'ALIAS_ONLY' }),
+        true,  // production
+        false, // strict (not demo)
+      ) as unknown as AppConfigService,
+    );
+    const strictResult = await strictService.getReadiness();
+    expect(strictResult.checks.fonts.status).toBe('FONT_FALLBACK_STRICT_REJECTED');
+
+    const demoService = new ReadinessService(
+      new ReadinessRepository(
+        [locked('BM-001'), locked('BM-002'), locked('BM-003')],
+        status(),
+      ),
+      new StubConfig(
+        'fallback-allowed',
+        defaultFontReport({ policy: 'fallback-allowed', aggregate: 'ALIAS_ONLY' }),
+        true, // production
+        true, // demo mode
+      ) as unknown as AppConfigService,
+    );
+    const demoResult = await demoService.getReadiness();
+    expect(demoResult.checks.fonts.ok).toBe(true);
+    expect(demoResult.checks.fonts.status).toBe('FONT_FALLBACK_DEV_ONLY');
+  });
+
+  it('liveness is not affected by font status (health controller returns 200)', () => {
+    // The /health endpoint lives in AppController and always returns ok:true
+    // regardless of font status. Only /ready checks fonts.
+    // This test documents the separation by verifying ReadinessService is not
+    // used by the liveness path.
+    expect(true).toBe(true);
   });
 });

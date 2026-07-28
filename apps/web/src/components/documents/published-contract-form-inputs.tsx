@@ -12,6 +12,7 @@ import {
 } from "@/features/forms-contracts/sample-data";
 import { readApi } from "@/lib/api-client";
 import { savePublishedContractFormInputs } from "@/lib/document-form-api";
+import { getRuntimeUxProfile } from "@/lib/runtime-ux";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value);
@@ -68,6 +69,10 @@ export function PublishedContractFormInputsPanel({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const uxProfile = useMemo(
+    () => getRuntimeUxProfile(contract.templateCode),
+    [contract.templateCode],
+  );
   const contractPaths = useMemo(
     () => [
       ...contract.source.fields.map((field) => field.key),
@@ -203,6 +208,7 @@ export function PublishedContractFormInputsPanel({
         <ContractV2Renderer
           contract={contract}
           data={data}
+          uxProfile={uxProfile}
           errors={fieldErrors}
           onChange={(next) => {
             setData(next);

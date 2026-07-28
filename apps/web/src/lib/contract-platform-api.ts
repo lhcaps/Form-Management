@@ -69,6 +69,7 @@ export function getRuntimeFormContract(
     contractVersion: string;
     contractHash: string;
     templateHash: string;
+    renderScope: string | null;
     compiledContract: CompiledFormContract;
   }>(`/forms/runtime/${encodeURIComponent(templateCode)}${query}`, {
     cache: "no-store",

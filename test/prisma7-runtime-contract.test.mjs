@@ -26,9 +26,9 @@ test('Prisma 7 uses an explicit generated client and MariaDB driver adapter', ()
 
   assert.match(schema, /provider\s*=\s*"prisma-client-js"/u);
   assert.doesNotMatch(schema, /url\s*=\s*env\("DATABASE_URL"\)/u);
-  assert.equal(apiPackage.dependencies['@prisma/adapter-mariadb'], '7.8.0');
-  assert.equal(apiPackage.dependencies['@prisma/client'], '7.8.0');
-  assert.equal(apiPackage.devDependencies.prisma, '7.8.0');
+  assert.equal(apiPackage.dependencies['@prisma/adapter-mariadb'], '7.9.1');
+  assert.equal(apiPackage.dependencies['@prisma/client'], '7.9.1');
+  assert.equal(apiPackage.devDependencies.prisma, '7.9.1');
   assert.match(service, /createPrismaMariaDbAdapter/u);
   assert.match(service, /super\(\{ adapter \}\)/u);
   assert.match(adapter, /connectTimeout: Number\(url\.searchParams\.get\('connect_timeout'\) \?\? 5\) \* 1000/u);

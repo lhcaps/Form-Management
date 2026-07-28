@@ -28,7 +28,9 @@ import {
 const BM027_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
+    title: "Thông tin biểu mẫu",
+    description:
+      "Cơ quan ban hành, địa danh, số và ngày thông báo hủy bỏ Quyết định khởi tố vụ án hình sự.",
   }
 ] as const;
 

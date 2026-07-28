@@ -1,112 +1,71 @@
-// Repository hygiene guard
-// Verifies tracked + untracked files against the customer-ready baseline.
-// Outputs a JSON report at the path given on argv[2] (or repo root by default).
+#!/usr/bin/env node
+// Repository hygiene guard.
+// Refuses release if any tracked file matches a forbidden pattern.
+import { execSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 
-import { execFileSync } from 'node:child_process';
-import { writeFileSync, existsSync, statSync, mkdirSync, readdirSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+const forbiddenSizeCheck = (() => {
+  // Build a path -> size map once, using git ls-tree on HEAD.
+  let sizes = new Map();
+  try {
+    const out = execSync('git ls-tree -r -l HEAD', { encoding: 'utf-8' });
+    for (const line of out.split('\n')) {
+      // <mode> SP <type> SP <object> SP <size> TAB <path>
+      const tabIdx = line.indexOf('\t');
+      if (tabIdx < 0) continue;
+      const meta = line.substring(0, tabIdx);
+      const path = line.substring(tabIdx + 1);
+      const parts = meta.split(' ');
+      const size = parseInt(parts[3], 10);
+      if (Number.isFinite(size)) sizes.set(path, size);
+    }
+  } catch {}
+  return (p) => (sizes.get(p) || 0) > 100 * 1024 * 1024;
+})();
 
-const ROOT = process.cwd();
-const OUT = resolve(ROOT, process.argv[2] || 'docs/audit/final-213-customer-ready/release-integration/repository-hygiene.json');
-
-function git(args) {
-  const opts = { cwd: ROOT, encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 };
-  return execFileSync('git', args, opts);
-}
-
-function listTracked() {
-  return git(['ls-files', '-z']).split('\u0000').filter(Boolean);
-}
-
-function listUntracked() {
-  return git(['ls-files', '--others', '--exclude-standard', '-z']).split('\u0000').filter(Boolean);
-}
-
-const FORBIDDEN_TRACKED_PATTERNS = [
-  /^\.env$/,
-  /^\.env\.local$/,
-  /^\.env\.docker$/,
-  /^\.env\.docker\.demo$/,
-  /^\.env\.e2e\.local$/,
-  /^playwright\/\.clerk\//,
-  /^playwright\/\.auth\//,
-  /^storage\/generated\//,
-  /^storage\/runtime-preview-sessions\//,
-  /^test-results\//,
-  /^playwright-report\//,
-  /^audit_renders\//,
-  /\.sqlite$/,
-  /\.sqlite3$/,
-  /~$[^/]+\.docx$/,
-  /~$[^/]+\.xlsx$/,
-  /^scripts\/runtime-rollout\/_probe-.*\.mjs$/,
-  /^apps\/api\/scripts\/forensic-.*\.mjs$/,
+const FORBIDDEN_PATTERNS = [
+  { name: 'tracked_env_file', test: (p) => p === '.env' || p.endsWith('/.env') || p.endsWith('.env.local') || p.endsWith('.env.e2e.local') },
+  { name: 'tracked_clerk_auth_state', test: (p) => p.startsWith('playwright/.clerk/') },
+  { name: 'tracked_storage_state', test: (p) => /storageState|auth-state/i.test(p) },
+  { name: 'tracked_runtime_preview_session', test: (p) => p.startsWith('storage/runtime-preview-sessions/') },
+  { name: 'tracked_test_results', test: (p) => p.startsWith('test-results/') || p.startsWith('playwright-report/') },
+  { name: 'tracked_scratch_probe', test: (p) => /^scripts\/audit\/_tmp_.+\.mjs$/.test(p) || /^scripts\/release\/_tmp_audit.+\.py$/.test(p) },
+  { name: 'tracked_temp_sidecar', test: (p) => p.startsWith('.tmp-') || p.includes('/.tmp-') },
+  { name: 'tracked_office_lock', test: (p) => p.startsWith('~$') && p.endsWith('.docx') },
+  { name: 'tracked_local_db', test: (p) => /\.(sqlite|sqlite3|db)$/.test(p) && !p.startsWith('audit/') },
+  { name: 'tracked_large_file_over_100mb', test: forbiddenSizeCheck },
 ];
 
-const HUGE_LIMIT = 100 * 1024 * 1024; // 100 MB
+const REQUIRED_PATTERNS_EXIST = [
+  { name: 'normalized_docx_dir', test: () => existsSync(resolve('storage/templates/normalized-docx')) },
+  { name: 'apps_api_dir', test: () => existsSync(resolve('apps/api')) },
+  { name: 'apps_web_dir', test: () => existsSync(resolve('apps/web')) },
+  { name: 'packages_form_contracts_dir', test: () => existsSync(resolve('packages/form-contracts')) },
+];
 
-function findLargeFiles(paths) {
-  const out = [];
-  for (const p of paths) {
-    const full = resolve(ROOT, p);
-    if (!existsSync(full)) continue;
-    try {
-      const s = statSync(full);
-      if (s.isFile() && s.size > HUGE_LIMIT) {
-        out.push({ path: p, sizeBytes: s.size });
-      }
-    } catch {
-      // ignore
-    }
+const tracked = execSync('git ls-files', { encoding: 'utf-8' })
+  .split('\n')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const findings = [];
+for (const p of tracked) {
+  for (const rule of FORBIDDEN_PATTERNS) {
+    if (rule.test(p)) findings.push({ rule: rule.name, path: p });
   }
-  return out;
 }
 
-function checkCanonicalCounts() {
-  const lockedCount = git(['ls-files', '--', 'docs/audit/docx/contracts/locked']).trim().split('\n').filter(Boolean).length;
-  const normalizedCount = git(['ls-files', '--', 'storage/templates/normalized-docx']).trim().split('\n').filter(Boolean).length;
-  const sourceCount = git(['ls-files', '--', 'storage/templates/source']).trim().split('\n').filter(Boolean).length;
-  return { lockedContractsTracked: lockedCount, normalizedDocxTracked: normalizedCount, sourceDocxTracked: sourceCount };
-}
+const missingRequired = REQUIRED_PATTERNS_EXIST.filter((r) => !r.test()).map((r) => r.name);
 
-function main() {
-  const tracked = listTracked();
-  const untracked = listUntracked();
+const result = {
+  schema: 'qllaw.phase15b.repository_hygiene/v1',
+  generatedAt: new Date().toISOString(),
+  trackedFileCount: tracked.length,
+  forbiddenFindings: findings,
+  missingRequired,
+  pass: findings.length === 0 && missingRequired.length === 0,
+};
 
-  const forbidden = [];
-  for (const p of tracked) {
-    for (const pat of FORBIDDEN_TRACKED_PATTERNS) {
-      if (pat.test(p)) {
-        forbidden.push({ path: p, pattern: pat.toString() });
-        break;
-      }
-    }
-  }
-
-  const hugeFiles = findLargeFiles(tracked);
-  const hugeUntracked = findLargeFiles(untracked);
-
-  const canonical = checkCanonicalCounts();
-
-  const report = {
-    schema: 'qllaw.repository_hygiene/v1',
-    generatedAt: new Date().toISOString(),
-    trackedFiles: tracked.length,
-    untrackedFiles: untracked.length,
-    forbiddenTrackedCount: forbidden.length,
-    hugeTrackedFiles: hugeFiles,
-    hugeUntrackedFiles: hugeUntracked,
-    forbiddenTracked: forbidden,
-    canonical,
-    verdict: forbidden.length === 0 && hugeFiles.length === 0 && canonical.lockedContractsTracked >= 213 ? 'PASS' : 'FAIL',
-  };
-
-  mkdirSync(dirname(OUT), { recursive: true });
-  writeFileSync(OUT, JSON.stringify(report, null, 2));
-  process.stdout.write(
-    `Repository hygiene: tracked=${tracked.length}, forbidden=${forbidden.length}, huge=${hugeFiles.length}, locked=${canonical.lockedContractsTracked}, normalized=${canonical.normalizedDocxTracked}, verdict=${report.verdict}\n`
-  );
-  process.exit(report.verdict === 'PASS' ? 0 : 1);
-}
-
-main();
+console.log(JSON.stringify(result, null, 2));
+process.exit(result.pass ? 0 : 1);

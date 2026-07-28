@@ -1,9 +1,17 @@
 /**
- * BM-122 runtime-ux batch 6 curated source-render profile.
+ * BM-122 runtime-ux curated profile.
  *
- * Curated source/render upgrade of the conservative auto-generated
- * BM-122 profile. No DOCX/contract/DB mutation; no smart controls;
- * no legacy stale demo tokens.
+ * CURATION (batch next): QĐ không phê chuẩn Lệnh thu giữ thư tín, điện tín,
+ * bưu kiện, bưu phẩm. Viện trưởng không phê chuẩn lệnh thu giữ thư tín
+ * điện tín theo Điều 192 BLTTHS.
+ *
+ * Workflow: phê chuẩn → authority/decision header.
+ * Boundaries honoured:
+ *   - No mutation of the locked contract, the normalized DOCX, or
+ *     the compiled contract.
+ *   - No DB row creation, no generatedDocumentId fabrication.
+ *   - No call to the generated-document save endpoint.
+ *   - No smart controls emitted.
  */
 
 import {
@@ -14,18 +22,19 @@ import {
 const BM122_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
+    title: "Thông tin quyết định không phê chuẩn",
+    description: "Thông tin quyết định không phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm theo Điều 192 BLTTHS.",
   },
 ] as const;
 
 const BM122_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-122)",
+    label: "Viện kiểm sát ban hành quyết định",
+    placeholder: "Viện kiểm sát nhân dân...",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-122)",
+    label: "Số quyết định không phê chuẩn",
+    placeholder: "Số quyết định (ví dụ: 05/QĐ-VKS)",
   },
 } as const;
 
@@ -40,6 +49,17 @@ const BM122_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   sections: BM122_SECTIONS,
   fields: BM122_FIELDS,
   demo: BM122_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin quyết định không phê chuẩn",
+      description: "Thông tin quyết định không phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm theo Điều 192 BLTTHS.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM122_RUNTIME_UX_PROFILE);

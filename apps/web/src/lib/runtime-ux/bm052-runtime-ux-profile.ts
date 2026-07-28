@@ -50,6 +50,7 @@ const BM052_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD / Hộ chiếu",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 089302001111 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "089302001111",
   },
   "person.birthInfoLine": {
@@ -91,6 +92,7 @@ const BM052_DEMO_RUNTIME_UX = {
     "Bà Trần Thị Ngọc Mai — địa chỉ: Số 4 đường Trần Phú, TP. Phan Thiết, Tỉnh Bình Thuận;",
   "person.fullName": "Trần Thị Ngọc Mai",
   "person.otherName": "Không có",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 089302001111 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "089302001111",
   "person.birthInfoLine":
     "Sinh năm 1985, tại TP. Phan Thiết, Tỉnh Bình Thuận",

@@ -7,6 +7,7 @@ import { UpdateGeneratedDocumentPreExportConfigDto } from './dto/update-generate
 import { DocumentRendererService } from './document-renderer.service';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
+import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
 import { RenderGeneratedDocumentUseCase } from './rendering/application/render-generated-document.use-case';
 import { GeneratedInputSaveOrchestrator } from './rendering/application/generated-input-save-core/generated-input-save.orchestrator';
 
@@ -17,6 +18,7 @@ export class DocumentRendererController {
     private readonly documentRendererService: DocumentRendererService,
     private readonly renderGeneratedDocument: RenderGeneratedDocumentUseCase,
     private readonly generatedInputSave: GeneratedInputSaveOrchestrator,
+    private readonly access: AgencyResourceAccessService,
   ) {}
 
   @Get('generated/:documentId/render-payload')
@@ -122,16 +124,20 @@ export class DocumentRendererController {
   @ApiBody({
     type: RenderGeneratedDocumentDto,
   })
-  renderDocx(
+  async renderDocx(
     @Param('documentId') documentId: string,
     @Body() body: RenderGeneratedDocumentDto,
     @CurrentUserDecorator() user: CurrentUser,
   ) {
+    const accessResult = await this.access.assertCanAccessGeneratedDocument(
+      user,
+      documentId,
+    );
     return this.renderGeneratedDocument.execute({
       documentId,
       options: {
         ...body,
-        renderedByName: user.fullName,
+        renderedByName: accessResult.businessUser.fullName,
       },
       actor: user,
     });

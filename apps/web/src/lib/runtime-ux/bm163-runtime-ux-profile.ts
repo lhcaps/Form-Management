@@ -29,14 +29,7 @@ const BM163_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-thong-tin-ca-nhan",
-    title: "Thông tin cá nhân được triệu tập",
-  },
-  {
-    sectionId: "section-vu-an",
-    title: "Vụ án liên quan",
+    description: "Giấy triệu tập người tham gia tố tụng có mặt tại thời gian và địa điểm được chỉ định (Yêu cầu có mặt)",
   },
 ] as const;
 
@@ -79,6 +72,7 @@ const BM163_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD/CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 001088123456 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "001088123456",
   },
   "case.caseNumber": {
@@ -97,6 +91,7 @@ const BM163_DEMO_RUNTIME_UX = {
   "person.occupation": "Giáo viên",
   "person.ward": "Phường Bạch Mai",
   "person.province": "Thành phố Hà Nội",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 001088123456 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "001088123456",
   "case.caseNumber": "12/HS-ST năm 2026",
 } as const;

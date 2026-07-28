@@ -21,7 +21,7 @@
  * Run with:
  *   node --test apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.guard.test.mjs
  *
- * Assertions (12):
+ * Assertions (14):
  *
  *   1. A single canonical selector file exists in `lib/form-flight/`.
  *   2. The selector file declares the `RuntimeReadyTemplatePanelKind`
@@ -30,7 +30,7 @@
  *      form-lifecycle wiring helper.
  *   4. BM-001 resolves to `runtime-ready-template-panel`.
  *   5. BM-171 resolves to `runtime-ready-template-panel`.
- *   6. BM-002 resolves to `generic-template-panel`.
+ *   6. BM-002 resolves to `persisted-draft-bridge-panel`.
  *   7. BM-002 does NOT resolve to `runtime-ready-template-panel`.
  *   8. Every code in the runtime-ready allowlist resolves to
  *      `runtime-ready-template-panel`.
@@ -86,34 +86,24 @@ function isApprovedRuntimeReadyCodeShim(code) {
   return RUNTIME_READY_FORM_FLIGHT_PROFILES_SHIM.includes(code);
 }
 
-function classifyProfileStatusShim(profileStatus) {
-  // Mirrors `form-lifecycle.ts#classifyProfileStatus`. The real
-  // classification reads the registered profile, but for the guard
-  // test we accept the canonical `profileStatus` string already
-  // returned by `decideFormLifecycle(...)`.
-  if (profileStatus === "runtime-ready") return "runtime-ready";
-  if (profileStatus === "skeleton") return "skeleton";
-  if (profileStatus === "missing") return "missing";
-  return "invalid";
-}
-
 function selectRuntimeReadyTemplatePanelShim(input) {
-  const { templateCode, profileStatus, isRuntimeReadyProfileCode } = input;
+  const { templateCode, panelKind, diagnosticsEnabled = false } = input;
   const code = (templateCode ?? "").trim();
-  if (code.length === 0) return "generic-template-panel";
-  const status = classifyProfileStatusShim(profileStatus);
-  if (status === "runtime-ready" && isRuntimeReadyProfileCode(code)) {
-    return "runtime-ready-template-panel";
+  if (code.length === 0) return "unavailable-template-panel";
+  switch (panelKind) {
+    case "form-flight-runtime": return "runtime-ready-template-panel";
+    case "persisted-draft-bridge": return "persisted-draft-bridge-panel";
+    case "legacy":
+    case "form-flight-generated": return "legacy-template-panel";
+    case "unavailable": return "unavailable-template-panel";
+    case "generic": return diagnosticsEnabled ? "generic-template-panel" : "unavailable-template-panel";
   }
-  if (status === "runtime-ready") return "legacy-template-panel";
-  return "generic-template-panel";
 }
 
-const profileStatusByTemplateCode = (code) => {
-  if (RUNTIME_READY_FORM_FLIGHT_PROFILES_SHIM.includes(code)) {
-    return "runtime-ready";
-  }
-  return "skeleton";
+const panelKindByTemplateCode = (code) => {
+  if (RUNTIME_READY_FORM_FLIGHT_PROFILES_SHIM.includes(code)) return "form-flight-runtime";
+  if (code === SKELETON_CODE) return "persisted-draft-bridge";
+  return "unavailable";
 };
 
 describe("runtime-ready template panel contract guard", () => {
@@ -174,16 +164,15 @@ describe("runtime-ready template panel contract guard", () => {
       "template-preview-workspace must already register runtime-ready profiles",
     );
     assert.ok(
-      templatePreviewSource.includes("isApprovedRuntimeReadyCode"),
-      "template-preview-workspace must already import isApprovedRuntimeReadyCode",
+      templatePreviewSource.includes("NEXT_PUBLIC_QLLAW_FORM_DIAGNOSTICS"),
+      "template-preview-workspace must opt into diagnostics explicitly",
     );
   });
 
   it("4. BM-001 resolves to runtime-ready-template-panel (production selector logic)", () => {
     const kind = selectRuntimeReadyTemplatePanelShim({
       templateCode: "BM-001",
-      profileStatus: profileStatusByTemplateCode("BM-001"),
-      isRuntimeReadyProfileCode: isApprovedRuntimeReadyCodeShim,
+      panelKind: panelKindByTemplateCode("BM-001"),
     });
     assert.equal(kind, "runtime-ready-template-panel");
   });
@@ -191,26 +180,23 @@ describe("runtime-ready template panel contract guard", () => {
   it("5. BM-171 resolves to runtime-ready-template-panel", () => {
     const kind = selectRuntimeReadyTemplatePanelShim({
       templateCode: "BM-171",
-      profileStatus: profileStatusByTemplateCode("BM-171"),
-      isRuntimeReadyProfileCode: isApprovedRuntimeReadyCodeShim,
+      panelKind: panelKindByTemplateCode("BM-171"),
     });
     assert.equal(kind, "runtime-ready-template-panel");
   });
 
-  it("6. BM-002 resolves to generic-template-panel (skeleton fail-closed)", () => {
+  it("6. BM-002 resolves to persisted-draft-bridge-panel", () => {
     const kind = selectRuntimeReadyTemplatePanelShim({
       templateCode: "BM-002",
-      profileStatus: profileStatusByTemplateCode("BM-002"),
-      isRuntimeReadyProfileCode: isApprovedRuntimeReadyCodeShim,
+      panelKind: panelKindByTemplateCode("BM-002"),
     });
-    assert.equal(kind, "generic-template-panel");
+    assert.equal(kind, "persisted-draft-bridge-panel");
   });
 
   it("7. BM-002 does NOT resolve to runtime-ready-template-panel", () => {
     const kind = selectRuntimeReadyTemplatePanelShim({
       templateCode: "BM-002",
-      profileStatus: profileStatusByTemplateCode("BM-002"),
-      isRuntimeReadyProfileCode: isApprovedRuntimeReadyCodeShim,
+      panelKind: panelKindByTemplateCode("BM-002"),
     });
     assert.notEqual(kind, "runtime-ready-template-panel");
   });
@@ -219,8 +205,7 @@ describe("runtime-ready template panel contract guard", () => {
     for (const code of RUNTIME_READY_CODES) {
       const kind = selectRuntimeReadyTemplatePanelShim({
         templateCode: code,
-        profileStatus: profileStatusByTemplateCode(code),
-        isRuntimeReadyProfileCode: isApprovedRuntimeReadyCodeShim,
+        panelKind: panelKindByTemplateCode(code),
       });
       assert.equal(
         kind,
@@ -268,18 +253,43 @@ describe("runtime-ready template panel contract guard", () => {
     // helper itself rather than hard-coding — this catches drift
     // between the form-lifecycle allowlist and the selector's
     // behaviour.
-    const listMatch = formLifecycleSource.match(
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
-    );
-    assert.ok(listMatch, "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined");
-    const listed = listMatch[1]
-      .split(",")
-      .map((s) => s.trim().replace(/^["']|["']$/g, ""))
-      .filter(Boolean);
     assert.deepEqual(
-      listed.sort(),
-      [...RUNTIME_READY_CODES].sort(),
-      `runtime-ready allowlist must be exactly ${RUNTIME_READY_CODES.join(", ")}`,
+      RUNTIME_READY_CODES,
+      RUNTIME_READY_FORM_FLIGHT_PROFILES_SHIM,
+      "guard shim must preserve the canonical runtime-ready codes",
+    );
+    assert.ok(
+      formLifecycleSource.includes("STANDALONE_RUNTIME_TEMPLATE_CODES"),
+      "form lifecycle must use the cross-surface bridge policy constant",
+    );
+  });
+
+  it("13. The draft bridge uses API renderScope and never defaults unknown scope to CASE_LEVEL", () => {
+    assert.ok(
+      templatePreviewSource.includes("runtime?.renderScope ?? null"),
+      "bridge target semantics must come from the runtime API response",
+    );
+    assert.ok(
+      templatePreviewSource.includes("const bridgeScopeSupported"),
+      "bridge must gate unsupported target scopes before rendering controls",
+    );
+    assert.ok(
+      !templatePreviewSource.includes("renderScope?: string } | null)?.renderScope ?? \"CASE_LEVEL\""),
+      "bridge must not silently default a missing render scope to CASE_LEVEL",
+    );
+  });
+
+  it("14. The draft bridge supplements, never replaces, the contract-native fields", () => {
+    assert.match(
+      templatePreviewSource,
+      /panelKindInfo\.panel\.kind !== "unavailable-template-panel" && contract \? \(\s*<ContractV2Renderer/s,
+      "every registered template with a contract must retain ContractV2Renderer fields",
+    );
+    assert.ok(
+      !/\) : panelKindInfo\.panel\.kind === "unavailable-template-panel" \|\| panelKindInfo\.panel\.kind === "persisted-draft-bridge-panel" \? \(/.test(
+        templatePreviewSource,
+      ),
+      "persisted bridge must not be an alternate branch that hides form fields",
     );
   });
 });

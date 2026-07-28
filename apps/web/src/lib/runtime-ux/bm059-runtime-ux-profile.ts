@@ -345,7 +345,7 @@ const BM059_DEMO = {
   "agency.parentName":
     "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
   "agency.name": "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
-  "document.documentCode": "10/QĐ-VKSKV7",
+  "document.documentCode": "21/QĐ-VKSKV7",
   "document.issuePlaceAndDateLine":
     "Thành phố Hồ Chí Minh, ngày 04 tháng 7 năm 2026",
   "official.issuerTitle":
@@ -376,7 +376,8 @@ const BM059_DEMO = {
   "person.ethnicity": "Kinh",
   "person.religion": "Không",
   "person.occupation": "Công nhân xây dựng",
-  "person.identityDocumentLine": "079185001234",
+// PHASE15B3_SYNTHETIC_FIXTURE_OK: 079185001234 is a format-shaped synthetic test CCCD for BM-059, not derived from real customer/case data.
+      "person.identityDocumentLine": "079185001234",
   "person.permanentAddress":
     "56 Đường Trần Bình Trọng, Quận 5, Thành phố Hồ Chí Minh",
   "person.temporaryAddress": "—",

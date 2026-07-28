@@ -64,7 +64,21 @@ const BM001_UI_PATH = join(
 );
 const BM171_PROFILE_PATH = join(PROFILE_DIR, "bm171.ts");
 
-const RUNTIME_READY_FILES = new Set(["bm001.ts", "bm171.ts"]);
+// form-flight standalone-template baseline (REAL_UI evidence from form-flight
+// profiles themselves — these have hand-authored runtime UI implementations):
+const RUNTIME_READY_FILES = new Set([
+  "bm001.ts",
+  "bm136.ts",
+  "bm148.ts",
+  "bm156.ts",
+  "bm157.ts",
+  "bm168.ts",
+  "bm171.ts",
+  "bm174.ts",
+  "bm181.ts",
+  "bm206.ts",
+  "bm213.ts",
+]);
 
 function readProfileFile(filePath) {
   return readFileSync(filePath, "utf8");

@@ -6,20 +6,85 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const COMPOSE_FILE = resolve(ROOT, "docker-compose.prod.yml");
-const ENV_FILE = resolve(ROOT, process.env.QLLAW_DOCKER_VERIFY_ENV || ".env.docker.example");
-const BOOT_RESULT_FILE = process.env.QLLAW_DOCKER_VERIFY_BOOT_RESULT
-  ? resolve(ROOT, process.env.QLLAW_DOCKER_VERIFY_BOOT_RESULT)
-  : null;
-const API_IMAGE_OVERRIDE = process.env.QLLAW_DOCKER_VERIFY_API_IMAGE || null;
-const WEB_IMAGE_OVERRIDE = process.env.QLLAW_DOCKER_VERIFY_WEB_IMAGE || null;
+
+// ---------------------------------------------------------------------------
+// CLI argument parsing (portable: no Unix-prefix-env syntax required)
+//
+// Supported CLI flags (all optional, can be combined):
+//   --env-file <path>          Compose env file (overrides QLLAW_DOCKER_VERIFY_ENV)
+//   --compose-file <path>      Compose file(s); may appear multiple times
+//   --build                    Build images before verification
+//   --no-cache                 Pass --no-cache to docker build
+//   --boot-result <path>       Path to a boot result JSON for full verification
+//   --api-image <image>        Override API image to verify
+//   --web-image <image>        Override Web image to verify
+//   --font-dir <path>          Times New Roman font directory (strict font probe)
+//   --font-policy <policy>     required | fallback-allowed (default: required)
+//
+// Legacy env-var fallbacks are kept for backwards compatibility but CLI flags
+// take precedence.  The old Unix-prefix approach
+//   QLLAW_DOCKER_VERIFY_ENV=.env.docker.demo node scripts/docker-verify.mjs
+// still works on Linux/macOS but is NOT required on Windows.
+// ---------------------------------------------------------------------------
+
+function parseArgs(argv) {
+  const args = argv.slice(2).filter((a) => a !== "--");
+  const result = {
+    envFile: null,
+    composeFiles: [],
+    shouldBuild: false,
+    noCache: false,
+    bootResultFile: null,
+    apiImageOverride: null,
+    webImageOverride: null,
+    fontDirOverride: null,
+    fontPolicy: null,
+  };
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === "--build") { result.shouldBuild = true; continue; }
+    if (a === "--no-cache") { result.noCache = true; continue; }
+    if (a === "--env-file" && args[i + 1]) { result.envFile = args[++i]; continue; }
+    if (a === "--compose-file" && args[i + 1]) { result.composeFiles.push(args[++i]); continue; }
+    if (a === "--boot-result" && args[i + 1]) { result.bootResultFile = args[++i]; continue; }
+    if (a === "--api-image" && args[i + 1]) { result.apiImageOverride = args[++i]; continue; }
+    if (a === "--web-image" && args[i + 1]) { result.webImageOverride = args[++i]; continue; }
+    if (a === "--font-dir" && args[i + 1]) { result.fontDirOverride = args[++i]; continue; }
+    if (a === "--font-policy" && args[i + 1]) { result.fontPolicy = args[++i]; continue; }
+  }
+  return result;
+}
+
+const parsed = parseArgs(process.argv);
+
+// Resolve env file: CLI flag → env var fallback → default
+const ENV_FILE = resolve(
+  ROOT,
+  parsed.envFile ||
+  process.env.QLLAW_DOCKER_VERIFY_ENV ||
+  ".env.docker.example",
+);
+
+// Resolve Compose files: CLI flags → default single prod Compose
+const COMPOSE_FILES_RESOLVED =
+  parsed.composeFiles.length > 0
+    ? parsed.composeFiles.map((f) => resolve(ROOT, f))
+    : [resolve(ROOT, "docker-compose.prod.yml")];
+
+const BOOT_RESULT_FILE = parsed.bootResultFile
+  ? resolve(ROOT, parsed.bootResultFile)
+  : (process.env.QLLAW_DOCKER_VERIFY_BOOT_RESULT
+      ? resolve(ROOT, process.env.QLLAW_DOCKER_VERIFY_BOOT_RESULT)
+      : null);
+
+const API_IMAGE_OVERRIDE = parsed.apiImageOverride || process.env.QLLAW_DOCKER_VERIFY_API_IMAGE || null;
+const WEB_IMAGE_OVERRIDE = parsed.webImageOverride || process.env.QLLAW_DOCKER_VERIFY_WEB_IMAGE || null;
+
 // Phase 8C: optional operator-provided Times New Roman mount used by the
-// hardened font probe. When QLLAW_DOCKER_VERIFY_FONT_DIR is set we mount
-// it read-only into /opt/qllaw/fonts/times-new-roman and require the
-// exact family in all four styles. Leaving it unset keeps the legacy
-// metric-compatible substitution behaviour.
-const FONT_DIR_OVERRIDE = process.env.QLLAW_DOCKER_VERIFY_FONT_DIR || null;
-const FONT_POLICY_OVERRIDE = process.env.QLLAW_DOCKER_VERIFY_FONT_POLICY || "required";
+// hardened font probe.
+const FONT_DIR_OVERRIDE = parsed.fontDirOverride || process.env.QLLAW_DOCKER_VERIFY_FONT_DIR || null;
+const FONT_POLICY_OVERRIDE = parsed.fontPolicy || process.env.QLLAW_DOCKER_VERIFY_FONT_POLICY || "required";
+
 const BM001_DOCX = resolve(
   ROOT,
   "storage",
@@ -28,10 +93,15 @@ const BM001_DOCX = resolve(
   "BM-001",
   "BM-001_normalized.docx",
 );
-const rawArgs = process.argv.slice(2).filter((arg) => arg !== "--");
-const shouldBuild = rawArgs.includes("--build");
-const noCache = rawArgs.includes("--no-cache");
-const composePrefix = ["compose", "--env-file", ENV_FILE, "-f", COMPOSE_FILE];
+const shouldBuild = parsed.shouldBuild;
+const noCache = parsed.noCache;
+
+// Build the compose CLI prefix from resolved files
+const composePrefix = [
+  "compose",
+  "--env-file", ENV_FILE,
+  ...COMPOSE_FILES_RESOLVED.flatMap((f) => ["-f", f]),
+];
 
 function commandLabel(command, args) {
   return [command, ...args].map((part) => (part.includes(" ") ? JSON.stringify(part) : part)).join(" ");
@@ -286,6 +356,14 @@ function main() {
   if (Boolean(API_IMAGE_OVERRIDE) !== Boolean(WEB_IMAGE_OVERRIDE)) {
     throw new Error("QLLAW_DOCKER_VERIFY_API_IMAGE and QLLAW_DOCKER_VERIFY_WEB_IMAGE must be supplied together");
   }
+
+  // Report which Compose files are actually in use — required so we can prove
+  // the demo override is not being silently skipped.
+  process.stdout.write("DOCKER_VERIFY env_file=" + ENV_FILE + "\n");
+  for (const f of COMPOSE_FILES_RESOLVED) {
+    process.stdout.write("DOCKER_VERIFY compose_file=" + f + "\n");
+  }
+
   run(process.execPath, ["--test", "test/infrastructure/production-runtime.guard.test.mjs"]);
   process.stdout.write("DOCKER_STEP infrastructure=PASS\n");
   run("docker", ["compose", "version"]);

@@ -361,6 +361,7 @@ model generated_documents {
   approved_by_name            String?                      @db.VarChar(255)
   generated_at                DateTime                     @default(now()) @db.DateTime(0)
   approved_at                 DateTime?                    @db.DateTime(0)
+  bridge_draft_key            String?                      @unique(map: "uq_generated_documents_bridge_draft_key") @db.VarChar(64)
   note                        String?                      @db.Text
   document_reviews            document_reviews[]
   generated_document_files    generated_document_files[]

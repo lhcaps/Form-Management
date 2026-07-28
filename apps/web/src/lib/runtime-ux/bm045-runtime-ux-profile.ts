@@ -199,21 +199,21 @@ const BM045_DEMO_RUNTIME_UX = {
     "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ ĐÀ NẴNG",
   "agency.nameUpper":
     "VIỆN KIỂM SÁT NHÂN DÂN QUẬN LIÊN CHIỂU",
-  "document.documentCode": "65/QĐ-VKSPCHC",
+  "document.documentCode": "21/QĐ-VKSKV7",
   "document.issuePlaceAndDateLine":
     "Đà Nẵng, ngày 04 tháng 7 năm 2026",
   "official.issuingAuthorityLine":
-    "Viện Kiểm sát nhân dân Quận Liên Chiểu;",
+    "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
   "legalBasis.procedureArticlesLine":
     "Căn cứ Điều 109, Điều 121 Bộ luật Tố tụng hình sự năm 2015;",
   "legalBasis.juvenileJusticeLine":
     "Căn cứ Điều 18 Luật Xử lý vi phạm hành chính năm 2012;",
   "bailApproval.caseDecisionLegalBasisLine":
-    "Căn cứ Quyết định khởi tố vụ án hình sự số 47/QĐ-PC04 ngày 11/4/2026;",
+    "Căn cứ Quyết định khởi tố vụ án hình sự số 35/QĐ-CQĐT ngày 25 tháng 4 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
   "bailApproval.accusedDecisionLegalBasisLine":
-    "Căn cứ Quyết định khởi tố bị can số 48/QĐ-PC04 ngày 12/4/2026;",
+    "Căn cứ Quyết định khởi tố bị can số 36/QĐ-CQĐT ngày 25 tháng 4 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
   "bailApproval.proposalLine":
-    "Đề nghị cho bị can tại ngoại theo Đơn đề nghị bảo lĩnh số 61/TTr-PC04 ngày 03/6/2026 của Cơ quan Cảnh sát điều tra;",
+    "Đề nghị phê chuẩn việc cho bị can Nguyễn Văn A được bảo lãnh theo quy định tại Điều 122 BLTTHS 2015.",
   "bailApproval.reasonLine":
     "Xét thấy: bị can có nhân thân tốt, có nơi cư trú rõ ràng; có người bảo lĩnh là ông Đặng Văn Minh (bố đẻ); thuộc trường hợp được bảo lĩnh theo Điều 121 BLTTHS;",
   "bailApproval.article1Line":

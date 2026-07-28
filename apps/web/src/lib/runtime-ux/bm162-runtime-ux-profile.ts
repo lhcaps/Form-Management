@@ -29,10 +29,7 @@ const BM162_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-thong-tin-ca-nhan",
-    title: "Thông tin cá nhân được mời",
+    description: "Giấy mời người tham gia tố tụng có mặt tại thời gian và địa điểm được chỉ định (Kính mời)",
   },
 ] as const;
 
@@ -67,6 +64,7 @@ const BM162_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD/CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 030090123456 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "030090123456",
   },
 } as const;
@@ -79,6 +77,7 @@ const BM162_DEMO_RUNTIME_UX = {
   "person.personFullName": "Phạm Minh Đức",
   "person.currentAddress": "Số 12, ngõ 8, phường Cát Linh, quận Đống Đa, Hà Nội",
   "person.occupation": "Công nhân",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 030090123456 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "030090123456",
 } as const;
 

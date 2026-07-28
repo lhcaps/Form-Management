@@ -28,6 +28,19 @@ async function bootstrap(): Promise<void> {
   const bootstrapConfig = new AppConfigService(process.env);
   bootstrapConfig.assertProductionSafety();
 
+  // Emit demo-mode classification log AFTER assertProductionSafety passes so
+  // the label is only written on a successful boot, not on config errors.
+  if (bootstrapConfig.isProductionDemoMode) {
+    const logger = new Logger('Bootstrap');
+    logger.warn(
+      'CLERK_WEBHOOK_OPTIONAL_FOR_DEMO — running with QLLAW_DOCKER_MODE=demo',
+    );
+    logger.warn('DEMO_FONT_FALLBACK_ACTIVE — font policy is fallback-allowed');
+    logger.warn(
+      'PRODUCTION_STACK_DEMO_AUTH_PASS — pk_test_/sk_test_ credentials accepted',
+    );
+  }
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: false,
     rawBody: true,

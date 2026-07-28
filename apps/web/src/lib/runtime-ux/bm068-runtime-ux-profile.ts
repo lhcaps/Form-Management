@@ -80,6 +80,7 @@ const BM068_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD/CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079290002233 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "079290002233",
   },
   "person.permanentAddress3": {
@@ -125,6 +126,7 @@ const BM068_DEMO = {
   "person.permanentAddress": "78 Đường Lý Thường Kiệt, Quận 10, TP.HCM",
   "person.permanentAddress2": "—",
   "person.occupation": "Kế toán",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079290002233 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "079290002233",
   "person.permanentAddress3": "—",
   "person.occupation2": "—",

@@ -28,29 +28,31 @@ import {
 const BM029_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
+    title: "Cơ quan ban hành quyết định hủy bỏ",
+    description:
+      "Tên Viện kiểm sát cấp trên, Viện kiểm sát ban hành và tên viết tắt dùng trong quyết định hủy bỏ quyết định bổ sung khởi tố vụ án hình sự.",
   }
 ] as const;
 
 const BM029_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên Viện Kiểm sát",
+    label: "Viện kiểm sát cấp trên trực tiếp",
     placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội"
   },
   "agency.tenCo": {
-    label: "Tên cơ quan",
-    placeholder: "Cơ quan Cảnh sát điều tra"
+    label: "Viện kiểm sát ban hành",
+    placeholder: "Viện kiểm sát nhân dân Khu vực 7"
   },
   "document.vietTat": {
-    label: "Viết tắt văn bản",
-    placeholder: "QĐ-VKS"
+    label: "Tên viết tắt Viện kiểm sát/đơn vị phụ trách",
+    placeholder: "VKSND Khu vực 7"
   }
 } as const;
 
 const BM029_DEMO_RUNTIME_UX = {
   "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "agency.tenCo": "Cơ quan Cảnh sát điều tra",
-  "document.vietTat": "QĐ-VKS"
+  "agency.tenCo": "Viện kiểm sát nhân dân Khu vực 7",
+  "document.vietTat": "VKSND Khu vực 7"
 } as const;
 
 const BM029_RUNTIME_UX_PROFILE: RuntimeUxProfile = {

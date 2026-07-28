@@ -52,7 +52,10 @@
  *  11. The FormFlight `RUNTIME_READY_FORM_FLIGHT_PROFILES` allowlist
  *      still contains only `BM-001` and `BM-171`.
  *  12. Non-selected partial forms remain partial — no accidental
- *      promotion.
+ *      promotion. The selection of non-curated forms is intentionally
+ *      random among currently-source-truth forms and must NOT use
+ *      BM-200 (or any other real form) as a permanent negative-control
+ *      canary. BM-200 lifecycle neutrality is asserted separately.
  */
 
 import { strict as assert } from "node:assert";
@@ -411,42 +414,217 @@ describe("Curated input-connected batch (5-form + 15-form + 15-form + 20-form = 
     );
   });
 
-  it("module #11: FormFlight runtimeReady allowlist is still only BM-001 + BM-171", () => {
+  it("module #11: FormFlight runtimeReady allowlist matches the canonical 11-form roster", () => {
     const lifecyclePath = join(FORM_FLIGHT_DIR, "form-lifecycle.ts");
     const lifecycleSrc = readFileSync(lifecyclePath, "utf8");
+    // RUNTIME_READY_FORM_FLIGHT_PROFILES may be either a literal
+    // array `[...]` or an alias to another constant (e.g.
+    // STANDALONE_RUNTIME_TEMPLATE_CODES). Match either form.
+    let listedCodes = [];
     const listMatch = lifecycleSrc.match(
       /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
     );
-    assert.ok(listMatch, "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined");
-    const listed = listMatch[1]
-      .split(",")
-      .map((s) => s.trim().replace(/^["']|["']$/g, ""))
-      .filter(Boolean)
-      .sort();
-    assert.deepEqual(listed, ["BM-001", "BM-171"]);
+    if (listMatch) {
+      listedCodes = listMatch[1]
+        .split(",")
+        .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean);
+    } else {
+      // Alias form: `RUNTIME_READY_FORM_FLIGHT_PROFILES = OTHER_CONST;`
+      const aliasMatch = lifecycleSrc.match(
+        /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*([A-Z_][A-Z0-9_]*)/,
+      );
+      assert.ok(aliasMatch, "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined");
+      const aliasName = aliasMatch[1];
+      // The alias may be imported from another module. Resolve the
+      // literal array from the import source path declared in the
+      // import statement.
+      const importRe = new RegExp(
+        `import\\s*\\{[^}]*\\b${aliasName}\\b[^}]*\\}\\s*from\\s*["']([^"']+)["']`,
+      );
+      const importMatch = lifecycleSrc.match(importRe);
+      if (importMatch) {
+        const importPath = importMatch[1];
+        // Resolve import path. Local relative paths are resolved
+        // against the form-lifecycle.ts directory. Bare monorepo
+        // package specifiers (e.g. `@qllaw/form-contracts/browser`)
+        // are resolved by walking up to find the package.json and
+        // mapping to the dist entry.
+        let target = null;
+        if (importPath.startsWith(".")) {
+          target = join(FORM_FLIGHT_DIR, importPath);
+        } else {
+          // Bare specifier: try to resolve via workspace package.json.
+          // Examples:
+          //   @qllaw/form-contracts/browser -> packages/form-contracts/src/browser.ts
+          //   @qllaw/form-contracts         -> packages/form-contracts/src/index.ts
+          const atScope = importPath.match(/^(@[^/]+\/[^/]+)(?:\/(.+))?$/);
+          const plain = importPath.match(/^([^/]+)(?:\/(.+))?$/);
+          const segments = atScope
+            ? [atScope[1], atScope[2]]
+            : plain
+            ? [plain[1], plain[2]]
+            : [];
+          const pkgName = segments[0] || "";
+          const subPath = segments[1] || "";
+          // Convert "@qllaw/form-contracts" -> "form-contracts"
+          const dirName = pkgName.replace(/^@[^/]+\//, "");
+          // Walk up to find a directory containing packages/<dirName>.
+          let cursor = FORM_FLIGHT_DIR;
+          for (let i = 0; i < 10; i++) {
+            const candidates = [
+              join(cursor, "packages", dirName, subPath),
+              join(cursor, "packages", dirName, "src", subPath),
+              join(cursor, "packages", dirName, "src", subPath + ".ts"),
+              join(cursor, "packages", dirName, "dist", subPath + ".js"),
+            ];
+            for (const c of candidates) {
+              if (existsSync(c)) {
+                target = c;
+                break;
+              }
+            }
+            if (target) break;
+            const parent = dirname(cursor);
+            if (parent === cursor) break;
+            cursor = parent;
+          }
+        }
+        assert.ok(
+          target && existsSync(target),
+          `alias source must exist: ${importPath} -> ${target}`,
+        );
+        const aliasSrc = readFileSync(target, "utf8");
+        let aliasDef = aliasSrc.match(
+          new RegExp(
+            `export\\s+(?:const\\s+)?${aliasName}\\s*=\\s*\\[([^\\]]+)\\]`,
+          ),
+        );
+        // If the alias file re-exports, follow the chain.
+        if (!aliasDef) {
+          const reExport = aliasSrc.match(
+            new RegExp(
+              `export\\s*\\{[^}]*\\b${aliasName}\\b[^}]*\\}\\s*from\\s*["']([^"']+)["']`,
+            ),
+          );
+          if (reExport) {
+            // Resolve the re-export target relative to the alias file.
+            const sub = reExport[1];
+            let subTarget = null;
+            if (sub.startsWith(".")) {
+              // Try .ts first, then .js (TS before compilation).
+              const base = join(dirname(target), sub);
+              subTarget = existsSync(base) ? base : null;
+              if (!subTarget) {
+                const baseTs = base.replace(/\.js$/, ".ts");
+                subTarget = existsSync(baseTs) ? baseTs : null;
+              }
+            }
+            if (subTarget && existsSync(subTarget)) {
+              const subSrc = readFileSync(subTarget, "utf8");
+              aliasDef = subSrc.match(
+                new RegExp(
+                  `export\\s+(?:const\\s+)?${aliasName}\\s*=\\s*\\[([^\\]]+)\\]`,
+                ),
+              );
+            }
+          }
+        }
+        assert.ok(aliasDef, `${aliasName} must be a literal array in ${importPath}`);
+        listedCodes = aliasDef[1]
+          .split(",")
+          .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+          .filter(Boolean);
+      } else {
+        const aliasDef = lifecycleSrc.match(
+          new RegExp(`${aliasName}\\s*=\\s*\\[([^\\]]+)\\]`),
+        );
+        assert.ok(aliasDef, `${aliasName} must be a literal array`);
+        listedCodes = aliasDef[1]
+          .split(",")
+          .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+          .filter(Boolean);
+      }
+    }
+    const listed = [...listedCodes].sort();
+    // R5 promotion: the runtime-ready allowlist MUST contain the
+    // 11-element canonical roster (BM-001, BM-171 + 9 R5 promoted codes).
+    // BM-200 is intentionally NOT in this list (real form, not yet
+    // promoted to its own gates). The synthetic canary is NEVER in
+    // the allowlist.
+    assert.deepEqual(listed, [
+      "BM-001",
+      "BM-136",
+      "BM-148",
+      "BM-156",
+      "BM-157",
+      "BM-168",
+      "BM-171",
+      "BM-174",
+      "BM-181",
+      "BM-206",
+      "BM-213",
+    ]);
   });
 
-  it("module #12: non-selected partial forms remain partial", () => {
+  it("module #12: non-selected partial forms remain partial (no accidental promotion)", () => {
     // Spot-check a few non-selected forms still exist as auto-generated
-    // baselines and have not been overwritten by this phase. We choose
-    // BM-024 (immediately after the curated tail in batch 1), BM-130
-    // (not selected in batch 4), and BM-200 as canaries.
-    // Note: BM-010 is curated by batch 1 and therefore intentionally
-    // NOT a canary. BM-100 is curated by batch 4 and therefore
-    // intentionally NOT a canary.
-    const canaries = ["BM-024", "BM-130", "BM-200"];
-    for (const code of canaries) {
+    // baselines and have not been overwritten by this phase. These
+    // forms are NOT permanent failure canaries — they are ordinary
+    // real forms that simply sit outside the current curated batch.
+    // The selection is based on source-truth (not curated code list)
+    // and the assertion is scoped to "this batch did not promote
+    // them", not "they must stay partial forever".
+    //
+    // BM-200 is intentionally NOT in this list. BM-200 lifecycle
+    // neutrality is asserted in module #12b below.
+    const nonSelected = ["BM-024", "BM-130", "BM-150"];
+    for (const code of nonSelected) {
       const p = join(RUNTIME_UX_DIR, `bm${code.slice(3)}-runtime-ux-profile.ts`);
       const src = existsSync(p) ? readFileSync(p, "utf8") : "";
-      assert.ok(src.length > 0, `${code} canary profile must still exist`);
-      // The canaries must NOT carry a curated-batch versionLabel.
+      assert.ok(src.length > 0, `${code} runtime-ux profile must still exist`);
+      // Non-selected forms must NOT carry a curated-batch versionLabel.
       assert.ok(
         !/versionLabel:\s*["']BM-\d{3} curated batch/i.test(src),
         `${code} must not have been promoted by this phase (curated versionLabel found)`,
       );
-      // Canaries should still carry the (mẫu BM-NNN) placeholder,
-      // proving they remain in the auto-generated partial bucket.
-      assert.match(src, /\(mẫu\s+BM-\d{3}\)/i);
+    }
+  });
+
+  it("module #12b: BM-200 lifecycle neutrality — no source codepath excludes BM-200 by code identity", () => {
+    // BM-200 must participate in the standard real-form lifecycle.
+    // It may currently have a non-curated placeholder profile, but it
+    // must not be pinned to that placeholder forever, and no source
+    // code may reject or exclude BM-200 solely because of its code
+    // identifier.
+    const profilePath = join(RUNTIME_UX_DIR, "bm200-runtime-ux-profile.ts");
+    if (existsSync(profilePath)) {
+      const src = readFileSync(profilePath, "utf8");
+      // The placeholder can currently exist, but the test must not
+      // require it. Only the absence of lifecycle locks matters.
+      assert.ok(
+        !/POLICY_EXCLUDED|policy[\s-]excluded|permanent canary|policy canary/i.test(src),
+        `bm200 runtime-ux profile must not lock itself as a permanent negative control`,
+      );
+    }
+    // No production codepath excludes BM-200 by code identity.
+    const guardedFiles = [
+      join(FORM_FLIGHT_DIR, "form-lifecycle.ts"),
+      join(FORM_FLIGHT_DIR, "registry.ts"),
+      join(FORM_FLIGHT_DIR, "profile-status.ts"),
+      join(FORM_FLIGHT_DIR, "runtime-ready-template-panel-contract.ts"),
+      join(APPS_WEB_DIR, "src", "lib", "navigation", "app-routes.ts"),
+    ];
+    for (const f of guardedFiles) {
+      if (!existsSync(f)) continue;
+      const src = readFileSync(f, "utf8");
+      const matches = src.match(/["']BM-200["']/g) ?? [];
+      for (const m of matches) {
+        assert.ok(
+          false,
+          `${f} hardcodes "${m}" — BM-200 must be treated as an ordinary real form (no code-identity exclusion).`,
+        );
+      }
     }
   });
 

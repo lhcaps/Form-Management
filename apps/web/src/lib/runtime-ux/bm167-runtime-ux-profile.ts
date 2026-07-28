@@ -5,7 +5,7 @@
  * a source/render version with real Vietnamese labels, multiple
  * section headings, and safe demo data.
  *
- * Form title: Quyết định phê chuẩn
+ * Form title: Thông báo về việc trả hồ sơ, ban hành cáo trạng
  *
  * Boundaries honoured:
  *   - No mutation of the locked contract, the normalized DOCX, or
@@ -29,6 +29,14 @@ const BM167_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Tên Viện kiểm sát ban hành thông báo, căn cứ Điều 42 và khoản 2 Điều 240 Bộ luật Tố tụng hình sự, Điều 2 Luật Tư pháp người chưa thành niên.",
+  },
+  {
+    sectionId: "section-thong-tin-van-ban",
+    title: "Thông tin văn bản",
+    description:
+      "Số văn bản thông báo về việc trả hồ sơ, ban hành cáo trạng.",
   },
 ] as const;
 
@@ -38,14 +46,14 @@ const BM167_FIELDS = {
     placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội",
   },
   "document.fullDocumentCode": {
-    label: "Số quyết định",
-    placeholder: "61/QĐ-VKS",
+    label: "Số văn bản",
+    placeholder: "61/TB-VKS",
   },
 } as const;
 
 const BM167_DEMO_RUNTIME_UX = {
   "agency.name": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.fullDocumentCode": "61/QĐ-VKS",
+  "document.fullDocumentCode": "61/TB-VKS",
 } as const;
 
 const BM167_RUNTIME_UX_PROFILE: RuntimeUxProfile = {

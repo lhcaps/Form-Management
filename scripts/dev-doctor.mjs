@@ -25,8 +25,12 @@ export function pnpmVersionFromUserAgent(userAgent) {
 }
 
 function runVersion(command, args = ["--version"]) {
-  const result = spawnSync(executable(command), args, {
+  const bin = executable(command);
+  const result = spawnSync(bin, args, {
     encoding: "utf8",
+    // shell: true is required on Windows for .cmd wrappers (e.g. pnpm.cmd)
+    // when the caller does not go through cmd.exe PATH resolution automatically.
+    shell: process.platform === "win32",
     stdio: ["ignore", "pipe", "pipe"],
     windowsHide: true,
   });

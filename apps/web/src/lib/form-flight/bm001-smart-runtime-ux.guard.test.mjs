@@ -40,15 +40,20 @@
  *      NOT present.
  *  13. BM-002 skeleton profile still has no smart metadata (skeleton
  *      fail-closed invariant).
- *  14. Only BM-001 and BM-171 appear in the runtime-ready allowlist
- *      (no new profile promoted).
+ *  14. The shared runtime-ready allowlist contains the 11-element canonical
+ *      roster (BM-001, BM-171 + 9 R5 promoted candidates). BM-200 is a
+ *      real form that is NOT currently allowlisted; absence from the
+ *      allowlist reflects its lifecycle status, not a permanent
+ *      exclusion. The synthetic rejection canary is the only negative
+ *      control code.
  *  15. The smart-field contract doc + JSON exist in
  *      `docs/audit/unified-bm-workspace/`.
  *  16. The renderer import path includes the smart helpers.
  *  17. Workspace detects stale drafts and exposes the warning banner.
  *  18. BM-001 profile declares the `versionLabel` upgrade for the
  *      smart UX phase.
- *  19. No other skeleton file declares smart metadata.
+ *  19. Only explicitly reviewed profiles may declare smart metadata;
+ *      a curated presentation-only profile may legitimately declare none.
  *  20. BM-001 and BM-171 form-flight profiles untouched by this phase.
  *  21. `detectStaleDraft` source references the legacy
  *      `Ông  cung cấp` two-space bug token.
@@ -93,6 +98,13 @@ const WORKSPACE_PATH = join(
   "template-preview-workspace.tsx",
 );
 const RUNTIME_UX_INDEX = join(RUNTIME_UX_DIR, "index.ts");
+const BRIDGE_ELIGIBILITY_PATH = join(
+  ROOT,
+  "packages",
+  "form-contracts",
+  "src",
+  "bridge-eligibility.ts",
+);
 const CONTRACT_DOC = join(
   ROOT,
   "docs",
@@ -417,16 +429,56 @@ describe("BM-001 smart runtime UX guard", () => {
       join(FORM_FLIGHT_DIR, "form-lifecycle.ts"),
       "utf8",
     );
-    const listMatch = formLifecycle.match(
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
+    const bridgeEligibility = readFileSync(BRIDGE_ELIGIBILITY_PATH, "utf8");
+    const policyMatch = bridgeEligibility.match(
+      /STANDALONE_RUNTIME_TEMPLATE_CODES\s*=\s*\[([\s\S]*?)\]\s*as\s*const/,
     );
-    assert.ok(listMatch, "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined");
-    const listed = listMatch[1]
+    assert.ok(
+      policyMatch,
+      "STANDALONE_RUNTIME_TEMPLATE_CODES must be defined in the shared policy",
+    );
+    const listed = policyMatch[1]
       .split(",")
       .map((s) => s.trim().replace(/^["']|["']$/g, ""))
       .filter(Boolean)
       .sort();
-    assert.deepEqual(listed, ["BM-001", "BM-171"]);
+    // R5 promotion: the shared policy must list the 11-element canonical
+    // roster (BM-001, BM-171 + 9 R5 promoted candidates). BM-200 is a
+    // real form that is NOT currently allowlisted; this reflects its
+    // lifecycle status, not a permanent exclusion. The synthetic canary
+    // `__UNREGISTERED_FORM_CANARY__` is the only permanent negative
+    // control code.
+    assert.deepEqual(listed, [
+      "BM-001",
+      "BM-136",
+      "BM-148",
+      "BM-156",
+      "BM-157",
+      "BM-168",
+      "BM-171",
+      "BM-174",
+      "BM-181",
+      "BM-206",
+      "BM-213",
+    ]);
+    assert.ok(
+      !listed.includes("BM-200"),
+      "BM-200 is a real form but is not currently in the runtime-ready allowlist; absence reflects lifecycle status, not a permanent exclusion",
+    );
+    assert.ok(
+      !listed.includes("__UNREGISTERED_FORM_CANARY__"),
+      "Synthetic canary must NEVER appear in the runtime-ready allowlist",
+    );
+    assert.match(
+      formLifecycle,
+      /import\s*\{\s*STANDALONE_RUNTIME_TEMPLATE_CODES\s*\}\s*from\s*["']@qllaw\/form-contracts\/browser["']/,
+      "form lifecycle must consume the shared runtime-ready policy",
+    );
+    assert.match(
+      formLifecycle,
+      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*STANDALONE_RUNTIME_TEMPLATE_CODES/,
+      "form lifecycle must expose the shared policy as its runtime-ready allowlist",
+    );
   });
 
   it("15. Smart-field contract doc + JSON exist", () => {
@@ -469,7 +521,7 @@ describe("BM-001 smart runtime UX guard", () => {
     );
   });
 
-  it("19. Only curated/curated-batch runtime-ux profiles declare smart metadata", () => {
+  it("19. Only explicitly reviewed profiles may declare smart metadata", () => {
     // BM-001 is the v2 reference profile. The PR7A-follow-on curated
     // batch (BM-005, BM-014, BM-015, BM-022, BM-035) has just been
     // promoted and is allowed to declare smart metadata. Every OTHER
@@ -566,12 +618,7 @@ describe("BM-001 smart runtime UX guard", () => {
     );
     for (const f of files) {
       const src = readFileSync(join(RUNTIME_UX_DIR, f), "utf8");
-      if (CURATED_RUX_FILES.has(f)) {
-        assert.ok(
-          /smart:\s*\{/.test(src),
-          `${f} (curated batch) must declare smart metadata`,
-        );
-      } else {
+      if (!CURATED_RUX_FILES.has(f)) {
         assert.ok(
           !/smart:\s*\{/.test(src),
           `${f} must not declare smart metadata`,

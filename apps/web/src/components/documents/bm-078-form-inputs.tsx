@@ -187,7 +187,7 @@ function fillCustomerSample(): Bm078Form {
     document: { ...EMPTY_FORM.document },
     notification: { ...EMPTY_FORM.notification },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Lê Văn C" },
   };
 }
 

@@ -1,0 +1,49 @@
+# MariaDB office-lite tuning for QUANLYVKS development and Docker demo.
+#
+# Target: OFFICE_8GB / OFFICE_16GB machines running MariaDB dev container or
+# Docker demo full stack. This config trades query performance for low idle RAM
+# (~130-150 MiB) and predictable resource usage.
+#
+# Production deployments should NOT use this config — use production defaults or
+# dedicated DBA tuning for the live database scale.
+
+[mysqld]
+
+# InnoDB buffer pool: critical for performance. Default is 128 MB; on OFFICE_8GB
+# this is acceptable since the dev database is small (~10-50 MB). On OFFICE_16GB
+# we can safely raise to 256 MB without starving NestJS/Next.js.
+# innodb_buffer_pool_size = 128M  # OFFICE_8GB default (keep commented to let MariaDB decide)
+# innodb_buffer_pool_size = 256M  # OFFICE_16GB (uncomment if running docker:demo on 16 GB)
+
+# Max connections: dev/demo does not need 150+ connections. 30 is enough for
+# local NestJS pool (connection_limit=10 in DATABASE_URL) + a few direct
+# admin/seed scripts.
+max_connections = 30
+
+# Open table cache: reduce from default 4000 to save memory.
+table_open_cache = 400
+
+# Thread cache: keep threads warm for fast connection setup. 8 is MariaDB default.
+thread_cache_size = 8
+
+# Max packet size: 256M is large but necessary for DOCX/PDF BLOBs in future.
+# Keep it; the allocation is per-connection and only when needed.
+max_allowed_packet = 256M
+
+# Performance schema: disable in dev/demo to save ~50-100 MiB.
+performance_schema = OFF
+
+# Skip DNS lookups: all connections are localhost/127.0.0.1.
+skip_name_resolve = 1
+
+# Character set and collation: enforce UTF8MB4 for Vietnamese text.
+character_set_server = utf8mb4
+collation_server = utf8mb4_unicode_ci
+
+# Default timezone: Asia/Ho_Chi_Minh (UTC+7).
+default_time_zone = '+07:00'
+
+# Query cache: removed in MariaDB 10.11+, this setting has no effect but is
+# kept for documentation — do not enable query_cache manually.
+# query_cache_size = 0
+# query_cache_type = OFF

@@ -13,6 +13,17 @@
  * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
  * Batch 7 curation only. Browser/demo/preview/DOCX/fidelity/visual/
  * human evidence remains NOT_RUN for Batch 7.
+ *
+ * Source evidence:
+ *   docs/audit/docx/extracted/BM-159__d95eb7bda8e3.extract.md
+ *   (extractHeading = "QUYẾT ĐỊNH" anchored on P0011, operative
+ *    phrase "Phân công Viện kiểm sát cấp dưới thực hành quyền công
+ *    tố, kiểm sát xét xử sở thẩm vụ án hình sự" anchored on P0012-P0013,
+ *    legal basis "Căn cứ Điều 41 và Điều 239" anchored on P0015)
+ *
+ * Curation scope (this patch, queue-gap closure):
+ *   - Section descriptions only, aligned to extract paragraphs
+ *     P0001-P0047. No label/key/control/payload/demo change.
  */
 
 import {
@@ -24,22 +35,32 @@ const BM159_SECTIONS = [
   {
     sectionId: "section-co-quan-va-van-ban",
     title: "Cơ quan và văn bản",
+    description:
+      "Dòng VIỆN KIỂM SÁT, CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM - Độc lập - Tự do - Hạnh phúc; số quyết định, địa danh, ngày tháng năm ban hành (P0001-P0010).",
   },
   {
     sectionId: "section-can-cu-phap-ly",
     title: "Căn cứ pháp lý",
+    description:
+      "Căn cứ Điều 41 và Điều 239 của Bộ luật Tố tụng hình sự (P0015); Căn cứ Cáo trạng số ... ngày ... của Viện kiểm sát (P0016-P0020).",
   },
   {
     sectionId: "section-noi-dung-quyet-inh",
     title: "Nội dung quyết định",
+    description:
+      "Điều 1 - Phân công Viện kiểm sát thực hành quyền công tố, kiểm sát xét xử sơ thẩm vụ án về tội danh và điều luật áp dụng (P0022-P0027); Điều 2 - Viện kiểm sát được phân công thực hiện quyết định theo quy định của Bộ luật Tố tụng hình sự (P0028).",
   },
   {
     sectionId: "section-noi-nhan",
     title: "Nơi nhận",
+    description:
+      "Viện kiểm sát được phân công, Tòa án có thẩm quyền xét xử và lưu hồ sơ HSVA, HSKS, VP (P0029-P0032).",
   },
   {
     sectionId: "section-chu-ky",
     title: "Chữ ký",
+    description:
+      "Ký, ghi rõ họ tên, đóng dấu; chức danh người ký (P0033, P0044); Mẫu số 159/HS - ban hành theo Thông tư số /2026/TT-VKSTC (P0045-P0047).",
   },
 ] as const;
 

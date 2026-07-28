@@ -1,39 +1,13 @@
 /**
- * AUTO-GENERATED SKELETON — NOT FIDELITY COMPLETE.
+ * BM-181 runtime-ready Form Flight profile.
  *
- * Source: QLLAW_DOCX_FIDELITY_SOURCE_EXTRACT.latest.json + locked
- * contract `docs\audit\docx\contracts\locked\BM-181__ec1d8701fc13.contract.locked.json`.
+ * Stage 08 (THỦ TỤC ĐẶC BIỆT) "Quyết định áp dụng thủ tục rút gọn".
+ * Field paths are taken verbatim from the locked contract
+ * `docs/audit/docx/contracts/locked/BM-181__ec1d8701fc13.contract.locked.json`
+ * and verified against the Wave-03A remediation log.
  *
- * This file is a skeleton, NOT a runtime-ready profile. It is
- * discovered by the Form Flight inventory tooling but is ignored by
- * both adapters (`template-runtime-adapter`,
- * `generated-document-adapter`) because:
- *
- *   - `runtimeReady` is false (or omitted).
- *   - `profileStatus` is "skeleton".
- *
- * `isRuntimeReadyProfile` is fail-closed: a profile that does not
- * match `runtimeReady === true && profileStatus === "runtime-ready"`
- * is treated as "no profile" by the shared core. So this skeleton
- * cannot affect the runtime template lifecycle or the generated-
- * document lifecycle.
- *
- * What is provided here (safe, auto-generated):
- *   - fieldPaths           (locked contract fields, alphabetically sorted)
- *   - requiredFieldPaths   (empty — no explicit required evidence)
- *   - title                (placeholder, hand-curate later)
- *
- * What is INTENTIONALLY left empty (must be hand-authored):
- *   - demo                 (must be hand-curated synthetic fixture)
- *   - summaryLines         (must be authored for quick-check)
- *   - acceptance           (must list real anchors)
- *   - staleFallbacks       (only when evidence exists)
- *
- * Do NOT set `runtimeReady: true` or `profileStatus: "runtime-ready"`
- * on this file until demo, summaryLines, acceptance, and render
- * validation have been hand-authored.
+ * Required-field subset is a strict subset of `fieldPaths`.
  */
-
 import type { FormFlightProfile } from "../types";
 import { registerFormFlightProfile } from "../registry";
 
@@ -43,30 +17,67 @@ const BM181_FIELD_PATHS = [
   "document.issueDate",
 ] as const;
 
-// No explicit required-field evidence is available in the verified
-// extract. Empty array is the safe skeleton default — it matches the
-// BM-001 skeleton pattern. A future task may populate this from the
-// locked contract's `requiredFieldKeys` list once that evidence is
-// promoted.
-const BM181_REQUIRED_FIELD_PATHS = [] as const;
+const BM181_REQUIRED_FIELD_PATHS = [
+  "agency.name",
+  "document.fullDocumentCode",
+  "document.issueDate",
+] as const;
+
+const BM181_DEMO = {
+  "agency.name": "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
+  "document.fullDocumentCode": "07/QĐ-VKSKV7",
+  "document.issueDate": "2026-07-04",
+} as const;
+
+const BM181_ACCEPTANCE = {
+  requiredText: [
+    "QUYẾT ĐỊNH",
+    "Viện Kiểm sát nhân dân Khu vực 7",
+    "07/QĐ-VKSKV7",
+  ],
+  forbiddenText: [
+    "{{",
+    "}}",
+    "undefined",
+    "null",
+    "[object Object]",
+  ],
+};
+
+const BM181_SUMMARY_LINES = [
+  {
+    label: "Cơ quan ban hành",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).agency?.name;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Số QĐ",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).document?.fullDocumentCode;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Ngày ban hành",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).document?.issueDate;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+];
 
 export const BM181_FORM_FLIGHT_PROFILE: FormFlightProfile = {
   templateCode: "BM-181",
-  title: "Biểu mẫu BM-181",
-  // SKELETON: never runtime-ready. Adapter helpers skip this profile.
-  runtimeReady: false,
-  profileStatus: "skeleton",
+  title: "QĐ áp dụng thủ tục rút gọn",
+  runtimeReady: true,
+  profileStatus: "runtime-ready",
   fieldPaths: BM181_FIELD_PATHS,
   requiredFieldPaths: BM181_REQUIRED_FIELD_PATHS,
-  // SKELETON: empty demo. Hand-curated fixture required before any
-  // `runtime-ready` promotion.
-  demo: {},
-  // SKELETON: empty acceptance contract. Real BM-181 anchors must
-  // be added by hand before promotion.
-  acceptance: {
-    requiredText: [],
-    forbiddenText: [],
-  },
+  demo: BM181_DEMO,
+  summaryLines: BM181_SUMMARY_LINES,
+  acceptance: BM181_ACCEPTANCE,
 };
 
 registerFormFlightProfile(BM181_FORM_FLIGHT_PROFILE);

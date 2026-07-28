@@ -396,4 +396,23 @@ export class UpdateGeneratedDocumentFormInputsDto {
   @IsOptional()
   @IsObject()
   caseFileHandover?: Record<string, unknown>;
+
+  // A5 defect fix: contracts BM-148/BM-171/BM-213 declare these
+  // sections but the DTO did not expose them, causing persistence to
+  // drop them on the floor. Added 2026-07-25.
+  @IsOptional()
+  @IsObject()
+  suspension?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsObject()
+  assetReturn?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsObject()
+  assetOwner?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsObject()
+  juvenileProtection?: Record<string, unknown>;
 }

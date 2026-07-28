@@ -10,6 +10,8 @@ import {
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 import { CreateDocumentGenerationBatchDto } from './dto/create-document-generation-batch.dto';
+import { CreateDraftFromTemplateDto } from './dto/create-draft-from-template.dto';
+import { CreateDraftFromTemplateResponseDto } from './dto/create-draft-from-template-response.dto';
 import { DocumentsService } from './documents.service';
 import {
   GeneratedDocumentAuditService,
@@ -18,6 +20,7 @@ import {
 } from './generated-document-audit.service';
 import { CurrentUser as CurrentUserDecorator } from '../auth/current-user.decorator';
 import type { CurrentUser } from '../auth/current-user.type';
+import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
 
 @ApiTags('Documents')
 @Controller('documents')
@@ -26,6 +29,7 @@ export class DocumentsController {
     private readonly documentsService: DocumentsService,
     @Inject(GeneratedDocumentAuditService)
     private readonly audit: GeneratedDocumentAuditService,
+    private readonly access: AgencyResourceAccessService,
   ) {}
 
   @Get('cases/:caseId/available-templates')
@@ -151,6 +155,59 @@ export class DocumentsController {
       templateName: doc.template_name ?? null,
       outputStrategy: doc.output_strategy ?? null,
     };
+  }
+
+  @Post('draft-from-template')
+  @ApiOperation({
+    summary: 'Tạo hoặc tái sử dụng bản nháp từ template bridge',
+    description:
+      'Used by template preview route to create/reuse draft document for skeleton forms with legacy panels',
+  })
+  @ApiBody({
+    type: CreateDraftFromTemplateDto,
+  })
+  async createDraftFromTemplate(
+    @Body() dto: CreateDraftFromTemplateDto,
+    @CurrentUserDecorator() user: CurrentUser,
+    @Req() req: Request,
+  ): Promise<CreateDraftFromTemplateResponseDto> {
+    const caseAccess = await this.access.assertCanAccessCase(user, dto.caseId);
+
+    const result = await this.documentsService.createDraftFromTemplate({
+      templateCode: dto.templateCode,
+      caseId: dto.caseId,
+      targetPersonId: dto.targetPersonId,
+      source: 'TEMPLATE_BRIDGE',
+      officialId: caseAccess.businessUser.officialId,
+      agencyId: caseAccess.agencyId,
+      officialName: caseAccess.businessUser.fullName,
+    });
+
+    void this.audit
+      .record({
+        action: GENERATED_DOCUMENT_AUDIT_ACTIONS.CREATED,
+        result: GENERATED_DOCUMENT_AUDIT_RESULTS.SUCCESS,
+        actor: this.audit.buildActor(user),
+        requestMeta: this.audit.normalizeRequestMeta(req),
+        agencyId: caseAccess.agencyId,
+        caseId: BigInt(dto.caseId),
+        generatedDocumentId: BigInt(result.documentId),
+        template: {
+          templateCode: dto.templateCode,
+          templateTitle: undefined,
+          contractVersionId: undefined,
+        },
+        metadata: {
+          source: 'TEMPLATE_BRIDGE', // Server-controlled
+          event: result.reused ? 'DRAFT_REUSED' : 'DRAFT_CREATED',
+          isNew: result.isNew,
+          reused: result.reused,
+          reviewStatus: result.reviewStatus,
+        },
+      })
+      .catch(() => undefined);
+
+    return result;
   }
 
   @Get('batches/:batchId')

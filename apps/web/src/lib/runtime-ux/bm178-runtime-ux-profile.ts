@@ -28,22 +28,23 @@ import {
 const BM178_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
+    title: "Thông tin quyết định hủy bỏ",
+    description: "Cơ quan ban hành, địa danh, ngày và số quyết định hủy bỏ quyết định áp dụng biện pháp điều tra tố tụng đặc biệt.",
   },
 ] as const;
 
 const BM178_FIELDS = {
   "agency.name": {
     label: "Tên Viện Kiểm sát",
-    placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội",
+    placeholder: "Ghi tên Viện kiểm sát ban hành",
   },
   "document.issuePlace": {
     label: "Địa danh",
-    placeholder: "Hà Nội",
+    placeholder: "Ghi địa danh nơi đặt trụ sở Viện kiểm sát ban hành",
   },
   "document.issueDate": {
     label: "Ngày ban hành",
-    placeholder: "ngày 04 tháng 3 năm 2026",
+    placeholder: "Ngày, tháng, năm ban hành quyết định",
   },
   "document.fullDocumentCode": {
     label: "Số quyết định",
@@ -51,12 +52,7 @@ const BM178_FIELDS = {
   },
 } as const;
 
-const BM178_DEMO_RUNTIME_UX = {
-  "agency.name": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.issuePlace": "Hà Nội",
-  "document.issueDate": "ngày 04 tháng 3 năm 2026",
-  "document.fullDocumentCode": "122/QĐ-VKS",
-} as const;
+const BM178_DEMO_RUNTIME_UX = {} as const;
 
 const BM178_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-178",

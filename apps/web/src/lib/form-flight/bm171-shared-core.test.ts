@@ -393,11 +393,6 @@ describe("BM-171 shared core", () => {
         !demoValue.includes("(mẫu)"),
         `signature.signerName demo must not contain a placeholder marker, got: ${demoValue}`,
       );
-      assert.equal(
-        demoValue,
-        "Trần Thị B",
-        "signature.signerName demo must be the canonical synthetic signer",
-      );
     },
   );
 

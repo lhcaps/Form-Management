@@ -698,4 +698,30 @@ export function Bm172FormInputs({
   );
 }
 
+export function Bm172FormInputsPanel({
+  documentId,
+  onSaved,
+}: {
+  documentId: string;
+  onSaved?: () => void;
+}) {
+  return (
+    <Bm172FormInputs
+      onSave={async (payload) => {
+        const formInputs = payload as Record<string, unknown>;
+        await saveDocumentFormInputs(documentId, {
+          templateCode: "BM-172",
+          formInputs,
+          payloadOverrides: formInputs,
+          renderPayloadOverrides: formInputs,
+          updatedByName: String(formInputs.updatedByName ?? ""),
+          renderedByName: String(formInputs.renderedByName ?? ""),
+          convertedByName: String(formInputs.convertedByName ?? ""),
+        });
+        await onSaved?.();
+      }}
+    />
+  );
+}
+
 export default Bm172FormInputs;

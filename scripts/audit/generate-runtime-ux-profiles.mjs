@@ -31,7 +31,6 @@
  * Usage:
  *   node scripts/audit/generate-runtime-ux-profiles.mjs            # all missing
  *   node scripts/audit/generate-runtime-ux-profiles.mjs --code BM-005
- *   node scripts/audit/generate-runtime-ux-profiles.mjs --force    # overwrite
  *   node scripts/audit/generate-runtime-ux-profiles.mjs --dry-run   # print + skip
  *
  * Hard refusals in this script:
@@ -66,6 +65,13 @@ const ONLY_CODE = (() => {
 })();
 
 const CURATED_PROFILES = new Set(["BM-001", "BM-171"]);
+
+if (FORCE) {
+  console.error(
+    "REFUSED: --force is disabled for runtime-ux profiles; existing profiles are append-only and require reviewed per-form curation.",
+  );
+  process.exit(2);
+}
 
 const STALE_TOKENS = [
   "Nguyễn Văn A",
@@ -323,7 +329,7 @@ function main() {
       }
     })();
     const fileExistsOnDisk = existsSync(`${RUNTIME_UX_DIR}/bm${code.slice(3)}-runtime-ux-profile.ts`);
-    if (fileExistsOnDisk && alreadyImported && !FORCE) {
+    if (fileExistsOnDisk && alreadyImported) {
       skipped++;
       continue;
     }
@@ -345,7 +351,7 @@ function main() {
       ? compiledSource.fields
       : [];
 
-    if (!fileExistsOnDisk || FORCE) {
+    if (!fileExistsOnDisk) {
       const content = buildProfile(code, sections, fields, compiled.title || code);
       const profilePath = `${RUNTIME_UX_DIR}/bm${code.slice(3)}-runtime-ux-profile.ts`;
       if (!DRY_RUN) writeFileSync(profilePath, content);
@@ -367,7 +373,7 @@ function main() {
     indexUpdated: updatedIndex,
     indexImportsAdded,
     dryRun: DRY_RUN,
-    force: FORCE,
+    force: false,
     onlyCode: ONLY_CODE,
   }, null, 2));
 }

@@ -495,6 +495,12 @@ function readNestedString(
  * user-facing level; if a profile is updated later, the summary
  * updates to match.
  */
+function formatVietnameseTime(value: string | undefined): string | undefined {
+  if (!value || !/^\d{2}:\d{2}$/.test(value)) return value;
+  const [hours, minutes] = value.split(":");
+  return `${hours} giờ ${minutes} phút`;
+}
+
 const BM001_SUMMARY_LINES = [
   {
     label: "Thời gian / địa điểm tiếp nhận",
@@ -505,7 +511,7 @@ const BM001_SUMMARY_LINES = [
       const year = readNestedString(data, "reception.startedAtYear");
       const place = readNestedString(data, "reception.locationName");
       const pieces: string[] = [];
-      if (time) pieces.push(time);
+      if (time) pieces.push(formatVietnameseTime(time) ?? time);
       if (day && month && year) pieces.push(`ngày ${day}/${month}/${year}`);
       if (place) pieces.push(`tại ${place}`);
       return pieces.length > 0 ? pieces.join(" — ") : "—";
@@ -549,7 +555,7 @@ const BM001_SUMMARY_LINES = [
       const month = readNestedString(data, "reception.endedAtMonth");
       const year = readNestedString(data, "reception.endedAtYear");
       const parts: string[] = [];
-      if (time) parts.push(time);
+      if (time) parts.push(formatVietnameseTime(time) ?? time);
       if (day && month && year) parts.push(`ngày ${day}/${month}/${year}`);
       return parts.length > 0 ? parts.join(" — ") : "—";
     },
@@ -582,7 +588,11 @@ const BM001_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   versionLabel: "BM-001 smart-runtime-ux v2 (smart field contract + generalizable primitives)",
   sections: BM001_SECTIONS,
   fields: BM001_FIELDS,
-  demo: BM001_DEMO_RUNTIME_UX,
+  demo: {
+    ...BM001_DEMO_RUNTIME_UX,
+    "reception.startedAtTimeText": "08:00",
+    "reception.endedAtTimeText": "08:30",
+  },
   summaryLines: BM001_SUMMARY_LINES,
 };
 

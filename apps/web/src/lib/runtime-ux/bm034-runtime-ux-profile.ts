@@ -28,7 +28,9 @@ import {
 const BM034_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
+    title: "Quyết định không phê chuẩn gia hạn tạm giữ",
+    description:
+      "Viện kiểm sát cấp trên, số, địa danh và ngày ban hành quyết định không phê chuẩn việc gia hạn tạm giữ.",
   }
 ] as const;
 
@@ -38,7 +40,7 @@ const BM034_FIELDS = {
     placeholder: "Viện Kiểm sát nhân dân tối cao"
   },
   "document.documentCode": {
-    label: "Số văn bản",
+    label: "Số quyết định không phê chuẩn",
     placeholder: "82/QĐ-VKS"
   },
   "agency.issuePlace": {

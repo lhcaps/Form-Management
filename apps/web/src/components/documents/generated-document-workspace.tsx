@@ -17,7 +17,6 @@ import { GeneratedDocumentPreviewPanel } from "@/components/documents/generated-
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
 import {
   getDocumentRenderPayload,
-  saveDocumentFormInputs,
 } from "@/lib/document-form-api";
 import { SHOW_INTERNAL_IDS } from "@/lib/debug";
 import {
@@ -270,43 +269,7 @@ const TABS: Array<{
   },
 ];
 
-// Use the generated registry. Regenerate with: node scripts/generate-bm-panel-registry.mjs
-// Missing panels (if any) fall back to PublishedContractFormInputsPanel / GenericTemplateFormInputsPanel.
-// bm-172 exports Bm172FormInputs (not Bm172FormInputsPanel) with incompatible props (Bm172FormInputsProps vs standard {documentId,onSaved}).
-// Wrap it to satisfy the registry's ComponentType<{documentId,onSaved}> contract.
-import { Bm172FormInputs as _Bm172FormInputsRaw } from "./bm-172-form-inputs";
-
-function _Bm172FormInputsPanelAdapter({ documentId, onSaved }: { documentId: string; onSaved?: () => void }) {
-  return (
-    <_Bm172FormInputsRaw
-      value={undefined}
-      initialValue={undefined}
-      disabled={false}
-      isSaving={false}
-      onChange={() => {}}
-      onSave={async (payload) => {
-        await saveDocumentFormInputs(documentId, {
-          templateCode: "BM-172",
-          formInputs: payload,
-          payloadOverrides: payload,
-          renderPayloadOverrides: payload,
-          updatedByName: payload?.updatedByName || "",
-          renderedByName: payload?.renderedByName || "",
-          convertedByName: payload?.convertedByName || "",
-        });
-        await onSaved?.();
-      }}
-      onReload={() => {}}
-    />
-  );
-}
-
-// Extend the registry with the alias so the same lookup works for BM-172
-const _registryWith172 = {
-  ...BM_PANEL_REGISTRY,
-  "BM-172": _Bm172FormInputsPanelAdapter,
-};
-const BM_PANEL_BY_CODE = _registryWith172;
+const BM_PANEL_BY_CODE = BM_PANEL_REGISTRY;
 
 function getTemplateDescription(templateCode: string | null | undefined) {
   switch (templateCode) {

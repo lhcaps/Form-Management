@@ -1,18 +1,16 @@
 /**
- * BM-121 runtime-ux batch 6 curated source-render profile.
+ * BM-121 runtime-ux curated profile.
  *
- * This profile upgrades the conservative auto-generated BM-121
- * profile to a curated source/render version. Boundaries honoured:
+ * CURATION (batch next): QĐ phê chuẩn Lệnh thu giữ thư tín, điện tín,
+ * bưu kiện, bưu phẩm.
+ * Workflow: phê chuẩn thu giữ → authority/decision header.
+ * Boundaries honoured:
  *   - No mutation of the locked contract, the normalized DOCX, or
  *     the compiled contract.
  *   - No DB row creation, no generatedDocumentId fabrication.
  *   - No call to the generated-document save endpoint.
  *   - No smart controls emitted.
  *   - No legacy stale tokens in demo.
- *
- * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
- * Batch 6 curation only. Browser/demo/preview/DOCX/fidelity/visual/
- * human evidence remains NOT_RUN for Batch 6.
  */
 
 import {
@@ -23,22 +21,23 @@ import {
 const BM121_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
+    title: "Thông tin quyết định phê chuẩn Lệnh thu giữ",
+    description: "Cơ quan ban hành quyết định phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.",
   },
 ] as const;
 
 const BM121_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-121)",
+    label: "Viện kiểm sát ban hành quyết định",
+    placeholder: "Viện kiểm sát nhân dân...",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-121)",
+    label: "Số quyết định phê chuẩn",
+    placeholder: "Số quyết định (ví dụ: 21/QĐ-VKS)",
   },
   "agency.diaDanh": {
     label: "Địa danh",
-    placeholder: "Địa danh (mẫu BM-121)",
+    placeholder: "Tỉnh/Thành phố nơi đặt trụ sở VKS ban hành",
   },
 } as const;
 
@@ -50,11 +49,22 @@ const BM121_DEMO_RUNTIME_UX = {
 
 const BM121_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-121",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-121 runtime-ux batch 6 curated source-render profile`,
+  versionLabel: `BM-121 Quyết định phê chuẩn Lệnh thu giữ`,
   sections: BM121_SECTIONS,
   fields: BM121_FIELDS,
   demo: BM121_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin quyết định phê chuẩn Lệnh thu giữ",
+      description: "Cơ quan ban hành quyết định phê chuẩn Lệnh thu giữ thư tín, điện tín, bưu kiện, bưu phẩm.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM121_RUNTIME_UX_PROFILE);

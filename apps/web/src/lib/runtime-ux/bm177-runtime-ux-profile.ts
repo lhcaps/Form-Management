@@ -29,6 +29,7 @@ const BM177_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description: "Cơ quan ban hành và số quyết định gia hạn thời hạn áp dụng biện pháp điều tra tố tụng đặc biệt.",
   },
 ] as const;
 

@@ -265,7 +265,7 @@ function fillCustomerSample(): Bm087Form {
     official: { ...EMPTY_FORM.official },
     investigationRequest: { ...EMPTY_FORM.investigationRequest },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Lê Văn C" },
   };
 }
 

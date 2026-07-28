@@ -39,9 +39,12 @@ describe("production Docker runtime contract", () => {
     assert.match(api, /HEALTHCHECK/);
     assert.match(web, /USER node/);
     assert.match(web, /HEALTHCHECK/);
+    // RC-008: Web now uses Next.js standalone output.
+    // Runner CMD is: node server.js (not next start via node_modules)
     assert.match(
       web,
-      /CMD \["node", "node_modules\/next\/dist\/bin\/next", "start"/,
+      /CMD \["node", "server\.js"\]/,
+      "web Dockerfile must use standalone CMD: node server.js (RC-008)",
     );
     assert.doesNotMatch(web, /CMD \["pnpm", "start"/);
     assert.match(wrapper, /mktemp -d/);

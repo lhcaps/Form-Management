@@ -29,14 +29,7 @@ const BM174_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-thong-tin-ca-nhan",
-    title: "Thông tin cá nhân",
-  },
-  {
-    sectionId: "section-noi-dung-yeu-cau",
-    title: "Nội dung yêu cầu",
+    description: "Cơ quan ban hành, số văn bản, địa danh, ngày ban hành và thông tin người bị áp dụng biện pháp.",
   },
 ] as const;
 
@@ -47,58 +40,58 @@ const BM174_FIELDS = {
   },
   "document.summaryLine": {
     label: "Trích yếu nội dung",
-    placeholder: "V/v yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt",
+    placeholder: "Căn cứ hồ sơ vụ án hình sự số 12/HS-VKS-KV7 đến nay đã có đủ căn cứ xác định hành vi phạm tội.",
   },
   "person.idNumber": {
     label: "Số CCCD/CMND",
-    placeholder: "030088123456",
+    placeholder: "079085001234",
   },
   "person.occupation": {
     label: "Nghề nghiệp",
-    placeholder: "Nhân viên văn phòng",
+    placeholder: "Lao động tự do",
   },
   "person.currentAddress": {
     label: "Nơi ở hiện nay",
-    placeholder: "Số 78 phố Giải Phóng, quận Hai Bà Trưng, Hà Nội",
+    placeholder: "Số 12, đường Nguyễn Trãi, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
   },
   "person.dateOfBirth": {
     label: "Ngày sinh",
-    placeholder: "ngày 05 tháng 11 năm 1988",
+    placeholder: "08/09/1985",
   },
   "person.personFullName": {
     label: "Họ tên",
-    placeholder: "Trịnh Văn Nam",
+    placeholder: "Nguyễn Văn A",
   },
   "document.contentLine": {
     label: "Nội dung yêu cầu",
-    placeholder: "Yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt theo quy định tại Chương XVII Bộ luật Tố tụng hình sự",
+    placeholder: "Yêu cầu Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh áp dụng biện pháp điều tra tố tụng đặc biệt đối với đối tượng Nguyễn Văn A theo quy định tại Điều 226 Bộ luật Tố tụng hình sự.",
   },
   "document.issuePlace": {
     label: "Địa danh",
-    placeholder: "Hà Nội",
+    placeholder: "TP. Hồ Chí Minh",
   },
   "document.issueDate": {
     label: "Ngày ban hành",
-    placeholder: "ngày 04 tháng 3 năm 2026",
+    placeholder: "2026-07-04",
   },
   "document.fullDocumentCode": {
     label: "Số văn bản",
-    placeholder: "95/YG-VKS",
+    placeholder: "08/YC-VKSKV7",
   },
 } as const;
 
 const BM174_DEMO_RUNTIME_UX = {
-  "agency.name": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.summaryLine": "V/v yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt",
-  "person.idNumber": "030088123456",
-  "person.occupation": "Nhân viên văn phòng",
-  "person.currentAddress": "Số 78 phố Giải Phóng, quận Hai Bà Trưng, Hà Nội",
-  "person.dateOfBirth": "ngày 05 tháng 11 năm 1988",
-  "person.personFullName": "Trịnh Văn Nam",
-  "document.contentLine": "Yêu cầu áp dụng biện pháp điều tra tố tụng đặc biệt theo quy định tại Chương XVII Bộ luật Tố tụng hình sự",
-  "document.issuePlace": "Hà Nội",
-  "document.issueDate": "ngày 04 tháng 3 năm 2026",
-  "document.fullDocumentCode": "95/YG-VKS",
+  "agency.name": "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
+  "document.summaryLine": "Căn cứ hồ sơ vụ án hình sự số 12/HS-VKS-KV7 đến nay đã có đủ căn cứ xác định hành vi phạm tội.",
+  "person.idNumber": "079085001234",
+  "person.occupation": "Lao động tự do",
+  "person.currentAddress": "Số 12, đường Nguyễn Trãi, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+  "person.dateOfBirth": "08/09/1985",
+  "person.personFullName": "Nguyễn Văn A",
+  "document.contentLine": "Yêu cầu Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh áp dụng biện pháp điều tra tố tụng đặc biệt đối với đối tượng Nguyễn Văn A theo quy định tại Điều 226 Bộ luật Tố tụng hình sự.",
+  "document.issuePlace": "TP. Hồ Chí Minh",
+  "document.issueDate": "2026-07-04",
+  "document.fullDocumentCode": "08/YC-VKSKV7",
 } as const;
 
 const BM174_RUNTIME_UX_PROFILE: RuntimeUxProfile = {

@@ -63,7 +63,21 @@ const EXTRACT_JSON = join(
 const BM001_PATH = join(PROFILE_DIR, "bm001.ts");
 const BM171_PATH = join(PROFILE_DIR, "bm171.ts");
 
-const RUNTIME_READY_FILES = new Set(["bm001.ts", "bm171.ts"]);
+const RUNTIME_READY_FILES = new Set([
+  "bm001.ts",
+  "bm171.ts",
+  // R5 promoted candidates — must be allowed to declare runtimeReady: true
+  // (cross-checked by runtime-readiness-r5-post-promotion-ratification.guard.test.mjs).
+  "bm136.ts",
+  "bm148.ts",
+  "bm156.ts",
+  "bm157.ts",
+  "bm168.ts",
+  "bm174.ts",
+  "bm181.ts",
+  "bm206.ts",
+  "bm213.ts",
+]);
 
 // 39 paths the locked contract `docxSlots` declares for BM-001
 // (cross-checked against

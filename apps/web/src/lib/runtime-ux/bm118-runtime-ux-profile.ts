@@ -36,58 +36,93 @@ import {
 const BM118_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin quyết định và căn cứ",
+    title: "Quyết định phục hồi điều tra vụ án hình sự đối với bị can",
+    description:
+      "Căn cứ đình chỉ vụ án đối với bị can, lý do phục hồi, thông tin bị can và yêu cầu thi hành quyết định.",
+  },
+] as const;
+
+const BM118_PRESENTATION_SECTIONS = [
+  {
+    id: "restoration-basis",
+    title: "Căn cứ và lý do phục hồi vụ án đối với bị can",
+    description:
+      "Viện kiểm sát ban hành, đối tượng trong Quyết định đình chỉ điều tra vụ án hình sự đối với bị can và nội dung sau dòng “Xét thấy”.",
+    fieldKeys: ["agency.vienKiem", "document.soQuyet", "agency.diaDanh"],
+  },
+  {
+    id: "accused-details",
+    title: "Bị can trong vụ án được phục hồi điều tra",
+    description:
+      "Các ô trong khối họ tên, thông tin nhân thân và nơi cư trú tại Điều 1 của quyết định.",
+    fieldKeys: [
+      "recipients.personLine",
+      "document.ngayBan",
+      "agency.dongDia",
+      "document.chuThe",
+      "document.tenVu",
+      "person.toiDanh",
+      "document.soQd",
+    ],
+  },
+  {
+    id: "execution-and-signature",
+    title: "Thi hành và ký quyết định",
+    description:
+      "Cơ quan, người có thẩm quyền điều tra, bên liên quan và chức danh người ký.",
+    fieldKeys: ["document.donVi", "document.lyDo"],
   },
 ] as const;
 
 const BM118_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-118)",
+    label: "Viện kiểm sát ban hành quyết định",
+    placeholder: "Nhập tên Viện kiểm sát ban hành",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-118)",
+    label: "Người hoặc pháp nhân trong quyết định đình chỉ vụ án đối với bị can",
+    placeholder: "Nhập họ tên người hoặc tên pháp nhân theo quyết định đình chỉ",
   },
   "agency.diaDanh": {
-    label: "Địa danh",
-    placeholder: "Địa danh (mẫu BM-118)",
+    label: "Lý do, căn cứ phục hồi vụ án đối với bị can",
+    placeholder: "Nhập nội dung theo dòng “Xét thấy” và hướng dẫn chú thích 9",
+    control: "TEXTAREA",
   },
   "recipients.personLine": {
-    label: "Người bị áp dụng",
-    placeholder: "Người bị áp dụng (mẫu BM-118)",
+    label: "Họ tên bị can hoặc tên pháp nhân",
+    placeholder: "Nhập theo dòng Họ tên tại Điều 1",
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
-    placeholder: "Ngày ban hành (mẫu BM-118)",
+    label: "Thông tin tiếp theo dòng họ tên",
+    placeholder: "Nhập nội dung đúng vị trí tương ứng trong biểu mẫu",
   },
   "agency.dongDia": {
-    label: "Dòng địa danh",
-    placeholder: "Dòng địa danh (mẫu BM-118)",
+    label: "Thông tin nhân thân tiếp theo",
+    placeholder: "Nhập nội dung đúng vị trí tương ứng trong biểu mẫu",
   },
   "document.chuThe": {
-    label: "Chủ thể liên quan",
-    placeholder: "Chủ thể liên quan (mẫu BM-118)",
+    label: "Thông tin nhân thân bổ sung",
+    placeholder: "Nhập nội dung đúng vị trí tương ứng trong biểu mẫu",
   },
   "document.tenVu": {
-    label: "Tên vụ án / vụ việc",
-    placeholder: "Tên vụ án / vụ việc (mẫu BM-118)",
+    label: "Nơi thường trú - phần thứ nhất",
+    placeholder: "Nhập phần thứ nhất của nơi thường trú",
   },
   "person.toiDanh": {
-    label: "Tội danh",
-    placeholder: "Tội danh (mẫu BM-118)",
+    label: "Nơi thường trú - phần tiếp theo",
+    placeholder: "Nhập phần tiếp theo của nơi thường trú",
   },
   "document.soQd": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-118)",
+    label: "Nơi tạm trú",
+    placeholder: "Nhập nơi tạm trú của bị can",
   },
   "document.donVi": {
-    label: "Đơn vị",
-    placeholder: "Đơn vị (mẫu BM-118)",
+    label: "Cơ quan, người thi hành và bên liên quan",
+    placeholder: "Nhập đối tượng nhận yêu cầu thi hành quyết định",
   },
   "document.lyDo": {
-    label: "Lý do",
-    placeholder: "Lý do (mẫu BM-118)",
+    label: "Chức danh người ký",
+    placeholder: "Nhập chức danh người ký quyết định",
   },
 } as const;
 
@@ -108,9 +143,9 @@ const BM118_DEMO_RUNTIME_UX = {
 
 const BM118_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-118",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-118 runtime-ux batch 5 curated source-render profile`,
+  versionLabel: "BM-118 semantic-ui curated v1",
   sections: BM118_SECTIONS,
+  presentationSections: BM118_PRESENTATION_SECTIONS,
   fields: BM118_FIELDS,
   demo: BM118_DEMO_RUNTIME_UX,
 };

@@ -92,6 +92,11 @@ import {
   getPrimaryTemplateOpenTarget,
   isTemplateOpenable,
 } from "@/lib/template-open-workflow";
+import {
+  resolveFormAccess,
+  resolveLocalAllFormsUnlock,
+  LOCAL_ALL_FORMS_WARNING,
+} from "@/lib/form-flight";
 
 const GENERATED_DOCUMENT_ID_BY_TEMPLATE_CODE: Record<string, string> = {};
 
@@ -103,7 +108,16 @@ type SuggestInput = {
   processNeed: string;
   stageId: string;
   onlyCreatable: boolean;
+  tierFilter: "all" | "runtime-ready" | "local-skeleton";
 };
+
+const LOCAL_UNLOCK_ENV = {
+  nodeEnv: process.env.NODE_ENV,
+  flagValue: process.env.NEXT_PUBLIC_QLLAW_LOCAL_UNLOCK_ALL_FORMS,
+  isCi: process.env.NEXT_PUBLIC_CI === "true",
+};
+
+const LOCAL_UNLOCK_ENABLED = resolveLocalAllFormsUnlock(LOCAL_UNLOCK_ENV);
 
 type Candidate = VksTemplateItem & {
   dbTemplateId: string | null;
@@ -263,6 +277,45 @@ function RuntimeBadge({
       className={`rounded-full px-2 py-0.5 text-[10px] font-black ${className}`}
     >
       {badge.label}
+    </span>
+  );
+}
+
+function LocalAccessTierBadge({ code }: { code: string }) {
+  const access = resolveFormAccess({
+    formCode: code,
+    localUnlockAllForms: LOCAL_UNLOCK_ENABLED,
+  });
+  if (access.tier === "RUNTIME_READY") {
+    return (
+      <span
+        data-testid="tier-badge"
+        data-tier="runtime-ready"
+        className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-black text-emerald-800"
+      >
+        Runtime-ready
+      </span>
+    );
+  }
+  if (access.tier === "LOCAL_SKELETON") {
+    return (
+      <span
+        data-testid="tier-badge"
+        data-tier="local-skeleton"
+        className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-black text-amber-800"
+        title="Local skeleton · Chưa runtime-ready"
+      >
+        Local skeleton
+      </span>
+    );
+  }
+  return (
+    <span
+      data-testid="tier-badge"
+      data-tier="registered-restricted"
+      className="rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-black text-slate-600"
+    >
+      Restricted
     </span>
   );
 }
@@ -502,6 +555,7 @@ export function TemplateSelectorWorkspace() {
     processNeed: "",
     stageId: "",
     onlyCreatable: true,
+    tierFilter: "all",
   });
 
   async function loadDbTemplates() {
@@ -580,6 +634,20 @@ export function TemplateSelectorWorkspace() {
 
         if (input.stageId && item.stageId !== input.stageId) {
           return false;
+        }
+
+        if (input.tierFilter !== "all") {
+          const tier = resolveFormAccess({
+            formCode: item.code,
+            localUnlockAllForms: LOCAL_UNLOCK_ENABLED,
+          }).tier;
+          const matchesFilter =
+            input.tierFilter === "runtime-ready"
+              ? tier === "RUNTIME_READY"
+              : tier === "LOCAL_SKELETON";
+          if (!matchesFilter) {
+            return false;
+          }
         }
 
         return item.score > 0;
@@ -900,6 +968,15 @@ export function TemplateSelectorWorkspace() {
                 biểu mẫu phù hợp. Khi bấm mở, người dùng được chuyển thẳng sang
                 giao diện nhập dữ liệu của biểu mẫu đó.
               </p>
+              {LOCAL_UNLOCK_ENABLED ? (
+                <div
+                  role="status"
+                  data-testid="local-unlock-banner"
+                  className="mt-4 whitespace-pre-line rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"
+                >
+                  {LOCAL_ALL_FORMS_WARNING}
+                </div>
+              ) : null}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -1185,6 +1262,41 @@ export function TemplateSelectorWorkspace() {
                   : `${vksTemplateCatalog.length} biểu mẫu tổng cộng`}
               </span>
 
+              {LOCAL_UNLOCK_ENABLED ? (
+                <div
+                  role="group"
+                  aria-label="Tier filter"
+                  data-testid="tier-filter"
+                  className="flex items-center gap-1 rounded-2xl border border-amber-200 bg-amber-50 p-1 text-xs font-bold"
+                >
+                  {(
+                    [
+                      { value: "all", label: "Tất cả" },
+                      { value: "runtime-ready", label: "Runtime-ready" },
+                      { value: "local-skeleton", label: "Local skeleton" },
+                    ] as const
+                  ).map((option) => {
+                    const active = input.tierFilter === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => updateInput("tierFilter", option.value)}
+                        aria-pressed={active}
+                        className={
+                          "rounded-xl px-3 py-1.5 transition " +
+                          (active
+                            ? "bg-amber-600 text-amber-50"
+                            : "text-amber-800 hover:bg-amber-100")
+                        }
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+
               <Button
                 type="button"
                 variant="outline"
@@ -1257,6 +1369,7 @@ export function TemplateSelectorWorkspace() {
                               <div className="mt-3">
                                 <div className="flex flex-wrap items-center gap-1.5">
                                   <TemplateStatusBadge item={candidate} />
+                                  <LocalAccessTierBadge code={candidate.code} />
                                   {candidate.catalogItem ? (
                                     <RuntimeBadge
                                       source={candidate.catalogItem.runtime.source}

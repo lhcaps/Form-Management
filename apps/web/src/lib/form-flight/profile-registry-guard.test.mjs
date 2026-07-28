@@ -2,10 +2,12 @@
  * Form Flight profile registry guard test.
  *
  * Pure file-system check (no DB, no fetch, no React). Verifies the
- * Form Flight inventory after the BM-001 + BM-171 baseline plus the
- * 211 generated skeletons shipped in this phase, then updated after
- * the BM-001 second-pilot promotion (Phase
- * "BM-001 Fidelity Repair With Verified Notes").
+ * Form Flight inventory after the BM-001 + BM-171 baseline, the 211
+ * generated skeletons shipped in the original inventory phase, the
+ * BM-001 second-pilot promotion (Phase "BM-001 Fidelity Repair With
+ * Verified Notes"), and the R5 deadline-promo closure that promoted
+ * 9 additional candidates (Phase "QLLAW RUNTIME-READINESS R5 —
+ * DEADLINE PROMOTION CLOSURE").
  *
  *   1. Exactly 213 profile files exist under
  *      `apps/web/src/lib/form-flight/profiles/`.
@@ -15,12 +17,17 @@
  *   4. BM-001 is preserved as runtime-ready (NOT downgraded) — same
  *      readiness posture as BM-171 since the BM-001 Fidelity Repair
  *      phase promoted it from skeleton to runtime-ready.
- *   5. Every generated skeleton (i.e. every code other than BM-001
- *      and BM-171) is NOT runtime-ready: `runtimeReady: true` and
- *      `profileStatus: "runtime-ready"` are absent from generated
+ * 4b. Only the 11 runtime-ready codes (BM-001, BM-171, and the 9 R5
+ *     promoted candidates) carry the runtime-ready flags.
+ *   5. Every generated skeleton (i.e. every code other than the 11
+ *      runtime-ready ones) is NOT runtime-ready: `runtimeReady: true`
+ *      and `profileStatus: "runtime-ready"` are absent from generated
  *      files.
  *   6. Every generated skeleton has an empty `demo: {}` and empty
- *      `acceptance: { requiredText: [], forbiddenText: [] }`.
+ *      `acceptance: { requiredText: [], forbiddenText: [] }`. The 11
+ *      runtime-ready profiles are excluded from this skeleton-only
+ *      assertion — their contracts are validated by the dedicated
+ *      `runtime-readiness-r5-profile-promotion.guard.test.mjs`.
  *   7. Every profile (skeleton OR runtime-ready) registers its
  *      profile via `registerFormFlightProfile(...)`.
  *   8. No profile file imports the runtime adapters (pure metadata).
@@ -48,10 +55,37 @@ const EXTRACT = join(
   "unified-bm-workspace",
   "QLLAW_DOCX_FIDELITY_SOURCE_EXTRACT.latest.json",
 );
-const PRESERVED = new Set(["BM-001", "BM-171"]);
-// After BM-001 promotion, BM-001 and BM-171 are the ONLY profiles with
-// `runtimeReady: true`. The 211 generated skeletons must stay skeleton.
-const RUNTIME_READY = new Set(["BM-001", "BM-171"]);
+const PRESERVED = new Set([
+  "BM-001",
+  "BM-171",
+  // R5 deadline-promo closure: 9 newly promoted candidates.
+  "BM-136",
+  "BM-148",
+  "BM-156",
+  "BM-157",
+  "BM-168",
+  "BM-174",
+  "BM-181",
+  "BM-206",
+  "BM-213",
+]);
+// After R5 promotion, BM-001, BM-171, and the 9 R5-promoted candidates
+// are the ONLY profiles with `runtimeReady: true`. The 202 remaining
+// generated skeletons must stay skeleton.
+const RUNTIME_READY = new Set([
+  "BM-001",
+  "BM-171",
+  // R5 deadline-promo closure: 9 newly promoted candidates.
+  "BM-136",
+  "BM-148",
+  "BM-156",
+  "BM-157",
+  "BM-168",
+  "BM-174",
+  "BM-181",
+  "BM-206",
+  "BM-213",
+]);
 
 const extract = JSON.parse(readFileSync(EXTRACT, "utf8"));
 const allCodes = new Set(extract.forms.map((f) => f.code));
@@ -107,7 +141,7 @@ describe("Form Flight profile registry guard", () => {
     );
   });
 
-  it("4b. only BM-001 and BM-171 carry runtime-ready flags", () => {
+  it("4b. only the 11 runtime-ready codes carry runtime-ready flags (BM-001, BM-171, and the 9 R5 promoted candidates)", () => {
     const files = readdirSync(PROFILE_DIR).filter((f) =>
       /^bm\d{3}\.ts$/.test(f),
     );

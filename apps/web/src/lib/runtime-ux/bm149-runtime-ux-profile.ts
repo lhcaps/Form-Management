@@ -1,5 +1,5 @@
 /**
- * BM-149 runtime-ux batch 7 curated source-render profile.
+ * BM-149 runtime-ux curated source-render profile.
  *
  * This profile upgrades the auto-generated BM-149 profile to a
  * curated source/render version. Boundaries honoured:
@@ -10,9 +10,10 @@
  *   - No smart controls emitted.
  *   - No legacy stale tokens in demo.
  *
- * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
- * Batch 7 curation only. Browser/demo/preview/DOCX/fidelity/visual/
- * human evidence remains NOT_RUN for Batch 7.
+ * Family: ĐÌNH CHỈ BỊ CAN — huỷ tạm đình chỉ (resumption by
+ * overturning accused-targeted case suspension). Distinct subfamily from
+ * BM-147 (huỷ tạm đình chỉ vụ án — case-targeted). Single-section
+ * thông tin biểu mẫu form with legacy field keys.
  */
 
 import {
@@ -24,6 +25,8 @@ const BM149_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Thông tin QĐ huỷ bỏ QĐ tạm đình chỉ vụ án đối với bị can. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành, ngày ban hành, dòng địa danh và chủ thể liên quan.",
   },
 ] as const;
 
@@ -34,42 +37,57 @@ const BM149_FIELDS = {
   },
   "document.soQuyet": {
     label: "Số quyết định",
-    placeholder: "21/QĐ-VKS",
+    placeholder: "Nhập nội dung",
   },
   "agency.diaDanh": {
     label: "Địa danh",
-    placeholder: "Hà Nội",
+    placeholder: "Nhập nội dung",
   },
   "document.ngayBan": {
     label: "Ngày ban hành",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "agency.dongDia": {
     label: "Dòng địa danh",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "document.chuThe": {
     label: "Chủ thể liên quan",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
 } as const;
 
 const BM149_DEMO_RUNTIME_UX = {
   "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.soQuyet": "21/QĐ-VKS",
-  "agency.diaDanh": "Hà Nội",
-  "document.ngayBan": "Tran Van Binh",
-  "agency.dongDia": "Tran Van Binh",
-  "document.chuThe": "Tran Van Binh",
+  "document.soQuyet": "",
+  "agency.diaDanh": "",
+  "document.ngayBan": "",
+  "agency.dongDia": "",
+  "document.chuThe": "",
 } as const;
 
 const BM149_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-149",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-149 runtime-ux batch 7 curated source-render profile`,
+  versionLabel: `BM-149 — Quyết định huỷ bỏ QĐ tạm đình chỉ vụ án đối với bị can (runtime-ux)`,
   sections: BM149_SECTIONS,
   fields: BM149_FIELDS,
   demo: BM149_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin biểu mẫu",
+      description:
+        "Thông tin QĐ huỷ bỏ QĐ tạm đình chỉ vụ án đối với bị can. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành, ngày ban hành, dòng địa danh và chủ thể liên quan.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+        "document.ngayBan",
+        "agency.dongDia",
+        "document.chuThe",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM149_RUNTIME_UX_PROFILE);

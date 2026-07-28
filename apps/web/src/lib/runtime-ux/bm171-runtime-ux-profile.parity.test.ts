@@ -70,7 +70,7 @@ const CANONICAL_BM171_VALUES: Readonly<Record<string, string>> = {
   "recipients.archiveLine": "Lưu: HSVA, HSKS, VP.",
   "signature.signMode": "Ký thay",
   "signature.positionTitle": "VIỆN TRƯỞNG",
-  "signature.signerName": "Trần Thị B",
+  "signature.signerName": "Nguyễn Thị Hồng C",
 };
 
 test("BM-171 runtime UX profile demo fixture is byte-for-byte equal to the canonical signoff payload", () => {

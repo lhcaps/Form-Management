@@ -209,21 +209,21 @@ const BM044_DEMO_RUNTIME_UX = {
     "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HÀ NỘI",
   "agency.nameUpper":
     "VIỆN KIỂM SÁT NHÂN DÂN HUYỆN GIA LÂM",
-  "document.documentCode": "64/QĐ-VKSTT",
+  "document.documentCode": "21/QĐ-VKSKV7",
   "document.issuePlaceAndDateLine":
     "Hà Nội, ngày 04 tháng 7 năm 2026",
   "official.issuingAuthorityLine":
-    "Viện Kiểm sát nhân dân Huyện Gia Lâm;",
+    "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
   "legalBasis.procedureArticlesLine":
     "Căn cứ Điều 109, Điều 115 Bộ luật Tố tụng hình sự năm 2015;",
   "legalBasis.juvenileJusticeLine":
     "Căn cứ Điều 18 Luật Xử lý vi phạm hành chính năm 2012;",
   "detentionReplacement.detentionOrderLegalBasisLine":
-    "Căn cứ Lệnh tạm giam số 30/TTG-PC10 ngày 11/3/2026 của Cơ quan Cảnh sát điều tra;",
+    "Căn cứ Quyết định tạm giam số 15/QĐ-CQĐT ngày 22 tháng 4 năm 2026 của Cơ quan Cảnh sát điều tra;",
   "detentionReplacement.detentionExtensionLegalBasisLine":
-    "Căn cứ Quyết định gia hạn tạm giam số 45/QĐ-VKSTG ngày 12/5/2026;",
+    "Căn cứ Quyết định gia hạn tạm giam số 16/QĐ-VKS ngày 22 tháng 4 năm 2026 của Viện Kiểm sát;",
   "detentionReplacement.proposalLine":
-    "Đề nghị thay thế biện pháp tạm giam bằng biện pháp cấm đi khỏi nơi cư trú số 51/TTr-PC10 ngày 02/7/2026 của Cơ quan Cảnh sát điều tra;",
+    "Đề nghị thay thế biện pháp tạm giam bằng biện pháp cấm đi khỏi nơi cư trú theo quy định tại Điều 122 BLTTHS 2015.",
   "detentionReplacement.reasonLine":
     "Xét thấy: hành vi phạm tội của bị can không còn đặc biệt nghiêm trọng; bị can có nhân thân tốt, có nơi cư trú rõ ràng; cần áp dụng biện pháp nhẹ hơn để vẫn đảm bảo điều tra;",
   "detentionReplacement.article1Line":

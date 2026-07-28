@@ -42,6 +42,57 @@ export type SmartField = {
   readonly derivedTargets?: readonly string[];
 };
 
+/**
+ * Return a canonical `HH:mm` value, or an empty string when the value is
+ * incomplete or invalid. The empty result is intentional for commit-time
+ * validation; active keyboard editing uses `normalizeTimeEditBuffer`.
+ *
+ * @example
+ * canonicalizeTimeValue("9:05") // "09:05"
+ * canonicalizeTimeValue("9") // ""
+ */
+export function canonicalizeTimeValue(value: string): string {
+  const trimmed = value.trim();
+  const match = /^(\d{1,2}):(\d{1,2})$/.exec(trimmed);
+  if (!match) {
+    if (/^\d{4}$/.test(trimmed)) {
+      const hours = Number(trimmed.slice(0, 2));
+      const minutes = Number(trimmed.slice(2));
+      if (hours <= 23 && minutes <= 59) {
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+      }
+    }
+    return "";
+  }
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return "";
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
+
+/**
+ * Preserve a user's partial time entry without committing it to form state.
+ * Digits are retained until four digits form a valid canonical time; invalid
+ * complete input remains visible so the user can correct it before blur.
+ *
+ * @example
+ * normalizeTimeEditBuffer("09") // "09"
+ * normalizeTimeEditBuffer("0900") // "09:00"
+ */
+export function normalizeTimeEditBuffer(value: string): string {
+  const sanitized = value.replace(/[^\d:]/g, "");
+  const digits = sanitized.replace(/:/g, "").slice(0, 4);
+  if (digits.length === 4) {
+    return canonicalizeTimeValue(digits) || digits;
+  }
+  if (sanitized.includes(":")) {
+    const hours = digits.slice(0, 2);
+    const minutes = digits.slice(2);
+    return `${hours}:${minutes}`.slice(0, 5);
+  }
+  return digits;
+}
+
 export type DerivedDateParts = {
   readonly day: string;
   readonly month: string;

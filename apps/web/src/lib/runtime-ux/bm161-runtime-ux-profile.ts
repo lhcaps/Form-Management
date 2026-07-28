@@ -29,14 +29,7 @@ const BM161_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-co-quan-ban-hanh",
-    title: "Cơ quan ban hành",
-  },
-  {
-    sectionId: "section-nguoi-bi-trich-xuat",
-    title: "Người bị trích xuất",
+    description: "Phiếu yêu cầu trích xuất bị can/người bị tạm giữ từ cơ sở giam giữ để tiến hành hoạt động tố tụng",
   },
 ] as const;
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import * as yauzl from 'yauzl';
 
 const MAX_ZIP_ENTRIES = 2_000;
@@ -85,14 +85,24 @@ function expectedOfficeEntry(extension: string, entries: Set<string>): boolean {
 
 @Injectable()
 export class ImportFilePolicyService {
+  // @Optional() prevents NestJS DI from treating the function type as an
+  // injection token. When resolved via DI the param is undefined and the
+  // default implementation (loadFileType) is used. Tests that call
+  // `new ImportFilePolicyService(mockFn)` directly still work unchanged.
   constructor(
-    private readonly detectFileType: (
+    @Optional()
+    private readonly _detectFileType?: (
       path: string,
-    ) => Promise<{ mime: string } | undefined> = async (path) => {
-      const { fileTypeFromFile } = await loadFileType();
-      return fileTypeFromFile(path);
-    },
+    ) => Promise<{ mime: string } | undefined>,
   ) {}
+
+  private async detectFileType(
+    path: string,
+  ): Promise<{ mime: string } | undefined> {
+    if (this._detectFileType) return this._detectFileType(path);
+    const { fileTypeFromFile } = await loadFileType();
+    return fileTypeFromFile(path);
+  }
 
   async validate(
     absolutePath: string,

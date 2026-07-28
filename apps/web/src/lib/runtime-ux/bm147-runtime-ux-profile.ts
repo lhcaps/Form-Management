@@ -24,6 +24,8 @@ const BM147_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Thông tin QĐ huỷ bỏ QĐ tạm đình chỉ vụ án hình sự. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành và ngày ban hành.",
   },
 ] as const;
 
@@ -34,32 +36,45 @@ const BM147_FIELDS = {
   },
   "document.soQuyet": {
     label: "Số quyết định",
-    placeholder: "21/QĐ-VKS",
+    placeholder: "",
   },
   "agency.diaDanh": {
     label: "Địa danh",
-    placeholder: "Hà Nội",
+    placeholder: "",
   },
   "document.ngayBan": {
     label: "Ngày ban hành",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
 } as const;
 
 const BM147_DEMO_RUNTIME_UX = {
   "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.soQuyet": "21/QĐ-VKS",
-  "agency.diaDanh": "Hà Nội",
+  "document.soQuyet": "",
+  "agency.diaDanh": "",
   "document.ngayBan": "Tran Van Binh",
 } as const;
 
 const BM147_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-147",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-147 runtime-ux batch 7 curated source-render profile`,
+  versionLabel: `BM-147 — Quyết định huỷ bỏ QĐ tạm đình chỉ vụ án (runtime-ux)`,
   sections: BM147_SECTIONS,
   fields: BM147_FIELDS,
   demo: BM147_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin biểu mẫu",
+      description:
+        "Thông tin QĐ huỷ bỏ QĐ tạm đình chỉ vụ án hình sự. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành và ngày ban hành.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+        "document.ngayBan",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM147_RUNTIME_UX_PROFILE);

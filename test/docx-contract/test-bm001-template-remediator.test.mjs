@@ -38,10 +38,20 @@ function extractParagraphContaining(documentXml, text) {
 }
 
 function extractFormNote(documentXml) {
+  // First check for VML txbxContent. Some DOCX templates ship the
+  // form-note as a top-right VML textbox (`<w:txbxContent>`); some
+  // normalized templates inline it as a regular paragraph (the VML
+  // textbox has been flattened during normalization). The remediator
+  // must continue to color the runs in either presentation.
+  const textboxMatch = documentXml
+    .match(/<w:txbxContent\b[\s\S]*?<\/w:txbxContent>/gu)
+    ?.find((textbox) => textbox.includes("Mẫu số 01/HS"));
+  if (textboxMatch) return textboxMatch;
+  // Fall back to the paragraph containing Mẫu số 01/HS directly.
   return (
     documentXml
-      .match(/<w:txbxContent\b[\s\S]*?<\/w:txbxContent>/gu)
-      ?.find((textbox) => textbox.includes("Mẫu số 01/HS")) ?? ""
+      .match(/<w:p\b[\s\S]*?<\/w:p>/gu)
+      ?.find((paragraph) => paragraph.includes("Mẫu số 01/HS")) ?? ""
   );
 }
 
@@ -112,7 +122,7 @@ test("remediates the checked-in BM-001 normalized template", () => {
   assert.ok(receiverParagraph, "receiver identity paragraph must exist");
   assert.doesNotMatch(receiverParagraph, /w:val="FF0000"/u);
   assert.match(receiverParagraph, /w:val="000000"/u);
-  assert.ok(formNote, "Mẫu số 01/HS textbox must exist");
+  assert.ok(formNote, "Mẫu số 01/HS form-note (textbox or paragraph) must exist after remediation");
   assert.doesNotMatch(formNote, /w:color[^>]*w:val="(?:auto|FFFFFF)"/iu);
   assert.match(formNote, /w:val="000000"/u);
   assert.match(formNote, /<w:sz w:val="16"\/>/u);

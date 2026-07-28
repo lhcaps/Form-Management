@@ -28,11 +28,15 @@ import {
 const BM032_SECTIONS = [
   {
     sectionId: "section-agency",
-    title: "Cơ quan"
+    title: "Viện kiểm sát ban hành",
+    description:
+      "Tên viết hoa của Viện kiểm sát ra quyết định không phê chuẩn Lệnh bắt người bị giữ trong trường hợp khẩn cấp.",
   },
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
+    title: "Cơ quan cấp trên và số quyết định",
+    description:
+      "Viện kiểm sát cấp trên trực tiếp, địa danh ban hành và số quyết định không phê chuẩn.",
   }
 ] as const;
 

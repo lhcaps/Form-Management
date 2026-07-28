@@ -236,7 +236,7 @@ function fillCustomerSample(): Bm072Form {
     legalBasis: { ...EMPTY_FORM.legalBasis },
     measure: { ...EMPTY_FORM.measure },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Lê Văn C" },
   };
 }
 

@@ -1,25 +1,4 @@
-/**
- * BM-204 runtime-ux batch 9 curated source-render profile.
- *
- * Hand-curated upgrade of the auto-generated BM-204 profile to
- * a source/render version with real Vietnamese labels, multiple
- * section headings, and safe demo data.
- *
- * Form title: QĐ việc tham gia tố tụng của người đại diện, tổ chức
- *
- * Boundaries honoured:
- *   - No mutation of the locked contract, the normalized DOCX, or
- *     the compiled contract.
- *   - No DB row creation, no generatedDocumentId fabrication.
- *   - No call to the generated-document save endpoint.
- *   - No smart controls emitted.
- *   - No legacy stale tokens in demo.
- *
- * Promotion to INPUT_CONNECTED_PASS via Batch 9 source/render smoke
- * only. Browser/demo/preview/DOCX/fidelity/visual/human evidence
- * remains NOT_RUN for Batch 9.
- */
-
+/** BM-204 source-aligned runtime UX for representative or organization participation. */
 import {
   type RuntimeUxProfile,
   registerRuntimeUxProfile,
@@ -28,52 +7,31 @@ import {
 const BM204_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu"
-  }
+    title: "Người đại diện hoặc tổ chức tham gia tố tụng",
+    description:
+      "Quyết định cho cá nhân đại diện hoặc người đại diện của tổ chức nơi người chưa thành niên học tập, lao động, sinh hoạt tham gia tố tụng với tư cách được xác định.",
+  },
 ] as const;
 
 const BM204_FIELDS = {
-  "agency.name": {
-    label: "Viện Kiểm sát ban hành",
-    placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội"
-  },
-  "recipients.personLine7": {
-    label: "Nơi nhận (personLine7)",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
-  },
-  "recipients.personLine6": {
-    label: "Nơi nhận (personLine6)",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
-  },
-  "recipients.personLine5": {
-    label: "Nơi nhận (personLine5)",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
-  },
-  "recipients.personLine4": {
-    label: "Nơi nhận (personLine4)",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
-  },
-  "recipients.personLine3": {
-    label: "Nơi nhận (personLine3)",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
-  }
-} as const;
-
-const BM204_DEMO_RUNTIME_UX = {
-  "agency.name": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "recipients.personLine7": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
-  "recipients.personLine6": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
-  "recipients.personLine5": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
-  "recipients.personLine4": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
-  "recipients.personLine3": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội"
+  "agency.name": { label: "Viện kiểm sát ra quyết định", placeholder: "Tên Viện kiểm sát ban hành quyết định" },
+  "recipients.personLine7": { label: "Người chưa thành niên", placeholder: "Họ tên người chưa thành niên" },
+  "recipients.personLine6": { label: "Tư cách tố tụng của người chưa thành niên", placeholder: "Người bị tố giác, người bị kiến nghị khởi tố, người bị giữ hoặc người bị buộc tội" },
+  "recipients.personLine5": { label: "Người đại diện tham gia tố tụng", placeholder: "Họ tên người đại diện hoặc đại diện của tổ chức" },
+  "recipients.personLine4": { label: "Cơ quan hoặc tổ chức của người đại diện", placeholder: "Tên cơ quan, tổ chức công tác, học tập hoặc sinh hoạt" },
+  "recipients.personLine3": { label: "Tư cách tham gia tố tụng", placeholder: "Tư cách của người đại diện hoặc tổ chức" },
+  "recipients.personLine2": { label: "Thông tin cá nhân người đại diện", placeholder: "Giới tính, ngày sinh, giấy tờ định danh và nơi cư trú" },
+  "case.caseNumber": { label: "Vụ việc hoặc vụ án liên quan", placeholder: "Số quyết định khởi tố và tóm tắt vụ việc" },
+  "document.issueDate": { label: "Ngày ban hành", placeholder: "Ngày, tháng, năm ban hành" },
+  "document.fullDocumentCode": { label: "Số quyết định", placeholder: "Số .../QĐ-VKS" },
 } as const;
 
 const BM204_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-204",
-  versionLabel: `BM-204 runtime-ux batch 9 curated source-render profile`,
+  versionLabel: "BM-204 curated representative or organization participation decision",
   sections: BM204_SECTIONS,
   fields: BM204_FIELDS,
-  demo: BM204_DEMO_RUNTIME_UX,
+  demo: {},
 };
 
 registerRuntimeUxProfile(BM204_RUNTIME_UX_PROFILE);

@@ -1,5 +1,5 @@
 /**
- * BM-155 runtime-ux batch 7 curated source-render profile.
+ * BM-155 runtime-ux curated source-render profile.
  *
  * This profile upgrades the auto-generated BM-155 profile to a
  * curated source/render version. Boundaries honoured:
@@ -10,9 +10,11 @@
  *   - No smart controls emitted.
  *   - No legacy stale tokens in demo.
  *
- * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
- * Batch 7 curation only. Browser/demo/preview/DOCX/fidelity/visual/
- * human evidence remains NOT_RUN for Batch 7.
+ * Family: PHỤC HỒI VỤ ÁN ĐỐI VỚI BỊ CAN — prosecution-stage resumption
+ * of a criminal case as applied to a named accused person. Distinct from
+ * BM-154 (PHỤC HỒI VỤ ÁN — case-targeted). Distinct from BM-148/149/152/153
+ * (ĐÌNH CHỈ BỊ CAN). Shares QUYẾT ĐỊNH document type and legal domain
+ * (Điều 41, 236, 247, 249 BLTTHS). Single-section thông tin biểu mẫu form.
  */
 
 import {
@@ -24,97 +26,123 @@ const BM155_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Thông tin QĐ phục hồi vụ án đối với bị can. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, người bị áp dụng, địa danh, ngày ban hành, dòng địa danh, chủ thể liên quan, căn cứ pháp lý, số QĐ khởi tố, ngày QĐ, tên bị can/bị cáo, tên vụ án, lý do và nội dung Điều 1, Điều 2.",
   },
 ] as const;
 
 const BM155_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội",
+    label: "Viện kiểm sát ban hành",
+    placeholder: "Tên Viện kiểm sát ban hành",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "21/QĐ-VKS",
+    label: "Số quyết định phục hồi",
+    placeholder: "Số quyết định /QĐ-VKS",
   },
   "agency.diaDanh": {
-    label: "Địa danh",
-    placeholder: "Hà Nội",
+    label: "Địa danh nơi đặt trụ sở",
+    placeholder: "Tỉnh/thành phố nơi đặt trụ sở Viện kiểm sát",
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
-    placeholder: "Nhap noi dung",
+    label: "Ngày ban hành quyết định",
+    placeholder: "Ngày, tháng, năm ban hành",
   },
   "recipients.personLine": {
-    label: "Người bị áp dụng",
-    placeholder: "Nhap noi dung",
+    label: "Bị can/người bị áp dụng",
+    placeholder: "Họ tên người hoặc tên pháp nhân bị khởi tố",
   },
   "document.chuThe": {
-    label: "Chủ thể liên quan",
-    placeholder: "Nhap noi dung",
+    label: "Cơ quan/người có thẩm quyền liên quan",
+    placeholder: "Tên cơ quan, người có thẩm quyền liên quan",
   },
   "legalBasis.canCu": {
-    label: "Căn cứ pháp lý",
-    placeholder: "Nhap noi dung",
+    label: "Căn cứ pháp lý phục hồi",
+    placeholder: "Các điều luật làm căn cứ phục hồi",
   },
   "document.soQd": {
-    label: "Số quyết định",
-    placeholder: "Nhap noi dung",
+    label: "Số quyết định khởi tố bị can",
+    placeholder: "Số quyết định khởi tố bị can",
   },
   "document.ngayQd": {
-    label: "Ngày quyết định",
-    placeholder: "Nhap noi dung",
+    label: "Ngày quyết định khởi tố bị can",
+    placeholder: "Ngày, tháng, năm quyết định khởi tố bị can",
   },
   "person.tenBi": {
-    label: "Tên bị can / bị cáo",
-    placeholder: "Nhap noi dung",
+    label: "Họ tên bị can/pháp nhân",
+    placeholder: "Họ tên người hoặc tên pháp nhân bị khởi tố",
   },
   "document.tenVu": {
-    label: "Tên vụ án / vụ việc",
-    placeholder: "Nhap noi dung",
+    label: "Tên vụ án",
+    placeholder: "Tên vụ án hình sự",
   },
   "document.lyDo": {
-    label: "Lý do",
-    placeholder: "Nhap noi dung",
+    label: "Lý do phục hồi",
+    placeholder: "Lý do phục hồi vụ án đối với bị can",
   },
   "document.dieu1": {
     label: "Nội dung Điều 1",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nội dung Điều 1 về phục hồi vụ án đối với bị can",
   },
   "document.dieu2": {
     label: "Nội dung Điều 2",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nội dung Điều 2 về xử lý",
   },
   "recipients.noiNhan": {
     label: "Nơi nhận",
-    placeholder: "Nhap noi dung",
+    placeholder: "Các cơ quan, cá nhân nhận quyết định",
   },
 } as const;
 
 const BM155_DEMO_RUNTIME_UX = {
-  "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.soQuyet": "21/QĐ-VKS",
-  "agency.diaDanh": "Hà Nội",
-  "document.ngayBan": "Tran Van Binh",
-  "recipients.personLine": "Tran Van Binh",
-  "document.chuThe": "Tran Van Binh",
-  "legalBasis.canCu": "Tran Van Binh",
-  "document.soQd": "Tran Van Binh",
-  "document.ngayQd": "Tran Van Binh",
-  "person.tenBi": "Tran Van Binh",
-  "document.tenVu": "Tran Van Binh",
-  "document.lyDo": "Tran Van Binh",
-  "document.dieu1": "Tran Van Binh",
-  "document.dieu2": "Tran Van Binh",
-  "recipients.noiNhan": "Tran Van Binh",
+  "agency.vienKiem": "",
+  "document.soQuyet": "",
+  "agency.diaDanh": "",
+  "document.ngayBan": "",
+  "recipients.personLine": "",
+  "document.chuThe": "",
+  "legalBasis.canCu": "",
+  "document.soQd": "",
+  "document.ngayQd": "",
+  "person.tenBi": "",
+  "document.tenVu": "",
+  "document.lyDo": "",
+  "document.dieu1": "",
+  "document.dieu2": "",
+  "recipients.noiNhan": "",
 } as const;
 
 const BM155_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-155",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-155 runtime-ux batch 7 curated source-render profile`,
+  versionLabel: `BM-155 — Quyết định phục hồi vụ án đối với bị can (runtime-ux)`,
   sections: BM155_SECTIONS,
   fields: BM155_FIELDS,
   demo: BM155_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin biểu mẫu",
+      description:
+        "Thông tin QĐ phục hồi vụ án đối với bị can. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, người bị áp dụng, địa danh, ngày ban hành, dòng địa danh, chủ thể liên quan, căn cứ pháp lý, số QĐ khởi tố, ngày QĐ, tên bị can/bị cáo, tên vụ án, lý do và nội dung Điều 1, Điều 2.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+        "document.ngayBan",
+        "recipients.personLine",
+        "document.chuThe",
+        "legalBasis.canCu",
+        "document.soQd",
+        "document.ngayQd",
+        "person.tenBi",
+        "document.tenVu",
+        "document.lyDo",
+        "document.dieu1",
+        "document.dieu2",
+        "recipients.noiNhan",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM155_RUNTIME_UX_PROFILE);

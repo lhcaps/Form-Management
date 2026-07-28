@@ -43,6 +43,19 @@ export type RuntimeUxProfile = {
     readonly description?: string;
   }>;
   /**
+   * Optional workflow presentation layout. Unlike `sections`, this may group
+   * fields from different contract sections into a reviewed operator-facing
+   * workflow card. It is strictly presentation metadata: every `fieldKey`
+   * must already exist in the compiled contract and every contract field must
+   * occur exactly once before the renderer accepts the layout.
+   */
+  readonly presentationSections?: ReadonlyArray<{
+    readonly id: string;
+    readonly title: string;
+    readonly description?: string;
+    readonly fieldKeys: ReadonlyArray<string>;
+  }>;
+  /**
    * Field-level overrides:
    *  - `label`: more user-friendly wording where contract label is too
    *    terse or technical.

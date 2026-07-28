@@ -29,6 +29,8 @@ const BM165_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Tên Viện kiểm sát và số thông báo gửi Tòa án về việc vụ án có bị can bị tạm giam, căn cứ Điều 42 và Điều 244 Bộ luật Tố tụng hình sự.",
   },
 ] as const;
 

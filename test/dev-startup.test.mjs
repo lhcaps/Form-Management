@@ -14,11 +14,18 @@ const webPackageJson = JSON.parse(
   await readFile(new URL('../apps/web/package.json', import.meta.url), 'utf8'),
 );
 
-test('root pnpm dev cleans ports and starts the stable API-first stack', () => {
+test('root pnpm dev uses the unified orchestrator for safe startup', () => {
+  // pnpm dev now delegates to the orchestrator which:
+  //   1. Starts Docker / MariaDB
+  //   2. Validates DATABASE_URL + Prisma Client
+  //   3. Spawns API, waits for /api/v1/health
+  //   4. Spawns Web, waits for /healthz
+  //   5. Handles SIGINT/SIGTERM gracefully
   assert.equal(
     packageJson.scripts.dev,
-    'pnpm dev:clean && pnpm dev:run',
+    'node scripts/dev-orchestrator.mjs',
   );
+  // dev:clean and dev:run still exist for manual / watch flows
   assert.equal(
     packageJson.scripts['dev:clean'],
     'node scripts/free-ports.mjs 3000,3001',

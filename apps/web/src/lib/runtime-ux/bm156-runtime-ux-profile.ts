@@ -1,5 +1,5 @@
 /**
- * BM-156 runtime-ux batch 7 curated source-render profile.
+ * BM-156 runtime-ux curated source-render profile.
  *
  * This profile upgrades the auto-generated BM-156 profile to a
  * curated source/render version. Boundaries honoured:
@@ -10,9 +10,11 @@
  *   - No smart controls emitted.
  *   - No legacy stale tokens in demo.
  *
- * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
- * Batch 7 curation only. Browser/demo/preview/DOCX/fidelity/visual/
- * human evidence remains NOT_RUN for Batch 7.
+ * Family: CÁO TRẠNG — prosecution-stage formal indictment document.
+ * The most structurally complex prosecution document (41 fields, 5 sections).
+ * Covers prosecution basis, case facts, indictment articles, and recipients.
+ * Distinct from all prior families. Shares QUYẾT ĐỊNH infrastructure
+ * headers but the document type is CÁO TRẠNG (not QUYẾT ĐỊNH).
  */
 
 import {
@@ -24,133 +26,143 @@ const BM156_SECTIONS = [
   {
     sectionId: "section-co-quan-va-van-ban",
     title: "Cơ quan và văn bản",
+    description:
+      "Thông tin cơ quan ban hành và văn bản Cáo trạng. Mục ghi nhận cơ quan cấp trên, Viện kiểm sát ban hành, số QĐ, địa danh + ngày tháng năm ban hành, chủ thể ban hành.",
   },
   {
     sectionId: "section-can-cu-phap-ly",
     title: "Căn cứ pháp lý",
+    description:
+      "Các căn cứ pháp lý cho Cáo trạng: căn cứ Bộ luật Tố tụng hình sự (Điều 41, 236, 239, 243), căn cứ quyết định khởi tố vụ án, căn cứ quyết định khởi tố bị can, căn cứ gộp/tách vụ án, căn cứ phục hồi vụ án, căn cứ kết luận điều tra.",
   },
   {
     sectionId: "section-noi-dung-cao-trang",
     title: "Nội dung cáo trạng",
+    description:
+      "Nội dung Cáo trạng gồm: mô tả hành vi phạm tội, phân tích tình tiết tăng nặng/giảm nhẹ, tang vật/chứng cứ, trách nhiệm dân sự, các tình tiết khác, tổng kết kết luận, ghi chú vắng mặt bị can, nhân thân bị can, hoàn cảnh gia đình, tình trạng đặc biệt, vi phạm hành chính, tiền án, biện pháp ngăn chặn, kết luận về tội phạm, và nội dung Điều 1.",
   },
   {
     sectionId: "section-noi-nhan",
     title: "Nơi nhận",
+    description:
+      "Danh sách nơi nhận Cáo trạng: Tòa án, bị can, người bào chữa, cơ quan điều tra, người khác, lưu hồ sơ.",
   },
   {
     sectionId: "section-chu-ky",
     title: "Chữ ký",
+    description:
+      "Thông tin chế độ ký, chức vụ và họ tên người ký Cáo trạng.",
   },
 ] as const;
 
 const BM156_FIELDS = {
   "agency.parentName": {
     label: "Cơ quan cấp trên",
-    placeholder: "Viện Kiểm sát nhân dân tối cao",
+    placeholder: "",
   },
   "agency.name": {
     label: "Viện kiểm sát ban hành",
-    placeholder: "Nhap noi dung",
+    placeholder: "",
   },
   "document.documentCode": {
     label: "Số quyết định",
-    placeholder: "21/QĐ-VKSKV7",
+    placeholder: "",
   },
   "document.issuePlaceAndDateLine": {
     label: "Địa danh, ngày ban hành",
-    placeholder: "Thành phố Hà Nội, ngày 04 tháng 3 năm 2026",
+    placeholder: "",
   },
   "official.issuerTitle": {
     label: "Chủ thể ban hành",
-    placeholder: "Viện trưởng",
+    placeholder: "",
   },
   "legalBasis.procedureArticlesLine": {
     label: "Căn cứ Bộ luật Tố tụng hình sự",
-    placeholder: "Căn cứ Điều 36 và Điều 41 Bộ luật Tố tụng hình sự năm 2015",
+    placeholder: "",
   },
   "caseDecision.prosecutionDecisionLegalBasisLine": {
-    label: "Căn cứ quyết định truy tố",
-    placeholder: "Nhap noi dung",
+    label: "Căn cứ quyết định khởi tố vụ án",
+    placeholder: "Nhập nội dung",
   },
   "accusedDecision.prosecutionDecisionLegalBasisLine": {
-    label: "Căn cứ quyết định đối với bị can",
-    placeholder: "Nhap noi dung",
+    label: "Căn cứ quyết định khởi tố bị can",
+    placeholder: "Nhập nội dung",
   },
   "caseJoinder.legalBasisLine": {
     label: "Căn cứ gộp vụ án",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "caseRecovery.legalBasisLine": {
-    label: "Căn cứ thu hồi vụ án",
-    placeholder: "Nhap noi dung",
+    label: "Căn cứ thu hồi/phục hồi vụ án",
+    placeholder: "Nhập nội dung",
   },
   "investigationConclusion.legalBasisLine": {
     label: "Căn cứ kết luận điều tra",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.criminalActDescriptionLine": {
     label: "Mô tả hành vi phạm tội",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.aggravatingMitigatingAnalysisLine": {
     label: "Phân tích tăng nặng, giảm nhẹ",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.evidenceHandlingLine": {
     label: "Tình trạng tang vật, phương tiện",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.civilLiabilityLine": {
     label: "Trách nhiệm dân sự",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.otherFactsLine": {
     label: "Các tình tiết khác",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.summaryConclusionLine": {
     label: "Tổng kết kết luận",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.absentAccusedNoteLine": {
     label: "Ghi chú vắng mặt bị can",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.defendantIdentityLine": {
     label: "Nhân thân bị can",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.familyBackgroundLine": {
     label: "Hoàn cảnh gia đình",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.specialStatusLine": {
     label: "Tình trạng đặc biệt",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.administrativeViolationLine": {
     label: "Vi phạm hành chính liên quan",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.criminalRecordLine": {
     label: "Tiền án",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.preventiveMeasureLine": {
     label: "Biện pháp ngăn chặn đang áp dụng",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.crimeConclusionLine": {
     label: "Kết luận về tội phạm",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.aggravatingMitigatingLine": {
     label: "Tình tiết tăng nặng, giảm nhẹ trách nhiệm hình sự",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.separatedCaseHandlingLine": {
     label: "Xử lý vụ án tách biệt",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.article1Line": {
     label: "Điều 1 - Quyết định truy tố",
@@ -158,39 +170,39 @@ const BM156_FIELDS = {
   },
   "indictment.replacementLine": {
     label: "Điều khoản thay thế",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.caseFileLine": {
     label: "Hồ sơ vụ án",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.evidenceListLine": {
     label: "Danh mục chứng cứ",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "indictment.summonedPersonsLine": {
     label: "Người được triệu tập",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "recipients.courtLine": {
     label: "Nơi nhận - Tòa án",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "recipients.accusedLine": {
     label: "Nơi nhận - Bị can",
-    placeholder: "Bị can Trần Văn Bình (đang bị tạm giam)",
+    placeholder: "Nhập nội dung",
   },
   "recipients.defenseCounselLine": {
     label: "Nơi nhận - Người bào chữa",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "recipients.investigatingAgencyLine": {
     label: "Nơi nhận - Cơ quan điều tra",
-    placeholder: "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
+    placeholder: "Nhập nội dung",
   },
   "recipients.otherRecipientLine": {
     label: "Nơi nhận - Người khác",
-    placeholder: "Nhap noi dung",
+    placeholder: "Nhập nội dung",
   },
   "recipients.archiveLine": {
     label: "Lưu hồ sơ",
@@ -206,61 +218,143 @@ const BM156_FIELDS = {
   },
   "signature.signerName": {
     label: "Người ký",
-    placeholder: "Trần Thị Hồng Nhung",
+    placeholder: "Nhập họ tên người ký",
   },
 } as const;
 
 const BM156_DEMO_RUNTIME_UX = {
-  "agency.parentName": "Viện Kiểm sát nhân dân tối cao",
-  "agency.name": "Viện Kiểm sát nhân dân Khu vực 7",
-  "document.documentCode": "21/QĐ-VKSKV7",
-  "document.issuePlaceAndDateLine": "Thành phố Hà Nội, ngày 04 tháng 3 năm 2026",
-  "official.issuerTitle": "Viện trưởng Viện Kiểm sát nhân dân Khu vực 7",
-  "legalBasis.procedureArticlesLine": "Căn cứ Điều 36 và Điều 41 Bộ luật Tố tụng hình sự năm 2015",
-  "caseDecision.prosecutionDecisionLegalBasisLine": "Tran Van Binh",
-  "accusedDecision.prosecutionDecisionLegalBasisLine": "Tran Van Binh",
-  "caseJoinder.legalBasisLine": "Tran Van Binh",
-  "caseRecovery.legalBasisLine": "Tran Van Binh",
-  "investigationConclusion.legalBasisLine": "Tran Van Binh",
-  "indictment.criminalActDescriptionLine": "Tran Van Binh",
-  "indictment.aggravatingMitigatingAnalysisLine": "Tran Van Binh",
-  "indictment.evidenceHandlingLine": "Tran Van Binh",
-  "indictment.civilLiabilityLine": "Tran Van Binh",
-  "indictment.otherFactsLine": "Tran Van Binh",
-  "indictment.summaryConclusionLine": "Tran Van Binh",
-  "indictment.absentAccusedNoteLine": "Tran Van Binh",
-  "indictment.defendantIdentityLine": "Tran Van Binh",
-  "indictment.familyBackgroundLine": "Tran Van Binh",
-  "indictment.specialStatusLine": "Tran Van Binh",
-  "indictment.administrativeViolationLine": "Tran Van Binh",
-  "indictment.criminalRecordLine": "Tran Van Binh",
-  "indictment.preventiveMeasureLine": "Tran Van Binh",
-  "indictment.crimeConclusionLine": "Tran Van Binh",
-  "indictment.aggravatingMitigatingLine": "Tran Van Binh",
-  "indictment.separatedCaseHandlingLine": "Tran Van Binh",
-  "indictment.article1Line": "Điều 1. Nội dung quyết định được thực hiện theo quy định pháp luật.",
-  "indictment.replacementLine": "Tran Van Binh",
-  "indictment.caseFileLine": "Tran Van Binh",
-  "indictment.evidenceListLine": "Tran Van Binh",
-  "indictment.summonedPersonsLine": "Tran Van Binh",
-  "recipients.courtLine": "Tran Van Binh",
-  "recipients.accusedLine": "Bị can Trần Văn Bình (đang bị tạm giam tại Trại tạm giam Công an Thành phố Hà Nội)",
-  "recipients.defenseCounselLine": "Tran Van Binh",
-  "recipients.investigatingAgencyLine": "Cơ quan Cảnh sát điều tra Công an Thành phố Hà Nội",
-  "recipients.otherRecipientLine": "Tran Van Binh",
-  "recipients.archiveLine": "Lưu: HSVA, HSKS, VP.",
-  "signature.signMode": "Ký số",
-  "signature.positionTitle": "Phó Viện trưởng",
-  "signature.signerName": "Trần Thị Hồng Nhung",
+  "agency.parentName": "",
+  "agency.name": "",
+  "document.documentCode": "",
+  "document.issuePlaceAndDateLine": "",
+  "official.issuerTitle": "",
+  "legalBasis.procedureArticlesLine": "",
+  "caseDecision.prosecutionDecisionLegalBasisLine": "",
+  "accusedDecision.prosecutionDecisionLegalBasisLine": "",
+  "caseJoinder.legalBasisLine": "",
+  "caseRecovery.legalBasisLine": "",
+  "investigationConclusion.legalBasisLine": "",
+  "indictment.criminalActDescriptionLine": "",
+  "indictment.aggravatingMitigatingAnalysisLine": "",
+  "indictment.evidenceHandlingLine": "",
+  "indictment.civilLiabilityLine": "",
+  "indictment.otherFactsLine": "",
+  "indictment.summaryConclusionLine": "",
+  "indictment.absentAccusedNoteLine": "",
+  "indictment.defendantIdentityLine": "",
+  "indictment.familyBackgroundLine": "",
+  "indictment.specialStatusLine": "",
+  "indictment.administrativeViolationLine": "",
+  "indictment.criminalRecordLine": "",
+  "indictment.preventiveMeasureLine": "",
+  "indictment.crimeConclusionLine": "",
+  "indictment.aggravatingMitigatingLine": "",
+  "indictment.separatedCaseHandlingLine": "",
+  "indictment.article1Line": "",
+  "indictment.replacementLine": "",
+  "indictment.caseFileLine": "",
+  "indictment.evidenceListLine": "",
+  "indictment.summonedPersonsLine": "",
+  "recipients.courtLine": "",
+  "recipients.accusedLine": "",
+  "recipients.defenseCounselLine": "",
+  "recipients.investigatingAgencyLine": "",
+  "recipients.otherRecipientLine": "",
+  "recipients.archiveLine": "",
+  "signature.signMode": "",
+  "signature.positionTitle": "",
+  "signature.signerName": "",
 } as const;
 
 const BM156_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-156",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-156 runtime-ux batch 7 curated source-render profile`,
+  versionLabel: `BM-156 — Cáo trạng (runtime-ux)`,
   sections: BM156_SECTIONS,
   fields: BM156_FIELDS,
   demo: BM156_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-co-quan-va-van-ban",
+      title: "Cơ quan và văn bản",
+      description:
+        "Thông tin cơ quan ban hành và văn bản Cáo trạng. Mục ghi nhận cơ quan cấp trên, Viện kiểm sát ban hành, số QĐ, địa danh + ngày tháng năm ban hành, chủ thể ban hành.",
+      fieldKeys: [
+        "agency.parentName",
+        "agency.name",
+        "document.documentCode",
+        "document.issuePlaceAndDateLine",
+        "official.issuerTitle",
+      ],
+    },
+    {
+      id: "section-can-cu-phap-ly",
+      title: "Căn cứ pháp lý",
+      description:
+        "Các căn cứ pháp lý cho Cáo trạng: căn cứ Bộ luật Tố tụng hình sự (Điều 41, 236, 239, 243), căn cứ quyết định khởi tố vụ án, căn cứ quyết định khởi tố bị can, căn cứ gộp/tách vụ án, căn cứ phục hồi vụ án, căn cứ kết luận điều tra.",
+      fieldKeys: [
+        "legalBasis.procedureArticlesLine",
+        "caseDecision.prosecutionDecisionLegalBasisLine",
+        "accusedDecision.prosecutionDecisionLegalBasisLine",
+        "caseJoinder.legalBasisLine",
+        "caseRecovery.legalBasisLine",
+        "investigationConclusion.legalBasisLine",
+      ],
+    },
+    {
+      id: "section-noi-dung-cao-trang",
+      title: "Nội dung cáo trạng",
+      description:
+        "Nội dung Cáo trạng gồm: mô tả hành vi phạm tội, phân tích tình tiết tăng nặng/giảm nhẹ, tang vật/chứng cứ, trách nhiệm dân sự, các tình tiết khác, tổng kết kết luận, ghi chú vắng mặt bị can, nhân thân bị can, hoàn cảnh gia đình, tình trạng đặc biệt, vi phạm hành chính, tiền án, biện pháp ngăn chặn, kết luận về tội phạm, và nội dung Điều 1.",
+      fieldKeys: [
+        "indictment.criminalActDescriptionLine",
+        "indictment.aggravatingMitigatingAnalysisLine",
+        "indictment.evidenceHandlingLine",
+        "indictment.civilLiabilityLine",
+        "indictment.otherFactsLine",
+        "indictment.summaryConclusionLine",
+        "indictment.absentAccusedNoteLine",
+        "indictment.defendantIdentityLine",
+        "indictment.familyBackgroundLine",
+        "indictment.specialStatusLine",
+        "indictment.administrativeViolationLine",
+        "indictment.criminalRecordLine",
+        "indictment.preventiveMeasureLine",
+        "indictment.crimeConclusionLine",
+        "indictment.aggravatingMitigatingLine",
+        "indictment.separatedCaseHandlingLine",
+        "indictment.article1Line",
+        "indictment.replacementLine",
+        "indictment.caseFileLine",
+        "indictment.evidenceListLine",
+        "indictment.summonedPersonsLine",
+      ],
+    },
+    {
+      id: "section-noi-nhan",
+      title: "Nơi nhận",
+      description:
+        "Danh sách nơi nhận Cáo trạng: Tòa án, bị can, người bào chữa, cơ quan điều tra, người khác, lưu hồ sơ.",
+      fieldKeys: [
+        "recipients.courtLine",
+        "recipients.accusedLine",
+        "recipients.defenseCounselLine",
+        "recipients.investigatingAgencyLine",
+        "recipients.otherRecipientLine",
+        "recipients.archiveLine",
+      ],
+    },
+    {
+      id: "section-chu-ky",
+      title: "Chữ ký",
+      description:
+        "Thông tin chế độ ký, chức vụ và họ tên người ký Cáo trạng.",
+      fieldKeys: [
+        "signature.signMode",
+        "signature.positionTitle",
+        "signature.signerName",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM156_RUNTIME_UX_PROFILE);

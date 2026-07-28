@@ -36,26 +36,44 @@ import {
 const BM116_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin quyết định và căn cứ",
+    title: "Quyết định phục hồi điều tra vụ án hình sự",
+    description:
+      "Thông tin Viện kiểm sát, số quyết định, địa danh và ngày ban hành quyết định phục hồi điều tra vụ án.",
+  },
+] as const;
+
+const BM116_PRESENTATION_SECTIONS = [
+  {
+    id: "decision-header",
+    title: "Quyết định phục hồi điều tra vụ án hình sự",
+    description: "Viện kiểm sát ban hành và số quyết định phục hồi điều tra vụ án.",
+    fieldKeys: ["agency.vienKiem", "document.soQuyet"],
+  },
+  {
+    id: "issue-line",
+    title: "Địa danh và ngày ban hành",
+    description: "Địa danh đặt trụ sở Viện kiểm sát và ngày ban hành quyết định.",
+    fieldKeys: ["agency.diaDanh", "document.ngayBan"],
   },
 ] as const;
 
 const BM116_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-116)",
+    label: "Viện kiểm sát ban hành quyết định",
+    placeholder: "Nhập tên Viện kiểm sát ban hành",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-116)",
+    label: "Số quyết định phục hồi điều tra vụ án",
+    placeholder: "Ví dụ: 12/QĐ-VKS",
   },
   "agency.diaDanh": {
-    label: "Địa danh",
-    placeholder: "Địa danh (mẫu BM-116)",
+    label: "Địa danh ban hành quyết định",
+    placeholder: "Nhập tỉnh hoặc thành phố nơi ban hành",
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
-    placeholder: "Ngày ban hành (mẫu BM-116)",
+    label: "Ngày ban hành quyết định",
+    placeholder: "Nhập ngày ban hành quyết định",
+    control: "DATE_TEXT",
   },
 } as const;
 
@@ -68,9 +86,9 @@ const BM116_DEMO_RUNTIME_UX = {
 
 const BM116_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-116",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-116 runtime-ux batch 5 curated source-render profile`,
+  versionLabel: "BM-116 semantic-ui curated v1",
   sections: BM116_SECTIONS,
+  presentationSections: BM116_PRESENTATION_SECTIONS,
   fields: BM116_FIELDS,
   demo: BM116_DEMO_RUNTIME_UX,
 };

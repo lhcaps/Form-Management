@@ -1,10 +1,35 @@
 /**
- * BM-134 runtime-ux batch 6 curated source-render profile.
+ * BM-134 runtime-ux curated profile — Biên bản ghi lời khai.
  *
- * Curated source/render upgrade of the conservative auto-generated
- * BM-134 profile. Groups the 10 fields into 4 legal-document
- * sections. No DOCX/contract/DB mutation; no smart controls;
- * no legacy stale demo tokens.
+ * CURATION (GATE B — biên bản family):
+ *   - Viện kiểm sát tiến hành ghi lời khai trong giai đoạn điều
+ *     tra, theo quy định Bộ luật Tố tụng hình sự.
+ *   - Document type: BIÊN BẢN. Source title: "BIÊN BẢN GHI LỜI KHAI"
+ *     (P0005). No independent policy supports a record-number prefix;
+ *     historical key `document.soQuyet` carries no DOCX slot — see
+ *     provenance ledger.
+ *   - Procedural subject: người được lấy lời khai (P0029: "Người được
+ *     lấy lời khai, những người có mặt đã được giải thích...").
+ *   - Principal operative verb: GHI LỜI KHAI.
+ *   - Family partner: BM-135 (hỏi cung bị can). The family shares
+ *     the biên bản procedural domain; BM-134 ≠ BM-135.
+ *
+ * Source references:
+ *   - compiled contract: docs/audit/docx/compiled-v2/BM-134.compiled.json
+ * Source references:
+ *   - compiled contract: docs/audit/docx/compiled-v2/BM-134.compiled.json
+ *   - DOCX extract:    docs/audit/docx/extracted/BM-134__7c1e123c01b0.extract.md
+ *
+ * Boundaries honoured:
+ *   - No mutation of the locked contract, the normalized DOCX, or
+ *     the compiled contract.
+ *   - No DB row creation, no generatedDocumentId fabrication.
+ *   - No call to the generated-document save endpoint.
+ *   - No smart controls emitted.
+ *   - Demo document number uses placeholder text only; no invented
+ *     prefix. Historical key `document.soQuyet` carries no DOCX slot;
+ *     presentation label is "Số biên bản ghi lời khai" reflecting the
+ *     biên bản document type only — CONTRACT_ONLY_NO_DOCX_SLOT / LOW.
  */
 
 import {
@@ -15,85 +40,94 @@ import {
 const BM134_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-chu-the-va-can-cu",
-    title: "Chủ thể, căn cứ pháp lý và vụ án",
-  },
-  {
-    sectionId: "section-chuc-danh",
-    title: "Chức danh ban hành",
-  },
-  {
-    sectionId: "section-dong-ngay",
-    title: "Dòng ngày tháng",
+    title: "Thông tin biên bản ghi lời khai",
+    description:
+      "Thông tin biên bản ghi lời khai của Viện kiểm sát trong giai đoạn điều tra, theo quy định của Bộ luật Tố tụng hình sự.",
   },
 ] as const;
 
 const BM134_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-134)",
+    label: "Viện kiểm sát tiến hành ghi lời khai",
+    placeholder: "Viện kiểm sát nhân dân...",
   },
   "signature.positionTitle": {
-    label: "Chức danh",
-    placeholder: "Chức danh (mẫu BM-134)",
+    label: "Chức danh người tiến hành ghi lời khai",
+    placeholder: "Chức danh (ví dụ: Kiểm sát viên)",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-134)",
+    label: "Số biên bản ghi lời khai",
+    placeholder: "Số biên bản (placeholder — no DOCX slot)",
   },
   "recipients.personLine": {
-    label: "Người bị áp dụng",
-    placeholder: "Người bị áp dụng (mẫu BM-134)",
+    label: "Người được lấy lời khai",
+    placeholder: "Họ tên người được lấy lời khai",
   },
   "agency.diaDanh": {
-    label: "Địa danh",
-    placeholder: "Địa danh (mẫu BM-134)",
+    label: "Địa danh nơi ghi lời khai",
+    placeholder: "Tỉnh/Thành phố nơi tiến hành ghi lời khai",
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
-    placeholder: "Ngày ban hành (mẫu BM-134)",
+    label: "Ngày ghi lời khai",
+    placeholder: "Ngày, tháng, năm tiến hành ghi lời khai",
   },
   "agency.dongDia": {
-    label: "Dòng địa danh",
-    placeholder: "Dòng địa danh (mẫu BM-134)",
+    label: "Dòng địa danh đầy đủ",
+    placeholder: "Dòng địa danh đầy đủ (ví dụ: Thành phố Hồ Chí Minh, ngày ... tháng ... năm ...)",
   },
   "document.chuThe": {
     label: "Chủ thể liên quan",
-    placeholder: "Chủ thể liên quan (mẫu BM-134)",
+    placeholder: "Tên người/bên liên quan (nếu có)",
   },
   "legalBasis.canCu": {
     label: "Căn cứ pháp lý",
-    placeholder: "Căn cứ pháp lý (mẫu BM-134)",
+    placeholder: "Điều khoản Bộ luật Tố tụng hình sự",
   },
   "document.tenVu": {
     label: "Tên vụ án / vụ việc",
-    placeholder: "Tên vụ án / vụ việc (mẫu BM-134)",
+    placeholder: "Tên vụ án hoặc vụ việc liên quan",
   },
 } as const;
 
 const BM134_DEMO_RUNTIME_UX = {
   "agency.vienKiem": "Viện kiểm sát nhân dân khu vực 7",
-  "signature.positionTitle": "KT. VIỆN TRƯỞNG / PHÓ VIỆN TRƯỞNG",
-  "document.soQuyet": "34/QĐ-VKSKV7",
-  "recipients.personLine": "Ông Lê Minh K, sinh năm 1985, trú tại Quận 1, TP.HCM",
+  "signature.positionTitle": "Kiểm sát viên",
+  "document.soQuyet": "(chưa ghi số biên bản)",
+  "recipients.personLine": "Nguyễn Văn Minh",
   "agency.diaDanh": "Thành phố Hồ Chí Minh",
   "document.ngayBan": "15/07/2026",
   "agency.dongDia": "Thành phố Hồ Chí Minh, ngày 15 tháng 7 năm 2026",
-  "document.chuThe": "Bị can Lê Minh K",
-  "legalBasis.canCu":
-    "Căn cứ các điều 119, 138 Bộ luật Tố tụng hình sự 2015",
-  "document.tenVu": "Vụ án hình sự Lê Minh K về tội Lừa đảo chiếm đoạt tài sản",
+  "document.chuThe": "Công ty TNHH Thương mại ABC",
+  "legalBasis.canCu": "Điều 183 và Điều 185 Bộ luật Tố tụng hình sự",
+  "document.tenVu": "Vụ án hình sự số 123/2026",
 } as const;
 
 const BM134_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-134",
-  versionLabel: `BM-134 runtime-ux batch 6 curated source-render profile`,
+  versionLabel: `BM-134 runtime-ux batch 8 curated source-render profile`,
   sections: BM134_SECTIONS,
   fields: BM134_FIELDS,
   demo: BM134_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin biên bản ghi lời khai",
+      description:
+        "Thông tin biên bản ghi lời khai của Viện kiểm sát trong giai đoạn điều tra, theo quy định của Bộ luật Tố tụng hình sự.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "signature.positionTitle",
+        "document.soQuyet",
+        "recipients.personLine",
+        "agency.diaDanh",
+        "document.ngayBan",
+        "agency.dongDia",
+        "document.chuThe",
+        "legalBasis.canCu",
+        "document.tenVu",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM134_RUNTIME_UX_PROFILE);

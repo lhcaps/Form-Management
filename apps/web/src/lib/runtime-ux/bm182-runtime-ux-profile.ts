@@ -36,30 +36,27 @@ import {
 const BM182_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
+    title: "Thông tin quyết định hủy bỏ thủ tục rút gọn",
+    description: "Cơ quan ban hành, ngày và số quyết định hủy bỏ quyết định áp dụng thủ tục rút gọn.",
   },
 ] as const;
 
 const BM182_FIELDS = {
   "agency.name": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan ",
+    label: "Tên Viện kiểm sát ban hành",
+    placeholder: "Ghi tên Viện kiểm sát ban hành",
   },
   "document.issueDate": {
     label: "Ngày ban hành",
-    placeholder: "Địa điểm , ngày 04 tháng 3 năm 2026",
+    placeholder: "Ngày, tháng, năm ban hành quyết định",
   },
   "document.fullDocumentCode": {
-    label: "Số văn bản / quyết định",
-    placeholder: "Số văn bản / quyết định ",
+    label: "Số quyết định hủy bỏ thủ tục rút gọn",
+    placeholder: ".../QĐ-VKS",
   },
 } as const;
 
-const BM182_DEMO_RUNTIME_UX = {
-  "agency.name": "Tên cơ quan ",
-  "document.issueDate": "Địa điểm , ngày 04 tháng 3 năm 2026",
-  "document.fullDocumentCode": "Số văn bản / quyết định ",
-} as const;
+const BM182_DEMO_RUNTIME_UX = {} as const;
 
 const BM182_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-182",

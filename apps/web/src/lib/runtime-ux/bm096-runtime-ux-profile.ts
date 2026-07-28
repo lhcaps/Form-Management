@@ -89,6 +89,7 @@ const BM096_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD / CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079188001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "079188001234",
   },
   "document.lyDo": {
@@ -136,6 +137,7 @@ const BM096_DEMO = {
   "person.toiDanh": "Tội lừa đảo chiếm đoạt tài sản (Điều 174 BLHS 2015)",
   "person.hoTen": "Lê Minh Quang",
   "document.namSinh": "1988",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079188001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "079188001234",
   "document.lyDo":
     "Qua điều tra đã có đủ căn cứ xác định Lê Minh Quang có hành vi lừa đảo chiếm đoạt tài sản với giá trị đặc biệt lớn; đủ yếu tố cấu thành tội phạm theo Điều 174 BLHS 2015.",

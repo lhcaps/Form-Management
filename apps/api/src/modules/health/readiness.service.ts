@@ -27,7 +27,8 @@ export type ReadinessInfo = {
         | 'FONT_REQUIRED_READY'
         | 'FONT_REQUIRED_NOT_READY'
         | 'FONT_FALLBACK_DEV_ONLY'
-        | 'FONT_REPORT_MISSING';
+        | 'FONT_REPORT_MISSING'
+        | 'FONT_FALLBACK_STRICT_REJECTED';
       aggregate: string | null;
       presentStyles: string[];
       missingStyles: string[];
@@ -94,17 +95,56 @@ export class ReadinessService {
 
   /**
    * Map the entrypoint-written font verification report to one of the
-   * three documented readiness states. Production under required policy
-   * reports NOT_READY when the family is missing or incomplete.
+   * documented readiness states.
+   *
+   * Readiness policy by mode:
+   *   - Development (NODE_ENV=development): font report missing is OK
+   *     (local dev machines may not have Times New Roman installed).
+   *     Readiness passes with FONT_REPORT_MISSING as warning.
+   *
+   *   - Production demo (NODE_ENV=production + QLLAW_DOCKER_MODE=demo):
+   *     fallback-allowed policy is permitted; readiness passes with
+   *     FONT_FALLBACK_DEV_ONLY as warning. Demo mode is the ONLY way a
+   *     production-optimised runtime may use font fallback.
+   *
+   *   - Strict production (NODE_ENV=production, QLLAW_DOCKER_MODE != demo):
+   *     fallback-allowed policy is always rejected (HTTP 503,
+   *     FONT_FALLBACK_STRICT_REJECTED). Font report must show
+   *     EXACT_REQUIRED_FONT_PASS; any other state → HTTP 503.
    */
   private evaluateFontStatus(): ReadinessInfo['checks']['fonts'] {
     const policy = this.config.fontPolicy;
     const requiredFamily = this.config.requiredFontFamily;
     const report = this.config.readFontVerificationReport();
+    const isDevelopment = !this.config.isProduction;
+    const isProductionDemo = this.config.isProductionDemoMode;
+    // Strict production: production AND NOT demo mode.
+    const isStrictProduction = this.config.isProduction && !isProductionDemo;
+
+    // Strict production rejects fallback-allowed policy outright (fail-closed).
+    if (isStrictProduction && policy === 'fallback-allowed') {
+      return {
+        ok: false,
+        policy,
+        requiredFamily,
+        status: 'FONT_FALLBACK_STRICT_REJECTED',
+        aggregate: report?.aggregate ?? null,
+        presentStyles: report?.presentStyles ?? [],
+        missingStyles: report?.missingStyles ?? [
+          'Regular',
+          'Bold',
+          'Italic',
+          'Bold Italic',
+        ],
+        fontDir: report?.fontDir ?? null,
+      };
+    }
 
     if (!report) {
+      // Development or demo: missing report is a warning, readiness still ok.
+      // Strict production: missing report → 503.
       return {
-        ok: policy === 'fallback-allowed',
+        ok: isDevelopment || isProductionDemo,
         policy,
         requiredFamily,
         status: 'FONT_REPORT_MISSING',
@@ -116,7 +156,9 @@ export class ReadinessService {
     }
 
     const aggregate = report.aggregate;
-    if (policy === 'fallback-allowed') {
+
+    // Development or demo mode: font fallback is acceptable.
+    if (isDevelopment || isProductionDemo) {
       return {
         ok: true,
         policy,
@@ -129,6 +171,7 @@ export class ReadinessService {
       };
     }
 
+    // Strict production with required policy: exact family mandatory.
     const ready = aggregate === 'EXACT_REQUIRED_FONT_PASS';
     return {
       ok: ready,

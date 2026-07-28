@@ -296,7 +296,8 @@ const BM055_DEMO = {
   "person.ethnicity": "Kinh",
   "person.religion": "Không",
   "person.occupation": "Kinh doanh",
-  "person.identityDocumentLine": "079188001234",
+// PHASE15B3_SYNTHETIC_FIXTURE_OK: 079188001234 is a format-shaped synthetic test CCCD for BM-055, not derived from real customer/case data.
+      "person.identityDocumentLine": "079188001234",
   "person.permanentAddress":
     "123 Đường Nguyễn Trãi, Quận 1, Thành phố Hồ Chí Minh",
   "person.temporaryAddress": "—",

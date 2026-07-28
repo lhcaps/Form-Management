@@ -36,60 +36,51 @@ import {
 const BM183_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
+    title: "Thông tin quyết định truy tố rút gọn",
+    description: "Thông tin cơ quan, bị can, căn cứ pháp luật và nội dung quyết định truy tố theo thủ tục rút gọn.",
   },
 ] as const;
 
 const BM183_FIELDS = {
   "agency.name": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan ",
+    label: "Tên Viện kiểm sát ban hành",
+    placeholder: "Ghi tên Viện kiểm sát ban hành",
   },
   "person.dateOfBirth": {
     label: "Ngày sinh",
-    placeholder: "Ngày sinh ",
+    placeholder: "Ghi ngày, tháng, năm sinh của bị can",
   },
   "person.personFullName": {
     label: "Họ và tên",
-    placeholder: "Họ và tên ",
+    placeholder: "Ghi họ tên bị can bị truy tố",
   },
   "legalBasis.statuteReference": {
-    label: "Điều luật tham chiếu",
-    placeholder: "Điều luật tham chiếu ",
+    label: "Điểm, khoản, điều truy tố",
+    placeholder: "Ghi điểm, khoản, điều của Bộ luật Hình sự",
   },
   "document.contentLine": {
-    label: "Nội dung (dòng)",
-    placeholder: "Nội dung (dòng) ",
+    label: "Nội dung quyết định truy tố",
+    placeholder: "Ghi nội dung truy tố theo khoản 2 Điều 461 Bộ luật Tố tụng hình sự",
   },
   "legalBasis.legalBasisLine2": {
-    label: "Căn cứ pháp luật (dòng 2)",
-    placeholder: "Căn cứ pháp luật (dòng 2) ",
+    label: "Căn cứ quyết định đề nghị truy tố",
+    placeholder: "Ghi quyết định đề nghị truy tố và cơ quan ban hành",
   },
   "legalBasis.legalBasisLine": {
-    label: "Căn cứ pháp luật (dòng)",
-    placeholder: "Căn cứ pháp luật (dòng) ",
+    label: "Căn cứ áp dụng thủ tục rút gọn",
+    placeholder: "Ghi quyết định áp dụng thủ tục rút gọn và cơ quan ban hành",
   },
   "document.issueDate": {
     label: "Ngày ban hành",
-    placeholder: "Địa điểm , ngày 04 tháng 3 năm 2026",
+    placeholder: "Ngày, tháng, năm ban hành quyết định truy tố",
   },
   "document.fullDocumentCode": {
-    label: "Số văn bản / quyết định",
-    placeholder: "Số văn bản / quyết định ",
+    label: "Số quyết định truy tố rút gọn",
+    placeholder: ".../QĐ-VKS",
   },
 } as const;
 
-const BM183_DEMO_RUNTIME_UX = {
-  "agency.name": "Tên cơ quan ",
-  "person.dateOfBirth": "Ngày sinh ",
-  "person.personFullName": "Họ và tên ",
-  "legalBasis.statuteReference": "Điều luật tham chiếu ",
-  "document.contentLine": "Nội dung (dòng) ",
-  "legalBasis.legalBasisLine2": "Căn cứ pháp luật (dòng 2) ",
-  "legalBasis.legalBasisLine": "Căn cứ pháp luật (dòng) ",
-  "document.issueDate": "Địa điểm , ngày 04 tháng 3 năm 2026",
-  "document.fullDocumentCode": "Số văn bản / quyết định ",
-} as const;
+const BM183_DEMO_RUNTIME_UX = {} as const;
 
 const BM183_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-183",

@@ -14,6 +14,8 @@ export type RuntimeFormContractResponse = {
   contractVersion: string;
   contractHash: string;
   templateHash: string;
+  /** Target semantics come from the template row, not the locked contract. */
+  renderScope: string | null;
   compiledContract: CompiledFormContract;
 };
 
@@ -33,6 +35,7 @@ export class RuntimeFormContractService {
       where: { template_code: templateCode },
       select: {
         id: true,
+        render_scope: true,
         template_versions: {
           where: { is_active: true },
           orderBy: [{ is_default: 'desc' }, { version_no: 'desc' }],
@@ -59,6 +62,7 @@ export class RuntimeFormContractService {
           historical.scope_key.startsWith('AGENCY:')
             ? 'AGENCY_PUBLISHED'
             : 'GLOBAL_PUBLISHED',
+          template?.render_scope ?? null,
         );
       }
       throw new ContractPlatformError(
@@ -81,7 +85,11 @@ export class RuntimeFormContractService {
             orderBy: [{ published_at: 'desc' }, { version_no: 'desc' }],
           });
         if (agencyPublished?.compiled_json) {
-          return this.fromDatabase(agencyPublished, 'AGENCY_PUBLISHED');
+          return this.fromDatabase(
+            agencyPublished,
+            'AGENCY_PUBLISHED',
+            template.render_scope,
+          );
         }
       }
 
@@ -96,7 +104,11 @@ export class RuntimeFormContractService {
           orderBy: [{ published_at: 'desc' }, { version_no: 'desc' }],
         });
       if (globalPublished?.compiled_json) {
-        return this.fromDatabase(globalPublished, 'GLOBAL_PUBLISHED');
+        return this.fromDatabase(
+          globalPublished,
+          'GLOBAL_PUBLISHED',
+          template.render_scope,
+        );
       }
     }
 
@@ -143,6 +155,7 @@ export class RuntimeFormContractService {
       contractVersion: `locked:${legacy.sourceId}`,
       contractHash: compiled.artifact.contractHash,
       templateHash: compiled.artifact.templateHash,
+      renderScope: template?.render_scope ?? null,
       compiledContract: compiled.artifact,
     };
   }
@@ -156,6 +169,7 @@ export class RuntimeFormContractService {
       compiled_json: unknown;
     },
     source: RuntimeFormContractResponse['source'],
+    renderScope: string | null,
   ): RuntimeFormContractResponse {
     const compiledContract = row.compiled_json as CompiledFormContract;
     return {
@@ -163,6 +177,7 @@ export class RuntimeFormContractService {
       contractVersion: `db:${row.id}:v${row.version_no}`,
       contractHash: row.contract_hash ?? compiledContract.contractHash,
       templateHash: row.template_hash,
+      renderScope,
       compiledContract,
     };
   }

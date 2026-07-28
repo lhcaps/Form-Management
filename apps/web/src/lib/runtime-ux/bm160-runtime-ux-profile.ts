@@ -24,6 +24,8 @@ const BM160_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Tên Viện kiểm sát lập biên bản và số biên bản niêm yết công khai văn bản tố tụng, căn cứ Điều 140 Bộ luật Tố tụng hình sự (bổ sung Điều 243 nếu niêm yết Cáo trạng).",
   },
 ] as const;
 
@@ -40,7 +42,7 @@ const BM160_FIELDS = {
 
 const BM160_DEMO_RUNTIME_UX = {
   "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.soBien": "Tran Van Binh",
+  "document.soBien": "",
 } as const;
 
 const BM160_RUNTIME_UX_PROFILE: RuntimeUxProfile = {

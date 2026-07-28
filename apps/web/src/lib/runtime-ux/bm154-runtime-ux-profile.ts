@@ -1,5 +1,5 @@
 /**
- * BM-154 runtime-ux batch 7 curated source-render profile.
+ * BM-154 runtime-ux curated source-render profile.
  *
  * This profile upgrades the auto-generated BM-154 profile to a
  * curated source/render version. Boundaries honoured:
@@ -10,9 +10,11 @@
  *   - No smart controls emitted.
  *   - No legacy stale tokens in demo.
  *
- * Promotion to INPUT_CONNECTED_PASS requires source/render smoke +
- * Batch 7 curation only. Browser/demo/preview/DOCX/fidelity/visual/
- * human evidence remains NOT_RUN for Batch 7.
+ * Family: PHỤC HỒI VỤ ÁN — prosecution-stage resumption of a
+ * criminal case. Distinct from BM-148/149/152/153 (ĐÌNH CHỈ BỊ CAN).
+ * Distinct from BM-155 (PHỤC HỒI VỤ ÁN ĐỐI VỚI BỊ CAN — accused-targeted).
+ * Shares QUYẾT ĐỊNH document type and legal domain (Điều 41, 236, 247, 249 BLTTHS).
+ * Single-section thông tin biểu mẫu form with legacy field keys.
  */
 
 import {
@@ -24,52 +26,69 @@ const BM154_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
+    description:
+      "Thông tin QĐ phục hồi vụ án hình sự. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành, ngày ban hành, dòng địa danh và chủ thể liên quan.",
   },
 ] as const;
 
 const BM154_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Viện Kiểm sát nhân dân Thành phố Hà Nội",
+    label: "Viện kiểm sát ban hành",
+    placeholder: "Tên Viện kiểm sát ban hành",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "21/QĐ-VKS",
+    label: "Số quyết định phục hồi",
+    placeholder: "Số quyết định /QĐ-VKS",
   },
   "agency.diaDanh": {
-    label: "Địa danh",
-    placeholder: "Hà Nội",
+    label: "Địa danh nơi đặt trụ sở",
+    placeholder: "Tỉnh/thành phố nơi đặt trụ sở Viện kiểm sát",
   },
   "document.ngayBan": {
-    label: "Ngày ban hành",
-    placeholder: "Nhap noi dung",
+    label: "Ngày ban hành quyết định",
+    placeholder: "Ngày, tháng, năm ban hành",
   },
   "agency.dongDia": {
-    label: "Dòng địa danh",
-    placeholder: "Nhap noi dung",
+    label: "Viết tắt đơn vị phụ trách",
+    placeholder: "Viết tắt Viện kiểm sát ban hành (nếu có)",
   },
   "document.chuThe": {
-    label: "Chủ thể liên quan",
-    placeholder: "Nhap noi dung",
+    label: "Cơ quan/người có thẩm quyền liên quan",
+    placeholder: "Tên cơ quan, người có thẩm quyền liên quan",
   },
 } as const;
 
 const BM154_DEMO_RUNTIME_UX = {
-  "agency.vienKiem": "Viện Kiểm sát nhân dân Thành phố Hà Nội",
-  "document.soQuyet": "21/QĐ-VKS",
-  "agency.diaDanh": "Hà Nội",
-  "document.ngayBan": "Tran Van Binh",
-  "agency.dongDia": "Tran Van Binh",
-  "document.chuThe": "Tran Van Binh",
+  "agency.vienKiem": "",
+  "document.soQuyet": "",
+  "agency.diaDanh": "",
+  "document.ngayBan": "",
+  "agency.dongDia": "",
+  "document.chuThe": "",
 } as const;
 
 const BM154_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-154",
-  // Stable version label, surfaced in audit artifacts.
-  versionLabel: `BM-154 runtime-ux batch 7 curated source-render profile`,
+  versionLabel: `BM-154 — Quyết định phục hồi vụ án (runtime-ux)`,
   sections: BM154_SECTIONS,
   fields: BM154_FIELDS,
   demo: BM154_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin biểu mẫu",
+      description:
+        "Thông tin QĐ phục hồi vụ án hình sự. Mục ghi nhận tên Viện kiểm sát ban hành, số QĐ, địa danh ban hành, ngày ban hành, dòng địa danh và chủ thể liên quan.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+        "document.ngayBan",
+        "agency.dongDia",
+        "document.chuThe",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM154_RUNTIME_UX_PROFILE);

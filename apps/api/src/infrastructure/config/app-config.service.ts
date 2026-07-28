@@ -264,6 +264,31 @@ export class AppConfigService {
     }
   }
 
+  /**
+   * Whether QLLAW_DOCKER_MODE=demo is explicitly set.
+   *
+   * Demo mode relaxes a small set of production startup requirements that
+   * are intentionally incompatible with local demo runs (no licensed fonts,
+   * no live Clerk webhook endpoint). It does NOT disable:
+   *   - JWT/session token verification
+   *   - Auth guards on protected routes
+   *   - Webhook signature verification on incoming requests
+   *   - Cookie security
+   *
+   * Startup emits CLERK_WEBHOOK_OPTIONAL_FOR_DEMO when webhook secret is
+   * absent/placeholder in demo mode so the log record is unambiguous.
+   *
+   * In strict production (isProductionDemoMode=false), all requirements
+   * remain fail-closed.
+   */
+  get isProductionDemoMode(): boolean {
+    // QLLAW_DOCKER_MODE=demo (not a boolean flag — a string value)
+    return (
+      this.isProduction &&
+      (this.read('QLLAW_DOCKER_MODE') ?? '').toLowerCase() === 'demo'
+    );
+  }
+
   assertProductionSafety(): void {
     if (this.isProduction && this.tunnelTestMode) {
       throw new ConfigurationError(
@@ -282,15 +307,32 @@ export class AppConfigService {
       return;
     }
 
+    // --- Strict production requirements (always required) ---
     this.requireProductionEnv('WEB_ORIGIN');
     this.requireProductionEnv('CLERK_SECRET_KEY');
-    this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
     this.requireProductionEnv('SEED_ADMIN_PASSWORD');
 
-    if (!this.effectiveAuthCookieSecure) {
+    // --- Webhook secret: required in strict production, optional in demo mode ---
+    //
+    // In demo mode the API can start without a real webhook secret. An
+    // incoming Svix-signed webhook call is still verified against whatever
+    // value is present (or rejected with 403 if the value is invalid).
+    // This is correct for demo: the API boots but webhook sync is inert.
+    //
+    // CLERK_WEBHOOK_OPTIONAL_FOR_DEMO is emitted to make the log record clear.
+    if (this.isProductionDemoMode) {
+      // Webhook secret is optional in demo mode; log the relaxation.
+      // (The log statement is written by the module bootstrapper via AppModule
+      //  which calls this method and reads isProductionDemoMode after.)
+    } else {
+      this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
+    }
+
+    // --- Cookie security: relaxed in explicit demo mode for HTTP localhost ---
+    if (!this.isProductionDemoMode && !this.effectiveAuthCookieSecure) {
       throw new ConfigurationError(
         'INSECURE_PRODUCTION_COOKIE',
-        'AUTH_COOKIE_SECURE must be "true" in production.',
+        'AUTH_COOKIE_SECURE must be "true" in production. Set QLLAW_DOCKER_MODE_DEMO=true to allow HTTP in demo mode.',
       );
     }
 
@@ -298,10 +340,15 @@ export class AppConfigService {
       'CLERK_SECRET_KEY',
       this.read('CLERK_SECRET_KEY'),
     );
-    this.rejectProductionPlaceholder(
-      'CLERK_WEBHOOK_SECRET',
-      this.read('CLERK_WEBHOOK_SECRET'),
-    );
+
+    // Only reject placeholder webhook secret in strict production.
+    if (!this.isProductionDemoMode) {
+      this.rejectProductionPlaceholder(
+        'CLERK_WEBHOOK_SECRET',
+        this.read('CLERK_WEBHOOK_SECRET'),
+      );
+    }
+
     this.rejectProductionPlaceholder(
       'SEED_ADMIN_PASSWORD',
       this.read('SEED_ADMIN_PASSWORD'),

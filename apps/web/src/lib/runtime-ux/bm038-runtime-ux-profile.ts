@@ -219,20 +219,20 @@ const BM038_DEMO_RUNTIME_UX = {
   "agency.parentNameUpper":
     "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HÀ NỘI",
   "agency.nameUpper": "VIỆN KIỂM SÁT NHÂN DÂN QUẬN CẦU GIẤY",
-  "document.documentCode": "60/QĐ-VKS",
+  "document.documentCode": "21/QĐ-VKSKV7",
   "document.issuePlaceAndDateLine": "Hà Nội, ngày 04 tháng 7 năm 2026",
   "official.issuingAuthorityLine":
-    "Viện Kiểm sát nhân dân Quận Cầu Giấy — TP. Hà Nội;",
+    "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
   "legalBasis.procedureArticlesLine":
     "Căn cứ Điều 109, Điều 115 Bộ luật Tố tụng hình sự năm 2015;",
   "legalBasis.juvenileJusticeLine":
     "Căn cứ Điều 18 Luật Xử lý vi phạm hành chính năm 2012;",
   "arrestNonApproval.caseDecisionLegalBasisLine":
-    "Căn cứ Quyết định khởi tố vụ án hình sự số 22/QĐ-PC10 ngày 12/4/2026;",
+    "Căn cứ Quyết định khởi tố vụ án hình sự số 30/QĐ-CQĐT ngày 20 tháng 4 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
   "arrestNonApproval.accusedDecisionLegalBasisLine":
-    "Căn cứ Quyết định khởi tố bị can số 23/QĐ-PC10 ngày 13/4/2026;",
+    "Căn cứ Quyết định khởi tố bị can số 31/QĐ-CQĐT ngày 20 tháng 4 năm 2026 của Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh;",
   "arrestNonApproval.proposalLine":
-    "Đề nghị không phê chuẩn Lệnh bắt bị can để tạm giam số 19/LB-PC10 ngày 13/4/2026 của Cơ quan Cảnh sát điều tra Công an Quận Cầu Giấy;",
+    "Đề nghị Viện Kiểm sát nhân dân Khu vực 7 phê chuẩn Quyết định không phê chuẩn việc bắt người của Cơ quan Cảnh sát điều tra vì không đủ căn cứ theo quy định tại Điều 113 BLTTHS 2015.",
   "arrestNonApproval.proposalAgencyLine":
     "Cơ quan Cảnh sát điều tra Công an Quận Cầu Giấy;",
   "arrestNonApproval.reasonLine":

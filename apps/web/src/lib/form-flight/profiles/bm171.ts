@@ -115,10 +115,10 @@ const BM171_DEMO = {
   "assetReturn.accusedSuspensionDecisionLegalBasisLine":
     "Căn cứ Quyết định tạm đình chỉ đối với bị can số 04/QĐ-VKS-KV7 ngày 05/03/2026;",
   "assetReturn.considerationLine":
-    "Xét thấy tài sản bị tạm giữ không còn liên quan đến việc giải quyết vụ án và cần trả lại cho chủ sở hữu, quản lý hợp pháp theo quy định tại Điều 212 Bộ luật Tố tụng hình sự,",
+    "Xét thấy tài sản bị tạm giữ không còn liên quan đến việc giải quyết vụ án và cần trả lại cho chủ sở hữu, quản lý hợp pháp theo quy định tại Điều 212 Bộ luật Tố tụng hình sự;",
   // Asset list
   "assetReturn.assetListLine":
-    "1. 01 chiếc xe máy Honda Wave RSX, biển số 59C1-123.45, màu đỏ-đen, năm sản xuất 2018; 2. 01 sổ tiết kiệm Ngân hàng TMCP Ngoại thương Việt Nam, chi nhánh TP.HCM, số tài khoản 0011-2233-4455-66, số dư 12.500.000 đồng.",
+    "1. 01 chiếc xe máy Honda Wave RSX, biển số 59C1-123.45, màu đỏ-đen, năm sản xuất 2018, khung JL110E-1234567, máy JL110E-7654321;\n2. 01 sổ tiết kiệm Ngân hàng TMCP Ngoại thương Việt Nam, chi nhánh TP.HCM, số tài khoản 0011-2233-4455-66, số dư 12.500.000 đồng (Mười hai triệu năm trăm nghìn đồng).",
   // Asset owner — REAL synthetic person name, never "Người nhận (mẫu)".
   "assetOwner.fullName": "Nguyễn Văn A",
   "assetOwner.genderText": "Nam",
@@ -148,7 +148,7 @@ const BM171_DEMO = {
   // Sign — REAL synthetic signer name, never "Người ký (mẫu)".
   "signature.signMode": "Ký thay",
   "signature.positionTitle": "VIỆN TRƯỞNG",
-  "signature.signerName": "Trần Thị B",
+  "signature.signerName": "Nguyễn Thị Hồng C",
 };
 
 const BM171_STALE_FALLBACKS = {

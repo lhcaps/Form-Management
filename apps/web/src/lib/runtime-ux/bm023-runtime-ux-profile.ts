@@ -188,9 +188,9 @@ const BM023_DEMO = {
   "legalBasis.procedureArticlesLine":
     "Căn cứ Điều 36, Điều 105, Điều 155, Điều 156 Bộ luật Tố tụng hình sự năm 2015;",
   "crimeReport.content":
-    "Ngày 01/3/2026 tại địa chỉ số 49 đường Trần Hưng Đạo, Phường Phan Chu Trinh, Quận 1, TP. Hồ Chí Minh, Lê Minh Quân đã có hành vi cố ý gây thương tích cho Trần Văn Nam với tỷ lệ thương tích 25%;",
-  "case.caseTitle": "Vụ án Lê Minh Quân cố ý gây thương tích",
-  "offense.offenseName": "Cố ý gây thương tích",
+    "Theo đơn trình báo của công dân Nguyễn Văn B về việc bị mất trộm tài sản (điện thoại di động) tại địa chỉ số 12 đường Lê Lợi, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh vào khoảng 19 giờ ngày 12/4/2026, đề nghị cơ quan có thẩm quyền xác minh.",
+  "case.caseTitle": "Vụ án trộm cắp tài sản tại Quận 1, Thành phố Hồ Chí Minh",
+  "offense.offenseName": "Trộm cắp tài sản",
   "offense.legalArticle": "Điều 134 Bộ luật Hình sự năm 2015;",
   "investigation.article2Line":
     "Giao Cơ quan Cảnh sát điều tra Công an Thành phố Hồ Chí Minh tổ chức điều tra, xác minh làm rõ hành vi của Lê Minh Quân và các đối tượng liên quan theo quy định của pháp luật;",

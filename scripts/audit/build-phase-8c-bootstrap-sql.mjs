@@ -520,6 +520,7 @@ if (flagApply) {
     'build',
     'index.js',
   );
+  // Prisma v7: --schema flag removed from `db execute`; URL is read from prisma.config.ts.
   const proc = spawnSync(
     process.execPath,
     [
@@ -527,8 +528,6 @@ if (flagApply) {
       'db',
       'execute',
       '--stdin',
-      '--schema',
-      'prisma/schema.prisma',
     ],
     {
       cwd: API_ROOT,

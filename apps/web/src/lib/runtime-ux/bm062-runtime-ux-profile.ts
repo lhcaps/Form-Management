@@ -132,6 +132,7 @@ const BM062_FIELDS = {
   },
   "person.identityNo": {
     label: "Số CCCD/CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079185001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "079185001234",
   },
   "person.identityIssueDateLine": {
@@ -199,6 +200,7 @@ const BM062_DEMO = {
   "measure.assetListLine":
     "1. Nhà ở tại 123 Đường Lê Lợi, Quận 1, TP.HCM — Giấy chứng nhận QSH số 0123456789.\n2. Ô tô Toyota Camry biển kiểm soát 59A-123.45.",
   "person.occupation": "Kinh doanh tự do",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079185001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.identityNo": "079185001234",
   "person.identityIssueDateLine": "Ngày 10 tháng 01 năm 2020",
   "person.identityIssuePlace": "Công an Thành phố Hồ Chí Minh",

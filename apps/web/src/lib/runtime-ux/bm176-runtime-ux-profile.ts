@@ -29,10 +29,7 @@ const BM176_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-noi-dung-tu-choi",
-    title: "Nội dung từ chối phê chuẩn",
+    description: "Cơ quan ban hành, căn cứ và nội dung không phê chuẩn, số quyết định và địa danh, ngày ban hành.",
   },
 ] as const;
 

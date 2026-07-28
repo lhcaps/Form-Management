@@ -45,6 +45,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { STANDALONE_RUNTIME_TEMPLATE_CODES } from "@qllaw/form-contracts/browser";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FORM_FLIGHT_DIR = __dirname;
 const APPS_WEB_DIR = join(FORM_FLIGHT_DIR, "..", "..");
@@ -71,6 +73,27 @@ const templatePreviewSource = readFileSync(templatePreviewPath, "utf8");
 const runtimeUxIndexSource = readFileSync(runtimeUxIndexPath, "utf8");
 const bm001RuntimeUxSource = readFileSync(bm001RuntimeUxPath, "utf8");
 
+function extractAllowlist(source) {
+  const listMatch = source.match(
+    /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
+  );
+  if (listMatch) {
+    return listMatch[1]
+      .split(",")
+      .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+      .filter(Boolean);
+  }
+  const aliasMatch = source.match(
+    /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*STANDALONE_RUNTIME_TEMPLATE_CODES/,
+  );
+  if (aliasMatch) {
+    return STANDALONE_RUNTIME_TEMPLATE_CODES;
+  }
+  throw new Error(
+    "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined as a literal array or as an alias to STANDALONE_RUNTIME_TEMPLATE_CODES",
+  );
+}
+
 describe("BM-001 template runtime visual guard", () => {
   it("1. BM-001 profile is runtime-ready (Form Flight side)", () => {
     assert.ok(
@@ -91,14 +114,7 @@ describe("BM-001 template runtime visual guard", () => {
   });
 
   it("3. BM-001 is in the runtime-ready allowlist (form-lifecycle side)", () => {
-    const listMatch = formLifecycleSource.match(
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
-    );
-    assert.ok(listMatch, "RUNTIME_READY_FORM_FLIGHT_PROFILES must be defined");
-    const listed = listMatch[1]
-      .split(",")
-      .map((s) => s.trim().replace(/^["']|["']$/g, ""))
-      .filter(Boolean);
+    const listed = extractAllowlist(formLifecycleSource);
     assert.ok(
       listed.includes("BM-001"),
       "BM-001 must be in the runtime-ready allowlist",
@@ -106,13 +122,7 @@ describe("BM-001 template runtime visual guard", () => {
   });
 
   it("4. BM-171 is in the runtime-ready allowlist (regression guard)", () => {
-    const listMatch = formLifecycleSource.match(
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([^\]]+)\]/,
-    );
-    const listed = listMatch[1]
-      .split(",")
-      .map((s) => s.trim().replace(/^["']|["']$/g, ""))
-      .filter(Boolean);
+    const listed = extractAllowlist(formLifecycleSource);
     assert.ok(
       listed.includes("BM-171"),
       "BM-171 must still be in the runtime-ready allowlist",
@@ -268,8 +278,20 @@ describe("BM-001 template runtime visual guard", () => {
     }
     assert.deepEqual(
       runtimeReadyFiles.sort(),
-      ["bm001.ts", "bm171.ts"],
-      `only bm001.ts + bm171.ts must declare runtimeReady: true; got: ${runtimeReadyFiles.join(", ")}`,
+      [
+        "bm001.ts",
+        "bm136.ts",
+        "bm148.ts",
+        "bm156.ts",
+        "bm157.ts",
+        "bm168.ts",
+        "bm171.ts",
+        "bm174.ts",
+        "bm181.ts",
+        "bm206.ts",
+        "bm213.ts",
+      ],
+      `only the 11 baseline form-flight profile files must declare runtimeReady: true; got: ${runtimeReadyFiles.join(", ")}`,
     );
   });
 });

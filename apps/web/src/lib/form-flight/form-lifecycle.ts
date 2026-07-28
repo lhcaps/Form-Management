@@ -41,10 +41,16 @@
  *
  * Approved runtime-ready profiles (the ONLY ones that should reach this
  * helper as "runtime-ready"): see `RUNTIME_READY_FORM_FLIGHT_PROFILES`
- * below. Adding a new entry is the one place that needs updating when
- * a form is promoted. The guard test
+ * below. Promote a form through the shared bridge-eligibility policy, then
+ * add its side-effect registration import below. The guard test
  * `form-lifecycle-wiring.guard.test.mjs` enforces the invariant.
  */
+import { hasRegisteredBmPanel } from "@/lib/generated/bm-panel-codes.generated";
+import { STANDALONE_RUNTIME_TEMPLATE_CODES } from "@qllaw/form-contracts/browser";
+import {
+  resolveFormAccess,
+  type FormAccessDecision,
+} from "./local-form-access-policy";
 import { getFormFlightProfile } from "./registry";
 import { isRuntimeReadyProfile } from "./profile-status";
 import type { FormFlightProfile } from "./types";
@@ -81,14 +87,19 @@ export type FormLifecycleProfileStatus =
  * - "legacy":               Existing BM-specific panel (e.g.
  *                           `bm-001-form-inputs.tsx`) or the generic
  *                           fallback.
+ * - "persisted-draft-bridge": Skeleton form with registered legacy panel;
+ *                           create/reuse draft then redirect to /documents/:id.
  * - "generic":              The generic template form inputs panel
  *                           (no per-BM UI override exists).
+ * - "unavailable":          The code is not registered at all.
  */
 export type FormLifecyclePanelKind =
   | "form-flight-runtime"
   | "form-flight-generated"
   | "legacy"
-  | "generic";
+  | "persisted-draft-bridge"
+  | "generic"
+  | "unavailable";
 
 /**
  * Pure decision object. Routes and adapters read this and route
@@ -100,22 +111,23 @@ export type FormLifecycleDecision = {
   readonly profileStatus: FormLifecycleProfileStatus;
   readonly useFormFlight: boolean;
   readonly panelKind: FormLifecyclePanelKind;
+  readonly access: FormAccessDecision;
   readonly hasRealGeneratedDocumentId: boolean;
   readonly reason: string;
 };
 
 /**
- * Approved runtime-ready profiles. Adding a new form means appending
- * an `import "@/lib/form-flight/profiles/bmXXX"` here AND registering
- * `BMXXX_FORM_FLIGHT_PROFILE` with `runtimeReady: true` in that file.
+ * Approved runtime-ready profiles. Their codes come from the shared
+ * bridge-eligibility policy. Adding a promoted form means adding its
+ * side-effect `import "@/lib/form-flight/profiles/bmXXX"` here AND
+ * registering `BMXXX_FORM_FLIGHT_PROFILE` with `runtimeReady: true` in
+ * that file.
  *
  * The list is intentionally explicit (no auto-discovery from the
  * `profiles/` folder). Skeletons must NOT appear here.
  */
-export const RUNTIME_READY_FORM_FLIGHT_PROFILES = [
-  "BM-001",
-  "BM-171",
-] as const;
+export const RUNTIME_READY_FORM_FLIGHT_PROFILES =
+  STANDALONE_RUNTIME_TEMPLATE_CODES;
 
 export type RuntimeReadyFormFlightCode =
   (typeof RUNTIME_READY_FORM_FLIGHT_PROFILES)[number];
@@ -126,8 +138,8 @@ export type RuntimeReadyFormFlightCode =
  * adapter tests so the registry is consistently seeded for the
  * approved set.
  *
- * Adding a new approved profile = (a) appending the code to
- * `RUNTIME_READY_FORM_FLIGHT_PROFILES` and (b) adding the import here.
+ * Adding a new approved profile = (a) promoting it in the shared policy and
+ * (b) adding the import here.
  *
  * Adding the import here is a TS-level action; the side-effect
  * registration happens in the imported profile module itself
@@ -140,9 +152,20 @@ export function registerRuntimeReadyFormFlightProfiles(): void {
 
 // `void` keeps this as a side-effect import set without exporting
 // anything. Each import below triggers the profile module's
-// `registerFormFlightProfile(...)` call.
+// `registerFormFlightProfile(...)` call. The order mirrors
+// `STANDALONE_RUNTIME_TEMPLATE_CODES` (canonical sorted order from
+// the shared bridge-eligibility policy).
 import * as _runtimeReadyImports from "./profiles/bm001";
 import * as _runtimeReadyImportsBm171 from "./profiles/bm171";
+import * as _runtimeReadyImportsBm136 from "./profiles/bm136";
+import * as _runtimeReadyImportsBm148 from "./profiles/bm148";
+import * as _runtimeReadyImportsBm156 from "./profiles/bm156";
+import * as _runtimeReadyImportsBm157 from "./profiles/bm157";
+import * as _runtimeReadyImportsBm168 from "./profiles/bm168";
+import * as _runtimeReadyImportsBm174 from "./profiles/bm174";
+import * as _runtimeReadyImportsBm181 from "./profiles/bm181";
+import * as _runtimeReadyImportsBm206 from "./profiles/bm206";
+import * as _runtimeReadyImportsBm213 from "./profiles/bm213";
 
 /**
  * Pure decision function. Both lifecycles (`/templates/:code` and
@@ -173,8 +196,13 @@ export function decideFormLifecycle(input: {
   lifecycle: FormLifecycleKind;
   templateCode: string;
   hasRealGeneratedDocumentId?: boolean;
+  localUnlockAllForms?: boolean;
 }): FormLifecycleDecision {
   const { lifecycle, templateCode } = input;
+  const access = resolveFormAccess({
+    formCode: templateCode,
+    localUnlockAllForms: input.localUnlockAllForms === true,
+  });
   const hasRealGeneratedDocumentId =
     lifecycle === "generated-document"
       ? Boolean(input.hasRealGeneratedDocumentId)
@@ -188,6 +216,7 @@ export function decideFormLifecycle(input: {
       return {
         templateCode,
         lifecycle,
+        access,
         profileStatus,
         useFormFlight: true,
         panelKind: "form-flight-runtime",
@@ -198,14 +227,19 @@ export function decideFormLifecycle(input: {
     return {
       templateCode,
       lifecycle,
+      access,
       profileStatus,
       useFormFlight: false,
-      panelKind: pickLegacyPanelKind(templateCode),
+      panelKind: access.tier === "LOCAL_SKELETON"
+        ? "generic"
+        : pickTemplateRuntimeFallbackPanel(templateCode),
       hasRealGeneratedDocumentId: false,
       reason:
-        profileStatus === "missing"
-          ? "template-runtime + no profile → legacy / generic fallback"
-          : `template-runtime + ${profileStatus} profile → legacy / generic fallback (fail-closed)`,
+        access.tier === "LOCAL_SKELETON"
+          ? "template-runtime + explicit local unlock → local skeleton editor"
+          : profileStatus === "missing"
+            ? "template-runtime + no profile → persisted-draft-bridge or unavailable"
+            : `template-runtime + ${profileStatus} profile → persisted-draft-bridge or unavailable (fail-closed)`,
     };
   }
 
@@ -214,6 +248,7 @@ export function decideFormLifecycle(input: {
     return {
       templateCode,
       lifecycle,
+      access,
       profileStatus,
       useFormFlight: true,
       panelKind: "form-flight-generated",
@@ -225,9 +260,10 @@ export function decideFormLifecycle(input: {
   return {
     templateCode,
     lifecycle,
+    access,
     profileStatus,
     useFormFlight: false,
-    panelKind: pickLegacyPanelKind(templateCode),
+    panelKind: pickGeneratedDocumentFallbackPanel(templateCode),
     hasRealGeneratedDocumentId,
     reason: !hasRealGeneratedDocumentId
       ? "generated-document + no real generatedDocumentId → legacy / generic fallback (fail-closed)"
@@ -236,25 +272,47 @@ export function decideFormLifecycle(input: {
 }
 
 /**
- * Coarse panel selection for the legacy / generic fallback path. Today
- * the legacy UI is just "use the BM panel if registered, else the
- * generic panel"; this helper centralises that rule so we don't have
- * to repeat it in every call site.
+ * Panel selection for template-runtime lifecycle fallback.
+ * When profile is skeleton, check if a legacy panel exists to enable bridge.
+ *
+ * CRITICAL: This is ONLY for /templates/:code route.
+ * Do NOT use this for generated-document lifecycle.
  */
-function pickLegacyPanelKind(templateCode: string): FormLifecyclePanelKind {
-  // We deliberately do NOT import the BM panel registry here. The
-  // legacy decision is "use what the host already has wired". The
-  // generated-document-workspace already maps `BM_PANEL_BY_CODE`;
-  // the template-preview-workspace uses `getRuntimeUxProfile(...)`.
-  // If the code has a registered runtime-ux profile, the legacy
-  // fallback is still acceptable — that is exactly the BM-171 path
-  // today.
-  if (RUNTIME_READY_FORM_FLIGHT_PROFILES.includes(
-    templateCode as RuntimeReadyFormFlightCode,
-  )) {
+function pickTemplateRuntimeFallbackPanel(
+  templateCode: string,
+): FormLifecyclePanelKind {
+  const hasBmPanel = checkBmPanelExists(templateCode);
+  if (hasBmPanel) {
+    return "persisted-draft-bridge";
+  }
+
+  return "unavailable";
+}
+
+/**
+ * Panel selection for generated-document lifecycle fallback.
+ * When profile is skeleton or missing real ID, use existing legacy panel.
+ *
+ * CRITICAL: This is ONLY for /documents/:id route.
+ * NEVER return "persisted-draft-bridge" here - the document already exists!
+ */
+function pickGeneratedDocumentFallbackPanel(
+  templateCode: string,
+): FormLifecyclePanelKind {
+  const hasBmPanel = checkBmPanelExists(templateCode);
+  if (hasBmPanel) {
     return "legacy";
   }
+
   return "generic";
+}
+
+/**
+ * Check if a BM panel exists for the given template code.
+ * Uses metadata-only module to avoid importing 213 React components.
+ */
+function checkBmPanelExists(templateCode: string): boolean {
+  return hasRegisteredBmPanel(templateCode);
 }
 
 /**

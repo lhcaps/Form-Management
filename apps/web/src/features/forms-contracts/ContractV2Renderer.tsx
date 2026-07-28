@@ -6,13 +6,17 @@ import type {
   FieldDefinition,
   FormContractV2,
 } from "@qllaw/form-contracts";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { localizeSectionTitle } from "@/components/documents/form-section-labels";
+import { BmFormSection } from "@/components/documents/bm-form";
 import { type RuntimeUxProfile } from "@/lib/runtime-ux";
+import { resolveRuntimeUxPresentationSections } from "@/lib/runtime-ux/presentation-layout";
 import {
   formatVietnameseIssueLine,
   parseIsoDate,
   toDayMonthYear,
+  canonicalizeTimeValue,
+  normalizeTimeEditBuffer,
   type SmartField,
 } from "@/lib/runtime-ux/smart-field-helpers";
 
@@ -148,6 +152,20 @@ function fieldSpanClass(width: number) {
   return FIELD_SPAN_CLASSES[normalized] ?? FIELD_SPAN_CLASSES[12];
 }
 
+function isTechnicalSectionTitle(value: string | undefined): boolean {
+  return Boolean(value && /^[a-z][a-zA-Z0-9_-]*$/.test(value.trim()));
+}
+
+function displaySectionTitle(
+  contractTitle: string,
+  profileTitle?: string,
+): string {
+  const candidate = profileTitle?.trim();
+  return candidate && !isTechnicalSectionTitle(candidate)
+    ? candidate
+    : localizeSectionTitle(candidate ?? contractTitle);
+}
+
 export function ContractV2Renderer({
   contract: input,
   data,
@@ -160,20 +178,18 @@ export function ContractV2Renderer({
   uxProfile = null,
 }: ContractV2RendererProps) {
   const contract = source(input);
-  // Profile lookup tables. We only build them when a profile is supplied;
-  // otherwise the renderer stays bit-for-bit identical to the no-profile
-  // path.
-  const sectionOverrideById = useMemo(() => {
-    if (!uxProfile) return null;
-    const map: Record<string, { title: string; description?: string }> = {};
-    for (const section of uxProfile.sections) {
-      map[section.sectionId] = {
-        title: section.title,
-        description: section.description,
-      };
-    }
-    return map;
-  }, [uxProfile]);
+  // A profile may provide a reviewed workflow grouping, but invalid metadata
+  // fails closed to the original contract sections so no field can disappear
+  // or be remapped by a UI-only change.
+  const presentationSections = useMemo(
+    () => resolveRuntimeUxPresentationSections(contract, uxProfile),
+    [contract, uxProfile],
+  );
+
+  const fieldByKey = useMemo(
+    () => new Map(contract.fields.map((field) => [field.key, field])),
+    [contract.fields],
+  );
 
   const fieldOverrideByKey = useMemo(() => {
     if (!uxProfile) return null;
@@ -198,11 +214,22 @@ export function ContractV2Renderer({
   // Set of contract field keys hidden by smart overrides — fields
   // whose values are produced by a smart control's `derivedTargets`
   // must NOT also render as a raw <input>.
+  //
+  // A smart field's own key IS a derived target (the smart control
+  // writes its visible synthetic value back to itself), but the smart
+  // field must still render — the renderer binds the smart control to
+  // `field.key`. Excluding the smart field's own key from the hide
+  // set keeps the visible control rendered while still hiding sibling
+  // derived targets.
   const hiddenBySmart = useMemo(() => {
     const hidden = new Set<string>();
+    const smartKeys = new Set<string>();
     for (const entry of smartEntries) {
+      smartKeys.add(entry.key);
       if (!entry.derivedTargets) continue;
-      for (const target of entry.derivedTargets) hidden.add(target);
+      for (const target of entry.derivedTargets) {
+        if (target !== entry.key) hidden.add(target);
+      }
     }
     return hidden;
   }, [smartEntries]);
@@ -235,107 +262,98 @@ export function ContractV2Renderer({
 
   return (
     <div className={compact ? "space-y-4" : "space-y-6"}>
-      {[...contract.sections]
-        .sort((a, b) => a.order - b.order)
+      {presentationSections.sections
         .map((section) => {
-          const sectionOverride = sectionOverrideById?.[section.id];
-          const sectionTitle = sectionOverride?.title
-            ?? localizeSectionTitle(section.title);
-          const sectionDescription = sectionOverride?.description
-            ?? section.description;
-          const fields = contract.fields
+          const sectionTitle = displaySectionTitle(
+            section.contractTitle,
+            section.title,
+          );
+          const sectionDescription = section.description;
+          const fields = section.fieldKeys
+            .map((fieldKey) => fieldByKey.get(fieldKey))
+            .filter((field): field is (typeof contract.fields)[number] => Boolean(field))
             .filter(
               (field) =>
-                field.sectionId === section.id &&
                 !field.repeatableGroupId &&
                 isVisible(contract, field, computedData) &&
                 !hiddenBySmart.has(field.key),
-            )
-            .sort((a, b) => a.order - b.order);
+            );
           return (
-            <section
+            <BmFormSection
               key={section.id}
-              className="rounded-xl border border-slate-200 bg-white p-5"
+              title={sectionTitle}
+              description={sectionDescription}
+              requiredCount={fields.filter((field) => field.required).length}
+              gridClassName="mt-5 grid grid-cols-1 gap-4 md:grid-cols-12"
             >
-              <div className="mb-4 border-b border-slate-100 pb-3">
-                <h3 className="text-[15px] font-extrabold text-slate-950">
-                  {sectionTitle}
-                </h3>
-                {sectionDescription ? (
-                  <p className="mt-1 text-sm text-slate-500">
-                    {sectionDescription}
-                  </p>
-                ) : null}
-              </div>
               {fields.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-slate-200 px-4 py-8 text-center text-sm text-slate-400">
+                <div className="col-span-full rounded-xl border border-dashed border-slate-200 px-4 py-8 text-center text-sm text-slate-500">
                   Chưa có trường dữ liệu trong phần này.
                 </div>
               ) : (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-12">
-                  {fields.map((field) => (
-                    <FieldControl
-                      key={field.id}
-                      field={field}
-                      fieldOverride={fieldOverrideByKey?.[field.key]}
-                      smart={smartByKey.get(field.key) ?? null}
-                      value={readPath(computedData, field.key)}
-                      disabled={
-                        readOnly ||
-                        field.control === "READONLY" ||
-                        field.control === "COMPUTED"
-                      }
-                      selected={selectedFieldId === field.id}
-                      error={errors[field.key]}
-                      onSelect={() => onSelectField?.(field.id)}
-                      onChange={(value) => {
-                        // Smart derived fields emit a multi-target write
-                        // envelope instead of a single value. Apply it
-                        // here so the parent only sees one `setData`
-                        // shape.
-                        if (
-                          value &&
-                          typeof value === "object" &&
-                          "__smartWrites" in (value as Record<string, unknown>)
-                        ) {
-                          const writes = (
-                            value as { __smartWrites: Array<[string, string]> }
-                          ).__smartWrites;
-                          let next = data;
-                          for (const [path, val] of writes) {
-                            next = setPath(next, path, val);
-                          }
-                          onChange?.(next);
-                          return;
+                fields.map((field) => (
+                  <FieldControl
+                    key={field.id}
+                    field={field}
+                    fieldOverride={fieldOverrideByKey?.[field.key]}
+                    smart={smartByKey.get(field.key) ?? null}
+                    value={readPath(computedData, field.key)}
+                    disabled={
+                      readOnly ||
+                      field.control === "READONLY" ||
+                      field.control === "COMPUTED"
+                    }
+                    selected={selectedFieldId === field.id}
+                    error={errors[field.key]}
+                    onSelect={() => onSelectField?.(field.id)}
+                    onChange={(value) => {
+                      // Smart derived fields emit a multi-target write
+                      // envelope instead of a single value. Apply it
+                      // here so the parent only sees one `setData`
+                      // shape.
+                      if (
+                        value &&
+                        typeof value === "object" &&
+                        "__smartWrites" in (value as Record<string, unknown>)
+                      ) {
+                        const writes = (
+                          value as { __smartWrites: Array<[string, string]> }
+                        ).__smartWrites;
+                        let next = data;
+                        for (const [path, val] of writes) {
+                          next = setPath(next, path, val);
                         }
-                        onChange?.(setPath(data, field.key, value));
-                      }}
-                    />
-                  ))}
-                </div>
+                        onChange?.(next);
+                        return;
+                      }
+                      onChange?.(setPath(data, field.key, value));
+                    }}
+                  />
+                ))
               )}
               {contract.repeatableGroups
                 .filter((group) =>
                   group.fieldKeys.some((key) =>
-                    contract.fields.some(
-                      (field) =>
-                        field.key === key && field.sectionId === section.id,
+                      contract.fields.some(
+                        (field) =>
+                        field.key === key && section.fieldKeys.includes(key),
                     ),
                   ),
                 )
                 .map((group) => (
-                  <RepeaterControl
-                    key={group.id}
-                    contract={contract}
-                    group={group}
-                    fieldOverrideByKey={fieldOverrideByKey}
-                    smartByKey={smartByKey}
-                    data={data}
-                    readOnly={readOnly}
-                    onChange={onChange}
-                  />
+                  <div key={group.id} className="md:col-span-12">
+                    <RepeaterControl
+                      contract={contract}
+                      group={group}
+                      fieldOverrideByKey={fieldOverrideByKey}
+                      smartByKey={smartByKey}
+                      data={data}
+                      readOnly={readOnly}
+                      onChange={onChange}
+                    />
+                  </div>
                 ))}
-            </section>
+            </BmFormSection>
           );
         })}
 
@@ -380,7 +398,7 @@ function FieldControl({
   error?: string;
 }) {
   const common =
-    "min-h-10 w-full rounded-lg border border-slate-300 bg-white px-3 text-[15px] text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50 disabled:text-slate-500 sm:min-h-11";
+    "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500";
   const inputId = `contract-field-${field.id}`;
   const errorId = `${inputId}-error`;
   const labelText = fieldOverride?.label ?? field.label;
@@ -414,17 +432,17 @@ function FieldControl({
   return (
     <div
       className={[
-        "rounded-xl border p-3 transition",
+        "flex flex-col gap-1.5 transition",
         fieldSpanClass(field.width),
         selected
-          ? "border-blue-500 bg-blue-50/50 ring-2 ring-blue-100"
-          : "border-transparent hover:border-slate-200",
+          ? "rounded-xl bg-slate-50 p-3 ring-2 ring-slate-200"
+          : "rounded-xl p-1",
       ].join(" ")}
       onClick={onSelect}
     >
       <label
         htmlFor={inputId}
-        className="mb-1.5 block text-sm font-bold text-slate-700"
+        className="block text-xs font-semibold uppercase tracking-wide text-slate-700"
       >
         {labelText}
         {field.required ? <span className="ml-1 text-rose-600">*</span> : null}
@@ -550,6 +568,151 @@ function FieldControl({
  * but for `date-parts` / `year-or-date` the visible key is the
  * synthetic "display" key, not the derived target.
  */
+/**
+ * Smart time-field control with a local edit buffer.
+ *
+ * Why this exists
+ * ---------------
+ * The previous implementation mounted a fully controlled native
+ * `<input type="time">`. The browser is the source of truth for the
+ * visible value: every keystroke calls `onChange`, but only valid
+ * `HH:mm` strings survive the browser's normalisation. A user typing
+ * "0", "9", "0", "0" sees each keystroke briefly because the
+ * intermediate values are syntactically invalid `HH:mm` strings, and
+ * the smart control renders `--:00` / `--:--` style artefacts during
+ * the gaps.
+ *
+ * The fix is a controlled `<input type="text">` driven by an edit
+ * buffer. The buffer:
+ *   1. Normalises partial input so digits survive every keystroke.
+ *   2. Commits the canonical `HH:mm` on blur (only valid values reach
+ *      form state; partial or garbage entries clear the field).
+ *   3. Re-syncs from the canonical `value` ONLY when the canonical
+ *      stored value actually changes (demo button, draft hydration,
+ *      external R2 update). This keeps the user’s in-progress edit
+ *      intact while still letting legitimate external updates
+ *      propagate. The two-up comparison prevents stale derived
+ *      writes from overwriting active input.
+ *
+ * The visible legal text such as `09 giờ 00 phút` is produced by the
+ * BM-001 summary / render layer from the stored canonical `HH:mm`.
+ * It must never appear in the editable value.
+ */
+function TimeSmartControl({
+  field,
+  smart,
+  fieldOverride,
+  canonicalValue,
+  disabled,
+  inputId,
+  error,
+  descriptionId,
+  describedBy,
+  placeholder,
+  onChange,
+}: {
+  field: FieldDefinition;
+  smart: SmartField;
+  fieldOverride?: RuntimeUxProfile["fields"][string];
+  canonicalValue: unknown;
+  disabled: boolean;
+  inputId: string;
+  error?: string;
+  descriptionId?: string;
+  describedBy?: string;
+  placeholder: string;
+  onChange: (value: unknown) => void;
+}) {
+  const expectedCanonical =
+    typeof canonicalValue === "string" ? canonicalValue : "";
+  // The edit buffer keeps partial keyboard state alive without
+  // committing to the parent until blur. Normalisation strips
+  // non-digit chars and inserts the colon once four digits are typed.
+  const [buffer, setBuffer] = useState<string>(() =>
+    normalizeTimeEditBuffer(expectedCanonical),
+  );
+  // Track the last canonical value we observed so we only resync when
+  // the source of truth genuinely changes (not on every render).
+  const lastCanonicalRef = useRef<string>(expectedCanonical);
+
+  useEffect(() => {
+    if (expectedCanonical === lastCanonicalRef.current) return;
+    lastCanonicalRef.current = expectedCanonical;
+    setBuffer(normalizeTimeEditBuffer(expectedCanonical));
+  }, [expectedCanonical]);
+
+  const common =
+    "h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500";
+  const labelText = fieldOverride?.label ?? field.label;
+  const descriptionText =
+    fieldOverride?.helpText ?? field.description ?? "";
+
+  const commitCanonical = (next: string) => {
+    const canonical = canonicalizeTimeValue(next);
+    lastCanonicalRef.current = canonical;
+    if (canonical.length === 0 && next.trim().length > 0) {
+      setBuffer("");
+      return;
+    }
+    if (canonical === expectedCanonical) return;
+    onChange(canonical);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const next = normalizeTimeEditBuffer(event.target.value);
+    setBuffer(next);
+    // Live-commit valid canonical values so a fast typist does not
+    // need to wait for blur to see their value persist on rerender.
+    const canonical = canonicalizeTimeValue(next);
+    if (canonical.length > 0 && canonical !== expectedCanonical) {
+      lastCanonicalRef.current = canonical;
+      onChange(canonical);
+    }
+  };
+
+  const handleBlur = () => {
+    commitCanonical(buffer);
+  };
+
+  return (
+    <div
+      className="flex flex-col gap-1.5"
+      data-testid={`smart-time-field-${field.id}`}
+    >
+      <label
+        htmlFor={inputId}
+        className="block text-xs font-semibold uppercase tracking-wide text-slate-700"
+      >
+        {labelText}
+        {field.required ? <span className="ml-1 text-rose-600">*</span> : null}
+      </label>
+      <input
+        id={inputId}
+        aria-invalid={Boolean(error)}
+        aria-describedby={describedBy}
+        className={`${common} ${error ? "border-rose-500" : ""}`}
+        type="text"
+        inputMode="numeric"
+        autoComplete="off"
+        maxLength={5}
+        disabled={disabled}
+        placeholder={placeholder}
+        value={buffer}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      {descriptionText && field.control !== "CHECKBOX" ? (
+        <p
+          id={descriptionId}
+          className="mt-1.5 text-xs text-slate-500"
+        >
+          {descriptionText}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function SmartControl({
   field,
   smart,
@@ -606,28 +769,33 @@ function SmartControl({
       );
     }
     case "time": {
-      const t = typeof value === "string" ? value : "";
+      // The native HTML5 time input is fully controlled against `value`.
+      // If we commit `value` on every keystroke while the user is mid-
+      // entry, partial strings ("09", "09:0") overwrite the canonical
+      // payload and the smart control emits "--:00"-style artefacts.
+      //
+      // We instead drive a controlled `<input type="text">` with a local
+      // edit buffer. The buffer is initialised from the canonical stored
+      // value at mount time and from any later external update that
+      // genuinely differs from what the user is editing (so demo
+      // defaults and draft-restoration still rehydrate). On every
+      // keystroke, the buffer is normalised — partial digits remain
+      // visible so the user can finish typing. On blur, the canonical
+      // value is committed; partial or invalid input clears the stored
+      // payload (placeholder stays visual-only).
       return (
-        <input
-          id={inputId}
-          aria-invalid={Boolean(error)}
-          aria-describedby={describedBy}
-          className={`${common} ${error ? "border-rose-500" : ""}`}
-          type="time"
-          value={t}
+        <TimeSmartControl
+          field={field}
+          smart={smart}
+          fieldOverride={fieldOverride}
+          canonicalValue={value}
           disabled={disabled}
-          onChange={(event) => {
-            // BM-001 stores reception.*TimeText as "08 giờ 00 phút";
-            // the contract expects that exact Vietnamese phrasing on
-            // render. The smart control writes HH:mm to the visible
-            // key; the locked contract render still sees the original
-            // string. To stay backward-compatible we format the HH:mm
-            // into the Vietnamese phrase before writing.
-            const v = event.target.value;
-            if (!v) return onChange("");
-            const [hh, mm] = v.split(":");
-            onChange(`${hh} giờ ${mm} phút`);
-          }}
+          inputId={inputId}
+          error={error}
+          descriptionId={descriptionId}
+          describedBy={describedBy}
+          placeholder={placeholderText ?? "HH:mm"}
+          onChange={onChange}
         />
       );
     }
@@ -830,13 +998,16 @@ function RepeaterControl({
   // Repeater internal fields explicitly opt out of smart metadata
   // (smart={null} is passed to nested FieldControl). The filter here
   // is defensive — if a smart control ever leaks in, hide its derived
-  // targets the same way the parent grid does.
+  // targets the same way the parent grid does. A smart field's own
+  // key is excluded so the smart control itself still renders.
   const hiddenBySmart = useMemo(() => {
     const set = new Set<string>();
     if (!smartByKey) return set;
     for (const entry of smartByKey.values()) {
       if (!entry.derivedTargets) continue;
-      for (const target of entry.derivedTargets) set.add(target);
+      for (const target of entry.derivedTargets) {
+        if (target !== entry.key) set.add(target);
+      }
     }
     return set;
   }, [smartByKey]);

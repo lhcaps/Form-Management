@@ -219,12 +219,12 @@ const BM040_FIELDS = {
 const BM040_DEMO_RUNTIME_UX = {
   "agency.parentName": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ ĐÀ NẴNG",
   "agency.name": "VIỆN KIỂM SÁT NHÂN DÂN QUẬN THANH KHÊ",
-  "document.documentCodeLine": "58/QĐ-VKSTK",
+  "document.documentCodeLine": "Số 21/QĐ-VKSKV7",
   "document.issuePlaceAndDateLine": "Đà Nẵng, ngày 04 tháng 7 năm 2026",
   "agency.bodyName":
     "Viện Kiểm sát nhân dân Quận Thanh Khê — Thành phố Đà Nẵng",
   "legalBasis.baseProcedureLine":
-    "Căn cứ Điều 109, Điều 115 Bộ luật Tố tụng hình sự năm 2015;",
+    "Căn cứ các điều 41, 113 và 119 của Bộ luật Tố tụng hình sự 2015;",
   "legalBasis.juvenileLegalBasisLine":
     "Căn cứ Điều 18 Luật Xử lý vi phạm hành chính năm 2012;",
   "caseDecision.legalBasisLine":
@@ -232,11 +232,11 @@ const BM040_DEMO_RUNTIME_UX = {
   "accusedDecision.legalBasisLine":
     "Căn cứ Quyết định khởi tố bị can số 34/QĐ-PC04 ngày 11/3/2026;",
   "legalBasis.requestApprovalLine":
-    "Căn cứ Đơn đề nghị phê chuẩn Lệnh tạm giam số 41/TTr-PC04 ngày 12/3/2026 của Cơ quan Cảnh sát điều tra Công an Quận Thanh Khê;",
+    "Căn cứ Điều 119 Bộ luật Tố tụng hình sự 2015;",
   "measure.reasonLine":
-    "Xét thấy hành vi phạm tội của bị can có căn cứ rõ ràng, có dấu hiệu bỏ trốn, cản trở việc điều tra, cần thiết phải áp dụng biện pháp tạm giam;",
+    "Để bảo đảm cho việc điều tra, truy tố, xét xử vụ án và thi hành án theo quy định pháp luật.",
   "measure.article1Line":
-    "Phê chuẩn Lệnh tạm giam số 25/TTG-PC04 ngày 12/3/2026 của Cơ quan Cảnh sát điều tra Công an Quận Thanh Khê đối với bị can Ngô Văn Hải;",
+    "Áp dụng biện pháp ngăn chặn cấm đi khỏi nơi cư trú đối với bị can Nguyễn Văn A theo quy định tại Điều 122 BLTTHS 2015.",
   "measure.detentionDurationLine":
     "Thời hạn tạm giam: 04 tháng, kể từ ngày bắt.",
   "measure.article2Line":

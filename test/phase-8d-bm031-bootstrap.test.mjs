@@ -225,7 +225,19 @@ test('generated BM-031 SQL decodes byte-identically and appears once in order', 
   );
 });
 
-test('official apply has an installed schema probe and cwd-correct Prisma schema path', () => {
+test('official apply has an installed schema probe and cwd-correct Prisma CLI path', () => {
+  // Phase 15B.1 / Prisma 7 note: Prisma v7 removed `--schema` from
+  // `db execute`; the schema authority is `apps/api/prisma.config.ts`
+  // (resolved by the Prisma CLI from the API workspace cwd). The
+  // official apply script now spawns `prisma db execute --stdin`
+  // from inside `apps/api`, NOT `prisma db execute --schema=...`.
+  // See `scripts/audit/build-phase-8c-bootstrap-sql.mjs` for the
+  // exact invocation. This test guards the related invariants:
+  // (1) the generator does NOT use the legacy mysql2/promise
+  // direct-connection driver; (2) the generator resolves the API
+  // workspace via REPO_ROOT; (3) the generator loads the API's
+  // package.json via createRequire; (4) the Prisma CLI is invoked
+  // from the API workspace cwd; (5) no runtime BM-031 condition.
   const source = readFileSync(GENERATOR, 'utf8');
   assert.doesNotMatch(source, /mysql2\/promise/u);
   assert.match(source, /const API_ROOT = join\(REPO_ROOT, 'apps', 'api'\);/u);
@@ -233,10 +245,7 @@ test('official apply has an installed schema probe and cwd-correct Prisma schema
     source,
     /createRequire\(join\(API_ROOT, 'package\.json'\)\)/u,
   );
-  assert.match(
-    source,
-    /'--schema',\s*'prisma\/schema\.prisma'/su,
-  );
+  assert.match(source, /cwd:\s*API_ROOT/u);
   assert.doesNotMatch(source, /if\s*\([^\n]*BM-031|BM-031[^\n]*\?/u);
 });
 

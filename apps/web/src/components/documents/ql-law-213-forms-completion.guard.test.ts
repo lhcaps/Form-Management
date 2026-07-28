@@ -173,8 +173,7 @@ const GENERIC_CODES: ReadonlySet<string> = new Set(
 const PANEL_FILES = listAllBmPanelFiles();
 const PANEL_CODES = PANEL_FILES.map(panelFileToCode);
 
-const WORKSPACE_REFERENCES_BM172 =
-  /bm-172-form-inputs|Bm172FormInputs|_Bm172FormInputsPanelAdapter/.test(WORKSPACE_SRC);
+const BM172_PANEL_SRC = readPanelSource("bm-172-form-inputs.tsx");
 
 // The runtime preview unsafe path = template-preview-workspace + template-runtime-adapter + runtime-preview-payload.
 const RUNTIME_PREVIEW_PATHS = [
@@ -187,10 +186,9 @@ const RUNTIME_PREVIEW_HAS_BM_IMPORT = RUNTIME_PREVIEW_PATHS.some((src) =>
 );
 
 function codesCoveredBySourceOfTruth(): string[] {
-  // Source-of-truth = registry OR BM-172 adapter OR panel file.
+  // Source-of-truth = generated registry plus the panel files it is generated from.
   const covered = new Set<string>();
   for (const code of REGISTRY_CODES) covered.add(code);
-  if (WORKSPACE_REFERENCES_BM172) covered.add("BM-172");
   for (const code of PANEL_CODES) covered.add(code);
   return [...covered].sort();
 }
@@ -215,24 +213,18 @@ describe("213 QLLAW forms completion guard", () => {
   });
 
   it("2. no form is silently missing from the generated workspace", () => {
-    // Registry + BM-172 adapter must cover all 213 codes.
+    // The generated registry itself must cover every panel.
     const reachable = new Set<string>(REGISTRY_CODES);
-    if (WORKSPACE_REFERENCES_BM172) reachable.add("BM-172");
-    assert.ok(
-      WORKSPACE_REFERENCES_BM172,
-      "generated-document-workspace.tsx must reference the BM-172 adapter",
-    );
     for (const code of SOURCE_OF_TRUTH_CODES) {
       assert.ok(
         reachable.has(code),
-        `${code} is not reachable from generated-document-workspace (registry + BM-172 adapter)`,
+          `${code} is not reachable from generated-document-workspace registry`,
       );
     }
   });
 
   it("3. every form with a BM-specific panel is identified by the panel selector", () => {
-    // The workspace extends the registry with the BM-172 alias and looks up
-    // the panel via BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel.
+    // The workspace reads every standard panel from the generated registry.
     assert.ok(
       /BM_PANEL_BY_CODE\[/.test(WORKSPACE_SRC),
       "generated-document-workspace.tsx must perform BM_PANEL_BY_CODE[templateCode] lookup",
@@ -430,25 +422,21 @@ describe("213 QLLAW forms completion guard", () => {
 
   // Informational sub-cases — not strict assertions but provide a single
   // running summary the executor can paste into the report.
-  it("12. the BM-172 workspace adapter persists before reporting save success", () => {
-    const adapter = WORKSPACE_SRC.match(
-      /function _Bm172FormInputsPanelAdapter[\s\S]*?const _registryWith172/,
-    )?.[0];
-    assert.ok(adapter, "BM-172 workspace adapter must exist");
+  it("12. the BM-172 registry panel persists before reporting save success", () => {
     assert.match(
-      adapter,
-      /onSave=\{async \(payload\) =>[\s\S]*?saveDocumentFormInputs\(documentId,/,
-      "BM-172 adapter must use the provided documentId to persist the payload",
+      BM172_PANEL_SRC,
+      /function Bm172FormInputsPanel[\s\S]*?saveDocumentFormInputs\(documentId,/,
+      "BM-172 panel must use the provided documentId to persist the payload",
     );
     assert.match(
-      adapter,
+      BM172_PANEL_SRC,
       /await onSaved\?\.\(\)/,
-      "BM-172 adapter must refresh the workspace after persistence",
+      "BM-172 panel must refresh the workspace after persistence",
     );
     assert.doesNotMatch(
-      adapter,
+      BM172_PANEL_SRC,
       /onSave=\{\(\) => \{\}\}/,
-      "BM-172 adapter must not report a no-op save as successful",
+      "BM-172 panel must not report a no-op save as successful",
     );
   });
 

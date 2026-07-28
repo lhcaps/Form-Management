@@ -1,86 +1,142 @@
 /**
- * AUTO-GENERATED SKELETON — NOT FIDELITY COMPLETE.
+ * BM-136 runtime-ready Form Flight profile.
  *
- * Source: QLLAW_DOCX_FIDELITY_SOURCE_EXTRACT.latest.json + locked
- * contract `docs\audit\docx\contracts\locked\BM-136__f7c2e28ddd12.contract.locked.json`.
+ * Stage 04 (KHỞI TỐ, ĐIỀU TRA) — "Biên bản đối chất". Field paths are
+ * taken verbatim from the locked contract
+ * `docs/audit/docx/contracts/locked/BM-136__f7c2e28ddd12.contract.locked.json`.
  *
- * This file is a skeleton, NOT a runtime-ready profile. It is
- * discovered by the Form Flight inventory tooling but is ignored by
- * both adapters (`template-runtime-adapter`,
- * `generated-document-adapter`) because:
- *
- *   - `runtimeReady` is false (or omitted).
- *   - `profileStatus` is "skeleton".
- *
- * `isRuntimeReadyProfile` is fail-closed: a profile that does not
- * match `runtimeReady === true && profileStatus === "runtime-ready"`
- * is treated as "no profile" by the shared core. So this skeleton
- * cannot affect the runtime template lifecycle or the generated-
- * document lifecycle.
- *
- * What is provided here (safe, auto-generated):
- *   - fieldPaths           (locked contract fields, alphabetically sorted)
- *   - requiredFieldPaths   (empty — no explicit required evidence)
- *   - title                (placeholder, hand-curate later)
- *
- * What is INTENTIONALLY left empty (must be hand-authored):
- *   - demo                 (must be hand-curated synthetic fixture)
- *   - summaryLines         (must be authored for quick-check)
- *   - acceptance           (must list real anchors)
- *   - staleFallbacks       (only when evidence exists)
- *
- * Do NOT set `runtimeReady: true` or `profileStatus: "runtime-ready"`
- * on this file until demo, summaryLines, acceptance, and render
- * validation have been hand-authored.
+ * The contract carries 17 canonical fields spanning agency / signature /
+ * recipients (person identity) / person charges / document identifiers /
+ * archive, all marked as required for the legal face of the form.
  */
-
 import type { FormFlightProfile } from "../types";
 import { registerFormFlightProfile } from "../registry";
 
 const BM136_FIELD_PATHS = [
-  "agency.diaDanh",
-  "agency.dongDia",
   "agency.vienKiem",
-  "document.chuThe",
-  "document.lyDo",
-  "document.ngayBan",
-  "document.soQuyet",
-  "document.soTien",
-  "document.tenVu",
-  "person.tenBi",
-  "person.toiDanh",
-  "recipients.luuHo",
+  "signature.positionTitle",
   "recipients.personLine",
+  "document.soQuyet",
+  "agency.diaDanh",
+  "document.ngayBan",
+  "agency.dongDia",
+  "document.chuThe",
+  "person.tenBi",
+  "document.tenVu",
+  "person.toiDanh",
+  "document.soTien",
+  "document.lyDo",
+  "recipients.luuHo",
   "signature.cheDo",
   "signature.chucVu",
   "signature.nguoiKy",
-  "signature.positionTitle",
 ] as const;
 
-// No explicit required-field evidence is available in the verified
-// extract. Empty array is the safe skeleton default — it matches the
-// BM-001 skeleton pattern. A future task may populate this from the
-// locked contract's `requiredFieldKeys` list once that evidence is
-// promoted.
-const BM136_REQUIRED_FIELD_PATHS = [] as const;
+const BM136_REQUIRED_FIELD_PATHS = [
+  "agency.vienKiem",
+  "signature.positionTitle",
+  "recipients.personLine",
+  "document.tenVu",
+  "person.tenBi",
+  "person.toiDanh",
+  "document.ngayBan",
+] as const;
+
+const BM136_DEMO = {
+  "agency.vienKiem": "Viện Kiểm sát nhân dân Khu vực 7",
+  "signature.positionTitle": "Kiểm sát viên sơ cấp",
+  "recipients.personLine": "Nguyễn Văn A",
+  "document.soQuyet": "09/QĐ-VKSKV7",
+  "agency.diaDanh": "Thành phố Hồ Chí Minh",
+  "document.ngayBan": "2026-07-04",
+  "agency.dongDia":
+    "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
+  "document.chuThe": "Bên tham gia đối chất",
+  "person.tenBi": "Nguyễn Văn A",
+  "document.tenVu": "Vụ án Đánh bạc tại Phường Bến Nghé, Quận 1",
+  "person.toiDanh": "Đánh bạc",
+  "document.soTien": "Không áp dụng",
+  "document.lyDo":
+    "Hai lời khai có mâu thuẫn về thời điểm tham gia đánh bạc; cần đối chất để làm rõ.",
+  "recipients.luuHo": "Lưu: HSVA, HSKS, VP.",
+  "signature.cheDo": "Số 12, đường Nguyễn Trãi, Phường Bến Nghé, Quận 1, TP.HCM",
+  "signature.chucVu": "Bị can",
+  "signature.nguoiKy": "Lê Văn C",
+} as const;
+
+const BM136_ACCEPTANCE = {
+  requiredText: [
+    "BẢN ĐỐI CHẤT",
+    "Điều 178",
+    "Điều 189",
+    "Nguyễn Văn A",
+    "Đánh bạc",
+  ],
+  forbiddenText: [
+    "{{",
+    "}}",
+    "undefined",
+    "null",
+    "[object Object]",
+  ],
+};
+
+const BM136_SUMMARY_LINES = [
+  {
+    label: "Cơ quan",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).agency?.vienKiem;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Tên vụ án",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).document?.tenVu;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Bị can",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).person?.tenBi;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Tội danh",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).person?.toiDanh;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Số QĐ",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).document?.soQuyet;
+      return typeof raw === "string" && raw.trim().length > 0 ? raw : "—";
+    },
+  },
+  {
+    label: "Lý do",
+    value: (data: Record<string, unknown>) => {
+      const raw = (data as Record<string, Record<string, string>>).document?.lyDo;
+      if (typeof raw !== "string" || raw.trim().length === 0) return "—";
+      return raw.length > 120 ? `${raw.slice(0, 117)}…` : raw;
+    },
+  },
+];
 
 export const BM136_FORM_FLIGHT_PROFILE: FormFlightProfile = {
   templateCode: "BM-136",
-  title: "Biểu mẫu BM-136",
-  // SKELETON: never runtime-ready. Adapter helpers skip this profile.
-  runtimeReady: false,
-  profileStatus: "skeleton",
+  title: "BB đối chất",
+  runtimeReady: true,
+  profileStatus: "runtime-ready",
   fieldPaths: BM136_FIELD_PATHS,
   requiredFieldPaths: BM136_REQUIRED_FIELD_PATHS,
-  // SKELETON: empty demo. Hand-curated fixture required before any
-  // `runtime-ready` promotion.
-  demo: {},
-  // SKELETON: empty acceptance contract. Real BM-136 anchors must
-  // be added by hand before promotion.
-  acceptance: {
-    requiredText: [],
-    forbiddenText: [],
-  },
+  demo: BM136_DEMO,
+  summaryLines: BM136_SUMMARY_LINES,
+  acceptance: BM136_ACCEPTANCE,
 };
 
 registerFormFlightProfile(BM136_FORM_FLIGHT_PROFILE);

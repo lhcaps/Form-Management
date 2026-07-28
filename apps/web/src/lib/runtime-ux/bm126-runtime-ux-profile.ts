@@ -1,10 +1,24 @@
 /**
- * BM-126 runtime-ux batch 6 curated source-render profile.
+ * BM-126 runtime-ux curated profile.
  *
- * Curated source/render upgrade of the conservative auto-generated
- * BM-126 profile. Groups the 11 fields into 4 legal-document
- * sections. No DOCX/contract/DB mutation; no smart controls;
- * no legacy stale demo tokens.
+ * CURATION (batch next): QĐ trưng cầu giám định. Viện trưởng VKS
+ * ban hành quyết định trưng cầu giám định trong giai đoạn điều tra,
+ * căn cứ Điều 41, 165, 205–214 BLTTHS.
+ *
+ * Workflow: VKS header + decision number + locality/date + legal-basis
+ * + 6 substantive slots (summary line / case / accused / offence /
+ * appraisal organization / proposing participant).
+ *
+ *   - compiled contract: docs/audit/docx/compiled-v2/BM-126.compiled.json
+ *   - DOCX extract:    docs/audit/docx/extracted/BM-126__2d8c3d38368b.extract.md
+ *
+ * Boundaries honoured:
+ *   - No mutation of the locked contract, the normalized DOCX, or
+ *     the compiled contract.
+ *   - No DB row creation, no generatedDocumentId fabrication.
+ *   - No call to the generated-document save endpoint.
+ *   - No smart controls emitted.
+ *   - No legacy stale tokens in demo.
  */
 
 import {
@@ -15,66 +29,56 @@ import {
 const BM126_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
-    title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-can-cu-phap-ly",
-    title: "Căn cứ pháp lý",
-  },
-  {
-    sectionId: "section-doi-tuong-va-vu-an",
-    title: "Đối tượng và vụ án",
-  },
-  {
-    sectionId: "section-dong-ngay",
-    title: "Dòng ngày tháng",
+    title: "Thông tin quyết định trưng cầu giám định",
+    description:
+      "Thông tin quyết định trưng cầu giám định của Viện trưởng Viện kiểm sát trong giai đoạn điều tra, căn cứ Điều 41, 165, 205–214 BLTTHS.",
   },
 ] as const;
 
 const BM126_FIELDS = {
   "agency.vienKiem": {
-    label: "Tên cơ quan",
-    placeholder: "Tên cơ quan (mẫu BM-126)",
+    label: "Viện kiểm sát ban hành quyết định",
+    placeholder: "Viện kiểm sát nhân dân...",
   },
   "document.soQuyet": {
-    label: "Số quyết định",
-    placeholder: "Số quyết định (mẫu BM-126)",
+    label: "Số quyết định trưng cầu giám định",
+    placeholder: "Số quyết định (ví dụ: 26/QĐ-VKS)",
   },
   "agency.diaDanh": {
     label: "Địa danh",
-    placeholder: "Địa danh (mẫu BM-126)",
+    placeholder: "Tỉnh/Thành phố nơi đặt trụ sở VKS ban hành",
   },
   "document.ngayBan": {
     label: "Ngày ban hành",
-    placeholder: "Ngày ban hành (mẫu BM-126)",
+    placeholder: "Ngày, tháng, năm ban hành",
   },
   "decision.summaryLine": {
-    label: "Tóm tắt hồ sơ",
-    placeholder: "Tóm tắt hồ sơ (mẫu BM-126)",
+    label: "Tóm tắt nội dung sự việc",
+    placeholder: "Tóm tắt, diễn biến sự việc liên quan đến việc giám định",
   },
   "agency.dongDia": {
     label: "Dòng địa danh",
-    placeholder: "Dòng địa danh (mẫu BM-126)",
+    placeholder: "Dòng địa danh đầy đủ của Viện kiểm sát ban hành",
   },
   "document.chuThe": {
-    label: "Chủ thể liên quan",
-    placeholder: "Chủ thể liên quan (mẫu BM-126)",
+    label: "Tên tổ chức/cá nhân được trưng cầu giám định",
+    placeholder: "Tên tổ chức, họ tên cá nhân được trưng cầu giám định",
   },
   "legalBasis.canCu": {
     label: "Căn cứ pháp lý",
-    placeholder: "Căn cứ pháp lý (mẫu BM-126)",
+    placeholder: "Căn cứ các điều 41, 165/236, 205–214 Bộ luật Tố tụng hình sự",
   },
   "person.tenNguoi": {
-    label: "Tên người liên quan",
-    placeholder: "Tên người liên quan (mẫu BM-126)",
+    label: "Tên người hoặc pháp nhân bị khởi tố",
+    placeholder: "Họ tên người hoặc tên pháp nhân bị khởi tố",
   },
   "document.tenVu": {
-    label: "Tên vụ án / vụ việc",
-    placeholder: "Tên vụ án / vụ việc (mẫu BM-126)",
+    label: "Tên vụ án",
+    placeholder: "Tên vụ án hình sự",
   },
   "person.toiDanh": {
     label: "Tội danh",
-    placeholder: "Tội danh (mẫu BM-126)",
+    placeholder: "Điều luật — khoản — Điều của Bộ luật Hình sự",
   },
 } as const;
 
@@ -84,22 +88,43 @@ const BM126_DEMO_RUNTIME_UX = {
   "agency.diaDanh": "Thành phố Hồ Chí Minh",
   "document.ngayBan": "15/07/2026",
   "decision.summaryLine":
-    "Quyết định phê chuẩn lệnh khám xét đối với nơi ở của bị can Lê Minh K",
+    "Tóm tắt nội dung sự việc liên quan đến việc giám định tài sản phạm tội",
   "agency.dongDia": "Thành phố Hồ Chí Minh, ngày 15 tháng 7 năm 2026",
-  "document.chuThe": "Bị can Lê Minh K",
+  "document.chuThe": "Công ty giám định X",
   "legalBasis.canCu":
-    "Căn cứ các điều 192, 193 và 213 Bộ luật Tố tụng hình sự 2015",
+    "Căn cứ các điều 41, 165, 205, 206, 208, 209, 213 và 214 Bộ luật Tố tụng hình sự",
   "person.tenNguoi": "Lê Minh K",
-  "document.tenVu": "Vụ án hình sự Lê Minh K về tội Lừa đảo chiếm đoạt tài sản",
-  "person.toiDanh": "Điều 174 Bộ luật Hình sự 2015 - Lừa đảo chiếm đoạt tài sản",
+  "document.tenVu": "Vụ án hình sự Lê Minh K",
+  "person.toiDanh": "Điều 174 Bộ luật Hình sự 2015",
 } as const;
 
 const BM126_RUNTIME_UX_PROFILE: RuntimeUxProfile = {
   templateCode: "BM-126",
-  versionLabel: `BM-126 runtime-ux batch 6 curated source-render profile`,
+  versionLabel: `BM-126 QĐ trưng cầu giám định`,
   sections: BM126_SECTIONS,
   fields: BM126_FIELDS,
   demo: BM126_DEMO_RUNTIME_UX,
+  presentationSections: [
+    {
+      id: "section-thong-tin-bieu-mau",
+      title: "Thông tin quyết định trưng cầu giám định",
+      description:
+        "Thông tin quyết định trưng cầu giám định của Viện trưởng Viện kiểm sát trong giai đoạn điều tra, căn cứ Điều 41, 165, 205–214 BLTTHS.",
+      fieldKeys: [
+        "agency.vienKiem",
+        "document.soQuyet",
+        "agency.diaDanh",
+        "document.ngayBan",
+        "agency.dongDia",
+        "legalBasis.canCu",
+        "decision.summaryLine",
+        "document.tenVu",
+        "person.tenNguoi",
+        "person.toiDanh",
+        "document.chuThe",
+      ],
+    },
+  ],
 };
 
 registerRuntimeUxProfile(BM126_RUNTIME_UX_PROFILE);

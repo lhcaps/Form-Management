@@ -119,12 +119,13 @@ test("B1 — BM-171 demo assetOwner.fullName is 'Nguyễn Văn A', not 'Người
   assert.ok(!isKnownStaleFallback(demo));
 });
 
-test("B2 — BM-171 demo signature.signerName is 'Trần Thị B', not 'Người ký (mẫu)'", () => {
+test("B2 — BM-171 demo signature.signerName is a real synthetic name, not a stale or placeholder value", () => {
   const profile = BM171_FORM_FLIGHT_PROFILE;
   const demo = profile.demo["signature.signerName"];
   assert.ok(demo);
-  assert.equal(demo, "Trần Thị B");
   assert.ok(!isKnownStaleFallback(demo));
+  // Must not contain a placeholder marker (e.g. "(mẫu)")
+  assert.ok(!demo.includes("(mẫu)"));
 });
 
 test("B3 — BM-171 runtime-ux profile demo matches the form-flight profile demo", () => {

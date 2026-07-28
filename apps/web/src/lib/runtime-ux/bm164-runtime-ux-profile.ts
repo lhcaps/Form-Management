@@ -29,10 +29,7 @@ const BM164_SECTIONS = [
   {
     sectionId: "section-thong-tin-bieu-mau",
     title: "Thông tin biểu mẫu",
-  },
-  {
-    sectionId: "section-co-quan-va-nguoi-giao-nhan",
-    title: "Cơ quan và người giao nhận",
+    description: "Biên bản giao nhận Cáo trạng/Quyết định truy tố/Quyết định tạm đình chỉ/Quyết định đình chỉ vụ án",
   },
 ] as const;
 

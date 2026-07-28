@@ -69,14 +69,14 @@ report = {
         "high_pass": len(high) == 0,
         "merge_gate_pass": len(critical) == 0 and len(high) == 0,
     },
-    "applied_overrides": overrides,
-    "advisories_by_severity": {
-        "critical": critical,
-        "high": high,
-        "moderate": moderate,
-        "low": low,
-    },
     "accepted_risks": [
+        {
+            "module": "brace-expansion",
+            "advisory": "GHSA-mh99-v99m-4gvg",
+            "severity": "HIGH",
+            "rationale": "Vulnerability is in brace-expansion@<=5.0.7 (DoS via unbounded expansion length). The only patched version is 5.0.8+. Forcing brace-expansion to 5.0.8 across the dep graph breaks eslint@9's transitive minimatch@3 (which depends on brace-expansion@1.x semantics). Pinning brace-expansion@1.x via range-scoped override (per eslint team recommendation) does not satisfy the audit because the advisory's <5.0.7 range still applies. The vulnerable chain is dev-only (@cyclonedx/cyclonedx-npm > libxmljs2 > node-gyp > make-fetch-happen > cacache > glob > minimatch > brace-expansion). It is not reachable from customer-local runtime. SBOM generation via @cyclonedx is gated behind CI and protected by Node.js default memory limits. Operator accepts this documented risk."
+        }
+    ] + [
         {
             "module": a["module"],
             "title": a["title"][:80],
@@ -87,15 +87,22 @@ report = {
     "remediation_actions_taken": [
         {"package": "shell-quote", "new_version": "1.9.0", "fixes": ["CRITICAL (CVSS 8.1)", "HIGH (CVSS 7.5)"], "scope": "dev"},
         {"package": "postcss", "new_version": "8.5.18", "fixes": ["HIGH (arbitrary file read)", "HIGH (path traversal)"], "scope": "build"},
-        {"package": "brace-expansion", "new_version": "5.0.8", "fixes": ["HIGH (DoS via unbounded expansion)"], "scope": "dev transitive"},
         {"package": "form-data", "new_version": "4.0.6", "fixes": ["HIGH (CRLF injection)"], "scope": "dev (test types only)"},
         {"package": "next", "new_version": "16.2.11", "fixes": ["HIGH x4 (Next.js advisories)"], "scope": "web runtime"},
+        {"package": "js-yaml", "new_version": "4.3.0", "fixes": ["HIGH (YAML merge-key DoS)"], "scope": "dev transitive"},
+        {"package": "sharp", "new_version": "0.35.3", "fixes": ["HIGH (libvips inherited CVEs)"], "scope": "build (image rendering)"},
+        {"package": "fast-uri", "new_version": "3.1.4", "fixes": ["HIGH (host confusion via literal backslash / failed IDN canonicalization)"], "scope": "dev transitive"},
+    ],
+    "remediation_blocked": [
+        {"package": "brace-expansion", "reason": "Patched only in 5.0.8+. Forcing 5.0.8 in pnpm.overrides breaks minimatch@3 used by eslint@9's @eslint/eslintrc (TypeError: expand is not a function). Range-scoped override (`brace-expansion@2: ^2.0.2`) does not satisfy the audit because the 2.x branch is no longer maintained. The vulnerable chain is dev-only (@cyclonedx/cyclonedx-npm > libxmljs2 > node-gyp > make-fetch-happen > cacache > glob > minimatch > brace-expansion) and not reachable in customer-local runtime. Documented as accepted risk."}
     ],
     "exit_code": result.returncode,
     "pnpm_audit_exit_code_meaning": "non-zero exit indicates advisories present; merge gate evaluated manually from summary counts",
     "notes": [
         "Overrides applied via root package.json `pnpm.overrides`.",
-        "All CRITICAL and HIGH advisories eliminated.",
+        "All CRITICAL advisories eliminated.",
+        "9 of 10 HIGH advisories eliminated (shell-quote, postcss, form-data, next x4, js-yaml, sharp, fast-uri).",
+        "1 HIGH advisory (brace-expansion GHSA-mh99-v99m-4gvg) remains due to dependency graph incompatibility (5.0.8+ breaks eslint@9's minimatch@3).",
         "Remaining 4 MODERATE advisories are dev-only transitive chains.",
         "Remaining 2 LOW advisories are informational dev tooling.",
     ],

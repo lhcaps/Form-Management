@@ -23,10 +23,12 @@
  *       profile registration helper (so the generated branch of
  *       `decideFormLifecycle` resolves BM-001 + BM-171).
  *   9.  Skeleton profiles are NOT runtimeReady (re-checks the registry
- *       guard invariant for non-BM-001 / non-BM-171 codes).
- *  10.  Only BM-001 + BM-171 have runtimeReady true (re-check).
+ *       guard invariant for non-promoted codes).
+ *  10.  Exactly the 11 promoted profiles carry runtimeReady true
+ *       (re-check).
  *  11.  No skeleton is eagerly imported into template runtime as
- *       runtime-ready.
+ *       runtime-ready — must list exactly 11 side-effect imports
+ *       matching the canonical R5 promotion set.
  *  12.  BM-001 UI file does not contain the legacy stale-bug token
  *       `"Ông  cung cấp"` as a literal value (defensive: the bug
  *       is in the legacy `fillCustomerSample`, not the live UI).
@@ -42,6 +44,13 @@
  *       returns `useFormFlight=false` (no fake-id escape hatch).
  *  18.  Generated branch with id: `decideFormLifecycle("BM-001", "generated-document", {hasRealGeneratedDocumentId:true})`
  *       returns `useFormFlight=true`.
+ *  19.  BM-001 template-runtime returns form-flight-runtime panel.
+ *  20.  BM-171 template-runtime returns form-flight-runtime panel (parity with BM-001).
+ *  21.  template-runtime never reports hasRealGeneratedDocumentId=true.
+ *  22.  R5 promotion set: each newly promoted candidate declares
+ *       runtimeReady true and profileStatus "runtime-ready" and the
+ *       shared lifecycle helper imports its profile file (mirrors
+ *       the canonical bridge-eligibility policy).
  *
  * Run with:
  *   node --test apps/web/src/lib/form-flight/form-lifecycle-wiring.guard.test.mjs
@@ -63,8 +72,23 @@ const APPS_WEB_DIR = join(FORM_FLIGHT_DIR, "..", "..");
 const APPS_DIR = join(APPS_WEB_DIR, "..", "..");
 const PROFILE_DIR = join(FORM_FLIGHT_DIR, "profiles");
 
-const RUNTIME_READY_CODES = ["BM-001", "BM-171"];
-const RUNTIME_READY_FILES = new Set(["bm001.ts", "bm171.ts"]);
+// R5 promotion: two historical controls + nine newly promoted
+// candidates, in canonical sorted order matching
+// `STANDALONE_RUNTIME_TEMPLATE_CODES`.
+const RUNTIME_READY_CODES = [
+  "BM-001",
+  "BM-171",
+  "BM-136",
+  "BM-148",
+  "BM-156",
+  "BM-157",
+  "BM-168",
+  "BM-174",
+  "BM-181",
+  "BM-206",
+  "BM-213",
+];
+const RUNTIME_READY_FILES = new Set(RUNTIME_READY_CODES.map((c) => `bm${c.slice(3)}.ts`));
 
 const lifecycleTsPath = join(FORM_FLIGHT_DIR, "form-lifecycle.ts");
 const templatePreviewPath = join(
@@ -209,7 +233,7 @@ describe("Form Flight lifecycle wiring guard", () => {
     assert.equal(p.profileStatus, "runtime-ready");
   });
 
-  it("3. form-lifecycle.ts imports BM-001 + BM-171 profiles", () => {
+  it("3. form-lifecycle.ts delegates its approved list to the shared policy and imports its two baseline profiles", () => {
     const src = readFileSync(lifecycleTsPath, "utf8");
     assert.match(
       src,
@@ -223,12 +247,13 @@ describe("Form Flight lifecycle wiring guard", () => {
     );
     assert.match(
       src,
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES/,
-      "form-lifecycle.ts must declare the approved runtime-ready list",
+      /import\s+\{\s*STANDALONE_RUNTIME_TEMPLATE_CODES\s*\}\s+from\s+["']@qllaw\/form-contracts\/browser["']/,
+      "form-lifecycle.ts must import the canonical shared runtime-ready policy",
     );
-    assert.ok(
-      /["']BM-001["']/.test(src) && /["']BM-171["']/.test(src),
-      "approved runtime-ready list must contain BM-001 + BM-171",
+    assert.match(
+      src,
+      /export\s+const\s+RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*STANDALONE_RUNTIME_TEMPLATE_CODES/,
+      "form-lifecycle.ts must delegate its approved list to the shared policy rather than duplicate literals",
     );
   });
 
@@ -283,7 +308,7 @@ describe("Form Flight lifecycle wiring guard", () => {
     assert.match(
       src,
       /registerRuntimeReadyFormFlightProfiles\s*\(/,
-      "generated-document-workspace must call registerRuntimeReadyFormFlightProfiles so decideFormLifecycle sees BM-001 + BM-171",
+      "generated-document-workspace must call registerRuntimeReadyFormFlightProfiles so decideFormLifecycle sees the runtime-ready cohort",
     );
   });
 
@@ -307,7 +332,7 @@ describe("Form Flight lifecycle wiring guard", () => {
     }
   });
 
-  it("10. only BM-001 + BM-171 carry runtimeReady true", () => {
+  it("10. only the 11 promoted codes carry runtimeReady true", () => {
     const files = readdirSync(PROFILE_DIR).filter((f) =>
       /^bm\d{3}\.ts$/.test(f),
     );
@@ -315,33 +340,29 @@ describe("Form Flight lifecycle wiring guard", () => {
       .filter((f) => readProfile(f).runtimeReady)
       .map((f) => `BM-${f.match(/^bm(\d{3})\.ts$/)[1]}`);
     assert.deepEqual(
-      runtimeReady.sort(),
-      ["BM-001", "BM-171"],
-      "exactly BM-001 and BM-171 may carry runtimeReady: true",
+      [...runtimeReady].sort(),
+      [...RUNTIME_READY_CODES].sort(),
+      "exactly the 11 promoted profiles may carry runtimeReady: true",
     );
   });
 
-  it("11. no skeleton is eagerly imported into template-runtime as runtime-ready", () => {
+  it("11. form-lifecycle.ts lists exactly the 11 side-effect imports matching RUNTIME_READY_CODES", () => {
     const src = readFileSync(lifecycleTsPath, "utf8");
-    // The runtime-ready imports section must list ONLY BM-001 + BM-171.
     const importMatches = [...src.matchAll(/from\s+["']\.\/profiles\/bm(\d{3})["']/g)];
     assert.equal(
       importMatches.length,
-      2,
-      "form-lifecycle.ts must import exactly 2 runtime-ready profiles",
+      RUNTIME_READY_CODES.length,
+      `form-lifecycle.ts must import exactly ${RUNTIME_READY_CODES.length} runtime-ready profiles`,
     );
-    const nums = importMatches.map((m) => m[1]).sort();
-    assert.deepEqual(nums, ["001", "171"]);
+    const nums = importMatches
+      .map((m) => `BM-${m[1]}`)
+      .sort();
+    const expected = [...RUNTIME_READY_CODES].sort();
+    assert.deepEqual(nums, expected);
   });
 
   it("12. BM-001 UI does not bake in the legacy stale-bug token", () => {
-    // The bug token used to live in the legacy `fillCustomerSample`.
-    // The shipped UI file should not have it as a literal value.
-    // We tolerate mention inside comments; strip them first.
     const stripped = stripComments(readFileSync(bm001UiPath, "utf8"));
-    // The literal `"Ông  cung cấp"` (with the two-space legacy bug)
-    // must NOT appear in code. The forbidden-text list in the Form
-    // Flight profile is the canonical place for it.
     assert.doesNotMatch(
       stripped,
       /["']Ông  cung cấp["']/,
@@ -370,9 +391,6 @@ describe("Form Flight lifecycle wiring guard", () => {
 
   it("14. generated document lifecycle only got the registration side-effect", () => {
     const src = readFileSync(generatedWorkspacePath, "utf8");
-    // Single registration call; no other lifecycle helper wired in
-    // (the workspace continues to use BM_PANEL_BY_CODE for panel
-    // selection — that's intentional and unchanged).
     const occurrences = [
       ...src.matchAll(/registerRuntimeReadyFormFlightProfiles\s*\(/g),
     ];
@@ -381,7 +399,6 @@ describe("Form Flight lifecycle wiring guard", () => {
       1,
       "generated-document-workspace must call registerRuntimeReadyFormFlightProfiles exactly once",
     );
-    // The workspace must NOT import the template-runtime adapter.
     assert.doesNotMatch(
       src,
       /from\s+["'].*template-runtime-adapter["']/,
@@ -389,18 +406,18 @@ describe("Form Flight lifecycle wiring guard", () => {
     );
   });
 
-  it("15. production shim agrees with source-of-truth on approved codes", () => {
+  it("15. production lifecycle delegates to the source-of-truth policy", () => {
     const src = readFileSync(lifecycleTsPath, "utf8");
-    // Production helper declares the same approved list.
-    const listMatch = src.match(
-      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[([\s\S]*?)\]\s*as\s+const/,
+    assert.match(
+      src,
+      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*STANDALONE_RUNTIME_TEMPLATE_CODES/,
+      "production helper must delegate approved codes to the canonical policy",
     );
-    assert.ok(listMatch, "production helper must declare the approved list");
-    const codes = [
-      ...listMatch[1].matchAll(/["'](BM-\d{3})["']/g),
-    ].map((m) => m[1]);
-    assert.deepEqual(codes.sort(), ["BM-001", "BM-171"]);
-    // Production helper declares decideFormLifecycle.
+    assert.doesNotMatch(
+      src,
+      /RUNTIME_READY_FORM_FLIGHT_PROFILES\s*=\s*\[/,
+      "production helper must not reintroduce a second literal allowlist",
+    );
     assert.match(
       src,
       /export\s+function\s+decideFormLifecycle\s*\(/,
@@ -501,6 +518,57 @@ describe("Form Flight lifecycle wiring guard", () => {
         decision.hasRealGeneratedDocumentId,
         false,
         `${code} template-runtime must NOT report hasRealGeneratedDocumentId=true`,
+      );
+    }
+  });
+
+  // R5 promotion: each newly promoted candidate must (a) declare
+  // runtimeReady true + profileStatus "runtime-ready" in its profile
+  // file, and (b) be imported by form-lifecycle.ts so the runtime
+  // side-effect registration runs.
+  it("22. R5 promotion set is fully wired (9 newly promoted candidates)", () => {
+    const R5_NEW_CODES = [
+      "BM-136",
+      "BM-148",
+      "BM-156",
+      "BM-157",
+      "BM-168",
+      "BM-174",
+      "BM-181",
+      "BM-206",
+      "BM-213",
+    ];
+    const lifecycleSrc = readFileSync(lifecycleTsPath, "utf8");
+    // Build one master regex matching every R5 candidate import path.
+    // Group alternation works in both literal regex and dynamic RegExp
+    // without double-escaping pitfall we hit when building one RegExp
+    // per code with backslash/forward-slash mixing.
+    const allImports = [
+      ...lifecycleSrc.matchAll(
+        /from\s+["']\.\/profiles\/bm(\d{3})["']/g,
+      ),
+    ].map((m) => `BM-${m[1]}`);
+    for (const code of R5_NEW_CODES) {
+      const file = `bm${code.slice(3)}.ts`;
+      const p = readProfile(file);
+      assert.equal(
+        p.templateCode,
+        code,
+        `${file} must declare templateCode ${code}`,
+      );
+      assert.equal(
+        p.runtimeReady,
+        true,
+        `${code} profile must declare runtimeReady: true after R5 promotion`,
+      );
+      assert.equal(
+        p.profileStatus,
+        "runtime-ready",
+        `${code} profile must declare profileStatus: "runtime-ready"`,
+      );
+      assert.ok(
+        allImports.includes(code),
+        `form-lifecycle.ts must side-effect-import ${file}`,
       );
     }
   });

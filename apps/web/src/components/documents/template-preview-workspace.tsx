@@ -1,7 +1,9 @@
 "use client";
 
 import type { CompiledFormContract } from "@qllaw/form-contracts";
+import { isPersistedDraftBridgeRenderScope } from "@qllaw/form-contracts/browser";
 import Link from "next/link";
+import { createDraftFromTemplate } from "@/lib/draft-bridge-api";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ErrorBanner } from "@/components/common/error-banner";
 import { RuntimePdfPreview } from "@/components/documents/runtime-pdf-preview";
@@ -42,7 +44,8 @@ import {
 import {
   registerRuntimeReadyFormFlightProfiles,
   decideFormLifecycle,
-  isApprovedRuntimeReadyCode,
+  resolveFormAccess,
+  LOCAL_ALL_FORMS_WARNING,
 } from "@/lib/form-flight";
 import { selectRuntimeReadyTemplatePanel } from "@/lib/form-flight/runtime-ready-template-panel-contract";
 import {
@@ -72,6 +75,7 @@ type RuntimeContract = {
   contractVersion: string;
   contractHash: string;
   templateHash: string;
+  renderScope: string | null;
   compiledContract: CompiledFormContract;
 };
 
@@ -251,12 +255,28 @@ function collectMissingRequired(
   return missing;
 }
 
-export function TemplatePreviewWorkspace({ templateCode }: { templateCode: string }) {
+export function TemplatePreviewWorkspace({
+  templateCode,
+  localUnlockAllForms = false,
+  onDraftCreated,
+}: {
+  templateCode: string;
+  localUnlockAllForms?: boolean;
+  onDraftCreated?: (documentId: string | number) => void;
+}) {
   const normalizedTemplateCode = useMemo(
     () => safeTemplateCode(templateCode),
     [templateCode],
   );
   const [runtime, setRuntime] = useState<RuntimeContract | null>(null);
+  const access = useMemo(
+    () =>
+      resolveFormAccess({
+        formCode: normalizedTemplateCode,
+        localUnlockAllForms,
+      }),
+    [localUnlockAllForms, normalizedTemplateCode],
+  );
   const [data, setData] = useState<Record<string, unknown>>({});
   const [savedSnapshot, setSavedSnapshot] = useState(snapshot({}));
   const [isLoading, setIsLoading] = useState(true);
@@ -271,6 +291,9 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   const [casePickerError, setCasePickerError] = useState("");
   const [applyingCaseId, setApplyingCaseId] = useState<string | null>(null);
   const [selectedCase, setSelectedCase] = useState<CaseOption | null>(null);
+  const [selectedCaseDetail, setSelectedCaseDetail] = useState<CaseDetail | null>(null);
+  const [selectedTargetPersonId, setSelectedTargetPersonId] = useState("");
+  const [isStartingBridge, setIsStartingBridge] = useState(false);
   const [previewSession, setPreviewSession] = useState<RuntimePreviewSessionResponse | null>(null);
   const [sanitizationWarnings, setSanitizationWarnings] = useState<BuildPayloadWarning[]>([]);
   // BM-171 visual signoff: when the user edits the form after a preview
@@ -360,20 +383,23 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
   // place future BM-NNN promotions are validated against. The contract
   // is documented at
   // `docs/audit/unified-bm-workspace/RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md`.
+  const diagnosticsEnabled =
+    process.env.NEXT_PUBLIC_QLLAW_FORM_DIAGNOSTICS === "true";
   const panelKindInfo = useMemo(() => {
     const decision = decideFormLifecycle({
       lifecycle: "template-runtime",
       templateCode: normalizedTemplateCode,
+      localUnlockAllForms,
     });
     return {
       decision,
       panel: selectRuntimeReadyTemplatePanel({
         templateCode: normalizedTemplateCode,
         lifecycleDecision: decision,
-        isRuntimeReadyProfileCode: (code) => isApprovedRuntimeReadyCode(code),
+        diagnosticsEnabled,
       }),
     };
-  }, [normalizedTemplateCode]);
+  }, [diagnosticsEnabled, normalizedTemplateCode]);
   const currentSnapshot = useMemo(() => snapshot(data), [data]);
   const isDirty = !isLoading && currentSnapshot !== savedSnapshot;
   const hasVisualPreview = Boolean(previewSession?.pdfPreviewUrl);
@@ -388,6 +414,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
       ? Number(previewSession.audit.summary.warning) || 0
       : 0);
   const title = contract?.title?.trim() || normalizedTemplateCode;
+  const isLocalSkeleton = access.tier === "LOCAL_SKELETON";
   // UI truthfulness (BM171_RUNTIME_PREVIEW_PARITY_FIX):
   // never show a green "Đã tạo bản xem trước" success state when
   //   - audit.status is WARN (renderer found content warnings),
@@ -456,7 +483,14 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
    *    user sees the missing-field list and no green success state.
    */
   async function previewDocx() {
-    if (!runtime) return;
+    if (!runtime || !access.canUsePreviewSession) {
+      setMessage(
+        access.tier === "LOCAL_SKELETON"
+          ? "Chế độ local skeleton: DOCX/PDF preview đang tắt vì biểu mẫu chưa runtime-ready."
+          : "Preview không khả dụng cho biểu mẫu này.",
+      );
+      return;
+    }
     setIsExporting(true);
     setError(null);
     setMessage("");
@@ -470,6 +504,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
     const lifecycleDecision = decideFormLifecycle({
       lifecycle: "template-runtime",
       templateCode: normalizedTemplateCode,
+      localUnlockAllForms,
     });
     if (lifecycleDecision.useFormFlight === false && lifecycleDecision.profileStatus !== "missing") {
       // Skeleton / audit-only profile reached the runtime route. The
@@ -567,7 +602,14 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
    * identical — missing required blocks the download, no DOCX is produced.
    */
   async function exportDocx() {
-    if (!runtime) return;
+    if (!runtime || !access.canUseRuntimeDocx) {
+      setMessage(
+        access.tier === "LOCAL_SKELETON"
+          ? "Chế độ local skeleton: Generate DOCX đang tắt vì biểu mẫu chưa runtime-ready."
+          : "DOCX không khả dụng cho biểu mẫu này.",
+      );
+      return;
+    }
     setIsExporting(true);
     setError(null);
     setMessage("");
@@ -748,6 +790,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
       const detail = await getCaseDetail(item.id);
       applyCaseDetail(detail);
       setSelectedCase(item);
+      setSelectedCaseDetail(detail);
+      setSelectedTargetPersonId("");
       setCasePickerOpen(false);
       setCaseSearch("");
     } catch (err) {
@@ -756,6 +800,41 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
       );
     } finally {
       setApplyingCaseId(null);
+    }
+  }
+
+  // Locked contracts do not define business target semantics. The API supplies
+  // the authoritative template render scope; an unknown scope must not fall
+  // through to a case-level draft.
+  const bridgeRenderScope = runtime?.renderScope ?? null;
+  const bridgeNeedsPerson =
+    bridgeRenderScope === "PERSON_LEVEL" ||
+    bridgeRenderScope === "SELECTED_PERSONS";
+  const bridgeScopeSupported = isPersistedDraftBridgeRenderScope(bridgeRenderScope);
+
+  async function startOrContinueBridgeDraft() {
+    if (!selectedCase) {
+      setError(new Error("Chọn hồ sơ trước khi tạo bản nháp."));
+      return;
+    }
+    if (bridgeNeedsPerson && !selectedTargetPersonId) {
+      setError(new Error("Chọn người liên quan cho biểu mẫu này."));
+      return;
+    }
+
+    setIsStartingBridge(true);
+    setError(null);
+    try {
+      const draft = await createDraftFromTemplate({
+        templateCode: normalizedTemplateCode,
+        caseId: selectedCase.id,
+        ...(bridgeNeedsPerson ? { targetPersonId: selectedTargetPersonId } : {}),
+      });
+      onDraftCreated?.(draft.documentId);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Không thể tạo bản nháp."));
+    } finally {
+      setIsStartingBridge(false);
     }
   }
 
@@ -772,8 +851,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                 <span className="rounded-full bg-slate-950 px-3.5 py-1.5 text-sm font-bold text-white">
                   {normalizedTemplateCode}
                 </span>
-                <span className="rounded-full border border-cyan-200 bg-cyan-50 px-3.5 py-1.5 text-sm font-semibold text-cyan-700">
-                  Hồ sơ là tùy chọn
+                <span className={`rounded-full px-3.5 py-1.5 text-sm font-semibold ${isLocalSkeleton ? "border border-amber-300 bg-amber-50 text-amber-800" : access.tier === "RUNTIME_READY" ? "border border-emerald-200 bg-emerald-50 text-emerald-700" : "border border-slate-300 bg-slate-50 text-slate-700"}`}>
+                  {isLocalSkeleton ? "Local skeleton · Chưa runtime-ready" : access.tier === "RUNTIME_READY" ? "Runtime-ready" : "Đã đăng ký · Chưa sẵn sàng"}
                 </span>
                 {selectedCase ? (
                   <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-sm font-semibold text-emerald-700">
@@ -784,10 +863,16 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               <h1 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
                 {isLoading ? "Đang tải biểu mẫu..." : title}
               </h1>
-              <p className="mt-4 max-w-5xl text-base leading-7 text-slate-600">
-                Bạn có thể nhập dữ liệu, lưu bản nháp và tạo bản xem trước DOCX.
-                Chọn hồ sơ để lấy dữ liệu điền nhanh vào các trường còn trống.
-              </p>
+                <p className="mt-4 max-w-5xl text-base leading-7 text-slate-600">
+                  {isLocalSkeleton
+                    ? "Editor mở từ contract đã khóa để kiểm thử giao diện. DOCX, PDF và lưu dữ liệu authoritative chưa khả dụng."
+                    : "Bạn có thể nhập dữ liệu, lưu bản nháp và tạo bản xem trước DOCX. Chọn hồ sơ để lấy dữ liệu điền nhanh vào các trường còn trống."}
+                </p>
+                {isLocalSkeleton ? (
+                  <div className="mt-4 whitespace-pre-line rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">
+                    {LOCAL_ALL_FORMS_WARNING}
+                  </div>
+                ) : null}
             </div>
 
             <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
@@ -807,7 +892,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               <button
                 type="button"
                 onClick={() => saveDraft()}
-                disabled={!runtime || isSaving}
+                disabled={!runtime || isSaving || !access.canSaveLocalDraft}
+                title={isLocalSkeleton ? "Local draft only — không ghi vào persistence authoritative." : undefined}
                 className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-center text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 disabled:opacity-50"
               >
                 {isSaving ? "Đang lưu..." : "Lưu bản nháp"}
@@ -815,7 +901,7 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               <button
                 type="button"
                 onClick={() => void previewDocx()}
-                disabled={!runtime || isExporting}
+                disabled={!runtime || isExporting || !access.canUsePreviewSession}
                 className="rounded-2xl bg-blue-600 px-4 py-2 text-center text-sm font-bold text-white shadow-sm transition hover:bg-blue-700 disabled:opacity-50"
               >
                 {isExporting ? "Đang tạo..." : "Xem trước bản in"}
@@ -974,7 +1060,8 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               `RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md` for the
               classification rules.
             */}
-            <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
+            {diagnosticsEnabled ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-600">
               <span className="font-semibold uppercase tracking-wide text-slate-500">
                 Runtime-ready template panel:
               </span>{" "}
@@ -984,13 +1071,23 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
               <span className="ml-2 text-slate-500">
                 ({panelKindInfo.panel.reason})
               </span>
-            </div>
+              </div>
+            ) : null}
 
-            <ContractV2Renderer
-              contract={contract}
-              data={data}
-              uxProfile={uxProfile}
-              onChange={(next) => {
+            {panelKindInfo.panel.kind === "unavailable-template-panel" || (panelKindInfo.panel.kind === "persisted-draft-bridge-panel" && !bridgeScopeSupported) ? (
+              <section className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-950 shadow-sm">
+                {panelKindInfo.panel.kind === "persisted-draft-bridge-panel"
+                  ? `Biểu mẫu này chưa thể tạo draft bridge vì render scope ${bridgeRenderScope ?? "không xác định"} chưa được hỗ trợ.`
+                  : "Biểu mẫu này chưa sẵn sàng trên tuyến thao tác hiện tại. Vui lòng chọn biểu mẫu được hỗ trợ hoặc liên hệ quản trị viên."}
+              </section>
+            ) : null}
+
+            {panelKindInfo.panel.kind !== "unavailable-template-panel" && contract ? (
+              <ContractV2Renderer
+                contract={contract}
+                data={data}
+                uxProfile={uxProfile}
+                onChange={(next) => {
                 setData(next);
                 setMessage("");
                 setError(null);
@@ -1007,8 +1104,64 @@ export function TemplatePreviewWorkspace({ templateCode }: { templateCode: strin
                   setPreviewSession(null);
                   setPrevPreviewWasStale(true);
                 }
-              }}
-            />
+                }}
+              />
+            ) : null}
+
+            {panelKindInfo.panel.kind === "persisted-draft-bridge-panel" && bridgeScopeSupported ? (
+              <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+                <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      Văn bản chính thức
+                    </p>
+                    <h2 className="mt-1 text-xl font-bold text-slate-950">
+                      Tạo hoặc tiếp tục bản nháp
+                    </h2>
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+                      Sau khi kiểm tra thông tin biểu mẫu, mở khu vực văn bản chính thức để lưu và theo dõi xử lý.
+                    </p>
+                  </div>
+                  <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm md:min-w-[20rem]">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Hồ sơ</p>
+                    <p className="mt-1 truncate font-semibold text-slate-800">
+                      {selectedCase ? `${selectedCase.caseCode} — ${selectedCase.caseTitle}` : "Chưa chọn hồ sơ"}
+                    </p>
+                  </div>
+                </div>
+                {bridgeNeedsPerson ? (
+                  <label className="mt-5 grid max-w-xl gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-700">
+                    Người liên quan
+                    <select
+                      value={selectedTargetPersonId}
+                      onChange={(event) => setSelectedTargetPersonId(event.target.value)}
+                      className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm font-normal normal-case tracking-normal text-slate-950 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                    >
+                      <option value="">Chọn người liên quan</option>
+                      {(selectedCaseDetail?.people ?? [])
+                        .filter((person) => person.isActive && person.person)
+                        .map((person) => (
+                          <option key={person.personId} value={person.personId}>
+                            {person.person?.fullName ?? person.personId}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+                ) : null}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <Button type="button" variant="outline" onClick={() => void openCasePicker()}>
+                    Chọn hồ sơ
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => void startOrContinueBridgeDraft()}
+                    disabled={isStartingBridge || !selectedCase || (bridgeNeedsPerson && !selectedTargetPersonId)}
+                  >
+                    {isStartingBridge ? "Đang mở..." : "Bắt đầu / tiếp tục bản nháp"}
+                  </Button>
+                </div>
+              </section>
+            ) : null}
 
             {/* Non-blocking warning: stale fallback garbage was replaced by
                 the canonical demo value during sanitization. The render

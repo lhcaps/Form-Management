@@ -111,6 +111,9 @@ COPY --from=builder /app/packages/form-contracts/node_modules ./packages/form-co
 
 COPY --from=builder --chown=node:node /app/apps/api/dist ./apps/api/dist
 COPY --from=builder --chown=node:node /app/apps/api/prisma ./apps/api/prisma
+# prisma.config.ts is at the api package root (not inside prisma/), so it needs
+# an explicit copy — pnpm exec prisma migrate deploy reads it from the workdir.
+COPY --from=builder --chown=node:node /app/apps/api/prisma.config.ts ./apps/api/prisma.config.ts
 COPY --from=builder --chown=node:node /app/apps/api/src ./apps/api/src
 COPY --from=builder --chown=node:node /app/apps/web/src/lib/vks-template-catalog.ts ./apps/web/src/lib/vks-template-catalog.ts
 COPY --from=builder --chown=node:node /app/packages/form-contracts/dist ./packages/form-contracts/dist
@@ -137,6 +140,7 @@ RUN mkdir -p \
       /app/storage/generated \
       /app/storage/runtime-preview-sessions \
       /app/storage/templates/normalized-docx \
+      /app/storage/bootstrap-artifacts \
       /app/logs \
     && chown -R node:node /app/storage /app/logs /app/apps/api /app/apps/web /app/packages/form-contracts
 

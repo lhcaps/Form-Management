@@ -155,7 +155,7 @@ const BM171_FIXTURE_INPUT = Object.freeze({
   // Sign
   signMode: 'Ký thay',
   positionTitle: 'VIỆN TRƯỞNG',
-  signerName: 'Trần Thị B',
+  signerName: 'Nguyễn Thị Hồng C',
   // Recipients
   recipientsLine1: 'Phòng CSQLHC TTXH Công an TP.HCM;',
   recipientsArchiveLineInput: '',

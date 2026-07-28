@@ -196,7 +196,7 @@ function fillCustomerSample(): Bm074Form {
     request: { ...EMPTY_FORM.request },
     interpreter: { ...EMPTY_FORM.interpreter },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Lê Văn C" },
   };
 }
 

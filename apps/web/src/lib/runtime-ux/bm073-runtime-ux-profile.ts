@@ -63,6 +63,7 @@ const BM073_FIELDS = {
   },
   "person.idNumber": {
     label: "Số CCCD/CMND",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079185001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
     placeholder: "079185001234",
   },
 } as const;
@@ -73,6 +74,7 @@ const BM073_DEMO = {
   "document.issueDate":
     "Thành phố Hồ Chí Minh, ngày 04 tháng 7 năm 2026",
   "person.dateOfBirth": "1985-12-01",
+  // PHASE15B3_SYNTHETIC_FIXTURE_OK: 079185001234 is a format-shaped synthetic test value, not derived from any real customer/case data.
   "person.idNumber": "079185001234",
 } as const;
 
