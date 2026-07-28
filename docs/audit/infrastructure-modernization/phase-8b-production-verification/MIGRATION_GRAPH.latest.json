@@ -1,0 +1,200 @@
+{
+  "phase": "8B",
+  "stage": 2,
+  "doc_type": "migration-graph",
+  "captured_at": "2026-07-11T01:04:00+07:00",
+  "run_id": "phase8b-20260711-0100",
+  "purpose": "Static pre-flight inventory of every migration file in apps/api/prisma/migrations/. Cross-checks CREATE TABLE / ADD COLUMN / ADD INDEX / ADD FK counts and identifies the migrations associated with the P3018 / MariaDB 1060 hypothesis. Stage 3 tests the hypotheses against a fresh disposable MariaDB.",
+  "scope_note": "MIGRATION_CODE_DEFECT / PERSISTENT_DB_DRIFT / ENTRYPOINT_DEFECT / PROBE_CONFIGURATION_DEFECT / UNKNOWN. Stage 2 only records hypotheses; Stage 3 proves or disproves them against a truly empty database.",
+  "migrations_dir": "apps/api/prisma/migrations",
+  "prisma_lockfile_present": false,
+  "prisma_lockfile_note": "No migration_lock.toml found in apps/api/prisma/migrations/. Prisma 6+ allows omission; if a provider-specific default is required, Prisma will infer 'mysql' from the datasource provider. No action needed.",
+  "legacy_db_init": {
+    "dir": "database/ and infra/database/",
+    "purpose": "MariaDB docker-entrypoint init scripts (auto-applied only on first boot of an empty volume via /docker-entrypoint-initdb.d/). They do NOT run on prisma migrate deploy.",
+    "files": [
+      "infra/database/001_init_utf8mb4.sql (ALTER DATABASE to utf8mb4)",
+      "database/002_fix_people_nationality_utf8.sql",
+      "database/003_seed_template_versions_mvp.sql"
+    ]
+  },
+  "migration_count": 13,
+  "migrations": [
+    {
+      "directory": "20260615000000_init_schema",
+      "lines": 814,
+      "creates_tables": ["agencies","audit_logs","case_assignments","case_events","case_offenses","case_people","cases","data_fields","document_generation_batches","document_reviews","evidence_items","generated_document_files","generated_documents","import_batches","import_files","import_mapping_profile_columns","import_mapping_profiles","import_mapping_run_rows","import_mapping_runs","legal_articles","offenses","officials","people","storage_settings","stored_files","template_groups","template_required_fields","template_versions","templates","wards","auth_sessions"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 42,
+      "insert_seeds": 0,
+      "idempotent_guards": false,
+      "notes": "31 tables including auth_sessions. No IF NOT EXISTS clauses. All FKs declared in this single migration. This is the foundation; any later CREATE TABLE for one of these names will conflict."
+    },
+    {
+      "directory": "20260616000000_add_officials_role",
+      "lines": 24,
+      "creates_tables": [],
+      "add_columns": ["officials.role"],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "idempotent_guards": false,
+      "notes": "ADDs role column. No IF NOT EXISTS / IF EXISTS. Fresh DB: success. Existing DB without role: success."
+    },
+    {
+      "directory": "20260616005000_create_auth_sessions",
+      "lines": 21,
+      "creates_tables": ["auth_sessions"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "idempotent_guards": "CREATE TABLE IF NOT EXISTS",
+      "notes": "SECOND creation of auth_sessions. Uses IF NOT EXISTS so it is a no-op on a fresh DB that already has the table (created by 20260615000000_init_schema). This is consistent with init_schema already creating auth_sessions."
+    },
+    {
+      "directory": "20260616010000_add_official_credentials",
+      "lines": 25,
+      "creates_tables": [],
+      "add_columns": ["officials.username","officials.password_hash"],
+      "add_indexes": 1,
+      "add_fks": 0,
+      "idempotent_guards": false,
+      "notes": "ADDs username and password_hash, populates username from full_name, creates UNIQUE index uq_officials_username."
+    },
+    {
+      "directory": "20260616020000_add_template_owner_official",
+      "lines": 37,
+      "creates_tables": [],
+      "add_columns": ["templates.created_by_official_id","template_versions.created_by_official_id"],
+      "add_indexes": 2,
+      "add_fks": 2,
+      "insert_seeds": 0,
+      "notes": "Foreign keys reference officials.id with ON DELETE SET NULL."
+    },
+    {
+      "directory": "20260616_add_auth_sessions",
+      "lines": 23,
+      "creates_tables": ["auth_sessions"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "idempotent_guards": "CREATE TABLE IF NOT EXISTS",
+      "notes": "THIRD creation of auth_sessions. Uses IF NOT EXISTS. No-op on fresh DB where auth_sessions exists from init. Sibling migration to 20260616005000; same intent, different timestamp format."
+    },
+    {
+      "directory": "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+      "lines": 20,
+      "creates_tables": [],
+      "add_columns": ["case_offenses.is_deleted","evidence_items.is_deleted"],
+      "add_indexes": 2,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "notes": "Adds is_deleted columns and indices. No IF NOT EXISTS guards."
+    },
+    {
+      "directory": "20260617110000_fix_vietnamese_column_defaults",
+      "lines": 12,
+      "creates_tables": [],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "notes": "MODIFY COLUMN to correct Vietnamese defaults. Idempotent on identical values."
+    },
+    {
+      "directory": "20260620150000_add_form_contract_platform_v2",
+      "lines": 114,
+      "creates_tables": ["form_contract_versions","form_contract_revisions","form_contract_reviews","form_preview_jobs","official_permissions"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 1,
+      "notes": "Creates 5 new tables and seeds official_permissions rows for existing ADMIN officials."
+    },
+    {
+      "directory": "20260620170000_enforce_form_contract_scope_uniqueness",
+      "lines": 26,
+      "creates_tables": [],
+      "add_columns": ["form_contract_versions.scope_key","official_permissions.scope_key"],
+      "add_indexes": 2,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "notes": "Drops and recreates unique indices with scope_key. UPDATE to backfill scope_key. Not idempotent: failed execution mid-way could leave indices out of sync."
+    },
+    {
+      "directory": "20260622000000_add_clerk_auth_identities",
+      "lines": 27,
+      "creates_tables": ["auth_identities"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "idempotent_guards": "CREATE TABLE IF NOT EXISTS",
+      "notes": "Adds Clerk identity projection. Idempotent for retry."
+    },
+    {
+      "directory": "20260702000000_add_auth_identity_audit_logs",
+      "lines": 31,
+      "creates_tables": ["auth_identity_audit_logs"],
+      "add_columns": [],
+      "add_indexes": 0,
+      "add_fks": 0,
+      "insert_seeds": 0,
+      "idempotent_guards": "CREATE TABLE IF NOT EXISTS",
+      "notes": "Audit log table for identity link/unlink. Idempotent."
+    },
+    {
+      "directory": "20260702_generated_document_audit_logs",
+      "lines": 88,
+      "creates_tables": ["generated_document_audit_logs"],
+      "add_columns": [],
+      "add_indexes": 9,
+      "add_fks": 5,
+      "insert_seeds": 0,
+      "notes": "Audit logs for generated documents. FKs reference officials/agencies/cases/generated_documents/generated_document_files with SET NULL on delete."
+    }
+  ],
+  "duplicate_create_tables": {
+    "auth_sessions": [
+      {"migration": "20260615000000_init_schema", "guarded": false, "issue": "Primary creation in init schema without IF NOT EXISTS"},
+      {"migration": "20260616005000_create_auth_sessions", "guarded": true},
+      {"migration": "20260616_add_auth_sessions", "guarded": true}
+    ]
+  },
+  "prisma_migration_probe_hypotheses": [
+    {
+      "id": "H-FRESH-OK",
+      "claim": "On a truly fresh MariaDB, prisma migrate deploy applies every migration in order, exits 0, and produces a schema equivalent to the live schema.prisma.",
+      "evidence_in_static_graph": "All CREATE TABLE calls for new tables are guarded with IF NOT EXISTS or follow a fully additive path. The only existing-table name created multiple times is auth_sessions, and the two later attempts are guarded.",
+      "verdict_before_stage3": "PLAUSIBLE - expected to reproduce SUCCEED."
+    },
+    {
+      "id": "H-DRIFT-1060",
+      "claim": "P3018 / MariaDB 1060 'Duplicate column name' is caused by drift on the persistent user DB (already-applied migrations re-marked or with manually-edited schema state), not by the migration code itself.",
+      "evidence_in_static_graph": "On a fresh DB, none of the migrations in this graph produce a 1060. The earlier CREATE TABLE for auth_sessions is unguarded only at init, and later attempts are guarded. The schema.prisma matches the union of all migrations.",
+      "verdict_before_stage3": "PLAUSIBLE - P3018 most likely depends on persistent DB drift."
+    },
+    {
+      "id": "H-INIT-MODIFIED",
+      "claim": "init_schema was modified retroactively to include auth_sessions, so any existing DB that ran an older init_schema would re-encounter auth_sessions creation when re-running migrations in fresh-DB order.",
+      "evidence_in_static_graph": "init_schema.sql *does* include auth_sessions (confirmed in init_schema line 812 FK + line 925 in schema.prisma). The two later IF NOT EXISTS creations are safe no-ops. No init-schema-replay hazard on a fresh DB.",
+      "verdict_before_stage3": "REJECTED - init_schema is internally consistent with the live schema.prisma."
+    },
+    {
+      "id": "H-ENTRYPOINT-DEFECT",
+      "claim": "The api-entrypoint.sh runs migrate deploy with the wrong migration root or missing seed-data guard.",
+      "evidence_in_static_graph": "Entrypoint: line 48 `pnpm exec prisma migrate deploy`. Working dir `/app/apps/api`. Prisma loads the schema from `apps/api/prisma/schema.prisma` (baked into the image at COPY --from=builder). Migrations are copied as part of `apps/api/prisma`. `SEED_DATA` is gated to exactly true / false / ''.",
+      "verdict_before_stage3": "REJECTED - entrypoint is fail-closed (set -eu) and points at the correct schema."
+    },
+    {
+      "id": "H-PROBE-DEFECT",
+      "claim": "An external probe (compose config, smoke script, earlier docker-verify.mjs) executed prisma migrate deploy against an already-populated user DB and reported P3018 / 1060 as a fresh-DB failure.",
+      "evidence_in_static_graph": "Indeterminate from static analysis. The Phase 7 reports cited the error but did not conclusively show the DB state at the time of the error.",
+      "verdict_before_stage3": "PLAUSIBLE - requires disposable DB probe in Stage 3 to confirm or reject."
+    }
+  ],
+  "summary": "Static analysis says the migration set is internally consistent with the live schema.prisma. The auth_sessions triple-creation is benign because the two later attempts use IF NOT EXISTS. The init_schema is internally consistent with the live schema. The entrypoint is fail-closed and points at the correct schema. P3018 / 1060 cannot be reproduced on a fresh DB by these migrations alone."
+}

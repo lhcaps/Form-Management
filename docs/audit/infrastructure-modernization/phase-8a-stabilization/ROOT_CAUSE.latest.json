@@ -1,0 +1,88 @@
+{
+  "phase": "8A",
+  "stage": "6 — Root cause",
+  "capturedAt": "2026-07-10T17:35:00+07:00",
+  "policy": "Additive — no source code modified by this phase.",
+  "rootCauseStatus": "NOT_REPRODUCED_IN_PHASE_8A_CONDITIONS",
+  "summary": "Phase 8A's clean reproduction harness ran `pnpm test:api`, `pnpm audit:docx-slot-inventory`, individual failing-suite paths, and `pnpm verify:full` under process-scoped TEMP/TMP/TMPDIR with unfiltered stdout/stderr capture. 30+ jest invocations returned exit 0 with 0 ENOENT and 0 failed tests. The Phase 7 ENOENT in representative-bms-render / docx-inspection-rendered-preservation / docxtemplater-style-profile is NOT reproducible under these conditions.",
+  "confirmedHypotheses": [],
+  "disconfirmedHypotheses": [
+    {
+      "id": "H-1",
+      "claim": "audit:docx-slot-inventory is the root cause of verify:full ENOENT.",
+      "testedIn": "Sequence B (3 cycles: inventory then pnpm test:api, fresh temp root each).",
+      "result": "All 3 cycles exit 0 with 0 ENOENT and 0 fail. Inventory does NOT cause the failure under Phase 8A conditions.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-2",
+      "claim": "Tests are order-dependent.",
+      "testedIn": "Sequence A (3× pnpm test:api in fresh temp roots), Sequence C (24× focused suites, 3× each), Sequence D (2× verify:full).",
+      "result": "All runs passed regardless of order. No intermittent failures.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-3",
+      "claim": "SHARED_TEMP_COLLISION between suites using fixed tmpdir() paths.",
+      "testedIn": "Static inventory of all spec files in apps/api/src/modules/documents/rendering/infrastructure.",
+      "result": "9 specs use 9 distinct fixed paths. No two specs share a path. No cross-suite collision is possible.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-4",
+      "claim": "CLEANUP_OWNERSHIP_BUG (rmSync in beforeAll deleting another suite's data).",
+      "testedIn": "Static analysis + Seq A/B/C reproductions.",
+      "result": "Each suite owns its own OUTPUT_ROOT and rmSyncs only that root. No suite deletes another's directory. Under --runInBand, suites run serially so no overlap exists.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-5",
+      "claim": "UNAWAITED_ASYNC_WRITE — DocxtemplaterContractRenderEngine writes files asynchronously.",
+      "testedIn": "Read of apps/api/src/modules/documents/rendering/infrastructure/docxtemplater-contract-render-engine.ts:103-270.",
+      "result": "All writes use `writeFileSync` (synchronous) and `mkdirSync` (synchronous). The engine awaits no I/O after the last writeFileSync — there is nothing to await.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-6",
+      "claim": "STALE_ARTIFACT_DEPENDENCY — spec reads a path re-derived from OUTPUT_ROOT and stale state.",
+      "testedIn": "Read of all 9 spec files in inventory.",
+      "result": "Specs read `renderResult.artifacts.docxPath` (returned from the engine), not paths derived from OUTPUT_ROOT. The shadowDir is timestamped at sub-second precision, so even within a single spec invocation, repeated calls produce distinct subdirs.",
+      "verdict": "DISCONFIRMED"
+    },
+    {
+      "id": "H-7",
+      "claim": "verify:ci / verify:full wrapper loses child exit code (the 4294967295 / SIGPIPE theory).",
+      "testedIn": "Sequence D (2× verify:full) with unfiltered capture.",
+      "result": "Both verify:full runs returned exit 0 with no abort, no SIGPIPE, no 4294967295. The Phase 7 capture was an artifact of `Select-Object -First 30` closing the pipe early.",
+      "verdict": "DISCONFIRMED for the wrapper in isolation"
+    }
+  ],
+  "unresolvedHypotheses": [
+    {
+      "id": "U-1",
+      "claim": "Concurrent evidence-apply consumer (scripts/audit/apply-all-current-evidence.mjs) races against pnpm test:api and reads format-audit.json mid-write or after rmSync.",
+      "testedIn": "Cannot be reproduced inside Phase 8A — out of scope and would require deliberately constructing a race condition.",
+      "evidence": "Phase 7 capture shows format-audit.json ENOENT, but no spec reads format-audit.json. Only an external consumer (apply-all-current-evidence.mjs) does. If that consumer ran concurrently with pnpm test:api, it could observe the engine's OUTPUT_ROOT between the engine writing format-audit.json and afterAll rmSync deleting the parent directory.",
+      "verdict": "PLAUSIBLE_BUT_NOT_TESTED_IN_PHASE_8A"
+    },
+    {
+      "id": "U-2",
+      "claim": "Pre-existing stale directories in os.tmpdir() from prior user sessions (the dozens of qllaw-* dirs we inventoried at Phase 8A start) once contained files that some path-or-glob would pick up.",
+      "testedIn": "Phase 8A inventory at start. 80+ non-phase-owned qllaw-* dirs found in $TEMP. After Phase 8A's runs none of them blocked any spec.",
+      "evidence": "All 9 spec paths were absent at Phase 8A start. The stale dirs (qllaw-bm001-smoke-stale-artifact-warn-*, qllaw-evidence-guard-probe-*) are from OTHER scripts (smoke tests, evidence-guard probes), not from the failing test paths.",
+      "verdict": "PLAUSIBLE_BUT_NOT_TESTED"
+    }
+  ],
+  "minimalFixStatus": {
+    "applicable": false,
+    "rationale": "Stage 7 requires a regression test that fails for the actual root cause. The actual root cause is NOT_REPRODUCED in Phase 8A's controlled conditions, so there is no failing regression test to write. Writing a fake test that 'fails' would invent a problem rather than solve one — explicitly forbidden by Stage 7 directive."
+  },
+  "downstreamImplications": [
+    "Phase 8A cannot mark the ENOENT investigation as RESOLVED because the failure is not reproduced.",
+    "Phase 8A can mark the wrapper truthfulness question as RESOLVED — verify:full returned 0 twice in unfiltered runs.",
+    "The Phase 7 hypothesis-list (audit:docx-slot-inventory) is now disproven and should be removed from CRIT-02/03.",
+    "Future phases can investigate U-1 (concurrent evidence-apply) and U-2 (stale dirs from prior sessions) if needed; both are out of scope for Phase 8A."
+  ],
+  "gitPolicyHonored": true,
+  "sourceFilesModifiedByThisPhase": []
+}

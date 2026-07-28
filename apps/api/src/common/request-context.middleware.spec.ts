@@ -1,55 +1,42 @@
+import type { Request, Response } from 'express';
 import {
-  REQUEST_ID_HEADER,
-  requestContextMiddleware,
+  buildRequestCompletionRecord,
+  resolveRequestRouteTemplate,
+  type RequestWithContext,
 } from './request-context.middleware';
 
-describe('requestContextMiddleware', () => {
-  it('preserves a valid incoming request id', () => {
+describe('request completion telemetry', () => {
+  it('uses the Express route template and never the raw URL', () => {
     const request = {
-      headers: {
-        [REQUEST_ID_HEADER]: 'req-existing-123',
-      },
-    };
-    const response = {
-      setHeader: jest.fn(),
-    };
-    const next = jest.fn();
+      method: 'GET',
+      originalUrl: '/api/v1/cases/123?token=secret',
+      route: { path: '/api/v1/cases/:caseId' },
+      requestId: 'request-123',
+    } as unknown as RequestWithContext;
 
-    requestContextMiddleware(request as never, response as never, next);
-
-    expect(request).toMatchObject({ requestId: 'req-existing-123' });
-    expect(response.setHeader).toHaveBeenCalledWith(
-      REQUEST_ID_HEADER,
-      'req-existing-123',
-    );
-    expect(next).toHaveBeenCalledTimes(1);
+    expect(resolveRequestRouteTemplate(request)).toBe('/api/v1/cases/:caseId');
+    expect(
+      resolveRequestRouteTemplate({ originalUrl: '/private/value' } as Request),
+    ).toBe('<unmatched>');
   });
 
-  it('generates a request id when the incoming value is absent', () => {
-    const request = { headers: {} };
-    const response = { setHeader: jest.fn() };
-
-    requestContextMiddleware(request as never, response as never, jest.fn());
-
-    expect(request).toMatchObject({
-      requestId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-      ),
-    });
-  });
-
-  it('replaces an invalid incoming request id', () => {
+  it('contains only the approved completion fields', () => {
     const request = {
-      headers: {
-        [REQUEST_ID_HEADER]: 'invalid request id with spaces',
-      },
-    };
-    const response = { setHeader: jest.fn() };
+      method: 'POST',
+      route: { path: '/api/v1/documents/:id' },
+      requestId: 'request-456',
+      headers: { authorization: 'Bearer do-not-log' },
+      body: { secret: 'do-not-log' },
+    } as unknown as RequestWithContext;
+    const response = { statusCode: 201 } as Response;
 
-    requestContextMiddleware(request as never, response as never, jest.fn());
-
-    expect(request).not.toMatchObject({
-      requestId: 'invalid request id with spaces',
+    expect(buildRequestCompletionRecord(request, response, 12.3456)).toEqual({
+      event: 'http_request_completed',
+      requestId: 'request-456',
+      method: 'POST',
+      route: '/api/v1/documents/:id',
+      status: 201,
+      durationMs: 12.346,
     });
   });
 });

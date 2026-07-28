@@ -33,8 +33,8 @@ describe('RuntimePreviewSessionService', () => {
 
   const mockBuffer = Buffer.from('PK\x03\x04fake-docx-content');
 
-  const mockRenderer = {
-    renderDocx: jest.fn().mockResolvedValue({
+  const mockOrchestrator = {
+    renderRuntimePreviewSessionDocx: jest.fn().mockResolvedValue({
       templateCode: 'BM-001',
       fileName: 'BM-001-20260703-010000.docx',
       buffer: mockBuffer,
@@ -74,7 +74,7 @@ describe('RuntimePreviewSessionService', () => {
     sessionsBaseDir = path.join(__dirname, 'runtime-preview-sessions');
     rmdir(sessionsBaseDir);
     fs.mkdirSync(sessionsBaseDir, { recursive: true });
-    mockRenderer.renderDocx.mockClear();
+    mockOrchestrator.renderRuntimePreviewSessionDocx.mockClear();
     mockAudit.auditDocxFromFile.mockClear();
     mockPdfConverter.convertDocxFileToPdf.mockReset();
     mockPdfConverter.convertDocxFileToPdf.mockImplementation(
@@ -89,7 +89,7 @@ describe('RuntimePreviewSessionService', () => {
 
     service = new RuntimePreviewSessionService(
       mockWorkspacePaths as any,
-      mockRenderer as any,
+      mockOrchestrator as any,
       mockAudit as any,
       mockPdfConverter as any,
     );
@@ -205,6 +205,53 @@ describe('RuntimePreviewSessionService', () => {
       expect(metadata.pdfPath).toBeNull();
       expect(fs.existsSync(path.join(sessionDir, 'document.docx'))).toBe(true);
       expect(fs.existsSync(path.join(sessionDir, 'document.pdf'))).toBe(false);
+    });
+
+    it('honors the PDF conversion budget and falls back when conversion is slow', async () => {
+      // Hang the conversion longer than the budget. The request must
+      // return promptly with pdfPreviewUrl=null rather than waiting
+      // indefinitely.
+      mockPdfConverter.convertDocxFileToPdf.mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(resolve, 2_000);
+          }),
+      );
+      const previousBudget = process.env.QLLAW_RUNTIME_PREVIEW_PDF_BUDGET_MS;
+      process.env.QLLAW_RUNTIME_PREVIEW_PDF_BUDGET_MS = '150';
+      try {
+        const start = Date.now();
+        const result = await service.createPreviewSession({
+          templateCode: 'BM-001',
+          data: {},
+        });
+        const elapsed = Date.now() - start;
+
+        expect(elapsed).toBeLessThan(1500);
+        expect(result.sessionId).toMatch(/^runtime_preview_[a-f0-9-]{36}$/);
+        expect(result.pdfPreviewUrl).toBeNull();
+        expect(result.docxDownloadUrl).toContain('/docx');
+        expect(result.warnings).toContainEqual({
+          code: 'PDF_PREVIEW_UNAVAILABLE',
+          message:
+            'Khong tao duoc PDF preview trong moi truong hien tai. Vui long tai DOCX de kiem tra dinh dang.',
+        });
+
+        const sessionDir = path.join(sessionsBaseDir, result.sessionId);
+        expect(fs.existsSync(path.join(sessionDir, 'document.docx'))).toBe(
+          true,
+        );
+        const metadata = JSON.parse(
+          fs.readFileSync(path.join(sessionDir, 'metadata.json'), 'utf-8'),
+        );
+        expect(metadata.pdfPath).toBeNull();
+      } finally {
+        if (previousBudget === undefined) {
+          delete process.env.QLLAW_RUNTIME_PREVIEW_PDF_BUDGET_MS;
+        } else {
+          process.env.QLLAW_RUNTIME_PREVIEW_PDF_BUDGET_MS = previousBudget;
+        }
+      }
     });
   });
 

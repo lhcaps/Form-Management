@@ -11,10 +11,11 @@
  * Hoặc:  pnpm --filter api exec tsx prisma/seed.ts
  */
 
-import { config as loadEnv } from 'dotenv';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { PrismaClient, Prisma } from '@prisma/client';
+import { createPrismaMariaDbAdapter } from '../src/prisma/prisma-mariadb-adapter';
+import { loadApiEnvironment } from '../src/infrastructure/config/load-api-environment';
 import { hashPassword } from '../src/modules/auth/password.util';
 import {
   buildSeedTemplates,
@@ -23,80 +24,78 @@ import {
   discoverImplementedTemplateCodes,
   discoverNormalizedDocxByCode,
   getSeedAdminConfig,
+  getSeedAgencyConfig,
   getSeedLeHuyConfig,
+  getSeedTestAccountConfig,
 } from '../src/seed/seed-config';
 
 // Load env từ root (file chính) rồi apps/api/.env (override nếu cần).
-loadEnv({ path: resolve(__dirname, '..', '..', '..', '..', '.env') });
-loadEnv({ path: resolve(__dirname, '..', '..', '..', '.env') });
-loadEnv({ path: resolve(__dirname, '..', '..', '.env') });
+loadApiEnvironment({
+  cwd: resolve(__dirname, '..'),
+  rootEnvOverridesExisting: true,
+});
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 const REPO_ROOT = resolve(__dirname, '..', '..', '..');
 
 // ============================================================================
 // 1. AGENCY (1 bản ghi duy nhất - lấy từ env)
 // ============================================================================
 
-interface SeedAgency {
-  agency_code: string;
-  agency_name: string;
-  agency_type: 'VKS' | 'VKS_KV' | 'VKS_TINH' | 'VKS_CAP_CAO';
-  parent_agency_name: string | null;
-  address: string | null;
-  phone: string | null;
-}
-
-function getSeedAgency(): SeedAgency {
-  return {
-    agency_code: process.env.SEED_AGENCY_CODE || 'VKS-DEFAULT',
-    agency_name: process.env.SEED_AGENCY_NAME || 'Viện kiểm sát',
-    agency_type: 'VKS_KV',
-    parent_agency_name: process.env.SEED_PARENT_AGENCY_NAME || null,
-    address: null,
-    phone: null,
-  };
-}
-
 async function seedAgencies(): Promise<bigint> {
-  const seed = getSeedAgency();
-  const existing = await prisma.agencies.findFirst({
-    where: { agency_code: seed.agency_code },
-  });
-  if (existing) {
-    console.log(`[seed] agencies: ${seed.agency_code} đã có (id=${existing.id}), bỏ qua.`);
-    return existing.id;
-  }
+  const seed = getSeedAgencyConfig();
 
   let parentId: bigint | null = null;
-  if (seed.parent_agency_name) {
+  if (seed.parentAgencyName) {
     const parent = await prisma.agencies.findFirst({
-      where: { agency_name: seed.parent_agency_name },
+      where: { agency_name: seed.parentAgencyName },
     });
     if (parent) parentId = parent.id;
     else {
       const created = await prisma.agencies.create({
         data: {
-          agency_name: seed.parent_agency_name,
+          agency_name: seed.parentAgencyName,
           agency_type: 'VKS_TINH',
         },
       });
       parentId = created.id;
-      console.log(`[seed] agencies: tạo parent '${seed.parent_agency_name}' id=${parentId}`);
+      console.log(
+        `[seed] agencies: tạo parent '${seed.parentAgencyName}' id=${parentId}`,
+      );
     }
+  }
+
+  const existing = await prisma.agencies.findFirst({
+    where: { agency_code: seed.agencyCode },
+  });
+  if (existing) {
+    const updated = await prisma.agencies.update({
+      where: { id: existing.id },
+      data: {
+        agency_name: seed.agencyName,
+        agency_type: 'VKS_KV',
+        parent_agency_id: parentId,
+        address: null,
+        phone: null,
+      },
+    });
+    console.log(`[seed] agencies: ${seed.agencyCode} ready (id=${updated.id}).`);
+    return updated.id;
   }
 
   const created = await prisma.agencies.create({
     data: {
-      agency_code: seed.agency_code,
-      agency_name: seed.agency_name,
-      agency_type: seed.agency_type,
+      agency_code: seed.agencyCode,
+      agency_name: seed.agencyName,
+      agency_type: 'VKS_KV',
       parent_agency_id: parentId,
-      address: seed.address,
-      phone: seed.phone,
+      address: null,
+      phone: null,
     },
   });
-  console.log(`[seed] agencies: tạo '${seed.agency_name}' (${seed.agency_code}) id=${created.id}`);
+  console.log(
+    `[seed] agencies: tạo '${seed.agencyName}' (${seed.agencyCode}) id=${created.id}`,
+  );
   return created.id;
 }
 
@@ -126,7 +125,9 @@ async function seedOfficials(agencyId: bigint): Promise<bigint> {
         is_active: true,
       },
     });
-    console.log(`[seed] officials: admin '${admin.username}' ready (id=${updated.id}).`);
+    console.log(
+      `[seed] officials: admin '${admin.username}' ready (id=${updated.id}).`,
+    );
     return updated.id;
   }
 
@@ -142,7 +143,9 @@ async function seedOfficials(agencyId: bigint): Promise<bigint> {
       is_active: true,
     },
   });
-  console.log(`[seed] officials: created admin '${admin.username}' at agency id=${agencyId}.`);
+  console.log(
+    `[seed] officials: created admin '${admin.username}' at agency id=${agencyId}.`,
+  );
   return created.id;
 }
 
@@ -155,26 +158,29 @@ async function seedLegacyOfficialsUnused(_agencyId: bigint): Promise<void> {
 // 2b. TEST ACCOUNT (staging — limited permissions, not admin)
 // ============================================================================
 
-const TEST_OFFICIAL_USERNAME = 'tester';
-const TEST_OFFICIAL_PASSWORD = 'tester123';
-const TEST_OFFICIAL_FULL_NAME = 'Tai khoan Test';
-const TEST_OFFICIAL_POSITION = 'Nhan vien kiem thu';
-
 async function seedTestAccount(agencyId: bigint): Promise<void> {
-  const passwordHash = hashPassword(TEST_OFFICIAL_PASSWORD);
+  const config = getSeedTestAccountConfig();
+  if (!config.enabled || !config.password) {
+    console.log(
+      '[seed] officials: SEED_TEST_ACCOUNT_ENABLED is false — test account skipped.',
+    );
+    return;
+  }
+
+  const passwordHash = hashPassword(config.password);
 
   const existing = await prisma.officials.findFirst({
-    where: { username: TEST_OFFICIAL_USERNAME },
+    where: { username: config.username },
   });
 
   if (existing) {
     await prisma.officials.update({
       where: { id: existing.id },
       data: {
-        full_name: TEST_OFFICIAL_FULL_NAME,
-        username: TEST_OFFICIAL_USERNAME,
+        full_name: config.fullName,
+        username: config.username,
         password_hash: passwordHash,
-        position_title: TEST_OFFICIAL_POSITION,
+        position_title: config.positionTitle,
         agency_id: agencyId,
         role: 'OFFICIAL',
         is_active: true,
@@ -186,17 +192,17 @@ async function seedTestAccount(agencyId: bigint): Promise<void> {
 
   const created = await prisma.officials.create({
     data: {
-      full_name: TEST_OFFICIAL_FULL_NAME,
-      username: TEST_OFFICIAL_USERNAME,
+      full_name: config.fullName,
+      username: config.username,
       password_hash: passwordHash,
-      position_title: TEST_OFFICIAL_POSITION,
+      position_title: config.positionTitle,
       rank_title: null,
       agency_id: agencyId,
       role: 'OFFICIAL',
       is_active: true,
     },
   });
-  console.log(`[seed] officials: created tester account 'tester' (id=${created.id}).`);
+  console.log(`[seed] officials: created test account (id=${created.id}).`);
 }
 
 // ============================================================================
@@ -326,12 +332,24 @@ async function seedLeHuy(agencyId: bigint): Promise<bigint | null> {
 
 async function seedWards(): Promise<void> {
   const sampleWards = [
-    { ward_code: 'Q1-BN', ward_name: 'Phường Bến Nghé', district_name: 'Quận 1', province_name: 'TP. Hồ Chí Minh' },
-    { ward_code: 'Q1-NCT', ward_name: 'Phường Nguyễn Cư Trinh', district_name: 'Quận 1', province_name: 'TP. Hồ Chí Minh' },
+    {
+      ward_code: 'Q1-BN',
+      ward_name: 'Phường Bến Nghé',
+      district_name: 'Quận 1',
+      province_name: 'TP. Hồ Chí Minh',
+    },
+    {
+      ward_code: 'Q1-NCT',
+      ward_name: 'Phường Nguyễn Cư Trinh',
+      district_name: 'Quận 1',
+      province_name: 'TP. Hồ Chí Minh',
+    },
   ];
 
   for (const w of sampleWards) {
-    const existing = await prisma.wards.findFirst({ where: { ward_code: w.ward_code } });
+    const existing = await prisma.wards.findFirst({
+      where: { ward_code: w.ward_code },
+    });
     if (existing) continue;
     await prisma.wards.create({ data: w });
     console.log(`[seed] wards: tạo '${w.ward_name}' (${w.ward_code}).`);
@@ -353,48 +371,258 @@ interface SeedOffense {
 
 const OFFENSES: SeedOffense[] = [
   // Trật tự quản lý kinh tế
-  { offense_code: 'TDS_TROM_TS', offense_name: 'Trộm cắp tài sản', offense_group: 'TTQLKT', description: 'Điều 173 BLHS 2015', legal_article_no: '173', legal_article_text: 'Tội trộm cắp tài sản' },
-  { offense_code: 'TDS_LUA_DAO', offense_name: 'Lừa đảo chiếm đoạt tài sản', offense_group: 'TTQLKT', description: 'Điều 174 BLHS 2015', legal_article_no: '174', legal_article_text: 'Tội lừa đảo chiếm đoạt tài sản' },
-  { offense_code: 'TDS_LAM_DUNG_TIN_NHIEM', offense_name: 'Lạm dụng tín nhiệm chiếm đoạt tài sản', offense_group: 'TTQLKT', description: 'Điều 175 BLHS 2015', legal_article_no: '175', legal_article_text: 'Tội lạm dụng tín nhiệm chiếm đoạt tài sản' },
-  { offense_code: 'TDS_CHIEM_DOAT_TS', offense_name: 'Chiếm đoạt tài sản', offense_group: 'TTQLKT', description: 'Điều 176 BLHS 2015', legal_article_no: '176', legal_article_text: 'Tội chiếm đoạt tài sản' },
-  { offense_code: 'TDS_DANH_BAC', offense_name: 'Đánh bạc', offense_group: 'TTQLKT', description: 'Điều 321 BLHS 2015', legal_article_no: '321', legal_article_text: 'Tội đánh bạc' },
-  { offense_code: 'TDS_TO_CHUC_DANH_BAC', offense_name: 'Tổ chức đánh bạc', offense_group: 'TTQLKT', description: 'Điều 322 BLHS 2015', legal_article_no: '322', legal_article_text: 'Tội tổ chức đánh bạc' },
-  { offense_code: 'TDS_CHOI_MA_TUY', offense_name: 'Tàng trữ trái phép chất ma túy', offense_group: 'TTQLKT', description: 'Điều 249 BLHS 2015', legal_article_no: '249', legal_article_text: 'Tội tàng trữ trái phép chất ma túy' },
-  { offense_code: 'TDS_MUA_BAN_MA_TUY', offense_name: 'Mua bán trái phép chất ma túy', offense_group: 'TTQLKT', description: 'Điều 251 BLHS 2015', legal_article_no: '251', legal_article_text: 'Tội mua bán trái phép chất ma túy' },
-  { offense_code: 'TDS_VAN_CHUYEN_MA_TUY', offense_name: 'Vận chuyển trái phép chất ma túy', offense_group: 'TTQLKT', description: 'Điều 250 BLHS 2015', legal_article_no: '250', legal_article_text: 'Tội vận chuyển trái phép chất ma túy' },
+  {
+    offense_code: 'TDS_TROM_TS',
+    offense_name: 'Trộm cắp tài sản',
+    offense_group: 'TTQLKT',
+    description: 'Điều 173 BLHS 2015',
+    legal_article_no: '173',
+    legal_article_text: 'Tội trộm cắp tài sản',
+  },
+  {
+    offense_code: 'TDS_LUA_DAO',
+    offense_name: 'Lừa đảo chiếm đoạt tài sản',
+    offense_group: 'TTQLKT',
+    description: 'Điều 174 BLHS 2015',
+    legal_article_no: '174',
+    legal_article_text: 'Tội lừa đảo chiếm đoạt tài sản',
+  },
+  {
+    offense_code: 'TDS_LAM_DUNG_TIN_NHIEM',
+    offense_name: 'Lạm dụng tín nhiệm chiếm đoạt tài sản',
+    offense_group: 'TTQLKT',
+    description: 'Điều 175 BLHS 2015',
+    legal_article_no: '175',
+    legal_article_text: 'Tội lạm dụng tín nhiệm chiếm đoạt tài sản',
+  },
+  {
+    offense_code: 'TDS_CHIEM_DOAT_TS',
+    offense_name: 'Chiếm đoạt tài sản',
+    offense_group: 'TTQLKT',
+    description: 'Điều 176 BLHS 2015',
+    legal_article_no: '176',
+    legal_article_text: 'Tội chiếm đoạt tài sản',
+  },
+  {
+    offense_code: 'TDS_DANH_BAC',
+    offense_name: 'Đánh bạc',
+    offense_group: 'TTQLKT',
+    description: 'Điều 321 BLHS 2015',
+    legal_article_no: '321',
+    legal_article_text: 'Tội đánh bạc',
+  },
+  {
+    offense_code: 'TDS_TO_CHUC_DANH_BAC',
+    offense_name: 'Tổ chức đánh bạc',
+    offense_group: 'TTQLKT',
+    description: 'Điều 322 BLHS 2015',
+    legal_article_no: '322',
+    legal_article_text: 'Tội tổ chức đánh bạc',
+  },
+  {
+    offense_code: 'TDS_CHOI_MA_TUY',
+    offense_name: 'Tàng trữ trái phép chất ma túy',
+    offense_group: 'TTQLKT',
+    description: 'Điều 249 BLHS 2015',
+    legal_article_no: '249',
+    legal_article_text: 'Tội tàng trữ trái phép chất ma túy',
+  },
+  {
+    offense_code: 'TDS_MUA_BAN_MA_TUY',
+    offense_name: 'Mua bán trái phép chất ma túy',
+    offense_group: 'TTQLKT',
+    description: 'Điều 251 BLHS 2015',
+    legal_article_no: '251',
+    legal_article_text: 'Tội mua bán trái phép chất ma túy',
+  },
+  {
+    offense_code: 'TDS_VAN_CHUYEN_MA_TUY',
+    offense_name: 'Vận chuyển trái phép chất ma túy',
+    offense_group: 'TTQLKT',
+    description: 'Điều 250 BLHS 2015',
+    legal_article_no: '250',
+    legal_article_text: 'Tội vận chuyển trái phép chất ma túy',
+  },
   // Tội xâm phạm tính mạng, sức khỏe
-  { offense_code: 'TDS_GIET_NGUOI', offense_name: 'Giết người', offense_group: 'XP_TM_SK', description: 'Điều 123 BLHS 2015', legal_article_no: '123', legal_article_text: 'Tội giết người' },
-  { offense_code: 'TDS_CO_Y_GAY_THUONG_TICH', offense_name: 'Cố ý gây thương tích', offense_group: 'XP_TM_SK', description: 'Điều 134 BLHS 2015', legal_article_no: '134', legal_article_text: 'Tội cố ý gây thương tích' },
+  {
+    offense_code: 'TDS_GIET_NGUOI',
+    offense_name: 'Giết người',
+    offense_group: 'XP_TM_SK',
+    description: 'Điều 123 BLHS 2015',
+    legal_article_no: '123',
+    legal_article_text: 'Tội giết người',
+  },
+  {
+    offense_code: 'TDS_CO_Y_GAY_THUONG_TICH',
+    offense_name: 'Cố ý gây thương tích',
+    offense_group: 'XP_TM_SK',
+    description: 'Điều 134 BLHS 2015',
+    legal_article_no: '134',
+    legal_article_text: 'Tội cố ý gây thương tích',
+  },
   // Xâm phạm nhân phẩm
-  { offense_code: 'TDS_HIEPC_DAM', offense_name: 'Hiếp dâm', offense_group: 'XP_NP_TD', description: 'Điều 141 BLHS 2015', legal_article_no: '141', legal_article_text: 'Tội hiếp dâm' },
-  { offense_code: 'TDS_DAM_O', offense_name: 'Dâm ô với người dưới 16 tuổi', offense_group: 'XP_NP_TD', description: 'Điều 146 BLHS 2015', legal_article_no: '146', legal_article_text: 'Tội dâm ô với người dưới 16 tuổi' },
+  {
+    offense_code: 'TDS_HIEPC_DAM',
+    offense_name: 'Hiếp dâm',
+    offense_group: 'XP_NP_TD',
+    description: 'Điều 141 BLHS 2015',
+    legal_article_no: '141',
+    legal_article_text: 'Tội hiếp dâm',
+  },
+  {
+    offense_code: 'TDS_DAM_O',
+    offense_name: 'Dâm ô với người dưới 16 tuổi',
+    offense_group: 'XP_NP_TD',
+    description: 'Điều 146 BLHS 2015',
+    legal_article_no: '146',
+    legal_article_text: 'Tội dâm ô với người dưới 16 tuổi',
+  },
   // Tội về ma túy bổ sung
-  { offense_code: 'TDS_SAN_XUAT_MA_TUY', offense_name: 'Sản xuất trái phép chất ma túy', offense_group: 'XP_PL_MT', description: 'Điều 248 BLHS 2015', legal_article_no: '248', legal_article_text: 'Tội sản xuất trái phép chất ma túy' },
-  { offense_code: 'TDS_CHE_BIEN_MA_TUY', offense_name: 'Chế biến trái phép chất ma túy', offense_group: 'XP_PL_MT', description: 'Điều 248 BLHS 2015', legal_article_no: '248', legal_article_text: 'Tội chế biến trái phép chất ma túy' },
+  {
+    offense_code: 'TDS_SAN_XUAT_MA_TUY',
+    offense_name: 'Sản xuất trái phép chất ma túy',
+    offense_group: 'XP_PL_MT',
+    description: 'Điều 248 BLHS 2015',
+    legal_article_no: '248',
+    legal_article_text: 'Tội sản xuất trái phép chất ma túy',
+  },
+  {
+    offense_code: 'TDS_CHE_BIEN_MA_TUY',
+    offense_name: 'Chế biến trái phép chất ma túy',
+    offense_group: 'XP_PL_MT',
+    description: 'Điều 248 BLHS 2015',
+    legal_article_no: '248',
+    legal_article_text: 'Tội chế biến trái phép chất ma túy',
+  },
   // Xâm phạm sở hữu bổ sung
-  { offense_code: 'TDS_HUY_HOAI_TS', offense_name: 'Hủy hoại hoặc cố ý làm hư hỏng tài sản', offense_group: 'XP_SH', description: 'Điều 178 BLHS 2015', legal_article_no: '178', legal_article_text: 'Tội hủy hoại hoặc cố ý làm hư hỏng tài sản' },
-  { offense_code: 'TDS_CUOP_TS', offense_name: 'Cướp tài sản', offense_group: 'XP_SH', description: 'Điều 168 BLHS 2015', legal_article_no: '168', legal_article_text: 'Tội cướp tài sản' },
-  { offense_code: 'TDS_CUOP_GIAT_TS', offense_name: 'Cướp giật tài sản', offense_group: 'XP_SH', description: 'Điều 171 BLHS 2015', legal_article_no: '171', legal_article_text: 'Tội cướp giật tài sản' },
+  {
+    offense_code: 'TDS_HUY_HOAI_TS',
+    offense_name: 'Hủy hoại hoặc cố ý làm hư hỏng tài sản',
+    offense_group: 'XP_SH',
+    description: 'Điều 178 BLHS 2015',
+    legal_article_no: '178',
+    legal_article_text: 'Tội hủy hoại hoặc cố ý làm hư hỏng tài sản',
+  },
+  {
+    offense_code: 'TDS_CUOP_TS',
+    offense_name: 'Cướp tài sản',
+    offense_group: 'XP_SH',
+    description: 'Điều 168 BLHS 2015',
+    legal_article_no: '168',
+    legal_article_text: 'Tội cướp tài sản',
+  },
+  {
+    offense_code: 'TDS_CUOP_GIAT_TS',
+    offense_name: 'Cướp giật tài sản',
+    offense_group: 'XP_SH',
+    description: 'Điều 171 BLHS 2015',
+    legal_article_no: '171',
+    legal_article_text: 'Tội cướp giật tài sản',
+  },
   // An toàn giao thông
-  { offense_code: 'TDS_VI_PHAM_ATGT', offense_name: 'Vi phạm quy định về tham gia giao thông đường bộ', offense_group: 'XP_ATGT', description: 'Điều 260 BLHS 2015', legal_article_no: '260', legal_article_text: 'Tội vi phạm quy định về tham gia giao thông đường bộ' },
+  {
+    offense_code: 'TDS_VI_PHAM_ATGT',
+    offense_name: 'Vi phạm quy định về tham gia giao thông đường bộ',
+    offense_group: 'XP_ATGT',
+    description: 'Điều 260 BLHS 2015',
+    legal_article_no: '260',
+    legal_article_text: 'Tội vi phạm quy định về tham gia giao thông đường bộ',
+  },
   // Trốn thuế
-  { offense_code: 'TDS_TRON_THUE', offense_name: 'Trốn thuế', offense_group: 'TTQLKT', description: 'Điều 200 BLHS 2015', legal_article_no: '200', legal_article_text: 'Tội trốn thuế' },
+  {
+    offense_code: 'TDS_TRON_THUE',
+    offense_name: 'Trốn thuế',
+    offense_group: 'TTQLKT',
+    description: 'Điều 200 BLHS 2015',
+    legal_article_no: '200',
+    legal_article_text: 'Tội trốn thuế',
+  },
   // Tham nhũng
-  { offense_code: 'TDS_THAM_O_TS', offense_name: 'Tham ô tài sản', offense_group: 'CHUC_VU', description: 'Điều 353 BLHS 2015', legal_article_no: '353', legal_article_text: 'Tội tham ô tài sản' },
-  { offense_code: 'TDS_NHAN_HOI_LO', offense_name: 'Nhận hối lộ', offense_group: 'CHUC_VU', description: 'Điều 354 BLHS 2015', legal_article_no: '354', legal_article_text: 'Tội nhận hối lộ' },
+  {
+    offense_code: 'TDS_THAM_O_TS',
+    offense_name: 'Tham ô tài sản',
+    offense_group: 'CHUC_VU',
+    description: 'Điều 353 BLHS 2015',
+    legal_article_no: '353',
+    legal_article_text: 'Tội tham ô tài sản',
+  },
+  {
+    offense_code: 'TDS_NHAN_HOI_LO',
+    offense_name: 'Nhận hối lộ',
+    offense_group: 'CHUC_VU',
+    description: 'Điều 354 BLHS 2015',
+    legal_article_no: '354',
+    legal_article_text: 'Tội nhận hối lộ',
+  },
   // Tội về thông tin
-  { offense_code: 'TDS_DANG_TIN_SAI_SUThat', offense_name: 'Đăng tải thông tin sai sự thật trên mạng', offense_group: 'CNTT', description: 'Điều 288 BLHS 2015', legal_article_no: '288', legal_article_text: 'Tội đăng tải thông tin sai sự thật trên mạng' },
+  {
+    offense_code: 'TDS_DANG_TIN_SAI_SUThat',
+    offense_name: 'Đăng tải thông tin sai sự thật trên mạng',
+    offense_group: 'CNTT',
+    description: 'Điều 288 BLHS 2015',
+    legal_article_no: '288',
+    legal_article_text: 'Tội đăng tải thông tin sai sự thật trên mạng',
+  },
   // Tội về môi trường
-  { offense_code: 'TDS_O_NHIEM_MOI_TRUONG', offense_name: 'Gây ô nhiễm môi trường', offense_group: 'MOI_TRUONG', description: 'Điều 235 BLHS 2015', legal_article_no: '235', legal_article_text: 'Tội gây ô nhiễm môi trường' },
+  {
+    offense_code: 'TDS_O_NHIEM_MOI_TRUONG',
+    offense_name: 'Gây ô nhiễm môi trường',
+    offense_group: 'MOI_TRUONG',
+    description: 'Điều 235 BLHS 2015',
+    legal_article_no: '235',
+    legal_article_text: 'Tội gây ô nhiễm môi trường',
+  },
   // Tội phá hoại
-  { offense_code: 'TDS_PHA_HOAI_TS_CN', offense_name: 'Phá hoại tài sản công', offense_group: 'XP_SH', description: 'Điều 339 BLHS 2015', legal_article_no: '339', legal_article_text: 'Tội phá hoại tài sản' },
+  {
+    offense_code: 'TDS_PHA_HOAI_TS_CN',
+    offense_name: 'Phá hoại tài sản công',
+    offense_group: 'XP_SH',
+    description: 'Điều 339 BLHS 2015',
+    legal_article_no: '339',
+    legal_article_text: 'Tội phá hoại tài sản',
+  },
   // Tội về quyền tự do
-  { offense_code: 'TDS_BAT_GIU_NGUOI_TRAI_PHEP', offense_name: 'Bắt, giữ hoặc giam người trái pháp luật', offense_group: 'XP_TU_DO', description: 'Điều 157 BLHS 2015', legal_article_no: '157', legal_article_text: 'Tội bắt, giữ hoặc giam người trái pháp luật' },
+  {
+    offense_code: 'TDS_BAT_GIU_NGUOI_TRAI_PHEP',
+    offense_name: 'Bắt, giữ hoặc giam người trái pháp luật',
+    offense_group: 'XP_TU_DO',
+    description: 'Điều 157 BLHS 2015',
+    legal_article_no: '157',
+    legal_article_text: 'Tội bắt, giữ hoặc giam người trái pháp luật',
+  },
   // Tội về tài sản bổ sung
-  { offense_code: 'TDS_BUOC_TS', offense_name: 'Cưỡng đoạt tài sản', offense_group: 'XP_SH', description: 'Điều 170 BLHS 2015', legal_article_no: '170', legal_article_text: 'Tội cưỡng đoạt tài sản' },
-  { offense_code: 'TDS_SAN_XUAT_KINH_DOANH_HANG_GIA', offense_name: 'Sản xuất, buôn bán hàng giả', offense_group: 'TTQLKT', description: 'Điều 192 BLHS 2015', legal_article_no: '192', legal_article_text: 'Tội sản xuất, buôn bán hàng giả' },
-  { offense_code: 'TDS_VAN_CHUYEN_HANG_GIA', offense_name: 'Vận chuyển hàng hóa trái phép', offense_group: 'TTQLKT', description: 'Điều 188 BLHS 2015', legal_article_no: '188', legal_article_text: 'Tội vận chuyển hàng hóa trái phép' },
-  { offense_code: 'TDS_CHEM_GIET_DONG_VAT_HOANG_DA', offense_name: 'Săn bắt, giết động vật hoang dã trái phép', offense_group: 'MOI_TRUONG', description: 'Điều 234 BLHS 2015', legal_article_no: '234', legal_article_text: 'Tội săn bắt, giết động vật hoang dã trái phép' },
+  {
+    offense_code: 'TDS_BUOC_TS',
+    offense_name: 'Cưỡng đoạt tài sản',
+    offense_group: 'XP_SH',
+    description: 'Điều 170 BLHS 2015',
+    legal_article_no: '170',
+    legal_article_text: 'Tội cưỡng đoạt tài sản',
+  },
+  {
+    offense_code: 'TDS_SAN_XUAT_KINH_DOANH_HANG_GIA',
+    offense_name: 'Sản xuất, buôn bán hàng giả',
+    offense_group: 'TTQLKT',
+    description: 'Điều 192 BLHS 2015',
+    legal_article_no: '192',
+    legal_article_text: 'Tội sản xuất, buôn bán hàng giả',
+  },
+  {
+    offense_code: 'TDS_VAN_CHUYEN_HANG_GIA',
+    offense_name: 'Vận chuyển hàng hóa trái phép',
+    offense_group: 'TTQLKT',
+    description: 'Điều 188 BLHS 2015',
+    legal_article_no: '188',
+    legal_article_text: 'Tội vận chuyển hàng hóa trái phép',
+  },
+  {
+    offense_code: 'TDS_CHEM_GIET_DONG_VAT_HOANG_DA',
+    offense_name: 'Săn bắt, giết động vật hoang dã trái phép',
+    offense_group: 'MOI_TRUONG',
+    description: 'Điều 234 BLHS 2015',
+    legal_article_no: '234',
+    legal_article_text: 'Tội săn bắt, giết động vật hoang dã trái phép',
+  },
 ];
 
 async function seedOffenses(): Promise<void> {
@@ -441,15 +669,37 @@ async function seedOffenses(): Promise<void> {
 
 async function seedTemplateGroups(): Promise<Record<string, bigint>> {
   const groups = [
-    { group_code: 'G01', group_name: 'Tiếp nhận - Phân công', group_order: 1, description: 'Giai đoạn tiếp nhận tin báo và phân công Kiểm sát viên' },
-    { group_code: 'G02', group_name: 'Kiểm sát điều tra', group_order: 2, description: 'Giai đoạn kiểm sát việc khởi tố, điều tra vụ án' },
-    { group_code: 'G03', group_name: 'Kiểm sát truy tố', group_order: 3, description: 'Giai đoạn kiểm sát việc ra Cáo trạng, Quyết định truy tố' },
-    { group_code: 'G04', group_name: 'Kiểm sát xét xử', group_order: 4, description: 'Giai đoạn kiểm sát xét xử sơ thẩm, phúc thẩm' },
+    {
+      group_code: 'G01',
+      group_name: 'Tiếp nhận - Phân công',
+      group_order: 1,
+      description: 'Giai đoạn tiếp nhận tin báo và phân công Kiểm sát viên',
+    },
+    {
+      group_code: 'G02',
+      group_name: 'Kiểm sát điều tra',
+      group_order: 2,
+      description: 'Giai đoạn kiểm sát việc khởi tố, điều tra vụ án',
+    },
+    {
+      group_code: 'G03',
+      group_name: 'Kiểm sát truy tố',
+      group_order: 3,
+      description: 'Giai đoạn kiểm sát việc ra Cáo trạng, Quyết định truy tố',
+    },
+    {
+      group_code: 'G04',
+      group_name: 'Kiểm sát xét xử',
+      group_order: 4,
+      description: 'Giai đoạn kiểm sát xét xử sơ thẩm, phúc thẩm',
+    },
   ];
 
   const ids: Record<string, bigint> = {};
   for (const g of groups) {
-    const existing = await prisma.template_groups.findFirst({ where: { group_code: g.group_code } });
+    const existing = await prisma.template_groups.findFirst({
+      where: { group_code: g.group_code },
+    });
     if (existing) {
       ids[g.group_code] = existing.id;
       continue;
@@ -479,20 +729,146 @@ interface SeedTemplate {
 }
 
 const TEMPLATES: SeedTemplate[] = [
-  { template_code: 'BM-001', template_no: '01', template_name: 'Tin báo tố giác tội phạm', group_code: 'G01', stage_code: 'TIEP_NHAN', source_file_name: 'BM-001_TBTG.docx', description: 'Biên bản tiếp nhận tin báo tố giác tội phạm', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-031', template_no: '31', template_name: 'Lệnh bắt người bị giữ trong trường hợp khẩn cấp', group_code: 'G01', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-031_LenhBatNguoiBiGiuKhanCap.docx', description: 'Lệnh bắt khẩn cấp', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-053', template_no: '53', template_name: 'Lệnh cấm đi khỏi nơi cư trú', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-053_LenhCamDiKhoiNoiCuTru.docx', description: 'Lệnh cấm đi khỏi nơi cư trú', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-054', template_no: '54', template_name: 'Lệnh bắt bị can để tạm giam', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-054_LenhBatBiCanDeTamGiam.docx', description: 'Lệnh bắt bị can để tạm giam', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-055', template_no: '55', template_name: 'Lệnh tạm giam', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-055_LenhTamGiam.docx', description: 'Lệnh tạm giam bị can', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-056', template_no: '56', template_name: 'Lệnh bảo lĩnh', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-056_LenhBaoLinh.docx', description: 'Lệnh bảo lĩnh', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-057', template_no: '57', template_name: 'Lệnh đặt tiền để bảo đảm', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-057_LenhDatTienBaoDam.docx', description: 'Lệnh đặt tiền bảo đảm', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-058', template_no: '58', template_name: 'Lệnh tạm hoãn xuất cảnh', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-058_LenhTamHoanXuatCanh.docx', description: 'Lệnh tạm hoãn xuất cảnh', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-059', template_no: '59', template_name: 'Lệnh kê biên tài sản', group_code: 'G02', stage_code: 'BP_NGAN_CHAN', source_file_name: 'BM-059_LenhKeBienTaiSan.docx', description: 'Lệnh kê biên tài sản', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-070', template_no: '70', template_name: 'Cáo trạng', group_code: 'G03', stage_code: 'TRUY_TO', source_file_name: 'BM-070_CaoTrang.docx', description: 'Cáo trạng truy tố bị can', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-071', template_no: '71', template_name: 'Quyết định đình chỉ điều tra', group_code: 'G02', stage_code: 'DIEU_TRA', source_file_name: 'BM-071_QDDinhChiDieuTra.docx', description: 'Quyết định đình chỉ điều tra vụ án', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-090', template_no: '90', template_name: 'Bản kết luận điều tra', group_code: 'G02', stage_code: 'DIEU_TRA', source_file_name: 'BM-090_BanKetLuanDieuTra.docx', description: 'Bản kết luận điều tra', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-097', template_no: '97', template_name: 'Bản yêu cầu điều tra bổ sung', group_code: 'G02', stage_code: 'DIEU_TRA', source_file_name: 'BM-097_BanYeuCauDieuTraBoSung.docx', description: 'Bản yêu cầu điều tra bổ sung', default_output_formats: ['docx', 'pdf'] },
-  { template_code: 'BM-156', template_no: '156', template_name: 'Bản truy tố', group_code: 'G03', stage_code: 'TRUY_TO', source_file_name: 'BM-156_BanTruyTo.docx', description: 'Bản truy tố bị can trước Tòa', default_output_formats: ['docx', 'pdf'] },
+  {
+    template_code: 'BM-001',
+    template_no: '01',
+    template_name: 'Tin báo tố giác tội phạm',
+    group_code: 'G01',
+    stage_code: 'TIEP_NHAN',
+    source_file_name: 'BM-001_TBTG.docx',
+    description: 'Biên bản tiếp nhận tin báo tố giác tội phạm',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-031',
+    template_no: '31',
+    template_name: 'Lệnh bắt người bị giữ trong trường hợp khẩn cấp',
+    group_code: 'G01',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-031_LenhBatNguoiBiGiuKhanCap.docx',
+    description: 'Lệnh bắt khẩn cấp',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-053',
+    template_no: '53',
+    template_name: 'Lệnh cấm đi khỏi nơi cư trú',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-053_LenhCamDiKhoiNoiCuTru.docx',
+    description: 'Lệnh cấm đi khỏi nơi cư trú',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-054',
+    template_no: '54',
+    template_name: 'Lệnh bắt bị can để tạm giam',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-054_LenhBatBiCanDeTamGiam.docx',
+    description: 'Lệnh bắt bị can để tạm giam',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-055',
+    template_no: '55',
+    template_name: 'Lệnh tạm giam',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-055_LenhTamGiam.docx',
+    description: 'Lệnh tạm giam bị can',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-056',
+    template_no: '56',
+    template_name: 'Lệnh bảo lĩnh',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-056_LenhBaoLinh.docx',
+    description: 'Lệnh bảo lĩnh',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-057',
+    template_no: '57',
+    template_name: 'Lệnh đặt tiền để bảo đảm',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-057_LenhDatTienBaoDam.docx',
+    description: 'Lệnh đặt tiền bảo đảm',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-058',
+    template_no: '58',
+    template_name: 'Lệnh tạm hoãn xuất cảnh',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-058_LenhTamHoanXuatCanh.docx',
+    description: 'Lệnh tạm hoãn xuất cảnh',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-059',
+    template_no: '59',
+    template_name: 'Lệnh kê biên tài sản',
+    group_code: 'G02',
+    stage_code: 'BP_NGAN_CHAN',
+    source_file_name: 'BM-059_LenhKeBienTaiSan.docx',
+    description: 'Lệnh kê biên tài sản',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-070',
+    template_no: '70',
+    template_name: 'Cáo trạng',
+    group_code: 'G03',
+    stage_code: 'TRUY_TO',
+    source_file_name: 'BM-070_CaoTrang.docx',
+    description: 'Cáo trạng truy tố bị can',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-071',
+    template_no: '71',
+    template_name: 'Quyết định đình chỉ điều tra',
+    group_code: 'G02',
+    stage_code: 'DIEU_TRA',
+    source_file_name: 'BM-071_QDDinhChiDieuTra.docx',
+    description: 'Quyết định đình chỉ điều tra vụ án',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-090',
+    template_no: '90',
+    template_name: 'Bản kết luận điều tra',
+    group_code: 'G02',
+    stage_code: 'DIEU_TRA',
+    source_file_name: 'BM-090_BanKetLuanDieuTra.docx',
+    description: 'Bản kết luận điều tra',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-097',
+    template_no: '97',
+    template_name: 'Bản yêu cầu điều tra bổ sung',
+    group_code: 'G02',
+    stage_code: 'DIEU_TRA',
+    source_file_name: 'BM-097_BanYeuCauDieuTraBoSung.docx',
+    description: 'Bản yêu cầu điều tra bổ sung',
+    default_output_formats: ['docx', 'pdf'],
+  },
+  {
+    template_code: 'BM-156',
+    template_no: '156',
+    template_name: 'Bản truy tố',
+    group_code: 'G03',
+    stage_code: 'TRUY_TO',
+    source_file_name: 'BM-156_BanTruyTo.docx',
+    description: 'Bản truy tố bị can trước Tòa',
+    default_output_formats: ['docx', 'pdf'],
+  },
 ];
 
 async function seedTemplates(
@@ -512,9 +888,18 @@ async function seedTemplates(
   );
   const catalogModule = (await import(
     pathToFileURL(
-      resolve(REPO_ROOT, 'apps', 'web', 'src', 'lib', 'vks-template-catalog.ts'),
+      resolve(
+        REPO_ROOT,
+        'apps',
+        'web',
+        'src',
+        'lib',
+        'vks-template-catalog.ts',
+      ),
     ).href
-  )) as { vksTemplateCatalog: Parameters<typeof buildSeedTemplates>[0]['catalog'] };
+  )) as {
+    vksTemplateCatalog: Parameters<typeof buildSeedTemplates>[0]['catalog'];
+  };
   const implementedCodes = discoverImplementedCatalogCodes(
     catalogModule.vksTemplateCatalog,
   );
@@ -544,7 +929,8 @@ async function seedTemplates(
       stage_code: t.stage_code,
       render_scope: t.render_scope,
       output_strategy: t.output_strategy,
-      default_output_formats: t.default_output_formats as unknown as Prisma.InputJsonValue,
+      default_output_formats:
+        t.default_output_formats as unknown as Prisma.InputJsonValue,
       requires_review: true,
       description: t.description,
       is_active: true,
@@ -610,7 +996,9 @@ async function seedTemplates(
   );
 }
 
-async function seedLegacyTemplatesUnused(groupIds: Record<string, bigint>): Promise<void> {
+async function seedLegacyTemplatesUnused(
+  groupIds: Record<string, bigint>,
+): Promise<void> {
   let createdCount = 0;
   for (const t of TEMPLATES) {
     const existing = await prisma.templates.findFirst({
@@ -639,7 +1027,9 @@ async function seedLegacyTemplatesUnused(groupIds: Record<string, bigint>): Prom
     });
     createdCount += 1;
   }
-  console.log(`[seed] templates: tạo ${createdCount} biểu mẫu đã implement đầy đủ.`);
+  console.log(
+    `[seed] templates: tạo ${createdCount} biểu mẫu đã implement đầy đủ.`,
+  );
 }
 
 // ============================================================================
@@ -647,7 +1037,9 @@ async function seedLegacyTemplatesUnused(groupIds: Record<string, bigint>): Prom
 // ============================================================================
 
 async function seedStorageSettings(): Promise<void> {
-  const existing = await prisma.storage_settings.findFirst({ where: { is_active: true } });
+  const existing = await prisma.storage_settings.findFirst({
+    where: { is_active: true },
+  });
   if (existing) {
     console.log('[seed] storage_settings: đã có, bỏ qua.');
     return;
@@ -676,7 +1068,9 @@ async function seedStorageSettings(): Promise<void> {
 
 async function main(): Promise<void> {
   console.log('[seed] Bắt đầu seed dữ liệu nghiệp vụ QUANLYVKS.');
-  console.log(`[seed] DATABASE_URL: ${process.env.DATABASE_URL?.replace(/:[^:@]+@/, ':***@') ?? '(không có)'}`);
+  console.log(
+    `[seed] DATABASE_URL: ${process.env.DATABASE_URL?.replace(/:[^:@]+@/, ':***@') ?? '(không có)'}`,
+  );
 
   const agencyId = await seedAgencies();
   const adminOfficialId = await seedOfficials(agencyId);
@@ -688,8 +1082,12 @@ async function main(): Promise<void> {
   await seedTemplates(groupIds, adminOfficialId);
   await seedStorageSettings();
 
-  console.log('[seed] Done. Login: admin / SEED_ADMIN_USERNAME (default: admin) or tester / tester123.');
-  console.log('[seed] Lê Huy login: le_huy / SEED_LE_HUY_PASSWORD (if configured).');
+  console.log(
+    '[seed] Done. Bootstrap credentials come from the configured seed environment.',
+  );
+  console.log(
+    '[seed] Lê Huy login: le_huy / SEED_LE_HUY_PASSWORD (if configured).',
+  );
 }
 
 main()

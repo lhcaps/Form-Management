@@ -1,0 +1,162 @@
+name: Production Docker probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Immutable SemVer release tag to create only after this probe passes (for example, v1.2.3).
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Fresh production Docker proof
+    runs-on: self-hosted
+    environment: production
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify licensed font mount is available
+        shell: bash
+        env:
+          QLLAW_TNR_FONT_DIR: ${{ vars.QLLAW_TNR_FONT_DIR }}
+        run: |
+          set -euo pipefail
+          : "${QLLAW_TNR_FONT_DIR:?missing production variable}"
+          test -d "$QLLAW_TNR_FONT_DIR"
+          test -r "$QLLAW_TNR_FONT_DIR"
+          QLLAW_FONT_POLICY=required \
+          QLLAW_REQUIRED_FONT_FAMILY='Times New Roman' \
+          node scripts/fonts/verify-font-policy.mjs "$QLLAW_TNR_FONT_DIR" --stdout >/dev/null
+
+      - name: Run isolated production probe
+        shell: bash
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+          CLERK_WEBHOOK_SECRET: ${{ secrets.CLERK_WEBHOOK_SECRET }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          SEED_ADMIN_PASSWORD: ${{ secrets.SEED_ADMIN_PASSWORD }}
+          QLLAW_TNR_FONT_DIR: ${{ vars.QLLAW_TNR_FONT_DIR }}
+          WEB_ORIGIN: ${{ vars.WEB_ORIGIN }}
+          API_CORS_ORIGIN: ${{ vars.API_CORS_ORIGIN }}
+          MYSQL_DATABASE: ${{ vars.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ vars.MYSQL_USER }}
+          MYSQL_PORT: ${{ vars.MYSQL_PORT }}
+          API_PORT: ${{ vars.API_PORT }}
+          WEB_PORT: ${{ vars.WEB_PORT }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
+          MYSQL_CPU_LIMIT: ${{ vars.MYSQL_CPU_LIMIT }}
+          MYSQL_MEMORY_LIMIT: ${{ vars.MYSQL_MEMORY_LIMIT }}
+          MYSQL_PIDS_LIMIT: ${{ vars.MYSQL_PIDS_LIMIT }}
+          API_CPU_LIMIT: ${{ vars.API_CPU_LIMIT }}
+          API_MEMORY_LIMIT: ${{ vars.API_MEMORY_LIMIT }}
+          API_PIDS_LIMIT: ${{ vars.API_PIDS_LIMIT }}
+          WEB_CPU_LIMIT: ${{ vars.WEB_CPU_LIMIT }}
+          WEB_MEMORY_LIMIT: ${{ vars.WEB_MEMORY_LIMIT }}
+          WEB_PIDS_LIMIT: ${{ vars.WEB_PIDS_LIMIT }}
+        run: |
+          set -euo pipefail
+          run_id="production-probe-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          env_file="$(mktemp)"
+          compose=(docker compose --project-name "$run_id" --env-file "$env_file" -f docker-compose.prod.yml)
+          cleanup() {
+            local status="$1"
+            "${compose[@]}" down --volumes --remove-orphans >/dev/null 2>&1 || status=1
+            test -z "$(docker ps -aq --filter "label=com.docker.compose.project=$run_id")" || status=1
+            test -z "$(docker volume ls -q --filter "label=com.docker.compose.project=$run_id")" || status=1
+            rm -f "$env_file"
+            exit "$status"
+          }
+          trap 'cleanup $?' EXIT
+          umask 077
+          : "${MYSQL_ROOT_PASSWORD:?missing production secret}"
+          : "${MYSQL_PASSWORD:?missing production secret}"
+          : "${CLERK_SECRET_KEY:?missing production secret}"
+          : "${CLERK_WEBHOOK_SECRET:?missing production secret}"
+          : "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:?missing production secret}"
+          : "${SEED_ADMIN_PASSWORD:?missing production secret}"
+          : "${QLLAW_TNR_FONT_DIR:?missing production variable}"
+          : "${WEB_ORIGIN:?missing production variable}"
+          : "${API_CORS_ORIGIN:?missing production variable}"
+          : "${MYSQL_DATABASE:?missing production variable}"
+          : "${MYSQL_USER:?missing production variable}"
+          : "${MYSQL_PORT:?missing production variable}"
+          : "${API_PORT:?missing production variable}"
+          : "${WEB_PORT:?missing production variable}"
+          : "${NEXT_PUBLIC_API_BASE_URL:?missing production variable}"
+          printf '%s\n' \
+            "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" "MYSQL_PASSWORD=$MYSQL_PASSWORD" \
+            "CLERK_SECRET_KEY=$CLERK_SECRET_KEY" "CLERK_WEBHOOK_SECRET=$CLERK_WEBHOOK_SECRET" \
+            "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" \
+            "SEED_ADMIN_PASSWORD=$SEED_ADMIN_PASSWORD" "QLLAW_TNR_FONT_DIR=$QLLAW_TNR_FONT_DIR" \
+            "WEB_ORIGIN=$WEB_ORIGIN" "API_CORS_ORIGIN=$API_CORS_ORIGIN" \
+            "MYSQL_DATABASE=$MYSQL_DATABASE" "MYSQL_USER=$MYSQL_USER" \
+            "MYSQL_PORT=$MYSQL_PORT" "API_PORT=$API_PORT" "WEB_PORT=$WEB_PORT" \
+            "NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL" \
+            "MYSQL_CPU_LIMIT=${MYSQL_CPU_LIMIT:-1.00}" "MYSQL_MEMORY_LIMIT=${MYSQL_MEMORY_LIMIT:-1024m}" "MYSQL_PIDS_LIMIT=${MYSQL_PIDS_LIMIT:-256}" \
+            "API_CPU_LIMIT=${API_CPU_LIMIT:-1.50}" "API_MEMORY_LIMIT=${API_MEMORY_LIMIT:-1536m}" "API_PIDS_LIMIT=${API_PIDS_LIMIT:-512}" \
+            "WEB_CPU_LIMIT=${WEB_CPU_LIMIT:-0.75}" "WEB_MEMORY_LIMIT=${WEB_MEMORY_LIMIT:-768m}" "WEB_PIDS_LIMIT=${WEB_PIDS_LIMIT:-256}" > "$env_file"
+          "${compose[@]}" config --quiet
+          test -z "$(docker volume ls -q --filter "name=^${run_id}_mysql_data$")"
+          "${compose[@]}" build
+          "${compose[@]}" --profile bootstrap run --rm contract-bootstrap
+          "${compose[@]}" up -d
+          wait_for_url() {
+            local url="$1"
+            for _ in $(seq 1 60); do
+              if curl --fail --silent --show-error "$url" >/dev/null; then return 0; fi
+              sleep 2
+            done
+            return 1
+          }
+          wait_for_url "http://127.0.0.1:${API_PORT}/api/v1/ready"
+          wait_for_url "http://127.0.0.1:${WEB_PORT}/healthz"
+          "${compose[@]}" restart api
+          wait_for_url "http://127.0.0.1:${API_PORT}/api/v1/ready"
+          baseline_count="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e "SELECT COUNT(*) FROM _prisma_migrations WHERE migration_name = '20260711000000_squashed_baseline' AND finished_at IS NOT NULL AND rolled_back_at IS NULL;")"
+          test "$baseline_count" = "1"
+          invalid_migrations="$("${compose[@]}" exec -T mysql mariadb -N -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e 'SELECT COUNT(*) FROM _prisma_migrations WHERE finished_at IS NULL OR rolled_back_at IS NOT NULL;')"
+          test "$invalid_migrations" = "0"
+          "${compose[@]}" exec -T api sh -c "fc-match --format='%{family}\\n' 'Times New Roman' | grep -Fx 'Times New Roman' >/dev/null"
+          for service in mysql api web; do
+            container_id="$("${compose[@]}" ps -q "$service")"
+            test -n "$container_id"
+            read -r cpu_limit memory_limit pids_limit < <(docker inspect --format '{{.HostConfig.NanoCpus}} {{.HostConfig.Memory}} {{.HostConfig.PidsLimit}}' "$container_id")
+            test "$cpu_limit" -gt 0
+            test "$memory_limit" -gt 0
+            test "$pids_limit" -gt 0
+          done
+
+  tag:
+    name: Tag verified production release
+    needs: probe
+    runs-on: self-hosted
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create immutable release tag
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          tag="$RELEASE_TAG"
+          [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+            echo "Release tag already exists."
+            exit 1
+          fi
+          git config user.name "QLLaw production probe"
+          git config user.email "production-probe@users.noreply.github.com"
+          git tag --annotate "$tag" "$GITHUB_SHA" -m "Verified production release $tag"
+          git push origin "refs/tags/$tag"

@@ -47,7 +47,10 @@ const CUSTOM_OUTPUT = (args.find((a) => a.startsWith("--output=")) || "").replac
 
 // Only write output file when not filtering (full run) or when an explicit --output is given.
 // This prevents --bm= filtered runs from clobbering latest.json.
-const WRITE_OUTPUT = (!BM_FILTER || CUSTOM_OUTPUT) && (!STRICT || JSON_ONLY);
+// Machine-readable invocations must be side-effect free: Node's test runner
+// executes these probes concurrently, and writing shared latest.* evidence
+// from --json-only races with the normal report-producing gate.
+const WRITE_OUTPUT = (!BM_FILTER || CUSTOM_OUTPUT) && !STRICT && !JSON_ONLY;
 
 // ── Stable hash of locked contract (V1 schema) ──────────────────────────────
 function stableHashLocked(contract) {

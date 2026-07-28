@@ -10,7 +10,7 @@
  *
  * Mutation strategy — mutate what each audit reads:
  *   F1: reads locked contract JSON + normalized DOCX → inject TRIPLE_BRACE
- *   F2: reads normalized DOCX + renders → corrupt extractionSource path → MISSING DOCX
+ *   F2: adds paragraphs to normalized DOCX → excessive paragraph delta
  *   F3: reads normalized DOCX + renders → inject {{fake.unresolved}}
  *   F4: reads normalized DOCX + renders → corrupt slot key casing
  *   F5: reads contract JSON → add synthetic repeat slot → check report classification
@@ -97,6 +97,17 @@ const clearCache = (path) => {
   if (existsSync(path)) rmSync(path);
 };
 
+const primeF2Cache = (templateCode) => {
+  const cachePath = join(F2_CACHE_DIR, `${templateCode}.bin`);
+  clearCache(cachePath);
+  const exitCode = runAudit('test:docx-structural-fidelity', [
+    '--template-code', templateCode,
+  ]);
+  if (exitCode !== 0 || !existsSync(cachePath)) {
+    throw new Error(`could not create a clean F2 render cache for ${templateCode}`);
+  }
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // M1: F1 — inject TRIPLE_BRACE into normalized DOCX
 // F1 inspects raw XML for malformed placeholders via detectPlaceholderSyntaxDefects.
@@ -130,7 +141,7 @@ const M1 = () => {
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
-// M2: F2 — add 8 paragraphs to normalized DOCX, use --report-only mode
+// M2: F2 — add paragraphs to normalized DOCX, then compare with a clean cache
 //
 // In --report-only mode, F2 compares:
 //   original = cached DOCX (from the latest F2 run)
@@ -148,6 +159,7 @@ const M2 = () => {
   log('M2: F2 — adding 10 paragraphs to normalized DOCX (--report-only mode)');
   const BM = 'BM-001';
   const normPath = join(NORM_DIR, BM, `${BM}_normalized.docx`);
+  primeF2Cache(BM);
   const buf = readFileSync(normPath);
 
   // Add 10 paragraphs to ensure delta > 15% (cache=49p, norm+10=59p → delta=17.05%)
@@ -169,6 +181,7 @@ const M2 = () => {
     '--template-code', BM, '--report-only',
   ]);
 
+  let result = null;
   try {
     const report = JSON.parse(
       readFileSync(
@@ -176,11 +189,11 @@ const M2 = () => {
         'utf8',
       ),
     );
-    const r = (report.results ?? [])[0];
-    if (r) {
+    result = (report.results ?? [])[0] ?? null;
+    if (result) {
       log(
-        `  Report: status=${r.status} origP=${r.original?.paragraphCount} ` +
-        `rendP=${r.rendered?.paragraphCount} delta=${r.deltas?.paragraphDeltaPercent}%`,
+        `  Report: status=${result.status} origP=${result.original?.paragraphCount} ` +
+        `rendP=${result.rendered?.paragraphCount} delta=${result.deltas?.paragraphDeltaPercent}%`,
       );
     }
   } catch { /* ok */ }
@@ -188,9 +201,16 @@ const M2 = () => {
   copyFileSync(bak, normPath);
   rmSync(bak);
 
-  const passed = exitCode !== 0;
+  const passed =
+    exitCode !== 0 &&
+    result?.status === 'FAIL' &&
+    typeof result.deltas?.paragraphDeltaPercent === 'number' &&
+    result.deltas.paragraphDeltaPercent > 15;
   log(`  F2 expected FAIL, got exit=${exitCode}  ${passed ? '✓' : '✗'}`);
-  return { passed, detail: `F2 exit=${exitCode}` };
+  return {
+    passed,
+    detail: `F2 exit=${exitCode}, delta=${result?.deltas?.paragraphDeltaPercent ?? 'missing'}`,
+  };
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -350,7 +370,7 @@ process.on('SIGTERM', cleanup);
 
 const MUTATIONS = [
   { id: 'M1', name: 'F1 — TRIPLE_BRACE injection',           fn: M1 },
-  { id: 'M2', name: 'F2 — missing DOCX path',              fn: M2 },
+  { id: 'M2', name: 'F2 — excessive paragraph delta',      fn: M2 },
   { id: 'M3', name: 'F3 — unresolved placeholder injection', fn: M3 },
   { id: 'M4', name: 'F4 — slot key corruption',            fn: M4 },
   { id: 'M5', name: 'F5 — synthetic repeat slot injection',  fn: M5 },

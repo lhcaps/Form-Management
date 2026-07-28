@@ -75,13 +75,18 @@ export function remediateBm001Template(docxBuffer) {
     (paragraphXml) => colorTextRuns(paragraphXml, "000000"),
     "BM-001 remediation failed: receiver identity paragraph containing {{receiver.fullName}} was not found.",
   );
-  documentXml = replaceIdentifiedContainer(
-    documentXml,
-    TEXTBOX_PATTERN,
-    (textboxXml) => textboxXml.includes("Mẫu số 01/HS"),
-    (textboxXml) => colorTextRuns(textboxXml, "000000"),
-    "BM-001 remediation failed: top-right Mẫu số 01/HS textbox was not found.",
-  );
+  // The second step recolors the Mẫu số 01/HS textbox. If the legal-header
+  // normalizer has already removed the VML textbox (Family B transformer),
+  // there is no textbox to recolor — skip gracefully instead of throwing.
+  if (/<w:txbxContent\b[\s\S]*?Mẫu số 01\/HS/.test(documentXml)) {
+    documentXml = replaceIdentifiedContainer(
+      documentXml,
+      TEXTBOX_PATTERN,
+      (textboxXml) => textboxXml.includes("Mẫu số 01/HS"),
+      (textboxXml) => colorTextRuns(textboxXml, "000000"),
+      "BM-001 remediation failed: top-right Mẫu số 01/HS textbox was not found.",
+    );
+  }
 
   zip.file("word/document.xml", documentXml);
   return zip.generate({ type: "nodebuffer" });

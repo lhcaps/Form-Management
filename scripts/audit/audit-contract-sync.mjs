@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createPrismaMariaDbAdapter } from '../prisma-mariadb-adapter.mjs';
 /**
  * C2 — Contract Sync CI Gate
  *
@@ -144,7 +145,7 @@ async function compareWithDatabase(lockedContracts, databaseUrl) {
   let prisma;
   try {
     const { PrismaClient } = apiRequire("@prisma/client");
-    prisma = new PrismaClient({ datasourceUrl: databaseUrl });
+    prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter(databaseUrl) });
   } catch (err) {
     return {
       dbAvailable: false,

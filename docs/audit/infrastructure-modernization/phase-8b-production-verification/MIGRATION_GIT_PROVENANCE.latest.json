@@ -1,0 +1,107 @@
+{
+  "stage": "4A.4",
+  "name": "MIGRATION_GIT_PROVENANCE",
+  "run_id": "phase8b-20260711-0135",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "captured_at": "2026-07-11T01:35:00+07:00",
+  "per_migration": [
+    {
+      "migration": "20260615000000_init_schema/migration.sql",
+      "first_introduced": { "commit": "86e606cd", "date": "2026-06-19 01:46:00 +0700", "mode": "ADDED", "lines_added": 813 },
+      "subsequent_modifications": [],
+      "collisions_with_additives": ["officials.role", "officials.username", "officials.password_hash", "uq_officials_username", "templates.created_by_official_id", "template_versions.created_by_official_id", "fk_templates_created_by_official", "fk_template_versions_created_by_official", "case_offenses.is_deleted", "idx_case_offenses_deleted", "evidence_items.is_deleted", "idx_evidence_deleted"],
+      "classification": "INIT_RETROACTIVELY_EXPANDED"
+    },
+    {
+      "migration": "20260616000000_add_officials_role/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260616005000_create_auth_sessions/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260616010000_add_official_credentials/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260616020000_add_template_owner_official/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260616_add_auth_sessions/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260617010000_add_soft_delete_to_case_offenses_and_evidence/migration.sql",
+      "first_introduced": { "commit": "4ed21629", "date": "2026-06-17 08:42:38 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "days_before_init_existed": 2,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260617110000_fix_vietnamese_column_defaults/migration.sql",
+      "first_introduced": { "commit": "4661a967", "date": "2026-06-17 10:57:27 +0700", "mode": "ADDED" },
+      "init_existed_when_added": false,
+      "hours_before_init_existed": 41,
+      "classification": "ADDITIVE_CREATED_BEFORE_CURRENT_INIT"
+    },
+    {
+      "migration": "20260620150000_add_form_contract_platform_v2/migration.sql",
+      "first_introduced": { "commit": "1cff7035", "date": "2026-06-20 17:56:07 +0700", "mode": "ADDED" },
+      "init_existed_when_added": true,
+      "classification": "ADDITIVE_AFTER_CURRENT_INIT"
+    },
+    {
+      "migration": "20260620170000_enforce_form_contract_scope_uniqueness/migration.sql",
+      "first_introduced": { "commit": "1cff7035", "date": "2026-06-20 17:56:07 +0700", "mode": "ADDED" },
+      "init_existed_when_added": true,
+      "classification": "ADDITIVE_AFTER_CURRENT_INIT"
+    },
+    {
+      "migration": "20260622000000_add_clerk_auth_identities/migration.sql",
+      "first_introduced": { "commit": "a4a40095", "date": "2026-07-02 04:31:50 +0700", "mode": "ADDED" },
+      "init_existed_when_added": true,
+      "classification": "ADDITIVE_AFTER_CURRENT_INIT"
+    },
+    {
+      "migration": "20260702000000_add_auth_identity_audit_logs/migration.sql",
+      "first_introduced": { "commit": "725b7457", "date": "2026-07-02 05:18:32 +0700", "mode": "ADDED" },
+      "init_existed_when_added": true,
+      "classification": "ADDITIVE_AFTER_CURRENT_INIT"
+    },
+    {
+      "migration": "20260702_generated_document_audit_logs/migration.sql",
+      "first_introduced": { "commit": "b7c8a7be", "date": "2026-07-02 19:50:00 +0700", "mode": "ADDED" },
+      "init_existed_when_added": true,
+      "classification": "ADDITIVE_AFTER_CURRENT_INIT"
+    }
+  ],
+  "conclusions": {
+    "init_originated_first": false,
+    "init_originated_last": true,
+    "init_classification": "INIT_RETROACTIVELY_EXPANDED",
+    "additives_before_init_count": 6,
+    "additives_after_init_count": 6,
+    "init_introduced_in_commit": "86e606cd",
+    "additives_introduced_in_commit": "4ed21629 (5 migrations) + 4661a967 (1 migration)",
+    "checksum_implication": "The current init_schema checksum is the ONLY checksum in git history. There is no older init_schema to recover. The original additive migrations (1, 3, 4, 6) were designed against a non-existent schema; restoring an 'original' init_schema would require fabricating its content.",
+    "released_environments_affected": "Unknown. Cannot determine whether any production / persistent environment applied a different version of init_schema because git history contains only one version. Any deployed environment that received the current init_schema would see collisions if it also runs the additive migrations (which is exactly the current failure mode)."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "runId": "phase8b-codex-c3-20260710203333",
+  "startedAt": "2026-07-10T20:33:33.902Z",
+  "completedAt": "2026-07-10T20:33:39.499Z",
+  "durationMs": 5597,
+  "verdict": "TRANSITION_NO_GO",
+  "fatal": "Error: load schema-only clone failed (exit 1): --------------\nCREATE TABLE `audit_logs` (\n  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n  `actor_name` varchar(255) DEFAULT NULL,\n  `action` varchar(100) NOT NULL,\n  `entity_type` varchar(100) NOT NULL,\n  `entity_id` bigint(20) unsigned DEFAULT NULL,\n  `case_id` bigint(20) unsigned DEFAULT NULL,\n  `old_value_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`old_value_json`)),\n  `new_value_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`new_value_json`)),\n  `ip_address` varchar(100) DEFAULT NULL,\n  `user_agent` text DEFAULT NULL,\n  `created_at` datetime NOT NULL DEFAULT current_timestamp(),\n  PRIMARY KEY (`id`),\n  KEY `idx_audit_logs_action` (`action`),\n  KEY `idx_audit_logs_actor` (`actor_name`),\n  KEY `idx_audit_logs_case` (`case_id`),\n  KEY `idx_audit_logs_created_at` (`created_at`),\n  KEY `idx_audit_logs_entity` (`entity_type`,`entity_id`),\n  CONSTRAINT `fk_audit_logs_case` FOREIGN KEY (`case_id`) REFERENCES `cases` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION\n) ENGINE=InnoDB AUTO_INCREMENT=1575 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci\n--------------\n\nERROR 1005 (HY000) at line 39: Can't create table `quanlyvks_transition`.`audit_logs` (errno: 150 \"Foreign key constraint is incorrectly formed\")\n\n    at requireSuccess (file:///D:/Study/Project/QLLaw-main/docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/codex-stage-c-transition-sim.mjs:82:11)\n    at resetClone (file:///D:/Study/Project/QLLaw-main/docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/codex-stage-c-transition-sim.mjs:278:3)\n    at scenarioE1 (file:///D:/Study/Project/QLLaw-main/docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/codex-stage-c-transition-sim.mjs:340:17)\n    at file:///D:/Study/Project/QLLaw-main/docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/codex-stage-c-transition-sim.mjs:536:14",
+  "cleanup": {
+    "containerRemoveExit": 0,
+    "leftovers": [],
+    "workspaceRemoved": true
+  }
+}

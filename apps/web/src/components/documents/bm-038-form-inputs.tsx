@@ -7,10 +7,9 @@ import {
   BmFormSection,
 } from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-import { useEffect, useMemo, useState } from "react";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { useEffect, useMemo, useState } from "react";
 
 type SectionName =
   | "agency"
@@ -782,92 +781,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm038FormInputs 
   });
 }
 
-async function getBm038RenderPayload(
-  documentId: string | number,
-): Promise<Record<string, unknown>> {
-  try {
-    const detailResponse = await fetch(`${API_BASE_URL}/documents/generated/${documentId}`, {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    });
-
-    if (detailResponse.ok) {
-      const detailPayload = (await detailResponse.json()) as Record<string, unknown>;
-      const savedFormInputs =
-        getNestedValue(detailPayload, "renderPayloadSnapshot.formInputs") ??
-        getNestedValue(detailPayload, "render_payload_snapshot.formInputs") ??
-        getNestedValue(detailPayload, "data.renderPayloadSnapshot.formInputs") ??
-        getNestedValue(detailPayload, "data.render_payload_snapshot.formInputs");
-
-      if (isRecord(savedFormInputs) && Object.keys(savedFormInputs).length > 0) {
-        return detailPayload;
-      }
-    }
-  } catch {
-    // fallback below
-  }
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-038. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm038FormInputs(
-  documentId: string | number,
-  form: Bm038FormInputs,
-): Promise<void> {
-  const savePayload = buildSyncedForm(form);
-
-  const juvenileLine = savePayload.legalBasis.includeJuvenileJusticeLine
-    ? savePayload.legalBasis.juvenileJusticeLine || DEFAULT_JUVENILE_LINE
-    : "";
-
-  savePayload.legalBasis.juvenileJusticeLine = juvenileLine;
-
-  const legalBasisAny = savePayload.legalBasis as unknown as Record<string, unknown>;
-  legalBasisAny["juvenileLegalBasisLine"] = juvenileLine;
-  legalBasisAny["minorLegalBasisLine"] = juvenileLine;
-  legalBasisAny["isJuvenile"] = savePayload.legalBasis.includeJuvenileJusticeLine
-    ? "true"
-    : "false";
-  legalBasisAny["includeJuvenileJusticeLine"] =
-    savePayload.legalBasis.includeJuvenileJusticeLine;
-
-  const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        updatedByName,
-        formInputs: savePayload,
-        ...savePayload,
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không lưu được dữ liệu BM-038. HTTP ${response.status}`);
-  }
-}
-
 function getMissingFields(form: Bm038FormInputs): RequiredField[] {
   return REQUIRED_FIELDS.filter(({ section, field }) => {
     const sectionValue = form[section] as unknown as Record<string, unknown>;
@@ -1069,7 +982,7 @@ export function Bm038FormInputsPanel({
         setIsLoading(true);
         setErrorMessage("");
 
-        const payload = await getBm038RenderPayload(documentId);
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
         const normalized = normalizeFormInputs(payload);
 
         if (!isMounted) return;
@@ -1167,7 +1080,29 @@ export function Bm038FormInputsPanel({
 
     try {
       const savePayload = buildSyncedForm(form);
-      await saveBm038FormInputs(documentId, savePayload);
+
+      const juvenileLine = savePayload.legalBasis.includeJuvenileJusticeLine
+        ? savePayload.legalBasis.juvenileJusticeLine || DEFAULT_JUVENILE_LINE
+        : "";
+
+      savePayload.legalBasis.juvenileJusticeLine = juvenileLine;
+
+      const legalBasisAny = savePayload.legalBasis as unknown as Record<string, unknown>;
+      legalBasisAny["juvenileLegalBasisLine"] = juvenileLine;
+      legalBasisAny["minorLegalBasisLine"] = juvenileLine;
+      legalBasisAny["isJuvenile"] = savePayload.legalBasis.includeJuvenileJusticeLine
+        ? "true"
+        : "false";
+      legalBasisAny["includeJuvenileJusticeLine"] =
+        savePayload.legalBasis.includeJuvenileJusticeLine;
+
+      const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+        formInputs: savePayload,
+        ...savePayload,
+      });
 
       setForm(savePayload);
       setInitialSnapshot(JSON.stringify(savePayload));

@@ -1,5 +1,7 @@
 "use client";
 
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 import {
   BmFieldText,
   BmFieldTextarea,
@@ -9,9 +11,6 @@ import {
 import { FormActionBar } from "@/components/common/form-action-bar";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 type TextRecord = Record<string, string>;
 
@@ -195,31 +194,14 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm084FormInputs 
 }
 
 async function getBm084RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    { method: "GET", headers: { Accept: "application/json" }, cache: "no-store" }
-  );
-  if (!response.ok) {
-    throw new Error(`Không tải được payload BM-084. HTTP ${response.status}`);
-  }
-  return (await response.json()) as Record<string, unknown>;
+  return getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveBm084FormInputs(
   documentId: string | number,
   form: Bm084FormInputs,
 ): Promise<void> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8", Accept: "application/json" },
-      body: JSON.stringify({ ...form, updatedByName: form.signature.signerName }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`Không lưu được BM-084. HTTP ${response.status}`);
-  }
+  await saveDocumentFormInputs(documentId, { ...form, updatedByName: form.signature.signerName });
 }
 
 export function Bm084FormInputsPanel({ documentId, onSaved }: Bm084FormInputsPanelProps) {

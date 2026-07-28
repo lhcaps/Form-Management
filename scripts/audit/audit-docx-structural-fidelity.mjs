@@ -178,9 +178,7 @@ const preprocessDocxZip = (buf) => {
 const renderOneSync = (templateCode, contractPath, normalizedDocxPath, outputBinPath) => {
   const { writeFileSync, readFileSync: readF, existsSync, mkdirSync } = $require('node:fs');
   const { join: j2join } = $require('node:path');
-  const { tmpdir: otmpdir } = $require('node:os');
-
-  const scriptDir = j2join(otmpdir(), `f2-render-${process.pid}`);
+  const scriptDir = j2join(ROOT, 'apps', 'api', '.cache', `f2-render-${process.pid}`);
   mkdirSync(scriptDir, { recursive: true });
   const scriptPath = j2join(scriptDir, `_render_${templateCode}.ts`);
 
@@ -284,8 +282,12 @@ writeFileSync(outPath, outBuf);
     if (existsSync(outputBinPath)) {
       return readF(outputBinPath);
     }
-  } catch {
-    // render failed
+  } catch (error) {
+    const detail = String(error.stderr ?? error.message ?? error)
+      .trim()
+      .replace(/\s+/g, ' ')
+      .slice(0, 800);
+    process.stderr.write(`[F2] renderer failed for ${templateCode}: ${detail || 'unknown subprocess error'}\n`);
   } finally {
     try { unlinkSync(scriptPath); } catch { /* ok */ }
     try { rmdirSync(scriptDir); } catch { /* ok */ }
@@ -371,7 +373,7 @@ const auditOne = (templateCode, sourceId, normBuf, rendBuf, allowlist) => {
   if (footerDelta !== 0 && Math.abs(footerDelta) > t.allowedFooterDelta) failures.push(`footerCount changed by ${footerDelta}`);
   if (numDelta < -t.allowedNumberingDelta) failures.push(`numberingDefinitions decreased by ${Math.abs(numDelta)}`);
   if (sectDelta < -t.allowedSectionPropertiesDelta) failures.push(`sectionProperties decreased by ${Math.abs(sectDelta)}`);
-  if (paraDelta > t.paragraphDeltaPercent) warnings.push(`paragraphDeltaPercent=${paraDelta.toFixed(1)}% exceeds threshold ${t.paragraphDeltaPercent}%`);
+  if (paraDelta > t.paragraphDeltaPercent) failures.push(`paragraphDeltaPercent=${paraDelta.toFixed(1)}% exceeds threshold ${t.paragraphDeltaPercent}%`);
 
   // Special notes for F1_FIX-repaired BMs
   if (['BM-031', 'BM-059'].includes(templateCode)) {

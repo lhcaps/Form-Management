@@ -8,8 +8,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type TextRecord = Record<string, string>;
 
@@ -451,51 +450,7 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm023FormInputs 
 async function getBm023RenderPayload(
   documentId: string | number,
 ): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không tải được payload BM-023. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function requestSave(
-  documentId: string | number,
-  method: "POST" | "PATCH",
-  body: unknown,
-): Promise<{
-  ok: boolean;
-  status: number;
-  text: string;
-}> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(body),
-    },
-  );
-
-  return {
-    ok: response.ok,
-    status: response.status,
-    text: await response.text(),
-  };
+  return getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveBm023FormInputs(
@@ -515,15 +470,7 @@ async function saveBm023FormInputs(
     convertedByName: "",
   };
 
-  let result = await requestSave(documentId, "POST", body);
-
-  if (!result.ok && (result.status === 404 || result.status === 405)) {
-    result = await requestSave(documentId, "PATCH", body);
-  }
-
-  if (!result.ok) {
-    throw new Error(result.text || `Không lưu được BM-023. HTTP ${result.status}`);
-  }
+  await saveDocumentFormInputs(documentId, body);
 
   return ready;
 }

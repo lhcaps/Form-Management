@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createPrismaMariaDbAdapter } from '../prisma-mariadb-adapter.mjs';
 /**
  * Phase D hotfix — Migrate compiled_json from V1 to V2 for all published forms.
  *
@@ -130,7 +131,7 @@ async function migrateToDb(contracts, opts) {
     }
   }
 
-  const prisma = new PrismaClient({ datasourceUrl: DATABASE_URL });
+  const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter(DATABASE_URL) });
 
   let updated = 0;
   let skipped = 0;

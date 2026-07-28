@@ -1,3 +1,6 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { ConfigurationError } from '../../common/application-error';
 import { AppConfigService } from './app-config.service';
 
@@ -8,6 +11,17 @@ const productionBaseEnv = {
   SEED_ADMIN_PASSWORD: 'strong-password',
   CLERK_SECRET_KEY: 'test-clerk-secret-key-value',
   CLERK_WEBHOOK_SECRET: 'test-clerk-webhook-secret-value',
+};
+
+const customerLocalEnv = {
+  NODE_ENV: 'production',
+  QLLAW_DEPLOYMENT_MODE: 'customer-local',
+  WEB_ORIGIN: 'http://127.0.0.1:3000',
+  API_CORS_ORIGIN: 'http://127.0.0.1:3000',
+  AUTH_COOKIE_SECURE: 'false',
+  AUTH_COOKIE_SAMESITE: 'lax',
+  SEED_ADMIN_PASSWORD: 'customer-local-bootstrap-password',
+  CLERK_SECRET_KEY: 'sk_test_customer_local',
 };
 
 describe('AppConfigService', () => {
@@ -168,6 +182,25 @@ describe('AppConfigService', () => {
     );
   });
 
+  it('allows the narrowly-scoped customer-local profile without a webhook', () => {
+    const config = new AppConfigService(customerLocalEnv);
+
+    expect(() => config.assertProductionSafety()).not.toThrow();
+    expect(config.effectiveAuthCookieSecure).toBe(false);
+  });
+
+  it('rejects a non-loopback customer-local origin', () => {
+    const config = new AppConfigService({
+      ...customerLocalEnv,
+      WEB_ORIGIN: 'http://192.168.1.20:3000',
+      API_CORS_ORIGIN: 'http://192.168.1.20:3000',
+    });
+
+    expect(() => config.assertProductionSafety()).toThrow(
+      'Customer-local deployments must use loopback HTTP origins only.',
+    );
+  });
+
   it('rejects production placeholder secrets and passwords', () => {
     const placeholderClerkSecret = new AppConfigService({
       ...productionBaseEnv,
@@ -225,6 +258,13 @@ describe('AppConfigService', () => {
     expect(() => config.apiPort).toThrow('API_PORT must be an integer');
   });
 
+  it('uses API_PORT before the platform PORT fallback', () => {
+    expect(new AppConfigService({ PORT: '4100' }).apiPort).toBe(4100);
+    expect(
+      new AppConfigService({ API_PORT: '4200', PORT: '4100' }).apiPort,
+    ).toBe(4200);
+  });
+
   it('defaults contract rendering to off with an empty allow-list', () => {
     const config = new AppConfigService({});
 
@@ -259,5 +299,57 @@ describe('AppConfigService', () => {
     expect(() => invalidTemplate.documentRendererContractTemplates).toThrow(
       'DOCUMENT_RENDERER_CONTRACT_TEMPLATES contains invalid code',
     );
+  });
+
+  it('defaults font policy to required and exposes container font dir', () => {
+    const config = new AppConfigService({});
+
+    expect(config.fontPolicy).toBe('required');
+    expect(config.requiredFontFamily).toBe('Times New Roman');
+    expect(config.containerFontDir).toBe('/opt/qllaw/fonts/times-new-roman');
+  });
+
+  it('accepts fallback-allowed font policy and rejects unknown values', () => {
+    const fallback = new AppConfigService({
+      QLLAW_FONT_POLICY: 'fallback-allowed',
+    });
+    expect(fallback.fontPolicy).toBe('fallback-allowed');
+
+    const invalid = new AppConfigService({
+      QLLAW_FONT_POLICY: 'liberation-everywhere',
+    });
+    expect(() => invalid.fontPolicy).toThrow(
+      "QLLAW_FONT_POLICY must be 'required' or 'fallback-allowed'",
+    );
+  });
+
+  it('returns null from font verification report when the entrypoint file is absent', () => {
+    const config = new AppConfigService({});
+    expect(config.readFontVerificationReport()).toBeNull();
+  });
+
+  it('parses the entrypoint font verification report when present', async () => {
+    const report = {
+      policy: 'required',
+      requiredFamily: 'Times New Roman',
+      aggregate: 'EXACT_REQUIRED_FONT_PASS',
+      presentStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+      missingStyles: [],
+      requiredStyles: ['Regular', 'Bold', 'Italic', 'Bold Italic'],
+      perFont: [],
+    };
+    const tempDirectory = mkdtempSync(join(tmpdir(), 'qllaw-font-verification-'));
+    const tmpPath = join(tempDirectory, 'report.json');
+    writeFileSync(tmpPath, JSON.stringify(report), 'utf8');
+
+    const config = new AppConfigService({
+      QLLAW_FONT_VERIFICATION_REPORT: tmpPath,
+    });
+
+    try {
+      expect(config.readFontVerificationReport()).toEqual(report);
+    } finally {
+      rmSync(tempDirectory, { recursive: true, force: true });
+    }
   });
 });

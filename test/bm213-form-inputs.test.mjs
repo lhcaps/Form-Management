@@ -12,7 +12,8 @@ test("BM-213 uses a bespoke form aligned with its semantic DOCX contract", () =>
 
   assert.doesNotMatch(source, /GenericTemplateFormInputsPanel/u);
   assert.match(source, /BmFormSection/u);
-  assert.match(source, /\/documents\/generated\/\$\{documentId\}\/form-inputs/u);
+  assert.match(source, /getDocumentRenderPayload/u);
+  assert.match(source, /saveDocumentFormInputs/u);
 
   for (const field of [
     "fullName",

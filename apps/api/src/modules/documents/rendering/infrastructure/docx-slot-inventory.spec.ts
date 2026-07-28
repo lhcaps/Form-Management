@@ -35,6 +35,7 @@
  *  - This spec does NOT render DOCX. The audit script doesn't either.
  */
 
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -59,7 +60,10 @@ interface PerBmReport {
   templateCode: string;
   sourceId: string | null;
   fileName: string;
+  contractSha256: string;
   docxPresent: boolean;
+  docxRelativePath: string;
+  docxSha256: string;
   totalDocxSlots: number;
   canonicalPaths: string[];
   renderBindings: string[];
@@ -74,6 +78,14 @@ interface PerBmReport {
 interface SlotInventoryReport {
   generatedAt: string;
   status: 'PASS' | 'FAIL';
+  provenance: {
+    schemaVersion: 1;
+    algorithm: 'sha256';
+    auditImplementationSha256: string;
+    inputDigest: string;
+    lockedContractCount: number;
+    normalizedDocxCount: number;
+  };
   summary: {
     totalContracts: number;
     totalTemplatesFound: number;
@@ -103,12 +115,45 @@ describe('F1 — DOCX slot inventory + placeholder syntax audit', () => {
   const report = loadReport();
   const bm051 = report.perBm.find((r) => r.templateCode === 'BM-051');
 
-  it('produces a recent report (within the last 24h)', () => {
-    const generated = new Date(report.generatedAt).getTime();
-    const ageMs = Date.now() - generated;
-    // Allow up to 24h staleness so a CI run that schedules the audit
-    // before the test does not fail by clock drift alone.
-    expect(ageMs).toBeLessThan(24 * 60 * 60 * 1000);
+  it('matches the current audit implementation and governed input bytes', () => {
+    const sha256 = (value: Buffer | string) =>
+      createHash('sha256').update(value).digest('hex');
+    const implementationPath = join(
+      REPO_ROOT,
+      'scripts',
+      'audit',
+      'audit-docx-slot-inventory.mjs',
+    );
+    expect(report.provenance.auditImplementationSha256).toBe(
+      sha256(readFileSync(implementationPath)),
+    );
+
+    const inputs = report.perBm.map((row) => ({
+      templateCode: row.templateCode,
+      fileName: row.fileName,
+      contractSha256: sha256(
+        readFileSync(
+          join(
+            REPO_ROOT,
+            'docs',
+            'audit',
+            'docx',
+            'contracts',
+            'locked',
+            row.fileName,
+          ),
+        ),
+      ),
+      docxRelativePath: row.docxRelativePath,
+      docxSha256: sha256(
+        readFileSync(join(REPO_ROOT, ...row.docxRelativePath.split('/'))),
+      ),
+    }));
+    expect(report.provenance.inputDigest).toBe(
+      sha256(JSON.stringify(inputs)),
+    );
+    expect(report.provenance.lockedContractCount).toBe(213);
+    expect(report.provenance.normalizedDocxCount).toBe(213);
   });
 
   it('covers all 213 locked contracts', () => {

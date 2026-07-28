@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1",
+  "templateCode": "BM-171",
+  "generatedAt": "2026-07-05T11:33:36.364Z",
+  "decision": "GRANTED",
+  "visualSignoffGranted": true,
+  "rolloutReady": true,
+  "approver": "Planner",
+  "approvedAt": "2026-07-05T11:33:30.000Z",
+  "approvalSource": "PR7A.5 visual/openability evidence (Microsoft Word 16.0 COM open + PDF/PNG/contact-sheet rasterisation + 17/18 visual checks PASS, 1 LOW NEEDS_HUMAN accepted)",
+  "bm171": "GRANTED",
+  "massRollout": "BLOCKED",
+  "lockedDocxMutation": false,
+  "lockedTemplateMutation": false,
+  "fakeGeneratedDocumentId": false,
+  "templateDbWrite": false,
+  "reviewedArtifact": {
+    "path": "docs/audit/bm-visual-signoff/BM-171/rendered.latest.docx",
+    "relativePath": "docs/audit/bm-visual-signoff/BM-171/rendered.latest.docx",
+    "kind": "rendered-DOCX (full synthetic fixture)",
+    "renderPath": "production (ContractRenderPlanBuilder + DocxtemplaterContractRenderEngine + BM-171 style profile)",
+    "canonicalFixture": "post-PR7A.4 (matches pr6g31-bm171-rendered-docx-parity.spec.ts; all 34 BM-171 locked-contract slots populated with synthetic non-real-PII data)",
+    "extractedText": {
+      "path": "docs/audit/bm-visual-signoff/BM-171/extracted-text.latest.txt",
+      "sha256OfExtraction": "<computed at write time; see packet-builder visual-signoff.latest.json renderedDocxSha256>",
+      "referencedSha256": "C9CB504F7A1DE87761F95A1F06B7DAF1A24F885F88C8E250E2ED06DEDA1A4B34"
+    }
+  },
+  "reviewedDocxSha256": "C9CB504F7A1DE87761F95A1F06B7DAF1A24F885F88C8E250E2ED06DEDA1A4B34",
+  "sourceDocxSha256": "BBFD0720691ED6EA85B106F2ABBF6734E4297D4120A1E17C84D498F78ED623A2",
+  "sourceDocxSha256": "BBFD0720691ED6EA85B106F2ABBF6734E4297D4120A1E17C84D498F78ED623A2",
+  "approvedHumanVisualChecks": [
+    {
+      "id": "openability-no-repair",
+      "label": "Word opens rendered DOCX without repair prompt",
+      "verdict": "PASS"
+    },
+    {
+      "id": "page-count",
+      "label": "Source and rendered page count acceptable (2 vs 2)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "header-left-block",
+      "label": "Header left block retained (VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "header-right-block",
+      "label": "Header right block retained (VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "cong-hoa-alignment",
+      "label": "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM alignment comparable to source",
+      "verdict": "PASS"
+    },
+    {
+      "id": "mau-so-171-hs",
+      "label": "Mẫu số 171/HS position acceptable (LOW severity; accepted as non-blocking by Planner)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "so-block",
+      "label": "Số: 01/QĐ-VKSKV7 block acceptable",
+      "verdict": "PASS"
+    },
+    {
+      "id": "title-block",
+      "label": "Title block QUYẾT ĐỊNH + TRẢ LẠI TÀI SẢN centered and close to source",
+      "verdict": "PASS"
+    },
+    {
+      "id": "legal-basis-block",
+      "label": "Legal-basis block preserved (Căn cứ Điều 134 + 6 additional legal-basis lines)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "no-huge-whitespace-before-quyet-dinh",
+      "label": "No huge blank white-space before QUYẾT ĐỊNH:",
+      "verdict": "PASS"
+    },
+    {
+      "id": "dieu-1-layout",
+      "label": "Điều 1 content layout acceptable",
+      "verdict": "PASS"
+    },
+    {
+      "id": "asset-lines-visible",
+      "label": "returned asset lines visible (xe máy Honda Wave RSX, sổ tiết kiệm, etc.)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "person-recipient-details",
+      "label": "person/recipient information visible (Nguyễn Văn A, 079085001234, etc.)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "dieu-2-meaningful",
+      "label": "Điều 2 visible and meaningful (Yêu cầu Phòng Cảnh sát)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "noi-nhan-block",
+      "label": "Nơi nhận block acceptable",
+      "verdict": "PASS"
+    },
+    {
+      "id": "signature-block",
+      "label": "signature block acceptable (KT. VIỆN TRƯỞNG / PHÓ VIỆN TRƯỞNG / Ký thay / Trần Thị B)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "notes-12-13-absent",
+      "label": "Notes 12 / 13 absent from final body",
+      "verdict": "PASS"
+    },
+    {
+      "id": "instruction-notes-absent",
+      "label": "instruction notes do not leak into final body (no {{...}} placeholders)",
+      "verdict": "PASS"
+    }
+  ],
+  "acceptedNeedsHumanItems": [
+    {
+      "id": "human-mau-so-position",
+      "severity": "low",
+      "label": "Visual centering of 'Mẫu số 171/HS' relative to right header block",
+      "decision": "ACCEPTED_NON_BLOCKING",
+      "rationale": "LOW severity; visual centering is acceptable for BM-171 rollout foundation. Position is visually present and readable. No regression vs source DOCX. Planner-eyeball confirms layout is acceptable for the foundation rollout; future per-BM style profile tuning can refine centering without blocking BM-171."
+    },
+    {
+      "id": "human-page-numbers",
+      "severity": "low",
+      "label": "Page number rendering (page X of Y) acceptable",
+      "decision": "ACCEPTED_NON_BLOCKING",
+      "rationale": "LOW severity; page number rendering is acceptable. Page count 2/2 matches source."
+    }
+  ],
+  "sot": {
+    "evidenceSource": "docs/audit/bm-visual-signoff/BM-171/PR7A5_BM171_VISUAL_VERIFICATION.latest.json",
+    "visualSignoffPacket": "docs/audit/bm-visual-signoff/BM-171/visual-signoff.latest.json",
+    "renderedDocxPath": "docs/audit/bm-visual-signoff/BM-171/rendered.latest.docx",
+    "sourceRenderParityReport": "docs/audit/unified-bm-workspace/PR7A4_BM-171_SOURCE_RENDER_PARITY.latest.md",
+    "openabilityReport": "docs/audit/unified-bm-workspace/PR7A4_BM-171_OPENABILITY.latest.md",
+    "sourcePdf": "docs/audit/bm-visual-signoff/BM-171/source-render-visual/source.latest.pdf",
+    "renderedPdf": "docs/audit/bm-visual-signoff/BM-171/source-render-visual/rendered.latest.pdf",
+    "contactSheet": "docs/audit/bm-visual-signoff/BM-171/source-render-visual/contact-sheet.latest.png"
+  },
+  "explicitStatement": {
+    "wordOpenability": "PASS (Microsoft Word 16.0 opened source + rendered DOCX without repair prompt / unreadable-content prompt)",
+    "visualChecks": "17 PASS / 1 LOW NEEDS_HUMAN accepted / 0 FAIL out of 18 total checks",
+    "forbiddenNoteLeak": "Notes 12 / 13 absent; instruction notes ({{...}}) absent; no placeholder leaks",
+    "legalBasisPreservation": "All 6 'Căn cứ …' legal-basis lines preserved in rendered body",
+    "headerPreservation": "Header left block + right block retained",
+    "bm001Regression": "BM-001 final = PASS / rollout = READY; no regression from this approval"
+  },
+  "downstreamEffects": [
+    "audit:bm-final BM-171 — style.summary.status flips to PASS, status=PASS, rolloutReady=true",
+    "audit:bm-rollout-ready BM-171 — visual-style-signoff gate flips from MANUAL_REQUIRED to PASS, manualReviewRequired=false, status=READY, rolloutReady=true",
+    "BM-001 remains READY; this approval does NOT touch BM-001's existing manual-approval artefact",
+    "No mass rollout; other BMs (BM-002..BM-213) still report NOT_APPLICABLE / MANUAL_REQUIRED / FAIL until their own per-BM artefacts exist",
+    "No locked DOCX / template / contract mutation; no fake generatedDocumentId; no /templates DB write",
+    "PR7B (Form Rollout Factory) is NOT started; this PR only finalizes BM-171 foundation"
+  ],
+  "consumerNotes": {
+    "audit-bm-final": "When this file exists at docs/audit/bm-visual-signoff/BM-171/manual-approval.latest.json AND its `decision === 'GRANTED'` AND `visualSignoffGranted === true` AND the file's `reviewedDocxSha256` matches the on-disk rendered DOCX sha256 (C9CB504F7A1DE87761F95A1F06B7DAF1A24F885F88C8E250E2ED06DEDA1A4B34) at evaluation time, the harness MAY treat the style section's status as PASS for BM-171 only. The harness must keep the rolloutReady gate at status==='PASS' && safety.* green and must NOT flip rolloutReady for any other BM.",
+    "audit-bm-rollout-ready": "When this file exists, decision=GRANTED, visualSignoffGranted=true, and templateCode=BM-171, the gate MAY treat gate 15 (visual-style-signoff) as PASS (instead of MANUAL_REQUIRED) — but only when the final audit's style.status is also PASS (which it will become after re-running audit:bm-final with this artefact in place). Other gates (1..14, 16) are unaffected. The rolloutReady boolean only flips to true when every gate (1..16) is PASS / NOT_APPLICABLE."
+  }
+}

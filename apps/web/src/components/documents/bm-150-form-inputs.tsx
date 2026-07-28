@@ -2,15 +2,13 @@
 
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import { getDocumentRenderPayload, saveDocumentFormInputs } from '@/lib/document-form-api';
 
 import {
   BmFieldText,
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:3001/api/v1';
 
 type Bm150FormInputsPanelProps = {
   documentId: string | number;
@@ -282,16 +280,7 @@ export function Bm150FormInputsPanel({
     setMessage('');
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { cache: 'no-store' },
-      );
-
-      if (!response.ok) {
-        throw new Error(`Không tải được render-payload: HTTP ${response.status}`);
-      }
-
-      const payload = await response.json();
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       setForm(mergePayloadToForm(payload));
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Không tải được BM-150.');
@@ -360,20 +349,7 @@ export function Bm150FormInputsPanel({
     };
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify(body),
-        },
-      );
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text || `Lưu thất bại: HTTP ${response.status}`);
-      }
-
+      await saveDocumentFormInputs(documentId, body);
       setMessage('Đã lưu dữ liệu BM-150 thành công.');
       await onSaved?.();
       await loadPayload();

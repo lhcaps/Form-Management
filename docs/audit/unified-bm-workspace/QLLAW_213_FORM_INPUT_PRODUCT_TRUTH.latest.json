@@ -1,0 +1,43 @@
+{
+  "snapshotDate": "2026-07-08T00:18+07:00",
+  "branch": "feat/pr6g2-bm-final-audit-harness",
+  "head": "f215a52ab13268700e11bce143eed56f9ea5db76",
+  "dirtyFiles": {
+    "modified": 170,
+    "deleted": 32,
+    "untracked": 339
+  },
+  "devServer": {
+    "pnpmDevRunning": true,
+    "bm001HttpStatus": 200,
+    "apiHealthStatus": 200,
+    "formCatalogLockedCount": 213,
+    "evidence": "terminals/1.txt"
+  },
+  "counts": {
+    "compiledContracts": 213,
+    "lockedContracts": 213,
+    "formFlightProfileSkeletons": 213,
+    "runtimeUxProfilesRegistered": 2,
+    "runtimeReadyAllowlistSize": 2,
+    "bmNNNComponents": 213
+  },
+  "runtimeUxProfilesRegisteredList": ["BM-001", "BM-171"],
+  "runtimeReadyAllowlist": ["BM-001", "BM-171"],
+  "status": {
+    "INPUT_CONNECTED_PASS": 1,
+    "INPUT_CONNECTED_PARTIAL": 1,
+    "ROUTE_BLOCKED": 0,
+    "CONTRACT_BLOCKED": 0,
+    "PREVIEW_BLOCKED": 0,
+    "FIDELITY_PENDING": 211,
+    "FIDELITY_COMPLETE_EVIDENCED": 0
+  },
+  "notes": [
+    "BM-001 is INPUT_CONNECTED_PARTIAL because of the user-reported Section 1 / stale-draft / Xóa bản nháp UX defects. After Phase 1 fix it becomes INPUT_CONNECTED_PASS.",
+    "BM-171 is the cleanest reference (INPUT_CONNECTED_PASS).",
+    "211 forms are FIDELITY_PENDING — input UI opens, but no runtime-ux profile is registered. Phase 4 generator lifts them to INPUT_CONNECTED_PARTIAL.",
+    "All 213 form-flight profile skeletons exist but only BM-001 and BM-171 are in the runtime-ready allowlist (RUNTIME_READY_FORM_FLIGHT_PROFILES).",
+    "No source DOCX, normalized DOCX, locked contract, or DB row was mutated for this snapshot."
+  ]
+}

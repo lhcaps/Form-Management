@@ -1,0 +1,88 @@
+{
+  "docVersion": "1.0.0",
+  "links": [
+    {
+      "id": "1.1",
+      "from": "BM code",
+      "to": "locked compiled runtime contract",
+      "sourceOfTruth": "docs/audit/docx/contracts/locked/BM-<NNN>__<hash12>.contract.locked.json",
+      "loader": "apps/web/src/lib/contract-platform-api.ts:getRuntimeFormContract",
+      "failureMode": "CONTRACT_BLOCKED"
+    },
+    {
+      "id": "1.2",
+      "from": "locked compiled runtime contract",
+      "to": "RuntimeUxProfile",
+      "sourceOfTruth": "apps/web/src/lib/runtime-ux/bmNNN-runtime-ux-profile.ts",
+      "registry": "apps/web/src/lib/runtime-ux/index.ts",
+      "failureMode": "INPUT_CONNECTED_PARTIAL via generic getSampleData fallback"
+    },
+    {
+      "id": "1.3",
+      "from": "RuntimeUxProfile",
+      "to": "ContractV2Renderer",
+      "renderer": "apps/web/src/features/forms-contracts/ContractV2Renderer.tsx",
+      "workspaceHost": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "failureMode": "silent title fallback to localizeSectionTitle (e.g. 'Thông tin bổ sung')"
+    },
+    {
+      "id": "1.4",
+      "from": "ContractV2Renderer",
+      "to": "runtime draft localStorage key",
+      "module": "apps/web/src/lib/runtime-template-draft.ts",
+      "keyShape": "qllaw:runtime-template-draft:<BM-NNN>:<contractHash>",
+      "failureMode": "cross-form draft leakage"
+    },
+    {
+      "id": "1.5",
+      "from": "runtime draft",
+      "to": "runtime preview payload",
+      "builder": "buildRuntimePreviewPayloadFromDraft in apps/web/src/lib/runtime-ux/runtime-preview-payload.ts",
+      "modes": ["demo-reset", "preview", "export"],
+      "failureMode": "auto-replacement of empty/stale with demo"
+    },
+    {
+      "id": "1.6",
+      "from": "runtime preview payload",
+      "to": "preview-session endpoint",
+      "client": "createRuntimePreviewSession in apps/web/src/lib/runtime-template-preview.ts",
+      "noGeneratedDocumentId": true,
+      "noSaveDocumentFormInputs": true,
+      "guardTest": "apps/web/src/lib/form-flight/runtime-ux-smart-field-contract.guard.test.mjs test #18"
+    },
+    {
+      "id": "1.7",
+      "from": "preview-session endpoint",
+      "to": "preview UI",
+      "renderer": "RuntimePdfPreview in apps/web/src/components/documents/runtime-pdf-preview.tsx"
+    },
+    {
+      "id": "1.8",
+      "from": "preview-session endpoint",
+      "to": "DOCX download",
+      "client": "downloadRuntimeTemplateDocx in apps/web/src/lib/runtime-template-export.ts"
+    }
+  ],
+  "statusCodes": [
+    "INPUT_CONNECTED_PASS",
+    "INPUT_CONNECTED_PARTIAL",
+    "ROUTE_BLOCKED",
+    "CONTRACT_BLOCKED",
+    "PREVIEW_BLOCKED",
+    "FIDELITY_PENDING",
+    "FIDELITY_COMPLETE_EVIDENCED"
+  ],
+  "invariants": [
+    "no-fake-generatedDocumentId",
+    "no-generated-document-save-from-templates-route",
+    "runtime-ux-profile-allowed-for-all-213",
+    "field-keys-must-be-in-locked-contract",
+    "no-duplicate-field-overrides",
+    "profile-must-call-registerRuntimeUxProfile",
+    "sections-with-fields-render-fields",
+    "sections-with-only-derived-fields-render-intentionally-empty"
+  ],
+  "allowedList": {
+    "RUNTIME_READY_FORM_FLIGHT_PROFILES": ["BM-001", "BM-171"]
+  }
+}

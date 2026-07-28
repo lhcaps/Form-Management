@@ -1,0 +1,101 @@
+{
+  "task": "BM171_RUNTIME_PREVIEW_PARITY_FIX_AND_UI_TRUTHFULNESS",
+  "templateCode": "BM-171",
+  "page": "/templates/BM-171",
+  "at": "2026-07-05T23:35:00Z",
+  "symptoms": [
+    "repeated 'Căn cứ Điều 41 Bộ luật Tố tụng hình sự' across multiple legal-basis slots",
+    "wrong issuer title: 'Cá nhân/Tổ chức theo quy định.'",
+    "generic asset line: 'Tài sản theo quy định pháp luật'",
+    "wrong Điều 2: 'Mô tả vụ việc mẫu'",
+    "UI shows 'Đã tạo bản xem trước' (green) while content is wrong"
+  ],
+  "productionRenderPath": {
+    "script": "apps/api/scripts/render-bm171-canonical-signoff-full.mjs",
+    "result": "PASS — 34/34 slots bound, all required anchors present"
+  },
+  "reproduction": {
+    "script": "apps/api/scripts/reproduce-bm171-runtime-preview-before.mjs",
+    "input": "BM171_DEMO from apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts (nested then flattened)",
+    "result": "PASS — all required anchors present, no forbidden placeholder, zero repeats of 'Căn cứ Điều 41'",
+    "artifactDocx": "docs/audit/bm171-runtime-preview-parity/BM171_RUNTIME_PREVIEW_BEFORE.latest.docx",
+    "artifactText": "docs/audit/bm171-runtime-preview-parity/BM171_RUNTIME_PREVIEW_BEFORE_TEXT.latest.txt",
+    "artifactRequestPayload": "docs/audit/bm171-runtime-preview-parity/BM171_RUNTIME_PREVIEW_REQUEST_PAYLOAD.latest.json"
+  },
+  "rootCauses": [
+    {
+      "id": "RC1",
+      "title": "Stale-draft leakage from generateFieldValue fallbacks",
+      "file": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "function": "applySampleData",
+      "evidence": "mergeWithSampleData skips non-empty slots (sample-data.ts:703-716). On a localStorage draft from a prior session where BM171_DEMO was absent/incomplete, data retains fallbacks like 'Căn cứ Điều 41...'.",
+      "fixRef": "F1+F2"
+    },
+    {
+      "id": "RC2",
+      "title": "previewDocx posts raw data without canonical-baseline re-assertion",
+      "file": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "function": "previewDocx",
+      "evidence": "Line 223: createRuntimePreviewSession(templateCode, data) — no recomputation against profile.demo.",
+      "fixRef": "F2"
+    },
+    {
+      "id": "RC3",
+      "title": "UI status text ignores audit.status and DOCX-only fallback",
+      "file": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "function": "statusText (lines 176-186)",
+      "evidence": "Branches only on hasVisualPreview and isDirty; does not look at previewSession.audit.status or previewSession.warnings.length.",
+      "fixRef": "F3"
+    },
+    {
+      "id": "RC4",
+      "title": "BM171_DEMO missing document.issuePlaceAndDateLine coverage",
+      "file": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts",
+      "function": "BM171_DEMO",
+      "evidence": "check-keys.mjs shows 33/34 canonical fields covered; only document.issuePlaceAndDateLine is missing.",
+      "fixRef": "F4"
+    }
+  ],
+  "fixes": [
+    {
+      "id": "F1",
+      "title": "applySampleData: skip generatedSample when profile.demo present",
+      "scope": "apps/web/src/components/documents/template-preview-workspace.tsx :: applySampleData",
+      "risk": "low",
+      "sideEffect": "Profile-equipped templates no longer fall back to generateFieldValue heuristics. Generic templates still get generatedSample."
+    },
+    {
+      "id": "F2",
+      "title": "previewDocx: recompute request data from profile.demo baseline (canonical)",
+      "scope": "apps/web/src/components/documents/template-preview-workspace.tsx :: previewDocx",
+      "risk": "low",
+      "sideEffect": "For UX-profile templates, the runtime preview always shows the canonical demo values unless user explicitly typed something at a profile path."
+    },
+    {
+      "id": "F3",
+      "title": "statusText: branch on audit.status + PDF availability",
+      "scope": "apps/web/src/components/documents/template-preview-workspace.tsx :: statusText",
+      "risk": "low",
+      "sideEffect": "Never shows green 'Đã tạo bản xem trước' on WARN or DOCX-only."
+    },
+    {
+      "id": "F4",
+      "title": "BM171_DEMO: add document.issuePlaceAndDateLine",
+      "scope": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts :: BM171_DEMO",
+      "risk": "low",
+      "sideEffect": "Covers the only path the demo fixture was missing."
+    }
+  ],
+  "outOfScope": [
+    "Mutation of locked DOCX contracts",
+    "Mutation of normalized DOCX",
+    "Mutation of source DOC/DOCX",
+    "Mass rollout to all 213 forms",
+    "Canonicalization of 55 non-canonical forms",
+    "Stabilization of 60 forms",
+    "Auth/RBAC/middleware changes",
+    "Routing /templates/BM-171 → /documents/:id",
+    "PR7B / PR7C start",
+    "Commits / pushes / PRs"
+  ]
+}

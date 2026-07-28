@@ -192,11 +192,17 @@ describe('BM096 Single Candidate Review Packet Integrity', () => {
   });
 
   describe('No write artifacts', () => {
-    it('no mutation report exists in review folder', () => {
+    it('later apply evidence remains report-only in this audit folder', () => {
       const mutationReports = readdirSync(REVIEW_DIR)
         .filter(f => f.includes('mutation') || f.includes('apply'));
-      assert.strictEqual(mutationReports.length, 0,
-        `No mutation/apply artifacts allowed, found: ${mutationReports.join(', ')}`);
+      const unexpectedPayloads = mutationReports.filter(
+        (file) => !file.endsWith('.json') && !file.endsWith('.md'),
+      );
+      assert.deepStrictEqual(
+        unexpectedPayloads,
+        [],
+        `Apply evidence must remain JSON/Markdown reports: ${unexpectedPayloads.join(', ')}`,
+      );
     });
 
     it('no locked contract files in review folder', () => {

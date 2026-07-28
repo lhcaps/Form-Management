@@ -1,0 +1,97 @@
+{
+  "phase": "BM-001 SMART UX BROWSER / E2E VERIFICATION CLOSEOUT",
+  "generatedAt": "2026-07-07",
+  "status": "PARTIAL",
+  "reason": "Browser / E2E verification was attempted but could not complete end-to-end because of a Next.js 16 + Turbopack routing issue that causes /sign-in (and /sign-up, and /templates/BM-001) to render the global 404 boundary. The Clerk ticket strategy produced a valid session token, but the browser navigation to / was aborted by the dev server before the workspace could be reached. See §4 of the markdown report for the full blocker analysis.",
+  "browserVerificationPerformed": false,
+  "playwrightUsed": true,
+  "clerkAuthUsed": true,
+  "qlvSessionUsedForWebAuth": false,
+  "sourceDocxMutated": false,
+  "normalizedDocxMutated": false,
+  "contractsMutated": false,
+  "dbMutated": false,
+  "prismaSchemaMutated": false,
+  "migrationsCreated": false,
+  "publicApiRoutePathsChanged": false,
+  "bm001CodeMutated": false,
+  "bm171Mutated": false,
+  "bm002Mutated": false,
+  "otherSkeletonsMutated": false,
+  "commitCreated": false,
+  "gitPushed": false,
+  "filesStaged": false,
+  "auth": {
+    "strategy": "Clerk ticket",
+    "ticketCreation": "PASS",
+    "sdkInjection": "PASS",
+    "navigationToWorkspace": "FAIL (net::ERR_ABORTED)",
+    "storageState": "playwright/.clerk/admin.json",
+    "dbIdentityProjection": "PASS (officials + auth_identities linked for huyle210525@gmail.com)",
+    "routeAccess": "FAIL (Next.js 404 on /sign-in)"
+  },
+  "guards": {
+    "bm001-smart-runtime-ux.guard.test.mjs": "20/20 PASS",
+    "runtime-ux-smart-field-contract.guard.test.mjs": "18/18 PASS",
+    "bm001-runtime-ready.guard.test.mjs": "15/15 PASS",
+    "form-lifecycle-wiring.guard.test.mjs": "21/21 PASS",
+    "runtime-ready-template-panel-contract.guard.test.mjs": "12/12 PASS",
+    "profile-registry-guard.test.mjs": "10/10 PASS",
+    "bm001-render-export-golden.guard.test.mjs": "17/17 PASS"
+  },
+  "validationCommands": {
+    "scripts/audit/validate-bm001-render-export-golden.mjs": "PASS",
+    "pnpm --filter web exec tsc --noEmit": "PASS",
+    "pnpm --filter api exec tsc --noEmit": "PASS"
+  },
+  "browserSmoke": {
+    "pageLoads": "NOT_RUN",
+    "titleCorrect": "NOT_RUN",
+    "runtimeReadyPanelVisible": "NOT_RUN",
+    "dateControlsVisible": "NOT_RUN",
+    "timeControlsVisible": "NOT_RUN",
+    "selectControlsVisible": "NOT_RUN",
+    "textareaControlsVisible": "NOT_RUN",
+    "rawDayMonthYearHidden": "NOT_RUN",
+    "staleValuesAbsent": "NOT_RUN",
+    "demoValuesCorrect": "NOT_RUN",
+    "previewSessionRequestJson": "NOT_RUN",
+    "noAutoDownloadOnPreview": "NOT_RUN",
+    "honestPreviewPanel": "NOT_RUN",
+    "docxDownloadStartsWithPk": "NOT_RUN",
+    "noConsoleErrors": "NOT_RUN"
+  },
+  "bm171Regression": "NOT_RUN",
+  "bm002FailClosed": "NOT_RUN",
+  "screenshots": [],
+  "networkAssertions": "None — navigation to / aborted by Next.js 404 boundary before any BM-001 request could be issued.",
+  "artifacts": {
+    "closeoutMarkdown": "docs/audit/unified-bm-workspace/BM001_SMART_RUNTIME_UX_BROWSER_VERIFICATION.latest.md",
+    "closeoutJson": "docs/audit/unified-bm-workspace/BM001_SMART_RUNTIME_UX_BROWSER_VERIFICATION.latest.json",
+    "priorSmartUxReport": "docs/audit/unified-bm-workspace/BM001_SMART_RUNTIME_UX.latest.md"
+  },
+  "remainingRisks": [
+    "Browser / E2E verification not performed; STATUS is PARTIAL.",
+    "Next.js 16 + Turbopack returns 404 for /sign-in, /sign-up, and /templates/BM-001 in the current sandbox. This is a dev-environment routing bug, not a BM-001 UX defect.",
+    "Clerk sign-in produces a fresh session token, but the session cannot be exercised because the page itself does not render.",
+    "The render/export golden, guard tests, and TypeScript compile are exhaustive (113+ assertions across 7 guard files plus the per-form golden). They continue to support the prior PASS claim — only the browser-visit layer is missing."
+  ],
+  "nextRecommendedPhase": {
+    "primary": "Resolve the Next.js 16 / Turbopack /sign-in 404 in a dedicated infra-routing phase, then re-run the BM-001 browser smoke from this artifact.",
+    "secondary": "Stop — user decision needed. Accept that the BM-001 smart-ux guarantee is upheld by exhaustive guard tests + render/export golden + TypeScript compile without a manual browser session."
+  },
+  "qualityBar": {
+    "realBrowserOrE2EVerificationPerformed": false,
+    "clerkBrowserSessionUsedForProtectedWebRoute": false,
+    "qlvSessionNotUsedForWebAuth": true,
+    "bm001SmartControlsVisibleInBrowser": "NOT_RUN",
+    "staleValuesAbsentInBrowser": "NOT_RUN",
+    "demoValuesCorrectInBrowser": "NOT_RUN",
+    "previewSessionClickedThroughUi": false,
+    "previewResponseJsonNoAutoDownload": "NOT_RUN",
+    "docxDownloadStartsWithPk": "NOT_RUN",
+    "bm171RegressionPasses": "NOT_RUN",
+    "bm002FailClosedPasses": "NOT_RUN",
+    "noSotDbSchemaRouteMutation": true
+  }
+}

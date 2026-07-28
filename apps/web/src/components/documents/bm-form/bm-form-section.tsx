@@ -9,6 +9,12 @@ type BmFormSectionProps = {
   badge?: string;
   requiredCount?: number;
   fullWidth?: boolean;
+  /**
+   * Some contract-native forms retain a 12-column width model from their
+   * locked schema. They use this hook while still sharing the BM section
+   * chrome and typography.
+   */
+  gridClassName?: string;
   children: ReactNode;
 };
 
@@ -22,13 +28,19 @@ export function BmFormSection({
   badge,
   requiredCount,
   fullWidth = true,
+  gridClassName,
   children,
 }: BmFormSectionProps) {
   return (
     <section className={BM_FORM_CLASSES.section}>
       <header className={BM_FORM_CLASSES.sectionHeader}>
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className={BM_FORM_CLASSES.sectionTitle}>{title}</h2>
+          <h2
+            data-testid="bm-form-section-title"
+            className={BM_FORM_CLASSES.sectionTitle}
+          >
+            {title}
+          </h2>
           {badge ? (
             <span className={BM_FORM_CLASSES.sectionBadge}>{badge}</span>
           ) : null}
@@ -44,9 +56,10 @@ export function BmFormSection({
       </header>
       <div
         className={
-          fullWidth
+          gridClassName ??
+          (fullWidth
             ? "mt-5 grid grid-cols-1 gap-4 md:grid-cols-2"
-            : "mt-5 flex flex-col gap-4"
+            : "mt-5 flex flex-col gap-4")
         }
       >
         {children}

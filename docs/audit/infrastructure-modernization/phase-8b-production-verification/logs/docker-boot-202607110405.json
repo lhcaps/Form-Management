@@ -1,0 +1,64 @@
+﻿{
+    "project":  "phase8b-codex-boot-202607110405",
+    "startedAt":  "2026-07-11T04:02:09.3247185+07:00",
+    "images":  {
+                   "api":  "qllaw-phase8b-codex-api:20260711-0352",
+                   "web":  "qllaw-phase8b-codex-web:20260711-0355",
+                   "database":  "mariadb:11"
+               },
+    "temporarySecretsGenerated":  true,
+    "secretsRecorded":  false,
+    "seedData":  false,
+    "composeConfig":  {
+                          "exit":  0,
+                          "apiImage":  "qllaw-phase8b-codex-api:20260711-0352",
+                          "webImage":  "qllaw-phase8b-codex-web:20260711-0355",
+                          "apiBuild":  false,
+                          "webBuild":  false,
+                          "apiPublishedPorts":  1,
+                          "webPublishedPorts":  1,
+                          "apiVolumeTargets":  [
+                                                   "/app/storage",
+                                                   "/app/logs"
+                                               ],
+                          "volumeNames":  [
+                                              "api_logs",
+                                              "api_storage",
+                                              "mysql_data"
+                                          ],
+                          "networkNames":  [
+                                               "default"
+                                           ]
+                      },
+    "up":  {
+               "exit":  1,
+               "durationMs":  9329
+           },
+    "containers":  null,
+    "health":  null,
+    "readiness":  null,
+    "users":  null,
+    "writableDirectories":  null,
+    "firstMigration":  null,
+    "restart":  null,
+    "secondMigration":  null,
+    "shutdown":  null,
+    "cleanup":  {
+                    "downExit":  0,
+                    "durationMs":  757,
+                    "containers":  [
+
+                                   ],
+                    "networks":  [
+
+                                 ],
+                    "volumes":  [
+
+                                ],
+                    "pass":  true
+                },
+    "fatal":  "Compose up failed: docker.exe :  Network phase8b-codex-boot-202607110405_default Creating \r\nAt D:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\codex-dock\r\ner-boot.ps1:44 char:14\r\n+   $output = (\u0026 docker compose @ComposeArgs @Arguments 2\u003e\u00261 | Out-Stri ...\r\n+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: ( Network phase8...fault Creating :String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n Network phase8b-codex-boot-202607110405_default Created \r\n Volume phase8b-codex-boot-202607110405_api_storage Creating \r\n Volume phase8b-codex-boot-202607110405_api_storage Created \r\n Volume phase8b-codex-boot-202607110405_api_logs Creating \r\n Volume phase8b-codex-boot-202607110405_api_logs Created \r\n Volume phase8b-codex-boot-202607110405_mysql_data Creating \r\n Volume phase8b-codex-boot-202607110405_mysql_data Created \r\n Container phase8b-codex-boot-202607110405-mysql-1 Creating \r\n Container phase8b-codex-boot-202607110405-mysql-1 Created \r\n Container phase8b-codex-boot-202607110405-api-1 Creating \r\n Container phase8b-codex-boot-202607110405-api-1 Created \r\n Container phase8b-codex-boot-202607110405-web-1 Creating \r\n Container phase8b-codex-boot-202607110405-web-1 Created \r\n Container phase8b-codex-boot-202607110405-mysql-1 Starting \r\n Container phase8b-codex-boot-202607110405-mysql-1 Started \r\n Container phase8b-codex-boot-202607110405-mysql-1 Waiting \r\n Container phase8b-codex-boot-202607110405-mysql-1 Healthy \r\n Container phase8b-codex-boot-202607110405-api-1 Starting \r\n Container phase8b-codex-boot-202607110405-api-1 Started \r\n Container phase8b-codex-boot-202607110405-api-1 Waiting \r\n Container phase8b-codex-boot-202607110405-api-1 Error dependency api failed to start\r\ndependency failed to start: container phase8b-codex-boot-202607110405-api-1 exited (1)",
+    "verdict":  "FAIL",
+    "completedAt":  "2026-07-11T04:02:19.9955512+07:00",
+    "durationMs":  10673
+}

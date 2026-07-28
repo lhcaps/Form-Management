@@ -12,9 +12,7 @@ import {
   renderDocumentDocx,
   convertDocumentPdf,
 } from "@/lib/document-render-api";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type JsonObject = Record<string, unknown>;
 
@@ -623,23 +621,7 @@ export function Bm012FormInputsPanel({
       setMessage("");
 
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-          {
-            method: "GET",
-            headers: { Accept: "application/json" },
-            cache: "no-store",
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            (await response.text()) ||
-              `Không tải được render-payload BM-012. HTTP ${response.status}`,
-          );
-        }
-
-        const payload = (await response.json()) as JsonObject;
+        const payload = await getDocumentRenderPayload<JsonObject>(documentId);
 
         if (!cancelled) {
           setForm(hydrateForm(payload));
@@ -676,24 +658,7 @@ export function Bm012FormInputsPanel({
     const body = buildSaveBody(finalForm);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify(body),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          (await response.text()) ||
-            `Không lưu được BM-012. HTTP ${response.status}`,
-        );
-      }
+      await saveDocumentFormInputs(documentId, body);
 
       setForm(finalForm);
       setIsDirty(false);

@@ -7,7 +7,6 @@ import { Topbar } from "./topbar";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isFormStudio = pathname.startsWith("/admin/form-studio");
   const isAdminPage = pathname.startsWith("/admin/auth");
 
   return (
@@ -24,13 +23,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Sidebar />
       <div style={{ minWidth: 0, flex: 1, display: "flex", flexDirection: "column" }}>
         <Topbar />
-        {/* Use div (not main) so each page can render its own <main>.
-            FormStudio pages get full-width treatment. */}
+        {/* Use div (not main) so each page can render its own <main>. */}
         <div
           style={
-            isFormStudio || isAdminPage
-              ? { width: "100%", minWidth: 0, flex: 1 }
-              : { flex: 1 }
+            isAdminPage ? { width: "100%", minWidth: 0, flex: 1 } : { flex: 1 }
           }
         >
           {children}

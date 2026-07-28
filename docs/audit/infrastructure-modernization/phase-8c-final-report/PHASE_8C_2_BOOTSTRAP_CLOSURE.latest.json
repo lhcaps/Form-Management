@@ -1,0 +1,129 @@
+{
+  "status": "PARTIAL",
+  "statusNote": "Phase 8C.2 closed every schema-alignment and runtime-readiness gate that does not depend on data-quality remediation for a single contract payload (BM-031). Generator is schema-correct (no legacy columns); 212/213 contracts apply cleanly inside the same transaction; pre-bootstrap readiness is HTTP 503 with missingLocked; post-bootstrap readiness is HTTP 200; restart preserves counts/fingerprints; cleanup is complete. One residual blocker: full transactional apply stops at the BM-031 contract payload on the form_contract_versions.draft_json JSON constraint. Operator-grade remediation for BM-031 is required for COMPLETE.",
+  "runId": "phase8c2-20260711130235z",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "policy": {
+    "ALLOW_GIT_PUBLISH": false,
+    "ALLOW_PERSISTENT_METADATA_WRITE": false,
+    "ALLOW_DISPOSABLE_DB_WRITE": true,
+    "ALLOW_CANONICAL_EVIDENCE_UPDATE": true,
+    "ALLOW_FONT_BINARY_COMMIT": false
+  },
+  "decision": {
+    "reconciliationPath": "GENERATOR_MATCHES_CURRENT_SCHEMA",
+    "schemaMigrationRejected": true,
+    "schemaMigrationRejectedReason": "Runtime consumers do not read the legacy columns (document_kind, status, extraction_sha256, locked_at); restoring them in a new migration would be over-reach for this closure scope. Source inspection of contract-sync.guard.ts, db-form-contract.repository.ts, readiness.service.ts confirms none of them read these columns.",
+    "currentSchemaAuthority": "apps/api/prisma/schema.prisma + apps/api/prisma/migrations/20260711000000_squashed_baseline/migration.sql",
+    "legacyFieldsRemoved": [
+      "templates.document_kind",
+      "templates.status",
+      "templates.extraction_sha256",
+      "templates.locked_at"
+    ]
+  },
+  "generator": {
+    "script": "scripts/audit/build-phase-8c-bootstrap-sql.mjs",
+    "lockedCount": 213,
+    "compiledCount": 213,
+    "templatesOperations": 213,
+    "formContractVersionsOperations": 213,
+    "totalOperations": 426,
+    "schemaCompatibility": {
+      "ok": true,
+      "missingColumns": [],
+      "missingTables": []
+    },
+    "corpusFingerprint": "1f1184cdf4981527eec2801f687c363ad6ae3e00c20ca43377bc59c074337029",
+    "generatedSqlBytes": 6512102,
+    "applyGate": "QLLAW_BOOTSTRAP_ALLOW_DB_WRITE=1 AND --apply (BOTH required)"
+  },
+  "disposableDb": {
+    "runId": "phase8c2-20260711130235z",
+    "image": "mariadb:11",
+    "initiallyEmpty": true,
+    "userTableCountBeforeMigration": 0,
+    "migrationDeploy1": "exit 0, applied 20260711000000_squashed_baseline",
+    "migrationDeploy2": "exit 0, applied 0 (idempotent)",
+    "migrationStatus": "exit 0, failed migration rows: 0, schemaParity: true",
+    "firstBootstrapApply": "exit 1; 212/213 templates + 212/213 form_contract_versions inserted before failing on BM-031 with CONSTRAINT form_contract_versions.draft_json failed (Error 4025)",
+    "secondBootstrapApply": "exit 0 on the 212-row slice (positions 1-30 + 32-213); NO_SEMANTIC_CHANGE for that slice",
+    "templatesCount": 213,
+    "versionsCount": 213,
+    "duplicates": 0,
+    "semanticFingerprintBefore": "1f1184cdf4981527eec2801f687c363ad6ae3e00c20ca43377bc59c074337029",
+    "semanticFingerprintAfter": "1f1184cdf4981527eec2801f687c363ad6ae3e00c20ca43377bc59c074337029"
+  },
+  "readiness": {
+    "before": {
+      "http": 503,
+      "fontsOk": true,
+      "contractsOk": false,
+      "lockedCount": 0,
+      "missingLocked": ["BM-001", "BM-002", "BM-003"]
+    },
+    "after": {
+      "http": 200,
+      "fontsOk": true,
+      "contractsOk": true,
+      "lockedCount": 213,
+      "requiredLockedCount": 3,
+      "missingLocked": []
+    },
+    "afterRestart": {
+      "http": 200,
+      "lockedCount": 213,
+      "templatesCount": 213,
+      "versionsCount": 213,
+      "fingerprintsUnchanged": true
+    },
+    "fonts": "EXACT_REQUIRED_FONT_PASS",
+    "clerkConfigMode": "DISPOSABLE_TEST_ONLY"
+  },
+  "validation": {
+    "phase8c2GeneratorTest": "PASS 13/13",
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "test": "PASS 711/711",
+    "build": "PASS",
+    "verifyQuick": "via components",
+    "verifyFull": "via components",
+    "verifyCi": "via components",
+    "auditHardcode": "PASS",
+    "auditLockedCompiled": "PASS 213/213",
+    "auditEncoding": "PASS",
+    "gateForms213": "PASS 213/213",
+    "applyAllCurrentEvidenceCheck": "PASS",
+    "contractSyncOfficialRun": "FILE_ONLY 213/213 PASS",
+    "migrationRegressionGate": "verdict PASS, 40 tables / 490 columns, schemaParity true"
+  },
+  "throttling": "9 forms UNVERIFIED; throttling closure decision: NEED_USER_DECISION",
+  "humanVisualReview": "BM-001, BM-006, BM-171 HUMAN_VISUAL_REVIEW_PENDING",
+  "persistentDb": "NOT MUTATED; only the disposable MariaDB 11 container was used and then removed during CLEANUP",
+  "git": {
+    "branch": "audit/bm006-visual-fidelity-evidence",
+    "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+    "allowGitPublish": false,
+    "stagedCommittedOrPushedInRun": false
+  },
+  "cleanup": {
+    "matchingContainers": 0,
+    "matchingNetworks": 0,
+    "matchingImages": 0,
+    "matchingVolumes": 0,
+    "userOrUnrelatedDockerResourcesRetained": true
+  },
+  "remainingBlockers": [
+    "BM-031 draft_json JSON_VALID at full transactional apply — generator/schematic closure independent; data-quality remediation required for full COMPLETE",
+    "9-form throttling closure — out of scope; awaits operator-supplied Playwright state",
+    "BM-001/BM-006/BM-171 HUMAN_VISUAL_REVIEW_PENDING"
+  ],
+  "nextExactCommand": "node scripts/audit/build-phase-8c2-bootstrap-disposable-closure.mjs --run-id phase8c2-REPLAY",
+  "reportPaths": [
+    "docs/audit/infrastructure-modernization/phase-8c-final-report/PHASE_8C_2_BOOTSTRAP_CLOSURE.latest.md",
+    "docs/audit/infrastructure-modernization/phase-8c-final-report/PHASE_8C_2_BOOTSTRAP_CLOSURE.latest.json",
+    "docs/audit/infrastructure-modernization/phase-8c-final-report/VALIDATION.latest.md",
+    "docs/audit/infrastructure-modernization/phase-8c-final-report/FINAL_REPORT.latest.md"
+  ]
+}

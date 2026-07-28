@@ -37,3 +37,13 @@ export function saveRuntimeTemplateDraft(
     JSON.stringify(data),
   );
 }
+
+export function removeRuntimeTemplateDraft(
+  storage: Pick<Storage, "removeItem">,
+  templateCode: string,
+  contractHash: string,
+): void {
+  storage.removeItem(
+    buildRuntimeTemplateDraftKey(templateCode, contractHash),
+  );
+}

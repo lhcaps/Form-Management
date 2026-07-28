@@ -14,13 +14,15 @@ import { TemplatesModule } from './modules/templates/templates.module';
 import { FormsContractsModule } from './modules/forms-contracts/forms-contracts.module';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { HealthModule } from './modules/health/health.module';
-import { FormStudioModule } from './modules/form-studio/form-studio.module';
+import { ContractPlatformModule } from './modules/contract-platform/contract-platform.module';
 import { CsrfCookieGuard } from './common/csrf-cookie.guard';
+import { GeneratedInputSaveModule } from './modules/documents/rendering/application/generated-input-save-core/generated-input-save.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      ignoreEnvFile: true,
     }),
     InfrastructureModule,
     ThrottlerModule.forRoot({
@@ -40,7 +42,8 @@ import { CsrfCookieGuard } from './common/csrf-cookie.guard';
     ImportsModule,
     Bm031DirectModule,
     FormsContractsModule,
-    FormStudioModule,
+    ContractPlatformModule,
+    GeneratedInputSaveModule,
     HealthModule,
   ],
   controllers: [AppController],

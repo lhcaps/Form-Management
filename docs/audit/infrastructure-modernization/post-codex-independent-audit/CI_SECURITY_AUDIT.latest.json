@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-11T00:15:00Z",
+  "auditor": "phase7-independent-auditor",
+  "ci": {
+    "file": ".github/workflows/ci.yml",
+    "codexReportedChanges": "Updated CI to use verify:ci; added docker production build job; added concurrency cancellation; added fail-fast",
+    "freshVerification": {
+      "typecheckCoverage": "Yes — verify:ci includes pnpm typecheck (root + workspaces). VERIFIED.",
+      "lint": "Yes — pnpm lint is part of verify:full which is in verify:ci. VERIFIED.",
+      "tests": "Yes — pnpm test is part of verify:full. PARTIALLY_VERIFIED (test failures in standalone verify:full).",
+      "auditGates": "Yes — audit:hardcode, audit:locked-compiled, audit:contract-sync, audit:encoding are part of verify:ci. VERIFIED.",
+      "dockerProductionBuild": "Yes — docker:verify is part of ci.yml (separate job). NOT independently re-run.",
+      "timeoutPolicy": "Codex added explicit timeouts on jobs. VERIFIED via static inspection.",
+      "concurrencyCancellation": "Yes — concurrency group + cancel-in-progress. VERIFIED.",
+      "jobDependencies": "verify:ci must complete before audit:docker:production. VERIFIED.",
+      "cacheCorrectness": "pnpm cache key uses lockfile hash. VERIFIED.",
+      "frozenLockfile": "Yes — `pnpm install --frozen-lockfile` is used. VERIFIED.",
+      "minimalPermissions": "permissions: contents: read (default), no additional. VERIFIED.",
+      "artifactsOnFailure": "VERIFIED — test logs uploaded on failure.",
+      "noRealSecretsForUntrustedPr": "VERIFIED — only safe defaults exposed; secrets come from repository secrets only.",
+      "noSecretPrinted": "PARTIALLY_VERIFIED — static inspection only.",
+      "noContinueOnErrorOnRequiredGates": "VERIFIED — no continue-on-error on verify:ci step.",
+      "noOrTrue": "VERIFIED.",
+      "noWrapperExitZeroAfterRequiredJobFailure": "NEEDS_USER_DECISION — verify:ci hides verify:full failure as discussed in WRAPPER_TRUTHFULNESS_AUDIT."
+    },
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "discrepancy": "verify:ci is the orchestrator and it returned 0 on this re-run while a constituent (verify:full) returned 1 on a separate invocation. The CI workflow uses verify:ci as the gate, which means CI can pass while verify:full is failing.",
+    "risk": "HIGH — CI may pass while downstream gates are red."
+  },
+  "securitySensitiveChanges": [
+    {
+      "id": "SEC-01",
+      "change": "Environment precedence (env loading order)",
+      "codexReported": "deterministic precedence",
+      "freshVerification": "apps/api/src/main.ts loads env in declared order",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-02",
+      "change": "Request logging",
+      "codexReported": "request id + structured logs",
+      "freshVerification": "apps/api/src/middleware/* contains request id middleware",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "id": "SEC-03",
+      "change": "Request IDs",
+      "codexReported": "yes",
+      "freshVerification": "request id middleware present",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "id": "SEC-04",
+      "change": "Import path validation",
+      "codexReported": "yes",
+      "freshVerification": "apps/api/src/modules/imports/ contains path validation",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-05",
+      "change": "Archive extraction / path traversal protection",
+      "codexReported": "yes",
+      "freshVerification": "imports service uses safe extraction",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-06",
+      "change": "File type / size enforcement",
+      "codexReported": "yes",
+      "freshVerification": "imports service enforces file type and size limits",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-07",
+      "change": "Writable directories",
+      "codexReported": "isolated TMPDIR for libreoffice",
+      "freshVerification": "libreoffice-wrapper.sh uses TMPDIR-derived profile",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "id": "SEC-08",
+      "change": "Non-root execution (USER node in api image)",
+      "codexReported": "yes",
+      "freshVerification": "api.Dockerfile ends with USER node",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "id": "SEC-09",
+      "change": "Capabilities / no-new-privileges",
+      "codexReported": "yes",
+      "freshVerification": "compose.yml has cap_drop: ALL, security_opt: no-new-privileges",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-10",
+      "change": "CORS/CSRF preservation",
+      "codexReported": "preserved",
+      "freshVerification": "NestJS CORS configuration unchanged",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-11",
+      "change": "Swagger production behavior",
+      "codexReported": "disabled in production",
+      "freshVerification": "main.ts has NODE_ENV guard around Swagger setup",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    },
+    {
+      "id": "SEC-12",
+      "change": "Seed activation",
+      "codexReported": "controlled by SEED_DATA env",
+      "freshVerification": "compose env has SEED_DATA: ${SEED_DATA:-false}",
+      "verificationStatus": "VERIFIED"
+    },
+    {
+      "id": "SEC-13",
+      "change": "Shutdown hooks",
+      "codexReported": "yes",
+      "freshVerification": "NestJS app.useShutdownHooks() preserved",
+      "verificationStatus": "PARTIALLY_VERIFIED"
+    }
+  ],
+  "summary": {
+    "verified": 5,
+    "partiallyVerified": 8,
+    "blockingConcerns": [
+      "verify:ci hides verify:full failures — CI gate is potentially misleading"
+    ]
+  }
+}

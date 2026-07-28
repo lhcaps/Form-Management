@@ -1,4 +1,6 @@
 "use client";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 import {
   BmFieldText,
   BmFieldTextarea,
@@ -9,9 +11,6 @@ import {
 } from "./bm-form";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 type TextRecord = Record<string, string>;
 
@@ -276,63 +275,32 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm057FormInputs 
 }
 
 async function getBm057RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không tải được payload BM-057. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
+  return await getDocumentRenderPayload<Record<string, unknown>>(documentId);
 }
 
 async function saveBm057FormInputs(
   documentId: string | number,
   form: Bm057FormInputs,
 ): Promise<void> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        ...form,
-        templateCode: "BM-057",
-        formInputs: form,
-        payloadOverrides: form,
-        renderPayloadOverrides: form,
-        updatedByName:
-          form.signature.signerName ||
-          form.official.fullName ||
-          "",
-        renderedByName:
-          form.signature.signerName ||
-          form.official.fullName ||
-          "",
-        convertedByName:
-          form.signature.signerName ||
-          form.official.fullName ||
-          "",
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không lưu được dữ liệu BM-057. HTTP ${response.status}`);
-  }
+  await saveDocumentFormInputs(documentId, {
+    ...form,
+    templateCode: "BM-057",
+    formInputs: form,
+    payloadOverrides: form,
+    renderPayloadOverrides: form,
+    updatedByName:
+      form.signature.signerName ||
+      form.official.fullName ||
+      "",
+    renderedByName:
+      form.signature.signerName ||
+      form.official.fullName ||
+      "",
+    convertedByName:
+      form.signature.signerName ||
+      form.official.fullName ||
+      "",
+  });
 }
 
 function Field({

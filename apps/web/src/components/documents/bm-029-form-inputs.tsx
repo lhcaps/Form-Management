@@ -21,6 +21,7 @@ import {
   todayIsoDate,
 } from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type AgencyForm = {
   parentName: string;
@@ -77,9 +78,6 @@ type Bm029FormInputsPanelProps = {
   documentId: string | number;
   onSaved?: () => void | Promise<void>;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const DEFAULT_SIGNER_NAME = "";
 
@@ -444,18 +442,8 @@ export function Bm029FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { method: "GET", cache: "no-store" },
-      );
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không tải được render-payload. HTTP ${response.status}`,
-        );
-      }
-      const payload = (await response.json()) as RenderPayload;
-      setForm(normalizeFormInputs(payload));
+      await getDocumentRenderPayload<RenderPayload>(documentId);
+      await loadFromPayload(documentId);
       setMessage("Đã tải lại dữ liệu BM-029 từ backend.");
     } catch (err) {
       setError(
@@ -465,6 +453,11 @@ export function Bm029FormInputsPanel({
       setLoading(false);
     }
   };
+
+  async function loadFromPayload(docId: string | number): Promise<void> {
+    const payload = await getDocumentRenderPayload<RenderPayload>(docId);
+    setForm(normalizeFormInputs(payload));
+  }
 
   const handleFillSample = () => {
     setForm({
@@ -524,21 +517,8 @@ export function Bm029FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không lưu được dữ liệu biểu mẫu. HTTP ${response.status}`,
-        );
-      }
-      await reloadFromBackend();
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
+      await loadFromPayload(documentId);
       setMessage("Đã lưu dữ liệu BM-029. Các dòng tự sinh đã đồng bộ.");
       await onSaved?.();
     } catch (err) {

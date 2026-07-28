@@ -1,0 +1,36 @@
+Auditing 213 locked contracts from D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
+Wrote D:\Study\Project\QLLaw-main\docs\audit\docx-slot-inventory\latest.json
+Wrote D:\Study\Project\QLLaw-main\docs\audit\docx-slot-inventory\latest.md
+
+Corpus totals:
+  totalContracts: 213
+  totalTemplatesFound: 213
+  totalTemplatesMissing: 0
+  totalDocxSlots: 2497
+  totalRenderBindings: 2497
+  totalCanonicalFields: 2497
+  malformedPlaceholdersCount: 0
+  passCount: 213
+  failCount: 0
+[Nest] 47148  - 11/07/2026, 00:32:37   ERROR [GeneratedDocumentAuditService] [AuditWriteFailure] action=GENERATED_DOCUMENT_FILE_DELETED result=SUCCESS error=DB connection lost
+[Nest] 47148  - 11/07/2026, 00:32:37   ERROR [GeneratedDocumentAuditService] [AuditWriteFailure] action=GENERATED_DOCUMENT_ACCESS_DENIED result=DENIED error=DB unavailable
+[Nest] 47148  - 11/07/2026, 00:32:53   ERROR [ClerkWebhookService] CLERK_WEBHOOK_SECRET is not configured — rejecting webhook
+[Nest] 47148  - 11/07/2026, 00:33:08   ERROR [ContractDocumentRendererAdapter] Contract active render failed for documentId=42: plan build failed
+
+Test Suites: 75 passed, 75 total
+Tests:       704 passed, 704 total
+Snapshots:   0 total
+Time:        50.002 s
+Ran all test suites.
+Environment variables loaded from .env
+[C3] Locked vs Compiled Consistency Gate
+[C3] STRICT=false JSON_ONLY=false BM_FILTER=ALL
+[C3] LOCKED_DIR=D:\Study\Project\QLLaw-main\docs\audit\docx\contracts\locked
+[C3] COMPILED_V2_DIR=D:\Study\Project\QLLaw-main\docs\audit\docx\compiled-v2
+[C3] Summary: 213/213 consistent
+[C3] Written: D:\Study\Project\QLLaw-main\docs\audit\sot-gates-v1\latest.json
+[C3] Written: D:\Study\Project\QLLaw-main\docs\audit\sot-gates-v1\latest.md
+[C3] EXIT 0 — gate complete
+
+Acknowledged known blockers remain (not production-ready):
+  ⚠️ BM-006:EXTRACTION_HASH_MISMATCH

@@ -1,0 +1,115 @@
+{
+  "stage": "4A.6",
+  "name": "MIGRATION_REMEDIATION_OPTIONS",
+  "run_id": "phase8b-20260711-0135",
+  "captured_at": "2026-07-11T01:35:00+07:00",
+  "options": [
+    {
+      "id": "OPTION_A",
+      "name": "Clean baseline reset",
+      "concept": "Archive current migration history outside the active Prisma migration path. Generate a new baseline (single migration) that represents the approved current schema. Fresh DBs apply the new baseline. Existing DBs undergo read-only schema-parity validation and then a controlled, operator-authorized `migrate resolve --applied` for the new baseline row.",
+      "files_affected": [
+        "apps/api/prisma/migrations/<TIMESTAMP>_baseline_init/migration.sql (NEW baseline = current schema)",
+        "apps/api/prisma/migrations/<TIMESTAMP>_baseline_lock/migration.sql (empty guard for fresh installs)",
+        "docs/audit/infrastructure-modernization/phase-8b-production-verification/MIGRATION_REMEDIATION_PLAN.latest.md",
+        "README.md (operator procedure addendum)",
+        ".github/workflows/ci.yml (add migration-regression-gate job)"
+      ],
+      "persistent_db_action": "One-time, operator-authorized `prisma migrate resolve --applied <baseline>` after schema-parity validation. NOT executed in Phase 8B.",
+      "migration_metadata_action": "Reset `_prisma_migrations` rows for existing DBs by re-resolving against the new baseline.",
+      "fresh_db_result": "PASS — single baseline migration produces current schema in one step.",
+      "existing_db_result": "PASS — schema already matches new baseline (verified via read-only parity check); one-time resolve marks the new baseline as applied.",
+      "data_loss_risk": "None on schema; metadata is regenerated, not deleted.",
+      "checksum_risk": "Low — old migration checksums are removed from active path; new baseline has one canonical checksum.",
+      "operational_complexity": "Medium — requires operator procedure document + one-time resolve.",
+      "rollback": "Re-archive new baseline; restore old chain from external archive.",
+      "supports_states": ["A", "B", "C", "D"],
+      "recommendation": "RECOMMENDED"
+    },
+    {
+      "id": "OPTION_B",
+      "name": "Restore historical init_schema",
+      "concept": "Reconstruct the original init_schema (without the retroactively-added columns). Remove from init every object owned by a later migration. Keep later additive migrations unchanged.",
+      "files_affected": [
+        "apps/api/prisma/migrations/20260615000000_init_schema/migration.sql (REVERTED — UNGUARDED_DUPLICATE columns removed)"
+      ],
+      "persistent_db_action": "None.",
+      "migration_metadata_action": "None (assumes fresh chain).",
+      "fresh_db_result": "Depends on what 'original' init_schema contained. **There is no recoverable original** because git history contains exactly one version of init_schema.",
+      "existing_db_result": "FAIL — existing DBs already have the expanded init_schema columns. Removing them from the migration file does not retroactively remove them from the DB. Prisma will report drift.",
+      "data_loss_risk": "HIGH on schema (existing DBs already include the columns; if any procedure later tries to drop them, data is lost).",
+      "checksum_risk": "HIGH — forges an 'original' init_schema checksum that was never committed.",
+      "operational_complexity": "High (fabricating a historical schema).",
+      "rollback": "Cannot roll back — once the init_schema file is rewritten, the historical content is lost (unless archived externally).",
+      "supports_states": ["A (only with fabricated history)"],
+      "recommendation": "REJECTED — no recoverable history."
+    },
+    {
+      "id": "OPTION_C",
+      "name": "Make historical migrations conditional (IF NOT EXISTS guards)",
+      "concept": "Wrap each UNGUARDED_DUPLICATE operation with `IF NOT EXISTS` / `IF EXISTS` so the migration is idempotent against a schema that already has the columns/indexes.",
+      "files_affected": [
+        "apps/api/prisma/migrations/20260616000000_add_officials_role/migration.sql (guard ADD COLUMN)",
+        "apps/api/prisma/migrations/20260616010000_add_official_credentials/migration.sql (guard ADD COLUMN + CREATE INDEX)",
+        "apps/api/prisma/migrations/20260616020000_add_template_owner_official/migration.sql (guard ADD COLUMN + ADD CONSTRAINT)",
+        "apps/api/prisma/migrations/20260617010000_add_soft_delete_to_case_offenses_and_evidence/migration.sql (guard ADD COLUMN + ADD INDEX)"
+      ],
+      "persistent_db_action": "None.",
+      "migration_metadata_action": "None (Prisma still tracks migration history).",
+      "fresh_db_result": "PASS — guarded operations are no-ops against init_schema's expanded columns.",
+      "existing_db_result": "PASS — guarded operations are no-ops against any existing schema.",
+      "data_loss_risk": "None.",
+      "checksum_risk": "Medium — Prisma flags checksum changes for already-applied migrations. Environments with this migration in `_prisma_migrations` would need a `migrate resolve` (forbidden against persistent DB).",
+      "operational_complexity": "Low — surgical SQL edits.",
+      "rollback": "Revert the guards; replay against fresh DB.",
+      "supports_states": ["A", "B", "C", "D"],
+      "recommendation": "ACCEPTABLE SECONDARY — but does not address the deeper issue that the migration history is logically inconsistent (six migrations now do nothing useful because their work was already done by init_schema)."
+    },
+    {
+      "id": "OPTION_D",
+      "name": "Entrypoint auto-resolve or skip",
+      "concept": "Modify docker/api-entrypoint.sh to detect existing schema objects and automatically run `prisma migrate resolve` to skip the failed migration.",
+      "files_affected": ["docker/api-entrypoint.sh"],
+      "persistent_db_action": "**YES — auto-modifies persistent DB** based on detection heuristics.",
+      "migration_metadata_action": "Auto-resolves failed migrations based on schema state.",
+      "fresh_db_result": "Does not apply — fresh DBs have no failed migrations to skip.",
+      "existing_db_result": "**UNSAFE** — auto-resolve can mark a migration as applied when it has not been, hiding real schema drift; behavior varies per environment; audit trail is corrupted; legal-system deployment cannot rely on heuristic DB repair.",
+      "data_loss_risk": "MEDIUM — wrong resolve marks a migration as applied when objects are not actually present; subsequent deploys may then drop or alter objects based on the lie.",
+      "checksum_risk": "HIGH — silent checksum deviations from auto-resolve.",
+      "operational_complexity": "Low (one shell script) but introduces a hidden, environment-specific repair mechanism.",
+      "rollback": "Possible but audit trail is permanently lost once resolve runs.",
+      "supports_states": ["C (with safety risk)"],
+      "recommendation": "REJECTED — hides migration history defects; unsafe for legal-system production deployment."
+    },
+    {
+      "id": "OPTION_E",
+      "name": "Fresh-install bootstrap outside Prisma",
+      "concept": "Import a schema dump (mysqldump or `prisma db pull` artifact) directly into a fresh DB. Then run `prisma migrate resolve --applied` for every historical migration to mark them as applied. Continue with future Prisma migrations.",
+      "files_affected": [
+        "scripts/db-bootstrap.sh (NEW)",
+        "apps/api/prisma/schema.sql (NEW canonical schema dump)",
+        ".github/workflows/ci.yml (bootstrap job)"
+      ],
+      "persistent_db_action": "One-time schema import (if dump replaces existing DB) OR one-time `migrate resolve` (if existing DB already has the schema).",
+      "migration_metadata_action": "Mark all current migrations as applied in `_prisma_migrations`.",
+      "fresh_db_result": "PASS — schema import + resolve marks the chain as applied; future migrations work normally.",
+      "existing_db_result": "PASS — schema already matches; resolve marks the chain as applied.",
+      "data_loss_risk": "MEDIUM-HIGH — if a fresh-DB bootstrap ever points at an existing DB, the dump import will overwrite it. Operator procedure MUST guard against this.",
+      "checksum_risk": "Low (the new chain reuses current checksums).",
+      "operational_complexity": "Medium-High — requires a canonical schema dump artifact, versioned alongside code.",
+      "rollback": "Re-import dump; re-resolve.",
+      "supports_states": ["A", "B", "C", "D"],
+      "recommendation": "ACCEPTABLE ALTERNATIVE — effectively the same outcome as Option A but heavier operational footprint. Choose this only if Option A is forbidden by user policy."
+    }
+  ],
+  "default_recommendation": "OPTION_A",
+  "recommendation_rationale": [
+    "Option A is the only option that produces a logically consistent migration history with one canonical baseline.",
+    "Option A is the only option that supports all four environment states (A/B/C/D) without fabricating history or relying on hidden heuristics.",
+    "Option A minimizes per-deployment risk: fresh DBs succeed in a single migration; existing DBs require exactly one operator-authorized action.",
+    "Option A preserves the principle that migrations should be immutable once committed; the new baseline is a new migration, not an edit of an old one.",
+    "Option A's data-loss risk is bounded (zero on schema; zero on data because the operator resolve marks the baseline as applied without modifying schema).",
+    "Options B and D are rejected because they fabricate history (B) or hide defects behind heuristics (D).",
+    "Options C and E are acceptable fallbacks if Option A is forbidden by user policy, but neither addresses the underlying logical inconsistency."
+  ]
+}

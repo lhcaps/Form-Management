@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   BmFieldText,
@@ -10,9 +11,6 @@ import {
   BmFormSection,
   BmFormMetaBar,
 } from "./bm-form";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 type TextRecord = Record<string, string>;
 
@@ -566,49 +564,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm148FormInputs 
   });
 }
 
-async function getBm148RenderPayload(documentId: string | number): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không tải được payload BM-148. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm148FormInputs(
-  documentId: string | number,
-  form: Bm148FormInputs,
-): Promise<void> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        ...form,
-        updatedByName: "",
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không lưu được dữ liệu BM-148. HTTP ${response.status}`);
-  }
-}
-
 function Field({
   label,
   value,
@@ -818,7 +773,7 @@ export function Bm148FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const payload = await getBm148RenderPayload(documentId);
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       const nextForm = normalizeFormInputs(payload);
 
       setForm(nextForm);
@@ -1013,7 +968,10 @@ export function Bm148FormInputsPanel({
     try {
       const finalForm = syncDerivedFields(form);
 
-      await saveBm148FormInputs(documentId, finalForm);
+      await saveDocumentFormInputs(documentId, {
+        ...finalForm,
+        updatedByName: "",
+      });
 
       setForm(finalForm);
       setInitialSnapshot(JSON.stringify(finalForm));

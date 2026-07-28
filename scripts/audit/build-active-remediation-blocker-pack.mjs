@@ -12,6 +12,7 @@ import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
+import { createPrismaMariaDbAdapter } from "../prisma-mariadb-adapter.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -281,7 +282,7 @@ async function loadDbVersions(codes, databaseUrl) {
     };
   }
 
-  const prisma = new PrismaClient({ datasourceUrl: databaseUrl.value });
+  const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter(databaseUrl.value) });
   try {
     await prisma.$queryRaw`SELECT 1`;
     const templates = await prisma.templates.findMany({

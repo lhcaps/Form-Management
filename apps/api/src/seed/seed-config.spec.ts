@@ -4,6 +4,8 @@ import {
   discoverImplementedCatalogCodes,
   discoverOriginalTemplateFilesByCode,
   getSeedAdminConfig,
+  getSeedAgencyConfig,
+  getSeedTestAccountConfig,
   type TemplateCatalogEntry,
 } from './seed-config';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -17,6 +19,43 @@ describe('seed config', () => {
       username: 'admin',
       password: 'admin123',
       positionTitle: 'Quan tri he thong',
+    });
+  });
+
+  it('provides a complete legal-document header for the local agency fixture', () => {
+    expect(getSeedAgencyConfig({})).toEqual({
+      agencyCode: 'VKS-DEFAULT',
+      agencyName: 'Viện kiểm sát',
+      parentAgencyName: 'Viện kiểm sát nhân dân tối cao',
+    });
+  });
+
+  it('keeps the test account disabled unless explicitly configured', () => {
+    expect(getSeedTestAccountConfig({})).toEqual({
+      enabled: false,
+      fullName: 'Tai khoan Test',
+      username: 'tester',
+      password: null,
+      positionTitle: 'Nhan vien kiem thu',
+    });
+  });
+
+  it('requires a non-default password when the test account is enabled', () => {
+    expect(() =>
+      getSeedTestAccountConfig({ SEED_TEST_ACCOUNT_ENABLED: 'true' }),
+    ).toThrow('SEED_TEST_ACCOUNT_PASSWORD');
+
+    expect(
+      getSeedTestAccountConfig({
+        SEED_TEST_ACCOUNT_ENABLED: 'true',
+        SEED_TEST_ACCOUNT_PASSWORD: 'test-only-secret-from-store',
+      }),
+    ).toEqual({
+      enabled: true,
+      fullName: 'Tai khoan Test',
+      username: 'tester',
+      password: 'test-only-secret-from-store',
+      positionTitle: 'Nhan vien kiem thu',
     });
   });
 
@@ -44,7 +83,10 @@ describe('seed config', () => {
       implementedCodes: ['BM-090', 'BM-001'],
       catalog,
       normalizedDocxByCode: new Map([
-        ['BM-001', 'storage/templates/normalized-docx/BM-001/BM-001_normalized.docx'],
+        [
+          'BM-001',
+          'storage/templates/normalized-docx/BM-001/BM-001_normalized.docx',
+        ],
       ]),
       originalPathByCode: new Map([
         ['BM-001', 'docs/Bieu mau/Bieu mau/01-Bien-ban.doc'],
@@ -139,9 +181,17 @@ describe('seed config', () => {
     writeFileSync(join(fullDir, '158-full.docx'), 'full-docx');
 
     try {
-      expect(discoverCorpusOriginalTemplateFilesByCode(join(repoRoot, 'docs'), repoRoot)).toEqual(
+      expect(
+        discoverCorpusOriginalTemplateFilesByCode(
+          join(repoRoot, 'docs'),
+          repoRoot,
+        ),
+      ).toEqual(
         new Map([
-          ['BM-004', 'docs/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. STAGE/04-full.doc'],
+          [
+            'BM-004',
+            'docs/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. STAGE/04-full.doc',
+          ],
           [
             'BM-158',
             'docs/Full/0-HE THONG BIEU MAU THEO TT 03-2026-VKSTC/01. STAGE/158-full.docx',

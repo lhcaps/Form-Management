@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1",
+  "templateCode": "BM-001",
+  "generatedAt": "2026-07-04T21:01:30.000Z",
+  "decision": "GRANTED",
+  "visualSignoffGranted": true,
+  "rolloutReady": true,
+  "approver": "Planner",
+  "approvedAt": "2026-07-04T20:55:00.000Z",
+  "bm171": "BLOCKED",
+  "massRollout": "BLOCKED",
+  "lockedDocxMutation": false,
+  "lockedTemplateMutation": false,
+  "fakeGeneratedDocumentId": false,
+  "templateDbWrite": false,
+  "reviewedArtifact": {
+    "path": "docs/audit/bm-visual-signoff/BM-001/rendered.latest.docx",
+    "relativePath": "docs/audit/bm-visual-signoff/BM-001/rendered.latest.docx",
+    "kind": "rendered-DOCX",
+    "renderPath": "production (ContractRenderPlanBuilder + DocxtemplaterContractRenderEngine)",
+    "canonicalFixture": "post-PR6G.3.1 (matches pr6g31-bm001-rendered-docx-parity.spec.ts)",
+    "extractedText": {
+      "path": "docs/audit/bm-visual-signoff/BM-001/extracted-text.latest.txt",
+      "sha256OfExtraction": "<computed at write time; see packet-builder visual-signoff.latest.json renderedDocxSha256>",
+      "referencedSha256": "0021c21dddf5e2b147e2bb1aaf812dd4848e91c97720ea3816168d461d58a7c5"
+    }
+  },
+  "reviewedDocxSha256": "0021c21dddf5e2b147e2bb1aaf812dd4848e91c97720ea3816168d461d58a7c5",
+  "approvedHumanVisualChecks": [
+    {
+      "id": "human-right-align",
+      "label": "Header date line is right-aligned (visual)",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-vks-underline",
+      "label": "VKS underline length is visually correct",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-thong-tu-size-8",
+      "label": "\"Ban hành theo Thông tư…\" remains size 8",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-bien-ban-bold-14",
+      "label": "Title \"BIÊN BẢN\" bold + 14pt",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-subtitle-bold-14",
+      "label": "Subtitle \"Tiếp nhận nguồn tin về tội phạm\" bold + 14pt",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-headings-i-ii-bold-14",
+      "label": "I. NỘI DUNG / II. CÁC TÀI LIỆU bold + 14pt",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-signature-titles-bold-14",
+      "label": "Signature titles bold + 14pt",
+      "verdict": "PASS"
+    },
+    {
+      "id": "human-page-numbers",
+      "label": "Page numbers visually acceptable",
+      "verdict": "PASS"
+    }
+  ],
+  "sot": {
+    "evidenceSource": "docs/audit/bm-visual-signoff/BM-001/visual-signoff.latest.json",
+    "renderedDocxPath": "docs/audit/bm-visual-signoff/BM-001/rendered.latest.docx"
+  },
+  "downstreamEffects": [
+    "audit:bm-final BM-001 — style.summary.status flips to PASS, status=PASS, rolloutReady=true",
+    "audit:bm-rollout-ready BM-001 — visual-style-signoff gate flips from MANUAL_REQUIRED to PASS, manualReviewRequired=false, status=READY, rolloutReady=true",
+    "BM-171 work remains BLOCKED until Planner explicitly opens it in a separate PR",
+    "No mass rollout; other BMs (BM-002..BM-213) still report NOT_APPLICABLE / MANUAL_REQUIRED / FAIL until their own per-BM artefacts exist",
+    "No locked DOCX / template / contract mutation; no fake generatedDocumentId; no /templates DB write"
+  ],
+  "consumerNotes": {
+    "audit-bm-final": "When this file exists at docs/audit/bm-visual-signoff/<TEMPLATE>/manual-approval.latest.json AND its `decision === 'GRANTED'` AND `visualSignoffGranted === true` AND the file's `reviewedDocxSha256` matches the rendered DOCX sha256 that audit:bm-final would derive for this BM, the harness MAY treat the style section's status as PASS for this BM only. The harness must keep the rolloutReady gate at status==='PASS' && safety.* green and must NOT flip rolloutReady for any other BM.",
+    "audit-bm-rollout-ready": "When this file exists, decision=GRANTED, visualSignoffGranted=true, and reviewedDocxSha256 matches the rendered DOCX the rollout-ready gate's gate-15 evaluation composes against, the gate MAY treat gate 15 as PASS (instead of MANUAL_REQUIRED). Other gates are unaffected. The rolloutReady boolean only flips to true when every gate (1..15) is PASS / NOT_APPLICABLE."
+  }
+}

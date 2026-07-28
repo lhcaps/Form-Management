@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 # Explicit least-privilege permissions for the GITHUB_TOKEN. Without this
 # block, GitHub Actions runs on private/org repos that default to
 # "Read repository contents only" produce empty check-runs, no jobs and
@@ -13,10 +17,14 @@ on:
 permissions:
   contents: read
 
+env:
+  CI: "true"
+
 jobs:
   static-verification:
     name: Static verification
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,51 +43,87 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Build workspace contract package
+        run: pnpm build:contracts
 
-      - name: Build
-        run: pnpm build
+      - name: Run deterministic CI verification
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p docs/audit/infrastructure-modernization
+          pnpm verify:ci 2>&1 | tee docs/audit/infrastructure-modernization/ci-static-verification.log
 
-      - name: API tests
-        run: pnpm --filter api test --runInBand
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-verification-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            docs/audit/infrastructure-modernization/ci-static-verification.log
+            docs/audit/docx-slot-inventory/latest.json
+            docs/audit/docx-slot-inventory/latest.md
+            docs/audit/form-status/status-matrix-213.json
+            docs/audit/form-status/status-matrix-213.md
 
-      - name: Runtime hardcode audit
-        run: pnpm audit:hardcode
+  migration-regression-gate:
+    name: Fresh MariaDB migration gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Template audit
-        run: pnpm audit:templates
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
 
-      - name: Encoding audit
-        run: pnpm audit:encoding
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
-      - name: DOCX contract tests
-        run: node --test test/docx-contract/*.test.mjs
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: BM-001 shared renderer smoke
-        run: pnpm smoke:bm001-shadow-render
+      - name: Run migration regression gate
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p .artifacts/migration-regression-gate
+          node scripts/audit/migration-regression-gate.mjs \
+            --output-dir .artifacts/migration-regression-gate \
+            2>&1 | tee .artifacts/migration-regression-gate/run.log
 
-      - name: DOCX prelock guard (informational — generic draft forms)
-        run: pnpm audit:docx:prelock || true
-
-      - name: Regenerate locked-contracts verify report
-        run: pnpm audit:docx:verify-locked
-
-      - name: "Gate: 213 forms corpus readiness"
-        run: pnpm gate:forms:213 --allow-remediation --allow-source-unknown --allow-unresolved-review
-
-      - name: "Gate: Locked↔compiled consistency (C3)"
-        run: pnpm audit:locked-compiled:strict
-
-      - name: "Gate: Contract sync (C2)"
-        run: pnpm audit:contract-sync
+      - name: Upload migration gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-regression-gate-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: .artifacts/migration-regression-gate/
 
   docker-production-build:
     name: Docker production build
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
       - name: Prepare production env
         run: |
@@ -88,7 +132,26 @@ jobs:
           AUTH_COOKIE_SECURE=true
           SEED_ADMIN_PASSWORD=ci-not-admin123
           API_CORS_ORIGIN=http://localhost:3000
+          WEB_ORIGIN=http://localhost:3000
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ZXhhbXBsZS5jb20k
+          CLERK_SECRET_KEY=sk_test_cHJvYmUtb25seQ
+          CLERK_WEBHOOK_SECRET=whsec_ci-only
           ENV
 
-      - name: Build production stack
-        run: docker compose --env-file .env.docker -f docker-compose.prod.yml build --no-cache
+      - name: Build and probe production images
+        shell: bash
+        env:
+          QLLAW_DOCKER_VERIFY_ENV: .env.docker
+        run: |
+          set -o pipefail
+          mkdir -p .artifacts
+          pnpm docker:verify -- --build 2>&1 | tee .artifacts/docker-verification.log
+
+      - name: Upload Docker verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-verification-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: .artifacts/docker-verification.log

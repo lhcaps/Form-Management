@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1",
+  "templateCode": "BM-006",
+  "generatedAt": "2026-07-11T10:03:21.358Z",
+  "packetStatus": "READY_FOR_HUMAN_VISUAL_REVIEW",
+  "autoChecks": {
+    "autoOk": 11,
+    "autoFail": 0,
+    "needsHuman": 1,
+    "unverified": 0,
+    "total": 12
+  },
+  "autoBlockers": [],
+  "humanReviewItems": [
+    "bm006-pdf-probe: soffice not found on host"
+  ],
+  "pdfAvailable": false,
+  "pdfReason": "soffice not found on host",
+  "visualSignoffGranted": false,
+  "rolloutReady": false,
+  "checklist": [
+    {
+      "id": "bm006-present-CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "label": "Required-present: CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-present-Độc lập - Tự do - Hạnh phúc",
+      "label": "Required-present: Độc lập - Tự do - Hạnh phúc",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-present-YÊU CẦU",
+      "label": "Required-present: YÊU CẦU",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-present-Tiếp nhận/kiểm tra, xác minh/ra quyết định giải quyết nguồn tin về tội phạm",
+      "label": "Required-present: Tiếp nhận/kiểm tra, xác minh/ra quyết định giải quyết nguồn tin về tội phạm",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-present-Căn cứ các điều 41, 147 và 160",
+      "label": "Required-present: Căn cứ các điều 41, 147 và 160",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-present-VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      "label": "Required-present: VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "detected in rendered text"
+    },
+    {
+      "id": "bm006-absent-{{",
+      "label": "Required-absent: {{",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "forbidden string absent"
+    },
+    {
+      "id": "bm006-absent-}}",
+      "label": "Required-absent: }}",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "forbidden string absent"
+    },
+    {
+      "id": "bm006-absent-undefined",
+      "label": "Required-absent: undefined",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "forbidden string absent"
+    },
+    {
+      "id": "bm006-absent-[object Object]",
+      "label": "Required-absent: [object Object]",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "forbidden string absent"
+    },
+    {
+      "id": "bm006-absent-Invalid Date",
+      "label": "Required-absent: Invalid Date",
+      "kind": "auto-confirmable",
+      "status": "AUTO_OK",
+      "evidence": "forbidden string absent"
+    },
+    {
+      "id": "bm006-pdf-probe",
+      "label": "PDF conversion probe",
+      "kind": "pdf-fidelity",
+      "status": "NEEDS_HUMAN",
+      "evidence": "soffice not found on host"
+    }
+  ]
+}

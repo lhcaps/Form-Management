@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "1.0.0",
+  "capturedAt": "2026-07-10T15:38:38.293Z",
+  "blockers": [
+    {
+      "id": "INFRA-P0-001",
+      "priority": "P0",
+      "subsystem": "audit-evidence",
+      "exactReproduction": "node scripts/audit/status-matrix-213.mjs",
+      "observedOutput": "Exit 0; canonical moved to 177 INPUT_CONNECTED_PASS / 36 PARTIAL, losing the 24 remaining-source promotions. Existing browser artifact has 124 PASS rows but canonical still had only 77 browserVerified before the command.",
+      "expectedOutput": "Standalone regeneration preserves all apply-owned row fields and summaries; canonical remains 201/12 with historical evidence intact.",
+      "suspectedCause": "The reducer treats status/sourceRenderVerified as base fields and only preserves non-base row properties. It does not preserve top-level apply summaries.",
+      "confirmedRootCause": "Confirmed by current source plus live mutation and temp-copy recovery. apply-all also invokes selectors/render/browser collector, so it is not an idempotent apply-existing orchestrator.",
+      "affectedFiles": [
+        "scripts/audit/status-matrix-213.mjs",
+        "scripts/audit/apply-all-current-evidence.mjs",
+        "scripts/audit/status-matrix-preserves-evidence.guard.test.mjs"
+      ],
+      "safeFixBoundary": "Preserve explicit remaining-source promotion and top-level apply summaries in standalone mode; add check/apply-existing plans, preflight, lock/rollback, semantic idempotence, and bounded child timeouts. Do not rerun browser collection.",
+      "regressionTest": "Node tests for 201/12 preservation, summary preservation, apply-step plan exclusion, rollback/idempotence, and no live browser collector.",
+      "verificationCommand": "Run reducer preservation tests, then apply-existing twice and compare canonical SHA-256/semantic hash.",
+      "status": "RESOLVED",
+      "residualRisk": "Legacy standalone apply scripts still own their individual artifacts, but the canonical orchestrator now preflights, locks, rolls back, checks semantic idempotence, and excludes live browser collection. Two consecutive apply-existing runs produced identical matrix hashes."
+    },
+    {
+      "id": "INFRA-P0-002",
+      "priority": "P0",
+      "subsystem": "docker-entrypoint",
+      "exactReproduction": "Fresh image build, isolated compose up, poll /api/v1/health; inspect redacted API logs.",
+      "observedOutput": "API restart loop exit 255; exec /usr/local/bin/api-entrypoint.sh: no such file or directory. Source has 61 CRLF line endings.",
+      "expectedOutput": "Linux runner executes entrypoint and reaches migration step.",
+      "suspectedCause": "CRLF corrupts the /bin/bash shebang in the copied script.",
+      "confirmedRootCause": "Confirmed by byte probe: crlfCount=61 and absent .gitattributes.",
+      "affectedFiles": [
+        "docker/api-entrypoint.sh",
+        ".gitattributes",
+        "docker/api.Dockerfile"
+      ],
+      "safeFixBoundary": "Normalize shell scripts to LF, enforce eol=lf, and add image execution guard.",
+      "regressionTest": "Node guard rejects CR bytes; fresh container executes entrypoint far enough to log DB wait/migration.",
+      "verificationCommand": "Rebuild API image and run isolated boot condition probe.",
+      "status": "RESOLVED",
+      "residualRisk": "LF execution is guarded by .gitattributes and byte-level tests. The entrypoint now reaches migrate deploy; the next blocker is tracked separately as INFRA-P0-006."
+    },
+    {
+      "id": "INFRA-P0-003",
+      "priority": "P0",
+      "subsystem": "docker-runtime-assets",
+      "exactReproduction": "docker run --rm --entrypoint sh qllaw-infra-baseline-api -lc 'test -d /app/docs/audit/docx/contracts/locked'",
+      "observedOutput": "LOCKED_DIR_MISSING.",
+      "expectedOutput": "Runner contains exactly 213 governed locked contracts and compiled-v2 artifacts required by runtime rendering.",
+      "suspectedCause": "API runner copies dist, prisma, and form-contract dist but no governed contract corpus.",
+      "confirmedRootCause": "ContractRenderPlanBuilder reads filesystem contracts; current Dockerfile omits docs/audit/docx/contracts/locked and compiled-v2.",
+      "affectedFiles": [
+        "docker/api.Dockerfile",
+        "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts"
+      ],
+      "safeFixBoundary": "Copy only locked and compiled-v2 governed assets; make startup guard fail on missing/empty corpus. Do not mutate their contents.",
+      "regressionTest": "Static Docker guard plus image count assertion for 213 locked contracts.",
+      "verificationCommand": "docker run image count probe and API startup contract guard.",
+      "status": "RESOLVED",
+      "residualRisk": "Fresh image probes confirm exactly 213 locked and 213 compiled artifacts. Host-to-image aggregate hash comparison remains a useful release-time enhancement."
+    },
+    {
+      "id": "INFRA-P0-004",
+      "priority": "P0",
+      "subsystem": "production-environment",
+      "exactReproduction": "Inspect apps/api/src/main.ts and load root/package env with a platform value already set.",
+      "observedOutput": "Root .env is loaded with override:true; ConfigModule also performs default cwd env loading.",
+      "expectedOutput": "Platform/container/CI environment always wins; production ignores repository env files.",
+      "suspectedCause": "Environment loading is split between main.ts and ConfigModule without a single precedence policy.",
+      "confirmedRootCause": "Confirmed in live source at bootstrap.",
+      "affectedFiles": [
+        "apps/api/src/main.ts",
+        "apps/api/src/app.module.ts",
+        "apps/api/src/infrastructure/config/app-config.service.ts"
+      ],
+      "safeFixBoundary": "Centralize local-only dotenv loading with override:false; ConfigModule ignores env files; add PORT fallback and tests. Never log values.",
+      "regressionTest": "Temp env files cannot override injected platform values; production loads no local file.",
+      "verificationCommand": "Focused Jest config tests plus API/root typecheck.",
+      "status": "RESOLVED",
+      "residualRisk": "Development precedence remains platform > root .env > apps/api/.env and is covered by focused tests; production ignores repository env files."
+    },
+    {
+      "id": "INFRA-P0-005",
+      "priority": "P0",
+      "subsystem": "docker-build-context",
+      "exactReproduction": "Compare COPY . . with .dockerignore and current ignored auth/test/temp paths.",
+      "observedOutput": ".dockerignore omits playwright auth state, reports, and .tmp-*; fresh API context transferred about 330 MB.",
+      "expectedOutput": "Sensitive auth state and transient evidence never enter build context.",
+      "suspectedCause": ".dockerignore drifted behind .gitignore and current test tooling.",
+      "confirmedRootCause": "Confirmed statically; sensitive path contents were not read.",
+      "affectedFiles": [
+        ".dockerignore"
+      ],
+      "safeFixBoundary": "Add exact auth/test/temp exclusions without excluding governed contracts needed at runtime.",
+      "regressionTest": "Guard asserts every sensitive pattern is ignored and governed contract paths remain available.",
+      "verificationCommand": "Fresh Docker build context measurement and image asset assertions.",
+      "status": "RESOLVED",
+      "residualRisk": "Final build context was approximately 1.25 MB versus approximately 330 MB at baseline after the required final reports were added. Docker progress metrics remain rounded and implementation-dependent."
+    },
+    {
+      "id": "INFRA-P0-006",
+      "priority": "P0",
+      "subsystem": "database-migrations",
+      "exactReproduction": "After entrypoint LF fix, run migrate deploy twice against a disposable blank MariaDB volume.",
+      "observedOutput": "Fresh disposable MariaDB boot reaches migrate deploy and fails with Prisma P3018 / MariaDB 1060 at 20260616000000_add_officials_role because officials.role already exists from the baseline migration.",
+      "expectedOutput": "First blank migration succeeds; second is a no-op.",
+      "suspectedCause": "Later additive migrations were retained after their changes were folded into the init migration.",
+      "confirmedRootCause": "Confirmed both statically and by isolated runtime reproduction: the baseline migration already contains schema later additive migrations attempt to create again.",
+      "affectedFiles": [
+        "apps/api/prisma/migrations"
+      ],
+      "safeFixBoundary": "No migration mutation is authorized. Runtime reproduction and a migration-baseline proposal only.",
+      "regressionTest": "Isolated blank-DB migrate deploy twice.",
+      "verificationCommand": "Disposable MariaDB migration probe.",
+      "status": "NEED_USER_DECISION",
+      "residualRisk": "Editing applied migration history can invalidate checksums in existing environments. Compare _prisma_migrations and schema state in every persistent environment before selecting a baseline/resolve strategy."
+    },
+    {
+      "id": "INFRA-P1-001",
+      "priority": "P1",
+      "subsystem": "docker-seed",
+      "exactReproduction": "Probe API package scripts and seed source dependencies inside fresh image.",
+      "observedOutput": "Entrypoint invokes absent db:seed; runner omits API source and web catalog used by prisma/seed.ts; Compose forces SEED_DATA=false.",
+      "expectedOutput": "Explicit first-deploy seed mode resolves and can run twice without accidental restart seeding.",
+      "suspectedCause": "Entrypoint, package script, runner contents, and Compose flag evolved independently.",
+      "confirmedRootCause": "Confirmed by static and image probes.",
+      "affectedFiles": [
+        "docker/api-entrypoint.sh",
+        "docker/api.Dockerfile",
+        "docker-compose.prod.yml",
+        "apps/api/package.json"
+      ],
+      "safeFixBoundary": "Use API seed script, package exact dependencies or a built seed artifact, make SEED_DATA externally selectable, keep default false.",
+      "regressionTest": "Image script/assets probe; isolated seed twice once migrations are authorized/fixed.",
+      "verificationCommand": "docker run seed resolution probe and disposable DB seed verification.",
+      "status": "PARTIAL",
+      "residualRisk": "Image command and dependencies resolve, default seeding is disabled, and the test account is opt-in. Actual seed-twice/idempotence execution is NOT_RUN because INFRA-P0-006 prevents a fresh database from completing migrations."
+    },
+    {
+      "id": "INFRA-P1-002",
+      "priority": "P1",
+      "subsystem": "test-evidence-freshness",
+      "exactReproduction": "pnpm test; pnpm gate:forms:213",
+      "observedOutput": "One Jest test and the form gate fail only because generated reports are older than a wall-clock threshold.",
+      "expectedOutput": "Tests are deterministic and validate report provenance/content, or the required audit is orchestrated before the consumer.",
+      "suspectedCause": "The consumer test encodes a 24h freshness rule while the root test command does not regenerate the report.",
+      "confirmedRootCause": "Confirmed by failing assertion and package/CI order.",
+      "affectedFiles": [
+        "apps/api/src/modules/documents/rendering/infrastructure/docx-slot-inventory.spec.ts",
+        "package.json",
+        ".github/workflows/ci.yml",
+        "scripts/audit/audit-docx-slot-inventory.mjs"
+      ],
+      "safeFixBoundary": "Replace clock-only gating with deterministic input provenance or explicitly prepare report before tests; do not touch DOCX.",
+      "regressionTest": "Focused Jest test with old timestamp but matching provenance passes; input drift fails.",
+      "verificationCommand": "Focused Jest, pnpm test, and gate:forms:213.",
+      "status": "RESOLVED",
+      "residualRisk": "The deterministic inventory now records input provenance and is refreshed before consumers; 213/213 inventory and full CI passed."
+    },
+    {
+      "id": "INFRA-P1-003",
+      "priority": "P1",
+      "subsystem": "runtime-hardcode-audit",
+      "exactReproduction": "pnpm audit:hardcode",
+      "observedOutput": "Audit flags a legacy-stale-value detector and explanatory comments as if they were runtime defaults.",
+      "expectedOutput": "True runtime defaults fail while a narrowly documented detector occurrence is allowed.",
+      "suspectedCause": "Raw substring scan has no context/allowlist and comments repeat the token.",
+      "confirmedRootCause": "Confirmed at exact web source lines.",
+      "affectedFiles": [
+        "scripts/audit-runtime-hardcodes.mjs",
+        "apps/web/src/components/documents/template-preview-workspace.tsx",
+        "apps/web/src/lib/runtime-ux/index.ts"
+      ],
+      "safeFixBoundary": "Remove literals from copy/comments and add exact-path/count allowlist for the intentional detector constant.",
+      "regressionTest": "Audit fixture proves extra occurrence fails and exact detector count passes.",
+      "verificationCommand": "pnpm audit:hardcode.",
+      "status": "RESOLVED",
+      "residualRisk": "The exact path/count allowlist is covered by a negative drift guard; profile fixtures remain explicitly excluded as synthetic sources of truth."
+    },
+    {
+      "id": "INFRA-P1-004",
+      "priority": "P1",
+      "subsystem": "imports-security",
+      "exactReproduction": "Call ImportStorageService.resolveProjectPath with an absolute path or ../ escape; inspect Multer configuration.",
+      "observedOutput": "Absolute paths and project-relative traversal are returned; upload has no Multer fileSize limit before disk write.",
+      "expectedOutput": "Resolved paths stay inside the import storage root and oversized files are rejected before write.",
+      "suspectedCause": "Import storage predates WorkspacePaths containment helpers and relies on post-write validation.",
+      "confirmedRootCause": "Confirmed in current source; focused tests still required before change.",
+      "affectedFiles": [
+        "apps/api/src/modules/imports/import-storage.service.ts",
+        "apps/api/src/modules/imports/imports.module.ts",
+        "apps/api/src/modules/imports/imports.service.ts"
+      ],
+      "safeFixBoundary": "Reuse path.relative containment pattern, reject absolute/escape paths, set upload size limit without changing public route schema.",
+      "regressionTest": "Service tests for absolute/../ paths and module/controller limit configuration.",
+      "verificationCommand": "Focused Jest imports tests plus API/root test.",
+      "status": "RESOLVED",
+      "residualRisk": "New reads/writes are storage-root contained and uploads are capped at 50 MiB before disk write. Existing DB rows with absolute legacy paths may require an explicitly scoped compatibility decision."
+    },
+    {
+      "id": "INFRA-P1-005",
+      "priority": "P1",
+      "subsystem": "runtime-operations",
+      "exactReproduction": "Image UID probe, Compose inspection, main.ts lifecycle inspection.",
+      "observedOutput": "Both images run UID 0; no API/web healthchecks; no enableShutdownHooks; DB port publicly exposed by default.",
+      "expectedOutput": "Non-root runtime, writable owned dirs, health-based dependencies, graceful SIGTERM, DB internal by default.",
+      "suspectedCause": "Build-only CI never exercised runtime operations.",
+      "confirmedRootCause": "Confirmed by image and source probes.",
+      "affectedFiles": [
+        "docker/api.Dockerfile",
+        "docker/web.Dockerfile",
+        "docker-compose.prod.yml",
+        "apps/api/src/main.ts"
+      ],
+      "safeFixBoundary": "Use existing node user, create/chown writable paths, add Node-based healthchecks and stop grace, remove default DB host port.",
+      "regressionTest": "Static guard, image UID/writable probes, health wait, SIGTERM shutdown.",
+      "verificationCommand": "Fresh isolated Compose boot/readiness/shutdown.",
+      "status": "PARTIAL",
+      "residualRisk": "Both final images are non-root with healthchecks; web /healthz reached 200 in 535 ms and stopped on SIGTERM in 316 ms without OOM. Full API readiness/restart/seed/shutdown remains NOT_RUN because INFRA-P0-006 stops production boot at migrate deploy. Linux bind-mount ownership remains operator-dependent and is documented."
+    },
+    {
+      "id": "INFRA-DECISION-001",
+      "priority": "P1",
+      "subsystem": "legal-rendering-fonts",
+      "exactReproduction": "fc-match 'Times New Roman' inside API runner.",
+      "observedOutput": "Resolves to Liberation Serif; proprietary Times New Roman is absent.",
+      "expectedOutput": "Approved production font policy explicitly names an installed/licensed font or mount strategy.",
+      "suspectedCause": "Image intentionally includes only redistributable fonts.",
+      "confirmedRootCause": "Confirmed by runner probe.",
+      "affectedFiles": [
+        "docker/api.Dockerfile",
+        "docs deployment runbook"
+      ],
+      "safeFixBoundary": "Do not download proprietary fonts. Document fallback and request approved font file/mount decision.",
+      "regressionTest": "Font probe reports exact resolved family.",
+      "verificationCommand": "docker font probe.",
+      "status": "NEED_USER_DECISION",
+      "residualRisk": "Linux PDF pagination can drift from Windows legal layout until font policy is approved."
+    }
+  ]
+}

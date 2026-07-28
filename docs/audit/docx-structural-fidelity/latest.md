@@ -1,5 +1,5 @@
 # DOCX Structural Fidelity — F2 audit
-Generated: 2026-06-26T19:34:31.425Z
+Generated: 2026-07-15T17:07:06.050Z
 
 | Metric | Value |
 |--------|-------|

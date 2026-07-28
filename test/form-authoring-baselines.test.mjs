@@ -7,6 +7,7 @@ import {
   collectFilesystemRows,
   gradeFromQualityState,
   generatedRendererManifestCodes,
+  legacyRendererManifestExists,
   parseSelectedCodes,
   selectCanonicalContract,
   stageCodeFor,
@@ -81,6 +82,10 @@ test("stage and selected-code parsing support repeatable one-or-many BM work", (
 });
 
 test("generated legacy renderer manifest matches current component sources", () => {
+  if (!legacyRendererManifestExists(repoRoot)) {
+    assert.equal(generatedRendererManifestCodes(repoRoot).size, 0);
+    return;
+  }
   assert.deepEqual(
     [...generatedRendererManifestCodes(repoRoot)].sort(),
     [...actualGenericRendererCodes(repoRoot)].sort(),

@@ -8,6 +8,7 @@
  * Nghiệp vụ: VKS ra QĐ giám định lại trong trường hợp đặc biệt.
  */
 
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -47,9 +48,6 @@ type Bm133Form = {
 };
 
 type RenderPayload = Record<string, unknown>;
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const EMPTY_FORM: Bm133Form = {
   agency: {
@@ -276,12 +274,8 @@ export function Bm133FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { cache: "no-store" },
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setForm(normalizeFormInputs((await res.json()) as RenderPayload));
+      const payload = await getDocumentRenderPayload<RenderPayload>(documentId);
+      setForm(normalizeFormInputs(payload));
       setMessage("Đã tải dữ liệu BM-133 từ backend.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Lỗi khi tải.");
@@ -302,15 +296,7 @@ export function Bm133FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       await reloadFromBackend();
       setMessage("Đã lưu BM-133 thành công.");
       await onSaved?.();

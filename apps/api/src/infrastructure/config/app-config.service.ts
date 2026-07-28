@@ -1,4 +1,5 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
+import { existsSync, readFileSync } from 'node:fs';
 import { ConfigurationError } from '../../common/application-error';
 import {
   resolveCorsPolicy,
@@ -8,6 +9,33 @@ import {
 type Environment = Readonly<Record<string, string | undefined>>;
 type AuthCookieSameSite = 'lax' | 'strict' | 'none';
 export type DocumentRendererMode = 'off' | 'shadow' | 'active';
+
+/** Phase 8C font verification report shape (produced by verify-font-policy.mjs). */
+export type FontVerificationReport = {
+  policy: 'required' | 'fallback-allowed';
+  requiredFamily: string;
+  fontDir: string;
+  aggregate:
+    | 'EXACT_REQUIRED_FONT_PASS'
+    | 'EXACT_REQUIRED_FONT_MISSING'
+    | 'STYLE_INCOMPLETE'
+    | 'ALIAS_ONLY'
+    | 'FALLBACK_ALLOWED'
+    | 'INVALID_FONT_METADATA';
+  presentStyles: string[];
+  missingStyles: string[];
+  requiredStyles: string[];
+  perFont: Array<{
+    basename: string;
+    family: string | null;
+    subfamily: string | null;
+    size: number;
+    sha256: string;
+    os2: { usWeightClass: number; usWidthClass: number } | null;
+    status: string;
+    reason: string;
+  }>;
+};
 
 export const APP_ENV = Symbol('APP_ENV');
 
@@ -31,6 +59,17 @@ export class AppConfigService {
     return this.environment === 'production';
   }
 
+  /**
+   * Customer-local is a single-machine deployment. It deliberately does not
+   * reuse demo mode because demo mode may JIT-provision unknown Clerk users.
+   */
+  get isCustomerLocalMode(): boolean {
+    return (
+      this.isProduction &&
+      this.read('QLLAW_DEPLOYMENT_MODE') === 'customer-local'
+    );
+  }
+
   /** Enables cross-origin cookie (SameSite=None, Secure) for local tunnel tests.
    *  This mode is forbidden in production. */
   get tunnelTestMode(): boolean {
@@ -38,7 +77,7 @@ export class AppConfigService {
   }
 
   get apiPort(): number {
-    const raw = this.read('API_PORT') ?? '3001';
+    const raw = this.read('API_PORT') ?? this.read('PORT') ?? '3001';
     const port = Number(raw);
     if (!Number.isInteger(port) || port < 1 || port > 65_535) {
       throw new ConfigurationError(
@@ -188,6 +227,79 @@ export class AppConfigService {
     return templates;
   }
 
+  // Phase 8C: font policy.
+  // Production default is "required" so the API refuses to declare
+  // readiness unless the operator-provided Times New Roman bind mount
+  // carries all four required styles. Development and tests may set
+  // QLLAW_FONT_POLICY=fallback-allowed to keep the legacy Liberation
+  // path working.
+  get fontPolicy(): 'required' | 'fallback-allowed' {
+    const raw = (this.read('QLLAW_FONT_POLICY') ?? 'required').toLowerCase();
+    if (raw === 'fallback-allowed') return 'fallback-allowed';
+    if (raw === 'required') return 'required';
+    throw new ConfigurationError(
+      'INVALID_FONT_POLICY',
+      `QLLAW_FONT_POLICY must be 'required' or 'fallback-allowed'; received "${raw}".`,
+    );
+  }
+
+  get requiredFontFamily(): string {
+    return this.read('QLLAW_REQUIRED_FONT_FAMILY') ?? 'Times New Roman';
+  }
+
+  /** Container-side path of the operator-provided font directory. */
+  get containerFontDir(): string {
+    return (
+      this.read('QLLAW_CONTAINER_TNR_FONT_DIR') ??
+      '/opt/qllaw/fonts/times-new-roman'
+    );
+  }
+
+  /**
+   * Inspect the runtime font status. The entrypoint writes
+   * /tmp/qllaw-font-verification.json before starting the API; this
+   * reader deserializes it for /ready. Returns null when no report is
+   * present (e.g. local dev) so callers can fall back to filesystem
+   * discovery.
+   */
+  readFontVerificationReport(): FontVerificationReport | null {
+    const reportPath =
+      this.read('QLLAW_FONT_VERIFICATION_REPORT') ??
+      '/tmp/qllaw-font-verification.json';
+    if (!existsSync(reportPath)) return null;
+    try {
+      const raw = readFileSync(reportPath, 'utf8');
+      return JSON.parse(raw) as FontVerificationReport;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Whether QLLAW_DOCKER_MODE=demo is explicitly set.
+   *
+   * Demo mode relaxes a small set of production startup requirements that
+   * are intentionally incompatible with local demo runs (no licensed fonts,
+   * no live Clerk webhook endpoint). It does NOT disable:
+   *   - JWT/session token verification
+   *   - Auth guards on protected routes
+   *   - Webhook signature verification on incoming requests
+   *   - Cookie security
+   *
+   * Startup emits CLERK_WEBHOOK_OPTIONAL_FOR_DEMO when webhook secret is
+   * absent/placeholder in demo mode so the log record is unambiguous.
+   *
+   * In strict production (isProductionDemoMode=false), all requirements
+   * remain fail-closed.
+   */
+  get isProductionDemoMode(): boolean {
+    // QLLAW_DOCKER_MODE=demo (not a boolean flag — a string value)
+    return (
+      this.isProduction &&
+      (this.read('QLLAW_DOCKER_MODE') ?? '').toLowerCase() === 'demo'
+    );
+  }
+
   assertProductionSafety(): void {
     if (this.isProduction && this.tunnelTestMode) {
       throw new ConfigurationError(
@@ -206,30 +318,39 @@ export class AppConfigService {
       return;
     }
 
-    this.requireProductionEnv('WEB_ORIGIN');
-    this.requireProductionEnv('CLERK_SECRET_KEY');
-    this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
-    this.requireProductionEnv('SEED_ADMIN_PASSWORD');
+    const webOrigin = this.requireProductionEnv('WEB_ORIGIN');
+    const clerkSecretKey = this.requireProductionEnv('CLERK_SECRET_KEY');
+    const seedAdminPassword = this.requireProductionEnv('SEED_ADMIN_PASSWORD');
 
-    if (!this.effectiveAuthCookieSecure) {
-      throw new ConfigurationError(
-        'INSECURE_PRODUCTION_COOKIE',
-        'AUTH_COOKIE_SECURE must be "true" in production.',
+    if (this.isCustomerLocalMode) {
+      this.assertCustomerLocalOrigins(webOrigin);
+      this.assertCustomerLocalOrigins(
+        this.requireProductionEnv('API_CORS_ORIGIN'),
       );
+      if (this.effectiveAuthCookieSecure) {
+        throw new ConfigurationError(
+          'CUSTOMER_LOCAL_COOKIE_MUST_ALLOW_HTTP',
+          'AUTH_COOKIE_SECURE must be "false" in customer-local mode.',
+        );
+      }
+    } else if (!this.isProductionDemoMode) {
+      this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
+      if (!this.effectiveAuthCookieSecure) {
+        throw new ConfigurationError(
+          'INSECURE_PRODUCTION_COOKIE',
+          'AUTH_COOKIE_SECURE must be "true" in production.',
+        );
+      }
     }
 
-    this.rejectProductionPlaceholder(
-      'CLERK_SECRET_KEY',
-      this.read('CLERK_SECRET_KEY'),
-    );
-    this.rejectProductionPlaceholder(
-      'CLERK_WEBHOOK_SECRET',
-      this.read('CLERK_WEBHOOK_SECRET'),
-    );
-    this.rejectProductionPlaceholder(
-      'SEED_ADMIN_PASSWORD',
-      this.read('SEED_ADMIN_PASSWORD'),
-    );
+    this.rejectProductionPlaceholder('CLERK_SECRET_KEY', clerkSecretKey);
+    if (!this.isCustomerLocalMode && !this.isProductionDemoMode) {
+      this.rejectProductionPlaceholder(
+        'CLERK_WEBHOOK_SECRET',
+        this.read('CLERK_WEBHOOK_SECRET'),
+      );
+    }
+    this.rejectProductionPlaceholder('SEED_ADMIN_PASSWORD', seedAdminPassword);
 
     if ((this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
       throw new ConfigurationError(
@@ -296,6 +417,33 @@ export class AppConfigService {
       throw new ConfigurationError(
         'PLACEHOLDER_PRODUCTION_ENV',
         `${key} must be set to a real production value.`,
+      );
+    }
+  }
+
+  private assertCustomerLocalOrigins(value: string): void {
+    const origins = value.split(',').map((origin) => origin.trim());
+    const isLoopbackHttpOrigin = (origin: string): boolean => {
+      try {
+        const url = new URL(origin);
+        return (
+          url.protocol === 'http:' &&
+          (url.hostname === '127.0.0.1' || url.hostname === 'localhost') &&
+          url.pathname === '/' &&
+          !url.search &&
+          !url.hash &&
+          !url.username &&
+          !url.password
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    if (origins.length === 0 || origins.some((origin) => !isLoopbackHttpOrigin(origin))) {
+      throw new ConfigurationError(
+        'INVALID_CUSTOMER_LOCAL_ORIGIN',
+        'Customer-local deployments must use loopback HTTP origins only.',
       );
     }
   }

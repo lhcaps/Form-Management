@@ -12,9 +12,7 @@ import type { ReactNode } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { applyCasePayloadToBm039Form } from "@/lib/bm-auto-populate/bm039-case-defaults";
 import { useCasePayload } from "@/lib/case-payload-context";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type SectionName =
   | "agency"
@@ -842,77 +840,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm039FormInputs 
   });
 }
 
-async function getBm039RenderPayload(
-  documentId: string | number,
-): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-039. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm039FormInputs(
-  documentId: string | number,
-  form: Bm039FormInputs,
-): Promise<void> {
-  const savePayload = buildSyncedForm(form);
-
-  const juvenileLine = savePayload.legalBasis.includeJuvenileJusticeLine
-    ? savePayload.legalBasis.juvenileJusticeLine ||
-      "Căn cứ Điều 135 và Điều 138 của Luật Tư pháp người chưa thành niên;"
-    : "";
-
-  savePayload.legalBasis.juvenileJusticeLine = juvenileLine;
-
-  const legalBasisAny = savePayload.legalBasis as unknown as Record<string, unknown>;
-  legalBasisAny["juvenileLegalBasisLine"] = juvenileLine;
-  legalBasisAny["minorLegalBasisLine"] = juvenileLine;
-  legalBasisAny["isJuvenile"] = savePayload.legalBasis.includeJuvenileJusticeLine
-    ? "true"
-    : "false";
-  legalBasisAny["includeJuvenileJusticeLine"] =
-    savePayload.legalBasis.includeJuvenileJusticeLine;
-
-  const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        updatedByName,
-        formInputs: savePayload,
-        person: {
-          fullName: savePayload.detentionArrest.accusedName,
-        },
-        offense: {
-          offenseName: savePayload.detentionArrest.offenseName,
-          legalArticle: savePayload.detentionArrest.legalArticle,
-        },
-        ...savePayload,
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không lưu được dữ liệu BM-039. HTTP ${response.status}`);
-  }
-}
-
 
 function getBm039TodayDisplayDate(): string {
   const now = new Date();
@@ -1370,7 +1297,7 @@ export function Bm039FormInputsPanel({
       setSuccessMessage("");
 
       try {
-        const payload = await getBm039RenderPayload(documentId);
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
         const normalizedForm = normalizeFormInputs(payload);
         const caseApplied = applyCasePayloadDefaults(normalizedForm);
 
@@ -1475,7 +1402,37 @@ export function Bm039FormInputsPanel({
 
     try {
       const savePayload = buildSyncedForm(form);
-      await saveBm039FormInputs(documentId, savePayload);
+
+      const juvenileLine = savePayload.legalBasis.includeJuvenileJusticeLine
+        ? savePayload.legalBasis.juvenileJusticeLine ||
+          "Căn cứ Điều 135 và Điều 138 của Luật Tư pháp người chưa thành niên;"
+        : "";
+
+      savePayload.legalBasis.juvenileJusticeLine = juvenileLine;
+
+      const legalBasisAny = savePayload.legalBasis as unknown as Record<string, unknown>;
+      legalBasisAny["juvenileLegalBasisLine"] = juvenileLine;
+      legalBasisAny["minorLegalBasisLine"] = juvenileLine;
+      legalBasisAny["isJuvenile"] = savePayload.legalBasis.includeJuvenileJusticeLine
+        ? "true"
+        : "false";
+      legalBasisAny["includeJuvenileJusticeLine"] =
+        savePayload.legalBasis.includeJuvenileJusticeLine;
+
+      const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+        formInputs: savePayload,
+        person: {
+          fullName: savePayload.detentionArrest.accusedName,
+        },
+        offense: {
+          offenseName: savePayload.detentionArrest.offenseName,
+          legalArticle: savePayload.detentionArrest.legalArticle,
+        },
+        ...savePayload,
+      });
 
       setForm(savePayload);
       setInitialSnapshot(JSON.stringify(savePayload));

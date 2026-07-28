@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-06T00:00:00.000Z",
+  "task": "FORM_FLIGHT_CORE_SHARED_ADAPTERS_AND_ROLLOUT_FACTORY_V1",
+  "artifact": "FORM_FLIGHT_BM171_SHARED_CORE",
+  "summary": "BM-171 is the first Form Flight shared-core pilot. Same profile, same payload semantics, same validation, same summary, same acceptance scanner across /templates/BM-171 and /documents/:id.",
+  "profile": "apps/web/src/lib/form-flight/profiles/bm171.ts",
+  "wiring": {
+    "runtime": "apps/web/src/components/documents/template-preview-workspace.tsx",
+    "generated_document": "apps/web/src/components/documents/bm-171-form-inputs.tsx"
+  },
+  "tests": {
+    "path": "apps/web/src/lib/form-flight/bm171-shared-core.test.ts",
+    "tests": [
+      "registers a BM-171 profile with the canonical templateCode",
+      "fieldPaths covers all canonical BM-171 dot-paths",
+      "requiredFieldPaths is a strict subset of fieldPaths",
+      "requiredFieldPaths match the locked contract required set",
+      "runtime and generated-document adapters use the SAME fieldPaths",
+      "runtime and generated-document adapters return IDENTICAL sanitized payload for the same draft",
+      "runtime and generated-document gates agree on the missing-required list",
+      "missing required fields block preview/export and save identically",
+      "user override is preserved in both adapters",
+      "demo-reset overwrites user values (runtime + document agree)",
+      "summary line for 'Người nhận' is data-driven (— when empty, typed when filled)",
+      "runtime and generated-document summaries agree on the same draft",
+      "acceptance scanner flags stale fallback garbage and missing anchors",
+      "acceptance scanner passes when required anchors present and no forbidden garbage leaks",
+      "runtime + document acceptance scanners agree",
+      "structured missing-field list from the generated-document adapter includes the three mandated required fields"
+    ],
+    "result": "PASS — 16/16"
+  },
+  "reproductions": [
+    {
+      "script": "apps/api/scripts/reproduce-bm171-runtime-user-override.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 user-override preservation passes acceptance checks."
+    },
+    {
+      "script": "apps/api/scripts/reproduce-bm171-runtime-missing-required.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 missing-required gate detects all three mandated required fields."
+    },
+    {
+      "script": "apps/api/scripts/reproduce-bm171-runtime-stale-cleanup.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 stale-fallback cleanup passes acceptance checks."
+    },
+    {
+      "script": "apps/api/scripts/reproduce-bm171-runtime-preview-after.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 runtime preview AFTER fix matches production semantics."
+    },
+    {
+      "script": "apps/api/scripts/reproduce-bm171-runtime-preview-before.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 runtime preview BEFORE fix matches production semantics."
+    },
+    {
+      "script": "apps/api/scripts/reproduce-bm171-visual-browser-signoff.mjs",
+      "result": "PASS",
+      "line": "[OK] BM-171 visual browser signoff passes acceptance checks."
+    }
+  ],
+  "forbiddenScope": {
+    "noRouteMerging": true,
+    "noFakeGeneratedDocumentId": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noSourceDocxMutation": true,
+    "noClaimedLiveBrowserSignoff": true
+  }
+}

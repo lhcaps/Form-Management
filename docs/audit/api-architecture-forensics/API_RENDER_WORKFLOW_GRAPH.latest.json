@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-07-06T00:00:00.000+07:00",
+  "runtimeTemplateFlow": {
+    "frontendRoute": "/templates/:templateCode",
+    "frontendComponents": [
+      "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "apps/web/src/features/forms-contracts/ContractV2Renderer.tsx",
+      "apps/web/src/lib/form-flight/adapters/template-runtime-adapter.ts",
+      "apps/web/src/lib/runtime-template-preview.ts",
+      "apps/web/src/lib/runtime-template-export.ts"
+    ],
+    "apiEndpoints": [
+      "GET /forms/runtime/:templateCode",
+      "POST /forms/runtime/:templateCode/preview-session",
+      "GET /forms/runtime/preview-sessions/:sessionId/docx",
+      "GET /forms/runtime/preview-sessions/:sessionId/pdf",
+      "POST /forms/runtime/:templateCode/render-docx"
+    ],
+    "services": [
+      "RuntimeFormContractService.resolve",
+      "RuntimePreviewSessionService.createPreviewSession",
+      "StandaloneTemplateRenderService.renderDocx",
+      "DocxStyleAuditService.auditDocxFromFile",
+      "DocumentPdfService.convertDocxFileToPdf"
+    ],
+    "renderer": [
+      "ContractRenderPlanBuilder.build",
+      "DocxtemplaterContractRenderEngine.renderActiveDocx"
+    ],
+    "contractSource": [
+      "RuntimeFormContractService: form_contract_versions DB first, locked-file fallback",
+      "StandaloneTemplateRenderService/ContractRenderPlanBuilder: locked JSON contracts from docs/audit/docx/contracts/locked"
+    ],
+    "storage": [
+      "storage/runtime-preview-sessions/<sessionId>/document.docx",
+      "storage/runtime-preview-sessions/<sessionId>/document.pdf when conversion succeeds",
+      "storage/runtime-preview-sessions/<sessionId>/metadata.json"
+    ],
+    "dbWrites": [],
+    "auditWrites": [
+      "Docx style audit in session metadata only, not generated_document_audit_logs"
+    ],
+    "risks": [
+      "Runtime contract source for UI can be DB-published while render plan uses locked-file contracts, creating possible schema/render drift.",
+      "Runtime preview accepts arbitrary data object and validates missing required via render plan only, not the full ContractFormInputsService validator.",
+      "Runtime endpoints are under protected global auth unless marked public elsewhere; task evidence did not find explicit @Public on runtime render controller."
+    ]
+  },
+  "generatedDocumentFlow": {
+    "frontendRoute": "/documents/:id",
+    "frontendComponents": [
+      "apps/web/src/components/documents/generated-document-workspace*",
+      "apps/web/src/components/documents/generic-template-form-inputs.tsx",
+      "apps/web/src/components/documents/bm-*-form-inputs.tsx",
+      "apps/web/src/lib/document-form-api.ts",
+      "apps/web/src/lib/generated-documents-api.ts",
+      "apps/web/src/lib/document-render-api.ts",
+      "apps/web/src/lib/form-flight/adapters/generated-document-adapter.ts"
+    ],
+    "apiEndpoints": [
+      "GET /documents/generated",
+      "GET /documents/generated/:documentId",
+      "GET /documents/generated/:documentId/render-payload",
+      "POST /documents/generated/:documentId/form-inputs",
+      "PUT /documents/generated/:documentId/contract-form-inputs",
+      "GET /documents/generated/:documentId/form-schema",
+      "POST /documents/generated/:documentId/render-docx",
+      "POST /documents/generated/:documentId/convert-pdf",
+      "GET /documents/generated/:documentId/files/:fileId/download",
+      "GET /documents/generated/:documentId/audit"
+    ],
+    "services": [
+      "DocumentsService.createBatch",
+      "DocumentReviewsService.findGeneratedDocument",
+      "DocumentRendererService.getRenderPayload",
+      "DocumentRendererService.updateFormInputs",
+      "ContractFormInputsService.save",
+      "DocumentFormSchemaService.getFormSchema",
+      "RenderGeneratedDocumentUseCase.execute",
+      "DocumentPdfService.convertLatestDocxToPdf",
+      "DocumentFilesService.getGeneratedFileForDownload",
+      "GeneratedDocumentAuditService.record"
+    ],
+    "renderer": [
+      "RenderGeneratedDocumentUseCase policy switch",
+      "LegacyDocumentRendererAdapter -> DocumentRendererService.renderDocx",
+      "ContractDocumentRendererAdapter -> ContractShadowRendererOrchestrator.renderActive",
+      "ContractRenderPlanBuilder",
+      "DocxtemplaterContractRenderEngine"
+    ],
+    "contractSource": [
+      "Legacy path: templates/template_versions/document-renderer service mixed payload logic",
+      "Contract path: generated document descriptor from generated_documents.render_payload_snapshot + templates.template_code + locked JSON contracts",
+      "Contract form inputs/schema: RuntimeFormContractService DB-published first, locked-file fallback"
+    ],
+    "storage": [
+      "WorkspacePathsService.generatedDocumentsRoot/cases for contract active renders",
+      "stored_files rows for active contract renders",
+      "generated_document_files rows for DOCX/PDF artifacts"
+    ],
+    "dbWrites": [
+      "generated_documents",
+      "generated_document_files",
+      "stored_files",
+      "case_events",
+      "generated_document_audit_logs on selected controller audit paths"
+    ],
+    "auditWrites": [
+      "GENERATED_DOCUMENT_CREATED in DocumentsController.createBatch",
+      "GENERATED_DOCUMENT_DOWNLOADED in DocumentFilesController.downloadGeneratedFile",
+      "GENERATED_DOCUMENT_FILE_DELETED in DocumentFilesController.deleteGeneratedFile",
+      "GENERATED_DOCUMENT_FILES_BULK_DELETED in DocumentFilesController.bulkDeleteGeneratedFiles",
+      "GENERATED_DOCUMENT_FILES_CLEANED_UP in DocumentFilesController.cleanupGeneratedFiles",
+      "ACCESS_DENIED on file forbidden paths"
+    ],
+    "risks": [
+      "Renderer routing can send different templates through legacy, shadow, or active paths based on config.",
+      "Legacy DocumentRendererService contains BM-specific payload and fallback logic that can diverge from ContractFormInputsService validation.",
+      "Contract active render records case_events but not generated_document_audit_logs directly in inspected orchestrator.",
+      "Frontend helpers expose PATCH/PUT form-inputs methods that do not match inspected backend route decorators."
+    ]
+  },
+  "legacyOrDuplicateFlows": [
+    {
+      "name": "BM-031 direct generated endpoints",
+      "endpoints": [
+        "GET /documents/generated/:id/bm031-direct-render-payload",
+        "POST /documents/generated/:id/bm031-direct-form-inputs"
+      ],
+      "risk": "DANGEROUS_DUPLICATE",
+      "notes": "Bypasses standard generated form-inputs contract and has historical route-shadowing comments."
+    },
+    {
+      "name": "Legacy generated renderer",
+      "endpoints": ["POST /documents/generated/:documentId/render-docx"],
+      "risk": "HIGH",
+      "notes": "Still selected by routing policy for templates not enabled for contract renderer."
+    },
+    {
+      "name": "Audit-only render scripts",
+      "endpoints": [],
+      "risk": "MEDIUM",
+      "notes": "Numerous scripts render or inspect BM outputs and should not be treated as runtime architecture."
+    }
+  ]
+}
