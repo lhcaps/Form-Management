@@ -59,6 +59,17 @@ export class AppConfigService {
     return this.environment === 'production';
   }
 
+  /**
+   * Customer-local is a single-machine deployment. It deliberately does not
+   * reuse demo mode because demo mode may JIT-provision unknown Clerk users.
+   */
+  get isCustomerLocalMode(): boolean {
+    return (
+      this.isProduction &&
+      this.read('QLLAW_DEPLOYMENT_MODE') === 'customer-local'
+    );
+  }
+
   /** Enables cross-origin cookie (SameSite=None, Secure) for local tunnel tests.
    *  This mode is forbidden in production. */
   get tunnelTestMode(): boolean {
@@ -307,52 +318,39 @@ export class AppConfigService {
       return;
     }
 
-    // --- Strict production requirements (always required) ---
-    this.requireProductionEnv('WEB_ORIGIN');
-    this.requireProductionEnv('CLERK_SECRET_KEY');
-    this.requireProductionEnv('SEED_ADMIN_PASSWORD');
+    const webOrigin = this.requireProductionEnv('WEB_ORIGIN');
+    const clerkSecretKey = this.requireProductionEnv('CLERK_SECRET_KEY');
+    const seedAdminPassword = this.requireProductionEnv('SEED_ADMIN_PASSWORD');
 
-    // --- Webhook secret: required in strict production, optional in demo mode ---
-    //
-    // In demo mode the API can start without a real webhook secret. An
-    // incoming Svix-signed webhook call is still verified against whatever
-    // value is present (or rejected with 403 if the value is invalid).
-    // This is correct for demo: the API boots but webhook sync is inert.
-    //
-    // CLERK_WEBHOOK_OPTIONAL_FOR_DEMO is emitted to make the log record clear.
-    if (this.isProductionDemoMode) {
-      // Webhook secret is optional in demo mode; log the relaxation.
-      // (The log statement is written by the module bootstrapper via AppModule
-      //  which calls this method and reads isProductionDemoMode after.)
-    } else {
-      this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
-    }
-
-    // --- Cookie security: relaxed in explicit demo mode for HTTP localhost ---
-    if (!this.isProductionDemoMode && !this.effectiveAuthCookieSecure) {
-      throw new ConfigurationError(
-        'INSECURE_PRODUCTION_COOKIE',
-        'AUTH_COOKIE_SECURE must be "true" in production. Set QLLAW_DOCKER_MODE_DEMO=true to allow HTTP in demo mode.',
+    if (this.isCustomerLocalMode) {
+      this.assertCustomerLocalOrigins(webOrigin);
+      this.assertCustomerLocalOrigins(
+        this.requireProductionEnv('API_CORS_ORIGIN'),
       );
+      if (this.effectiveAuthCookieSecure) {
+        throw new ConfigurationError(
+          'CUSTOMER_LOCAL_COOKIE_MUST_ALLOW_HTTP',
+          'AUTH_COOKIE_SECURE must be "false" in customer-local mode.',
+        );
+      }
+    } else if (!this.isProductionDemoMode) {
+      this.requireProductionEnv('CLERK_WEBHOOK_SECRET');
+      if (!this.effectiveAuthCookieSecure) {
+        throw new ConfigurationError(
+          'INSECURE_PRODUCTION_COOKIE',
+          'AUTH_COOKIE_SECURE must be "true" in production.',
+        );
+      }
     }
 
-    this.rejectProductionPlaceholder(
-      'CLERK_SECRET_KEY',
-      this.read('CLERK_SECRET_KEY'),
-    );
-
-    // Only reject placeholder webhook secret in strict production.
-    if (!this.isProductionDemoMode) {
+    this.rejectProductionPlaceholder('CLERK_SECRET_KEY', clerkSecretKey);
+    if (!this.isCustomerLocalMode && !this.isProductionDemoMode) {
       this.rejectProductionPlaceholder(
         'CLERK_WEBHOOK_SECRET',
         this.read('CLERK_WEBHOOK_SECRET'),
       );
     }
-
-    this.rejectProductionPlaceholder(
-      'SEED_ADMIN_PASSWORD',
-      this.read('SEED_ADMIN_PASSWORD'),
-    );
+    this.rejectProductionPlaceholder('SEED_ADMIN_PASSWORD', seedAdminPassword);
 
     if ((this.read('SEED_ADMIN_PASSWORD') ?? '') === 'admin123') {
       throw new ConfigurationError(
@@ -419,6 +417,33 @@ export class AppConfigService {
       throw new ConfigurationError(
         'PLACEHOLDER_PRODUCTION_ENV',
         `${key} must be set to a real production value.`,
+      );
+    }
+  }
+
+  private assertCustomerLocalOrigins(value: string): void {
+    const origins = value.split(',').map((origin) => origin.trim());
+    const isLoopbackHttpOrigin = (origin: string): boolean => {
+      try {
+        const url = new URL(origin);
+        return (
+          url.protocol === 'http:' &&
+          (url.hostname === '127.0.0.1' || url.hostname === 'localhost') &&
+          url.pathname === '/' &&
+          !url.search &&
+          !url.hash &&
+          !url.username &&
+          !url.password
+        );
+      } catch {
+        return false;
+      }
+    };
+
+    if (origins.length === 0 || origins.some((origin) => !isLoopbackHttpOrigin(origin))) {
+      throw new ConfigurationError(
+        'INVALID_CUSTOMER_LOCAL_ORIGIN',
+        'Customer-local deployments must use loopback HTTP origins only.',
       );
     }
   }

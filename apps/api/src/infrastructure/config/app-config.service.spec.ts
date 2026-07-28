@@ -13,6 +13,17 @@ const productionBaseEnv = {
   CLERK_WEBHOOK_SECRET: 'test-clerk-webhook-secret-value',
 };
 
+const customerLocalEnv = {
+  NODE_ENV: 'production',
+  QLLAW_DEPLOYMENT_MODE: 'customer-local',
+  WEB_ORIGIN: 'http://127.0.0.1:3000',
+  API_CORS_ORIGIN: 'http://127.0.0.1:3000',
+  AUTH_COOKIE_SECURE: 'false',
+  AUTH_COOKIE_SAMESITE: 'lax',
+  SEED_ADMIN_PASSWORD: 'customer-local-bootstrap-password',
+  CLERK_SECRET_KEY: 'sk_test_customer_local',
+};
+
 describe('AppConfigService', () => {
   it('parses comma-separated CORS origins and adds development loopback', () => {
     const config = new AppConfigService({
@@ -168,6 +179,25 @@ describe('AppConfigService', () => {
     );
     expect(() => missingSeedPassword.assertProductionSafety()).toThrow(
       'SEED_ADMIN_PASSWORD must be configured in production.',
+    );
+  });
+
+  it('allows the narrowly-scoped customer-local profile without a webhook', () => {
+    const config = new AppConfigService(customerLocalEnv);
+
+    expect(() => config.assertProductionSafety()).not.toThrow();
+    expect(config.effectiveAuthCookieSecure).toBe(false);
+  });
+
+  it('rejects a non-loopback customer-local origin', () => {
+    const config = new AppConfigService({
+      ...customerLocalEnv,
+      WEB_ORIGIN: 'http://192.168.1.20:3000',
+      API_CORS_ORIGIN: 'http://192.168.1.20:3000',
+    });
+
+    expect(() => config.assertProductionSafety()).toThrow(
+      'Customer-local deployments must use loopback HTTP origins only.',
     );
   });
 
