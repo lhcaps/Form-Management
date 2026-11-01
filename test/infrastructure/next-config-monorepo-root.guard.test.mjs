@@ -24,10 +24,13 @@ const normalise = (p) => p.replace(/\\/g, "/").replace(/\/$/, "");
 
 describe("next.config.ts MONOREPO_ROOT path semantics", () => {
   it("REPO_ROOT resolves to the actual monorepo root", () => {
-    const normalised = normalise(REPO_ROOT);
     assert.ok(
-      normalised.endsWith("/QLLaw-main"),
-      `Expected REPO_ROOT to end with /QLLaw-main but got: ${normalised}`,
+      existsSync(resolve(REPO_ROOT, "pnpm-workspace.yaml")),
+      `Expected REPO_ROOT to contain pnpm-workspace.yaml: ${REPO_ROOT}`,
+    );
+    assert.ok(
+      existsSync(resolve(REPO_ROOT, "apps/web/next.config.ts")),
+      `Expected REPO_ROOT to contain apps/web/next.config.ts: ${REPO_ROOT}`,
     );
   });
 
