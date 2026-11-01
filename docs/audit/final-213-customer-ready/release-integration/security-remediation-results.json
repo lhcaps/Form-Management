@@ -1,0 +1,78 @@
+{
+  "schema": "qllaw.release.security_remediation_results/v1",
+  "capturedAt": "2026-07-27T22:45:00+07:00",
+  "phase15Batch": "SECURITY_REMEDIATION_BATCH",
+  "commandsExecuted": [
+    {
+      "command": "pnpm install --lockfile-only",
+      "exitCode": 0,
+      "purpose": "Regenerate lockfile to satisfy new manifest constraints."
+    },
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0,
+      "purpose": "Verify the regenerated lockfile is reproducible without modifying manifest."
+    },
+    {
+      "command": "pnpm why @hono/node-server -r",
+      "exitCode": 0,
+      "output": "Empty — @hono/node-server no longer appears in the production dependency graph.",
+      "purpose": "Confirm chain removal."
+    },
+    {
+      "command": "pnpm why valibot -r",
+      "exitCode": 0,
+      "output": "valibot@1.4.2 -> @prisma/dev@0.24.17 -> prisma@7.9.1 -> api@0.0.1",
+      "purpose": "Confirm valibot patched version."
+    },
+    {
+      "command": "pnpm why body-parser -r",
+      "exitCode": 0,
+      "output": "body-parser@2.3.0 -> express@5.2.1 -> @nestjs/platform-express@11.1.19 / swagger-ui-express@5.0.1 -> api@0.0.1",
+      "purpose": "Confirm body-parser patched version."
+    },
+    {
+      "command": "pnpm list @hono/node-server valibot body-parser -r --depth Infinity",
+      "exitCode": 0,
+      "output": "Only valibot 1.4.2 and body-parser 2.3.0 present in api tree. @hono/node-server absent.",
+      "purpose": "Confirm resolved versions across the workspace."
+    },
+    {
+      "command": "pnpm audit --prod --json",
+      "exitCode": 0,
+      "output": "advisories: {} ; metadata.vulnerabilities: { info:0, low:0, moderate:0, high:0, critical:0 }",
+      "purpose": "Confirm production audit is fully green."
+    },
+    {
+      "command": "pnpm audit --prod --audit-level=high",
+      "exitCode": 0,
+      "output": "No known vulnerabilities found.",
+      "purpose": "Confirm no High or Critical even at the strictest audit level."
+    }
+  ],
+  "gates": {
+    "productionAuditExitCode": 0,
+    "criticalAdvisories": 0,
+    "highAdvisories": 0,
+    "moderateAdvisories": 0,
+    "lowAdvisories": 0,
+    "productionDependenciesAfter": 555,
+    "frozenLockfileInstall": "PASS",
+    "braceExpansionLockfileAnomaly": "RESOLVED — explicit root override replaces the previous stale manual 5.0.8 override that had been removed."
+  },
+  "rawAuditFiles": {
+    "before": "docs/audit/final-213-customer-ready/release-integration/security-audit-prod.raw.json",
+    "after": "docs/audit/final-213-customer-ready/release-integration/final-prod-audit.json",
+    "full": "docs/audit/final-213-customer-ready/release-integration/final-full-audit.json",
+    "summary": "docs/audit/final-213-customer-ready/release-integration/final-prod-audit.txt"
+  },
+  "packageAuditReports": {
+    "prismaValidate": "docs/audit/final-213-customer-ready/release-integration/prisma-validate.log",
+    "contractsValidate": "docs/audit/final-213-customer-ready/release-integration/contracts-validate.log",
+    "contractsBuild": "docs/audit/final-213-customer-ready/release-integration/contracts-build.log",
+    "apiTypecheck": "docs/audit/final-213-customer-ready/release-integration/api-typecheck-2.log",
+    "webTypecheck": "docs/audit/final-213-customer-ready/release-integration/web-typecheck.log",
+    "apiBuild": "docs/audit/final-213-customer-ready/release-integration/api-build.log"
+  },
+  "result": "PROD_SECURITY_GATE_GREEN"
+}

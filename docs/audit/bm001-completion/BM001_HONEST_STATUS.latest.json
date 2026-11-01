@@ -1,0 +1,71 @@
+{
+  "templateCode": "BM-001",
+  "supersedes": "BM001_COMPLETION_AUDIT.latest.json (script-generated; status=PASS scoped to the renderer artifacts only).",
+  "supersededAt": "2026-07-06T00:00:00.000Z",
+  "headline": {
+    "overallStatus": "PARTIAL_RENDERER_PASS_PROFILE_PENDING",
+    "readyToCommit": true,
+    "readyForRollout": false,
+    "headlineStatement": "BM-001 canonical renderer path: PASS; BM-001 full Form Flight profile: NOT COMPLETE; missingRequiredCount=23 still applies and requires BM001_FULL_FORM_FLIGHT_PROFILE_COMPLETION."
+  },
+  "rendererPathChecks": {
+    "docxGenerated": true,
+    "docxByteLength": 21722,
+    "docxSha256": "e529cbaee9c2f034778763ec74d7a0f1b6dfbcd1817f5af2bdd78aa053259c08",
+    "requiredAnchorsPass": true,
+    "requiredAnchorsPresentCount": 11,
+    "requiredAnchorsTotal": 11,
+    "forbiddenHitsCount": 0,
+    "forbiddenScanPass": true,
+    "formatStatus": "pass",
+    "packageIntegrityStatus": "pass",
+    "semanticStatus": "warning",
+    "overallRendererPathStatus": "PASS"
+  },
+  "formFlightProfileChecks": {
+    "profileFile": "apps/web/src/lib/form-flight/profiles/bm001.ts",
+    "profileDeclaresItself": "skeleton, not a full profile",
+    "demoFieldCount": 0,
+    "demoExpectedForFullProfile": 35,
+    "summaryLinesImplemented": false,
+    "acceptanceRequiredTextImplemented": false,
+    "acceptanceForbiddenTextImplemented": false,
+    "profileFieldPathCount": 35,
+    "demoFilledSlotCount": 0,
+    "missingRequiredSlotCount": 23,
+    "missingRequiredOfTotal": "23 of 39",
+    "overallFormFlightProfileStatus": "NOT_COMPLETE"
+  },
+  "rolloutReadiness": {
+    "rolloutReady": false,
+    "blockers": [
+      "missingRequiredCount=23 against 39 locked contract slots",
+      "profile.demo is empty; BM-001 form workspace has no usable demo fixture",
+      "profile.summaryLines is undefined; no summary panel data",
+      "profile.acceptance.requiredText is empty; no acceptance gating"
+    ],
+    "nextPhase": "BM001_FULL_FORM_FLIGHT_PROFILE_COMPLETION"
+  },
+  "scopingConstraintsHonoured": {
+    "lockedContractsMutated": false,
+    "normalizedDocxMutated": false,
+    "sourceDocxMutated": false,
+    "authTouched": false,
+    "rbacTouched": false,
+    "bm001ProfileMutated": false
+  },
+  "commitBoundary": {
+    "pr": "PR7B",
+    "mayClaim": [
+      "BM-171 stabilized as Form Flight baseline",
+      "Form Flight core added",
+      "BM-001 canonical render audit added; full profile pending"
+    ],
+    "mustNotClaim": [
+      "BM-001 complete",
+      "BM-001 full profile ready",
+      "BM-001 runtime workspace complete",
+      "BM-001 rollout ready"
+    ]
+  }
+}

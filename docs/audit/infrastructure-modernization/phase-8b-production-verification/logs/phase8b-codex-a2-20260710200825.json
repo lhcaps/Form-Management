@@ -1,0 +1,22 @@
+{
+  "runId": "phase8b-codex-a2-20260710200825",
+  "image": "mariadb:11",
+  "contract": {
+    "emptyCheck": "table_count\n0",
+    "columns": "table_name\tcolumn_name\tcolumn_type\tis_nullable\tcolumn_default\nform_contract_versions\tscope_key\tvarchar(64)\tNO\t'GLOBAL'\nofficial_permissions\tscope_key\tvarchar(64)\tNO\t'GLOBAL'",
+    "indexes": "table_name\tindex_name\tnon_unique\tcolumns_list\nform_contract_versions\tuq_form_contract_scope_version\t0\ttemplate_id,scope_key,version_no\nofficial_permissions\tuq_official_permission_scope\t0\tofficial_id,scope_key,permission_code",
+    "classification": "VALID_WITH_PREREQUISITES"
+  },
+  "identity": {
+    "emptyCheck": "table_count\n0",
+    "tables": "table_name\nauth_identities\nauth_identity_audit_logs",
+    "foreignKeys": "table_name\tconstraint_name\treferenced_table_name\tdelete_rule\tupdate_rule\nauth_identities\tfk_auth_identities_official\tofficials\tSET NULL\tNO ACTION\nauth_identity_audit_logs\tfk_auth_identity_audit_actor\tofficials\tRESTRICT\tNO ACTION\nauth_identity_audit_logs\tfk_auth_identity_audit_identity\tauth_identities\tRESTRICT\tNO ACTION",
+    "classification": "VALID_WITH_PREREQUISITES"
+  },
+  "cleanup": {
+    "containerExit": 0,
+    "networkExit": 0,
+    "volumeExit": 0
+  },
+  "error": null
+}

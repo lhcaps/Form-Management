@@ -1,0 +1,129 @@
+{
+  "phase": "8A",
+  "stage": "2 — form-studio provenance (read-only)",
+  "capturedAt": "2026-07-10T23:58:00+07:00",
+  "investigationMode": "no source modification, no restoration, no deletion, no git operations except inspect",
+  "deletionManifestAtHEAD": {
+    "apiFilesDeleted": 29,
+    "webFilesDeleted": 3,
+    "totalDeleted": 32,
+    "apiPathsUnder": "apps/api/src/modules/form-studio/",
+    "modified": ["apps/web/src/lib/form-studio-api.ts"]
+  },
+  "deletionEvidence": {
+    "gitStatusRaw": "git diff --name-status output filtered to form-studio paths",
+    "deletedApiPaths": [
+      "apps/api/src/modules/form-studio/application/admin-form-templates.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/admin-form-templates.service.ts",
+      "apps/api/src/modules/form-studio/application/authoring-contract.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/authoring-contract.service.ts",
+      "apps/api/src/modules/form-studio/application/contract-form-inputs.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/contract-form-inputs.service.ts",
+      "apps/api/src/modules/form-studio/application/document-form-schema.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/document-form-schema.service.ts",
+      "apps/api/src/modules/form-studio/application/form-contract-version.repository.ts",
+      "apps/api/src/modules/form-studio/application/form-platform-catalog.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/form-platform-catalog.service.ts",
+      "apps/api/src/modules/form-studio/application/form-preview.service.ts",
+      "apps/api/src/modules/form-studio/application/form-review-query.service.ts",
+      "apps/api/src/modules/form-studio/application/form-studio.service.spec.ts",
+      "apps/api/src/modules/form-studio/application/form-studio.service.ts",
+      "apps/api/src/modules/form-studio/application/runtime-form-contract.service.ts",
+      "apps/api/src/modules/form-studio/contract-form-inputs.controller.ts",
+      "apps/api/src/modules/form-studio/document-form-schema.controller.ts",
+      "apps/api/src/modules/form-studio/domain/authoring-contract.types.ts",
+      "apps/api/src/modules/form-studio/domain/draft-operation.schema.ts",
+      "apps/api/src/modules/form-studio/domain/draft-operation.ts",
+      "apps/api/src/modules/form-studio/domain/form-studio.error.ts",
+      "apps/api/src/modules/form-studio/dto/form-studio.dto.ts",
+      "apps/api/src/modules/form-studio/form-permissions.controller.spec.ts",
+      "apps/api/src/modules/form-studio/form-permissions.controller.ts",
+      "apps/api/src/modules/form-studio/form-studio.controller.ts",
+      "apps/api/src/modules/form-studio/form-studio.module.ts",
+      "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts",
+      "apps/api/src/modules/form-studio/infrastructure/prisma-form-contract-version.repository.ts"
+    ],
+    "deletedWebPaths": [
+      "apps/web/src/app/admin/(shared)/form-studio/page.tsx",
+      "apps/web/src/app/admin/(shared)/form-studio/permissions/page.tsx",
+      "apps/web/src/components/form-studio/form-studio-workspace.tsx"
+    ]
+  },
+  "gitHistoryForFormStudioModule": {
+    "commandRun": "git log --all --oneline -- 'apps/api/src/modules/form-studio/form-studio.module.ts'",
+    "oldestCommit": "1cff7035 feat(form-studio): add contract platform v2",
+    "intermediateCommits": [
+      "1206fec8 feat(forms): enable unified 213-form authoring",
+      "4229df14 feat(documents): expose generated document form schema endpoint"
+    ],
+    "interpretation": "The deletion is not the work of any infrastructure-modernization commit. The file's last modification pre-dates that phase entirely. The current diff is a recovery artifact of pre-existing retirement work."
+  },
+  "deletionIntentDocumentation": {
+    "foundOnDisk": true,
+    "files": [
+      {
+        "path": "apps/api/src/modules/contract-platform/contract-platform-retirement.guard.test.ts",
+        "assertionSummary": "Asserts `assert.equal(existsSync(join(apiSrcDir, 'modules/form-studio')), false)` and `assert.doesNotMatch(appModule, /FormStudioModule/)`. Requires ContractPlatformModule in app.module.ts."
+      },
+      {
+        "path": "apps/web/src/lib/form-studio-retirement-guard.test.ts",
+        "assertionSummary": "Asserts the three deleted web pages do not exist and `nav-items.tsx` contains no `/admin/form-studio` link or `Form Studio` text."
+      },
+      {
+        "path": "tests/e2e/form-studio.spec.ts",
+        "assertionSummary": "E2E test still names form-studio (Playwright). Investigating whether it is skipped / quarantined / or has been left to fail."
+      }
+    ]
+  },
+  "remainingReferences": {
+    "byType": {
+      "imports": [],
+      "routeLinks": "none — `/admin/form-studio` and `/admin/form-studio/permissions` are removed and guarded-against.",
+      "permissionIdentifiers": "retired controllers are blacklisted by `contract-platform-retirement.guard.test.ts`.",
+      "apiClients": [
+        "apps/web/src/lib/form-studio-api.ts (compatibility shim delegating to contract-platform-api)",
+        "apps/web/src/lib/form-studio-retirement-guard.test.ts (test asserting the path)"
+      ],
+      "navigationEntries": "none — `components/layout/nav-items.tsx` has no entry.",
+      "tests": [
+        "apps/api/src/modules/contract-platform/contract-platform-retirement.guard.test.ts",
+        "apps/web/src/lib/form-studio-retirement-guard.test.ts",
+        "tests/e2e/form-studio.spec.ts (Playwright; reachability unknown without run)"
+      ],
+      "documentation": [
+        "scripts/audit-form-authoring-baselines.mjs (mentions 'form-studio' as a tag)",
+        "apps/web/src/components/documents/template-preview-workspace.tsx (uses term `getRuntimeFormContract` — runtime path only, not customer-facing)",
+        "apps/web/src/components/documents/generated-document-workspace.tsx",
+        "apps/web/src/components/documents/template-selector-workspace.tsx",
+        "scripts/audit/plan-bm052-remaining-personline6-render-blocker.mjs"
+      ]
+    }
+  },
+  "featureReachability": "The customer-facing `/admin/form-studio/...` paths are intentionally absent. The runtime contract resolution path (`forms/runtime`) is reachable via `contract-platform/runtime-form-contract.controller.ts` and is preserved by both guard tests. The compatibility shim `apps/web/src/lib/form-studio-api.ts` re-exports contract-platform-api so any stale importer still resolves.",
+  "moduleRemovalEvidence": {
+    "apps/api/src/app.module.ts": {
+      "expectedModuleRegistration": "ContractPlatformModule",
+      "formStudioModuleRegistration": false,
+      "evidence": "Verified by `assert.match(appModule, /ContractPlatformModule/); assert.doesNotMatch(appModule, /FormStudioModule/);` in contract-platform-retirement.guard.test.ts (read this phase)."
+    }
+  },
+  "provenanceVerdict": {
+    "allowedValues": [
+      "PREEXISTING_USER_DELETION",
+      "CODEX_CONFIRMED_DELETION",
+      "MIXED_CHANGE",
+      "DELETION_INTENT_DOCUMENTED",
+      "PROVENANCE_UNKNOWN"
+    ],
+    "selectedVerdict": "MIXED_CHANGE",
+    "components": [
+      "DELETION_INTENT_DOCUMENTED",
+      "PREEXISTING_USER_DELETION"
+    ],
+    "summary": "The deletion was committed across `1cff7035`, `1206fec8`, and `4229df14` — all pre-Codex infrastructure phase. Two on-repo tests now REQUIRE the deletion. The remaining `form-studio-api.ts` is a compatibility shim, intentionally retained. The actor attribution for any further deletion (e.g., something the Codex phase could have done on top of the pre-existing deletions) is PROVENANCE_UNKNOWN, but no current code change attributed to Codex appears to extend or re-do this deletion."
+  },
+  "needUserDecision": false,
+  "decisionContext": "The Phase 8A directives say `FORM_STUDIO_POLICY=PRESERVE_AND_INVESTIGATE` and not to restore, delete more, or modify form-studio. The current evidence matches that policy: the form-studio feature is intentionally retired (DELETION_INTENT_DOCUMENTED + PREEXISTING_USER_DELETION), with a compatibility shim preserved. No restoration, no further deletion, no modification has occurred in Phase 8A. If the user wants to re-enable customer-facing form-studio UI, that is a separate decision and belongs to a later phase.",
+  "modifiedByThisPhase": [],
+  "phaseProtection": "No form-studio file was opened with edit intent, no form-studio file is staged, no form-studio file is unstaged. Phase 8A only read form-studio paths."
+}

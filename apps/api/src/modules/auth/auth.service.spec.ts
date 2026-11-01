@@ -242,3 +242,339 @@ describe('AuthService Clerk session validation', () => {
     });
   });
 });
+
+describe('AuthService JIT provisioning (demo mode)', () => {
+  beforeEach(() => {
+    verifyTokenMock.mockReset();
+  });
+
+  function createDemoService(overrides: ServiceOverrides & { demoMode?: boolean; prisma?: any } = {}) {
+    const { secretKey = 'sk_test_unit', authorizedParties = [], demoMode = true, prisma = {} } = overrides;
+    const config = {
+      get authSessionTtlMs() {
+        return 60_000;
+      },
+      get clerkSecretKey() {
+        return secretKey;
+      },
+      get clerkJwtAuthorizedParties() {
+        return authorizedParties;
+      },
+      get isProductionDemoMode() {
+        return demoMode;
+      },
+    };
+
+    return new AuthService(
+      {
+        auth_identities: { findUnique: jest.fn() },
+        agencies: { findFirst: jest.fn() },
+        officials: { create: jest.fn() },
+        $transaction: jest.fn(),
+        ...prisma,
+      } as never,
+      config as never,
+    );
+  }
+
+  it('JIT provisions an OFFICIAL when demo mode is on and no identity exists', async () => {
+    const mockTx = {
+      auth_identities: {
+        findUnique: jest.fn().mockResolvedValue(null),
+        create: jest.fn().mockResolvedValue({}),
+      },
+      officials: {
+        create: jest.fn().mockResolvedValue({
+          id: 100n,
+          username: null,
+          full_name: 'Demo User',
+          email: 'demo@example.test',
+          position_title: null,
+          rank_title: null,
+          phone: null,
+          role: 'OFFICIAL',
+          is_active: true,
+          agency_id: 1n,
+          agencies: { id: 1n, agency_name: 'Demo Agency', agency_code: 'DEMO' },
+          official_permissions: [],
+        }),
+      },
+    };
+
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue({ id: 1n }) },
+      $transaction: jest.fn(async (callback) => callback(mockTx)),
+    };
+
+    verifyTokenMock.mockResolvedValue({ sub: 'user_demo', email: 'demo@example.test', name: 'Demo User' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    const result = await service.validateClerkSession('clerk-jwt');
+
+    expect(result).toEqual({
+      id: '100',
+      username: null,
+      fullName: 'Demo User',
+      positionTitle: null,
+      rankTitle: null,
+      email: 'demo@example.test',
+      phone: null,
+      role: 'OFFICIAL',
+      agencyId: '1',
+      agencyName: 'Demo Agency',
+      agencyCode: 'DEMO',
+      isActive: true,
+      permissions: [],
+    });
+    expect(mockPrisma.agencies.findFirst).toHaveBeenCalledWith({
+      where: { parent_agency_id: null },
+      select: { id: true },
+      orderBy: { id: 'asc' },
+    });
+    expect(mockTx.officials.create).toHaveBeenCalledWith({
+      data: {
+        full_name: 'Demo User',
+        email: 'demo@example.test',
+        role: 'OFFICIAL',
+        is_active: true,
+        agency_id: 1n,
+      },
+      include: { agencies: true, official_permissions: true },
+    });
+    expect(mockTx.auth_identities.create).toHaveBeenCalledWith({
+      data: {
+        provider: 'clerk',
+        provider_user_id: 'user_demo',
+        official_id: 100n,
+        email: 'demo@example.test',
+      },
+    });
+  });
+
+  it('falls back to VIEWER when JIT provisioning is disabled (strict production)', async () => {
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn() },
+    };
+    verifyTokenMock.mockResolvedValue({ sub: 'user_strict', email: 'strict@example.test', name: 'Strict User' });
+    const service = createDemoService({ demoMode: false, prisma: mockPrisma });
+
+    const result = await service.validateClerkSession('clerk-jwt');
+
+    expect(result).toEqual({
+      id: 'clerk:user_strict',
+      username: 'strict',
+      fullName: 'Strict User',
+      positionTitle: null,
+      rankTitle: null,
+      email: 'strict@example.test',
+      phone: null,
+      role: 'VIEWER',
+      agencyId: null,
+      agencyName: null,
+      agencyCode: null,
+      isActive: true,
+      permissions: [],
+    });
+    expect(mockPrisma.agencies.findFirst).not.toHaveBeenCalled();
+  });
+
+  it('falls back to VIEWER when no root agency exists', async () => {
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue(null) },
+    };
+    verifyTokenMock.mockResolvedValue({ sub: 'user_no_agency', email: 'no-agency@example.test', name: 'No Agency' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    const result = await service.validateClerkSession('clerk-jwt');
+
+    expect(result).toEqual({
+      id: 'clerk:user_no_agency',
+      username: 'no-agency',
+      fullName: 'No Agency',
+      positionTitle: null,
+      rankTitle: null,
+      email: 'no-agency@example.test',
+      phone: null,
+      role: 'VIEWER',
+      agencyId: null,
+      agencyName: null,
+      agencyCode: null,
+      isActive: true,
+      permissions: [],
+    });
+  });
+
+  it('handles race condition: returns existing official if identity was created concurrently', async () => {
+    const mockTx = {
+      auth_identities: {
+        findUnique: jest.fn().mockResolvedValue({
+          id: 2n,
+          provider: 'clerk',
+          provider_user_id: 'user_race',
+          official_id: 50n,
+          officials: {
+            id: 50n,
+            username: null,
+            full_name: 'Race User',
+            email: 'race@example.test',
+            position_title: null,
+            rank_title: null,
+            phone: null,
+            role: 'OFFICIAL',
+            is_active: true,
+            agency_id: 1n,
+            agencies: { id: 1n, agency_name: 'Race Agency', agency_code: 'RACE' },
+            official_permissions: [],
+          },
+        }),
+      },
+      officials: { create: jest.fn() },
+    };
+
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue({ id: 1n }) },
+      $transaction: jest.fn(async (callback) => callback(mockTx)),
+    };
+
+    verifyTokenMock.mockResolvedValue({ sub: 'user_race', email: 'race@example.test', name: 'Race User' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    const result = await service.validateClerkSession('clerk-jwt');
+
+    expect(result).toEqual({
+      id: '50',
+      username: null,
+      fullName: 'Race User',
+      positionTitle: null,
+      rankTitle: null,
+      email: 'race@example.test',
+      phone: null,
+      role: 'OFFICIAL',
+      agencyId: '1',
+      agencyName: 'Race Agency',
+      agencyCode: 'RACE',
+      isActive: true,
+      permissions: [],
+    });
+    expect(mockTx.officials.create).not.toHaveBeenCalled();
+  });
+
+  it('falls back to VIEWER when JIT transaction fails', async () => {
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue({ id: 1n }) },
+      $transaction: jest.fn().mockRejectedValue(new Error('DB connection lost')),
+    };
+
+    verifyTokenMock.mockResolvedValue({ sub: 'user_fail', email: 'fail@example.test', name: 'Fail User' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    const result = await service.validateClerkSession('clerk-jwt');
+
+    expect(result).toEqual({
+      id: 'clerk:user_fail',
+      username: 'fail',
+      fullName: 'Fail User',
+      positionTitle: null,
+      rankTitle: null,
+      email: 'fail@example.test',
+      phone: null,
+      role: 'VIEWER',
+      agencyId: null,
+      agencyName: null,
+      agencyCode: null,
+      isActive: true,
+      permissions: [],
+    });
+  });
+
+  it('derives fullName from email when name is missing', async () => {
+    const mockTx = {
+      auth_identities: {
+        findUnique: jest.fn().mockResolvedValue(null),
+        create: jest.fn().mockResolvedValue({}),
+      },
+      officials: {
+        create: jest.fn().mockResolvedValue({
+          id: 101n,
+          username: null,
+          full_name: 'derived',
+          email: 'derived@example.test',
+          position_title: null,
+          rank_title: null,
+          phone: null,
+          role: 'OFFICIAL',
+          is_active: true,
+          agency_id: 1n,
+          agencies: { id: 1n, agency_name: 'Agency', agency_code: 'AG' },
+          official_permissions: [],
+        }),
+      },
+    };
+
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue({ id: 1n }) },
+      $transaction: jest.fn(async (callback) => callback(mockTx)),
+    };
+
+    verifyTokenMock.mockResolvedValue({ sub: 'user_derived', email: 'derived@example.test' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    await service.validateClerkSession('clerk-jwt');
+
+    expect(mockTx.officials.create).toHaveBeenCalledWith({
+      data: {
+        full_name: 'derived',
+        email: 'derived@example.test',
+        role: 'OFFICIAL',
+        is_active: true,
+        agency_id: 1n,
+      },
+      include: { agencies: true, official_permissions: true },
+    });
+  });
+
+  it('derives fullName from subject when email and name are missing', async () => {
+    const mockTx = {
+      auth_identities: {
+        findUnique: jest.fn().mockResolvedValue(null),
+        create: jest.fn().mockResolvedValue({}),
+      },
+      officials: {
+        create: jest.fn().mockResolvedValue({
+          id: 102n,
+          username: null,
+          full_name: 'demo-abcd1234',
+          email: null,
+          position_title: null,
+          rank_title: null,
+          phone: null,
+          role: 'OFFICIAL',
+          is_active: true,
+          agency_id: 1n,
+          agencies: { id: 1n, agency_name: 'Agency', agency_code: 'AG' },
+          official_permissions: [],
+        }),
+      },
+    };
+
+    const mockPrisma = {
+      auth_identities: { findUnique: jest.fn().mockResolvedValue(null) },
+      agencies: { findFirst: jest.fn().mockResolvedValue({ id: 1n }) },
+      $transaction: jest.fn(async (callback) => callback(mockTx)),
+    };
+
+    verifyTokenMock.mockResolvedValue({ sub: 'user_1234567890abcd1234' });
+    const service = createDemoService({ demoMode: true, prisma: mockPrisma });
+
+    await service.validateClerkSession('clerk-jwt');
+
+    const createCall = mockTx.officials.create.mock.calls[0][0];
+    expect(createCall.data.full_name).toBe('demo-abcd1234');
+  });
+});

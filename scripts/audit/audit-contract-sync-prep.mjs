@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createPrismaMariaDbAdapter } from '../prisma-mariadb-adapter.mjs';
 /**
  * C1-PREP — Contract Sync Guard Readiness Audit
  *
@@ -164,7 +165,7 @@ async function tryLoadPrisma() {
         path.join(ROOT, "apps", "api", "node_modules", ".prisma", "client", "index.js"),
       ).href,
     );
-    return new PrismaClient({ datasourceUrl: DATABASE_URL });
+    return new PrismaClient({ adapter: createPrismaMariaDbAdapter(DATABASE_URL) });
   } catch {
     return null;
   }

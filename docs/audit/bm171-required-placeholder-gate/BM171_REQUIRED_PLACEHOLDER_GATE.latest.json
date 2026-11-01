@@ -1,0 +1,84 @@
+{
+  "task": "BM171_REQUIRED_PLACEHOLDER_GATE_AND_PREVIEW_TEXT_FINAL_FIX",
+  "status": "PASS",
+  "completedAt": "2026-07-05T18:46:00Z",
+  "invariantsEnforced": [
+    "empty string = missing",
+    "known stale fallback = missing",
+    "profile.demo[path] missing = missing",
+    "profile.demo[path] stale = missing",
+    "required field missing/stale = block render"
+  ],
+  "placeholderBlocklist": {
+    "source": "apps/web/src/lib/runtime-ux/placeholder-blocklist.ts",
+    "exposedVia": [
+      "apps/web/src/lib/runtime-ux/index.ts",
+      "apps/web/src/lib/runtime-ux/runtime-preview-payload.ts",
+      "apps/web/src/lib/form-flight/validation.ts",
+      "apps/web/src/components/documents/template-preview-workspace.tsx"
+    ],
+    "coversRequiredValues": [
+      "Người nhận (mẫu)",
+      "người nhận (mẫu)",
+      "Người ký (mẫu)",
+      "Cá nhân/Tổ chức theo quy định.",
+      "Tài sản theo quy định pháp luật",
+      "Mô tả vụ việc mẫu",
+      "Nội dung mẫu cho biểu mẫu pháp lý"
+    ]
+  },
+  "bm171Demo": {
+    "assetOwner.fullName": "Nguyễn Văn A",
+    "signature.signerName": "Trần Thị B",
+    "assetOwner.dateOfBirthText": "08/09/1985",
+    "assetReturn.executionRequestLine": "Yêu cầu Phòng Cảnh sát Quản lý hành chính về trật tự xã hội thuộc Công an Thành phố Hồ Chí Minh chuyển giao tài sản nêu tại Điều 1 cho ông Nguyễn Văn A trong thời hạn 05 ngày làm việc kể từ ngày nhận được Quyết định.",
+    "staleFallbackPaths": [
+      "assetOwner.fullName",
+      "signature.signerName",
+      "assetReturn.executionRequestLine"
+    ]
+  },
+  "missingRequiredReason": "STALE_FALLBACK",
+  "mode": "BLOCK_RENDER",
+  "clientGate": {
+    "renderEndpointCalled": false,
+    "docxGenerated": false,
+    "missingFieldListVisible": true,
+    "errorStateVisible": true,
+    "greenSuccessStateVisible": false
+  },
+  "tests": {
+    "bm171RequiredPlaceholderGateTest": "PASS",
+    "placeholderBlocklistTest": "PASS",
+    "runtimePreviewPayloadTest": "PASS",
+    "bm171SharedCoreTest": "PASS",
+    "bm171RuntimeUxProfileParityTest": "PASS",
+    "webUnitSuiteTotal": 515,
+    "webUnitSuitePass": 515,
+    "webUnitSuiteFail": 0
+  },
+  "validationCommands": {
+    "pnpmAuditHardcode": "PASS",
+    "pnpmAuditLockedCompiled": "PASS",
+    "pnpmAuditContractSync": "PASS",
+    "pnpmAuditBmFinalBM171": "PASS (harnessReady=true rolloutReady=true)",
+    "pnpmAuditBmRolloutReadyBM171": "READY (rolloutReady=true)",
+    "pnpmAuditBmSourceRenderParityBM171": "PASS (39/39 present, 14/14 absent)",
+    "pnpmWebLint": "PASS",
+    "pnpmWebTscNoEmit": "PASS",
+    "pnpmApiLint": "PASS",
+    "pnpmApiTscNoEmit": "PASS",
+    "pnpmFormContractsTscNoEmit": "PASS",
+    "pnpmTestWebUnit": "PASS (515/515)",
+    "reproduceRuntimeMissingRequiredMjs": "OK",
+    "reproduceRuntimeStaleCleanupMjs": "OK",
+    "reproduceRuntimeUserOverrideMjs": "OK",
+    "reproduceRuntimePreviewBeforeMjs": "OK",
+    "reproduceRuntimePreviewAfterMjs": "OK"
+  },
+  "contractsMutated": false,
+  "lockedDocxMutated": false,
+  "normalizedDocxMutated": false,
+  "sourceDocxMutated": false,
+  "commitCreated": false
+}

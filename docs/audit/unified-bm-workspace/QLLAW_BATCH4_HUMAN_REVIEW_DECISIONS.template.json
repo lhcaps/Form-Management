@@ -1,0 +1,442 @@
+{
+  "$schemaNote": "Template for Batch 4 human visual review decisions. Do not modify this template file. Fill a separate input file named QLLAW_BATCH4_HUMAN_REVIEW_DECISIONS.input.json. The validator only accepts values exactly matching this shape.",
+  "batch": "Batch 4",
+  "scope": "visual_pdf_human_review",
+  "totalForms": 20,
+  "reviewRule": "Human reviewer must compare source.pdf and generated.pdf side-by-side for each code. Do not mark PASS unless source.pdf and generated.pdf are visually acceptable side-by-side.",
+  "fidelityCompleteEvidencedScope": "Batch 4 only; global FIDELITY_COMPLETE_EVIDENCED remains false unless all 77 forms are cleared.",
+  "decisionSchema": {
+    "allowedDecisionValues": [
+      "PASS",
+      "FAIL",
+      "UNCERTAIN"
+    ],
+    "requiredFields": [
+      "code",
+      "sourcePdf",
+      "generatedPdf",
+      "reviewer",
+      "reviewedAt",
+      "decision",
+      "criteria",
+      "notes"
+    ],
+    "criteriaFields": [
+      "samePageCount",
+      "headerLooksCorrect",
+      "titleLooksCorrect",
+      "bodyLayoutLooksCorrect",
+      "tablesLookCorrect",
+      "footerSignatureLooksCorrect",
+      "noMissingTextVisible",
+      "noObviousOverflowOrClipping",
+      "acceptableForLegalDemo"
+    ],
+    "passCriteriaRule": "All nine criteria values must be true for decision=PASS.",
+    "reviewerRule": "reviewer must be a non-empty human identifier (display name or initials). Values like 'ai', 'cursor', 'gpt', 'tool' are rejected.",
+    "reviewedAtRule": "reviewedAt must be an ISO-8601 timestamp (e.g. 2026-07-09T04:30:00Z).",
+    "notesRule": "For PASS: notes optional. For FAIL: notes must explain failure. For UNCERTAIN: notes must explain uncertainty or tooling concern."
+  },
+  "decisions": [
+    {
+      "code": "BM-076",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-076/BM-076_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-076/BM-076.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-078",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-078/BM-078_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-078/BM-078.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-080",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-080/BM-080_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-080/BM-080.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-081",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-081/BM-081_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-081/BM-081.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-083",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-083/BM-083_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-083/BM-083.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-084",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-084/BM-084_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-084/BM-084.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-085",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-085/BM-085_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-085/BM-085.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-086",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-086/BM-086_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-086/BM-086.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-087",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-087/BM-087_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-087/BM-087.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-088",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-088/BM-088_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-088/BM-088.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-090",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-090/BM-090_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-090/BM-090.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-091",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-091/BM-091_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-091/BM-091.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-092",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-092/BM-092_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-092/BM-092.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-093",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-093/BM-093_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-093/BM-093.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-094",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-094/BM-094_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-094/BM-094.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-095",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-095/BM-095_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-095/BM-095.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-096",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-096/BM-096_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-096/BM-096.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-097",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-097/BM-097_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-097/BM-097.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-098",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-098/BM-098_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-098/BM-098.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    },
+    {
+      "code": "BM-100",
+      "sourcePdf": ".tmp-batch4-visual-pdf-review/BM-100/BM-100_normalized.pdf",
+      "generatedPdf": ".tmp-batch4-visual-pdf-review/BM-100/BM-100.pdf",
+      "reviewer": "",
+      "reviewedAt": "",
+      "decision": "UNCERTAIN",
+      "criteria": {
+        "samePageCount": true,
+        "headerLooksCorrect": null,
+        "titleLooksCorrect": null,
+        "bodyLayoutLooksCorrect": null,
+        "tablesLookCorrect": null,
+        "footerSignatureLooksCorrect": null,
+        "noMissingTextVisible": null,
+        "noObviousOverflowOrClipping": null,
+        "acceptableForLegalDemo": null
+      },
+      "notes": ""
+    }
+  ]
+}

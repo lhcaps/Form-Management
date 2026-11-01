@@ -137,7 +137,15 @@ export class AuthService {
     );
     if (dbUser) return dbUser;
 
-    // Unknown Clerk user — safe VIEWER identity.
+    // Demo-mode JIT provisioning: auto-create an OFFICIAL record on first login
+    // so the demo stack is usable without manual DB seeding.
+    // Gated strictly on QLLAW_DOCKER_MODE=demo — never runs in strict production.
+    if (this.config.isProductionDemoMode) {
+      const jitUser = await this.jitProvisionDemoUser(subject, payloadRecord);
+      if (jitUser) return jitUser;
+    }
+
+    // Unknown Clerk user — safe VIEWER identity (no business access).
     const email =
       typeof payloadRecord.email === 'string'
         ? payloadRecord.email
@@ -157,6 +165,9 @@ export class AuthService {
           ? payloadRecord.full_name
           : (username ?? email ?? 'Clerk account');
 
+    this.logger.debug(
+      `CLERK_VIEWER_FALLBACK — clerk:${subject} has no identity record and demo mode is off`,
+    );
     return {
       id: `clerk:${subject}`,
       username,
@@ -172,6 +183,114 @@ export class AuthService {
       isActive: true,
       permissions: [],
     };
+  }
+
+  /**
+   * JIT (Just-In-Time) provisioning for demo mode.
+   *
+   * Creates an `officials` row and links it via `auth_identities` on first
+   * Clerk login when `QLLAW_DOCKER_MODE=demo`. The new official is assigned
+   * to the first active agency in the database.
+   *
+   * Guards:
+   * - Only runs when `isProductionDemoMode` is true.
+   * - Uses a transaction with a double-check read to handle race conditions.
+   * - Never throws — returns null on any failure so the caller falls back to VIEWER.
+   *
+   * Event codes emitted:
+   *   DEMO_JIT_PROVISIONED        — new official + identity created
+   *   DEMO_JIT_RACE_RESOLVED      — identity already existed when transaction ran
+   *   DEMO_JIT_NO_AGENCY          — no active agency found; JIT skipped
+   *   DEMO_JIT_PROVISION_FAILED   — unexpected error; falls back to VIEWER
+   */
+  async jitProvisionDemoUser(
+    subject: string,
+    payloadRecord: Record<string, unknown>,
+  ): Promise<PublicUser | null> {
+    const email =
+      typeof payloadRecord.email === 'string'
+        ? payloadRecord.email
+        : typeof payloadRecord.email_address === 'string'
+          ? payloadRecord.email_address
+          : null;
+    const fullName =
+      typeof payloadRecord.name === 'string'
+        ? payloadRecord.name
+        : typeof payloadRecord.full_name === 'string'
+          ? payloadRecord.full_name
+          : email
+            ? (email.split('@')[0] ?? `demo-${subject.slice(-8)}`)
+            : `demo-${subject.slice(-8)}`;
+
+    // Resolve target agency: first active agency in DB.
+    const agency = await this.prisma.agencies.findFirst({
+      where: { parent_agency_id: null },
+      select: { id: true },
+      orderBy: { id: 'asc' },
+    });
+    if (!agency) {
+      this.logger.warn(
+        `DEMO_JIT_NO_AGENCY — no root agency found; clerk:${subject} falls back to VIEWER`,
+      );
+      return null;
+    }
+
+    try {
+      const official = await this.prisma.$transaction(async (tx) => {
+        // Double-check: guard against concurrent requests for the same Clerk user.
+        const existing = await tx.auth_identities.findUnique({
+          where: {
+            provider_provider_user_id: {
+              provider: 'clerk',
+              provider_user_id: subject,
+            },
+          },
+          include: {
+            officials: {
+              include: { agencies: true, official_permissions: true },
+            },
+          },
+        });
+        if (existing?.officials) {
+          this.logger.debug(
+            `DEMO_JIT_RACE_RESOLVED — identity already existed for clerk:${subject}`,
+          );
+          return existing.officials;
+        }
+
+        const newOfficial = await tx.officials.create({
+          data: {
+            full_name: fullName,
+            email,
+            role: 'OFFICIAL',
+            is_active: true,
+            agency_id: agency.id,
+          },
+          include: { agencies: true, official_permissions: true },
+        });
+
+        await tx.auth_identities.create({
+          data: {
+            provider: 'clerk',
+            provider_user_id: subject,
+            official_id: newOfficial.id,
+            email,
+          },
+        });
+
+        return newOfficial;
+      });
+
+      this.logger.warn(
+        `DEMO_JIT_PROVISIONED — clerk:${subject} → official:${official.id} agency:${String(agency.id)} name:"${fullName}"`,
+      );
+      return this.toPublicUser(official);
+    } catch (error) {
+      this.logger.error(
+        `DEMO_JIT_PROVISION_FAILED — clerk:${subject}: ${(error as Error).message}`,
+      );
+      return null;
+    }
   }
 
   /**

@@ -1,0 +1,144 @@
+﻿{
+    "project":  "phase8b-codex-boot-202607111515",
+    "startedAt":  "2026-07-11T15:09:14.0723828+07:00",
+    "images":  {
+                   "api":  "qllaw-phase8b-codex-api:20260711-0352",
+                   "web":  "qllaw-phase8b-codex-web:20260711-0355",
+                   "database":  "mariadb:11"
+               },
+    "temporarySecretsGenerated":  true,
+    "secretsRecorded":  false,
+    "seedData":  false,
+    "composeConfig":  {
+                          "exit":  0,
+                          "apiImage":  "qllaw-phase8b-codex-api:20260711-0352",
+                          "webImage":  "qllaw-phase8b-codex-web:20260711-0355",
+                          "apiBuild":  false,
+                          "webBuild":  false,
+                          "apiPublishedPorts":  0,
+                          "webPublishedPorts":  0,
+                          "apiVolumeTargets":  [
+                                                   "/app/storage",
+                                                   "/app/logs"
+                                               ],
+                          "volumeNames":  [
+                                              "api_logs",
+                                              "api_storage",
+                                              "mysql_data"
+                                          ],
+                          "networkNames":  [
+                                               "default"
+                                           ]
+                      },
+    "up":  {
+               "mysql":  {
+                             "exit":  0,
+                             "durationMs":  347
+                         },
+               "api":  {
+                           "exit":  0,
+                           "durationMs":  412
+                       },
+               "web":  {
+                           "exit":  0,
+                           "durationMs":  378
+                       }
+           },
+    "containers":  {
+                       "mysql":  "d7ddcc7536e0bf8e96484495e8141da41a7de9fb1f0590c9e91c225b2df4a33b",
+                       "api":  "2597eb4bb80fb164ecc87a3f6b0e72c3dd7db3fb51238cc561d1b99161f0956b",
+                       "web":  "97757e21f7bcb73d204435adbe54e833ead3e1ee3fa708288e2bf255079c89f8"
+                   },
+    "health":  {
+                   "mysql":  {
+                                 "label":  "mysql",
+                                 "healthy":  true,
+                                 "durationMs":  6203
+                             },
+                   "api":  {
+                               "label":  "api-after-readiness-fixture",
+                               "healthy":  true,
+                               "durationMs":  2098
+                           },
+                   "web":  {
+                               "label":  "web",
+                               "healthy":  true,
+                               "durationMs":  6195
+                           }
+               },
+    "readiness":  {
+                      "apiExit":  0,
+                      "apiStatus":  "200",
+                      "webExit":  0,
+                      "webStatus":  "200"
+                  },
+    "readinessFixture":  {
+                             "kind":  "synthetic-disposable-governance-prerequisite",
+                             "seedCommandExecuted":  false,
+                             "personalOrCaseData":  false,
+                             "preFixtureReadiness":  "503 {\"ok\":false,\"service\":\"QUANLYVKS API\",\"timestamp\":\"2026-07-11T08:09:26.034Z\",\"checks\":{\"contracts\":{\"ok\":false,\"contractsRoot\":\"(database)\",\"lockedCount\":0,\"draftCount\":0,\"invalidFileCount\":0,\"requiredLocked\":[\"BM-001\",\"BM-002\",\"BM-003\"],\"missingLocked\":[\"BM-001\",\"BM-002\",\"BM-003\"]}}}",
+                             "templateRows":  3,
+                             "publishedContractRows":  3
+                         },
+    "users":  {
+                  "apiUid":  "1000",
+                  "webUid":  "1000"
+              },
+    "writableDirectories":  {
+                                "exit":  0,
+                                "pass":  true
+                            },
+    "firstMigration":  {
+                           "activeMigrationInLogs":  true,
+                           "seedDisabledInLogs":  true,
+                           "seedExecutedInLogs":  false,
+                           "contractDriftAllowedInLogs":  true,
+                           "contractMissingInDb213":  true,
+                           "migrationRows":  1,
+                           "failedRows":  0,
+                           "baselineRows":  1
+                       },
+    "restart":  {
+                    "exit":  0,
+                    "healthy":  true,
+                    "healthDurationMs":  6225,
+                    "migrationRowsBefore":  1,
+                    "migrationRowsAfter":  1,
+                    "failedRowsAfter":  0,
+                    "seedDisabledOccurrences":  2,
+                    "duplicateMigrationMetadata":  false,
+                    "readinessTemplateRows":  3,
+                    "readinessPublishedContractRows":  3,
+                    "duplicateReadinessFixture":  false
+                },
+    "secondMigration":  {
+                            "exit":  0,
+                            "noPending":  true
+                        },
+    "shutdown":  {
+                     "webStopExit":  0,
+                     "webStopDurationMs":  201,
+                     "webContainerExitCode":  143,
+                     "apiStopExit":  0,
+                     "apiStopDurationMs":  249,
+                     "apiContainerExitCode":  143
+                 },
+    "cleanup":  {
+                    "downExit":  0,
+                    "durationMs":  687,
+                    "containers":  [
+
+                                   ],
+                    "networks":  [
+
+                                 ],
+                    "volumes":  [
+
+                                ],
+                    "pass":  true
+                },
+    "fatal":  "SIGTERM shutdown did not complete cleanly",
+    "verdict":  "FAIL",
+    "completedAt":  "2026-07-11T15:09:52.4838498+07:00",
+    "durationMs":  38414
+}

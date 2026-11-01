@@ -17,7 +17,7 @@ import type {
   ImportTargetType,
 } from './import.types';
 
-const MAX_FILE_SIZE_BYTES = 50 * 1024 * 1024;
+export const MAX_IMPORT_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 const MAX_FILES_PER_BATCH = 20;
 
 const ALLOWED_EXTENSIONS = new Set([
@@ -25,7 +25,6 @@ const ALLOWED_EXTENSIONS = new Set([
   '.docx',
   '.doc',
   '.xlsx',
-  '.xls',
   '.csv',
   '.txt',
   '.json',
@@ -706,7 +705,7 @@ export class ImportsService {
       };
     }
 
-    if (file.size > MAX_FILE_SIZE_BYTES) {
+    if (file.size > MAX_IMPORT_FILE_SIZE_BYTES) {
       await this.storage.deleteFileIfExists(file.path);
       const importFile = await this.prisma.import_files.create({
         data: {

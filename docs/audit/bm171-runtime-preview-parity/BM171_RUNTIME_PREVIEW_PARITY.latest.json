@@ -1,0 +1,87 @@
+{
+  "task": "BM171_RUNTIME_PREVIEW_PARITY_FIX_AND_UI_TRUTHFULNESS",
+  "templateCode": "BM-171",
+  "page": "/templates/BM-171",
+  "at": "2026-07-05T23:50:00Z",
+  "status": "PASS",
+  "filesChanged": [
+    {
+      "path": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts",
+      "change": "Added document.issuePlaceAndDateLine to BM171_DEMO so all 34 contract canonical fields are covered by the demo baseline.",
+      "reason": "Fix 1 — coverage gap. The profile previously omitted issuePlaceAndDateLine; smart-generic-prefill was the only thing that could fill it, leaving stale-draft leakage on that slot.",
+      "risk": "low"
+    },
+    {
+      "path": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "change": "Added buildRuntimePreviewCanonicalBaseline + applyProfileSampleReset + setNestedPath helpers. previewDocx and exportDocx now recompute the data they post to the backend from the profile.demo baseline (forces every profile path to the demo value, preserves user edits at non-profile paths). applySampleData no longer pulls in getSampleData(...) heuristics when a profile is present and now resets every profile path.",
+      "reason": "Fix 2 — stale-draft leakage. The bug was that `data` could contain generateFieldValue fallbacks (e.g. 'Căn cứ Điều 41 Bộ luật Tố tụng hình sự') and mergeWithSampleData would skip non-empty slots, so a stale draft survived and was posted to the backend unchanged.",
+      "risk": "low"
+    },
+    {
+      "path": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "change": "statusText branches on audit.status (PASS / WARN / FAIL) and PDF availability (visual PDF vs DOCX-only). Never shows green 'Đã tạo bản xem trước' on WARN or DOCX-only.",
+      "reason": "Fix 3 — UI truthfulness. The previous status text ignored audit.status and pdfPreviewUrl=null; it always showed 'Đã tạo bản xem trước' as green whenever pdfPreviewUrl was present, regardless of audit warnings.",
+      "risk": "low"
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.parity.test.ts",
+      "change": "New test file. Pins BM171_DEMO to byte-for-byte equality with the canonical signoff payload (BM171_FIXTURE_INPUT from render-bm171-canonical-signoff-full.mjs). Asserts no generic legal-basis fallbacks appear in the demo fixture.",
+      "reason": "Parity test — drift guard. Future contributors cannot change either side without the other following.",
+      "risk": "low"
+    }
+  ],
+  "filesAdded": [
+    {
+      "path": "apps/api/scripts/reproduce-bm171-runtime-preview-before.mjs",
+      "purpose": "Reproduction script — drives the production renderer with BM171_DEMO as input. Captures BEFORE state DOCX/text/checks."
+    },
+    {
+      "path": "apps/api/scripts/reproduce-bm171-runtime-preview-after.mjs",
+      "purpose": "Reproduction script — drives the production renderer with a simulated stale draft re-asserted against BM171_DEMO via buildRuntimePreviewCanonicalBaseline. Captures AFTER state DOCX/text/checks."
+    }
+  ],
+  "filesNotTouched": [
+    "docs/audit/docx/contracts/locked/BM-171__46b9a8be4e01.contract.locked.json",
+    "storage/templates/normalized-docx/*",
+    "apps/api/src/modules/documents/renderering/...",
+    "apps/web/src/features/forms-contracts/sample-data.ts",
+    "apps/web/src/lib/smart-generic-prefill.ts"
+  ],
+  "validationCommands": [
+    { "command": "pnpm --filter web lint", "exit": 0, "result": "clean" },
+    { "command": "pnpm --filter web exec tsc --noEmit", "exit": 0, "result": "clean" },
+    { "command": "pnpm --filter api exec tsc --noEmit", "exit": 0, "result": "clean" },
+    { "command": "pnpm test:web-unit", "exit": 0, "result": "444/444 tests pass (2 new parity tests included)" }
+  ],
+  "beforeState": {
+    "docxSha256": "43f441c643226a36a689532d43d516748f53065af788f064e7cf50d4bd644a3f",
+    "textLengthChars": 2343,
+    "mustContainAll": true,
+    "mustNotContainAll": true,
+    "repeatedCănCứĐiều41Count": 0,
+    "fixtureKeysCount": 34
+  },
+  "afterState": {
+    "docxSha256": "c1818b569f8e386d0483e08684591233d11d29dcad9802939199475211777c15",
+    "textLengthChars": 2343,
+    "mustContainAll": true,
+    "mustNotContainAll": true,
+    "repeatedCănCứĐiều41Count": 0,
+    "fixtureKeysCount": 34,
+    "startingFixture": "stale draft containing every bad fallback the user reported"
+  },
+  "outOfScope": {
+    "lockedContractsMutated": false,
+    "normalizedDocxMutated": false,
+    "sourceDocxMutated": false,
+    "massRollout213Started": false,
+    "fiftyFiveNonCanonicalFormsTouched": false,
+    "sixtyStabilizationFormsTouched": false,
+    "pr7bStarted": false,
+    "pr7cStarted": false,
+    "documentsRouteFakedTemplatePreview": false,
+    "commitsCreated": false,
+    "pushesPerformed": false,
+    "prsOpened": false
+  }
+}

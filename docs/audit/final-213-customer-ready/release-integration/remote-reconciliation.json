@@ -1,0 +1,127 @@
+{
+  "schema": "qllaw.remote_reconciliation/v1",
+  "generatedAt": "2026-07-27T14:48:11.366306+00:00",
+  "localHead": "b0e43be3fd7831db42a88ad521384e0608ee6a18",
+  "currentBranch": "codex/customer-ready-baseline",
+  "remoteMain": "12749f1fefaca7e63e1f0df7cf5c0d5b19f126f4",
+  "remoteBranch": "b0e43be3fd7831db42a88ad521384e0608ee6a18",
+  "mergeBase": "12749f1fefaca7e63e1f0df7cf5c0d5b19f126f4",
+  "localAhead": 26,
+  "localBehind": 0,
+  "remoteBranchExists": true,
+  "remoteUrls": [
+    "origin\thttps://github.com/lhcaps/Form-Management.git (fetch)",
+    "origin\thttps://github.com/lhcaps/Form-Management.git (push)",
+    "vision\thttps://github.com/lhcaps/Vision.git (fetch)",
+    "vision\thttps://github.com/lhcaps/Vision.git (push)"
+  ],
+  "repoData": {
+    "defaultBranchRef": {
+      "name": "main"
+    },
+    "name": "Form-Management",
+    "owner": {
+      "id": "U_kgDOCtkKNg",
+      "login": "lhcaps"
+    }
+  },
+  "pr": {
+    "number": 40,
+    "title": "release: establish customer-ready baseline",
+    "state": "OPEN",
+    "isDraft": true,
+    "mergeable": "MERGEABLE",
+    "baseRefName": "main",
+    "headRefName": "codex/customer-ready-baseline",
+    "headRefOid": "b0e43be3fd7831db42a88ad521384e0608ee6a18",
+    "changedFiles": 2186,
+    "additions": 604020,
+    "deletions": 12531,
+    "commitCount": 26
+  },
+  "prChecks": [
+    {
+      "name": "Static verification",
+      "conclusion": "FAILURE",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594529740/job/87931594022",
+      "startedAt": "2026-07-17T16:01:57Z",
+      "completedAt": "2026-07-17T16:04:26Z"
+    },
+    {
+      "name": "Static verification",
+      "conclusion": "FAILURE",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594526915/job/87931585169",
+      "startedAt": "2026-07-17T16:01:55Z",
+      "completedAt": "2026-07-17T16:04:04Z"
+    },
+    {
+      "name": "Fresh MariaDB migration gate",
+      "conclusion": "SUCCESS",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594529740/job/87931594028",
+      "startedAt": "2026-07-17T16:01:58Z",
+      "completedAt": "2026-07-17T16:02:45Z"
+    },
+    {
+      "name": "Fresh MariaDB migration gate",
+      "conclusion": "SUCCESS",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594526915/job/87931585209",
+      "startedAt": "2026-07-17T16:01:55Z",
+      "completedAt": "2026-07-17T16:02:41Z"
+    },
+    {
+      "name": "Docker production build",
+      "conclusion": "FAILURE",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594529740/job/87931594049",
+      "startedAt": "2026-07-17T16:01:59Z",
+      "completedAt": "2026-07-17T16:05:00Z"
+    },
+    {
+      "name": "Docker production build",
+      "conclusion": "FAILURE",
+      "status": "COMPLETED",
+      "detailsUrl": "https://github.com/lhcaps/Form-Management/actions/runs/29594526915/job/87931585179",
+      "startedAt": "2026-07-17T16:01:57Z",
+      "completedAt": "2026-07-17T16:05:03Z"
+    },
+    {
+      "name": null,
+      "conclusion": null,
+      "status": null,
+      "detailsUrl": null,
+      "startedAt": "2026-07-17T16:03:10Z",
+      "completedAt": null
+    },
+    {
+      "name": "Vercel Preview Comments",
+      "conclusion": "SUCCESS",
+      "status": "COMPLETED",
+      "detailsUrl": "https://vercel.com/github",
+      "startedAt": "2026-07-17T16:03:11Z",
+      "completedAt": "2026-07-17T16:03:11Z"
+    }
+  ],
+  "failedChecks": [
+    "Static verification",
+    "Static verification",
+    "Docker production build",
+    "Docker production build"
+  ],
+  "pendingChecks": [
+    null
+  ],
+  "failClosed": {
+    "branch_matches": true,
+    "pr_targets_main": true,
+    "pr_head_is_local": true,
+    "mergeable": true,
+    "no_failed_checks": false,
+    "no_pending_checks": false,
+    "remote_main_matches_recorded": true
+  },
+  "verdict": "BLOCKED_FAILED_CI"
+}

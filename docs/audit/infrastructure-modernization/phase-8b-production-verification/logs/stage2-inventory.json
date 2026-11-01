@@ -1,0 +1,282 @@
+{
+  "generated_at": "2026-07-10T18:04:58.244Z",
+  "run_id": "phase8b-20260711-0100",
+  "migrations_dir": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations",
+  "migration_count": 13,
+  "migrations": [
+    {
+      "migration": "20260615000000_init_schema",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260615000000_init_schema\\migration.sql",
+      "size_bytes": 36923,
+      "line_count": 814,
+      "created_tables": [
+        "agencies",
+        "audit_logs",
+        "case_assignments",
+        "case_events",
+        "case_offenses",
+        "case_people",
+        "cases",
+        "data_fields",
+        "document_generation_batches",
+        "document_reviews",
+        "evidence_items",
+        "generated_document_files",
+        "generated_documents",
+        "import_batches",
+        "import_files",
+        "import_mapping_profile_columns",
+        "import_mapping_profiles",
+        "import_mapping_run_rows",
+        "import_mapping_runs",
+        "legal_articles",
+        "offenses",
+        "officials",
+        "people",
+        "storage_settings",
+        "stored_files",
+        "template_groups",
+        "template_required_fields",
+        "template_versions",
+        "templates",
+        "wards",
+        "auth_sessions"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 42,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260616000000_add_officials_role",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260616000000_add_officials_role\\migration.sql",
+      "size_bytes": 829,
+      "line_count": 24,
+      "created_tables": [],
+      "add_columns": [
+        {
+          "table": "officials",
+          "column": "role"
+        }
+      ],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260616005000_create_auth_sessions",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260616005000_create_auth_sessions\\migration.sql",
+      "size_bytes": 789,
+      "line_count": 21,
+      "created_tables": [
+        "auth_sessions"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260616010000_add_official_credentials",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260616010000_add_official_credentials\\migration.sql",
+      "size_bytes": 606,
+      "line_count": 25,
+      "created_tables": [],
+      "add_columns": [
+        {
+          "table": "officials",
+          "column": "username"
+        }
+      ],
+      "add_indexes_count": 1,
+      "add_indexes_names": [
+        "uq_officials_username"
+      ],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260616020000_add_template_owner_official",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260616020000_add_template_owner_official\\migration.sql",
+      "size_bytes": 1234,
+      "line_count": 37,
+      "created_tables": [],
+      "add_columns": [
+        {
+          "table": "templates",
+          "column": "created_by_official_id"
+        },
+        {
+          "table": "template_versions",
+          "column": "created_by_official_id"
+        }
+      ],
+      "add_indexes_count": 2,
+      "add_indexes_names": [
+        "idx_templates_created_by_official",
+        "idx_template_versions_created_by_official"
+      ],
+      "add_fks_count": 2,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260616_add_auth_sessions",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260616_add_auth_sessions\\migration.sql",
+      "size_bytes": 1094,
+      "line_count": 23,
+      "created_tables": [
+        "auth_sessions"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260617010000_add_soft_delete_to_case_offenses_and_evidence\\migration.sql",
+      "size_bytes": 865,
+      "line_count": 20,
+      "created_tables": [],
+      "add_columns": [
+        {
+          "table": "case_offenses",
+          "column": "is_deleted"
+        },
+        {
+          "table": "evidence_items",
+          "column": "is_deleted"
+        }
+      ],
+      "add_indexes_count": 2,
+      "add_indexes_names": [
+        "idx_case_offenses_deleted",
+        "idx_evidence_deleted"
+      ],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260617110000_fix_vietnamese_column_defaults",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260617110000_fix_vietnamese_column_defaults\\migration.sql",
+      "size_bytes": 469,
+      "line_count": 12,
+      "created_tables": [],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260620150000_add_form_contract_platform_v2",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260620150000_add_form_contract_platform_v2\\migration.sql",
+      "size_bytes": 6655,
+      "line_count": 114,
+      "created_tables": [
+        "form_contract_versions",
+        "form_contract_revisions",
+        "form_contract_reviews",
+        "form_preview_jobs",
+        "official_permissions"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260620170000_enforce_form_contract_scope_uniqueness",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260620170000_enforce_form_contract_scope_uniqueness\\migration.sql",
+      "size_bytes": 901,
+      "line_count": 26,
+      "created_tables": [],
+      "add_columns": [
+        {
+          "table": "form_contract_versions",
+          "column": "scope_key"
+        },
+        {
+          "table": "official_permissions",
+          "column": "scope_key"
+        }
+      ],
+      "add_indexes_count": 2,
+      "add_indexes_names": [
+        "uq_form_contract_scope_version",
+        "uq_official_permission_scope"
+      ],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260622000000_add_clerk_auth_identities",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260622000000_add_clerk_auth_identities\\migration.sql",
+      "size_bytes": 1268,
+      "line_count": 27,
+      "created_tables": [
+        "auth_identities"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260702000000_add_auth_identity_audit_logs",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260702000000_add_auth_identity_audit_logs\\migration.sql",
+      "size_bytes": 1554,
+      "line_count": 31,
+      "created_tables": [
+        "auth_identity_audit_logs"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 0,
+      "has_create_database": false
+    },
+    {
+      "migration": "20260702_generated_document_audit_logs",
+      "file": "d:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260702_generated_document_audit_logs\\migration.sql",
+      "size_bytes": 3290,
+      "line_count": 88,
+      "created_tables": [
+        "generated_document_audit_logs"
+      ],
+      "add_columns": [],
+      "add_indexes_count": 0,
+      "add_indexes_names": [],
+      "add_fks_count": 5,
+      "has_create_database": false
+    }
+  ],
+  "duplicate_create_tables": {
+    "auth_sessions": [
+      {
+        "migration": "20260615000000_init_schema",
+        "op": "CREATE_TABLE"
+      },
+      {
+        "migration": "20260616005000_create_auth_sessions",
+        "op": "CREATE_TABLE"
+      },
+      {
+        "migration": "20260616_add_auth_sessions",
+        "op": "CREATE_TABLE"
+      }
+    ]
+  },
+  "referenced_but_uncreated_tables": [],
+  "init_migration": "20260615000000_init_schema",
+  "tables_total": 39,
+  "insert_seed_migrations": [
+    "20260620150000_add_form_contract_platform_v2"
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "schemaVersion": "1",
+  "triageId": "PR7A2_BM171_DOCX_PARTS_LAYOUT_TRIAGE",
+  "generatedAt": "2026-07-05T16:30:00.000Z",
+  "templateCode": "BM-171",
+  "phase": "PR7A.2",
+  "scope": "BM-171 only — no BM-001 modification, no mass rollout, no PR7B",
+  "verdict": "FAIL_VISUAL_REVIEW",
+  "manualApprovalAllowed": false,
+  "rolloutReady": false,
+  "blockerTier": "BLOCKED_LAYOUT",
+  "bm001Unchanged": true,
+  "rationaleShort": "Planner eyeballed the rendered DOCX and rejected it because notes 12/13 (template drafter instructions) are still visible, page-1 has a suspicious huge blank gap before QUYẾT ĐỊNH, and page-2 overflow contains Nơi nhận + Lưu + the drafter notes. Source vs rendered DOCX parts inspection proves: (1) notes 12/13 are NOT footnotes or endnotes — no word/footnotes.xml or word/endnotes.xml parts exist; they are body <w:p> paragraphs (P0080/P0081 in legacy .doc, paragraphs 86/87 in rendered DOCX) with <w:vertAlign w:val=\"superscript\"/> runs; (2) the renderer did NOT introduce them — they are inherited verbatim from the source normalized DOCX; (3) the page-1 huge blank and page-2 overflow are caused by 9 empty legal-basis placeholder paragraphs each carrying w:spacing w:beforeLines/afterLines=\"50\" plus a positional line-drawing in paragraph 15 for the tiêu-ngữ underline.",
+  "sourceVsRenderedParts": [
+    {
+      "part": "word/document.xml",
+      "sourceExists": true,
+      "renderedExists": true,
+      "sourceTextLength": 1752,
+      "renderedTextLength": 25519,
+      "note": "Body part. The rendered one is larger because docxtemplater expands the placeholder runs and the dotted-instruction macros add a few thousand bytes."
+    },
+    {
+      "part": "word/footnotes.xml",
+      "sourceExists": false,
+      "renderedExists": false,
+      "sourceCount": 0,
+      "renderedCount": 0,
+      "note": "No real Word footnotes anywhere. The audit verdict should be NOT_PRESENT, not NOT_APPLICABLE_BY_TEMPLATE."
+    },
+    {
+      "part": "word/endnotes.xml",
+      "sourceExists": false,
+      "renderedExists": false,
+      "sourceCount": 0,
+      "renderedCount": 0,
+      "note": "No real Word endnotes anywhere. Same audit-verdict correction as above."
+    },
+    {
+      "part": "word/header*.xml",
+      "sourceExists": false,
+      "renderedExists": false,
+      "sourceCount": 0,
+      "renderedCount": 0,
+      "note": "No header parts."
+    },
+    {
+      "part": "word/footer*.xml",
+      "sourceExists": false,
+      "renderedExists": false,
+      "sourceCount": 0,
+      "renderedCount": 0,
+      "note": "No footer parts."
+    },
+    {
+      "part": "word/comments.xml",
+      "sourceExists": false,
+      "renderedExists": false,
+      "note": "No comments part."
+    },
+    {
+      "part": "word/styles.xml",
+      "sourceExists": true,
+      "renderedExists": true
+    },
+    {
+      "part": "word/settings.xml",
+      "sourceExists": true,
+      "renderedExists": true
+    }
+  ],
+  "pageSetup": {
+    "pageSize": "A4 (w=11909 twips, h=16834 twips)",
+    "pageMarginTop": "864 twips (1.52 cm)",
+    "pageMarginRight": "864 twips (1.52 cm)",
+    "pageMarginBottom": "288 twips (0.51 cm — unusually tight)",
+    "pageMarginLeft": "1152 twips (2.03 cm)",
+    "header": "720 twips",
+    "footer": "720 twips",
+    "explicitPageBreaks": 0,
+    "lastRenderedPageBreakMarkers": 0,
+    "pageBreakBeforeProperties": 0,
+    "note": "Page 2 in the rendered DOCX is purely a Word overflow artifact. There is no explicit <w:br w:type=\"page\"/> anywhere in the source or rendered DOCX. The tight bottom margin (288 twips) plus the empty legal-basis placeholder paragraphs and the positional line-drawing for the tiêu-ngữ underline add up to bottom-margin overflow."
+  },
+  "notesLocation": [
+    {
+      "candidate": "real footnote in word/footnotes.xml",
+      "confirmed": false,
+      "evidence": "word/footnotes.xml does not exist in the DOCX package. inspectDocxPackage returns empty footnotes array for both source and rendered."
+    },
+    {
+      "candidate": "real endnote in word/endnotes.xml",
+      "confirmed": false,
+      "evidence": "word/endnotes.xml does not exist in the DOCX package. Same reason."
+    },
+    {
+      "candidate": "comment in word/comments.xml",
+      "confirmed": false,
+      "evidence": "word/comments.xml does not exist in the DOCX package."
+    },
+    {
+      "candidate": "header / footer part",
+      "confirmed": false,
+      "evidence": "No header*.xml or footer*.xml parts exist."
+    },
+    {
+      "candidate": "text-box / drawing / shape",
+      "confirmed": false,
+      "evidence": "Only <w:drawing> in the body is the line geometry for the tiêu-ngữ underline at paragraph 15. Notes 12/13 are not inside any drawing."
+    },
+    {
+      "candidate": "body content in word/document.xml (superscript runs followed by plain text body)",
+      "confirmed": true,
+      "evidence": "Paragraphs 86 and 87 of word/document.xml in both source and rendered. The '12' and '13' digits are <w:r> runs with <w:vertAlign w:val=\"superscript\"/>. The 'Ghi cụ thể cơ quan...' and 'Ghi chức danh người ký' texts are subsequent <w:r> runs at the same paragraph level. These paragraphs live AFTER paragraph 48 ('Lưu: HSVA, HSKS, VP.') and BEFORE <w:sectPr> (end-of-document). A stretch of 37 empty paragraphs (50–85) sits between paragraph 48 and paragraph 86."
+    }
+  ],
+  "notesSourceOfTruth": {
+    "legacyDocParagraphs": {
+      "P0080": "12 Ghi cụ thể cơ quan, người có thẩm quyền bảo quản, xử lý vật chứng; cơ quan, tổ chức, cá nhân có liên quan",
+      "P0081": "13 Ghi chức danh người ký",
+      "evidence": "docs/audit/docx/extracted/BM-171__46b9a8be4e01.extract.json paragraphs P0080 and P0081."
+    },
+    "lockedContractSlotsBinding": "none",
+    "lockedContractMaxBlockId": "P0055",
+    "lockedContractBlockIdRange": "P0011..P0055",
+    "lockedContractEvidence": "docs/audit/docx/contracts/locked/BM-171__46b9a8be4e01.contract.locked.json declares 34 docxSlots, all in P0011..P0055. Nothing references P0080 or P0081.",
+    "siblingTemplates": [
+      {
+        "code": "BM-169",
+        "paragraph": "P0079 in docs/audit/docx/extracted/BM-169__b737aefc0c16.extract.json",
+        "text": "10 Ghi cụ thể cơ quan, người có thẩm quyền bảo quản, xử lý vật chứng; cơ quan, tổ chức, cá nhân có liên quan"
+      },
+      {
+        "code": "BM-170",
+        "paragraph": "P0068 in docs/audit/docx/extracted/BM-170__c8f50b0e9f5b.extract.json",
+        "text": "Ghi cụ thể cơ quan có thẩm quyền bảo quản, xử lý vật chứng; cơ quan, người có thẩm quyền điều tra; cơ quan, người có thẩm quyền ra Quyết định xử lý vật chứng"
+      }
+    ],
+    "bm001Precedent": {
+      "behaviour": "BM-001's visual sign-off treats these drafter-note paragraphs as EXPECTED_BY_TEMPLATE. The BM-001 final audit docxParts.footnotes: NOT_APPLICABLE_BY_TEMPLATE (separators only)."
+    }
+  },
+  "notesExpectedOrSuppress": {
+    "definitiveAnswer": "Notes 12/13 are body paragraphs in the source normalized DOCX. They are inherited verbatim through the renderer. There are no real Word footnotes or endnotes.",
+    "policyDecision": "REQUIRED",
+    "optionA": "EXPECTED_BY_TEMPLATE — mirror BM-001 precedent. No code change. Update visual sign-off packet to formalize that the notes are by-template.",
+    "optionB": "MUST_SUPPRESS — add a per-BM suppression rule. Implementation choices: (1) mutate normalized DOCX [FORBIDDEN without explicit user authorization per AGENTS.md]; (2) per-BM body-tail-clipper rule in the renderer/contract render plan [PR6G-level change]; (3) per-BM body-tail-drop rule in the BM-171 style profile [requires new style-rule kind in PR6G.4 generic engine].",
+    "agentDecision": "NOT MADE — deferred to Planner per direct user instruction in §13 of triage MD."
+  },
+  "spacingDiagnosis": {
+    "phenomenon": "Page 1 has a suspicious huge blank spacing before QUYẾT ĐỊNH: (paragraph 30).",
+    "mechanism": "Rendered DOCX paragraphs 21–29 are 9 consecutive empty paragraphs, all carrying <w:spacing w:before=\"192\" w:beforeLines=\"50\" w:after=\"192\" w:afterLines=\"50\" w:line=\"320\" w:lineRule=\"exact\"/>. They are the legal-basis placeholder block (locked contract slots 5–12: official.issuerTitle, legalBasis.procedureArticlesLine, caseDecision.*, accusedDecision.*, assetReturn.investigationConclusionLegalBasisLine, assetReturn.caseSuspensionDecisionLegalBasisLine, assetReturn.accusedSuspensionDecisionLegalBasisLine, assetReturn.considerationLine). The canonical fixture fills only 4 of 34 slots, so 27 placeholders expand to empty paragraphs.",
+    "additionalContributor": "Paragraph 15 is a positional line-drawing element (<w:drawing> with <wps:wsp>/<a:prstGeom prst=\"line\"/>) that visually underlines paragraph 14 (\"Độc lập - Tự do - Hạnh phúc\") — a Word-pagination artifact from the legacy .doc → .docx normalization that adds a small amount of vertical space.",
+    "additionalRendering": "9 × ((50/100) line before + 320 twips line + (50/100) line after) ≈ 1.04 inch of vertical body space from these empty legal-basis paragraphs alone.",
+    "fix": "NOT DECIDED. Sub-fix A: future BM-171 panel exposes those 27 legal-basis slots so the user fills them in their case and the empty paragraphs become real text — no renderer change. Sub-fix B: add a <w:collapseEmptyParagraphs> rule in the BM-171 style profile — requires a new style-rule kind in the PR6G.4 generic engine. Sub-fix C: edit normalized DOCX to remove the paragraphs — FORBIDDEN per AGENTS.md unless explicitly authorized."
+  },
+  "page2Diagnosis": {
+    "phenomenon": "Page 2 is mostly empty and contains Nơi nhận:, Lưu: HSVA, HSKS, VP., and notes 12/13.",
+    "mechanism": "Rendered DOCX paragraphs 50–85 are 37 empty paragraphs (legacy recipients + signature + residual spacing that the source DOCX carries as blank templates). When Word/Office paginates A4 with top=864 + bottom=288 = 1152 twips of margins, the cumulative empty-placeholder + empty-spacing height overflows the bottom margin. There is no explicit <w:br w:type=\"page\"/> anywhere; the page-2 placement is a Word overflow artifact.",
+    "whyNoiNhanOnPage2": "Page 1's body content (paragraphs 0–48) plus the cumulative empty-paragraph and line-drawing overhead exceeds the available vertical space in the running render. Word pushes paragraphs 46 (Nơi nhận), 48 (Lưu), 49–85 (empty), and 86–87 (notes 12/13) to page 2. The Planner eyeball confirms this in the actual Word render.",
+    "fix": "Same as spacingDiagnosis — Sub-fix A (user fills slots) collapses this naturally. Sub-fix B requires a PR6G.4 engine change."
+  },
+  "answeringPlannerDemand": {
+    "question": "Trong BM-171, dòng 12/13 là: (1) footnotes/endnotes hợp pháp phải giữ, (2) instruction notes phải remove khỏi output, hay (3) body content do source template đang chứa?",
+    "option1LegalFootnotesEndnotes": {
+      "verdict": "FALSE",
+      "evidence": "word/footnotes.xml and word/endnotes.xml are absent from the package. No <w:footnote> or <w:endnote> elements exist."
+    },
+    "option2SuppressFromOutput": {
+      "verdict": "POLICY_QUESTION",
+      "evidence": "The locked contract has 34 docxSlots and binds none to P0080/P0081. So the contract view says these paragraphs are template residue. The domain view says BM-001/BM-169/BM-170 carry the same drafter-note shape and BM-001 treats it as EXPECTED_BY_TEMPLATE. Decision requires Planner."
+    },
+    "option3BodyContentFromSource": {
+      "verdict": "TRUE",
+      "evidence": "Paragraphs 86 and 87 of word/document.xml in both source and rendered DOCX. <w:vertAlign w:val=\"superscript\"/> runs for the digits 12 and 13. Plain body runs for 'Ghi cụ thể cơ quan, người có thẩm quyền bảo quản, xử lý vật chứng; cơ quan, tổ chức, cá nhân có liên quan' and 'Ghi chức danh người ký'. Inherited verbatim from source."
+    }
+  },
+  "blockers": [
+    {
+      "id": "notes-12-13-policy",
+      "title": "Notes 12/13 visibility requires source-of-truth policy decision",
+      "detail": "BM-171 has no real Word footnotes or endnotes. Notes 12/13 are body paragraphs in source word/document.xml. Whether they are EXPECTED_BY_TEMPLATE (Path A, mirror BM-001) or MUST_SUPPRESS (Path B, add a per-BM suppression rule) is a Planner decision, not an agent decision."
+    },
+    {
+      "id": "page-layout-blank-space",
+      "title": "Page-1 huge blank spacing before QUYẾT ĐỊNH:",
+      "detail": "9 consecutive empty legal-basis-placeholder paragraphs (rendered paragraphs 21–29) each carry w:spacing w:beforeLines=\"50\" w:afterLines=\"50\". Combined with the line-drawing underline element at paragraph 15, this produces ~1 inch of empty body space between paragraph 18 (date line) and paragraph 30 (QUYẾT ĐỊNH:). Source structure, not a renderer bug."
+    },
+    {
+      "id": "page-2-overflow",
+      "title": "Page-2 empty contains Nơi nhận + Lưu + notes 12/13",
+      "detail": "Rendered paragraphs 46 (Nơi nhận), 48 (Lưu: HSVA, HSKS, VP.), 86 (note 12), 87 (note 13) all spill to page 2 because the cumulative empty-paragraph overhead plus the tight bottom margin (288 twips) overflows the page-1 body. No explicit page break exists. Source structure, not a renderer bug."
+    },
+    {
+      "id": "audit-wording-mismatch",
+      "title": "audit-bm-final.mjs evidence wording is misleading for BM-171",
+      "detail": "docs/audit/bm-final/BM-171/final.latest.{json,md} evidence note says 'word/footnotes.xml (or endnotes.xml) carries only Word-emitted separator entries (-1 and 0)'. That note is generic and assumes the part exists; in BM-171 there is NO footnotes.xml part at all. The audit verdict for footnotes / endnotes should be reclassified from NOT_APPLICABLE_BY_TEMPLATE to NOT_PRESENT (or equivalent) to match reality."
+    },
+    {
+      "id": "visual-packet-blind-spot",
+      "title": "BM-171 visual sign-off packet does not auto-check notes-12/13 absence",
+      "detail": "CANONICAL_REQUIRED_PRESENT / CANONICAL_REQUIRED_ABSENT lists in scripts/audit/build-bm171-visual-signoff-packet.mjs do not include any 'notes 12/13 must be absent' or 'notes 12/13 present (EXPECTED_BY_TEMPLATE)' check. packetStatus returned READY_FOR_HUMAN_VISUAL_REVIEW even though notes 12/13 are present. Future packet builds need an explicit auto-confirmable check for the drafter-note shape."
+    }
+  ],
+  "evidenceArtifacts": [
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/source-docx-parts.json",
+      "kind": "parts-inspection",
+      "producedBy": "apps/api/scripts/inspect-bm171-docx-parts.mjs",
+      "schemaVersion": "1"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/rendered-docx-parts.json",
+      "kind": "parts-inspection",
+      "producedBy": "apps/api/scripts/inspect-bm171-docx-parts.mjs",
+      "schemaVersion": "1"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/source-body-layout.json",
+      "kind": "body-layout-walk",
+      "producedBy": "apps/api/scripts/inspect-bm171-body-layout.mjs"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/rendered-body-layout.json",
+      "kind": "body-layout-walk",
+      "producedBy": "apps/api/scripts/inspect-bm171-body-layout.mjs"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/source-document.xml",
+      "kind": "raw-ooxml-dump",
+      "producedBy": "apps/api/scripts/inspect-bm171-docx-parts.mjs"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/_pr7a2-triage/rendered-document.xml",
+      "kind": "raw-ooxml-dump",
+      "producedBy": "apps/api/scripts/inspect-bm171-docx-parts.mjs"
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/PR7A2_BM171_DOCX_PARTS_LAYOUT_TRIAGE.latest.md",
+      "kind": "human-readable-triage",
+      "producedBy": "this triage"
+    }
+  ],
+  "newInspectionScripts": [
+    {
+      "path": "apps/api/scripts/inspect-bm171-docx-parts.mjs",
+      "purpose": "Runs PR6G.1 inspectDocxPackage over source + rendered DOCX; writes parts JSON to _pr7a2-triage/. Read-only; no mutation of locks/templates."
+    },
+    {
+      "path": "apps/api/scripts/inspect-bm171-body-layout.mjs",
+      "purpose": "Walks <w:p> paragraphs in word/document.xml, indexes them, finds anchors, and writes layout JSON. Read-only."
+    }
+  ],
+  "pr7a3Checklist": [
+    "User picks Path A (EXPECTED_BY_TEMPLATE) OR Path B (MUST_SUPPRESS) for notes 12/13",
+    "If Path A: no code change; update BM-171 visual sign-off packet with explicit auto-check",
+    "If Path B option (3): PR6G.4 engine needs a new paragraph-drop rule kind — review in PR6G.4 PR, not in PR7A.3",
+    "Re-run pnpm audit:bm-final -- BM-171",
+    "Re-run pnpm audit:bm-rollout-ready -- BM-171",
+    "Re-build BM-171 visual sign-off packet with the auto-check for notes 12/13",
+    "DO NOT mutate locked contract or normalized DOCX in PR7A.3 unless Path B option (1) is explicitly authorized by user",
+    "DO NOT start PR7B / do not start another BM rollout"
+  ],
+  "bm171CurrentAudit": {
+    "source": "docs/audit/bm-final/BM-171/final.latest.{json,md}",
+    "status": "MANUAL_REQUIRED",
+    "harnessReady": true,
+    "rolloutReady": false,
+    "lockBlockedBy": "Visual style sign-off (gate 15)",
+    "docxPartsEvidencenote": "Reclassify footnotes/endnotes from NOT_APPLICABLE_BY_TEMPLATE to NOT_PRESENT in the PR7A.3 audit log. The current wording 'word/footnotes.xml carries only Word-emitted separator entries' assumes the part exists; in BM-171 the part does not exist at all."
+  },
+  "visualPacketStatusBeforeTriage": {
+    "packetStatus": "READY_FOR_HUMAN_VISUAL_REVIEW",
+    "visualSignoffGranted": false,
+    "rolloutReady": false,
+    "autoBlockersCount": 0,
+    "needsHumanCount": 12,
+    "blindSpot": "Packet did not check for notes 12/13. The Planner eyeball caught them. The packet's auto-confirmable checklist must be extended in PR7A.3."
+  },
+  "remainingStrictRules": {
+    "noMassRollout": true,
+    "noFakeGeneratedDocumentId": true,
+    "noTemplateDbWrite": true,
+    "noDemoFallback": true,
+    "noLockedContractMutationWithoutExplicitScope": true,
+    "noNormalizedDocxMutationWithoutExplicitScope": true,
+    "noHidingFootnotesByCssStyleHack": true,
+    "noCallingThisVisualNoise": true,
+    "bm001Unchanged": true
+  }
+}

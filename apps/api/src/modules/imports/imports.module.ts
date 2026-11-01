@@ -4,8 +4,10 @@ import { WorkspacePathsService } from '../../infrastructure/paths/workspace-path
 import { FileExtractionService } from './file-extraction.service';
 import { createImportUploadStorage } from './import-upload-storage';
 import { ImportsController } from './imports.controller';
-import { ImportsService } from './imports.service';
+import { ImportsService, MAX_IMPORT_FILE_SIZE_BYTES } from './imports.service';
 import { ImportStorageService } from './import-storage.service';
+import { ImportFilePolicyService } from './import-file-policy.service';
+import { ImportParserWorkerService } from './import-parser-worker.service';
 
 @Module({
   imports: [
@@ -13,10 +15,19 @@ import { ImportStorageService } from './import-storage.service';
       inject: [WorkspacePathsService],
       useFactory: (paths: WorkspacePathsService) => ({
         storage: createImportUploadStorage(paths),
+        limits: {
+          fileSize: MAX_IMPORT_FILE_SIZE_BYTES,
+        },
       }),
     }),
   ],
   controllers: [ImportsController],
-  providers: [ImportsService, ImportStorageService, FileExtractionService],
+  providers: [
+    ImportsService,
+    ImportStorageService,
+    ImportFilePolicyService,
+    ImportParserWorkerService,
+    FileExtractionService,
+  ],
 })
 export class ImportsModule {}

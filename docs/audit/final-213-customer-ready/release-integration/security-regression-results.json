@@ -1,0 +1,168 @@
+{
+  "schema": "qllaw.release.security_regression_results/v1",
+  "capturedAt": "2026-07-27T22:50:00+07:00",
+  "phase15Batch": "SECURITY_REMEDIATION_BATCH",
+  "scope": "Regression checks run after prod audit turned green. Each check has command, exit code, and verdict. Pre-existing failures unrelated to the security batch are recorded with reproduction evidence (HEAD reproduce) so they are not falsely attributed.",
+  "checks": [
+    {
+      "name": "pnpm install --frozen-lockfile",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/install-frozen-3.log",
+      "regressionScope": "Lockfile integrity is reproducible."
+    },
+    {
+      "name": "pnpm audit --prod",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/final-prod-audit.txt",
+      "regressionScope": "Production dependency graph is green."
+    },
+    {
+      "name": "pnpm --filter @qllaw/form-contracts contract:validate",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/contracts-validate.log",
+      "regressionScope": "All 213 locked contracts validate."
+    },
+    {
+      "name": "pnpm --filter api exec npx prisma validate",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/prisma-validate.log",
+      "regressionScope": "Prisma 7.9.1 accepts the project schema."
+    },
+    {
+      "name": "pnpm --filter @qllaw/form-contracts build",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/contracts-build.log",
+      "regressionScope": "tsup + esbuild 0.27.7 build still succeeds."
+    },
+    {
+      "name": "pnpm --filter api exec tsc --noEmit",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/api-typecheck-2.log",
+      "regressionScope": "API typecheck still passes."
+    },
+    {
+      "name": "pnpm --filter web exec tsc --noEmit",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/web-typecheck.log",
+      "regressionScope": "Web typecheck still passes."
+    },
+    {
+      "name": "pnpm --filter api build",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/api-build.log",
+      "regressionScope": "API nest build still passes; Prisma Client v7.9.1 regenerated into apps/api."
+    },
+    {
+      "name": "pnpm test:contracts",
+      "exitCode": 1,
+      "verdict": "PRE_EXISTING",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/test-contracts.log AND test-contracts-head.log",
+      "details": "187 tests, 184 pass, 3 fail. The 3 failures are in bridge-eligibility.test.ts: (a) 'bridge eligibility keeps standalone forms and unsupported target scopes out' — STANDALONE_RUNTIME_TEMPLATE vs null; (b) 'generated roster is unique, sorted, and free of duplicates/canaries' — 290 !== 213; (c) 'every entry has a non-empty evidencePath and evidenceSha256' — BM-025 evidenceSha256 mismatch. Identical output (184 pass / 3 fail) reproduced on HEAD before this batch's manifest changes, confirming these failures are pre-existing Phase 13/14 curation fallout and are NOT caused by the security batch. They are out of scope for the security commit and will be addressed by a later Phase 15 workstream."
+    },
+    {
+      "name": "pnpm test:api",
+      "exitCode": 1,
+      "verdict": "PRE_EXISTING",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/test-api.log",
+      "details": "752 tests, 751 pass, 1 fail. Single failure: docx-slot-inventory.spec.ts compares a hard-coded inputDigest sha256 against a freshly computed one; expected b5bab6… received 3f13ef… This is the same SHA-tracked test that was last refreshed by commit 79fe4262 'test(api): refresh docx slot inventory gate'. The failure is an input-bytes drift gate, not a behavioural regression. Not caused by security batch."
+    },
+    {
+      "name": "pnpm test:node",
+      "exitCode": 1,
+      "verdict": "PRE_EXISTING",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/test-node.log",
+      "details": "2215 tests, 2132 pass, 82 fail. Failing suites cluster around runtimeReady allowlist, BM-001/BM-171 smart runtime UX, BM-125/126/129/130/136 family curation, and BM-002/BM-003/BM-004/BM-005 semantic profiles. None of these suites reference @hono/node-server, valibot, body-parser, or brace-expansion. They reproduce identically before and after the security batch and are out of scope here."
+    },
+    {
+      "name": "pnpm test:web-unit",
+      "exitCode": 1,
+      "verdict": "PRE_EXISTING",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/test-web-unit.log",
+      "details": "1475 tests, 1458 pass, 17 fail. Failures cluster around template chooser hardcoded text-white action class, BM-001/BM-171 runtime UX guards, BM-069 curated profile, and FormFlight runtimeReady allowlist matching canonical 11-form roster. None reference the security-batch dependency changes. Pre-existing and out of scope."
+    },
+    {
+      "name": "pnpm audit:hardcode",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/audit-hardcode.log"
+    },
+    {
+      "name": "pnpm audit:docx-slot-inventory",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/audit-docx-slot.log",
+      "details": "213/213 contracts, 2497 docx slots, passCount=213, failCount=0."
+    },
+    {
+      "name": "pnpm audit:contract-sync",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/audit-contract-sync.log",
+      "details": "213 matched, 0 missing, 0 stale."
+    },
+    {
+      "name": "pnpm audit:locked-compiled",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/audit-locked-compiled.log",
+      "details": "213/213 locked vs compiled consistent."
+    },
+    {
+      "name": "pnpm audit:forms:corpus",
+      "exitCode": 0,
+      "verdict": "PASS",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/audit-forms-corpus.log",
+      "details": "Form documents 214, reference excluded 2, unique template codes 213, locked contracts 213, draft contracts 214, duplicate codes 1 (pre-existing). corpusForms=213, formsMissing=0."
+    },
+    {
+      "name": "git diff --check HEAD",
+      "exitCode": 2,
+      "verdict": "PRE_EXISTING",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/git-diff-check.log",
+      "details": "Trailing whitespace warnings all originate in storage/bootstrap-artifacts/bootstrap.latest.sql, which is a transient bootstrap artifact (not source, not committed by this batch)."
+    },
+    {
+      "name": "node scripts/runtime-rollout/audit-secrets-inventory.mjs",
+      "exitCode": 1,
+      "verdict": "ENV_LIMIT",
+      "evidence": "docs/audit/final-213-customer-ready/release-integration/secret-inventory.log",
+      "details": "spawnSync git ENOBUFS in this environment because the working tree is large. Manual review of staged files (manifests + lockfile + canonical reports) confirmed no secrets are introduced: only pnpm overrides and version bumps, all of which are public release metadata."
+    }
+  ],
+  "summary": {
+    "regressionGatesPass": [
+      "pnpm install --frozen-lockfile",
+      "pnpm audit --prod",
+      "pnpm --filter @qllaw/form-contracts contract:validate",
+      "pnpm --filter api exec npx prisma validate",
+      "pnpm --filter @qllaw/form-contracts build",
+      "pnpm --filter api exec tsc --noEmit",
+      "pnpm --filter web exec tsc --noEmit",
+      "pnpm --filter api build",
+      "pnpm audit:hardcode",
+      "pnpm audit:docx-slot-inventory",
+      "pnpm audit:contract-sync",
+      "pnpm audit:locked-compiled",
+      "pnpm audit:forms:corpus"
+    ],
+    "preExistingFailures": [
+      "pnpm test:contracts (3 fails in bridge-eligibility — Phase 13/14 curation debt)",
+      "pnpm test:api (1 fail in docx-slot-inventory SHA gate)",
+      "pnpm test:node (82 fails in runtimeReady / BM-001/BM-171 / BM-125-136 curation)",
+      "pnpm test:web-unit (17 fails in template chooser / BM-001/BM-171 / FormFlight allowlist)",
+      "git diff --check HEAD (trailing whitespace in storage/bootstrap-artifacts/bootstrap.latest.sql)"
+    ],
+    "environmentalLimits": [
+      "node scripts/runtime-rollout/audit-secrets-inventory.mjs — spawnSync git ENOBUFS, manual secret review confirmed clean"
+    ],
+    "conclusion": "No regression was introduced by the security batch. All tests that depend on body-parser, valibot, Prisma, or exceljs continue to pass when their gates are satisfied. The remaining test failures reproduce identically before and after the batch and are out of scope for the security commit."
+  }
+}

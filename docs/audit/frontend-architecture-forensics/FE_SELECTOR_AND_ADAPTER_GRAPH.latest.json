@@ -1,0 +1,103 @@
+{
+  "auditId": "FE_ARCHITECTURE_FORENSIC_AUDIT_PHASE_0",
+  "generatedAt": "2026-07-06T05:20:00+07:00",
+  "selectorPriority": {
+    "runtimeTemplateRoute": {
+      "route": "/templates/:templateCode",
+      "entry": "apps/web/src/app/templates/[templateCode]/page.tsx",
+      "workspace": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "priorityOrder": [
+        "getRuntimeFormContract(templateCode)",
+        "getRuntimeUxProfile(compiledContract.templateCode) optional UI-only overrides",
+        "ContractV2Renderer(contract, data, uxProfile)",
+        "Form Flight gate/build helpers only where explicitly invoked"
+      ],
+      "currentFallback": "No BM-specific panel selector exists in runtime route; all templates render via ContractV2Renderer.",
+      "lifecycle": "runtime-template",
+      "endpointFamily": "/forms/runtime/*",
+      "apiHelpers": [
+        "getRuntimeFormContract",
+        "createRuntimePreviewSession",
+        "downloadRuntimeTemplateDocx",
+        "readApi('/cases')",
+        "getCaseDetail"
+      ],
+      "guardStatus": "PARTIAL: Form Flight helpers deny non-runtime-ready profiles, but the runtime component selector does not model BM-specific existing-good UI ownership."
+    },
+    "generatedDocumentRoute": {
+      "route": "/documents/:id",
+      "entry": "apps/web/src/app/documents/[documentId]/page.tsx",
+      "workspace": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "priorityOrder": [
+        "getDocumentRenderPayload(documentId)",
+        "templateCode = payload.template.templateCode",
+        "getRuntimeFormContract(templateCode) checks for published non-LOCKED_FILE runtime contract",
+        "if publishedRuntime exists: PublishedContractFormInputsPanel",
+        "else if BM_PANEL_BY_CODE[templateCode] exists: BM-specific panel",
+        "else: GenericTemplateFormInputsPanel"
+      ],
+      "actualCodeNote": "Panel is computed before publishedRuntime, but rendering gives PublishedContractFormInputsPanel precedence when publishedRuntime is non-null.",
+      "lifecycle": "generated-document",
+      "endpointFamily": "/documents/generated/*",
+      "apiHelpers": [
+        "getDocumentRenderPayload",
+        "saveDocumentFormInputs",
+        "savePublishedContractFormInputs",
+        "GeneratedDocumentActionPanel helpers",
+        "getDocumentHistory"
+      ],
+      "guardStatus": "BM-specific registry wins only when no publishedRuntime contract is present. Published runtime contract can supersede BM_PANEL_BY_CODE."
+    }
+  },
+  "nodes": [
+    {"id":"route.templates","kind":"route","path":"apps/web/src/app/templates/[templateCode]/page.tsx","classification":"ACTIVE"},
+    {"id":"workspace.templatePreview","kind":"workspace","path":"apps/web/src/components/documents/template-preview-workspace.tsx","classification":"ACTIVE_BUT_DUPLICATIVE"},
+    {"id":"renderer.contractV2","kind":"renderer","path":"apps/web/src/features/forms-contracts/ContractV2Renderer.tsx","classification":"ACTIVE"},
+    {"id":"runtimeUx.registry","kind":"selector","path":"apps/web/src/lib/runtime-ux/runtime-ux-profile.ts","classification":"PROFILE_DRIVEN_READY"},
+    {"id":"runtimeUx.bm171","kind":"profile","path":"apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts","classification":"RUNTIME_READY"},
+    {"id":"formFlight.registry","kind":"selector","path":"apps/web/src/lib/form-flight/registry.ts","classification":"ACTIVE"},
+    {"id":"formFlight.profileStatus","kind":"guard","path":"apps/web/src/lib/form-flight/profile-status.ts","classification":"ACTIVE"},
+    {"id":"formFlight.bm001","kind":"profile","path":"apps/web/src/lib/form-flight/profiles/bm001.ts","classification":"AUDIT_ONLY"},
+    {"id":"formFlight.bm171","kind":"profile","path":"apps/web/src/lib/form-flight/profiles/bm171.ts","classification":"RUNTIME_READY"},
+    {"id":"route.documents","kind":"route","path":"apps/web/src/app/documents/[documentId]/page.tsx","classification":"ACTIVE"},
+    {"id":"workspace.generatedDocument","kind":"workspace","path":"apps/web/src/components/documents/generated-document-workspace.tsx","classification":"ACTIVE"},
+    {"id":"selector.bmPanelByCode","kind":"selector","path":"apps/web/src/components/documents/generated-document-workspace.tsx#BM_PANEL_BY_CODE","classification":"EXISTING_GOOD_UI"},
+    {"id":"registry.bmPanelGenerated","kind":"registry","path":"apps/web/src/components/documents/bm-panel-registry.generated.ts","classification":"ACTIVE"},
+    {"id":"panel.bm001","kind":"component","path":"apps/web/src/components/documents/bm-001-form-inputs.tsx","classification":"EXISTING_GOOD_UI"},
+    {"id":"panel.bm171","kind":"component","path":"apps/web/src/components/documents/bm-171-form-inputs.tsx","classification":"PROFILE_DRIVEN_READY"},
+    {"id":"panel.publishedContract","kind":"component","path":"apps/web/src/components/documents/published-contract-form-inputs.tsx","classification":"ACTIVE_BUT_DUPLICATIVE"},
+    {"id":"panel.genericTemplate","kind":"component","path":"apps/web/src/components/documents/generic-template-form-inputs.tsx","classification":"ACTIVE_BUT_DUPLICATIVE"}
+  ],
+  "edges": [
+    {"from":"route.templates","to":"workspace.templatePreview","relation":"renders"},
+    {"from":"workspace.templatePreview","to":"renderer.contractV2","relation":"renders all runtime template form inputs"},
+    {"from":"workspace.templatePreview","to":"runtimeUx.registry","relation":"optional profile lookup"},
+    {"from":"runtimeUx.registry","to":"runtimeUx.bm171","relation":"registered by side effect import"},
+    {"from":"workspace.templatePreview","to":"formFlight.bm171","relation":"side-effect import and gate parity"},
+    {"from":"formFlight.bm001","to":"formFlight.profileStatus","relation":"denied because audit-only/runtimeReady false"},
+    {"from":"formFlight.bm171","to":"formFlight.profileStatus","relation":"allowed because runtime-ready/runtimeReady true"},
+    {"from":"route.documents","to":"workspace.generatedDocument","relation":"renders"},
+    {"from":"workspace.generatedDocument","to":"panel.publishedContract","relation":"first rendered when publishedRuntime non-null"},
+    {"from":"workspace.generatedDocument","to":"selector.bmPanelByCode","relation":"selects panel when no publishedRuntime"},
+    {"from":"selector.bmPanelByCode","to":"panel.bm001","relation":"BM-001 registry entry"},
+    {"from":"selector.bmPanelByCode","to":"panel.bm171","relation":"BM-171 registry entry"},
+    {"from":"workspace.generatedDocument","to":"panel.genericTemplate","relation":"fallback when no BM-specific panel"}
+  ],
+  "prAGuardInsertionPoints": [
+    {
+      "path": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "symbol": "TemplatePreviewWorkspace",
+      "recommendation": "Introduce an explicit runtime UI selector that checks: existing-good runtime UI, runtime-ready profile, then ContractV2Renderer fallback; deny audit-only/skeleton profiles."
+    },
+    {
+      "path": "apps/web/src/lib/form-flight/profile-status.ts",
+      "symbol": "isRuntimeReadyProfile",
+      "recommendation": "Keep as canonical profile status guard and require all profile-driven selectors/adapters to call it."
+    },
+    {
+      "path": "apps/web/src/components/documents/generated-document-workspace.tsx",
+      "symbol": "publishedRuntime / BM_PANEL_BY_CODE branch",
+      "recommendation": "Document and test that publishedRuntime cannot silently override an existing-good BM panel unless profile/contract status is generated-ready."
+    }
+  ]
+}

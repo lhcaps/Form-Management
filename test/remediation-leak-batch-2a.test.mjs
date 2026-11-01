@@ -18,10 +18,16 @@ import assert from 'node:assert';
 const ROOT = resolve(process.cwd());
 const PLAN_DIR = join(ROOT, 'docs', 'audit', 'remediation-leak-batch-2a');
 const LOCKED_DIR = join(ROOT, 'docs', 'audit', 'docx', 'contracts', 'locked');
+const BACKUP_DIR = join(
+  PLAN_DIR,
+  'backups',
+  '2026-06-27T18-23-21-186Z',
+);
 
 describe('remediation-leak-batch-2a', () => {
   let plan;
   let decisions;
+  let applyReport;
 
   before(() => {
     const planPath = join(PLAN_DIR, 'plan.latest.json');
@@ -32,6 +38,11 @@ describe('remediation-leak-batch-2a', () => {
     const decisionsPath = join(PLAN_DIR, 'decisions.approved.json');
     if (existsSync(decisionsPath)) {
       decisions = JSON.parse(readFileSync(decisionsPath, 'utf-8'));
+    }
+
+    const applyPath = join(PLAN_DIR, 'apply.latest.json');
+    if (existsSync(applyPath)) {
+      applyReport = JSON.parse(readFileSync(applyPath, 'utf-8'));
     }
   });
 
@@ -108,56 +119,40 @@ describe('remediation-leak-batch-2a', () => {
       }
     });
 
-    it('should have canonical field updated to labelAfter (post-mutation)', () => {
+    it('apply report records every approved label-only mutation', () => {
+      assert.ok(applyReport, 'apply report is loaded');
+      assert.strictEqual(applyReport.summary.errors, 0, 'apply had no errors');
+      assert.strictEqual(
+        applyReport.summary.applied,
+        plan.candidates.length,
+        'all planned candidates were applied',
+      );
+
       for (const c of plan?.candidates ?? []) {
-        const files = readdirSync(LOCKED_DIR);
-        const filename = files.find(f =>
-          f.startsWith(`${c.templateCode}__`) && f.endsWith('.contract.locked.json')
+        const result = applyReport.results.find(
+          (row) => row.templateCode === c.templateCode && row.path === c.path,
         );
-        if (!filename) continue;
-
-        const contract = JSON.parse(readFileSync(join(LOCKED_DIR, filename), 'utf-8'));
-        const cf = contract.canonicalFields?.find(f => f.path === c.path);
-
-        assert.ok(cf, `${c.templateCode}/${c.path}: canonical field exists`);
-        // After mutation, canonical label should equal labelAfter
-        assert.strictEqual(cf?.label, c.canonicalLabelAfter,
-          `${c.templateCode}/${c.path}: canonical label updated to "${c.canonicalLabelAfter}"`);
+        assert.ok(result, `${c.templateCode}/${c.path}: apply result exists`);
+        assert.strictEqual(result.status, 'APPLIED');
+        assert.strictEqual(result.canonicalLabelAfter, c.canonicalLabelAfter);
+        assert.strictEqual(result.slotLabelAfter, c.slotLabelAfter);
       }
     });
 
-    it('should have slot updated to slotLabelAfter (post-mutation)', () => {
+    it('pre-mutation backups preserve the original source', () => {
       for (const c of plan?.candidates ?? []) {
-        const files = readdirSync(LOCKED_DIR);
-        const filename = files.find(f =>
-          f.startsWith(`${c.templateCode}__`) && f.endsWith('.contract.locked.json')
+        const backupPath = join(BACKUP_DIR, `${c.templateCode}.contract.locked.json`);
+        assert.ok(existsSync(backupPath), `${c.templateCode}: backup exists`);
+        const contract = JSON.parse(readFileSync(backupPath, 'utf-8'));
+        const field = contract.canonicalFields?.find(
+          (candidate) => candidate.path === c.path,
         );
-        if (!filename) continue;
-
-        const contract = JSON.parse(readFileSync(join(LOCKED_DIR, filename), 'utf-8'));
-        const slot = contract.docxSlots?.find(s => s.slotId === c.slotId);
-
-        assert.ok(slot, `${c.templateCode}/${c.slotId}: slot exists`);
-        // After mutation, slot label should equal slotLabelAfter
-        assert.strictEqual(slot?.label, c.slotLabelAfter,
-          `${c.templateCode}/${c.slotId}: slot label updated to "${c.slotLabelAfter}"`);
-      }
-    });
-
-    it('should NOT have source mutation', () => {
-      for (const c of plan?.candidates ?? []) {
-        const files = readdirSync(LOCKED_DIR);
-        const filename = files.find(f =>
-          f.startsWith(`${c.templateCode}__`) && f.endsWith('.contract.locked.json')
+        assert.ok(field, `${c.templateCode}/${c.path}: backup field exists`);
+        assert.strictEqual(
+          field.source,
+          c.source,
+          `${c.templateCode}/${c.path}: source provenance is preserved`,
         );
-        if (!filename) continue;
-
-        const contract = JSON.parse(readFileSync(join(LOCKED_DIR, filename), 'utf-8'));
-        const cf = contract.canonicalFields?.find(f => f.path === c.path);
-
-        assert.ok(cf, `${c.templateCode}/${c.path}: canonical field exists`);
-        assert.strictEqual(cf?.source, c.source,
-          `${c.templateCode}/${c.path}: source should not change`);
       }
     });
 

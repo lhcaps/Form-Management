@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
 import { buildTemplateCorpusSnapshot } from './template-foundation-utils.mjs';
+import { createPrismaMariaDbAdapter } from './prisma-mariadb-adapter.mjs';
 
 const repoRoot = findRepoRoot(process.cwd());
 const requireFromApi = createRequire(join(repoRoot, 'apps', 'api', 'package.json'));
@@ -18,7 +19,7 @@ if (sourceCodes.length === 0) {
   findings.push('No source form files found for DB coverage audit.');
 }
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 
 try {
   const templates = await prisma.templates.findMany({

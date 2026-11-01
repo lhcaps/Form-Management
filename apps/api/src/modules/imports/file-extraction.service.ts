@@ -1,8 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'node:fs';
-import { PDFParse } from 'pdf-parse';
-import mammoth from 'mammoth';
-import * as XLSX from 'xlsx';
 import {
   type CandidateConfidence,
   type ImportDetectedCandidate,
@@ -10,11 +7,12 @@ import {
   type ImportExtractionResult,
   type ImportTablePreview,
 } from './import.types';
+import { ImportFilePolicyService } from './import-file-policy.service';
+import { ImportParserWorkerService } from './import-parser-worker.service';
+import type { ImportParserResult } from './import-parser-worker.types';
 
 const MAX_TEXT_LENGTH = 250_000;
 const MAX_PREVIEW_TEXT_LENGTH = 4_000;
-const MAX_TABLE_ROWS = 10;
-const MAX_TABLES = 3;
 
 type CandidateSeed = Omit<ImportDetectedCandidate, 'id'>;
 
@@ -34,17 +32,6 @@ function cleanText(value: string): string {
       .replace(/\r\n/g, '\n')
       .trim()
   );
-}
-
-function detectDelimiterSample(content: string): string {
-  const firstLine = content.split(/\r?\n/, 1)[0] ?? '';
-  const delimiters = [',', ';', '\t', '|'];
-  const scored = delimiters.map((delimiter) => ({
-    delimiter,
-    score: firstLine.split(delimiter).length,
-  }));
-
-  return scored.sort((a, b) => b.score - a.score)[0]?.delimiter ?? ',';
 }
 
 function snippetAround(source: string, index: number, length: number): string {
@@ -243,88 +230,53 @@ function detectCandidatesFromText(source: string): ImportDetectedCandidate[] {
   return Array.from(bucket.values()).slice(0, 20);
 }
 
-function buildWorkbookPreview(workbook: XLSX.WorkBook): {
-  tables: ImportTablePreview[];
-  totalRows: number;
-} {
-  const tables: ImportTablePreview[] = [];
-  let totalRows = 0;
-
-  for (const sheetName of workbook.SheetNames.slice(0, MAX_TABLES)) {
-    const sheet = workbook.Sheets[sheetName];
-
-    if (!sheet) {
-      continue;
-    }
-
-    const rawRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, {
-      defval: '',
-      raw: false,
-    });
-
-    totalRows += rawRows.length;
-
-    const headers = Array.from(
-      rawRows.reduce((acc, row) => {
-        Object.keys(row).forEach((key) => {
-          if (key !== '__EMPTY') {
-            acc.add(String(key));
-          }
-        });
-
-        return acc;
-      }, new Set<string>()),
-    );
-
-    const rows = rawRows.slice(0, MAX_TABLE_ROWS).map((row) => {
-      const normalized: Record<string, string> = {};
-
-      for (const header of headers) {
-        normalized[header] = String(row[header] ?? '').trim();
-      }
-
-      return normalized;
-    });
-
-    tables.push({
-      sheetName,
-      headers,
-      rows,
-      totalRows: rawRows.length,
-      candidateColumns: detectColumns(headers),
-    });
-  }
-
-  return {
-    tables,
-    totalRows,
-  };
-}
-
 @Injectable()
 export class FileExtractionService {
+  private readonly logger = new Logger(FileExtractionService.name);
+
+  constructor(
+    private readonly policy: ImportFilePolicyService = new ImportFilePolicyService(),
+    private readonly parser: ImportParserWorkerService = new ImportParserWorkerService(),
+  ) {}
+
   async extractFile(
     absolutePath: string,
     extension: string,
     mimeType: string | null,
   ): Promise<ImportExtractionResult> {
     try {
+      if (extension === '.xls') return this.rejectLegacyXls();
+      const policy = await this.policy.validate(
+        absolutePath,
+        extension,
+        mimeType,
+      );
+      if (!policy.accepted) {
+        this.logger.warn(`Import rejected by policy: ${policy.reasonCode}`);
+        return {
+          extractionStatus: 'REJECTED',
+          rawText: null,
+          parsedJson: null,
+          warnings: ['Tệp không đạt chính sách an toàn để xử lý.'],
+          errorMessage: 'Tệp không thể được xử lý an toàn.',
+          candidates: [],
+          previewText: null,
+          totalRows: 0,
+        };
+      }
       switch (extension) {
         case '.pdf':
-          return await this.extractPdf(absolutePath);
         case '.docx':
-          return await this.extractDocx(absolutePath);
+        case '.xlsx':
+        case '.csv':
+        case '.json':
+          return await this.extractInWorker(absolutePath, extension);
         case '.doc':
           return this.extractDoc();
-        case '.xlsx':
         case '.xls':
-          return await this.extractSpreadsheet(absolutePath);
-        case '.csv':
-          return await this.extractCsv(absolutePath);
+          return this.rejectLegacyXls();
         case '.txt':
           return await this.extractTxt(absolutePath);
-        case '.json':
-          return await this.extractJson(absolutePath);
         case '.png':
         case '.jpg':
         case '.jpeg':
@@ -346,16 +298,16 @@ export class FileExtractionService {
             totalRows: 0,
           };
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const reasonCode =
+        error instanceof Error ? error.message : 'IMPORT_PARSER_FAILED';
+      this.logger.warn(`Import parser rejected file: ${reasonCode}`);
       return {
         extractionStatus: 'FAILED',
         rawText: null,
         parsedJson: null,
         warnings: [],
-        errorMessage:
-          typeof error?.message === 'string'
-            ? error.message
-            : 'Không thể trích xuất dữ liệu từ tệp này.',
+        errorMessage: 'Không thể trích xuất dữ liệu từ tệp này.',
         candidates: [],
         previewText: null,
         totalRows: 0,
@@ -363,57 +315,65 @@ export class FileExtractionService {
     }
   }
 
-  private async extractPdf(
+  private async extractInWorker(
     absolutePath: string,
+    extension: '.pdf' | '.docx' | '.xlsx' | '.csv' | '.json',
   ): Promise<ImportExtractionResult> {
-    const buffer = await fs.promises.readFile(absolutePath);
-    const parser = new PDFParse({
-      data: buffer,
-    });
-    const parsed = await parser.getText();
-    await parser.destroy();
-    const text = cleanText(parsed.text ?? '');
-    const warnings: string[] = [];
-
-    if (!text) {
-      warnings.push('PDF có thể là bản scan, chưa trích xuất được chữ.');
-    }
-
-    return {
-      extractionStatus: warnings.length ? 'PARSED_WITH_WARNINGS' : 'PARSED',
-      rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
-      parsedJson: {
-        kind: 'text',
-      },
-      warnings,
-      errorMessage: null,
-      candidates: detectCandidatesFromText(text),
-      previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
-      totalRows: 0,
-    };
+    return this.toExtractionResult(
+      await this.parser.parse({ absolutePath, extension }),
+    );
   }
 
-  private async extractDocx(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const parsed = await mammoth.extractRawText({
-      path: absolutePath,
-    });
-    const text = cleanText(parsed.value ?? '');
-    const warnings = (parsed.messages ?? [])
-      .map((item) => item.message)
-      .slice(0, 10);
+  private toExtractionResult(
+    parsed: ImportParserResult,
+  ): ImportExtractionResult {
+    if (parsed.kind === 'text') {
+      const text = cleanText(parsed.text);
+      return {
+        extractionStatus: parsed.warnings.length
+          ? 'PARSED_WITH_WARNINGS'
+          : 'PARSED',
+        rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
+        parsedJson: { kind: 'text' },
+        warnings: parsed.warnings,
+        errorMessage: null,
+        candidates: detectCandidatesFromText(text),
+        previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
+        totalRows: 0,
+      };
+    }
 
+    if (parsed.kind === 'table') {
+      const text = cleanText(parsed.text);
+      const tables: ImportTablePreview[] = parsed.tables.map((table) => ({
+        ...table,
+        candidateColumns: detectColumns(table.headers),
+      }));
+      return {
+        extractionStatus: 'PARSED',
+        rawText: truncateText(text, MAX_TEXT_LENGTH) || null,
+        parsedJson: { kind: 'table', sheetNames: parsed.sheetNames, tables },
+        warnings: [],
+        errorMessage: null,
+        candidates: detectCandidatesFromText(text),
+        previewText: truncateText(text, MAX_PREVIEW_TEXT_LENGTH) || null,
+        totalRows: parsed.totalRows,
+      };
+    }
+
+    const pretty = parsed.pretty;
     return {
-      extractionStatus: warnings.length ? 'PARSED_WITH_WARNINGS' : 'PARSED',
-      rawText: text ? truncateText(text, MAX_TEXT_LENGTH) : null,
+      extractionStatus: 'PARSED',
+      rawText: truncateText(pretty, MAX_TEXT_LENGTH),
       parsedJson: {
-        kind: 'text',
+        kind: 'json',
+        preview: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
+        topLevelKeys: parsed.topLevelKeys,
       },
-      warnings,
+      warnings: [],
       errorMessage: null,
-      candidates: detectCandidatesFromText(text),
-      previewText: text ? truncateText(text, MAX_PREVIEW_TEXT_LENGTH) : null,
+      candidates: detectCandidatesFromText(pretty),
+      previewText: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
       totalRows: 0,
     };
   }
@@ -435,66 +395,18 @@ export class FileExtractionService {
     };
   }
 
-  private async extractSpreadsheet(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const workbook = XLSX.readFile(absolutePath, {
-      cellDates: false,
-    });
-    const preview = buildWorkbookPreview(workbook);
-    const flattenedText = preview.tables
-      .flatMap((table) => [
-        table.sheetName,
-        table.headers.join(' | '),
-        ...table.rows.map((row) => Object.values(row).join(' | ')),
-      ])
-      .join('\n');
-
+  private rejectLegacyXls(): ImportExtractionResult {
     return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(cleanText(flattenedText), MAX_TEXT_LENGTH) || null,
-      parsedJson: {
-        kind: 'table',
-        sheetNames: workbook.SheetNames,
-        tables: preview.tables,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(flattenedText),
-      previewText:
-        truncateText(cleanText(flattenedText), MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: preview.totalRows,
-    };
-  }
-
-  private async extractCsv(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const fileBuffer = await fs.promises.readFile(absolutePath);
-    const content = this.decodeText(fileBuffer);
-    const delimiter = detectDelimiterSample(content);
-    const workbook = XLSX.read(content, {
-      type: 'string',
-      raw: false,
-      FS: delimiter,
-    });
-
-    const preview = buildWorkbookPreview(workbook);
-    const flattenedText = cleanText(content);
-
-    return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(flattenedText, MAX_TEXT_LENGTH) || null,
-      parsedJson: {
-        kind: 'table',
-        sheetNames: workbook.SheetNames,
-        tables: preview.tables,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(flattenedText),
-      previewText: truncateText(flattenedText, MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: preview.totalRows,
+      extractionStatus: 'REJECTED',
+      rawText: null,
+      parsedJson: null,
+      warnings: [
+        'File XLS cũ không còn được hỗ trợ vì lý do an toàn. Hãy chuyển đổi sang XLSX hoặc CSV.',
+      ],
+      errorMessage: 'Định dạng tệp không được hỗ trợ.',
+      candidates: [],
+      previewText: null,
+      totalRows: 0,
     };
   }
 
@@ -514,32 +426,6 @@ export class FileExtractionService {
       errorMessage: null,
       candidates: detectCandidatesFromText(text),
       previewText: truncateText(text, MAX_PREVIEW_TEXT_LENGTH) || null,
-      totalRows: 0,
-    };
-  }
-
-  private async extractJson(
-    absolutePath: string,
-  ): Promise<ImportExtractionResult> {
-    const raw = await fs.promises.readFile(absolutePath, 'utf8');
-    const parsed = JSON.parse(raw) as Record<string, unknown> | unknown[];
-    const pretty = JSON.stringify(parsed, null, 2);
-    const topLevelKeys = Array.isArray(parsed)
-      ? ['[array]']
-      : Object.keys(parsed ?? {}).slice(0, 20);
-
-    return {
-      extractionStatus: 'PARSED',
-      rawText: truncateText(pretty, MAX_TEXT_LENGTH),
-      parsedJson: {
-        kind: 'json',
-        preview: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
-        topLevelKeys,
-      },
-      warnings: [],
-      errorMessage: null,
-      candidates: detectCandidatesFromText(pretty),
-      previewText: truncateText(pretty, MAX_PREVIEW_TEXT_LENGTH),
       totalRows: 0,
     };
   }

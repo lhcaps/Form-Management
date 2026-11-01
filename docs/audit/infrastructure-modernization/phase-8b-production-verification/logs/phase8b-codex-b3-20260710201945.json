@@ -1,0 +1,39 @@
+{
+  "runId": "phase8b-codex-b3-20260710201945",
+  "mariadbImage": "mariadb:11",
+  "sidecarImage": "node:22-bookworm-slim",
+  "candidate": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\stage4b-candidate\\000000000000_squashed_baseline\\migration.candidate.sql",
+  "direct": {
+    "emptyCheck": "table_count\n0",
+    "applyExit": 0,
+    "inventory": "tables_count\tcolumns_count\tindexes_count\tfk_count\n39\t482\t194\t64",
+    "engineCollation": "engine\ttable_collation\ttable_count\nInnoDB\tutf8mb4_unicode_ci\t39"
+  },
+  "migrate": {
+    "emptyCheck": "table_count\n0",
+    "firstDeployExit": 0,
+    "secondDeployExit": 0,
+    "statusExit": 0,
+    "failedRows": "failed_rows\n0",
+    "inventory": "tables_count\tcolumns_count\tindexes_count\tfk_count\n39\t482\t194\t64"
+  },
+  "parity": {
+    "schemaDiffExit": 0,
+    "schemaDiff": "-- This is an empty migration.",
+    "databaseDiffExit": 0,
+    "databaseDiff": "-- This is an empty migration."
+  },
+  "customSql": {
+    "onUpdateMetadata": "table_name\tcolumn_name\tcolumn_default\textra\nauth_identities\tupdated_at\tcurrent_timestamp()\ton update current_timestamp()",
+    "onUpdateBehavior": "on_update_worked\n1"
+  },
+  "cleanup": {
+    "prismaContainerExit": 0,
+    "mariadbContainerExit": 0,
+    "networkExit": 0,
+    "volumeExit": 0,
+    "workspaceExit": 0,
+    "workspaceError": null
+  },
+  "error": null
+}

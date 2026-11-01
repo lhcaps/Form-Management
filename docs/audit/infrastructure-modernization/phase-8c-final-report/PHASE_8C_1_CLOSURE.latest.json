@@ -1,0 +1,236 @@
+{
+  "schemaVersion": "1",
+  "status": "PARTIAL",
+  "statusNote": "Phase 8C.1 closed all independent gates it could (font runtime proof in production-equivalent container, PDF fidelity in container, FILE_ONLY contract sync, all source-level validation gates) and refused to claim PARTIAL closures for two hard blockers: (a) the bootstrap apply path is blocked by a column-set drift between the generated SQL and the current Prisma schema, and (b) the nine-form authenticated throttling closure requires an operator-provided Clerk ticket/storage state that was not supplied in this run. No `PRODUCTION_READY` claim is made. Persistent metadata transition remains READY_FOR_OPERATOR.",
+  "runId": "phase8c1-20260711-1815Z",
+  "repository": "D:\\Study\\Project\\QLLaw-main",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "executionPolicy": {
+    "ALLOW_GIT_PUBLISH": false,
+    "ALLOW_PERSISTENT_METADATA_WRITE": false,
+    "ALLOW_DISPOSABLE_DB_WRITE": true,
+    "ALLOW_CANONICAL_EVIDENCE_UPDATE": true,
+    "ALLOW_AUTH_EVIDENCE_UPDATE": true,
+    "ALLOW_FONT_BINARY_COMMIT": false,
+    "ALLOW_FONT_BINARY_IN_ARTIFACT": false
+  },
+  "security": {
+    "oldAuthStateReused": false,
+    "freshAuthStateGenerated": false,
+    "authStateTracked": false,
+    "authStateIgnored": true,
+    "secretScan": {
+      "gitCheckIgnorePlaywrightDotClerkAdminJson": "ignored",
+      "gitLsFilesPlaywrightDotClerkAdminJson": "not tracked",
+      "gitGrepSecretsInSourceTree": "no matches in tracked sources",
+      "secretsInDiff": "none",
+      "secretsInFinalResponse": "none"
+    },
+    "remediation": "playwright/.clerk/admin.json is ignored by .gitignore rule `playwright/.clerk/`; not tracked; not staged; not in Docker build context; not in any audit artifact. No cookies/JWT/session ID/password printed in this run. Old file at playwright/.clerk/admin.json was NOT consumed by any test in this run."
+  },
+  "authState": {
+    "value": "OPERATOR_CREDENTIAL_REQUIRED",
+    "decision": "NEED_USER_DECISION",
+    "reason": "No operator-provided Clerk ticket was supplied in this run. Web dev server (pnpm --filter web dev) is not running on this host. The throttling closure script refuses to declare THROTTLING_CLOSED without authenticated Playwright evidence."
+  },
+  "font": {
+    "hostExactFontProof": {
+      "family": "Times New Roman",
+      "styles": ["Regular", "Bold", "Italic", "Bold Italic"],
+      "path": "C:\\Windows\\Fonts\\times.ttf, timesbd.ttf, timesi.ttf, timesbi.ttf",
+      "policyAtHost": "n/a (host has no policy enforcement; the test suite uses a TTF inspector that reads font metadata directly)"
+    },
+    "containerExactFontProof": {
+      "family": "Times New Roman",
+      "styles": ["Regular", "Bold", "Italic", "Bold Italic"],
+      "perFontSha256": {
+        "Regular": "931c5de5c70401d9324d5014c123802b4fb753000360ceb2f56c589403cd58c5",
+        "Bold": "54fbe2c70af7c85a97bed0573227e3ccc4b2486012e3ca2a40c6bc77065846f5",
+        "Italic": "e7f7a88b65188328aea58670f955022e23c712f55679524729da1e4e03c49d88",
+        "Bold Italic": "3a29d114cb5229e8dbda5bef6c69be4a210a13b7277de4d66e9fc86963226f6c"
+      },
+      "fcMatchOutput": "times.ttf: \"Times New Roman\" \"Regular\"",
+      "aggregate": "EXACT_REQUIRED_FONT_PASS",
+      "evidence": "/tmp/qllaw-font-verification.json inside container; .artifacts/phase-8c1-font/positive.json"
+    },
+    "fontPolicyNegativeTest": {
+      "policy": "required",
+      "mount": "none",
+      "exitCode": 4,
+      "verdict": "container exits with code 4; entrypoint logs 'FATAL: font policy=required but Times New Roman verification failed'; readiness.json shows aggregate EXACT_REQUIRED_FONT_MISSING"
+    },
+    "fontPolicyPositiveTest": {
+      "policy": "required",
+      "mount": "C:\\Windows\\Fonts → /opt/qllaw/fonts/times-new-roman (read-only)",
+      "exitCode": 0,
+      "verdict": "EXACT_REQUIRED_FONT_PASS"
+    },
+    "sofficeInProductionImage": {
+      "path": "/usr/bin/soffice",
+      "version": "LibreOffice 7.4.7.2 40(Build:2)",
+      "verdict": "PRESENT"
+    },
+    "pdfBm001": {
+      "docxAvailable": true,
+      "pdfAvailable": true,
+      "conversionExitCode": 0,
+      "pageCount": 2,
+      "requestedFont": "Times New Roman",
+      "containerExactFontPass": true,
+      "pdfFontInspection": [
+        {"name": "CAAAAA+TimesNewRomanPSMT"},
+        {"name": "BAAAAA+TimesNewRomanPS-BoldMT"},
+        {"name": "DAAAAA+TimesNewRomanPS-ItalicMT"}
+      ],
+      "humanVisualReview": "PENDING"
+    },
+    "pdfBm006": {
+      "docxAvailable": true,
+      "pdfAvailable": true,
+      "conversionExitCode": 0,
+      "pageCount": 1,
+      "requestedFont": "Times New Roman",
+      "containerExactFontPass": true,
+      "pdfFontInspection": [
+        {"name": "BAAAAA+TimesNewRomanPSMT"},
+        {"name": "CAAAAA+TimesNewRomanPS-BoldMT"},
+        {"name": "EAAAAA+TimesNewRomanPS-BoldItalicMT"},
+        {"name": "DAAAAA+TimesNewRomanPS-ItalicMT"}
+      ],
+      "humanVisualReview": "PENDING"
+    },
+    "pdfBm171": {
+      "docxAvailable": true,
+      "pdfAvailable": true,
+      "conversionExitCode": 0,
+      "pageCount": 1,
+      "requestedFont": "Times New Roman",
+      "containerExactFontPass": true,
+      "pdfFontInspection": [
+        {"name": "BAAAAA+TimesNewRomanPSMT"},
+        {"name": "CAAAAA+TimesNewRomanPS-BoldMT"},
+        {"name": "EAAAAA+TimesNewRomanPS-BoldItalicMT"},
+        {"name": "DAAAAA+TimesNewRomanPS-ItalicMT"}
+      ],
+      "humanVisualReview": "PENDING"
+    },
+    "humanReview": "PENDING — no human visual sign-off has been asserted; visualSignoffGranted=false and rolloutReady=false in phase-8c-pdf-fidelity/visual-signoff.latest.json"
+  },
+  "governance": {
+    "lockedCount": 213,
+    "templateOperationCount": 213,
+    "versionOperationCount": 213,
+    "totalSqlOperationCount": 426,
+    "readinessPrerequisites": [
+      "templates table contains a row with template_code in [BM-001, BM-002, BM-003]",
+      "form_contract_versions has a row with template_id mapping to those templates",
+      "compiled_json.contractHash on the latest GLOBAL PUBLISHED row matches the locked contract compiledHash"
+    ],
+    "firstDisposableApply": {
+      "verdict": "FAILED",
+      "exitCode": 1,
+      "reason": "Prisma schema lacks `document_kind`, `status`, `extraction_sha256`, `locked_at` columns on `templates`. `prisma db execute --stdin` fails with `Error: Unknown column 'document_kind' in 'INSERT INTO'`."
+    },
+    "secondDisposableApply": "NOT ATTEMPTED (first apply failed deterministically; second apply would fail the same way)",
+    "duplicateCount": 0,
+    "readinessBefore": {
+      "contracts.ok": false,
+      "lockedCount": 0,
+      "missingLocked": ["BM-001", "BM-002", "BM-003"],
+      "fonts.aggregate": "EXACT_REQUIRED_FONT_PASS (when bind-mounted)"
+    },
+    "readinessAfter": "identical to readinessBefore because the apply failed; templates and form_contract_versions remain at 0 rows",
+    "restartResult": "API restarts cleanly; readiness still 503 with contracts missingLocked until schema drift is reconciled",
+    "reconciliationNote": "The Phase 8C report's prior wording `213 rows` is shorthand for `213 contracts` (one row per locked file in the contracts/ directory). The bootstrap SQL emits 213 INSERT INTO templates + 213 INSERT INTO form_contract_versions = 426 statements total, but each contract contributes exactly 1 templates row + 1 form_contract_versions row. The discrepancy some readers saw (`213 rows` vs `213 templates + 213 form_contract_versions`) was about grouping: per-contract, the affected row set is {1 templates row, 1 form_contract_versions row}; in aggregate, 213 contracts yield 213 + 213 = 426 rows touched across the two tables."
+  },
+  "throttling": {
+    "decision": "NEED_USER_DECISION",
+    "perForm": [
+      {"form": "BM-118", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-119", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-120", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-151", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-152", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-153", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-185", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-186", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"},
+      {"form": "BM-187", "auth": "no", "http": null, "classifier": "n/a", "rateLimitEvidence": null, "result": "UNVERIFIED"}
+    ],
+    "evidence": "docs/audit/infrastructure-modernization/phase-8c-throttling/throttling-closure.latest.json"
+  },
+  "validation": {
+    "staticGates": [
+      {"command": "pnpm --filter @qllaw/form-contracts typecheck", "exit": 0, "result": "clean"},
+      {"command": "pnpm --filter api exec tsc --noEmit", "exit": 0, "result": "clean"},
+      {"command": "pnpm --filter web exec tsc --noEmit", "exit": 0, "result": "clean"},
+      {"command": "pnpm --filter api lint", "exit": 0, "result": "clean (after removing unused join import)"},
+      {"command": "pnpm --filter web lint", "exit": 0, "result": "clean"},
+      {"command": "pnpm --filter api test", "exit": 0, "result": "75/75 suites, 711/711 tests PASS"},
+      {"command": "node --test test/font-policy.test.mjs", "exit": 0, "result": "6/6 PASS"},
+      {"command": "node --test test/infrastructure/*.guard.test.mjs", "exit": 0, "result": "17/17 PASS"},
+      {"command": "node --test test/migration-regression-gate.test.mjs", "exit": 0, "result": "4/4 PASS"},
+      {"command": "node --test test/ci-reproducibility.test.mjs", "exit": 0, "result": "3/3 PASS"},
+      {"command": "pnpm audit:hardcode", "exit": 0, "result": "PASS"},
+      {"command": "pnpm audit:locked-compiled", "exit": 0, "result": "213/213 consistent"},
+      {"command": "pnpm audit:encoding", "exit": 0, "result": "No BOM, encoding clean"},
+      {"command": "pnpm gate:forms:213 --allow-source-unknown", "exit": 0, "result": "213/213 PASS, 0 generic paths"},
+      {"command": "node scripts/audit/apply-all-current-evidence.mjs --check", "exit": 0, "result": "PASS"},
+      {"command": "CI=true DATABASE_URL=loopback-unreachable pnpm audit:contract-sync", "exit": 0, "result": "FILE_ONLY 213/213 PASS"},
+      {"command": "node scripts/audit/migration-regression-gate.mjs", "exit": 0, "result": "verdict PASS, 40 tables / 490 columns, requiredBootstrapData NONE"}
+    ],
+    "containerGates": [
+      {"command": "docker exec qllaw-phase8c1-api soffice --version", "exit": 0, "result": "LibreOffice 7.4.7.2 40(Build:2)"},
+      {"command": "docker exec qllaw-phase8c1-api node scripts/fonts/verify-font-policy.mjs (positive)", "exit": 0, "result": "EXACT_REQUIRED_FONT_PASS"},
+      {"command": "docker run ... QLLAW_FONT_POLICY=required (no font mount)", "exit": 4, "result": "FATAL font policy=required; container exits"},
+      {"command": "docker exec soffice --headless --convert-to pdf test.docx", "exit": 0, "result": "test.pdf 69 540 bytes, all 4 TimesNewRoman styles embedded"},
+      {"command": "node scripts/audit/build-phase-8c-bootstrap-sql.mjs --dry-run", "exit": 0, "result": "corpusFingerprint stable; sqlBytes 6,686,282"},
+      {"command": "node scripts/audit/build-phase-8c-bootstrap-sql.mjs --apply", "exit": 1, "result": "BLOCKED: column drift (document_kind etc.)"},
+      {"command": "GET /api/v1/ready", "exit": null, "result": "503 contracts missingLocked=BM-001,BM-002,BM-003; fonts.ok=true"}
+    ]
+  },
+  "filesChanged": {
+    "totalDirty": 1128,
+    "phase8BCodex": 10,
+    "phase8CCursor": 7,
+    "phase8C1Cursor": 4,
+    "phase8CTotal": 11,
+    "generatedEvidence": 49,
+    "preExistingDirty": 888,
+    "privateIgnored": 0,
+    "unrelated": 0,
+    "unknown": 170,
+    "phase8C1CursorPaths": [
+      "docker/qllaw-fonts.conf",
+      "scripts/audit/build-phase-8c1-bootstrap-disposable-apply.mjs",
+      "scripts/audit/build-phase-8c1-files-manifest.mjs",
+      ".dockerignore"
+    ],
+    "manifest": "docs/audit/infrastructure-modernization/phase-8c-final-report/FILES_MANIFEST.latest.{json,md}"
+  },
+  "gitState": {
+    "branch": "audit/bm006-visual-fidelity-evidence",
+    "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+    "policy": "NO_STAGE_NO_COMMIT_NO_PUSH_NO_PR",
+    "stagedChanges": 0,
+    "pushedDuringRun": false
+  },
+  "cleanup": {
+    "containersRemoved": ["qllaw-phase8c1-api (twice)", "qllaw-phase8c1-no-font (after exit)"],
+    "network": "qllaw-phase8c1-net (left in place; operator may `docker network rm` if desired)",
+    "disposableDbContainer": "qllaw-phase8c1-mysql (left running for follow-up; removable with `docker rm -f qllaw-phase8c1-mysql`)",
+    "gitWorktreeMutated": false,
+    "persistentDbMutated": false
+  },
+  "remainingBlockers": [
+    "Bootstrap apply is blocked by schema column drift (`templates.document_kind`, `templates.status`, `templates.extraction_sha256`, `templates.locked_at` are absent from the current Prisma schema). Reconciliation options: (1) add a migration that restores these columns on `templates` and makes the bootstrap SQL apply cleanly, or (2) rewrite `scripts/audit/build-phase-8c-bootstrap-sql.mjs` to emit SQL matching the current schema (only `templates.template_code`, `templates.template_name` etc.).",
+    "Authenticated throttling closure needs an operator-provided Clerk ticket + storage state. The web dev server (`pnpm --filter web dev`) is not running on this host. Until those are supplied, all nine forms remain `UNVERIFIED`.",
+    "Human visual sign-off for BM-001/BM-006/BM-171 PDF fidelity is `PENDING`. No human reviewer has asserted `visualSignoffGranted: true` or `rolloutReady: true`."
+  ],
+  "needUserDecision": [
+    "Choose bootstrap reconciliation path (schema migration vs script rewrite).",
+    "Supply Clerk ticket + storage state for authenticated throttling closure rerun.",
+    "Assign a human reviewer for the three PDF visual sign-offs."
+  ],
+  "nextExactCommand": "node scripts/audit/build-phase-8c-throttling-closure.mjs (after web dev server is up and operator-supplied Clerk storage state is at playwright/.clerk/admin.json). For bootstrap remediation, either run a Prisma migration adding the missing columns or rewrite build-phase-8c-bootstrap-sql.mjs to match the current schema."
+}

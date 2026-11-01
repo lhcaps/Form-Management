@@ -558,11 +558,22 @@ export function Bm001FormInputsPanel({
   }
 
   function fillCustomerSample() {
+    // Sample fixture aligned with BM-001 Form Flight `BM001_DEMO`
+    // (`apps/web/src/lib/form-flight/profiles/bm001.ts`) so a user who
+    // clicks "Điền dữ liệu mẫu" before filling out the form gets a
+    // payload that would render through the generated-document lifecycle
+    // without leaking the legacy forbiddenText tokens:
+    //   - "{{" / "}}" / "undefined" / "null" / "[object Object]"
+    //   - "Ông  cung cấp ..." (legacy two-space sample-bug)
+    //   - "Nguyễn Thị Hồng Hạnh" (legacy receiver/signer default)
+    // Distinct receiver vs informant names are preserved so the
+    // rendered DOCX never collapses "Tôi" (receiver) and "người cung
+    // cấp" (informant) into the same literal.
     const sample: Bm001FormInputs = {
       agency: {
-        parentName: "",
-        name: "",
-        issuePlace: "TP. Hồ Chí Minh",
+        parentName: "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+        name: "Viện Kiểm sát nhân dân Khu vực 7",
+        issuePlace: "Thành phố Hồ Chí Minh",
       },
       document: {
         issueDate: "2026-03-04",
@@ -570,45 +581,46 @@ export function Bm001FormInputsPanel({
       reception: {
         startedAtTimeText: "08 giờ 00 phút",
         startedAtDate: "2026-03-04",
-        locationName: "Viện kiểm sát nhân dân khu vực 7",
+        locationName:
+          "Viện Kiểm sát nhân dân Khu vực 7, Thành phố Hồ Chí Minh",
         endedAtTimeText: "08 giờ 30 phút",
         endedAtDate: "2026-03-04",
       },
       receiver: {
-        fullName: "Nguyễn Thị Hồng Hạnh",
-        positionTitle: "Kiểm sát viên",
-        departmentName: "Viện kiểm sát nhân dân khu vực 7",
-        signerName: "",
+        fullName: "Nguyễn Thị Mai",
+        positionTitle: "Kiểm sát viên sơ cấp",
+        departmentName: "Viện Kiểm sát nhân dân Khu vực 7",
+        signerName: "Nguyễn Thị Mai",
       },
       informant: {
-        fullName: "",
+        fullName: "Trần Văn Bình",
         genderLabel: "Nam",
         otherName: "Không có",
         dateOfBirth: "1985-09-08",
         birthYear: "1985",
-        placeOfBirth: "tỉnh Quảng Ngãi",
+        placeOfBirth: "Tỉnh Bình Dương",
         nationality: "Việt Nam",
         ethnicity: "Kinh",
         religion: "Không",
-        occupation: "Kinh doanh",
-        identityNo: "051080000314",
-        identityIssuedDate: "2021-12-22",
+        occupation: "Lao động tự do",
+        identityNo: "079085001234",
+        identityIssuedDate: "2021-12-14",
         identityIssuedPlace:
           "Cục Cảnh sát Quản lý hành chính về trật tự xã hội",
         permanentAddress:
-          "số 49/37, đường TCH 16, Khu phố 45, phường Trung Mỹ Tây, Thành phố Hồ Chí Minh",
-        temporaryAddress: "",
+          "Số 12, đường Nguyễn Trãi, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+        temporaryAddress: "Không có",
         currentAddress:
-          "số 13/4A, Ấp 107, xã Đông Thạnh, Thành phố Hồ Chí Minh",
-        phone: "",
+          "Số 12, đường Nguyễn Trãi, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh",
+        phone: "0901234567",
         representedOrganization: "Không",
-        signerName: "Nguyễn Thị Hồng Hạnh",
+        signerName: "Trần Văn Bình",
       },
       crimeReport: {
         content:
-          "Ông  cung cấp nguồn tin về hành vi đánh bạc trái phép xảy ra tại phường Trung Mỹ Tây, Thành phố Hồ Chí Minh.",
+          "Ông Trần Văn Bình trình bày: vào khoảng 21 giờ ngày 01/3/2026, tại địa chỉ số 49 đường Trần Hưng Đạo, Phường Phan Chu Trinh, Quận 1, Thành phố Hồ Chí Minh có một nhóm đối tượng lạ mặt tụ tập đánh bạc bằng hình thức đánh bài tây. Người cung cấp nguồn tin đề nghị cơ quan chức năng xác minh, xử lý theo quy định pháp luật.",
         attachedItemsDescription:
-          "01 bản tường trình; 01 bản sao giấy tờ tùy thân; các tài liệu liên quan khác nếu có.",
+          "01 bản tường trình của người cung cấp nguồn tin; 01 bản sao chụp giấy tờ tùy thân; 01 đoạn video ngắn ghi lại hình ảnh nhóm đối tượng (lưu trên đĩa CD kèm theo).",
       },
       recipients: {
         archiveLine: "Lưu: HSVA, HSKS, VP.",

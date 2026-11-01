@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-06T00:00:00.000Z",
+  "task": "FORM_FLIGHT_CORE_SHARED_ADAPTERS_AND_ROLLOUT_FACTORY_V1",
+  "artifact": "FORM_FLIGHT_CORE_V1",
+  "summary": "Form Flight Core V1 — shared profile/payload/validation/summary/acceptance + two adapters, kept on /templates/:code and /documents/:id boundaries.",
+  "modules": {
+    "types": "apps/web/src/lib/form-flight/types.ts",
+    "payload": "apps/web/src/lib/form-flight/payload.ts",
+    "validation": "apps/web/src/lib/form-flight/validation.ts",
+    "summary": "apps/web/src/lib/form-flight/summary.ts",
+    "acceptance": "apps/web/src/lib/form-flight/acceptance.ts",
+    "registry": "apps/web/src/lib/form-flight/registry.ts",
+    "profile_bm171": "apps/web/src/lib/form-flight/profiles/bm171.ts",
+    "profile_bm001_skeleton": "apps/web/src/lib/form-flight/profiles/bm001.ts",
+    "adapter_template_runtime": "apps/web/src/lib/form-flight/adapters/template-runtime-adapter.ts",
+    "adapter_generated_document": "apps/web/src/lib/form-flight/adapters/generated-document-adapter.ts",
+    "barrel": "apps/web/src/lib/form-flight/index.ts"
+  },
+  "tests": {
+    "bm171_shared_core": "apps/web/src/lib/form-flight/bm171-shared-core.test.ts",
+    "bm001_second_pilot": "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts"
+  },
+  "wiring": {
+    "bm171_runtime_flow": "apps/web/src/components/documents/template-preview-workspace.tsx",
+    "bm171_generated_document_flow": "apps/web/src/components/documents/bm-171-form-inputs.tsx"
+  },
+  "invariants": [
+    "requiredFieldPaths subset of fieldPaths",
+    "runtime adapter and document adapter share the same fieldPaths for the same template",
+    "runtime adapter and document adapter produce the same sanitized payload for the same draft",
+    "runtime adapter and document adapter agree on the missing-required list",
+    "missing required fields block both preview/export and save — no silent auto-fill",
+    "user override preserved in preview/export/save",
+    "demo-reset is the only mode that overwrites user values",
+    "summary lines render — when empty, typed value when filled (no hardcoded demo leakage)",
+    "acceptance scanner flags stale fallback AND missing required anchors",
+    "no route boundary violation — /templates/:code never writes generated_documents rows"
+  ],
+  "forbiddenScope": {
+    "noCommit": true,
+    "noPush": true,
+    "noPR": true,
+    "noMassRollout213": true,
+    "noDeepFixAll60": true,
+    "noCanonicalize55Forms": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noSourceDocxMutation": true,
+    "noAuthRewrite": true,
+    "noRouteMerging": true,
+    "noFakeGeneratedDocumentId": true,
+    "noClaimedLiveBrowserSignoff": true
+  }
+}

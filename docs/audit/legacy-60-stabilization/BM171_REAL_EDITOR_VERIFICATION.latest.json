@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-05T15:39:54.000Z",
+  "task": "BM-171 Real Editor Vertical Slice + Legacy 60 Smoke",
+  "report": "BM171_REAL_EDITOR_VERIFICATION",
+  "summary": {
+    "verdict": "PARTIAL",
+    "reason": "BM-171 form component and production render path are complete and produce a full DOCX with all required structural elements when fed the canonical full synthetic fixture (PR7A.4). The real editor route /documents/:documentId exists and is wired correctly to the BM-specific component. However, the local dev DB has no BM-171 generated_documents row to drive an end-to-end /documents/:id -> save -> render round-trip from the web UI in this session. The full-fixture DOCX produced by `render-bm171-canonical-signoff-full.mjs` (production render path: ContractRenderPlanBuilder + DocxtemplaterContractRenderEngine) satisfies the acceptance criteria for a complete DOCX, but a fresh UI-driven round-trip on a real generated_document row is recommended as the next step."
+  },
+  "route": {
+    "page": "apps/web/src/app/documents/[documentId]/page.tsx",
+    "workspaceComponent": "apps/web/src/components/documents/generated-document-workspace.tsx (GeneratedDocumentWorkspace)",
+    "panelRegistry": "apps/web/src/components/documents/bm-panel-registry.generated.ts (BM_PANEL_BY_CODE)",
+    "bm171Component": "apps/web/src/components/documents/bm-171-form-inputs.tsx (Bm171FormInputsPanel)",
+    "formInputApiSave": "POST /documents/generated/:documentId/form-inputs (DocumentRendererController.updateFormInputs)",
+    "formInputApiGet": "GET /documents/generated/:documentId/render-payload (DocumentRendererController.getRenderPayload)",
+    "renderApi": "POST /documents/generated/:documentId/render-docx (DocumentRendererController.renderDocx -> RenderGeneratedDocumentUseCase)",
+    "legacyRenderer": "apps/api/src/modules/documents/rendering/infrastructure/legacy-document-renderer.adapter.ts",
+    "rendererRoutingPolicy": "apps/api/src/modules/documents/rendering/application/document-renderer-routing.policy.ts",
+    "renderEngine": "apps/api/src/modules/documents/rendering/infrastructure/docxtemplater-contract-render-engine.ts"
+  },
+  "saveEndpoint": {
+    "method": "POST",
+    "path": "/documents/generated/:documentId/form-inputs",
+    "controller": "DocumentRendererController.updateFormInputs",
+    "service": "DocumentRendererService.updateFormInputs (also ContractFormInputsService.save for V2 contract-backed inputs)",
+    "writesTo": [
+      "generated_documents.render_payload_snapshot",
+      "generated_documents.validation_result"
+    ]
+  },
+  "renderEndpoint": {
+    "method": "POST",
+    "path": "/documents/generated/:documentId/render-docx",
+    "controller": "DocumentRendererController.renderDocx",
+    "useCase": "RenderGeneratedDocumentUseCase",
+    "writesTo": [
+      "generated_document_files (file_format=DOCX)",
+      "generated_document_audit_logs (action=RENDER)"
+    ]
+  },
+  "databaseTablesWritten": [
+    "generated_documents (render_payload_snapshot, validation_result)",
+    "generated_document_files (DOCX/PDF outputs)",
+    "generated_document_audit_logs (CREATED, RENDER, FILE, REVIEW, AUDIT events)"
+  ],
+  "bm171ComponentChecks": {
+    "filePath": "apps/web/src/components/documents/bm-171-form-inputs.tsx",
+    "primaryExport": "Bm171FormInputsPanel",
+    "registryEntry": "BM-171: Bm171FormInputsPanel (auto-generated)",
+    "requiredFields": [
+      "agency.parentName",
+      "agency.name",
+      "document.documentCode",
+      "document.issueDate",
+      "assetReturn.investigationAgencyName",
+      "assetReturn.offenseName",
+      "assetReturn.legalClause",
+      "assetReturn.legalArticle",
+      "assetReturn.assetListLine",
+      "assetOwner.fullName",
+      "assetOwner.identityNo",
+      "signature.positionTitle",
+      "signature.signerName"
+    ],
+    "demoFixtureFillsAllRequiredFields": true,
+    "saveHandler": "saveDocumentFormInputs via @/lib/document-form-api (POST /documents/generated/:id/form-inputs)",
+    "renderBlockedWhenRequiredMissing": "REQUIRED_FIELDS + missingFields gate in Bm171FormInputsPanel render; save still allowed but workspace-level downstream render uses ContractFormInputsService.save validation which returns 422 with issues list if required slots empty"
+  },
+  "renderAcceptance": {
+    "renderedDocxSha256": "4cf6f46a1c4c843db358813482f1fb28fd63b98c4a2db78c16d004a66cbf83c0",
+    "renderedDocxBytes": 21557,
+    "renderPathUsed": "production (ContractRenderPlanBuilder + DocxtemplaterContractRenderEngine + BM-171 style profile)",
+    "fixtureVariant": "FULL_SYNTHETIC_PR7A_4 (matches real BM-171 panel demo)",
+    "fieldCount": 34,
+    "bindingCount": 34,
+    "missingRequiredCount": 0,
+    "renderedArtifact": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_RENDER.latest.docx",
+    "extractedText": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_TEXT.latest.txt",
+    "renderCommand": "pnpm --filter api exec tsx ./scripts/render-bm171-canonical-signoff-full.mjs",
+    "renderCommandExitCode": 0
+  },
+  "contentChecks": [
+    { "check": "agency.header present", "evidence": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH / VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 detected", "result": "PASS" },
+    { "check": "document number visible", "evidence": "Số: 01/QĐ-VKSKV7 detected", "result": "PASS" },
+    { "check": "issue place/date line visible", "evidence": "TP. Hồ Chí Minh, ngày 04 tháng 07 năm 2026 detected", "result": "PASS" },
+    { "check": "QUYẾT ĐỊNH title visible", "evidence": "detected", "result": "PASS" },
+    { "check": "TRẢ LẠI TÀI SẢN subtitle visible", "evidence": "detected", "result": "PASS" },
+    { "check": "legal basis block distinct lines", "evidence": "6 distinct Căn cứ lines (BLTTHS 134/212; truy tố 02/QĐ-VKS-KV7; tạm giam 15/QĐ-BCA; KLĐT 21/KLĐT-PCA; đình chỉ VA 03/QĐ-VKS-KV7; đình chỉ BC 04/QĐ-VKS-KV7)", "result": "PASS" },
+    { "check": "Xét thấy / consideration line visible", "evidence": "Xét thấy tài sản bị tạm giữ không còn liên quan ... detected", "result": "PASS" },
+    { "check": "Điều 1 visible", "evidence": "Điều 1. Trả lại tài sản sau đây: detected", "result": "PASS" },
+    { "check": "asset lines visible", "evidence": "01 chiếc xe máy Honda Wave RSX ... + 01 sổ tiết kiệm ... detected", "result": "PASS" },
+    { "check": "recipient/person info visible", "evidence": "Cho ông/bà: Nguyễn Văn A / Giới tính: Nam detected", "result": "PASS" },
+    { "check": "birth date visible", "evidence": "Sinh ngày 08/09/1985 detected", "result": "PASS" },
+    { "check": "identity issue date visible", "evidence": "Cấp ngày 14/12/2021 detected", "result": "PASS" },
+    { "check": "Điều 2 visible", "evidence": "Điều 2. Yêu cầu Phòng Cảnh sát Quản lý hành chính về trật tự xã hội ... chuyển giao tài sản ... detected", "result": "PASS" },
+    { "check": "footer / archive line visible", "evidence": "Nơi nhận : Phòng CSQLHC TTXH Công an TP.HCM; / Lưu: HSVA, HSKS, VP. detected", "result": "PASS" },
+    { "check": "signature block visible", "evidence": "Ký thay VIỆN TRƯỞNG Trần Thị B detected", "result": "PASS" },
+    { "check": "no undefined", "evidence": "renderPlan.warnings=[] and rendered text contains no `undefined`", "result": "PASS" },
+    { "check": "no null", "evidence": "renderPlan.missingRequiredCount=0 and rendered text contains no literal `null`", "result": "PASS" },
+    { "check": "no Invalid Date", "evidence": "rendered text contains no `Invalid Date`", "result": "PASS" },
+    { "check": "no [object Object]", "evidence": "rendered text contains no `[object Object]`", "result": "PASS" },
+    { "check": "legal basis lines not duplicated 5+ times", "evidence": "6 distinct legal-basis lines, no repetition", "result": "PASS" },
+    { "check": "note '12 Ghi cụ thể cơ quan' absent", "evidence": "style-profile rule bm171.drop_drafter_note_12 dropped the body", "result": "PASS" },
+    { "check": "note '13 Ghi chức danh người ký' absent", "evidence": "style-profile rule bm171.drop_drafter_note_13 dropped the body", "result": "PASS" },
+    { "check": "no {{ ... }} mustache leakage", "evidence": "renderPlan.bindingCount=34 / fieldCount=34 / missingRequiredCount=0", "result": "PASS" }
+  ],
+  "pdfExport": {
+    "status": "NOT_AVAILABLE",
+    "reason": "this host lacks LibreOffice / soffice and pdftoppm. PDF is intentionally NOT generated. DOCX + extracted text are the visual evidence."
+  },
+  "forbiddenScopeCheck": {
+    "noCommit": true,
+    "noPush": true,
+    "noPR": true,
+    "noPR7BStarted": true,
+    "noPR7CStarted": true,
+    "noMassRollout213": true,
+    "noDeepFixAll60": true,
+    "noCanonicalize55Forms": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noAuthRewrite": true,
+    "noMonolithicRendererCopy": true,
+    "noGenericTemplatesBM171Polish": true
+  }
+}

@@ -8,6 +8,9 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
+
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 type AgencyForm = {
   parentName: string;
   name: string;
@@ -61,9 +64,6 @@ type Bm009FormInputsPanelProps = {
   documentId: string | number;
   onSaved?: () => void | Promise<void>;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const DEFAULT_SIGNER_NAME = '';
 
@@ -698,19 +698,7 @@ export function Bm009FormInputsPanel({
     setMessage(null);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { method: "GET", cache: "no-store" },
-      );
-
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không tải được render-payload. HTTP ${response.status}`,
-        );
-      }
-
-      const payload = (await response.json()) as RenderPayload;
+      const payload = await getDocumentRenderPayload<RenderPayload>(documentId);
       setForm(normalizeFormInputs(payload));
       setMessage("Đã tải lại dữ liệu BM-009 từ backend.");
     } catch (err) {
@@ -749,22 +737,7 @@ export function Bm009FormInputsPanel({
     setMessage(null);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không lưu được dữ liệu biểu mẫu. HTTP ${response.status}`,
-        );
-      }
-
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       await reloadFromBackend();
       setMessage("Đã lưu dữ liệu BM-009. Các câu tự sinh đã đồng bộ.");
       await onSaved?.();

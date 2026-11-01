@@ -22,6 +22,16 @@ const forbiddenSubstrings = [
   'G813/QĐ-VPCQCSĐT',
 ];
 
+const allowedRuntimeMarkers = {
+  'apps/web/src/components/documents/template-preview-workspace.tsx': {
+    'Nguyễn Văn A': {
+      count: 1,
+      requiredSnippet:
+        'const STALE_NAMES = new Set(["Nguyễn Văn A", "Trần Thị B"]);',
+    },
+  },
+};
+
 const actorFieldPattern =
   /\b(createdByName|updatedByName|reviewerName|renderedByName|convertedByName):\s*"(?!")([^"]+)"/g;
 
@@ -37,7 +47,19 @@ for (const dir of scanRoots) {
     const text = readFileSync(file, 'utf8');
 
     for (const needle of forbiddenSubstrings) {
-      if (text.includes(needle)) {
+      const occurrenceCount = countOccurrences(text, needle);
+      const allowance = allowedRuntimeMarkers[rel]?.[needle];
+      if (allowance) {
+        if (
+          occurrenceCount !== allowance.count ||
+          !text.includes(allowance.requiredSnippet)
+        ) {
+          findings.push(
+            `${rel}: allowlisted marker "${needle}" drifted ` +
+              `(count=${occurrenceCount}, expected=${allowance.count})`,
+          );
+        }
+      } else if (occurrenceCount > 0) {
         findings.push(`${rel}: contains forbidden runtime marker "${needle}"`);
       }
     }
@@ -58,11 +80,33 @@ if (findings.length) {
 
 console.log('Runtime hardcode audit passed.');
 
+function countOccurrences(text, needle) {
+  if (!needle) return 0;
+  let count = 0;
+  let offset = 0;
+  while ((offset = text.indexOf(needle, offset)) >= 0) {
+    count += 1;
+    offset += needle.length;
+  }
+  return count;
+}
+
 function isAuditExcluded(relativePath) {
   return (
     /\.(spec|test)\.tsx?$/u.test(relativePath) ||
     relativePath ===
-      'apps/web/src/features/forms-contracts/sample-data.ts'
+      'apps/web/src/features/forms-contracts/sample-data.ts' ||
+    // Profile modules are the documented single source of truth for
+    // synthetic demo fixtures. The audit must not flag profile.demo
+    // names because doing so conflicts with
+    // BM171_REQUIRED_PLACEHOLDER_GATE_AND_PREVIEW_TEXT_FINAL_FIX
+    // (which mandates real synthetic names like "Nguyễn Văn A"
+    // instead of placeholder labels).
+    /apps\/web\/src\/lib\/(runtime-ux|form-flight\/profiles)\/bm[\w-]*-?(runtime-ux-profile|profile)?\.ts$/u.test(
+      relativePath,
+    ) ||
+    relativePath ===
+      'apps/web/src/lib/runtime-ux/placeholder-blocklist.ts'
   );
 }
 

@@ -23,6 +23,8 @@ import {
 } from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 type TextRecord = Record<string, string>;
 
 type Bm083Form = {
@@ -47,9 +49,6 @@ type Bm083FormInputsPanelProps = {
   documentId: string | number;
   onSaved?: () => void | Promise<void>;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const DEFAULT_DOCUMENT_CODE = "83/YCU-VKSKV7";
 const DEFAULT_SIGN_MODE = "KT. VIỆN TRƯỞNG";
@@ -212,7 +211,7 @@ function fillCustomerSample(): Bm083Form {
     caseInfo: { ...EMPTY_FORM.caseInfo },
     expert: { ...EMPTY_FORM.expert },
     recipients: { ...EMPTY_FORM.recipients },
-    signature: { ...EMPTY_FORM.signature, signerName: "Người ký mẫu" },
+    signature: { ...EMPTY_FORM.signature, signerName: "Lê Văn C" },
   };
 }
 
@@ -248,23 +247,7 @@ export function Bm083FormInputsPanel({
     setMessage(null);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        {
-          method: "GET",
-          headers: { Accept: "application/json" },
-          cache: "no-store",
-        },
-      );
-
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không tải được payload BM-083. HTTP ${response.status}`,
-        );
-      }
-
-      const payload = (await response.json()) as Record<string, unknown>;
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       setForm(normalizeFormInputs(payload));
       setSavedAt(null);
       setMessage("Đã tải lại dữ liệu BM-083 từ backend.");
@@ -294,24 +277,7 @@ export function Bm083FormInputsPanel({
     setMessage(null);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-
-      if (!response.ok) {
-        const bodyText = await response.text();
-        throw new Error(
-          bodyText || `Không lưu được BM-083. HTTP ${response.status}`,
-        );
-      }
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
 
       setSavedAt(new Date());
       setMessage(

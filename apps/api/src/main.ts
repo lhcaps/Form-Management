@@ -3,20 +3,17 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import { config as loadEnv } from 'dotenv';
-import { resolve } from 'node:path';
-import { AppModule } from './app.module';
 import { ApplicationErrorFilter } from './common/application-error.filter';
 import { createCorsOriginValidator } from './common/cors-origin';
 import { requestContextMiddleware } from './common/request-context.middleware';
 import { createGlobalValidationPipe } from './common/validation-pipe.factory';
 import { AppConfigService } from './infrastructure/config/app-config.service';
+import { loadApiEnvironment } from './infrastructure/config/load-api-environment';
 import { ContractSyncGuard } from './modules/forms-contracts/infrastructure/contract-sync.guard';
 
-loadEnv({ path: resolve(process.cwd(), '..', '..', '.env'), override: true });
-loadEnv({ path: resolve(process.cwd(), '.env') });
-
 async function bootstrap(): Promise<void> {
+  loadApiEnvironment();
+  const { AppModule } = await import('./app.module');
   const logger = new Logger('Bootstrap');
 
   // --- C1: Contract Sync Guard ---
@@ -31,10 +28,24 @@ async function bootstrap(): Promise<void> {
   const bootstrapConfig = new AppConfigService(process.env);
   bootstrapConfig.assertProductionSafety();
 
+  // Emit demo-mode classification log AFTER assertProductionSafety passes so
+  // the label is only written on a successful boot, not on config errors.
+  if (bootstrapConfig.isProductionDemoMode) {
+    const logger = new Logger('Bootstrap');
+    logger.warn(
+      'CLERK_WEBHOOK_OPTIONAL_FOR_DEMO — running with QLLAW_DOCKER_MODE=demo',
+    );
+    logger.warn('DEMO_FONT_FALLBACK_ACTIVE — font policy is fallback-allowed');
+    logger.warn(
+      'PRODUCTION_STACK_DEMO_AUTH_PASS — pk_test_/sk_test_ credentials accepted',
+    );
+  }
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: false,
     rawBody: true,
   });
+  app.enableShutdownHooks();
   const config = app.get(AppConfigService);
   const corsPolicy = config.corsPolicy;
 
@@ -49,6 +60,13 @@ async function bootstrap(): Promise<void> {
       'Accept',
       'X-Requested-With',
       'X-Request-Id',
+    ],
+    exposedHeaders: [
+      'X-Request-Id',
+      'Retry-After',
+      'X-RateLimit-Limit',
+      'X-RateLimit-Remaining',
+      'X-RateLimit-Reset',
     ],
   });
 

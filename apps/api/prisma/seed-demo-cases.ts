@@ -22,13 +22,14 @@
 import { config as loadEnv } from 'dotenv';
 import { resolve } from 'node:path';
 import { PrismaClient, Prisma } from '@prisma/client';
+import { createPrismaMariaDbAdapter } from '../src/prisma/prisma-mariadb-adapter';
 
 // Load env giống seed chính.
 loadEnv({ path: resolve(__dirname, '..', '..', '..', '..', '.env') });
 loadEnv({ path: resolve(__dirname, '..', '..', '..', '.env') });
 loadEnv({ path: resolve(__dirname, '..', '..', '.env') });
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 
 function dateOnly(year: number, month: number, day: number): Date {
   return new Date(Date.UTC(year, month - 1, day));

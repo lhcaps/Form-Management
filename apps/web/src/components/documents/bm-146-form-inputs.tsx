@@ -18,6 +18,7 @@ import {
   BmFormSection,
   BmFormStatus,
 } from "@/components/documents/bm-form";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type FormState = {
   procedureArticlesLine: string;
@@ -36,9 +37,6 @@ type FormState = {
 };
 
 type RenderPayload = Record<string, unknown>;
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const EMPTY_FORM: FormState = {
   procedureArticlesLine:
@@ -194,12 +192,7 @@ export function Bm146FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        { cache: "no-store" },
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setForm(normalizeFormInputs((await res.json()) as RenderPayload));
+      setForm(normalizeFormInputs(await getDocumentRenderPayload<RenderPayload>(documentId)));
       setMessage("Đã tải dữ liệu BM-146 từ backend.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Lỗi khi tải.");
@@ -220,15 +213,7 @@ export function Bm146FormInputsPanel({
     setError(null);
     setMessage(null);
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=utf-8" },
-          body: JSON.stringify(buildSaveBody(form)),
-        },
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await saveDocumentFormInputs(documentId, buildSaveBody(form));
       await reloadFromBackend();
       setMessage("Đã lưu BM-146 thành công.");
       await onSaved?.();

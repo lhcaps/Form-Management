@@ -10,8 +10,7 @@ import {
 } from "@/components/documents/bm-form";
 import { FormActionBar } from "@/components/common/form-action-bar";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 const DEFAULT_SIGNER_NAME = '';
 const DEFAULT_ACCUSED_NAME = '';
@@ -985,110 +984,6 @@ function buildBm037SavePayload(form: Bm037FormInputs): Record<string, unknown> {
   };
 }
 
-async function getBm037RenderPayload(
-  documentId: string | number,
-): Promise<Record<string, unknown>> {
-  // Ưu tiên endpoint detail vì endpoint này có renderPayloadSnapshot.formInputs,
-  // tức dữ liệu khách đã sửa tay và đã save trong DB.
-  try {
-    const detailResponse = await fetch(
-      `${API_BASE_URL}/documents/generated/${documentId}`,
-      {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-      },
-    );
-
-    if (detailResponse.ok) {
-      const detailPayload = (await detailResponse.json()) as Record<string, unknown>;
-
-      const savedFormInputs =
-        getNestedValue(detailPayload, "renderPayloadSnapshot.formInputs") ??
-        getNestedValue(detailPayload, "render_payload_snapshot.formInputs") ??
-        getNestedValue(detailPayload, "data.renderPayloadSnapshot.formInputs") ??
-        getNestedValue(detailPayload, "data.render_payload_snapshot.formInputs");
-
-      if (isRecord(savedFormInputs) && Object.keys(savedFormInputs).length > 0) {
-        return detailPayload;
-      }
-    }
-  } catch {
-    // Fallback bên dưới.
-  }
-
-  // Fallback: render-payload chỉ dùng khi detail không trả snapshot.
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được dữ liệu BM-037. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-async function saveBm037FormInputs(
-  documentId: string | number,
-  form: Bm037FormInputs,
-): Promise<Bm037FormInputs> {
-  const ready = preserveUserEditedBodyFields(form, hydrateMissingGeneratedLines(form));
-  const savePayload = buildBm037SavePayload(ready);
-  const signerName =
-    pickDirect((savePayload.signature as TextRecord).signerName) || DEFAULT_SIGNER_NAME;
-
-  const body = {
-    ...savePayload,
-    formInputs: savePayload,
-    payloadOverrides: savePayload,
-    renderPayloadOverrides: savePayload,
-    renderPayloadSnapshot: {
-      ...savePayload,
-      formInputs: savePayload,
-      payloadOverrides: savePayload,
-      renderPayloadOverrides: savePayload,
-    },
-    metadata: {
-      templateCode: "BM-037",
-      template_code: "BM-037",
-      code: "BM-037",
-      formInputs: savePayload,
-      payloadOverrides: savePayload,
-      renderPayloadOverrides: savePayload,
-    },
-    updatedByName: signerName,
-    renderedByName: signerName,
-    convertedByName: signerName,
-  };
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(body),
-    },
-  );
-
-  if (!response.ok) {
-    const responseText = await response.text().catch(() => "");
-
-    throw new Error(responseText || `Không lưu được dữ liệu BM-037. HTTP ${response.status}`);
-  }
-
-  await response.json().catch(() => null);
-
-  return ready;
-}
-
 function DateSelectField({
   label,
   value,
@@ -1305,7 +1200,7 @@ export function Bm037FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const payload = await getBm037RenderPayload(documentId);
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       const nextForm = normalizeFormInputs(payload);
 
       setForm(nextForm);
@@ -1422,10 +1317,37 @@ export function Bm037FormInputsPanel({
     setErrorMessage("");
 
     try {
-      const savedForm = await saveBm037FormInputs(documentId, form);
+      const ready = preserveUserEditedBodyFields(form, hydrateMissingGeneratedLines(form));
+      const savePayload = buildBm037SavePayload(ready);
+      const signerName =
+        pickDirect((savePayload.signature as TextRecord).signerName) || DEFAULT_SIGNER_NAME;
 
-      setForm(savedForm);
-      setInitialSnapshot(JSON.stringify(preserveUserEditedBodyFields(savedForm, hydrateMissingGeneratedLines(savedForm))));
+      await saveDocumentFormInputs(documentId, {
+        ...savePayload,
+        formInputs: savePayload,
+        payloadOverrides: savePayload,
+        renderPayloadOverrides: savePayload,
+        renderPayloadSnapshot: {
+          ...savePayload,
+          formInputs: savePayload,
+          payloadOverrides: savePayload,
+          renderPayloadOverrides: savePayload,
+        },
+        metadata: {
+          templateCode: "BM-037",
+          template_code: "BM-037",
+          code: "BM-037",
+          formInputs: savePayload,
+          payloadOverrides: savePayload,
+          renderPayloadOverrides: savePayload,
+        },
+        updatedByName: signerName,
+        renderedByName: signerName,
+        convertedByName: signerName,
+      });
+
+      setForm(ready);
+      setInitialSnapshot(JSON.stringify(preserveUserEditedBodyFields(ready, hydrateMissingGeneratedLines(ready))));
       setSavedAt(new Date());
       onSaved?.();
     } catch (error) {

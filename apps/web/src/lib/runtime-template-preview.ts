@@ -39,6 +39,49 @@ export interface RuntimePreviewSessionResponse {
   persisted: false;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function assertRuntimePreviewSessionContract(
+  result: RuntimePreviewSessionResponse,
+): void {
+  const raw = result as unknown;
+  if (!isRecord(raw)) {
+    throw new Error("Unexpected: runtime preview session response must be an object.");
+  }
+
+  if (result.persisted !== false) {
+    throw new Error("Unexpected: runtime preview session should have persisted=false.");
+  }
+
+  if (!/^runtime_preview_[a-f0-9-]{36}$/u.test(result.sessionId)) {
+    throw new Error("Unexpected: runtime preview sessionId is invalid.");
+  }
+
+  if ("generatedDocumentId" in raw) {
+    throw new Error("Unexpected: runtime preview session leaked generatedDocumentId.");
+  }
+
+  if (
+    typeof result.docxDownloadUrl !== "string" ||
+    result.docxDownloadUrl.trim().length === 0
+  ) {
+    throw new Error("Unexpected: runtime preview session missing docxDownloadUrl.");
+  }
+
+  if (result.docxDownloadUrl.includes("/documents/")) {
+    throw new Error("Unexpected: runtime preview DOCX URL targets /documents/.");
+  }
+
+  if (
+    typeof result.pdfPreviewUrl === "string" &&
+    result.pdfPreviewUrl.includes("/documents/")
+  ) {
+    throw new Error("Unexpected: runtime preview PDF URL targets /documents/.");
+  }
+}
+
 function parseFilenameFromDisposition(
   contentDisposition: string | null,
   fallback: string,
@@ -105,11 +148,7 @@ export async function createRuntimePreviewSession(
   }
 
   const result = await response.json() as RuntimePreviewSessionResponse;
-
-  // Guard: persisted must be false for runtime preview sessions
-  if (result.persisted !== false) {
-    throw new Error("Unexpected: runtime preview session should have persisted=false.");
-  }
+  assertRuntimePreviewSessionContract(result);
 
   return result;
 }

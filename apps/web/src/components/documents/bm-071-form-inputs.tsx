@@ -12,6 +12,8 @@ import { FormActionBar } from "@/components/common/form-action-bar";
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 type Bm071FormInputsPanelProps = {
   documentId: string;
   onSaved?: () => void;
@@ -59,9 +61,6 @@ type Option = {
   label: string;
   value: string;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const DEFAULT_FORM_STATE: Bm071FormState = {
   agencyParentName: "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
@@ -659,16 +658,7 @@ function buildStateFromPayload(payload: unknown): Bm071FormState {
 }
 
 async function getRenderPayload(documentId: string): Promise<unknown> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    { cache: "no-store" },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-071. HTTP ${response.status}`);
-  }
-
-  return response.json();
+  return getDocumentRenderPayload<unknown>(documentId);
 }
 
 async function saveFormInputs(
@@ -678,47 +668,32 @@ async function saveFormInputs(
   const state = prepareState(rawState);
   const payload = buildPayloadFromState(state);
 
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        ...payload,
-        templateCode: "BM-071",
-        formState: state,
-        bm071FormState: state,
-        formInputs: payload,
-        payloadOverrides: payload,
-        renderPayloadOverrides: payload,
+  await saveDocumentFormInputs(documentId, {
+    ...payload,
+    templateCode: "BM-071",
+    formState: state,
+    bm071FormState: state,
+    formInputs: payload,
+    payloadOverrides: payload,
+    renderPayloadOverrides: payload,
 
-        documentCode: state.documentCode,
-        documentIssueDate: state.documentIssueDate,
-        caseDecisionNo: state.caseDecisionNo,
-        caseDecisionIssueDate: state.caseDecisionIssueDate,
-        caseDecisionIssuedBy: state.caseDecisionIssuedBy,
-        offenseName: state.offenseName,
-        legalArticle: state.legalArticle,
-        criminalCodeText: state.criminalCodeText,
-        assignedRoleText: state.assignedRoleText,
-        assignedOfficerName: state.assignedOfficerName,
-        assignedOfficerTitle: state.assignedOfficerTitle,
-        assignedOfficerAgencyName: state.assignedOfficerAgencyName,
+    documentCode: state.documentCode,
+    documentIssueDate: state.documentIssueDate,
+    caseDecisionNo: state.caseDecisionNo,
+    caseDecisionIssueDate: state.caseDecisionIssueDate,
+    caseDecisionIssuedBy: state.caseDecisionIssuedBy,
+    offenseName: state.offenseName,
+    legalArticle: state.legalArticle,
+    criminalCodeText: state.criminalCodeText,
+    assignedRoleText: state.assignedRoleText,
+    assignedOfficerName: state.assignedOfficerName,
+    assignedOfficerTitle: state.assignedOfficerTitle,
+    assignedOfficerAgencyName: state.assignedOfficerAgencyName,
 
-        updatedByName: state.signerName || "",
-        renderedByName: state.signerName || "",
-        convertedByName: state.signerName || "",
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(body || `Không lưu được dữ liệu BM-071. HTTP ${response.status}`);
-  }
+    updatedByName: state.signerName || "",
+    renderedByName: state.signerName || "",
+    convertedByName: state.signerName || "",
+  });
 }
 
 function DateSelectField({

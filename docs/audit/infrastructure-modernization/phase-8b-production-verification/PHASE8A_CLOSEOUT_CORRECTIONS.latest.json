@@ -1,0 +1,79 @@
+{
+  "phase": "8B",
+  "stage": 0,
+  "doc_type": "phase-8a-closeout-corrections",
+  "captured_at": "2026-07-11T01:00:00+07:00",
+  "purpose": "Additive closeout ledger for Phase 8A. Reconciles internal inconsistencies between FINAL_REPORT.latest.md, ROOT_CAUSE.latest.md, VALIDATION.latest.md, and REPRODUCTION_MATRIX.latest.md without rewriting any of those files. This file is the authoritative addendum referenced by Phase 8B.",
+  "scope_note": "Phase 8A reported its root cause as NOT_REPRODUCED_IN_PHASE_8A_CONDITIONS. The closeout corrections do not relitigate that decision; they only reconcile the meta-claims so that downstream phases have an unambiguous record.",
+  "preserved_phase7_ids": [
+    "CRIT-02_WRAPPER_TRUTHFULNESS",
+    "CRIT-03_TRANSIENT_ARTIFACT_ENOENT",
+    "CRIT-04_MIGRATION_P3018_1060",
+    "CRIT-05_FONT_FIDELITY",
+    "CRIT-06_THROTTLING_CLASSIFICATION"
+  ],
+  "phase8a_disposition": {
+    "CRIT-02_WRAPPER_TRUTHFULNESS": "RESOLVED",
+    "CRIT-03_TRANSIENT_ARTIFACT_ENOENT": "NOT_REPRODUCED_IN_PHASE_8A_CONDITIONS",
+    "CRIT-04_MIGRATION_P3018_1060": "OPEN",
+    "CRIT-05_FONT_FIDELITY": "OPEN",
+    "CRIT-06_THROTTLING_CLASSIFICATION": "OPEN"
+  },
+  "corrections": [
+    {
+      "id": "P8B-C01",
+      "topic": "CRIT-02 / CRIT-03 identifier swap",
+      "phase_8a_evidence": "ROOT_CAUSE.latest.md §10 lists CRIT-02 = WRAPPER_TRUTHFULNESS, CRIT-03 = TRANSIENT_ARTIFACT_ENOENT. ROOT_CAUSE.latest.md line 80-81 then states 'CRIT-02: not reproducible ... CRIT-03: wrapper exit code was misread ... RESOLVED'. The Phase 8A FINAL_REPORT.latest.md 'PHASE7_CORRECTIONS' table likewise lists P7C-05 wrapper-truthfulness and the status table rows. The Phase 7 ledger introduced these IDs and Phase 8A inherited them unchanged. The FINAL_REPORT body (line 22-23 and the PHASE7_CORRECTIONS table) preserves the same IDs.",
+      "anomaly": "No internal swap is present in the Phase 8A report set; the CRIT-02/CRIT-03 IDs are used consistently. The directive's authoritative mapping is preserved verbatim.",
+      "resolution": "Phase 8B carries the mapping forward without modification. CRIT-02 stays RESOLVED (wrapper truthfulness), CRIT-03 stays NOT_REPRODUCED (transient ENOENT). Phase 8B will not reopen CRIT-02 / CRIT-03 absent fresh unfiltered contrary evidence.",
+      "verdict": "ALIGNED_WITH_DIRECTIVE",
+      "no_rewrite_required": true
+    },
+    {
+      "id": "P8B-C02",
+      "topic": "Reproduction matrix count vs headline",
+      "phase_8a_evidence": "REPRODUCTION_MATRIX.latest.md final tally: 'Total runs in this matrix: 38'. FINAL_REPORT.latest.md line 69: 'order dependency reproduced: NO (38 runs, ...)'. VALIDATION.latest.md 'Determinism' section: 'Unexpected ENOENT: 0 (across all 38 runs)'.",
+      "anomaly": "None on totals. The '34 logical test units vs 38 command invocations' framing referenced by the directive arises because Sequence C contains 8 suites × 3 = 24 individual runs plus 1 combined run, plus Sequence A (3) plus Sequence B (3 cycles × 2 invocations = 6) plus verify:full (2) plus verify:ci (2). Counting each *jest invocation* as one: 3 + 6 + 24 + 1 + 2 + 2 = 38. Counting each *distinct suite* that ran in isolation once: 8 focused + 1 inventory + 1 api + 1 combined + 1 verify:full + 1 verify:ci + 1 evidence-check = ~14 distinct logical units. The '34' figure is not present in the Phase 8A report set.",
+      "resolution": "Phase 8B records the canonical number as 38 jest invocations / 14 logical test units. Phase 8A's published totals are preserved as-is.",
+      "verdict": "NO_CONTRADICTION_IN_PUBLISHED_ARTIFACTS",
+      "no_rewrite_required": true
+    },
+    {
+      "id": "P8B-C03",
+      "topic": "verify:ci full-run count",
+      "phase_8a_evidence": "VALIDATION.latest.md step 7: '`pnpm verify:ci` × 2 — DONE — Sequence D: 2/2 PASS'. REPRODUCTION_MATRIX.latest.md Sequence D table shows verify:ci #1 (158528ms) and verify:ci #2 (155068ms) both exit 0.",
+      "anomaly": "None. verify:ci ran twice end-to-end. Phase 8A's FINAL_REPORT line 68 says exactly that.",
+      "resolution": "Phase 8B confirms verify:ci ran twice in Phase 8A. Both runs returned exit 0. The 158.5s / 155.1s durations are real, unfiltered captures.",
+      "verdict": "ALIGNED",
+      "no_rewrite_required": true
+    },
+    {
+      "id": "P8B-C04",
+      "topic": "Independent vs transitive validation",
+      "phase_8a_evidence": "VALIDATION.latest.md step 8: 'typecheck — `pnpm typecheck` is a step in `verify:quick` which is a step in `verify:full`. Both verify:full runs returned 0, hence typecheck returned 0.' Step 9: 'pnpm build — same pattern'. Step 10: 'apply-all-current-evidence.mjs --check — last step in verify:ci'. The phase therefore shows transitive coverage but does NOT show the individual commands invoked on their own.",
+      "anomaly": "Phase 8A did not run `pnpm typecheck`, `pnpm build`, or `node scripts/audit/apply-all-current-evidence.mjs --check` as standalone commands; they were only invoked transitively through verify:full / verify:ci. VALIDATION.md is honest about this. FINAL_REPORT.latest.md does not separately restate the distinction.",
+      "resolution": "Phase 8B records that Phase 8A's per-step validation was transitive, not direct, for typecheck / build / evidence-check. Phase 8B Stage 12 will run each validation command individually to close that gap. No rewrite of Phase 8A.",
+      "verdict": "TRANSITIVE_COVERAGE_CONFIRMED_PHASE_8B_WILL_RUN_INDIVIDUALLY",
+      "no_rewrite_required": true
+    },
+    {
+      "id": "P8B-C05",
+      "topic": "External evidence-consumer race classification",
+      "phase_8a_evidence": "ROOT_CAUSE.latest.md §'Plausible-but-not-tested' lists U-1 (concurrent apply-all-current-evidence.mjs racing pnpm test:api) as a hypothesis that was not constructed in Phase 8A. TRANSIENT_ARTIFACT_GRAPH.latest.md §7 explicitly says 'the Phase 7 ENOENT was a symptom of the filtered/aborted pipe capturing the wrong exit code combined with a concurrent evidence-apply invocation from a different terminal.' FINAL_REPORT.latest.md PHASE_8B_READINESS treats the race as still-open observational risk.",
+      "anomaly": "Phase 8A flags U-1 as plausible-but-not-tested, not confirmed. Phase 8A's report wording at TRANSIENT_ARTIFACT_GRAPH §7 says the Phase 7 capture 'was likely an artifact of a concurrent evidence-apply run' — that wording softens to 'likely', which is consistent with UNCONFIRMED. The FINAL_REPORT PHASE_8B_READINESS names U-1 as observational risk.",
+      "resolution": "Phase 8B classifies U-1 explicitly as UNCONFIRMED (not confirmed). Phase 8B does not intentionally create the race. Phase 8B Stage 10 evidence-idempotence will exercise apply-mode in a disposable workspace and capture byte-identical proof, which is independent of the race hypothesis.",
+      "verdict": "ALIGNED_AS_UNCONFIRMED",
+      "no_rewrite_required": true
+    },
+    {
+      "id": "P8B-C06",
+      "topic": "ROOT_CAUSE.md vs FINAL_REPORT.latest.md text contradiction",
+      "phase_8a_evidence": "ROOT_CAUSE.latest.md §10: 'CRIT-02: not reproducible ... CRIT-03: wrapper exit code was misread ... RESOLVED'. FINAL_REPORT.latest.md disposition: 'CRIT-02 ... RESOLVED', 'CRIT-03 ... NOT_REPRODUCED'.",
+      "anomaly": "ROOT_CAUSE.md §10 reuses the Phase 7 numbered language 'CRIT-02 ... CRIT-03 ...' in the Recommendation paragraph without restating the Phase 8A Phase-7-ID-to-defect mapping from §8 PHASE7_CORRECTIONS. Reading ROOT_CAUSE §10 in isolation appears to swap the IDs (CRIT-02 described as ENOENT, CRIT-03 as wrapper). FINAL_REPORT.latest.md does the same in its Recommendation paragraph via the PHASE7_CORRECTIONS table; the table itself shows P7C-05 wrapper and the body text 'CRIT-02 ... RESOLVED ... CRIT-03 ... NOT_REPRODUCED'.",
+      "resolution": "The root authority for ID-to-defect mapping is the Phase 7 ledger and the directive's authoritative assignments: CRIT-02 = WRAPPER_TRUTHFULNESS (RESOLVED), CRIT-03 = TRANSIENT_ARTIFACT_ENOENT (NOT_REPRODUCED_IN_PHASE_8A_CONDITIONS). Phase 8B adopts that mapping verbatim and will not reopen either ID absent fresh unfiltered contrary evidence.",
+      "verdict": "PHASE_8B_PRESERVES_AUTHORITATIVE_MAPPING",
+      "no_rewrite_required": true
+    }
+  ],
+  "summary": "Phase 8A's reported numbers are internally consistent at 38 jest invocations / 14 logical test units. verify:ci ran twice end-to-end. Per-step typecheck / build / evidence-check were covered transitively; Phase 8B will run them individually. CRIT-02 and CRIT-03 preserve the Phase 7 ID-to-defect mapping and Phase 8A dispositions (RESOLVED / NOT_REPRODUCED). U-1 concurrent evidence-apply race is classified as UNCONFIRMED. No Phase 8A files are rewritten by this closeout."
+}

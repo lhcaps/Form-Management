@@ -1,0 +1,103 @@
+{
+  "phase": "8A",
+  "stage": "1 — Phase 7 corrections ledger (additive)",
+  "capturedAt": "2026-07-10T23:58:00+07:00",
+  "policy": "Additive — does not overwrite any Phase 7 or Codex report under docs/audit/infrastructure-modernization/post-codex-independent-audit/ or docs/audit/infrastructure-modernization/.",
+  "corrections": [
+    {
+      "id": "P7C-01",
+      "status": "CORRECTED",
+      "claimInPhase7": "32 API + 3 Web = 35 form-studio deleted files.",
+      "evidence": "`git diff --name-status -- 'apps/*form-studio*' 'apps/api/src/modules/form-studio/*'` enumerated against HEAD. Final count = 29 API + 3 Web = 32 deleted. The previous Phase 7 narrative split '32 API + 3 Web' (which equals 35) and merged with another count. The actual diff reports 32 deleted paths total (29 API + 3 Web).",
+      "verification": {
+        "apiDeleted": 29,
+        "webDeleted": 3,
+        "totalDeleted": 32,
+        "additionalModified": 1,
+        "additionalModifiedPath": "apps/web/src/lib/form-studio-api.ts",
+        "command": "git diff --name-status"
+      }
+    },
+    {
+      "id": "P7C-02",
+      "status": "CONFIRMED",
+      "claimInPhase7": "apps/web/src/lib/form-studio-api.ts is modified, not deleted.",
+      "evidence": "`git diff --name-status` shows `M\tapps/web/src/lib/form-studio-api.ts`; the file exists as a compatibility shim that delegates to `contract-platform-api` (verified by reading it and by `form-studio-retirement-guard.test.ts`).",
+      "verification": {
+        "path": "apps/web/src/lib/form-studio-api.ts",
+        "gitStatus": "M",
+        "currentRole": "compatibility shim delegating to contract-platform-api"
+      }
+    },
+    {
+      "id": "P7C-03",
+      "status": "PROVENANCE_UNKNOWN → MIXED_CHANGE (evidence upgrade)",
+      "claimInPhase7": "Codex deleted the form-studio files during the infrastructure phase.",
+      "evidence": "`git log --all --oneline -- 'apps/api/src/modules/form-studio/form-studio.module.ts'` shows the last modification predates the Codex phase. Specifically, the module rename / feature retirement was completed across commits `1cff7035 feat(form-studio): add contract platform v2`, `1206fec8 feat(forms): enable unified 213-form authoring`, and `4229df14 feat(documents): expose generated document form schema endpoint` — all pre-Codex. The current working tree is dirty by user-authored studies BEFORE Codex began. Therefore the current diff only shows deletion vs HEAD; it does not prove who deleted them. The deletions are a feature-rename consequence (`form-studio/` → `contract-platform/` + retirement of customer-facing authoring UI).",
+      "verification": {
+        "oldestMatchingCommit": "1cff7035",
+        "contextBranch": "audit/bm006-visual-fidelity-evidence",
+        "currentHead": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+        "retirementGuardTest": "apps/api/src/modules/contract-platform/contract-platform-retirement.guard.test.ts",
+        "webRetirementGuardTest": "apps/web/src/lib/form-studio-retirement-guard.test.ts"
+      }
+    },
+    {
+      "id": "P7C-04",
+      "status": "CORRECTED",
+      "claimInPhase7": "Form-studio deletion contradicts C-015 protected-artifact preservation.",
+      "evidence": "C-015 protects **canonical 213 lock matrix, source/normalized DOCX, locked contracts, compiled contracts, schema, migrations**. Form-studio TS source is application code, not a protected artifact. The two retirement guard tests prove this deletion is intentional and preserved as the desired end state. **C-015 is not directly contradicted.**",
+      "verification": {
+        "protectedArtifacts": [
+          "docs/audit/unified-bm-workspace/QLLAW_213_FORM_INPUT_STATUS_MATRIX.latest.{json,md}",
+          "storage/templates/normalized-docx/** (213 files)",
+          "docs/audit/docx/contracts/locked/**",
+          "packages/form-contracts/dist/index.js,dist/browser.js",
+          "apps/api/prisma/schema.prisma",
+          "apps/api/prisma/migrations/**"
+        ],
+        "formStudioCategory": "application TS/TSX source (not a protected artifact)"
+      }
+    },
+    {
+      "id": "P7C-05",
+      "status": "CORRECTED",
+      "claimInPhase7": "`verify:ci` exit 0 was misleading; `&&` chain did not propagate `verify:full` failure.",
+      "evidence": "Captured terminal evidence from the wrapper truthfulness audit used `Select-String -Pattern 'PASS|FAIL|...' | Select-Object -First 30` — i.e., the wrapper was pipe-grepped with a 30-line truncation. The pipeline's exit code `4294967295` is **not** the wrapper's exit code; it is the Windows abort code from `Select-Object -First 30` truncating the pipe's stdout, which closes the upstream `pnpm verify:ci` stream and causes the wrapper to receive `SIGPIPE` (Windows abort). This is invalid evidence for the wrapper's exit code.",
+      "verification": {
+        "abortExitCode": "4294967295 (0xFFFFFFFF) — Windows abort / SIGPIPE propagation",
+        "validApproaches": "Read full stdout/stderr via direct file redirection (`>` / `2>&1`), inspect `$LASTEXITCODE` for the wrapper, never truncate the pipe early.",
+        "policy": "Conclusively, until an unfiltered run is captured end-to-end, the wrapper's actual exit code is UNKNOWN and the previous Phase 7 claim is not supported."
+      }
+    },
+    {
+      "id": "P7C-06",
+      "status": "HYPOTHESIS (was treated as CONFIRMED)",
+      "claimInPhase7": "`pnpm audit:docx-slot-inventory` is the root cause of the `verify:full` ENOENT.",
+      "evidence": "Verified by direct read of `scripts/audit/audit-docx-slot-inventory.mjs`: this script writes ONLY to `docs/audit/docx-slot-inventory/latest.{json,md}`. It does NOT touch `tmpdir()`, `qllaw-*`, the normalized DOCX directory, or any shadow render path. The three failing suites (`representative-bms-render.spec.ts`, `docxtemplater-contract-render-engine-style-profile.spec.ts`, `docx-inspection-rendered-preservation.spec.ts`) use **fixed `join(tmpdir(), 'qllaw-...')` paths** and run `rmSync(OUTPUT_ROOT, { force: true, recursive: true })` in `beforeAll`/`beforeEach`/`afterAll`. The reproducibility matrix in Stage 5 will test whether the inventory step is actually necessary or sufficient to trigger failure.",
+      "verification": {
+        "scriptWritesOnlyTo": "docs/audit/docx-slot-inventory/latest.{json,md}",
+        "actualSharedTempPaths": [
+          "qllaw-e2-render-six-bms",
+          "qllaw-pr6g4-style-profile-bm001",
+          "qllaw-pr6g4-style-profile-nobm",
+          "qllaw-pr6g1-rendered-preservation"
+        ]
+      }
+    },
+    {
+      "id": "P7C-07",
+      "status": "CORRECTED",
+      "claimInPhase7": "Test-integrity conclusions apply uniformly to all 15 UNKNOWN web tests.",
+      "evidence": "Per scope honesty, Phase 8A only draws TEST_INTEGRITY conclusions for files Phase 8A opened in this phase. Status UNKNOWN in Phase 7 is preserved for the 15 web-side test files Phase 8A did not independently inspect line-by-line.",
+      "verification": {
+        "preservedUntestedSet": [
+          "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts",
+          "apps/web/src/lib/form-flight/adapters/*.ts",
+          "apps/web/src/lib/form-flight/profiles/bm001.ts",
+          "apps/web/src/lib/form-flight/profiles/bm171.ts"
+        ]
+      }
+    }
+  ]
+}

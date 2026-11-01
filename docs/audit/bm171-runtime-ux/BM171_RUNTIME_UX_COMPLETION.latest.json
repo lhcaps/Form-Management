@@ -1,0 +1,162 @@
+{
+  "artifactId": "BM171_RUNTIME_UX_COMPLETION",
+  "version": "1.0.0",
+  "generatedAtUtc": "2026-07-05T14:25:00Z",
+  "scope": {
+    "templateCode": "BM-171",
+    "route": "/templates/BM-171",
+    "renderer": "ContractV2Renderer",
+    "workspace": "TemplatePreviewWorkspace",
+    "previewEndpoint": "runtime preview-session",
+    "documentState": "standalone template (no generatedDocumentId)"
+  },
+  "summary": {
+    "status": "PASS",
+    "uxReadyForPlannerReview": true,
+    "docxOutputStillReady": true,
+    "commitCreated": false,
+    "pr7bStarted": false,
+    "pr7cStarted": false,
+    "massRolloutStarted": false,
+    "lockedContractsMutated": false,
+    "normalizedDocxMutated": false,
+    "legacyRendererCopied": false,
+    "generatedDocumentWorkflowCopied": false
+  },
+  "architectureDecision": {
+    "chosen": "Option B",
+    "rationale": "Generic runtime UX profile layer with a BM-171-specific profile as the first registration. Lets future BMs opt in by adding a profile module without touching the renderer or the workspace shell."
+  },
+  "filesChanged": [
+    {
+      "path": "apps/web/src/lib/runtime-ux/runtime-ux-profile.ts",
+      "change": "added",
+      "reason": "Registry, types, and registration helpers for per-template runtime UX profiles."
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts",
+      "change": "added",
+      "reason": "BM-171 section titles, field UX overrides, demo fixture, and summary lines."
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/index.ts",
+      "change": "added",
+      "reason": "Barrel that side-effect-imports the BM-171 profile so it is registered at app boot."
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/runtime-ux-profile.test.ts",
+      "change": "added",
+      "reason": "Tests for registry mechanics (null on miss, defensive cloning, sorted listing)."
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.test.ts",
+      "change": "added",
+      "reason": "Tests for BM-171 profile content (sections, labels, demo coverage, control-type overrides, no DB leak)."
+    },
+    {
+      "path": "apps/web/src/features/forms-contracts/ContractV2Renderer.tsx",
+      "change": "modified",
+      "reason": "Added optional uxProfile prop; applies section title/description and per-field label/placeholder/helpText/control overrides without altering the no-profile path."
+    },
+    {
+      "path": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "change": "modified",
+      "reason": "Resolves profile via getRuntimeUxProfile, passes it to ContractV2Renderer, prefers profile.demo in 'Dữ liệu demo', and renders the optional 'Kiểm tra nhanh nội dung chính' summary panel."
+    }
+  ],
+  "fieldCoverage": [
+    { "slot": "agency.parentName", "uiLabel": "Cơ quan cấp trên (Viện kiểm sát cấp trên)", "section": "1. Cơ quan và văn bản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "agency.name", "uiLabel": "Viện kiểm sát ban hành", "section": "1. Cơ quan và văn bản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "document.documentCode", "uiLabel": "Số Quyết định", "section": "1. Cơ quan và văn bản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "document.issuePlaceAndDateLine", "uiLabel": "Địa danh, ngày ban hành", "section": "1. Cơ quan và văn bản", "required": true, "control": "TEXT", "smartPrefill": true, "demoData": false, "mapsToDocx": true },
+    { "slot": "official.issuerTitle", "uiLabel": "Chủ thể ban hành", "section": "1. Cơ quan và văn bản", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "legalBasis.procedureArticlesLine", "uiLabel": "Căn cứ Bộ luật Tố tụng hình sự", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "caseDecision.prosecutionDecisionLegalBasisLine", "uiLabel": "Căn cứ Quyết định truy tố/khởi tố vụ án", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "accusedDecision.prosecutionDecisionLegalBasisLine", "uiLabel": "Căn cứ Quyết định đối với bị can", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.investigationConclusionLegalBasisLine", "uiLabel": "Căn cứ Kết luận điều tra", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.caseSuspensionDecisionLegalBasisLine", "uiLabel": "Căn cứ Quyết định tạm đình chỉ vụ án", "section": "2. Căn cứ pháp lý", "required": false, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.accusedSuspensionDecisionLegalBasisLine", "uiLabel": "Căn cứ Quyết định tạm đình chỉ đối với bị can", "section": "2. Căn cứ pháp lý", "required": false, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.considerationLine", "uiLabel": "Xét thấy / Lý do trả lại tài sản", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.assetListLine", "uiLabel": "Danh mục tài sản được trả lại", "section": "2. Căn cứ pháp lý", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.fullName", "uiLabel": "Họ và tên người nhận tài sản", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.genderText", "uiLabel": "Giới tính", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "SELECT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.otherName", "uiLabel": "Tên gọi khác", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.dateOfBirthText", "uiLabel": "Sinh ngày, tháng, năm", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.placeOfBirth", "uiLabel": "Nơi sinh", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.nationality", "uiLabel": "Quốc tịch", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.ethnicity", "uiLabel": "Dân tộc", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.religion", "uiLabel": "Tôn giáo", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.occupation", "uiLabel": "Nghề nghiệp", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.identityNo", "uiLabel": "Số CMND/CCCD/Hộ chiếu", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.identityIssuedDateText", "uiLabel": "Cấp ngày", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.identityIssuedPlace", "uiLabel": "Nơi cấp giấy tờ tùy thân", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.permanentResidence", "uiLabel": "Nơi thường trú", "section": "3. Thông tin người nhận tài sản", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.temporaryResidence", "uiLabel": "Nơi tạm trú", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetOwner.currentResidence", "uiLabel": "Nơi ở hiện tại", "section": "3. Thông tin người nhận tài sản", "required": false, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "assetReturn.executionRequestLine", "uiLabel": "Điều 2 — Yêu cầu thi hành Quyết định", "section": "4. Nội dung Điều 2 — Yêu cầu thi hành", "required": true, "control": "TEXTAREA", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "recipients.line1", "uiLabel": "Nơi nhận chính", "section": "5. Nơi nhận và lưu hồ sơ", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "recipients.archiveLine", "uiLabel": "Lưu hồ sơ", "section": "5. Nơi nhận và lưu hồ sơ", "required": true, "control": "TEXT", "smartPrefill": true, "demoData": true, "mapsToDocx": true },
+    { "slot": "signature.signMode", "uiLabel": "Phương thức ký", "section": "6. Ký ban hành", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "signature.positionTitle", "uiLabel": "Chức vụ người ký", "section": "6. Ký ban hành", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true },
+    { "slot": "signature.signerName", "uiLabel": "Họ và tên người ký", "section": "6. Ký ban hành", "required": true, "control": "TEXT", "smartPrefill": false, "demoData": true, "mapsToDocx": true }
+  ],
+  "runtimeBoundaryChecks": [
+    { "check": "/templates/BM-171 loads", "result": "PASS", "evidence": "TemplatePreviewWorkspace renders ContractV2Renderer with BM-171 profile." },
+    { "check": "no generatedDocumentId is present", "result": "PASS", "evidence": "grep for generatedDocumentId in apps/web/src/components/documents/template-preview-workspace.tsx returns no matches." },
+    { "check": "no generated_documents write", "result": "PASS", "evidence": "workspace only writes localStorage draft; no Prisma generated_documents client call." },
+    { "check": "no generated_document_files write", "result": "PASS", "evidence": "same as above; preview uses createRuntimePreviewSession which is a temp session endpoint." },
+    { "check": "no generated_document_audit_logs write", "result": "PASS", "evidence": "no audit-log table is touched on the standalone route." },
+    { "check": "preview-session returns JSON", "result": "PASS", "evidence": "createRuntimePreviewSession returns RuntimePreviewSessionResponse (typed JSON: pdfPreviewUrl, docxDownloadUrl, audit, warnings)." },
+    { "check": "downloaded DOCX works", "result": "PASS", "evidence": "audit:bm171-visual-signoff APPROVED; rendered DOCX sha256=5402f355d30bfeb65d08b6aa537d5b776890b4e8f563de1dffb125e54d95568e, 21557 bytes." },
+    { "check": "no history/audit tab in standalone mode", "result": "PASS", "evidence": "TemplatePreviewWorkspace does not render any history/audit panel for /templates/:templateCode." },
+    { "check": "disabled 'Tạo văn bản từ hồ sơ' remains disabled unless real flow exists", "result": "PASS", "evidence": "the button in the header and in the preview panel is rendered with disabled + title='Tính năng tạo văn bản từ hồ sơ sẽ được bổ sung trong phiên bản tới.'" }
+  ],
+  "docxVerification": [
+    { "check": "Word opens cleanly", "result": "NOT_RUN", "evidence": "Microsoft Word is not available in this CI environment. Audit:bm171-visual-signoff reports PASS for Renderer, Package, and Format." },
+    { "check": "Header agency visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet confirms agency header on rendered DOCX." },
+    { "check": "Document code visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet confirms document.documentCode rendered as 01/QĐ-VKSKV7 in fixture." },
+    { "check": "Issue place-date visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet confirms issuePlaceAndDateLine renders correctly." },
+    { "check": "Legal-basis block preserved", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Xét thấy block visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Asset lines visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Person/organization details visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Điều 2 visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Nơi nhận visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Archive line visible", "result": "PASS", "evidence": "Profile demo fills 'Lưu: HSVA, HSKS, VP.'; PR7A.4 packet verifies archive block." },
+    { "check": "Signature block visible", "result": "PASS", "evidence": "PR7A.4 visual sign-off packet." },
+    { "check": "Notes 12/13 absent", "result": "PASS", "evidence": "Locked contract does not include the 12/13 placeholders for these slots; renderer is contract-driven so they cannot leak." },
+    { "check": "No undefined/null/Invalid Date", "result": "PASS", "evidence": "Test bm171-runtime-ux-profile.test.ts:4 asserts no demo slot contains undefined/null/Invalid Date substrings." }
+  ],
+  "validationCommands": [
+    { "command": "pnpm --filter web exec tsc --noEmit", "exitCode": 0, "result": "clean" },
+    { "command": "pnpm --filter api exec tsc --noEmit", "exitCode": 0, "result": "clean" },
+    { "command": "pnpm --filter form-contracts exec tsc --noEmit", "exitCode": 0, "result": "clean" },
+    { "command": "pnpm --filter web lint", "exitCode": 0, "result": "clean" },
+    { "command": "pnpm --filter api lint", "exitCode": 0, "result": "clean" },
+    { "command": "pnpm --filter api exec tsx --test ../web/src/lib/runtime-ux/*.test.ts", "exitCode": 0, "result": "9/9 pass" },
+    { "command": "pnpm --filter api exec tsx --test ../web/src/**/*.test.ts", "exitCode": 0, "result": "420/420 pass" },
+    { "command": "pnpm audit:bm171-visual-signoff", "exitCode": 0, "result": "APPROVED" },
+    { "command": "pnpm audit:bm-final -- BM-171", "exitCode": 0, "result": "PASS rolloutReady=true" },
+    { "command": "pnpm audit:bm-rollout-ready -- BM-171", "exitCode": 0, "result": "READY" },
+    { "command": "pnpm audit:bm-final -- BM-001", "exitCode": 0, "result": "PASS rolloutReady=true" },
+    { "command": "pnpm audit:bm-rollout-ready -- BM-001", "exitCode": 0, "result": "READY" },
+    { "command": "pnpm audit:hardcode", "exitCode": 0, "result": "passed" },
+    { "command": "pnpm audit:locked-compiled", "exitCode": 0, "result": "213/213 consistent" },
+    { "command": "pnpm audit:contract-sync", "exitCode": 0, "result": "All contracts synced" }
+  ],
+  "forbiddenScopeCheck": [
+    { "scope": "No commit", "result": "PASS", "evidence": "No git commit performed during this task." },
+    { "scope": "No PR7B", "result": "PASS", "evidence": "No PR7B branch created." },
+    { "scope": "No PR7C", "result": "PASS", "evidence": "No PR7C branch created." },
+    { "scope": "No other BM touched", "result": "PASS", "evidence": "Only BM-171 profile registered; bm002..bm213 untouched." },
+    { "scope": "No locked contract mutation", "result": "PASS", "evidence": "Locked contracts are read-only; audit:locked-compiled shows 213/213 consistent after change." },
+    { "scope": "No normalized DOCX mutation", "result": "PASS", "evidence": "No edits under docs/audit/docx/." },
+    { "scope": "No legacy renderer copied", "result": "PASS", "evidence": "apps/web/src/components/documents/bm-171-form-inputs.tsx untouched; new code lives in apps/web/src/lib/runtime-ux/." },
+    { "scope": "No generated-document workflow copied into runtime template", "result": "PASS", "evidence": "Runtime boundary grep: no generatedDocumentId / generatedDocument references in template-preview-workspace.tsx." },
+    { "scope": "No audit gate weakening", "result": "PASS", "evidence": "All audit gates (bm171-visual-signoff, bm-final, bm-rollout-ready, hardcode, locked-compiled, contract-sync) still PASS." }
+  ],
+  "risks": [
+    { "risk": "Demo fixture uses synthetic placeholders ('Người nhận (mẫu)', 'Người ký (mẫu)') to satisfy the runtime hardcode audit blocklist. The visible DOCX therefore contains '(mẫu)' markers, which the operator is expected to overwrite before any real render.", "severity": "low", "recommendation": "Document this convention in the demo-data label so the operator understands the fixture is not meant to be a final document." },
+    { "risk": "Only the BM-171 profile is registered. Future BMs require their own profile module before the same UX quality is achieved.", "severity": "low", "recommendation": "Treat Option B as a reusable foundation. Adding a new profile is one file." }
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "index": 1,
+    "migration": "20260616000000_add_officials_role",
+    "container": "phase8b-20260711-0135-mig1-20260616000000addofficialsrole",
+    "volume": "phase8b-20260711-0135-mig1-vol",
+    "init_exit": 0,
+    "target_exit": 1,
+    "target_error_code": null,
+    "target_error_message": "-------------- | ALTER TABLE officials |   ADD COLUMN role VARCHAR(20) NOT NULL DEFAULT 'OFFICIAL'",
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "UNKNOWN",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig1-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig1-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 2,
+    "migration": "20260616005000_create_auth_sessions",
+    "container": "phase8b-20260711-0135-mig2-20260616005000createauthsessions",
+    "volume": "phase8b-20260711-0135-mig2-vol",
+    "init_exit": 0,
+    "target_exit": 0,
+    "target_error_code": null,
+    "target_error_message": null,
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "VALID_AFTER_INIT",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig2-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig2-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 3,
+    "migration": "20260616010000_add_official_credentials",
+    "container": "phase8b-20260711-0135-mig3-20260616010000addofficialcredentials",
+    "volume": "phase8b-20260711-0135-mig3-vol",
+    "init_exit": 0,
+    "target_exit": 1,
+    "target_error_code": null,
+    "target_error_message": "-------------- | ALTER TABLE officials |   ADD COLUMN username VARCHAR(100) NULL AFTER full_name,",
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "UNKNOWN",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig3-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig3-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 4,
+    "migration": "20260616020000_add_template_owner_official",
+    "container": "phase8b-20260711-0135-mig4-20260616020000addtemplateowneroffici",
+    "volume": "phase8b-20260711-0135-mig4-vol",
+    "init_exit": 0,
+    "target_exit": 1,
+    "target_error_code": null,
+    "target_error_message": "-------------- | ALTER TABLE templates |   ADD COLUMN created_by_official_id BIGINT UNSIGNED NULL AFTER is_active",
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "UNKNOWN",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig4-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig4-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 5,
+    "migration": "20260616_add_auth_sessions",
+    "container": "phase8b-20260711-0135-mig5-20260616addauthsessions",
+    "volume": "phase8b-20260711-0135-mig5-vol",
+    "init_exit": 0,
+    "target_exit": 0,
+    "target_error_code": null,
+    "target_error_message": null,
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "VALID_AFTER_INIT",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig5-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig5-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 6,
+    "migration": "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+    "container": "phase8b-20260711-0135-mig6-20260617010000addsoftdeletetocaseoff",
+    "volume": "phase8b-20260711-0135-mig6-vol",
+    "init_exit": 0,
+    "target_exit": 1,
+    "target_error_code": null,
+    "target_error_message": "-------------- | ALTER TABLE case_offenses |   ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT FALSE,",
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "UNKNOWN",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig6-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig6-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 7,
+    "migration": "20260617110000_fix_vietnamese_column_defaults",
+    "container": "phase8b-20260711-0135-mig7-20260617110000fixvietnamesecolumndef",
+    "volume": "phase8b-20260711-0135-mig7-vol",
+    "init_exit": 0,
+    "target_exit": 0,
+    "target_error_code": null,
+    "target_error_message": null,
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "VALID_AFTER_INIT",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig7-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig7-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 8,
+    "migration": "20260620150000_add_form_contract_platform_v2",
+    "container": "phase8b-20260711-0135-mig8-20260620150000addformcontractplatfor",
+    "volume": "phase8b-20260711-0135-mig8-vol",
+    "init_exit": 0,
+    "target_exit": 0,
+    "target_error_code": null,
+    "target_error_message": null,
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "VALID_AFTER_INIT",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig8-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig8-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 9,
+    "migration": "20260620170000_enforce_form_contract_scope_uniqueness",
+    "container": "phase8b-20260711-0135-mig9-20260620170000enforceformcontractsco",
+    "volume": "phase8b-20260711-0135-mig9-vol",
+    "init_exit": 0,
+    "target_exit": 1,
+    "target_error_code": null,
+    "target_error_message": "-------------- | ALTER TABLE `form_contract_versions` |   ADD COLUMN `scope_key` VARCHAR(64) NOT NULL DEFAULT 'GLOBAL' AFTER `agency_id`",
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "UNKNOWN",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig9-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig9-target.log"
+    },
+    "boot_healthy": true
+  },
+  {
+    "index": 10,
+    "migration": "20260622000000_add_clerk_auth_identities",
+    "container": "phase8b-20260711-0135-mig10-20260622000000addclerkauthidentitie",
+    "volume": "phase8b-20260711-0135-mig10-vol",
+    "init_exit": 0,
+    "target_exit": 0,
+    "target_error_code": null,
+    "target_error_message": null,
+    "duplicate_or_conflict": null,
+    "guarded": false,
+    "verdict": "VALID_AFTER_INIT",
+    "logs": {
+      "init": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig10-init.log",
+      "target": "d:\\Study\\Project\\QLLaw-main\\docs\\audit\\infrastructure-modernization\\phase-8b-production-verification\\logs\\stage4a-replay\\mig10-target.log"
+    },
+    "boot_healthy": true
+  }
+]

@@ -1,0 +1,306 @@
+﻿Ôùç injected env (6) from .env.e2e.local // tip: Ôîÿ custom filepath { path: '/custom/path/.env' }
+Ôùç injected env (0) from .env.local // tip: Ôîÿ multiple files { path: ['.env.local', '.env'] }
+Ôùç injected env (37) from .env // tip: Ôîÿ suppress logs { quiet: true }
+{
+  "config": {
+    "argv": [
+      "D:\\Node\\node.exe",
+      "D:\\Study\\Project\\QLLaw-main\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--project=authenticated chromium",
+      "tests/e2e/curated-37-demo-click.auth.spec.ts",
+      "-g",
+      "BM-048|BM-052|BM-053",
+      "--workers=1",
+      "--reporter=json"
+    ],
+    "configFile": "D:\\Study\\Project\\QLLaw-main\\playwright.config.ts",
+    "rootDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "clerk setup",
+        "name": "clerk setup",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/global\\.setup\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "authenticated chromium",
+        "name": "authenticated chromium",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.auth\\.spec\\.ts/"
+        ],
+        "timeout": 120000
+      },
+      {
+        "outputDir": "D:/Study/Project/QLLaw-main/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "D:/Study/Project/QLLaw-main/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/^(?!.*\\.auth\\.spec\\.ts).*$/"
+        ],
+        "timeout": 120000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "global.setup.ts",
+      "file": "global.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "create sign-in ticket for E2E user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "clerk setup",
+              "projectName": "clerk setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 964,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-07T20:56:53.474Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e4eb4d1272d956fb120f-664b4698782ea493f7e8",
+          "file": "global.setup.ts",
+          "line": 52,
+          "column": 6
+        },
+        {
+          "title": "authenticate via ticket and persist session state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "clerk setup",
+              "projectName": "clerk setup",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6157,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-07T20:56:54.460Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e4eb4d1272d956fb120f-d98358cc8b6749b95e90",
+          "file": "global.setup.ts",
+          "line": 62,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "curated-37-demo-click.auth.spec.ts",
+      "file": "curated-37-demo-click.auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Curated 37 ÔÇö authenticated demo-click smoke",
+          "file": "curated-37-demo-click.auth.spec.ts",
+          "line": 118,
+          "column": 6,
+          "specs": [
+            {
+              "title": "BM-048 demo click populates demo data and stays editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2005,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:57:01.018Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-347fc85bdd861f68150f",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            },
+            {
+              "title": "BM-052 demo click populates demo data and stays editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1957,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:57:03.097Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-04057175f905dc5fda85",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            },
+            {
+              "title": "BM-053 demo click populates demo data and stays editable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "authenticated chromium",
+                  "projectName": "authenticated chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2020,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-07T20:57:05.059Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d7494b0e993be2e9cdc9-75185fd65391aa24890f",
+              "file": "curated-37-demo-click.auth.spec.ts",
+              "line": 120,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-07T20:56:53.123Z",
+    "duration": 14008.222,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

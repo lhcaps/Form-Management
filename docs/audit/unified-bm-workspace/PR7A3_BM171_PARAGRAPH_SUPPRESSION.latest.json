@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1",
+  "phase": "PR7A.3",
+  "title": "BM-171 Paragraph Suppression + Layout Cleanup",
+  "generatedAt": "2026-07-05T09:53:00.000Z",
+  "branchScope": "BM-171 only",
+  "plannerDecision": {
+    "path": "B",
+    "pathLabel": "MUST_SUPPRESS",
+    "method": "scoped generic paragraph-drop rule (style-profile engine)",
+    "doNotMutateNormalizedDocx": true,
+    "doNotMutateLockedContract": true,
+    "doNotStartPR7B": true,
+    "doNotStartOtherBm": true,
+    "doNotFlipRolloutReady": true,
+    "doNotCreateManualApproval": true
+  },
+  "evidence": {
+    "engineWarnsAtRender": [
+      "[style-profile] part=document rule=bm171.drop_tail_between_archive_and_drafter_notes: dropped 37 empty paragraph(s) between anchor \"Lưu: HSVA, HSKS, VP.\" and \"12 Ghi cụ thể cơ quan\"",
+      "[style-profile] part=document rule=bm171.drop_legal_basis_blank_block: dropped 9 empty paragraph(s) between anchor \"TRẢ LẠI TÀI SẢN\" and \"QUYẾT ĐỊNH:\"",
+      "[style-profile] part=document rule=bm171.drop_drafter_note_12: dropped 1 paragraph (text=\"12 Ghi cụ thể cơ quan, người có thẩm quyền...\")",
+      "[style-profile] part=document rule=bm171.drop_drafter_note_13: dropped 1 paragraph (text=\"13 Ghi chức danh người ký\")"
+    ],
+    "renderedDocx": {
+      "sha256": "b7a22ce50db1f7f9360c50a67eb6344a8094b1d22e4dd77dcb618f0344260efb",
+      "bytes": 20263,
+      "semanticStatus": "warning",
+      "formatStatus": "warning",
+      "packageIntegrityStatus": "pass"
+    },
+    "normalizedDocxSha256": "bbfd0720691ed6ea85b106f2abbf6734e4297d4120a1e17c84d498f78ed623a2",
+    "normalizedDocxMutated": false,
+    "lockedContractMutated": false
+  },
+  "filesChanged": [
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/style-profile/docx-style-profile.types.ts",
+      "kind": "modified",
+      "reason": "Extend DocxStyleProfileRule union with paragraph-drop / dropEmptyParagraphsBetween / dropTrailingEmptyParagraphsBefore actions + DocxStyleProfileSafety type."
+    },
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/style-profile/docx-style-rule-engine.ts",
+      "kind": "modified",
+      "reason": "Implement paragraph-collection with superscript + empty flags, three drop pipelines, and an ordered drop-then-style dispatcher."
+    },
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/style-profile/index.ts",
+      "kind": "modified",
+      "reason": "Re-export the new types so BM-171 profile + tests can reference them with explicit type narrowing."
+    },
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/style-profile/bm171-style-profile.ts",
+      "kind": "modified",
+      "reason": "Add 4 BM-171-only drop rules (drop_drafter_note_12, drop_drafter_note_13, drop_tail_between_archive_and_drafter_notes, drop_legal_basis_blank_block) with requireSuperscriptPrefix + requireAnchorBeforeText + onlyIfAllEmpty + maxParagraphs guards."
+    },
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/style-profile/docx-style-rule-engine-drop.spec.ts",
+      "kind": "added",
+      "reason": "18 unit tests covering dropParagraph (text + requireSuperscriptPrefix + requireAnchorBeforeText), dropEmptyParagraphsBetween (anchors + onlyIfAllEmpty + maxParagraphs), dropTrailingEmptyParagraphsBefore, BM-171 profile shape, BM-001 no-spillover, combined pipeline."
+    },
+    {
+      "path": "apps/api/src/modules/documents/rendering/infrastructure/pr6g31-bm171-rendered-docx-parity.spec.ts",
+      "kind": "modified",
+      "reason": "Extend REQUIRED_ABSENT with notes 12/13 + add 6 dedicated PR7A.3 suppression assertions (notes absent, archive + noi-nhan preserved, paragraph count dropped, no body-level superscript runs)."
+    },
+    {
+      "path": "scripts/audit/build-bm171-visual-signoff-packet.mjs",
+      "kind": "modified",
+      "reason": "Add forbidden-drift checks for '12 Ghi cụ thể cơ quan' and '13 Ghi chức danh người ký'; packetStatus flips to BLOCKED_PACKET_INVALID if either leaks."
+    },
+    {
+      "path": "package.json",
+      "kind": "modified",
+      "reason": "Wire `audit:bm171-visual-signoff` script."
+    },
+    {
+      "path": "docs/audit/unified-bm-workspace/PR7A3_BM171_PARAGRAPH_SUPPRESSION.latest.md",
+      "kind": "added",
+      "reason": "PR7A.3 narrative report."
+    },
+    {
+      "path": "docs/audit/bm-visual-signoff/BM-171/visual-signoff.latest.{json,md}",
+      "kind": "regenerated",
+      "reason": "Rebuilt by `pnpm run audit:bm171-visual-signoff`. packetStatus = READY_FOR_HUMAN_VISUAL_REVIEW, 24 AUTO_OK / 0 FAIL / 12 NEEDS_HUMAN / 0 UNVERIFIED."
+    },
+    {
+      "path": "docs/audit/bm-visual-signoff/BM-171/rendered.latest.docx",
+      "kind": "regenerated",
+      "reason": "Rebuilt by `pnpm run audit:bm171-visual-signoff`. Notes 12/13 absent; 37 + 9 empty paragraphs removed; 4 suppression rules applied."
+    },
+    {
+      "path": "docs/audit/bm-final/BM-171/final.latest.{json,md}",
+      "kind": "regenerated",
+      "reason": "Rebuilt by `pnpm audit:bm-final -- BM-171`."
+    },
+    {
+      "path": "docs/audit/bm-rollout/BM-171/readiness.latest.{json,md}",
+      "kind": "regenerated",
+      "reason": "Rebuilt by `pnpm audit:bm-rollout-ready -- BM-171`. status=BLOCKED_MANUAL_REVIEW technicalReady=true rolloutReady=false."
+    },
+    {
+      "path": "docs/audit/sot-gates-v1/latest.{json,md}",
+      "kind": "regenerated",
+      "reason": "Rebuilt by `pnpm audit:locked-compiled`. 213/213 consistent."
+    }
+  ],
+  "acceptance": {
+    "notesAbsent": true,
+    "notesAbsentProof": [
+      "Engine WARN logs above",
+      "pr6g31-bm171-rendered-docx-parity.spec.ts: 'drafter note 12 absent' + 'drafter note 13 absent' + REQUIRED_ABSENT loop entries",
+      "build-bm171-visual-signoff-packet.mjs: required-absent-9 + required-absent-10 both AUTO_OK",
+      "No <w:vertAlign w:val=\"superscript\"/> runs in body (pr6g31-bm171 spec belt-and-braces assertion)"
+    ],
+    "normalizedDocxMutation": false,
+    "lockedContractMutation": false,
+    "bm001Ready": true,
+    "bm171BlockedOnlyByVisualSignoff": true,
+    "bm171PacketAutoFailCount": 0,
+    "otherBmsTouched": false
+  },
+  "validation": {
+    "tscApi": "exit 0",
+    "tscWeb": "exit 0",
+    "tscFormContracts": "exit 0",
+    "jestFiltered": {
+      "testSuites": 11,
+      "testSuitesPassed": 11,
+      "tests": 170,
+      "testsPassed": 170
+    },
+    "auditBmFinalBm171": "status=MANUAL_REQUIRED rolloutReady=false",
+    "auditBmRolloutReadyBm171": "status=BLOCKED_MANUAL_REVIEW technicalReady=true rolloutReady=false",
+    "auditBmFinalBm001": "status=PASS harnessReady=true rolloutReady=true",
+    "auditBmRolloutReadyBm001": "status=READY technicalReady=true manualReviewRequired=false rolloutReady=true",
+    "auditHardcode": "Runtime hardcode audit passed.",
+    "auditLockedCompiled": "213/213 consistent, EXIT 0",
+    "auditContractSync": "213 matched, 0 missing, 0 stale — PASSED",
+    "auditBm001VisualSignoff": "READY_FOR_HUMAN_VISUAL_REVIEW, 22/0/8/0",
+    "auditBm171VisualSignoff": "READY_FOR_HUMAN_VISUAL_REVIEW, 24/0/12/0",
+    "secretGrepChangedPaths": "clean"
+  },
+  "status": "COMPLETE_READY_FOR_PLANNER_REVIEW_YES"
+}

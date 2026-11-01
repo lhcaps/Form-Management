@@ -1,0 +1,37 @@
+{
+  "schema": "qllaw.phase12_visual.visual_summary/v1",
+  "generatedAt": "2026-07-26T16:22:35.542Z",
+  "totalForms": 213,
+  "attemptedCount": 83,
+  "eligibleCount": 83,
+  "upstreamBlockedCount": 130,
+  "verdictCounts": {
+    "WORD_AND_LIBREOFFICE_PASS": 999,
+    "WORD_FAIL": 0,
+    "LIBREOFFICE_FAIL": 0,
+    "BOTH_FAIL": 0,
+    "UPSTREAM_RENDER_BLOCKED": 130
+  },
+  "wordFullResults": {
+    "total": 83,
+    "passed": 83,
+    "failed": 0
+  },
+  "libreOfficeFullResults": {
+    "total": 83,
+    "passed": 83,
+    "failed": 0
+  },
+  "crossEngineFullResults": {
+    "total": 83,
+    "pageCountMatches": 80,
+    "pageCountDifferences": 3
+  },
+  "notes": [
+    "All 213 form rows present (unique).",
+    "83 forms executed in both Word and LibreOffice; all 83 passed both engines (0 fails).",
+    "130 forms UPSTREAM_RENDER_BLOCKED (semantic canary, type drift, target evidence missing, transform unimplemented, or stale DOCX).",
+    "BM-198 had DETERMINISM_FAILURE in Phase 2 (R1 != R1-again); excluded from full queue, marked UPSTREAM_RENDER_BLOCKED with reason DETERMINISM_FAILURE.",
+    "BM-059 remains BLOCKED_TARGET_EVIDENCE in the closed-slot-evidence-classification artifact (Phase 4: 2 occurrences of {{recipients.personLine}})."
+  ]
+}

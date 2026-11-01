@@ -8,9 +8,7 @@ import {
 } from "@/components/documents/bm-form";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import { useEffect, useMemo, useState } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type SectionName =
   | "agency"
@@ -583,90 +581,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm044FormInputs 
   });
 }
 
-async function getBm044RenderPayload(
-  documentId: string | number,
-): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-044. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm044FormInputs(
-  documentId: string | number,
-  form: Bm044FormInputs,
-): Promise<void> {
-  const syncedPayload = buildSyncedForm(form);
-
-  const includeJuvenileJusticeLine =
-    form.detentionReplacement.includeJuvenileJusticeLine === true;
-
-  const includeDetentionExtensionLegalBasis =
-    form.detentionReplacement.includeDetentionExtensionLegalBasis === true;
-
-  const savePayload: Bm044FormInputs = {
-    ...syncedPayload,
-    legalBasis: {
-      ...syncedPayload.legalBasis,
-      juvenileJusticeLine: includeJuvenileJusticeLine
-        ? syncedPayload.legalBasis.juvenileJusticeLine
-        : "",
-    },
-    detentionReplacement: {
-      ...syncedPayload.detentionReplacement,
-      includeJuvenileJusticeLine,
-      includeDetentionExtensionLegalBasis,
-      detentionExtensionLegalBasisLine: includeDetentionExtensionLegalBasis
-        ? syncedPayload.detentionReplacement.detentionExtensionLegalBasisLine
-        : "",
-    },
-  };
-
-  const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        updatedByName,
-
-        // Lưu snapshot đầy đủ.
-        formInputs: savePayload,
-
-        // Đồng bộ field nền để backend không kéo lại dữ liệu cũ.
-        person: {
-          fullName: savePayload.detentionReplacement.accusedName,
-        },
-        offense: {
-          offenseName: savePayload.detentionReplacement.offenseName,
-          legalArticle: savePayload.detentionReplacement.legalArticle,
-        },
-
-        // savePayload đã chứa legalBasis/detentionReplacement với false flags đúng.
-        ...savePayload,
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không lưu được dữ liệu BM-044. HTTP ${response.status}`);
-  }
-}
 
 function CheckboxInput({
   label,
@@ -812,7 +726,7 @@ export function Bm044FormInputsPanel({
       setSuccessMessage("");
 
       try {
-        const payload = await getBm044RenderPayload(documentId);
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
         const nextForm = normalizeFormInputs(payload);
 
         if (!isMounted) {
@@ -882,8 +796,49 @@ export function Bm044FormInputsPanel({
     setSuccessMessage("");
 
     try {
-      const savePayload = buildSyncedForm(form);
-      await saveBm044FormInputs(documentId, savePayload);
+      const syncedPayload = buildSyncedForm(form);
+
+      const includeJuvenileJusticeLine =
+        form.detentionReplacement.includeJuvenileJusticeLine === true;
+
+      const includeDetentionExtensionLegalBasis =
+        form.detentionReplacement.includeDetentionExtensionLegalBasis === true;
+
+      const savePayload: Bm044FormInputs = {
+        ...syncedPayload,
+        legalBasis: {
+          ...syncedPayload.legalBasis,
+          juvenileJusticeLine: includeJuvenileJusticeLine
+            ? syncedPayload.legalBasis.juvenileJusticeLine
+            : "",
+        },
+        detentionReplacement: {
+          ...syncedPayload.detentionReplacement,
+          includeJuvenileJusticeLine,
+          includeDetentionExtensionLegalBasis,
+          detentionExtensionLegalBasisLine: includeDetentionExtensionLegalBasis
+            ? syncedPayload.detentionReplacement.detentionExtensionLegalBasisLine
+            : "",
+        },
+      };
+
+      const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+
+        formInputs: savePayload,
+
+        person: {
+          fullName: savePayload.detentionReplacement.accusedName,
+        },
+        offense: {
+          offenseName: savePayload.detentionReplacement.offenseName,
+          legalArticle: savePayload.detentionReplacement.legalArticle,
+        },
+
+        ...savePayload,
+      });
 
       setForm(savePayload);
       setInitialSnapshot(JSON.stringify(savePayload));

@@ -1,0 +1,158 @@
+{
+  "documentId": "BM-171__46b9a8be4e01",
+  "templateCode": "BM-171",
+  "timestamp": "2026-07-05T19-13-36-059Z",
+  "renderPlan": {
+    "sourceId": "BM-171__46b9a8be4e01",
+    "contractStatus": "locked",
+    "fieldCount": 34,
+    "bindingCount": 34,
+    "missingRequiredCount": 0,
+    "warnings": []
+  },
+  "artifacts": {
+    "docx": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\contract.docx",
+    "semanticDiffJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\semantic-diff.json",
+    "semanticDiffMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\semantic-diff.md",
+    "formatAuditJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\format-audit.json",
+    "formatAuditMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\format-audit.md",
+    "packageIntegrityJson": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\package-integrity.json",
+    "packageIntegrityMd": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm171-visual-browser-signoff\\BM-171\\2026-07-05T19-13-36-059Z\\package-integrity.md"
+  },
+  "semanticComparison": {
+    "status": "fail",
+    "legacyTextLength": 1834,
+    "contractTextLength": 2345,
+    "missingExpectedText": [
+      "01/QĐ-VKSKV7",
+      "1. 01 chiếc xe máy Honda Wave RSX, biển số 59C1-123.45, màu đỏ-đen, năm sản xuất 2018, khung JL110E-1234567, máy JL110E-7654321;\n2. 01 sổ tiết kiệm Ngân hàng TMCP Ngoại thương Việt Nam, chi nhánh TP.HCM, số tài khoản 0011-2233-4455-66, số dư 12.500.000 đồng (Mười hai triệu năm trăm nghìn đồng);"
+    ],
+    "unexpectedUnresolvedPlaceholders": [],
+    "unexpectedLiteralValues": [],
+    "notes": [
+      "2 expected value(s) not found in contract output."
+    ]
+  },
+  "formatAudit": {
+    "status": "warning",
+    "checks": [
+      {
+        "id": "FMT-001",
+        "requirement": "Times New Roman size 13 baseline",
+        "status": "pass",
+        "evidence": "Times New Roman found; Normal style unavailable"
+      },
+      {
+        "id": "FMT-002",
+        "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+        "status": "pass",
+        "evidence": "Agency header found in document XML"
+      },
+      {
+        "id": "FMT-003",
+        "requirement": "Header: VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7 bold",
+        "status": "pass",
+        "evidence": "KHU VỰC 7 found; bold tag proximity: true"
+      },
+      {
+        "id": "FMT-004",
+        "requirement": "Underline under KHU VỰC 7 only (not full line)",
+        "status": "not_detectable",
+        "evidence": "Underline not detectable from OOXML proximity check"
+      },
+      {
+        "id": "FMT-005",
+        "requirement": "Legal basis line size 8 (w:sz val=16 in half-points)",
+        "status": "pass",
+        "evidence": "Legal basis line found; font size 8 proximity check"
+      },
+      {
+        "id": "FMT-006",
+        "requirement": "Quốc hiệu size 13",
+        "status": "pass",
+        "evidence": "National motto found in document XML"
+      },
+      {
+        "id": "FMT-007",
+        "requirement": "Độc lập - Tự do - Hạnh phúc size 14",
+        "status": "pass",
+        "evidence": "Motto found; size 14 (w:val=28) proximity check"
+      },
+      {
+        "id": "FMT-008",
+        "requirement": "Underline under motto matches exact line width",
+        "status": "not_detectable",
+        "evidence": "Underline not detectable from OOXML proximity check"
+      },
+      {
+        "id": "FMT-009",
+        "requirement": "Issue date line italic size 14",
+        "status": "pass",
+        "evidence": "Issue date pattern found in document XML"
+      },
+      {
+        "id": "FMT-010",
+        "requirement": "Số... line and ngày/tháng/năm line on same horizontal level",
+        "status": "not_detectable",
+        "evidence": "Số line found; horizontal alignment requires visual/PDF pipeline"
+      },
+      {
+        "id": "FMT-011",
+        "requirement": "Body titles / main title bold size 14",
+        "status": "pass",
+        "evidence": "Known title runs=2, bold14=true"
+      },
+      {
+        "id": "FMT-012",
+        "requirement": "Điều 1, Điều 2, or section headings 1., 2. bold",
+        "status": "pass",
+        "evidence": "2/7 Điều/section runs are bold"
+      },
+      {
+        "id": "FMT-013",
+        "requirement": "Footer: Nơi nhận: bold italic size 12",
+        "status": "not_detectable"
+      },
+      {
+        "id": "FMT-014",
+        "requirement": "Footer recipient lines size 11",
+        "status": "warning",
+        "evidence": "Nơi nhận paragraph found but no sz=22 in same paragraph"
+      },
+      {
+        "id": "FMT-015",
+        "requirement": "Signature title bold size 14; 2-3 lines between title and name",
+        "status": "pass",
+        "evidence": "2/2 signature title runs are bold+sz14"
+      },
+      {
+        "id": "FMT-016",
+        "requirement": "Page number present for documents > 2 pages",
+        "status": "not_detectable"
+      },
+      {
+        "id": "FMT-017",
+        "requirement": "Different First Page section property enabled",
+        "status": "not_detectable",
+        "evidence": "w:titlePg not found in document section properties"
+      },
+      {
+        "id": "FMT-018",
+        "requirement": "BM-001 receiver identity legal content uses explicit black text",
+        "status": "not_applicable",
+        "evidence": "BM-001 identifying text not present"
+      },
+      {
+        "id": "FMT-019",
+        "requirement": "BM-001 Mẫu số 01/HS form note uses explicit black text at 8pt",
+        "status": "not_applicable",
+        "evidence": "BM-001 Mẫu số 01/HS textbox not present"
+      }
+    ]
+  },
+  "packageIntegrity": {
+    "status": "pass",
+    "missingParts": [],
+    "changedPreservedParts": []
+  }
+}

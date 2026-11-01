@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-10T23:30:00Z",
+  "auditor": "phase7-independent-auditor",
+  "originalP0": [
+    {
+      "id": "P0-01",
+      "name": "Working-tree safety and provenance",
+      "codexReportedStatus": "RESOLVED via P0-001 (5 of 6 RESOLVED by Codex interpretation)",
+      "independentReproductions": [
+        "git diff --cached --name-only (returns 0 lines)",
+        "Get-FileHash BM-006 normalized DOCX (matches: b83c42ad...)",
+        "Get-FileHash Prisma schema (matches: 057375956...)",
+        "Get-FileHash canonical matrix JSON (matches: 8599db87...)",
+        "Get-FileHash canonical matrix MD (matches: c63aa609...)",
+        "git status --porcelain returns 1096 lines (215 M + 32 D + 849 ??)"
+      ],
+      "freshObservedResult": "Staged files = 0 (VERIFIED). Critical hashes preserved. packages/form-contracts/dist and apps/api/prisma/migrations show no diff. **HOWEVER**, 32 deleted files in apps/api/src/modules/form-studio/ and 3 deleted files in apps/web/src/{app/admin/(shared)/form-studio/page.tsx, app/admin/(shared)/form-studio/permissions/page.tsx, components/form-studio/form-studio-workspace.tsx} are NOT DISCLOSED in the Codex FILES_CHANGED table. The current dirty tree contains 849 untracked paths; some are ._tmp-* files from Codex's own pass.",
+      "verificationStatus": "PARTIALLY_VERIFIED",
+      "discrepancy": "Codex final report says 247 tracked changes + 1260 untracked + 1507 total. Fresh observation: 215 modified + 32 deleted + 849 untracked + 1096 total. The counts differ; the dirty tree continued to evolve during Codex phase. The deletion of form-studio module is the most concerning undeclared product change.",
+      "risk": "If form-studio module was supposed to remain in production, this is a major breaking change. If it was supposed to be removed, it should have been disclosed."
+    },
+    {
+      "id": "P0-02",
+      "name": "Evidence integrity",
+      "codexReportedStatus": "RESOLVED via P0-001",
+      "independentReproductions": [
+        "node scripts/audit/apply-all-current-evidence.mjs --check",
+        "Get-FileHash canonical matrix files",
+        "Verify holdout list"
+      ],
+      "freshObservedResult": "status-matrix orchestrator reports: matrixPass=201, matrixPartial=12, baseSourceRenderForms=177, remainingSourceRenderForms=24 (= 201-177), storedBrowserForms=124, stepCount=36, mutation=NONE. JSON SHA-256 = 8599db87d01cfd92a7136f9d255a3496265c9e05ec422682840fa36abfdc70eb. MD SHA-256 = c63aa6091b5fd53e86cf8c76ba6a034e7ffa5288eb4263b80198c5902faebff1. Holdout list verified.",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": null,
+      "risk": null
+    },
+    {
+      "id": "P0-03",
+      "name": "Hanging status-matrix guard",
+      "codexReportedStatus": "RESOLVED via P0-001 (bounded timeout, no active handles)",
+      "independentReproductions": [
+        "node --test test/infrastructure/*.guard.test.mjs (5/5 suites pass)"
+      ],
+      "freshObservedResult": "Cannot independently verify the absence of hanging because the audit had limited budget. The 5 infrastructure guards pass (17/17 tests) and the new orchestrator reports an explicit `mutation: NONE` after `--check`. **The status matrix command is read-only in check mode and produces no diff**.",
+      "verificationStatus": "PARTIALLY_VERIFIED",
+      "discrepancy": "Codex claimed root cause was 'wall-clock-based' instead of 'provenance-based'; the previous matrix reducer treated status/sourceRender as base fields. The fix preserves apply-owned fields. Independently observed: 201/12 preserved, mutation NONE, 24 remainingSourceRenderForms preserved.",
+      "risk": "Low: the fix is structurally correct. Idempotence is verified for the read-only path but not for the apply path."
+    },
+    {
+      "id": "P0-04",
+      "name": "Full typecheck/build",
+      "codexReportedStatus": "RESOLVED via P0-004",
+      "independentReproductions": [
+        "pnpm --filter @qllaw/form-contracts typecheck — exit 0",
+        "pnpm --filter api exec tsc --noEmit — exit 0",
+        "pnpm --filter web exec tsc --noEmit — exit 0",
+        "pnpm verify:ci exit 0 (which includes pnpm build)"
+      ],
+      "freshObservedResult": "All 3 typechecks pass individually. Build is implicit in verify:ci (which exited 0).",
+      "verificationStatus": "VERIFIED",
+      "discrepancy": "pnpm build was not exercised standalone in this audit; would require ~25s. The build is part of verify:ci, which passed.",
+      "risk": "Low."
+    },
+    {
+      "id": "P0-05",
+      "name": "Docker production issue #13",
+      "codexReportedStatus": "RESOLVED (declared as INFRA-P0-005)",
+      "independentReproductions": [
+        "Static inspection of docker/api.Dockerfile, docker/web.Dockerfile, docker-compose.prod.yml, packages/form-contracts/package.json exports"
+      ],
+      "freshObservedResult": "web.Dockerfile uses `CMD [\"node\", \"node_modules/next/dist/bin/next\", \"start\", ...]`. packages/form-contracts/package.json exports `.\"` and `./browser` (presumed). API image copies `docs/audit/docx/contracts/locked` and `docs/audit/docx/compiled-v2`. api.Dockerfile installs only fonts-dejavu-core and fonts-liberation. compose env has `SEED_DATA: ${SEED_DATA:-false}`. No fresh Docker build performed.",
+      "verificationStatus": "PARTIALLY_VERIFIED",
+      "discrepancy": "The web Docker image build, browser package resolution, and image boot were NOT independently verified. Code path looks correct on static inspection. The web guard's docx-slot-inventory test that runs in `node --test test/infrastructure/*.guard.test.mjs` does NOT execute against a real Docker image — it is a static-content guard on Dockerfile text.",
+      "risk": "Medium: a real Docker build + boot is the only true test. Codex claimed this in its docker:verify probe, but no independent re-run was possible in this audit without breaking the user's Docker state."
+    },
+    {
+      "id": "P0-06",
+      "name": "Throttling and Playwright reliability",
+      "codexReportedStatus": "RESOLVED (declared as INFRA-P1-tier, not P0)",
+      "independentReproductions": [
+        "Read P0-06 is mostly a code-side concern that Codex classified as P1."
+      ],
+      "freshObservedResult": "Cannot independently verify throttling / 429 detection without running a Playwright sweep. The status-matrix orchestrator now reports `stepCount: 36` and `storedBrowserForms: 124`. The nine previously affected forms (BM-118, BM-119, BM-120, BM-151, BM-152, BM-153, BM-185, BM-186, BM-187) are not in the holdout list and the canonical matrix returned 201 PASS which includes them. **TODO**: confirm none of the nine are classified as PARTIAL by timing heuristics.",
+      "verificationStatus": "NOT_VERIFIED",
+      "discrepancy": "Codex did not surface the disposition of these nine forms explicitly in any final report. Inferred from canonical matrix pass count.",
+      "risk": "Medium: if these nine forms were placed in PARTIAL by timing-only classification, the remediation phase must reclassify them by reading the evidence rows."
+    }
+  ],
+  "codexReportedFiveOfSix": {
+    "exactFive": ["INFRA-P0-001", "INFRA-P0-002", "INFRA-P0-003", "INFRA-P0-004", "INFRA-P0-005"],
+    "remaining": ["INFRA-P0-006"],
+    "codexMappingToOriginalSix": {
+      "P0-01 (working tree)": "Codex treated as RESOLVED via INFRA-P0-005 (build context)",
+      "P0-02 (evidence integrity)": "Codex treated as RESOLVED via INFRA-P0-001",
+      "P0-03 (hanging guard)": "Codex treated as RESOLVED via INFRA-P0-001",
+      "P0-04 (full typecheck/build)": "Codex treated as RESOLVED via INFRA-P0-004",
+      "P0-05 (Docker #13)": "Codex treated as RESOLVED via INFRA-P0-003 and INFRA-P0-005",
+      "P0-06 (throttling/Playwright)": "Codex treated as NOT P0 (downgraded to P1)"
+    },
+    "mappingSupported": "PARTIALLY",
+    "note": "Codex re-mapped the original six P0 blockers into its own six (INFRA-P0-001..006). The mapping is internally consistent but the mapping from P0-06 (throttling) to INFRA-P0-006 (migration) is a renumbering, not a substantive coverage of the throttling concern."
+  },
+  "summary": {
+    "VERIFIED": 2,
+    "PARTIALLY_VERIFIED": 3,
+    "NOT_VERIFIED": 1,
+    "blockingConcerns": [
+      "Form-studio module deletion (32 + 3 files) not disclosed in Codex FILES_CHANGED table",
+      "verify:full exit 1 — wrapper truthfulness with verify:ci exit 0",
+      "P0-06 throttling remediation placement not verified"
+    ]
+  }
+}

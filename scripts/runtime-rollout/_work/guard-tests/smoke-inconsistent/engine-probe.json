@@ -1,0 +1,108 @@
+{
+  "schema": "qllaw.phase12_visual.engine_probe/v1",
+  "generatedAt": "2026-07-26T15:19:13.544Z",
+  "word": {
+    "kind": "WORD",
+    "selected": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+    "comRegistrationFound": true,
+    "versionCommand": null,
+    "candidates": [
+      {
+        "binary": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "exists": true,
+        "size": 1769168
+      },
+      {
+        "binary": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+        "exists": false,
+        "size": null
+      },
+      {
+        "binary": "C:\\Program Files\\Microsoft Office\\Office16\\WINWORD.EXE",
+        "exists": false,
+        "size": null
+      },
+      {
+        "binary": "C:\\Program Files (x86)\\Microsoft Office\\Office16\\WINWORD.EXE",
+        "exists": false,
+        "size": null
+      },
+      {
+        "binary": "C:\\Program Files\\Microsoft Office\\Office15\\WINWORD.EXE",
+        "exists": false,
+        "size": null
+      }
+    ],
+    "sidecarProbe": {
+      "command": "cscript.exe //nologo //E:JScript D:\\Study\\Project\\QLLaw-main\\scripts\\runtime-rollout\\word-sidecar\\WordSidecar.js D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\forms\\BM-001\\R1.docx D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-word\\R1.pdf",
+      "exitCode": 0,
+      "timedOut": false,
+      "stdout": "{\"ok\":true,\"input\":\"D:\\\\Study\\\\Project\\\\QLLaw-main\\\\docs\\\\audit\\\\final-213-customer-ready\\\\runtime-rollout\\\\forms\\\\BM-001\\\\R1.docx\",\"output\":\"D:\\\\Study\\\\Project\\\\QLLaw-main\\\\docs\\\\audit\\\\final-213-customer-ready\\\\runtime-rollout\\\\.tmp-p12-engine-probe-word\\\\R1.pdf\",\"method\":\"word.com\",\"elapsedMs\":1812}",
+      "stderr": "",
+      "parsedStatus": {
+        "ok": true,
+        "input": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\forms\\BM-001\\R1.docx",
+        "output": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-word\\R1.pdf",
+        "method": "word.com",
+        "elapsedMs": 1812
+      },
+      "probePdfPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-word\\R1.pdf",
+      "probePdfExists": true,
+      "probePdfSize": 140242
+    },
+    "status": "WORD_AVAILABLE",
+    "errors": [
+      "reg.exe exitCode=0 stdout=HKEY_CLASSES_ROOT\\Word.Application\\CLSID\r\n    (Default)    REG_SZ    {000209FF-0"
+    ]
+  },
+  "libreOffice": {
+    "kind": "LIBREOFFICE",
+    "selected": "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+    "version": "VERSION_OUTPUT_EMPTY",
+    "versionCommand": {
+      "command": "C:\\Program Files\\LibreOffice\\program\\soffice.exe --headless --version",
+      "exitCode": null,
+      "timedOut": true,
+      "stdout": "",
+      "stderr": ""
+    },
+    "pathProbes": [
+      {
+        "command": "where.exe soffice.exe",
+        "exitCode": 1,
+        "timedOut": false,
+        "stdout": "",
+        "stderr": "INFO: Could not find files for the given pattern(s)."
+      }
+    ],
+    "candidates": [
+      {
+        "binary": "C:\\Program Files\\LibreOffice\\program\\soffice.exe",
+        "exists": true,
+        "size": 523688
+      },
+      {
+        "binary": "C:\\Program Files (x86)\\LibreOffice\\program\\soffice.exe",
+        "exists": false,
+        "size": null
+      }
+    ],
+    "conversion": {
+      "command": "C:\\Program Files\\LibreOffice\\program\\soffice.exe --headless --nologo --nodefault --nolockcheck --norestore --convert-to pdf:writer_pdf_Export --outdir D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-lo D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\forms\\BM-001\\R1.docx",
+      "exitCode": 0,
+      "timedOut": false,
+      "stdout": "convert D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\forms\\BM-001\\R1.docx as a Writer document -> D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-lo\\R1.pdf using filter : writer_pdf_Export",
+      "stderr": "Could not find platform independent libraries <prefix>",
+      "probePdfPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\final-213-customer-ready\\runtime-rollout\\.tmp-p12-engine-probe-lo\\R1.pdf",
+      "probePdfExists": true,
+      "probePdfSize": 115606
+    },
+    "status": "LIBREOFFICE_AVAILABLE",
+    "errors": []
+  },
+  "summary": {
+    "wordStatus": "WORD_AVAILABLE",
+    "libreOfficeStatus": "LIBREOFFICE_AVAILABLE",
+    "anyEngineAvailable": true
+  }
+}

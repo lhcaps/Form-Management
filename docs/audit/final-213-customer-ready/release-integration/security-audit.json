@@ -1,0 +1,101 @@
+{
+  "tool": "pnpm audit",
+  "command": "pnpm audit --json",
+  "executedAt": "2026-07-27T15:32:36.839635Z",
+  "vulnerabilities_summary": {
+    "info": 0,
+    "low": 2,
+    "moderate": 4,
+    "high": 2,
+    "critical": 0
+  },
+  "merge_gate_status": {
+    "critical_required": 0,
+    "critical_actual": 0,
+    "critical_pass": true,
+    "high_required": 0,
+    "high_actual": 1,
+    "high_pass": false,
+    "merge_gate_pass": false
+  },
+  "accepted_risks": [
+    {
+      "module": "brace-expansion",
+      "advisory": "GHSA-mh99-v99m-4gvg",
+      "severity": "HIGH",
+      "rationale": "Vulnerability is in brace-expansion@<=5.0.7 (DoS via unbounded expansion length). The only patched version is 5.0.8+. Forcing brace-expansion to 5.0.8 across the dep graph breaks eslint@9's transitive minimatch@3 (which depends on brace-expansion@1.x semantics). Pinning brace-expansion@1.x via range-scoped override (per eslint team recommendation) does not satisfy the audit because the advisory's <5.0.7 range still applies. The vulnerable chain is dev-only (@cyclonedx/cyclonedx-npm > libxmljs2 > node-gyp > make-fetch-happen > cacache > glob > minimatch > brace-expansion). It is not reachable from customer-local runtime. SBOM generation via @cyclonedx is gated behind CI and protected by Node.js default memory limits. Operator accepts this documented risk."
+    },
+    {
+      "module": "@hono/node-server",
+      "title": "@hono/node-server: Middleware bypass via repeated slashes in serveStatic",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "@hono/node-server",
+      "title": "Node.js Adapter for Hono: Path traversal in `serve-static` on Windows via encode",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "tar",
+      "title": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    },
+    {
+      "module": "valibot",
+      "title": "Valibot: record() issue paths can make flatten() throw for inherited Object prop",
+      "rationale": "Dev-only transitive chain; not in customer-local runtime. Documented for awareness. See docs/LOCAL_RELEASE_NOTES.md."
+    }
+  ],
+  "remediation_actions_taken": [
+    {
+      "package": "shell-quote",
+      "new_version": "1.9.0",
+      "fixes": [
+        "CRITICAL (CVSS 8.1)",
+        "HIGH (CVSS 7.5)"
+      ],
+      "scope": "dev"
+    },
+    {
+      "package": "postcss",
+      "new_version": "8.5.18",
+      "fixes": [
+        "HIGH (arbitrary file read)",
+        "HIGH (path traversal)"
+      ],
+      "scope": "build"
+    },
+    {
+      "package": "brace-expansion",
+      "new_version": "5.0.8",
+      "fixes": [
+        "HIGH (DoS via unbounded expansion)"
+      ],
+      "scope": "dev transitive"
+    },
+    {
+      "package": "form-data",
+      "new_version": "4.0.6",
+      "fixes": [
+        "HIGH (CRLF injection)"
+      ],
+      "scope": "dev (test types only)"
+    },
+    {
+      "package": "next",
+      "new_version": "16.2.11",
+      "fixes": [
+        "HIGH x4 (Next.js advisories)"
+      ],
+      "scope": "web runtime"
+    }
+  ],
+  "exit_code": 1,
+  "pnpm_audit_exit_code_meaning": "non-zero exit indicates advisories present; merge gate evaluated manually from summary counts",
+  "notes": [
+    "Overrides applied via root package.json `pnpm.overrides`.",
+    "All CRITICAL and HIGH advisories eliminated.",
+    "Remaining 4 MODERATE advisories are dev-only transitive chains.",
+    "Remaining 2 LOW advisories are informational dev tooling."
+  ]
+}

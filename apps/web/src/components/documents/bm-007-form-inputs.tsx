@@ -8,8 +8,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 const DEFAULT_SIGNER_NAME = '';
 
@@ -646,16 +645,7 @@ export function Bm007FormInputsPanel({
       setMessage("Đang tải dữ liệu BM-007 từ backend...");
 
       try {
-        const response = await fetch(
-          `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-          { cache: "no-store" },
-        );
-
-        if (!response.ok) {
-          throw new Error(`Không tải được render-payload. HTTP ${response.status}`);
-        }
-
-        const payload = await response.json();
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
 
         if (!cancelled) {
           setForm(buildFormFromPayload(payload));
@@ -775,25 +765,6 @@ export function Bm007FormInputsPanel({
     setMessage("Đã điền dữ liệu mẫu BM-007.");
   }
 
-  async function requestSave(method: "POST" | "PATCH", body: unknown) {
-    const response = await fetch(
-      `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-      {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      },
-    );
-
-    const text = await response.text();
-
-    return {
-      ok: response.ok,
-      status: response.status,
-      text,
-    };
-  }
-
   async function handleSave() {
     setStatus("saving");
     setMessage("Đang lưu formInputs BM-007...");
@@ -812,17 +783,7 @@ export function Bm007FormInputsPanel({
         convertedByName: ready.convertedByName,
       };
 
-      let result = await requestSave("POST", body);
-
-      if (!result.ok && (result.status === 404 || result.status === 405)) {
-        result = await requestSave("PATCH", body);
-      }
-
-      if (!result.ok) {
-        throw new Error(
-          result.text || `Không lưu được BM-007. HTTP ${result.status}`,
-        );
-      }
+      await saveDocumentFormInputs(documentId, body);
 
       setForm(ready);
       setStatus("success");

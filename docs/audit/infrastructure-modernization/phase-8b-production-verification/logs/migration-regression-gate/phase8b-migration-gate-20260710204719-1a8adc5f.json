@@ -1,0 +1,103 @@
+{
+  "runId": "phase8b-migration-gate-20260710204719-1a8adc5f",
+  "startedAt": "2026-07-10T20:47:19.894Z",
+  "versions": {
+    "node": "v22.23.1",
+    "prisma": "6.19.3",
+    "mariaDbImage": "mariadb:11"
+  },
+  "resources": {
+    "container": "phase8b-migration-gate-20260710204719-1a8adc5f-db",
+    "network": "phase8b-migration-gate-20260710204719-1a8adc5f-net",
+    "volume": "phase8b-migration-gate-20260710204719-1a8adc5f-data"
+  },
+  "persistentCredentialsConsumed": false,
+  "emptyDatabase": true,
+  "firstDeployExit": 0,
+  "secondDeployExit": 0,
+  "failedMigrationRows": 0,
+  "statusExit": 0,
+  "schemaParity": false,
+  "structureCounts": null,
+  "bootstrap": {
+    "directories": [
+      "20260711000000_squashed_baseline"
+    ],
+    "migrationSql": "D:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260711000000_squashed_baseline\\migration.sql",
+    "dataStatementCount": 0,
+    "requiredBootstrapData": "NONE"
+  },
+  "steps": {
+    "dockerVersion": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "29.5.3\n",
+      "stderr": "",
+      "durationMs": 45
+    },
+    "networkCreate": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "15ac56243edc2dec521f18a2a9d828eca5041e2e20df6d360707232f6179b096\n",
+      "stderr": "",
+      "durationMs": 61
+    },
+    "volumeCreate": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "phase8b-migration-gate-20260710204719-1a8adc5f-data\n",
+      "stderr": "",
+      "durationMs": 44
+    },
+    "containerStart": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "74073d32be4fda1c1dc87e7cd203cebe2b3e8cbc0d76d282209524ca663c9305\n",
+      "stderr": "",
+      "durationMs": 267
+    },
+    "firstDeploy": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:64755\"\n\n1 migration found in prisma/migrations\n\nApplying migration `20260711000000_squashed_baseline`\n\nThe following migration(s) have been applied:\n\nmigrations/\n  └─ 20260711000000_squashed_baseline/\n    └─ migration.sql\n      \nAll migrations have been successfully applied.\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 2202
+    },
+    "secondDeploy": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:64755\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 883
+    },
+    "status": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:64755\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 893
+    },
+    "schemaDiff": {
+      "exit": 1,
+      "signal": null,
+      "stdout": "",
+      "stderr": "Error: \nunknown or unexpected option: --schema\n\nUsage\n\n  $ prisma migrate diff [options]\n\nOptions\n\n  -h, --help               Display this help message\n  --config                 Custom path to your Prisma config file\n  -o, --output             Writes to a file instead of stdout\n\nFrom and To inputs (1 `--from-...` and 1 `--to-...` must be provided):\n  --from-url               A datasource URL\n  --to-url\n\n  --from-empty             Flag to assume from or to is an empty datamodel\n  --to-empty\n\n  --from-schema-datamodel  Path to a Prisma schema file, uses the datamodel for the diff\n  --to-schema-datamodel\n\n  --from-schema-datasource Path to a Prisma schema file, uses the datasource url for the diff\n  --to-schema-datasource\n\n  --from-migrations        Path to the Prisma Migrate migrations directory\n  --to-migrations\n\n  --from-local-d1          Automatically locate the local Cloudflare D1 database\n  --to-local-d1\n\nShadow database (only required if using --from-migrations or --to-migrations):\n  --shadow-database-url    URL for the shadow database\n\nFlags\n\n  --script                 Render a SQL script to stdout instead of the default human readable summary (not supported on MongoDB)\n  --exit-code              Change the exit code behavior to signal if the diff is empty or not (Empty: 0, Error: 1, Not empty: 2). Default behavior is Success: 0, Error: 1.\n\n",
+      "durationMs": 777
+    }
+  },
+  "cleanup": {
+    "containerRemoveExit": 0,
+    "networkRemoveExit": 0,
+    "volumeRemoveExit": 0,
+    "leftovers": [],
+    "errors": []
+  },
+  "initialTableCount": 0,
+  "workError": "database-to-datamodel diff failed with exit 1: Error: \nunknown or unexpected option: --schema\n\nUsage\n\n  $ prisma migrate diff [options]\n\nOptions\n\n  -h, --help               Display this help message\n  --config                 Custom path to your Prisma config file\n  -o, --output             Writes to a file instead of stdout\n\nFrom and To inputs (1 `--from-...` and 1 `--to-...` must be provided):\n  --from-url               A datasource URL\n  --to-url\n\n  --from-empty             Flag to assume from or to is an empty datamodel\n  --to-empty\n\n  --from-schema-datamodel  Path to a Prisma schema file, uses the datamodel for the diff\n  --to-schema-datamodel\n\n  --from-schema-datasource Path to a Prisma schema file, uses the datasource url for the diff\n  --to-schema-datasource\n\n  --from-migrations        Path to the Prisma Migrate migrations directory\n  --to-migrations\n\n  --from-local-d1          Automatically locate the local Cloudflare D1 database\n  --to-local-d1\n\nShadow database (only required if using --from-migrations or --to-migrations):\n  --shadow-database-url    URL for the shadow database\n\nFlags\n\n  --script                 Render a SQL script to stdout instead of the default human readable summary (not supported on MongoDB)\n  --exit-code              Change the exit code behavior to signal if the diff is empty or not (Empty: 0, Error: 1, Not empty: 2). Default behavior is Success: 0, Error: 1.\n\n",
+  "completedAt": "2026-07-10T20:47:32.508Z",
+  "durationMs": 12615,
+  "verdict": "FAIL",
+  "failures": [
+    "schema_parity"
+  ]
+}

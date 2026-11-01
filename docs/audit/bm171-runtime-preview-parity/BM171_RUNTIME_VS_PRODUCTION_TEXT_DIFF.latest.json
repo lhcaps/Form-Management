@@ -1,0 +1,66 @@
+{
+  "before": {
+    "fixtureSource": "empty draft + applySampleData (after Fix 1, 34 demo keys)",
+    "input": {
+      "agency.parentName": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH",
+      "agency.name": "VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      "document.documentCode": "01/QĐ-VKSKV7",
+      "document.issuePlaceAndDateLine": "TP. Hồ Chí Minh, ngày 04 tháng 7 năm 2026",
+      "official.issuerTitle": "VIỆN TRƯỞNG VIỆN KIỂM SÁT NHÂN DÂN KHU VỰC 7",
+      "legalBasis.procedureArticlesLine": "Căn cứ Điều 134, Điều 212 Bộ luật Tố tụng hình sự năm 2015;",
+      "caseDecision.prosecutionDecisionLegalBasisLine": "Căn cứ Quyết định truy tố số 02/QĐ-VKS-KV7 ngày 12/03/2026 của Viện Kiểm sát nhân dân Khu vực 7;",
+      "accusedDecision.prosecutionDecisionLegalBasisLine": "Căn cứ Quyết định áp dụng biện pháp tạm giam số 15/QĐ-BCA ngày 20/02/2026;",
+      "assetReturn.investigationConclusionLegalBasisLine": "Căn cứ Kết luận điều tra số 21/KLĐT-PCA ngày 28/02/2026 của Cơ quan Cảnh sát điều tra;",
+      "assetReturn.caseSuspensionDecisionLegalBasisLine": "Căn cứ Quyết định tạm đình chỉ vụ án số 03/QĐ-VKS-KV7 ngày 05/03/2026;",
+      "assetReturn.accusedSuspensionDecisionLegalBasisLine": "Căn cứ Quyết định tạm đình chỉ đối với bị can số 04/QĐ-VKS-KV7 ngày 05/03/2026;",
+      "assetReturn.considerationLine": "Xét thấy tài sản bị tạm giữ không còn liên quan đến việc giải quyết vụ án và cần trả lại cho chủ sở hữu, quản lý hợp pháp theo quy định tại Điều 212 Bộ luật Tố tụng hình sự,",
+      "assetReturn.assetListLine": "1. 01 chiếc xe máy Honda Wave RSX, …; 2. 01 sổ tiết kiệm …",
+      "assetOwner.fullName": "Người nhận (mẫu)",
+      "assetOwner.genderText": "Nam",
+      "assetOwner.otherName": "Không có",
+      "assetOwner.dateOfBirthText": "08/9/1985",
+      "assetOwner.placeOfBirth": "Tỉnh Bình Dương",
+      "assetOwner.nationality": "Việt Nam",
+      "assetOwner.ethnicity": "Kinh",
+      "assetOwner.religion": "Không",
+      "assetOwner.occupation": "Lao động tự do",
+      "assetOwner.identityNo": "079085001234",
+      "assetOwner.identityIssuedDateText": "14/12/2021",
+      "assetOwner.identityIssuedPlace": "Cục Cảnh sát Quản lý hành chính về trật tự xã hội",
+      "assetOwner.permanentResidence": "Số 12, đường Nguyễn Trãi, …",
+      "assetOwner.temporaryResidence": "Không có",
+      "assetOwner.currentResidence": "Số 12, đường Nguyễn Trãi, …",
+      "assetReturn.executionRequestLine": "Yêu cầu Phòng Cảnh sát Quản lý hành chính …",
+      "recipients.line1": "Phòng CSQLHC TTXH Công an TP.HCM;",
+      "recipients.archiveLine": "Lưu: HSVA, HSKS, VP.",
+      "signature.signMode": "Ký thay",
+      "signature.positionTitle": "VIỆN TRƯỞNG",
+      "signature.signerName": "Người ký (mẫu)"
+    },
+    "result": "PASS — all required anchors present, no forbidden placeholder, 0 repeats of 'Căn cứ Điều 41'"
+  },
+  "after": {
+    "fixtureSource": "stale-draft fixture (with all generateFieldValue fallbacks the user complained about) re-asserted against BM171_DEMO by buildRuntimePreviewCanonicalBaseline",
+    "inputStaleDraft": {
+      "legalBasis.procedureArticlesLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "caseDecision.prosecutionDecisionLegalBasisLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "accusedDecision.prosecutionDecisionLegalBasisLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "assetReturn.investigationConclusionLegalBasisLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "assetReturn.caseSuspensionDecisionLegalBasisLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "assetReturn.accusedSuspensionDecisionLegalBasisLine": "Căn cứ Điều 41 Bộ luật Tố tụng hình sự",
+      "assetReturn.considerationLine": "Xét thấy cần thiết áp dụng biện pháp theo quy định.",
+      "assetReturn.assetListLine": "Tài sản theo quy định pháp luật.",
+      "assetReturn.executionRequestLine": "Mô tả vụ việc mẫu.",
+      "official.issuerTitle": "Cá nhân/Tổ chức theo quy định."
+    },
+    "result": "PASS — all required anchors present, no forbidden placeholder, 0 repeats of 'Căn cứ Điều 41'"
+  },
+  "diff": {
+    "input_difference": "AFTER starts from a stale draft containing every bad fallback the user reported. The buildRuntimePreviewCanonicalBaseline helper re-asserts the BM171_DEMO values on top of the stale draft, producing the canonical payload the production signoff uses.",
+    "output_difference": "Both BEFORE and AFTER renders produce the same semantic text — identical required anchors and zero forbidden placeholders. The fix guarantees that even with a stale draft, the runtime preview matches the production render.",
+    "sha256Docx": {
+      "before": "see docs/audit/bm171-runtime-preview-parity/BM171_RUNTIME_PREVIEW_BEFORE_MANIFEST.latest.json :: sha256",
+      "after": "see docs/audit/bm171-runtime-preview-parity/BM171_RUNTIME_PREVIEW_AFTER_MANIFEST.latest.json :: sha256"
+    }
+  }
+}

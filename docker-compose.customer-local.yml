@@ -1,0 +1,16 @@
+name: quanlyvks-customer-local
+
+services:
+  api:
+    environment:
+      QLLAW_DEPLOYMENT_MODE: customer-local
+      AUTH_COOKIE_SECURE: "false"
+      AUTH_COOKIE_SAMESITE: lax
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://127.0.0.1:3000}
+      API_CORS_ORIGIN: ${API_CORS_ORIGIN:-http://127.0.0.1:3000}
+    ports:
+      - "127.0.0.1:${API_PORT:-3001}:3001"
+
+  web:
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3000}:3000"

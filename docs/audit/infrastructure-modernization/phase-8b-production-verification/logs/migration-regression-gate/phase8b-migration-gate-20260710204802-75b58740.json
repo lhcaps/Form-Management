@@ -1,0 +1,103 @@
+{
+  "runId": "phase8b-migration-gate-20260710204802-75b58740",
+  "startedAt": "2026-07-10T20:48:02.213Z",
+  "versions": {
+    "node": "v22.23.1",
+    "prisma": "6.19.3",
+    "mariaDbImage": "mariadb:11"
+  },
+  "resources": {
+    "container": "phase8b-migration-gate-20260710204802-75b58740-db",
+    "network": "phase8b-migration-gate-20260710204802-75b58740-net",
+    "volume": "phase8b-migration-gate-20260710204802-75b58740-data"
+  },
+  "persistentCredentialsConsumed": false,
+  "emptyDatabase": true,
+  "firstDeployExit": 0,
+  "secondDeployExit": 0,
+  "failedMigrationRows": 0,
+  "statusExit": 0,
+  "schemaParity": true,
+  "structureCounts": {
+    "tables": 40,
+    "columns": 490
+  },
+  "bootstrap": {
+    "directories": [
+      "20260711000000_squashed_baseline"
+    ],
+    "migrationSql": "D:\\Study\\Project\\QLLaw-main\\apps\\api\\prisma\\migrations\\20260711000000_squashed_baseline\\migration.sql",
+    "dataStatementCount": 0,
+    "requiredBootstrapData": "NONE"
+  },
+  "steps": {
+    "dockerVersion": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "29.5.3\n",
+      "stderr": "",
+      "durationMs": 60
+    },
+    "networkCreate": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "dd66042320aafbf38779acf7fc5a6e0f498e1c3de61e23f2b7426cf7d4bf1deb\n",
+      "stderr": "",
+      "durationMs": 60
+    },
+    "volumeCreate": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "phase8b-migration-gate-20260710204802-75b58740-data\n",
+      "stderr": "",
+      "durationMs": 43
+    },
+    "containerStart": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "918abb92c57e6fa4fee0be377c3dc1713896f1ca0b8de629e2d1c96a10a091e8\n",
+      "stderr": "",
+      "durationMs": 275
+    },
+    "firstDeploy": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:49383\"\n\n1 migration found in prisma/migrations\n\nApplying migration `20260711000000_squashed_baseline`\n\nThe following migration(s) have been applied:\n\nmigrations/\n  └─ 20260711000000_squashed_baseline/\n    └─ migration.sql\n      \nAll migrations have been successfully applied.\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 2523
+    },
+    "secondDeploy": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:49383\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 847
+    },
+    "status": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"migration_gate\" at \"127.0.0.1:49383\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+      "stderr": "Environment variables loaded from .env\n",
+      "durationMs": 897
+    },
+    "schemaDiff": {
+      "exit": 0,
+      "signal": null,
+      "stdout": "-- This is an empty migration.\n\n",
+      "stderr": "",
+      "durationMs": 877
+    }
+  },
+  "cleanup": {
+    "containerRemoveExit": 0,
+    "networkRemoveExit": 0,
+    "volumeRemoveExit": 0,
+    "leftovers": [],
+    "errors": []
+  },
+  "initialTableCount": 0,
+  "completedAt": "2026-07-10T20:48:15.519Z",
+  "durationMs": 13307,
+  "verdict": "PASS",
+  "failures": []
+}

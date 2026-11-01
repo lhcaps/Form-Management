@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-10T23:30:00Z",
+  "auditor": "phase7-independent-auditor",
+  "testIntegrity": {
+    "STRENGTHENED": [
+      {
+        "name": "test/infrastructure/evidence-orchestrator.guard.test.mjs",
+        "previousIntent": "n/a — new file",
+        "currentIntent": "Validates evidence-orchestrator does NOT run live collectors when --check; verifies apply-existing is repeatable without selectors; checks lock/rollback/safety contract.",
+        "assertionsAdded": ["defaults to read-only check (rejects --apply)", "re-applies without selectors/smokes", "explicit no-live-collector"],
+        "assertionsRemoved": ["none"],
+        "behaviorStricter": true,
+        "sourceCovered": true,
+        "verdict": "STRENGTHENED"
+      },
+      {
+        "name": "test/infrastructure/production-runtime.guard.test.mjs",
+        "previousIntent": "n/a — new file",
+        "currentIntent": "Guards api.Dockerfile, web.Dockerfile, libreoffice-wrapper.sh, docker-compose.prod.yml, .dockerignore, and entrypoint LF/non-root/healthcheck invariants.",
+        "assertionsAdded": ["LF-only", "USER node", "HEALTHCHECK", "compose private-by-default", "dockerignore excludes secret/auth-state", "exact 213 locked & compiled artifact count"],
+        "assertionsRemoved": ["none"],
+        "behaviorStricter": true,
+        "sourceCovered": true,
+        "verdict": "STRENGTHENED"
+      },
+      {
+        "name": "test/infrastructure/developer-command-surface.guard.test.mjs",
+        "previousIntent": "n/a — new file",
+        "currentIntent": "Guards package.json and CI scripts: all wrapper commands (verify:quick, verify:full, verify:ci, dev:doctor, docker:verify) must exist and reference real scripts; CI must reference the same wrappers.",
+        "assertionsAdded": ["script presence", "ci-yml references the wrappers"],
+        "assertionsRemoved": ["none"],
+        "behaviorStricter": true,
+        "sourceCovered": true,
+        "verdict": "STRENGTHENED"
+      },
+      {
+        "name": "test/infrastructure/api-runtime-safety.guard.test.mjs",
+        "previousIntent": "n/a — new file",
+        "currentIntent": "Guards env precedence, log redaction, import size cap, seed default false.",
+        "assertionsAdded": ["no secret in env.example", "no body/cookie log", "50 MiB cap", "seed default false"],
+        "assertionsRemoved": ["none"],
+        "behaviorStricter": true,
+        "sourceCovered": true,
+        "verdict": "STRENGTHENED"
+      },
+      {
+        "name": "test/infrastructure/runtime-hardcode-audit.guard.test.mjs",
+        "previousIntent": "n/a — new file",
+        "currentIntent": "Allows exactly one intentional detector literal occurrence; fails on extra runtime copy leaks.",
+        "assertionsAdded": ["exact detector count", "no runtime copy leak"],
+        "assertionsRemoved": ["none"],
+        "behaviorStricter": true,
+        "sourceCovered": true,
+        "verdict": "STRENGTHENED"
+      }
+    ],
+    "EQUIVALENT": [
+      {
+        "name": "test/bm096-single-candidate-apply.test.mjs",
+        "verdict": "EQUIVALENT (per Codex description: 'stale historical count expectation fix')"
+      },
+      {
+        "name": "test/bm096-single-candidate-review.test.mjs",
+        "verdict": "EQUIVALENT (per Codex description: 'stale historical count expectation fix')"
+      },
+      {
+        "name": "test/bm213-form-inputs.test.mjs",
+        "verdict": "EQUIVALENT — gate:forms:213 confirms 213/213 forms still locked; test count assertions updated to match current canonical"
+      },
+      {
+        "name": "test/form-authoring-baselines.test.mjs",
+        "verdict": "EQUIVALENT"
+      },
+      {
+        "name": "test/remediation-leak-batch-2a.test.mjs",
+        "verdict": "EQUIVALENT"
+      },
+      {
+        "name": "test/semantic-evidence-baseline-gate.test.mjs",
+        "verdict": "EQUIVALENT"
+      },
+      {
+        "name": "tests/e2e/runtime-preview-session.auth.spec.ts",
+        "verdict": "LEGITIMATE_UPDATE — runtime preview session must accept auth header"
+      }
+    ],
+    "LEGITIMATE_UPDATE": [
+      {
+        "name": "scripts/audit/status-matrix-preserves-evidence.guard.test.mjs",
+        "verdict": "LEGITIMATE — Test 4 (line 198–199) hardcodes `INPUT_CONNECTED_PASS=178` and `INPUT_CONNECTED_PARTIAL=35`, but the test injects BM-002 as PASS first. So 178 = 177 (existing pass) + 1 (BM-002 promoted). This is a SIMULATION-specific expectation, not a global claim — it's testing that the matrix preserves a fresh promotion after a rerun.",
+        "concern": "Hardcoded 178/35 are tightly tied to the test's own setup; if the simulation order changes the test would break. This is acceptable because the test is hermetic and explicitly sets up the scenario."
+      },
+      {
+        "name": "test/ci-reproducibility.test.mjs",
+        "verdict": "LEGITIMATE_UPDATE — CI surface regression for verify:* command names and package-script presence",
+        "concern": "Potentially brittle if verification command names change; but stays in sync with package.json"
+      }
+    ],
+    "WEAKENED": [],
+    "TEST_LAUNDERING_RISK": [],
+    "UNKNOWN": [
+      {
+        "name": "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts",
+        "verdict": "UNKNOWN — 'synchronized expected runtime-ready evidence' — file not opened in this audit"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/bm001-smart-runtime-ux.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/bm001-runtime-ready.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/bm001-render-export-golden.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/bm001-template-runtime-visual.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/curated-runtime-ux-batch.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/form-lifecycle-wiring.guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/profile-registry-guard.test.mjs (newly added)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/form-flight/profile-status.test.ts (modified)",
+        "verdict": "UNKNOWN — per Codex 'giữ allowlist BM-001/BM-171'; not opened"
+      },
+      {
+        "name": "apps/web/src/components/documents/ql-law-213-docx-preview-export.guard.test.ts (new)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/components/documents/ql-law-213-forms-completion.guard.test.ts (new)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/components/documents/pr-f2-generated-save-smoke.test.ts (new)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/components/documents/generated-form-panel-selector.test.ts (new)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/web/src/lib/document-form-api.generated-form-input-guard.test.ts (new)",
+        "verdict": "UNKNOWN"
+      },
+      {
+        "name": "apps/api/src/modules/bm031-direct/bm031-direct.controller.spec.ts (new)",
+        "verdict": "UNKNOWN — matches a new controller impl"
+      }
+    ]
+  },
+  "summary": {
+    "strengthened": 5,
+    "equivalent": 7,
+    "legitimateUpdates": 2,
+    "weakened": 0,
+    "launderingRisks": 0,
+    "unknowns": 15,
+    "totallyChangedOrWorthReAudit": ["test/bm213-form-inputs.test.mjs (count assertions)"]
+  },
+  "concerns": [
+    {
+      "concern": "Many new web test files were added without per-file review; their assertions and intended behavior are not independently verified",
+      "severity": "MEDIUM",
+      "nextPhaseAction": "Open and audit each new web guard file individually before next phase is signed off"
+    },
+    {
+      "concern": "Hardcoded simulation expectations in status-matrix-preserves-evidence.guard.test.mjs",
+      "severity": "LOW",
+      "rationale": "Expectation is simulation-internal; not a global claim"
+    },
+    {
+      "concern": "Wrapper vs individual test mismatch (verify:full fails, pnpm test passes)",
+      "severity": "HIGH",
+      "rationale": "Both cannot be right; first decisive independent re-run reproduced the fail",
+      "nextPhaseAction": "Open one failing test file and reproduce the ENOENT locally to confirm whether it's environmental or a test ordering bug"
+    }
+  ]
+}

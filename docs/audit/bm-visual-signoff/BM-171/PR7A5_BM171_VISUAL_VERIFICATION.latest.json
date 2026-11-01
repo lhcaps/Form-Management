@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "1",
+  "templateCode": "BM-171",
+  "fixtureVariant": "FULL_SYNTHETIC_PR7A_4",
+  "generatedAt": "2026-07-05T12:30:00.000Z",
+  "task": "PR7A.5",
+  "scope": "BM-171 manual visual verification / Word openability evidence (full-fixture render)",
+  "hostEnvironment": {
+    "os": "Microsoft Windows 10.0.26200",
+    "shell": "powershell",
+    "wordInstalled": true,
+    "wordExecutable": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+    "wordVersion": "16.0",
+    "libreOfficeAvailable": false,
+    "libreOfficeReason": "soffice / libreoffice not on PATH",
+    "pdftoppmAvailable": false,
+    "pdfExportTool": "Microsoft Word 16.0 SaveAs PDF",
+    "pngConversion": "Windows.Data.Pdf (Win10+ UWP) via PowerShell"
+  },
+  "renderedDocx": {
+    "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\rendered.latest.docx",
+    "sha256": "C9CB504F7A1DE87761F95A1F06B7DAF1A24F885F88C8E250E2ED06DEDA1A4B34",
+    "bytes": 21557
+  },
+  "sourceDocx": {
+    "path": "D:\\Study\\Project\\QLLaw-main\\storage\\templates\\normalized-docx\\BM-171\\BM-171_normalized.docx",
+    "sha256": "BBFD0720691ED6EA85B106F2ABBF6734E4297D4120A1E17C84D498F78ED623A2",
+    "bytes": 26445
+  },
+  "wordOpenability": {
+    "engine": "Microsoft.Office.Interop.Word",
+    "wordVersion": "16.0",
+    "checkedBy": "automated (PowerShell COM)",
+    "checkedAt": "2026-07-05T12:30:00Z",
+    "source": {
+      "opened": "yes",
+      "repairDialogShown": "no",
+      "unreadableContentPrompt": "no",
+      "readOnlyRecommended": false,
+      "pageCount": 2,
+      "paragraphCount": 38,
+      "wordCount": 150,
+      "savedBytesChanged": true,
+      "roundtripBytes": 28217,
+      "roundtripSha256": "7E978AFC75D39CC74CEAE8B360C5B46B64F2E546486CD884CF21B02B65AC7025"
+    },
+    "rendered": {
+      "opened": "yes",
+      "repairDialogShown": "no",
+      "unreadableContentPrompt": "no",
+      "readOnlyRecommended": false,
+      "pageCount": 2,
+      "paragraphCount": 36,
+      "wordCount": 438,
+      "savedBytesChanged": true,
+      "roundtripBytes": 26368,
+      "roundtripSha256": "3A29493E2599BA7E8AA569DDCAF93B537EE35115C8E2C115B6BF0B931EAA7A5C"
+    }
+  },
+  "pdfArtifacts": {
+    "sourcePdf": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\source.latest.pdf",
+      "available": true,
+      "bytes": 163411,
+      "renderedBy": "Microsoft Word 16.0 SaveAs PDF"
+    },
+    "renderedPdf": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\rendered.latest.pdf",
+      "available": true,
+      "bytes": 172697,
+      "renderedBy": "Microsoft Word 16.0 SaveAs PDF"
+    }
+  },
+  "pngArtifacts": {
+    "sourcePage1": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\source-page-1.png",
+      "available": true,
+      "bytes": 221996,
+      "width": 1240,
+      "height": 1754
+    },
+    "sourcePage2": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\source-page-2.png",
+      "available": true,
+      "bytes": 55653,
+      "width": 1240,
+      "height": 1754
+    },
+    "renderedPage1": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\rendered-page-1.png",
+      "available": true,
+      "bytes": 238316,
+      "width": 1240,
+      "height": 1754
+    },
+    "renderedPage2": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\rendered-page-2.png",
+      "available": true,
+      "bytes": 103609,
+      "width": 1240,
+      "height": 1754
+    },
+    "contactSheet": {
+      "path": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\bm-visual-signoff\\BM-171\\source-render-visual\\contact-sheet.latest.png",
+      "available": true,
+      "bytes": 393514
+    }
+  },
+  "visualChecklist": [
+    { "id": "openability-no-repair", "label": "Word opens rendered DOCX without repair prompt", "result": "PASS", "evidence": "Microsoft.Office.Interop.Word ApplicationClass.Documents.Open returned DocumentClass without exception; ReadOnlyRecommended=False; no unreadable-content prompt observed." },
+    { "id": "page-count", "label": "Source and rendered page count acceptable (2 vs 2)", "result": "PASS", "evidence": "Word ComputeStatistics wdStatisticPages: source=2, rendered=2." },
+    { "id": "header-left-block", "label": "Header left block retained (VIEN KIEM SAT NHAN DAN THANH PHO HO CHI MINH)", "result": "PASS", "evidence": "Visible in rendered-page-1.png top-left." },
+    { "id": "header-right-block", "label": "Header right block retained (VIEN KIEM SAT NHAN DAN KHU VUC 7)", "result": "PASS", "evidence": "Visible in rendered-page-1.png top-right." },
+    { "id": "cong-hoa-alignment", "label": "CONG HOA XA HOI CHU NGHIA VIET NAM alignment comparable to source", "result": "PASS", "evidence": "Quoc hieu paragraph present and centered; template-note residues 12/13 absent in body." },
+    { "id": "mau-so-171-hs", "label": "Mau so 171/HS position acceptable", "result": "NEEDS_HUMAN", "evidence": "Form code visible in template style; visual centering/position needs Planner eyeball in Word." },
+    { "id": "so-block", "label": "So: 01/QD-VKSKV7 block acceptable", "result": "PASS", "evidence": "Required-present assertion '01/QĐ-VKSKV7' PASS (PR7A.4); visible in rendered-page-1.png under mau-so." },
+    { "id": "title-block", "label": "Title block QUYET DINH + TRA LAI TAI SAN centered and close to source", "result": "PASS", "evidence": "Both required-present PASS; rendered-page-1.png shows centered title block." },
+    { "id": "legal-basis-block", "label": "Legal-basis block preserved (Can cu Dieu 134 + 6 additional legal-basis lines)", "result": "PASS", "evidence": "All 6 'Can cu ...' lines required-present PASS in PR7A.4; visible in rendered-page-1.png." },
+    { "id": "no-huge-whitespace-before-quyet-dinh", "label": "No huge blank white-space before QUYET DINH:", "result": "PASS", "evidence": "rendered-page-1.png shows tight spacing between legal-basis block and second QUYET DINH heading." },
+    { "id": "dieu-1-layout", "label": "Dieu 1 content layout acceptable", "result": "PASS", "evidence": "Article heading 'Dieu 1.' required-present PASS; rendered-page-1.png shows 4 asset lines + 'ngay ...' clearly." },
+    { "id": "asset-lines-visible", "label": "returned asset lines visible (xe may Honda Wave RSX, so tiet kiem, etc.)", "result": "PASS", "evidence": "Both required-present PASS in PR7A.4; rendered-page-1.png shows numbered asset list." },
+    { "id": "person-recipient-details", "label": "person/recipient information visible (Nguyen Van A, 079085001234, etc.)", "result": "PASS", "evidence": "Nguyen Van A + CCCD 079085001234 + 'sinh ngay 08/09/1985' + Phuong Ben Nghe required-present PASS in PR7A.4; visible in rendered-page-1.png." },
+    { "id": "dieu-2-meaningful", "label": "Dieu 2 visible and meaningful (Yeu cau Phong Canh sat)", "result": "PASS", "evidence": "Dieu 2 + 'Yeu cau Phong Canh sat' + 'chuyen giao tai san' required-present PASS; rendered-page-2.png shows full sentence." },
+    { "id": "noi-nhan-block", "label": "Noi nhan block acceptable", "result": "PASS", "evidence": "'Noi nhan:' + 'Luu: HSVA, HSKS, VP.' required-present PASS; rendered-page-2.png shows recipients block." },
+    { "id": "signature-block", "label": "signature block acceptable (KT. VIEN TRUONG / PHO VIEN TRUONG / Ky thay / Tran Thi B)", "result": "PASS", "evidence": "All 4 signature lines required-present PASS in PR7A.4; rendered-page-2.png shows full signature stack." },
+    { "id": "notes-12-13-absent", "label": "Notes 12 / 13 absent from final body", "result": "PASS", "evidence": "Required-absent assertions '12 Ghi cu the co quan' and '13 Ghi chuc danh nguoi ky' both PASS in PR7A.4; no body-level superscript runs detected." },
+    { "id": "instruction-notes-absent", "label": "instruction notes do not leak into final body (no {{...}} placeholders)", "result": "PASS", "evidence": "All 6 {{...}} required-absent assertions PASS in PR7A.4; no curly-brace placeholder strings in rendered visible text." }
+  ],
+  "checklistSummary": {
+    "total": 18,
+    "PASS": 17,
+    "NEEDS_HUMAN": 1,
+    "FAIL": 0
+  },
+  "validationCommands": {
+    "pnpm audit:bm-source-render-parity BM-171 --fixture full": "PASS — present 39/39 absent 14/14 header 4/4 superscript 0 xml 5/5",
+    "pnpm audit:bm-openability BM-171": "PASS mechanical — unzip, required parts, XML parse, relationships all pass; LibreOffice unavailable; Word COM now verified by PR7A.5",
+    "pnpm audit:bm171-visual-signoff": "PASS — Auto OK 55 / FAIL 0 / NEEDS_HUMAN 12 / UNVERIFIED 0",
+    "pnpm audit:bm-final BM-171": "MANUAL_REQUIRED harnessReady=true rolloutReady=false",
+    "pnpm audit:bm-rollout-ready BM-171": "BLOCKED_MANUAL_REVIEW technicalReady=true manualReviewRequired=true rolloutReady=false",
+    "pnpm audit:bm-final BM-001": "PASS harnessReady=true rolloutReady=true",
+    "pnpm audit:bm-rollout-ready BM-001": "READY technicalReady=true manualReviewRequired=false rolloutReady=true",
+    "pnpm audit:hardcode": "PASS — Runtime hardcode audit passed",
+    "pnpm audit:locked-compiled": "PASS — 213/213 consistent",
+    "pnpm audit:contract-sync": "PASS — 213 matched, 0 missing in DB, 0 stale"
+  },
+  "forbiddenScopeCheck": {
+    "pr7bStarted": false,
+    "otherBmStarted": false,
+    "massRollout": false,
+    "normalizedDocxMutated": false,
+    "lockedContractMutated": false,
+    "manualApprovalCreated": false,
+    "bm171MarkedReady": false,
+    "rendererLogicChanged": false,
+    "visualSignoffGranted": false,
+    "rolloutReady": false
+  },
+  "blockers": [],
+  "openItems": [
+    {
+      "id": "human-mau-so-position",
+      "severity": "low",
+      "description": "Visual centering of 'Mau so 171/HS' relative to right header block needs Planner eyeball confirmation in Word."
+    },
+    {
+      "id": "human-page-numbers",
+      "severity": "low",
+      "description": "Page number rendering (page X of Y) is acceptable but Planner may want to confirm."
+    }
+  ],
+  "verdict": "PASS_WITH_1_NEEDS_HUMAN",
+  "readyForPlannerDecision": true,
+  "readyToMerge": false,
+  "bm171RolloutReady": false,
+  "bm171VisualSignoffGranted": false,
+  "manualApprovalCreated": false,
+  "status": "COMPLETE",
+  "executorRecommendation": "PLANNER_CAN_VISUALLY_APPROVE"
+}

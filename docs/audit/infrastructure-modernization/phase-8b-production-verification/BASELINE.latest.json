@@ -1,0 +1,82 @@
+{
+  "phase": "8B",
+  "stage": 1,
+  "doc_type": "baseline",
+  "captured_at": "2026-07-11T01:00:00+07:00",
+  "run_id": "phase8b-20260711-0100",
+  "isolated_resources": {
+    "project_name": "phase8b-20260711-0100",
+    "container_prefix": "phase8b-20260711-0100-",
+    "network": "phase8b-20260711-0100-net",
+    "volume_prefix": "phase8b-20260711-0100-",
+    "image_tag_suffix": "phase8b-20260711-0100",
+    "host_ports": {
+      "api": "dynamic (unexposed by default)",
+      "web": "dynamic (unexposed by default)",
+      "mariadb_internal": "3306"
+    }
+  },
+  "repository": {
+    "root": "D:/Study/Project/QLLaw-main",
+    "branch": "audit/bm006-visual-fidelity-evidence",
+    "head_sha": "ea3e1c3c53278fad09c8557487ffb1d48d685a65"
+  },
+  "git_policy_status": {
+    "staged_files": 0,
+    "modified_files": 215,
+    "deleted_files": 32,
+    "untracked_files": 1501,
+    "staged": 0,
+    "policy": "NO_STAGE_NO_COMMIT_NO_PUSH_NO_PR",
+    "captured_via": "phase8b-git.cmd and phase8b-counts.ps1"
+  },
+  "host": {
+    "os": "Windows 11 Pro 10.0.26200 (x64)",
+    "shell": "PowerShell 5.1.26100 / cmd.exe",
+    "node": "v22.23.1",
+    "pnpm": "10.33.2",
+    "npm": "11.12.1"
+  },
+  "docker": {
+    "docker_version": "Docker version 29.5.3, build d1c06ef",
+    "compose_version": "Docker Compose version v5.1.4",
+    "running_containers": [
+      {"id": "11d44b29bf48", "image": "mysql:8",      "name": "hotpot-mysql",     "ports": "3308->3306", "state": "Exited 3d"},
+      {"id": "4f793c958712", "image": "redis:7",      "name": "hotpot-redis",     "ports": "6379->6379", "state": "Exited 3d"},
+      {"id": "ad56563fea6c", "image": "mariadb:11",   "name": "quanlyvks-mariadb", "ports": "3307->3306", "state": "Up 9h (healthy)"}
+    ],
+    "qllaw_relevant_images": [
+      {"repository": "quanlyvks-api",                      "tag": "latest",                              "size": "2.52GB"},
+      {"repository": "quanlyvks-web",                      "tag": "latest",                              "size": "1.76GB"},
+      {"repository": "qllaw-infra-api",                    "tag": "20260710",                            "size": "2.52GB"},
+      {"repository": "qllaw-infra-web",                    "tag": "20260710",                            "size": "1.76GB"},
+      {"repository": "qllaw-infra-baseline-api",           "tag": "latest",                              "size": "2.70GB"},
+      {"repository": "qllaw-infra-baseline-web",           "tag": "latest",                              "size": "1.76GB"},
+      {"repository": "mariadb",                            "tag": "11",                                  "size": "458MB"},
+      {"repository": "node",                               "tag": "22-bookworm-slim",                    "size": "present"}
+    ]
+  },
+  "pre_existing_resources_NOT_TOUCHED": [
+    "quanlyvks-mariadb (running, healthy, persistent user DB)",
+    "hotpot-mysql / hotpot-redis (stopped, unrelated project)",
+    "All prior qllaw-infra-* image tags",
+    "All quanlyvks-* image tags"
+  ],
+  "disk": {
+    "drive": "D:",
+    "free_gb": 450.6,
+    "verdict": "ample for parallel Phase 8B builds + disposable DB + log capture"
+  },
+  "ports_in_use_at_baseline": {
+    "3306": "system listener (Windows)",
+    "3307": "quanlyvks-mariadb (persistent user DB) — phase 8B must not bind"
+  },
+  "ports_phase8b_will_NOT_use": ["3000", "3001", "3306", "3307"],
+  "outputs_dir": "docs/audit/infrastructure-modernization/phase-8b-production-verification/",
+  "outputs_created_in_stage_1": [
+    "PHASE8A_CLOSEOUT_CORRECTIONS.latest.json",
+    "PHASE8A_CLOSEOUT_CORRECTIONS.latest.md",
+    "BASELINE.latest.json",
+    "BASELINE.latest.md"
+  ]
+}

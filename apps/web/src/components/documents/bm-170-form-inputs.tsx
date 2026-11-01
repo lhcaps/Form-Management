@@ -7,7 +7,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-import { getDocumentRenderPayload, saveDocumentFormInputs, patchDocumentFormInputs } from "@/lib/document-form-api";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 const DEFAULT_SIGNER_NAME = '';
 
@@ -886,26 +886,6 @@ export function Bm170FormInputsPanel({
     setMessage("Đã điền dữ liệu mẫu BM-170.");
   }
 
-  async function requestSave(method: "POST" | "PATCH", body: unknown) {
-    try {
-      const result = method === "PATCH"
-        ? await patchDocumentFormInputs(documentId, body as Record<string, unknown>)
-        : await saveDocumentFormInputs(documentId, body as Record<string, unknown>);
-
-      return {
-        ok: true,
-        status: 200,
-        text: JSON.stringify(result),
-      };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 0,
-        text: error instanceof Error ? error.message : String(error),
-      };
-    }
-  }
-
   async function handleSave() {
     setStatus("saving");
     setMessage("Đang lưu formInputs BM-170...");
@@ -924,17 +904,7 @@ export function Bm170FormInputsPanel({
         convertedByName: ready.convertedByName,
       };
 
-      let result = await requestSave("POST", body);
-
-      if (!result.ok && (result.status === 404 || result.status === 405)) {
-        result = await requestSave("PATCH", body);
-      }
-
-      if (!result.ok) {
-        throw new Error(
-          result.text || `Không lưu được BM-170. HTTP ${result.status}`,
-        );
-      }
+      await saveDocumentFormInputs(documentId, body);
 
       setForm(ready);
       setStatus("success");

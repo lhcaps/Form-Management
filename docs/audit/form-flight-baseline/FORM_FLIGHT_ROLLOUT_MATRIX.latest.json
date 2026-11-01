@@ -1,0 +1,1416 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-05T17:56:22.996Z",
+  "task": "FORM_FLIGHT_CORE_SHARED_ADAPTERS_AND_ROLLOUT_FACTORY_V1",
+  "scope": "Classification only — generates skeleton profiles for READY forms. No per-form deep fix, no locked contract mutation, no normalized DOCX mutation, no mass rollout of 213 forms.",
+  "repoRoot": "D:\\Study\\Project\\QLLaw-main",
+  "lockedDir": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked",
+  "componentDir": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents",
+  "registryPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-panel-registry.generated.ts",
+  "forms": [
+    {
+      "templateCode": "BM-001",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 39,
+        "requiredFieldCount": 28,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 39 fields, 28 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-001-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-001__f4c2aa3682d3.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-002",
+      "status": "NEEDS_PROFILE_FIELDS",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 30,
+        "requiredFieldCount": 29,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "demo fixture has bare 'undefined' / 'Invalid Date'"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-002-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-002__f78301178da7.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Fix demo fixture leaks, then generate FormFlightProfile skeleton."
+    },
+    {
+      "templateCode": "BM-003",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-003-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-003__bb64990bc49b.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-005",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 16,
+        "requiredFieldCount": 13,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-005-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-005__4cf240724a90.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-006",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 15,
+        "requiredFieldCount": 15,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-006-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-006__87ff96f9a866.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-007",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-007-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-007__549970d471d1.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-008",
+      "status": "NEEDS_PROFILE_FIELDS",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "demo fixture has bare 'undefined' / 'Invalid Date'"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-008-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-008__87981f1c5cf8.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Fix demo fixture leaks, then generate FormFlightProfile skeleton."
+    },
+    {
+      "templateCode": "BM-009",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 16,
+        "requiredFieldCount": 16,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-009-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-009__ad542fd7bc45.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-010",
+      "status": "NEEDS_PROFILE_FIELDS",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 15,
+        "requiredFieldCount": 15,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "demo fixture has bare 'undefined' / 'Invalid Date'"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-010-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-010__3814cd2b4bcf.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Fix demo fixture leaks, then generate FormFlightProfile skeleton."
+    },
+    {
+      "templateCode": "BM-011",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 15,
+        "requiredFieldCount": 15,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-011-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-011__26e6e688d223.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-012",
+      "status": "NEEDS_PROFILE_FIELDS",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "demo fixture has bare 'undefined' / 'Invalid Date'"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-012-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-012__7733d5ac8e86.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Fix demo fixture leaks, then generate FormFlightProfile skeleton."
+    },
+    {
+      "templateCode": "BM-014",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-014-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-014__ff318bb91779.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-015",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 28,
+        "requiredFieldCount": 27,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-015-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-015__08f17df338d2.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-016",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 30,
+        "requiredFieldCount": 29,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-016-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-016__565ec1fc2103.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-017",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-017-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-017__6b3cad999c61.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-018",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-018-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-018__fe8c39468552.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-023",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 17 fields, 17 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-023-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-023__78e4f3906e4c.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-030",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-030-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-030__0cfa7ae4b177.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-031",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 16,
+        "requiredFieldCount": 15,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-031-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-031__ec3276d1eebe.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-033",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 21,
+        "requiredFieldCount": 20,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 21 fields, 20 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-033-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-033__51058a699877.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-037",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 18,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 19 fields, 18 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-037-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-037__1fa31d43251e.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-038",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 20,
+        "requiredFieldCount": 19,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 20 fields, 19 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-038-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-038__7a37ca9c9d8e.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-039",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 40,
+        "requiredFieldCount": 37,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 40 fields, 37 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-039-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-039__733f9ddd4783.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-040",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 20,
+        "requiredFieldCount": 19,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 20 fields, 19 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-040-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-040__aab092911088.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-042",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 23,
+        "requiredFieldCount": 22,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 23 fields, 22 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-042-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-042__a4da3c74d437.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-043",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 18,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 19 fields, 18 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-043-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-043__8eab35cfeedb.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-044",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 21,
+        "requiredFieldCount": 20,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 21 fields, 20 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-044-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-044__8552b13c78ff.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-045",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 20,
+        "requiredFieldCount": 19,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 20 fields, 19 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-045-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-045__13efe0d94756.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-046",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 20,
+        "requiredFieldCount": 19,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-046-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-046__501a15f0fbb7.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-047",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 34,
+        "requiredFieldCount": 31,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-047-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-047__ec7dc3448f91.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-053",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 34,
+        "requiredFieldCount": 27,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 34 fields, 27 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-053-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-053__0a5a43238f28.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-054",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 28,
+        "requiredFieldCount": 25,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 28 fields, 25 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-054-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-054__71a4c9ac7e0e.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-055",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 33,
+        "requiredFieldCount": 30,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 33 fields, 30 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-055-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-055__b1819db1f92b.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-056",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 29,
+        "requiredFieldCount": 26,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 29 fields, 26 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-056-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-056__eea9a3391f5f.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-057",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 28,
+        "requiredFieldCount": 25,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 28 fields, 25 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-057-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-057__9053c61ee677.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-058",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 36,
+        "requiredFieldCount": 31,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 36 fields, 31 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-058-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-058__6de8f0022bff.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-059",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 40,
+        "requiredFieldCount": 37,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 40 fields, 37 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-059-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-059__4cdec41fdb1d.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-070",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-070-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-070__e63499f6fc20.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-071",
+      "status": "NEEDS_PROFILE_FIELDS",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 18,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "demo fixture has bare 'undefined' / 'Invalid Date'"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-071-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-071__cacf3f480888.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Fix demo fixture leaks, then generate FormFlightProfile skeleton."
+    },
+    {
+      "templateCode": "BM-085",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-085-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-085__ae0054d1db43.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-086",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 18,
+        "requiredFieldCount": 18,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-086-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-086__df834c030dc6.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-090",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 18,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-090-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-090__1c7858168558.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-097",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 32,
+        "requiredFieldCount": 26,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 32 fields, 26 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-097-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-097__17f981bf5afd.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-103",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 21,
+        "requiredFieldCount": 21,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-103-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-103__665eb32a5626.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-104",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 18,
+        "requiredFieldCount": 18,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-104-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-104__6d6f5903cad3.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-141",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 19,
+        "requiredFieldCount": 19,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-141-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-141__abc5fb5fb096.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-144",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-144-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-144__720233712d47.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-145",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 21,
+        "requiredFieldCount": 20,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-145-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-145__fc22267f4a63.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-146",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 18,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-146-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-146__59e5d7e21119.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-148",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 30,
+        "requiredFieldCount": 27,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 30 fields, 27 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-148-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-148__d4d27bb90141.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-150",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 22,
+        "requiredFieldCount": 22,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-150-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-150__d19a8665087c.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-156",
+      "status": "NEEDS_SAVE_ADAPTER",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 41,
+        "requiredFieldCount": 28,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": false,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "no saveDocumentFormInputs family call"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-156-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-156__ef438a40e567.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Refactor save handler into the saveDocumentFormInputs family, then port to FormFlightProfile."
+    },
+    {
+      "templateCode": "BM-159",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 15,
+        "requiredFieldCount": 15,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 15 fields, 15 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-159-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-159__d95eb7bda8e3.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-166",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 14 fields, 14 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-166-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-166__d0762a0ffb28.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-168",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 14,
+        "requiredFieldCount": 14,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 14 fields, 14 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-168-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-168__3369df5870b2.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-169",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 20,
+        "requiredFieldCount": 20,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 20 fields, 20 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-169-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-169__b737aefc0c16.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-170",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 17,
+        "requiredFieldCount": 17,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 17 fields, 17 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-170-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-170__c8f50b0e9f5b.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-171",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 34,
+        "requiredFieldCount": 31,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "pilot — already wired through Form Flight shared core"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-171-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-171__46b9a8be4e01.contract.locked.json",
+      "estimatedComplexity": "M",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    },
+    {
+      "templateCode": "BM-172",
+      "status": "BLOCKED",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 34,
+        "requiredFieldCount": 31,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": false,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": false
+      },
+      "reasons": [
+        "registry entry missing"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-172-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-172__e3a3eb687d2f.contract.locked.json",
+      "estimatedComplexity": "XL",
+      "nextAction": "Create component + registry entry first; port later."
+    },
+    {
+      "templateCode": "BM-173",
+      "status": "READY_FOR_PROFILE_PORT",
+      "checks": {
+        "componentFileExists": true,
+        "lockedContractExists": true,
+        "fieldCount": 16,
+        "requiredFieldCount": 16,
+        "reviewRequiredSlotCount": 0,
+        "primaryExportPresent": true,
+        "registryEntryPresent": true,
+        "saveHandlerPresent": true,
+        "renderHandlerPresent": true,
+        "demoFixtureSafe": true
+      },
+      "reasons": [
+        "all checks pass — 16 fields, 16 required"
+      ],
+      "componentPath": "D:\\Study\\Project\\QLLaw-main\\apps\\web\\src\\components\\documents\\bm-173-form-inputs.tsx",
+      "lockedContractPath": "D:\\Study\\Project\\QLLaw-main\\docs\\audit\\docx\\contracts\\locked\\BM-173__2e06ac25958d.contract.locked.json",
+      "estimatedComplexity": "S",
+      "nextAction": "Generate FormFlightProfile skeleton; port demo, requiredFieldPaths, summary lines; run shared-core parity test."
+    }
+  ],
+  "summary": {
+    "READY_FOR_PROFILE_PORT": 27,
+    "NEEDS_PROFILE_FIELDS": 5,
+    "NEEDS_SAVE_ADAPTER": 27,
+    "NEEDS_RENDER_PAYLOAD_MAPPING": 0,
+    "NEEDS_DOCX_CONTRACT_REVIEW": 0,
+    "NEEDS_LEGAL_REVIEW": 0,
+    "BLOCKED": 1
+  },
+  "total": 60,
+  "forbiddenScope": {
+    "noCommit": true,
+    "noPush": true,
+    "noPR": true,
+    "noMassRollout213": true,
+    "noDeepFixAll60": true,
+    "noCanonicalize55Forms": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noSourceDocxMutation": true,
+    "noAuthRewrite": true,
+    "noRouteMerging": true,
+    "noFakeGeneratedDocumentId": true
+  }
+}

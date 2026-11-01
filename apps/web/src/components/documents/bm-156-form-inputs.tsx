@@ -5,6 +5,7 @@ import {
   renderDocumentDocx,
   convertDocumentPdf,
 } from "@/lib/document-render-api";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 import { BmFormCasePayloadButton } from "./bm-form/case-payload-button";
 import {
   BmFieldText,
@@ -254,13 +255,6 @@ const SAMPLE_FORM: Bm156FormState = {
     signerName: "",
   },
 };
-
-function getApiBaseUrl(): string {
-  return (
-    process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ??
-    "http://localhost:3001/api/v1"
-  );
-}
 
 function readString(source: unknown, key: string): string {
   if (!source || typeof source !== "object") {
@@ -676,21 +670,6 @@ function buildRenderReadyForm(form: Bm156FormState): Bm156FormState {
 }
 
 
-async function postJson(url: string, body: Record<string, unknown>): Promise<void> {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const message = await response.text().catch(() => "");
-    throw new Error(message || "Không gọi được API BM-156.");
-  }
-}
-
 function TextInput(props: {
   label: string;
   value: string;
@@ -932,8 +911,6 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
     [form, initialForm],
   );
 
-  const apiBase = getApiBaseUrl();
-
   function updateSection(
     sectionName: keyof Bm156FormState,
     fieldName: string,
@@ -959,15 +936,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
     setSuccessMessage(null);
 
     try {
-      const response = await fetch(
-        `${apiBase}/documents/generated/${documentId}/render-payload`,
-      );
-
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-
-      const payload = await response.json();
+      const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
       const next = normalizePayloadToForm(payload);
       setForm(next);
       setInitialForm(next);
@@ -994,7 +963,7 @@ export function Bm156FormInputsPanel(props: Bm156FormInputsPanelProps) {
     setSuccessMessage(null);
 
     try {
-      await postJson(`${apiBase}/documents/generated/${documentId}/form-inputs`, {
+      await saveDocumentFormInputs(documentId, {
         ...renderReadyForm,
         formInputs: renderReadyForm,
         payloadOverrides: renderReadyForm,

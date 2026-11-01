@@ -1,0 +1,275 @@
+{
+  "schemaVersion": "2.0.0",
+  "generatedAt": "2026-07-11T20:43:19.591Z",
+  "runId": "phase8d-finalfix-20260711203313z",
+  "repository": "D:/Study/Project/QLLaw-main",
+  "branch": "audit/bm006-visual-fidelity-evidence",
+  "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+  "STATUS": "READY_FOR_OPERATOR",
+  "STATUS_NOTE": "Phase 8D automated technical closure COMPLETE; only persistent deployment metadata transition, human visual sign-off, and fresh authenticated nine-form throttling evidence remain.",
+  "technicalClosure": "COMPLETE",
+  "CURRENT_SOURCE_TRUTH": {
+    "migrationPath": "apps/api/prisma/migrations/20260711000000_squashed_baseline/migration.sql",
+    "migrationSha256": "002158c79fbace15308fb89caa3c65554489f10fa8ebc5622703f9953aee07d5",
+    "lockedContracts": 213,
+    "compiledContracts": 213,
+    "corpusFingerprint": "ab417791bfa58dbd831fcb33190593c050ba7730f5c6660de4c23bf8d16a4e14",
+    "bootstrapSqlBytes": 6765800,
+    "bootstrapSqlSha256": "d6becce48275c49348e475bc4156038a1aed61095becabb4f88c4ba5d022ce81",
+    "closureImageId": "sha256:2f0e7b8447e9ed7d65341708a1e308a6903ab17d528b6ee11f34c417366640f1",
+    "legacyColumnDriftActive": false
+  },
+  "BM031_ROOT_CAUSE": {
+    "classification": "GENERIC_SQL_LITERAL_SERIALIZATION_BUG",
+    "sourceDataValid": true,
+    "description": "The canonical BM-031 draft contains valid JSON escaped double quotes. The legacy generic serializer doubled SQL apostrophes but not backslashes, so MariaDB standard literal parsing consumed 12 JSON escape backslashes before the draft_json constraint ran.",
+    "fix": "Double backslashes before apostrophes and remove NO_BACKSLASH_ESCAPES from only the apply session before literals and START TRANSACTION. Preserve all other session modes; do not mutate GLOBAL sql_mode, BM-031 source data, locked DOCX, or contracts.",
+    "sqlModeProof": {
+      "integrationRunId": "phase8d-bm031-hardened-20260711203509365-8997",
+      "newConnectionInheritedNoBackslashEscapes": true,
+      "officialApplyOneExit": 0,
+      "officialApplyTwoExit": 0,
+      "globalModeByteEquivalentAfterApplyOne": true,
+      "globalModeByteEquivalentAfterApplyTwo": true,
+      "originalGlobalModeRestoredExactly": true,
+      "guardedLoopbackAdminUrl": true
+    },
+    "officialApplyRepairs": [
+      "Use the API package's installed mariadb driver instead of absent mysql2/promise.",
+      "Compare schema probe columns as table-qualified keys.",
+      "Invoke Prisma from apps/api with prisma/schema.prisma.",
+      "Normalize only the apply session's NO_BACKSLASH_ESCAPES mode before SQL literals."
+    ],
+    "failedAttempts": [
+      "Early ad-hoc probes hit shell quoting, ESM import, BigInt serialization, mysql URL-driver, and guessed-credential errors before the sanitized repeatable probe succeeded.",
+      "An earlier closure-runner pass exposed migration-order and cleanup gaps; those were corrected.",
+      "Independent review exposed byte-count, Clerk hydration, hostile-SQL-mode, and restart-migration evidence gaps; regression tests were added before the canonical run.",
+      "The first hostile-GLOBAL setup used an unsupported CLI password environment path and stopped before migration/test; its unique resources were removed before the passing retry."
+    ]
+  },
+  "BM031_BYTE_COMPARISON": {
+    "canonical": {
+      "jsonValid": 1,
+      "characters": 16230,
+      "bytes": 16617,
+      "sha256": "6f0ab9c724e719a797c8412f28d7b1201ddafcecd1de34ee8598d26c4f554f87",
+      "backslashes": 12,
+      "escapedDoubleQuotes": 12
+    },
+    "legacyMariaDbLiteral": {
+      "jsonValid": 0,
+      "characters": 16218,
+      "bytes": 16605,
+      "sha256": "803ae88df0b4980fcd35967b8330f04fa124941cf584f245953f904ce511c86d",
+      "firstDifferingByte": 2369,
+      "insertError": "ER_CONSTRAINT_FAILED/4025/draft_json"
+    },
+    "fixedMariaDbLiteral": {
+      "jsonValid": 1,
+      "characters": 16230,
+      "bytes": 16617,
+      "sha256": "6f0ab9c724e719a797c8412f28d7b1201ddafcecd1de34ee8598d26c4f554f87",
+      "insertSucceeded": true,
+      "byteIdenticalToParameterized": true
+    }
+  },
+  "TRANSACTION_ATOMICITY": {
+    "preFixFullApplyFailure": {
+      "error": "ER_CONSTRAINT_FAILED/4025 at BM-031",
+      "templatesAfterNewConnection": 0,
+      "versionsAfterNewConnection": 0,
+      "inTransaction": 0
+    },
+    "syntheticPrismaFailure": {
+      "expectedExit": 1,
+      "officialsAfterRollback": 0,
+      "templatesAfterRollback": 0,
+      "versionsAfterRollback": 0
+    },
+    "integrationRunId": "phase8d-bm031-hardened-20260711203509365-8997",
+    "integrationTest": "PASS 7/7",
+    "partialPersistencePossible": false
+  },
+  "BOOTSTRAP_FIRST_APPLY": {
+    "command": "node scripts/audit/build-phase-8c-bootstrap-sql.mjs --apply",
+    "exit": 0,
+    "templates": 213,
+    "versions": 213,
+    "duplicateNaturalKeys": 0,
+    "requiredLockedHashes": {
+      "BM-001": "14ee86a6593658be8f4ea28574c0f06681b33cee7bff8e16cd1891db06c35e9c",
+      "BM-002": "5a5f9f47801b3ae7abfb114f56ae99a529cd6130421ddafa1bc99976c733b2a8",
+      "BM-003": "c93618a5dc95a0825ebabbf527f96936c504c1ceabd70ef6bde53874393c70b5"
+    },
+    "requiredTemplateHashes": {
+      "BM-001": "e2d1a2c60be3a25dc688dcbb54f53c1f1e93ed0267ebc5a81a809d9a0855fb77",
+      "BM-002": "c3164f9f4fd074bf7cefed649f947bce2005540035a0c3c8ab0934a1af417b5c",
+      "BM-003": "1a5baf6739edc3d7769853a6b8d8d3be80a72e4ca105c7850278590ca4e31128"
+    },
+    "semanticFingerprint": "321781d738a1edd9b2f19e908efe478276358e0badfe790223410b8e12ea5201",
+    "naturalKeyFingerprint": "d48899b81f94a3566402fb181ba181cbd24acea156694e9142f9bfdbbc0564b1"
+  },
+  "BOOTSTRAP_SECOND_APPLY": {
+    "command": "node scripts/audit/build-phase-8c-bootstrap-sql.mjs --apply",
+    "exit": 0,
+    "templates": 213,
+    "versions": 213,
+    "duplicateNaturalKeys": 0,
+    "semanticFingerprint": "321781d738a1edd9b2f19e908efe478276358e0badfe790223410b8e12ea5201",
+    "naturalKeyFingerprint": "d48899b81f94a3566402fb181ba181cbd24acea156694e9142f9bfdbbc0564b1",
+    "result": "NO_SEMANTIC_CHANGE"
+  },
+  "READINESS_BEFORE": {
+    "httpStatus": 503,
+    "contractsOk": false,
+    "lockedCount": 0,
+    "missingLocked": ["BM-001", "BM-002", "BM-003"],
+    "fontsOk": true
+  },
+  "READINESS_AFTER": {
+    "httpStatus": 200,
+    "contractsOk": true,
+    "lockedCount": 213,
+    "missingLocked": [],
+    "fontsOk": true
+  },
+  "RESTART": {
+    "httpStatus": 200,
+    "templates": 213,
+    "versions": 213,
+    "duplicateNaturalKeys": 0,
+    "migrationRowsBefore": 1,
+    "migrationRowsAfter": 1,
+    "failedMigrationRowsBefore": 0,
+    "failedMigrationRowsAfter": 0,
+    "migrationMetadataSha256Before": "7fa4ec0f5bc38022750bb3ed82f0b3d0bf6f0a2973498a6d5b4c3da03ea6dc9e",
+    "migrationMetadataSha256After": "7fa4ec0f5bc38022750bb3ed82f0b3d0bf6f0a2973498a6d5b4c3da03ea6dc9e",
+    "migrationStateMatchesInitial": true,
+    "fingerprintsUnchanged": true
+  },
+  "FONT": {
+    "status": "EXACT_REQUIRED_FONT_PASS",
+    "family": "Times New Roman",
+    "presentStyles": ["Regular", "Bold", "Italic", "Bold Italic"],
+    "missingStyles": [],
+    "hostFilesPreserved": true
+  },
+  "PDF": {
+    "status": "TECHNICAL_PASS_WITH_PROVENANCE_LIMITATION",
+    "forms": [
+      {"form": "BM-001", "pdfSha256": "33f02126e5d6802457f0cdc407ef45d0c49f607f3bbf4fccbf997fb4c11e167a", "bytes": 98600, "pages": 2},
+      {"form": "BM-006", "pdfSha256": "86cd739f7d2ef59088c7ad72617a6c95c10cf14be16139c9e834953d8692c619", "bytes": 112480, "pages": 1},
+      {"form": "BM-171", "pdfSha256": "dc91cefddd2caccee2a49698e7e429d7bbc60b7e270d00b5bf1beeb4d75b201f", "bytes": 98468, "pages": 1}
+    ],
+    "conversionImageDigest": null,
+    "currentClosureImageId": "sha256:2f0e7b8447e9ed7d65341708a1e308a6903ab17d528b6ee11f34c417366640f1",
+    "imageEqualityProven": false
+  },
+  "THROTTLING": {
+    "authState": "OPERATOR_CREDENTIAL_REQUIRED",
+    "reasonCode": "STORAGE_STATE_NOT_RECENT",
+    "storageStatePath": "playwright/.clerk/admin.json",
+    "ignored": true,
+    "tracked": false,
+    "recent": false,
+    "ageMs": 149605216.78979492,
+    "maxAgeMs": 86400000,
+    "authenticatedSmoke": "NOT_RUN",
+    "collectorExit": 3,
+    "collectorDurationMs": 328,
+    "verified": 0,
+    "unverified": 9,
+    "classifications": ["UNVERIFIED"],
+    "artifact": "docs/audit/infrastructure-modernization/phase-8c-throttling/throttling-closure.latest.json",
+    "artifactSha256": "803d4d8e4d4d511da0dee23e37c26b7c3634cb753f5f6dc952e1a5c2a2633544",
+    "operatorCommand": "pnpm exec playwright test --config=playwright.config.ts --project=\"clerk setup\" --workers=1 --reporter=line; if ($LASTEXITCODE -eq 0) { node scripts/audit/build-phase-8c-throttling-closure.mjs }"
+  },
+  "HUMAN_REVIEW": {
+    "status": "HUMAN_VISUAL_REVIEW_PENDING",
+    "forms": ["BM-001", "BM-006", "BM-171"],
+    "firstPagePngCount": 3,
+    "contactSheetCount": 3,
+    "visualSignoffGranted": false,
+    "rolloutReady": false,
+    "artifact": "docs/audit/infrastructure-modernization/phase-8c-pdf-fidelity/PHASE_8D_HUMAN_VISUAL_REVIEW_PACKET.latest.json",
+    "artifactSha256": "3a734727f6baa2ee1053364f4c1cb948e63c00afa4dc62b6a6ff51ee51906d05"
+  },
+  "FULL_VALIDATION": {
+    "status": "PASS",
+    "aggregateCommands": [
+      {"command": "pnpm typecheck", "exit": 0, "durationMs": 7318},
+      {"command": "pnpm lint", "exit": 0, "durationMs": 58300},
+      {"command": "pnpm test", "exit": 0, "durationMs": 25057},
+      {"command": "pnpm build", "exit": 0, "durationMs": 24522},
+      {"command": "pnpm verify:quick", "exit": 0, "durationMs": 7381},
+      {"command": "pnpm verify:full", "exit": 0, "durationMs": 71188},
+      {"command": "pnpm verify:ci", "exit": 0, "durationMs": 75639}
+    ],
+    "focusedBootstrapGenerator": "PASS 13/13",
+    "focusedPhase8dStatic": "PASS 4 with guarded integration skipped",
+    "focusedPhase8dIntegration": "PASS 7/7",
+    "focusedPhase8dIntegrationRunId": "phase8d-bm031-hardened-20260711203509365-8997",
+    "throttlingClassifier": "PASS 5/5",
+    "migrationRegressionAfterFinalSource": "PASS 4/4",
+    "officialContractSync": "FILE_ONLY PASS 213/213",
+    "evidenceCheck": "PASS; mutation NONE; matrix 201 PASS / 12 PARTIAL",
+    "artifact": "docs/audit/infrastructure-modernization/phase-8c-final-report/VALIDATION.latest.md",
+    "artifactSha256": "3a064ea21fe7c3c2889596ea1bc016325107fbc639d03f7ff526b6bf0d9c7c99"
+  },
+  "PERSISTENT_DB": {
+    "phase8dWrites": 0,
+    "operatorControlledTransitionExecuted": false,
+    "status": "READY_FOR_OPERATOR",
+    "readOnlyConfiguredLocalComparison": "DB_COMPARE PASS; matched 213, missing 0, stale 0",
+    "note": "The read-only local comparison is not evidence that the intended deployment database has been transitioned."
+  },
+  "GIT": {
+    "worktreeSnapshot": {
+      "dirtyRecords": 2044,
+      "trackedUnstaged": 263,
+      "untracked": 1781,
+      "trackedAdditions": 5128,
+      "trackedDeletions": 15446,
+      "renames": 0,
+      "unmerged": 0
+    },
+    "stagedPaths": 0,
+    "commitsCreated": 0,
+    "pushes": 0,
+    "pullRequests": 0,
+    "deliveryMode": "ALLOWLIST_ONLY_NO_STAGE_NO_PUBLISH",
+    "manifest": "docs/audit/infrastructure-modernization/phase-8c-final-report/PHASE_8D_GIT_MANIFEST.latest.json",
+    "manifestSelfHashExcluded": true
+  },
+  "CLEANUP": {
+    "status": "PASS",
+    "allPhase8dPrefixCounts": {"containers": 0, "networks": 0, "images": 0, "volumes": 0},
+    "runs": [
+      {"runId": "phase8d-reviewfix-20260711202453z", "containers": 0, "networks": 0, "images": 0, "volumes": 0},
+      {"runId": "phase8d-finalfix-20260711203313z", "containers": 0, "networks": 0, "images": 0, "volumes": 0},
+      {"runId": "phase8d-bm031-global-20260711202951154-6474", "result": "STOPPED_BEFORE_MIGRATION_AND_TEST", "containers": 0, "networks": 0, "images": 0, "volumes": 0},
+      {"runId": "phase8d-bm031-hardened-20260711203509365-8997", "containers": 0, "networks": 0, "images": 0, "volumes": 0}
+    ],
+    "persistentContainerPreserved": "quanlyvks-mariadb (healthy, identity and start time unchanged during final integration)",
+    "hostFontsPreserved": true,
+    "ignoredAuthStatePreserved": true,
+    "temporaryPdfRenderDirectoryRemoved": true,
+    "generatedDuplicateBootstrapEvidenceRemoved": 98,
+    "generatedDuplicateBootstrapBytesRemoved": 331415929
+  },
+  "REMAINING_OPERATOR_GATES": [
+    "Run the reviewed metadata transition against the intended persistent deployment database.",
+    "Obtain explicit human visual sign-off for BM-001, BM-006, and BM-171.",
+    "Refresh the Clerk ticket and run the authenticated nine-form throttling collector."
+  ],
+  "artifacts": {
+    "closure": ".artifacts/phase-8c2-bootstrap/phase8d-finalfix-20260711203313z.latest.json",
+    "closureSha256": "a91bd695bde3e1c7f8aebafa84a5fbd32319d9d6d9917e5add0cef01fd9a6913",
+    "forensicProbe": "scripts/audit/probe-phase-8d-bm031-forensics.mjs",
+    "bootstrapManifest": "docs/audit/infrastructure-modernization/phase-8c-bootstrap/bootstrap.latest.json",
+    "bootstrapSql": "docs/audit/infrastructure-modernization/phase-8c-bootstrap/bootstrap.latest.sql",
+    "validation": "docs/audit/infrastructure-modernization/phase-8c-final-report/VALIDATION.latest.md",
+    "throttling": "docs/audit/infrastructure-modernization/phase-8c-throttling/throttling-closure.latest.json",
+    "humanReview": "docs/audit/infrastructure-modernization/phase-8c-pdf-fidelity/PHASE_8D_HUMAN_VISUAL_REVIEW_PACKET.latest.json"
+  }
+}

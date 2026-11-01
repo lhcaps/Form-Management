@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-10T23:45:00Z",
+  "auditor": "phase7-independent-auditor",
+  "dockerVerifier": {
+    "file": "scripts/docker-verify.mjs",
+    "codexClaimed": "exit 0 in 73.762s, build + boot + readiness + migration probe",
+    "whatItRuns": [
+      "docker build (api + web)",
+      "docker compose up (production stack)",
+      "health checks",
+      "libreoffice wrapper test",
+      "font probe",
+      "graceful shutdown test"
+    ],
+    "whatItDoesNotRun": [
+      "Cannot migrate against user's persistent DB without disposable volumes",
+      "Cannot resolve P3018 if migration is truly broken"
+    ],
+    "verifierExitCodeTruthfulness": "PARTIALLY — verifier claims exit 0 but reports internal migration blocker. If verifier is allowed exit 0 with a known blocker, the exit code is misleading.",
+    "freshResult": "NOT_RUN — independent re-run would mutate user's Docker state",
+    "verificationStatus": "NOT_REPRODUCED",
+    "risk": "High if user's CI/CD relies on docker-verify to gate production deploys"
+  },
+  "migrationP3018": {
+    "codexReported": "P3018 / MariaDB 1060",
+    "codexClassification": "ENTRYPOINT_DEFECT",
+    "staticInspection": {
+      "migrationFiles": "apps/api/prisma/migrations/* — drift observed but not repaired",
+      "driftLikelyCause": "Existing drift in user's _prisma_migrations table or duplicate column from a prior partial migration",
+      "driftEvidence": "1060 = 'Duplicate column name' suggests an earlier migration partially applied or a non-Prisma schema change happened"
+    },
+    "freshTests": {
+      "freshEmptyDbTest": "NOT_RUN (would require disposable DB)",
+      "persistentDbTest": "NOT_RUN (forbidden)",
+      "repair": "NOT_RUN (forbidden)"
+    },
+    "classification": "PERSISTENT_DB_DRIFT or MIGRATION_CODE_DEFECT (cannot determine without isolated reproduction)",
+    "verificationStatus": "NEED_USER_DECISION",
+    "discrepancy": "Codex's BLOCKER_REGISTER.latest.md and FINAL_REPORT.latest.md both classify this as 'entrypoint defect' but do not provide evidence of running it against a fresh empty DB. Without a fresh DB test, we cannot rule out MIGRATION_CODE_DEFECT.",
+    "risk": "Critical: any production deploy with this state will fail at `prisma migrate deploy`"
+  },
+  "fontAndLibreOffice": {
+    "codexReported": "Times New Roman unavailable; Liberation Serif fallback used",
+    "staticInspection": {
+      "libreofficeInImage": "presumed present in api image (Codex claimed: libreoffice-core + fonts-liberation installed)",
+      "isolatedProfile": "libreoffice-wrapper.sh uses TMPDIR-derived profile directory",
+      "timeout": "implemented in wrapper",
+      "cleanup": "rm -rf on profile directory after each conversion",
+      "concurrentSafety": "TMPDIR-based profile prevents shared-state corruption"
+    },
+    "freshResult": "NOT_RUN — would require running the production image and an actual DOCX conversion",
+    "fallbackDocumentedAsNonFidelityComplete": "Codex claims yes, but evidence in audit reports is verbal only — the canonical matrix `fidelityComplete` count remains 0 which is consistent with this claim",
+    "verificationStatus": "PARTIALLY_VERIFIED",
+    "discrepancy": "Times New Roman is the canonical font for Vietnamese legal documents. Liberation Serif has a different x-height and may shift text wrap. Page count drift risk: REAL.",
+    "risk": "Medium-High: page count drift could change pagination of legal documents"
+  },
+  "summary": {
+    "verified": 0,
+    "partiallyVerified": 1,
+    "notReproduced": 1,
+    "needUserDecision": 1,
+    "blockingConcerns": [
+      "P3018/1060 migration failure root cause not independently confirmed",
+      "Docker verifier exit 0 with internal blocker = wrapper truthfulness gap",
+      "Page count drift risk from Liberation Serif substitution not measured"
+    ]
+  }
+}

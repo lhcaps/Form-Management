@@ -91,7 +91,7 @@ This document defines the environment variables and secret management strategy f
 # --- Clerk Keys ---
 # Get these from: https://dashboard.clerk.com → API Keys
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+CLERK_SECRET_KEY=<set-in-secret-provider>
 
 # --- Clerk Webhook ---
 # Get this from: https://dashboard.clerk.com → Webhooks

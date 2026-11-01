@@ -1,0 +1,407 @@
+{
+  "runId": "phase8b-codex-c3-20260710203608",
+  "startedAt": "2026-07-10T20:36:08.627Z",
+  "completedAt": "2026-07-10T20:36:42.614Z",
+  "durationMs": 33987,
+  "safety": {
+    "persistentSource": "quanlyvks-mariadb/quanlyvks",
+    "persistentOperation": "mariadb-dump --no-data --skip-lock-tables",
+    "applicationRowsRead": 0,
+    "schemaDumpContainsDataStatements": false,
+    "disposableContainer": "phase8b-codex-c3-20260710203608-mariadb",
+    "persistentCredentialsRecorded": false
+  },
+  "versions": {
+    "mariadbImage": "mariadb:11",
+    "prisma": "6.19.3",
+    "node": "v22.23.1"
+  },
+  "schemaOnlyClone": {
+    "dumpSha256": "ec48b52d9df6a4ff1d6e20dc1d877d8ab5e15d2f5d44d6ddf64af46febe697c8",
+    "dumpBytes": 54954,
+    "candidateSha256": "002158c79fbace15308fb89caa3c65554489f10fa8ebc5622703f9953aee07d5",
+    "candidateActiveMigrations": [
+      "000000000000_squashed_baseline"
+    ],
+    "legacyFixtureSourceMigrations": [
+      "20260615000000_init_schema",
+      "20260616000000_add_officials_role",
+      "20260616005000_create_auth_sessions",
+      "20260616010000_add_official_credentials",
+      "20260616020000_add_template_owner_official",
+      "20260616_add_auth_sessions",
+      "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+      "20260617110000_fix_vietnamese_column_defaults",
+      "20260620150000_add_form_contract_platform_v2",
+      "20260620170000_enforce_form_contract_scope_uniqueness",
+      "20260622000000_add_clerk_auth_identities",
+      "20260702000000_add_auth_identity_audit_logs",
+      "20260702_generated_document_audit_logs"
+    ],
+    "applicationDataCopied": false
+  },
+  "e1": {
+    "fixture": "all 13 successful legacy migration names",
+    "clone": {
+      "counts": {
+        "tables": 40,
+        "columns": 490,
+        "physicalIndexes": 195,
+        "foreignKeys": 64
+      },
+      "fingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1\n20260617010000_add_soft_delete_to_case_offenses_and_evidence\tSET\tNULL\t1\n20260617110000_fix_vietnamese_column_defaults\tSET\tNULL\t1\n20260620150000_add_form_contract_platform_v2\tSET\tNULL\t1\n20260620170000_enforce_form_contract_scope_uniqueness\tSET\tNULL\t1\n20260622000000_add_clerk_auth_identities\tSET\tNULL\t1\n20260702000000_add_auth_identity_audit_logs\tSET\tNULL\t1\n20260702_generated_document_audit_logs\tSET\tNULL\t1",
+        "count": 13,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role",
+          "20260616005000_create_auth_sessions",
+          "20260616010000_add_official_credentials",
+          "20260616020000_add_template_owner_official",
+          "20260616_add_auth_sessions",
+          "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+          "20260617110000_fix_vietnamese_column_defaults",
+          "20260620150000_add_form_contract_platform_v2",
+          "20260620170000_enforce_form_contract_scope_uniqueness",
+          "20260622000000_add_clerk_auth_identities",
+          "20260702000000_add_auth_identity_audit_logs",
+          "20260702_generated_document_audit_logs"
+        ],
+        "activeFailed": 0
+      },
+      "scopeDefaults": "form_contract_versions\tscope_key\t'GLOBAL'\nofficial_permissions\tscope_key\t'GLOBAL'"
+    },
+    "statusBefore": {
+      "exit": 1,
+      "durationMs": 733,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n",
+      "stderr": "Your local migration history and the migrations table from your database are different:\n\nThe last common migration is: null\n\nThe migration have not yet been applied:\n000000000000_squashed_baseline\n\nThe migrations from the database are not found locally in prisma/migrations:\n20260615000000_init_schema\n20260616000000_add_officials_role\n20260616005000_create_auth_sessions\n20260616010000_add_official_credentials\n20260616020000_add_template_owner_official\n20260616_add_auth_sessions\n20260617010000_add_soft_delete_to_case_offenses_and_evidence\n20260617110000_fix_vietnamese_column_defaults\n20260620150000_add_form_contract_platform_v2\n20260620170000_enforce_form_contract_scope_uniqueness\n20260622000000_add_clerk_auth_identities\n20260702000000_add_auth_identity_audit_logs\n20260702_generated_document_audit_logs\n"
+    },
+    "resolveBaseline": {
+      "exit": 0,
+      "durationMs": 729,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\nMigration 000000000000_squashed_baseline marked as applied.\n\n",
+      "stderr": ""
+    },
+    "statusAfterSingleResolve": {
+      "exit": 0,
+      "durationMs": 845,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+      "stderr": "┌─────────────────────────────────────────────────────────┐\n│  Update available 6.19.3 -> 7.8.0                       │\n│                                                         │\n│  This is a major update - please follow the guide at    │\n│  https://pris.ly/d/major-version-upgrade                │\n│                                                         │\n│  Run the following to update                            │\n│    npm i --save-dev prisma@latest                       │\n│    npm i @prisma/client@latest                          │\n└─────────────────────────────────────────────────────────┘\n"
+    },
+    "deployAfterSingleResolveFirst": {
+      "exit": 0,
+      "durationMs": 724,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+      "stderr": ""
+    },
+    "deployAfterSingleResolveSecond": {
+      "exit": 0,
+      "durationMs": 705,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+      "stderr": ""
+    },
+    "singleResolveSufficient": true,
+    "metadataAfterResolve": {
+      "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1\n20260617010000_add_soft_delete_to_case_offenses_and_evidence\tSET\tNULL\t1\n20260617110000_fix_vietnamese_column_defaults\tSET\tNULL\t1\n20260620150000_add_form_contract_platform_v2\tSET\tNULL\t1\n20260620170000_enforce_form_contract_scope_uniqueness\tSET\tNULL\t1\n20260622000000_add_clerk_auth_identities\tSET\tNULL\t1\n20260702000000_add_auth_identity_audit_logs\tSET\tNULL\t1\n20260702_generated_document_audit_logs\tSET\tNULL\t1\n000000000000_squashed_baseline\tSET\tNULL\t0",
+      "count": 14,
+      "names": [
+        "20260615000000_init_schema",
+        "20260616000000_add_officials_role",
+        "20260616005000_create_auth_sessions",
+        "20260616010000_add_official_credentials",
+        "20260616020000_add_template_owner_official",
+        "20260616_add_auth_sessions",
+        "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+        "20260617110000_fix_vietnamese_column_defaults",
+        "20260620150000_add_form_contract_platform_v2",
+        "20260620170000_enforce_form_contract_scope_uniqueness",
+        "20260622000000_add_clerk_auth_identities",
+        "20260702000000_add_auth_identity_audit_logs",
+        "20260702_generated_document_audit_logs",
+        "000000000000_squashed_baseline"
+      ],
+      "activeFailed": 0
+    },
+    "metadataOperation": "prisma migrate resolve --applied 000000000000_squashed_baseline",
+    "final": {
+      "status": {
+        "exit": 0,
+        "durationMs": 709,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+        "stderr": ""
+      },
+      "deployFirst": {
+        "exit": 0,
+        "durationMs": 842,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "deploySecond": {
+        "exit": 0,
+        "durationMs": 833,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "beforeFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "afterFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "schemaMutation": false,
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1\n20260617010000_add_soft_delete_to_case_offenses_and_evidence\tSET\tNULL\t1\n20260617110000_fix_vietnamese_column_defaults\tSET\tNULL\t1\n20260620150000_add_form_contract_platform_v2\tSET\tNULL\t1\n20260620170000_enforce_form_contract_scope_uniqueness\tSET\tNULL\t1\n20260622000000_add_clerk_auth_identities\tSET\tNULL\t1\n20260702000000_add_auth_identity_audit_logs\tSET\tNULL\t1\n20260702_generated_document_audit_logs\tSET\tNULL\t1\n000000000000_squashed_baseline\tSET\tNULL\t0",
+        "count": 14,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role",
+          "20260616005000_create_auth_sessions",
+          "20260616010000_add_official_credentials",
+          "20260616020000_add_template_owner_official",
+          "20260616_add_auth_sessions",
+          "20260617010000_add_soft_delete_to_case_offenses_and_evidence",
+          "20260617110000_fix_vietnamese_column_defaults",
+          "20260620150000_add_form_contract_platform_v2",
+          "20260620170000_enforce_form_contract_scope_uniqueness",
+          "20260622000000_add_clerk_auth_identities",
+          "20260702000000_add_auth_identity_audit_logs",
+          "20260702_generated_document_audit_logs",
+          "000000000000_squashed_baseline"
+        ],
+        "activeFailed": 0
+      },
+      "historyPreserved": true,
+      "candidateApplied": true,
+      "pass": true
+    },
+    "pass": true
+  },
+  "e2": {
+    "fixture": "successful init plus active failed 20260616000000_add_officials_role row",
+    "clone": {
+      "counts": {
+        "tables": 40,
+        "columns": 490,
+        "physicalIndexes": 195,
+        "foreignKeys": 64
+      },
+      "fingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tNULL\tNULL\t0",
+        "count": 2,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role"
+        ],
+        "activeFailed": 1
+      },
+      "scopeDefaults": "form_contract_versions\tscope_key\t'GLOBAL'\nofficial_permissions\tscope_key\t'GLOBAL'"
+    },
+    "statusBefore": {
+      "exit": 1,
+      "durationMs": 826,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n",
+      "stderr": "Your local migration history and the migrations table from your database are different:\n\nThe last common migration is: null\n\nThe migration have not yet been applied:\n000000000000_squashed_baseline\n\nThe migrations from the database are not found locally in prisma/migrations:\n20260615000000_init_schema\n20260616000000_add_officials_role\n"
+    },
+    "incorrectOrderProbe": {
+      "cloneFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "resolveBaselineFirst": {
+        "exit": 0,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\nMigration 000000000000_squashed_baseline marked as applied.\n\n",
+        "stderr": "",
+        "durationMs": 770
+      },
+      "statusWithActiveFailure": {
+        "exit": 1,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n",
+        "stderr": "Following migration have failed:\n20260616000000_add_officials_role\n\nDuring development if the failed migration(s) have not been deployed to a production database you can then fix the migration(s) and run prisma migrate dev.\n\nThe failed migration(s) can be marked as rolled back or applied:\n      \n- If you rolled back the migration(s) manually:\nprisma migrate resolve --rolled-back \"20260616000000_add_officials_role\"\n\n- If you fixed the database manually (hotfix):\nprisma migrate resolve --applied \"20260616000000_add_officials_role\"\n\nRead more about how to resolve migration issues in a production database:\nhttps://pris.ly/d/migrate-resolve\n",
+        "durationMs": 711
+      },
+      "deployWithActiveFailure": {
+        "exit": 1,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n",
+        "stderr": "Error: P3009\n\nmigrate found failed migrations in the target database, new migrations will not be applied. Read more about how to resolve migration issues in a production database: https://pris.ly/d/migrate-resolve\nThe `20260616000000_add_officials_role` migration started at 2026-07-10 00:00:01 UTC failed\n\n\n",
+        "durationMs": 717
+      },
+      "schemaMutation": false
+    },
+    "failedRowMustBeResolvedFirst": true,
+    "resolveFailedAsRolledBack": {
+      "exit": 0,
+      "durationMs": 703,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\nMigration 20260616000000_add_officials_role marked as rolled back.\n\n",
+      "stderr": ""
+    },
+    "resolveWorkspace": "candidate-only",
+    "statusAfterRollback": {
+      "exit": 1,
+      "durationMs": 700,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n",
+      "stderr": "Your local migration history and the migrations table from your database are different:\n\nThe last common migration is: null\n\nThe migration have not yet been applied:\n000000000000_squashed_baseline\n\nThe migrations from the database are not found locally in prisma/migrations:\n20260615000000_init_schema\n20260616000000_add_officials_role\n"
+    },
+    "resolveBaselineAfterRollback": {
+      "exit": 0,
+      "durationMs": 719,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\nMigration 000000000000_squashed_baseline marked as applied.\n\n",
+      "stderr": ""
+    },
+    "metadataAfterProcedure": {
+      "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tNULL\tSET\t0\n000000000000_squashed_baseline\tSET\tNULL\t0",
+      "count": 3,
+      "names": [
+        "20260615000000_init_schema",
+        "20260616000000_add_officials_role",
+        "000000000000_squashed_baseline"
+      ],
+      "activeFailed": 0
+    },
+    "metadataOperation": "resolve failed row --rolled-back, then resolve 000000000000_squashed_baseline --applied",
+    "final": {
+      "status": {
+        "exit": 0,
+        "durationMs": 720,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+        "stderr": ""
+      },
+      "deployFirst": {
+        "exit": 0,
+        "durationMs": 740,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "deploySecond": {
+        "exit": 0,
+        "durationMs": 719,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "beforeFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "afterFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "schemaMutation": false,
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tNULL\tSET\t0\n000000000000_squashed_baseline\tSET\tNULL\t0",
+        "count": 3,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role",
+          "000000000000_squashed_baseline"
+        ],
+        "activeFailed": 0
+      },
+      "historyPreserved": true,
+      "candidateApplied": true,
+      "pass": true
+    },
+    "realPersistentApplicability": "INAPPLICABLE_CURRENTLY: persistent active failed row count is zero",
+    "pass": true
+  },
+  "e3": {
+    "fixture": "first 6 successful legacy migration names only",
+    "clone": {
+      "counts": {
+        "tables": 40,
+        "columns": 490,
+        "physicalIndexes": 195,
+        "foreignKeys": 64
+      },
+      "fingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1",
+        "count": 6,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role",
+          "20260616005000_create_auth_sessions",
+          "20260616010000_add_official_credentials",
+          "20260616020000_add_template_owner_official",
+          "20260616_add_auth_sessions"
+        ],
+        "activeFailed": 0
+      },
+      "scopeDefaults": "form_contract_versions\tscope_key\t'GLOBAL'\nofficial_permissions\tscope_key\t'GLOBAL'"
+    },
+    "statusBefore": {
+      "exit": 1,
+      "durationMs": 717,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n",
+      "stderr": "Your local migration history and the migrations table from your database are different:\n\nThe last common migration is: null\n\nThe migration have not yet been applied:\n000000000000_squashed_baseline\n\nThe migrations from the database are not found locally in prisma/migrations:\n20260615000000_init_schema\n20260616000000_add_officials_role\n20260616005000_create_auth_sessions\n20260616010000_add_official_credentials\n20260616020000_add_template_owner_official\n20260616_add_auth_sessions\n"
+    },
+    "resolveBaseline": {
+      "exit": 0,
+      "durationMs": 733,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\nMigration 000000000000_squashed_baseline marked as applied.\n\n",
+      "stderr": ""
+    },
+    "statusAfterSingleResolve": {
+      "exit": 0,
+      "durationMs": 852,
+      "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+      "stderr": "┌─────────────────────────────────────────────────────────┐\n│  Update available 6.19.3 -> 7.8.0                       │\n│                                                         │\n│  This is a major update - please follow the guide at    │\n│  https://pris.ly/d/major-version-upgrade                │\n│                                                         │\n│  Run the following to update                            │\n│    npm i --save-dev prisma@latest                       │\n│    npm i @prisma/client@latest                          │\n└─────────────────────────────────────────────────────────┘\n"
+    },
+    "singleResolveSufficient": true,
+    "metadataAfterResolve": {
+      "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1\n000000000000_squashed_baseline\tSET\tNULL\t0",
+      "count": 7,
+      "names": [
+        "20260615000000_init_schema",
+        "20260616000000_add_officials_role",
+        "20260616005000_create_auth_sessions",
+        "20260616010000_add_official_credentials",
+        "20260616020000_add_template_owner_official",
+        "20260616_add_auth_sessions",
+        "000000000000_squashed_baseline"
+      ],
+      "activeFailed": 0
+    },
+    "metadataOperation": "prisma migrate resolve --applied 000000000000_squashed_baseline",
+    "final": {
+      "status": {
+        "exit": 0,
+        "durationMs": 726,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\n",
+        "stderr": ""
+      },
+      "deployFirst": {
+        "exit": 0,
+        "durationMs": 711,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "deploySecond": {
+        "exit": 0,
+        "durationMs": 721,
+        "stdout": "Prisma schema loaded from prisma\\schema.prisma\nDatasource \"db\": MySQL database \"quanlyvks_transition\" at \"127.0.0.1:63967\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\n",
+        "stderr": ""
+      },
+      "beforeFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "afterFingerprint": "2965ad737f9b9fac7987cd05d6330e5a05aa69e1e0f8408c7c9a8a0751cfa4db",
+      "schemaMutation": false,
+      "metadata": {
+        "rows": "20260615000000_init_schema\tSET\tNULL\t1\n20260616000000_add_officials_role\tSET\tNULL\t1\n20260616005000_create_auth_sessions\tSET\tNULL\t1\n20260616010000_add_official_credentials\tSET\tNULL\t1\n20260616020000_add_template_owner_official\tSET\tNULL\t1\n20260616_add_auth_sessions\tSET\tNULL\t1\n000000000000_squashed_baseline\tSET\tNULL\t0",
+        "count": 7,
+        "names": [
+          "20260615000000_init_schema",
+          "20260616000000_add_officials_role",
+          "20260616005000_create_auth_sessions",
+          "20260616010000_add_official_credentials",
+          "20260616020000_add_template_owner_official",
+          "20260616_add_auth_sessions",
+          "000000000000_squashed_baseline"
+        ],
+        "activeFailed": 0
+      },
+      "historyPreserved": true,
+      "candidateApplied": true,
+      "pass": true
+    },
+    "pass": true
+  },
+  "verdict": "TRANSITION_GO",
+  "boot": {
+    "exit": 0,
+    "durationMs": 265
+  },
+  "cleanup": {
+    "containerRemoveExit": 0,
+    "leftovers": [],
+    "workspaceRemoved": true
+  }
+}

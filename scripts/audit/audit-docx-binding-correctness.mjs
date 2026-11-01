@@ -315,9 +315,7 @@ const runBindingAnalysis = (
 ) => {
   const { writeFileSync, readFileSync: readF, existsSync, mkdirSync } = $require('node:fs');
   const { join: j2join } = $require('node:path');
-  const { tmpdir: otmpdir } = $require('node:os');
-
-  const scriptDir = j2join(otmpdir(), `f4-binding-${process.pid}`);
+  const scriptDir = j2join(ROOT, 'apps', 'api', '.cache', `f4-binding-${process.pid}`);
   mkdirSync(scriptDir, { recursive: true });
   const scriptPath = j2join(scriptDir, `_binding_${templateCode}.ts`);
 
@@ -478,7 +476,14 @@ try {
   for (const section of schema.sections) {
     for (const field of section.fields) {
       if (field.required === true && field.editable === true && field.source === 'manual') {
-        mock[field.path] = markerForPath(field.path);
+        const marker = markerForPath(field.path);
+        mock[field.path] = marker;
+        // The form field path can differ from the literal DOCX slot ID.
+        // Mirror the production render binding so the fidelity audit checks
+        // the actual placeholder rather than treating a mapped slot as absent.
+        for (const binding of contract.renderBindings ?? []) {
+          if (binding.from === field.path) mock[binding.slotId] = marker;
+        }
         requiredFields.push(field.path);
       }
     }
@@ -555,9 +560,7 @@ try {
 const renderOneSync = (templateCode, contractPath, normalizedDocxPath, outputBinPath) => {
   const { writeFileSync, readFileSync: readF, existsSync, mkdirSync } = $require('node:fs');
   const { join: j2join } = $require('node:path');
-  const { tmpdir: otmpdir } = $require('node:os');
-
-  const scriptDir = j2join(otmpdir(), `f4-smoke-${process.pid}`);
+  const scriptDir = j2join(ROOT, 'apps', 'api', '.cache', `f4-smoke-${process.pid}`);
   mkdirSync(scriptDir, { recursive: true });
   const scriptPath = j2join(scriptDir, `_smoke_${templateCode}.ts`);
 
@@ -626,7 +629,12 @@ try {
   for (const section of schema.sections) {
     for (const field of section.fields) {
       if (field.required === true && field.editable === true && field.source === 'manual') {
-        mock[field.path] = markerForPath(field.path);
+        const marker = markerForPath(field.path);
+        mock[field.path] = marker;
+        // Keep corpus smoke aligned with representative binding analysis.
+        for (const binding of contract.renderBindings ?? []) {
+          if (binding.from === field.path) mock[binding.slotId] = marker;
+        }
         requiredFields.push(field.path);
       }
     }

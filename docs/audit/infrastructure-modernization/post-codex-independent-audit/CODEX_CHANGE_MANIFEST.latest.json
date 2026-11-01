@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-10T23:30:00Z",
+  "auditor": "phase7-independent-auditor",
+  "summary": {
+    "modified": 215,
+    "deleted": 32,
+    "untracked": 849,
+    "staged": 0,
+    "formStudioDeletionsNotDisclosedInCodexReport": 32,
+    "webFormStudioDeletions": 3,
+    "additionalUnaccountedFiles": "see unverifiedChanges list"
+  },
+  "protectedAreas": {
+    "BM-006NormalizedDocxHash": "b83c42ad854f5cd4e08bc8f901389be0ee17c1401c4e42a309016154bd399f56",
+    "prismaSchemaHash": "057375956a72fe40e11e0950c4126c4827e05824714a881f9de9ea0826e6022b",
+    "matrixJsonHash": "8599db87d01cfd92a7136f9d255a3496265c9e05ec422682840fa36abfdc70eb",
+    "matrixMdHash": "c63aa6091b5fd53e86cf8c76ba6a034e7ffa5288eb4263b80198c5902faebff1",
+    "formContractsDistDiff": "no diff",
+    "migrationsDiff": "no diff",
+    "sourceNormalizedDocxDiff": "no diff"
+  },
+  "categories": {
+    "REQUIRED_P0_FIX": [
+      "scripts/audit/status-matrix-213.mjs",
+      "scripts/audit/apply-all-current-evidence.mjs",
+      "scripts/audit/status-matrix-preserves-evidence.guard.test.mjs",
+      "scripts/audit-runtime-hardcodes.mjs",
+      "scripts/audit/audit-docx-slot-inventory.mjs",
+      "apps/api/src/modules/documents/rendering/infrastructure/docx-slot-inventory.spec.ts",
+      "apps/api/src/common/request-context.middleware.ts",
+      "apps/api/src/common/request-context.middleware.spec.ts",
+      "apps/api/src/main.ts",
+      "apps/api/src/app.module.ts",
+      "apps/api/src/infrastructure/config/app-config.service.ts",
+      "apps/api/src/infrastructure/config/app-config.service.spec.ts",
+      "apps/api/src/infrastructure/config/load-api-environment.ts",
+      "apps/api/src/infrastructure/config/load-api-environment.spec.ts",
+      "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.ts",
+      "apps/api/src/modules/forms-contracts/infrastructure/contract-sync.guard.spec.ts",
+      "apps/api/src/modules/imports/import-storage.service.ts",
+      "apps/api/src/modules/imports/import-storage.service.spec.ts",
+      "apps/api/src/modules/imports/imports.module.ts",
+      "apps/api/src/modules/imports/imports.service.ts",
+      "apps/api/src/seed/seed-config.ts",
+      "apps/api/src/seed/seed-config.spec.ts",
+      "apps/api/prisma/seed.ts",
+      "docker/api.Dockerfile",
+      "docker/web.Dockerfile",
+      "docker/api-entrypoint.sh",
+      "docker/libreoffice-wrapper.sh",
+      "docker-compose.prod.yml",
+      ".dockerignore",
+      ".gitattributes",
+      ".github/workflows/ci.yml",
+      ".env.example",
+      ".env.docker.example",
+      "package.json"
+    ],
+    "REQUIRED_P1_HARDENING": [
+      "scripts/dev-healthcheck.mjs",
+      "scripts/docx-contract/verify-locked-contracts.mjs",
+      "scripts/audit-form-authoring-baselines.mjs",
+      "apps/api/src/modules/bm031-direct/bm031-direct.controller.ts",
+      "apps/api/src/modules/bm031-direct/bm031-direct.controller.spec.ts",
+      "apps/api/src/modules/bm031-direct/bm031-direct.module.ts"
+    ],
+    "TEST_OR_EVIDENCE": [
+      "test/bm096-single-candidate-apply.test.mjs",
+      "test/bm096-single-candidate-review.test.mjs",
+      "test/bm213-form-inputs.test.mjs",
+      "test/ci-reproducibility.test.mjs",
+      "test/form-authoring-baselines.test.mjs",
+      "test/remediation-leak-batch-2a.test.mjs",
+      "test/semantic-evidence-baseline-gate.test.mjs",
+      "tests/e2e/runtime-preview-session.auth.spec.ts",
+      "apps/web/src/lib/form-flight/bm001-second-pilot.test.ts"
+    ],
+    "DOCUMENTATION": [
+      "docs/audit/bm-final/BM-001/final.latest.json",
+      "docs/audit/bm-final/BM-001/final.latest.md",
+      "docs/audit/bm-final/BM-171/final.latest.json",
+      "docs/audit/bm-final/BM-171/final.latest.md",
+      "docs/audit/bm-rollout/BM-001/readiness.latest.json",
+      "docs/audit/bm-rollout/BM-001/readiness.latest.md",
+      "docs/audit/bm-rollout/BM-171/readiness.latest.json",
+      "docs/audit/bm-rollout/BM-171/readiness.latest.md",
+      "docs/audit/docx-slot-inventory/latest.json",
+      "docs/audit/docx-slot-inventory/latest.md",
+      "docs/audit/docx/reports/LOCKED-CONTRACTS-SUMMARY.md",
+      "docs/audit/sot-gates-v1/latest.json",
+      "docs/audit/sot-gates-v1/latest.md",
+      "docs/audit/unified-bm-workspace/QLLAW_CURATED_GOLDEN_LAYOUT_FIDELITY.latest.json",
+      "docs/audit/unified-bm-workspace/QLLAW_CURATED_GOLDEN_LAYOUT_FIDELITY.latest.md"
+    ],
+    "PRODUCT_BEHAVIOR_CHANGE_UNDISCLOSED": [
+      {
+        "category": "DELETED_PRODUCT_CODE",
+        "files": [
+          "apps/api/src/modules/form-studio/application/admin-form-templates.service.ts",
+          "apps/api/src/modules/form-studio/application/admin-form-templates.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/authoring-contract.service.ts",
+          "apps/api/src/modules/form-studio/application/authoring-contract.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/contract-form-inputs.service.ts",
+          "apps/api/src/modules/form-studio/application/contract-form-inputs.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/document-form-schema.service.ts",
+          "apps/api/src/modules/form-studio/application/document-form-schema.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/form-contract-version.repository.ts",
+          "apps/api/src/modules/form-studio/application/form-platform-catalog.service.ts",
+          "apps/api/src/modules/form-studio/application/form-platform-catalog.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/form-preview.service.ts",
+          "apps/api/src/modules/form-studio/application/form-review-query.service.ts",
+          "apps/api/src/modules/form-studio/application/form-studio.service.ts",
+          "apps/api/src/modules/form-studio/application/form-studio.service.spec.ts",
+          "apps/api/src/modules/form-studio/application/runtime-form-contract.service.ts",
+          "apps/api/src/modules/form-studio/contract-form-inputs.controller.ts",
+          "apps/api/src/modules/form-studio/document-form-schema.controller.ts",
+          "apps/api/src/modules/form-studio/domain/authoring-contract.types.ts",
+          "apps/api/src/modules/form-studio/domain/draft-operation.schema.ts",
+          "apps/api/src/modules/form-studio/domain/draft-operation.ts",
+          "apps/api/src/modules/form-studio/domain/form-studio.error.ts",
+          "apps/api/src/modules/form-studio/dto/form-studio.dto.ts",
+          "apps/api/src/modules/form-studio/form-permissions.controller.ts",
+          "apps/api/src/modules/form-studio/form-permissions.controller.spec.ts",
+          "apps/api/src/modules/form-studio/form-studio.controller.ts",
+          "apps/api/src/modules/form-studio/form-studio.module.ts",
+          "apps/api/src/modules/form-studio/infrastructure/legacy-renderer-capabilities.generated.ts",
+          "apps/api/src/modules/form-studio/infrastructure/prisma-form-contract-version.repository.ts",
+          "apps/web/src/app/admin/(shared)/form-studio/page.tsx",
+          "apps/web/src/app/admin/(shared)/form-studio/permissions/page.tsx",
+          "apps/web/src/components/form-studio/form-studio-workspace.tsx"
+        ],
+        "count": 32,
+        "disclosedInCodexReport": "PARTIAL — listed as 'D' deletions in git diff but not enumerated in FINAL_REPORT.latest.md 'FILES_CHANGED_BY_THIS_TASK' table",
+        "possibleJustification": "None in the P0 or P1 register",
+        "impact": "Removes the entire form-studio admin module from API and Web; consumers depending on /admin/form-studio, form-studio permissions, authoring contract service, contract-form-inputs service, document-form-schema service, form-contract-version repository, form-platform-catalog service, form-preview service, form-review-query service, runtime-form-contract service, contract-form-inputs controller, document-form-schema controller would break or already did",
+        "verdict": "OUT_OF_SCOPE_FOR_INFRA_MODERNIZATION"
+      }
+    ],
+    "PRODUCT_BEHAVIOR_CHANGE_DISCLOSED_OK": [
+      "apps/web/src/components/documents/template-preview-workspace.tsx (literal deduplication per P1-003)",
+      "apps/web/src/lib/runtime-ux/index.ts (literal deduplication per P1-003)"
+    ],
+    "WEB_FORM_INPUTS_MASS_MODIFIED": [
+      "127 apps/web/src/components/documents/bm-XXX-form-inputs.tsx files are listed as modified in `git diff`",
+      "Codex reports touch only 'test-only patch' / 'expected runtime-ready evidence sync'",
+      "independent file count of these mods is 127 (counted in this audit); no detailed per-file review was possible within audit budget",
+      "VERDICT: NEED_VERIFY_DETAIL — see CHANGE_SCOPE_REVIEW.latest.md"
+    ]
+  },
+  "unverifiedChanges": [
+    {
+      "path": "apps/web/src/lib/bm001-form-inputs-api.ts",
+      "sha256": "FOUND",
+      "note": "blank-line-at-EOF flagged by git diff --check; not a correctness issue"
+    },
+    {
+      "path": "apps/web/src/lib/bm090-form-inputs-api.ts",
+      "sha256": "FOUND",
+      "note": "blank-line-at-EOF flagged by git diff --check"
+    },
+    {
+      "path": "apps/web/src/lib/bm097-form-inputs-api.ts",
+      "sha256": "FOUND",
+      "note": "blank-line-at-EOF flagged by git diff --check"
+    }
+  ],
+  "configFilesHashed": {
+    "apps/api/src/main.ts": "4a3542986f3c9f315c4c0c8bf1de101458ab9d325e1d1cc7936e6f56d3d447b0",
+    "apps/api/src/app.module.ts": "772e34509741ed958d230a3f95992317e8dba5d7fa0efaaaf48c7db2fa2e7d40",
+    "apps/api/src/common/request-context.middleware.ts": "8ad4faa4305230829905a16301f1f915759e45a9183f93085059886dad6ea148",
+    "apps/api/src/common/request-context.middleware.spec.ts": "d840607d022a3e0a1c11ecb8ad4a36ff33c139dc4d94403fe1594286f95b855c",
+    "apps/api/src/infrastructure/config/app-config.service.ts": "182c1a6de4e57f8521991640c5bd45906fd4420dd9abe5b1dd297e52b245167b",
+    "apps/api/src/infrastructure/config/app-config.service.spec.ts": "353af63e310deb4ca97c7687f650a4af9acb42fb3791aec0b59a2e114e7cfc5c",
+    "apps/api/src/infrastructure/config/load-api-environment.ts": "3ac3fd959f3e58edb2863466ac6b8a95846223a1b85f16306aa6fc11fd99869f",
+    "apps/api/src/infrastructure/config/load-api-environment.spec.ts": "87a5c591e8306aae2a668d1788126cfa49c528937f814893c818bca58a0b3d4e",
+    "docker/api-entrypoint.sh": "663bd44174415fca9747aeda95ef3bee2be99326711d135baa9a3409b53cd8c7",
+    "docker/api.Dockerfile": "ea8b4e78459f1927f6c3d9b3fb8a1f60055a3b5b1954826aaf9778add9529611",
+    "docker/web.Dockerfile": "5869ed9a386c519a65753381d73d093408cad5c4985cdc6f12ef8cfa57152825",
+    "docker-compose.prod.yml": "48d6602d73ebdf672a379d43c7a8b9d5009faab9945fc5c7a6567720c8b9398b",
+    "docker/libreoffice-wrapper.sh": "7c4f8329a470303d529daea10a31d6d8b099e0178d5af9143f2130b08bdacc23",
+    ".dockerignore": "a512883b7fae7888baa31f76ad137e2797be482ad171add12c88ca6a140e824b",
+    ".gitattributes": "fbde388e6dfe512324dfbeac3529f1031ef0cdee25d2490508707d9ecf06c960",
+    ".github/workflows/ci.yml": "803212f0e577233dc09790f009f74473b491154fe0d2c1e9ce492a6e1c54bdda",
+    "package.json": "a7b428ce270f63c9d30901e3cd3aee6c972584134f0c47d8e50d49c413b58ada",
+    "scripts/audit/status-matrix-213.mjs": "53bc2734a998d7fef2952dea52c3d51fd064a5b19727c59343c6717713388c91",
+    "scripts/audit/apply-all-current-evidence.mjs": "a3751f4ea7ee24f558da8467160562ab5144c8a18be56c370a76bb6ac5adbf9",
+    "scripts/audit/status-matrix-preserves-evidence.guard.test.mjs": "63a4e7e0f346f1370bb89816d0b71fe620494c56d18386cd792d4324125dfaec",
+    "scripts/audit-runtime-hardcodes.mjs": "1a6bf1ad93722a825d0a8721c2a50808704220214291d8637fb383ed106e8ffb",
+    "scripts/audit-form-authoring-baselines.mjs": "151b354068e683eb76fb39261a3297ca7d5979825b90c9f38d7a57ef7125385d",
+    "scripts/dev-healthcheck.mjs": "6df86db67ade19ac2711f8464e60134e4444cbd428ebf3f41a01ee4943361f91",
+    "scripts/docx-contract/verify-locked-contracts.mjs": "93b6df17e3d5a444ea65a621cd08fdeeb4ba7a88418d0925a970da6a69acaf8"
+  },
+  "productBehaviorChangeLinked": [
+    {
+      "change": "Enterpoint LF enforcement",
+      "linksTo": "P0-002",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Env precedence + production env-file isolation",
+      "linksTo": "P0-004",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Status-matrix preservation with apply-owned fields",
+      "linksTo": "P0-001",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Lock/timeout/rollback on apply orchestrator",
+      "linksTo": "P0-001",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Non-root user + healthchecks + isolated LO + DB internal + no-new-priv",
+      "linksTo": "P0-005",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Asset corpus (213 locked + 213 compiled)",
+      "linksTo": "P0-003",
+      "classification": "REQUIRED_P0_FIX"
+    },
+    {
+      "change": "Hardcode literal deduplication in template-preview-workspace.tsx and runtime-ux/index.ts",
+      "linksTo": "P1-003",
+      "classification": "REQUIRED_P1_HARDENING"
+    },
+    {
+      "change": "import path containment + 50 MiB cap",
+      "linksTo": "P1-004",
+      "classification": "REQUIRED_P1_HARDENING"
+    },
+    {
+      "change": "form-studio module deletion (32 files API + 3 files Web)",
+      "linksTo": "NONE",
+      "classification": "OUT_OF_SCOPE_FOR_INFRA_MODERNIZATION"
+    },
+    {
+      "change": "Mass modification of 127 apps/web/src/components/documents/bm-XXX-form-inputs.tsx",
+      "linksTo": "AMBIGUOUS — Codex reports 'test-only patch' / 'synchronized expected evidence' but actual line changes were not enumerated",
+      "classification": "NEED_VERIFY_DETAIL"
+    }
+  ]
+}

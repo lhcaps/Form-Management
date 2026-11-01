@@ -1,0 +1,130 @@
+{
+  "phase": "safe-replay-bm001-runtime-preview-session",
+  "status": "PASS",
+  "ts_iso": "2026-07-08T05:01:00+07:00",
+  "branch": "feat/pr6g2-bm-final-audit-harness",
+  "head": "f215a52ab13268700e11bce143eed56f9ea5db76",
+  "snapshot": {
+    "node": "v22.23.1",
+    "pnpm": "10.33.2",
+    "api_pid": 42224,
+    "web_pid": 492012,
+    "api_port_listening": 3001,
+    "web_port_listening": 3000
+  },
+  "dev_healthcheck": {
+    "status": "PASS",
+    "script": "scripts/dev-healthcheck.mjs",
+    "checks": {
+      "api_health": "200",
+      "api_ready": "200",
+      "locked_forms_catalog": "200",
+      "locked_forms_count": 213,
+      "web_healthz": "200"
+    },
+    "log": ".tmp-dev-healthcheck.log"
+  },
+  "clerk_setup": {
+    "status": "PASS",
+    "exit_code": 0,
+    "elapsed_ms": 16297,
+    "tests_passed": 2,
+    "storage_state_path": "playwright/.clerk/admin.json",
+    "storage_state_bytes": 11477,
+    "storage_state_mtime_local": "2026-07-08T05:00:42",
+    "storage_state_gitignored": true,
+    "log": ".tmp-clerk-setup.log",
+    "no_token_in_log": true,
+    "no_cookie_in_log": true,
+    "no_env_value_in_log": true
+  },
+  "bm001_replay": {
+    "status": "PASS",
+    "command": "npx playwright test --project=\"authenticated chromium\" tests/e2e/runtime-preview-session.auth.spec.ts --grep \"BM-001\" --workers=1 --reporter=list > .tmp-bm001-preview-replay.log 2>&1",
+    "exit_code": 0,
+    "elapsed_ms": 14857,
+    "playwright_config": {
+      "testDir": "./tests/e2e",
+      "fullyParallel": false,
+      "workers": 1,
+      "retries": 0,
+      "timeout_ms": 120000,
+      "navigationTimeout_ms": 60000,
+      "actionTimeout_ms": 15000,
+      "baseURL": "http://localhost:3000"
+    },
+    "tests_passed": 3,
+    "tests_failed": 0,
+    "auth_test_name": "BM-001 standalone creates honest DOCX session and downloads DOCX",
+    "auth_test_path": "tests/e2e/runtime-preview-session.auth.spec.ts",
+    "auth_test_duration_ms_estimate": 6800,
+    "log": ".tmp-bm001-preview-replay.log",
+    "last_run_json": { "status": "passed", "failedTests": [] },
+    "dev_log_trace": [
+      { "ts_local": "05:01:01", "line": "GET /healthz 200" },
+      { "ts_local": "05:01:09", "line": "GET /templates/BM-001 200" },
+      { "ts_local": "05:01:10", "line": "[DocxtemplaterContractRenderEngine] style-profile part=document rule=bm001.place_date_line: no paragraph matched" }
+    ]
+  },
+  "strict_status_rules": {
+    "preview_spec_runs_clear_output": true,
+    "preview_click_passes_full_assertions": true,
+    "preview_session_post_observed": true,
+    "response_is_json_not_binary": true,
+    "no_auto_download": true,
+    "no_generated_document_workspace_leak": true
+  },
+  "evidence": {
+    "preview_button_clicked": "YES",
+    "preview_session_post_observed": "YES",
+    "preview_session_status_code": 200,
+    "preview_session_content_type": "application/json",
+    "preview_session_json": "YES",
+    "preview_session_binary_pk": "NO",
+    "persisted": false,
+    "docx_download_url_present": "YES",
+    "no_auto_download": "YES",
+    "no_history_link": "YES",
+    "no_generated_document_id": "YES",
+    "no_documents_route_navigation": "YES"
+  },
+  "failure_classification": "NONE",
+  "harness_no_output": false,
+  "dev_server_unstable": false,
+  "preview_click_status": "PASS",
+  "inputs": {
+    "input_connected_pass": 37,
+    "input_connected_partial": 176,
+    "formflight_runtime_ready_promoted": 0,
+    "fidelity_complete_claimed": 0
+  },
+  "safety": {
+    "qlv_session_used_for_web_route": false,
+    "playwright_storage_state_committed": false,
+    "env_values_logged": false,
+    "source_docx_mutated": false,
+    "locked_contracts_mutated": false,
+    "compiled_contracts_mutated": false,
+    "db_mutated": false,
+    "prisma_schema_mutated": false,
+    "migrations_created": false,
+    "commit_created": false,
+    "git_pushed": false,
+    "files_staged": false
+  },
+  "validation_commands": [
+    { "command": "node scripts/dev-healthcheck.mjs", "exit_code": 0, "result": "PASS", "summary": "API health/ready 200, web healthz 200, 213 locked forms" },
+    { "command": "npx playwright test --project=\"clerk setup\" --reporter=list", "exit_code": 0, "result": "PASS", "summary": "2/2 setup tests passed, storageState refreshed" },
+    { "command": "npx playwright test --project=\"authenticated chromium\" tests/e2e/runtime-preview-session.auth.spec.ts --grep \"BM-001\" --workers=1 --reporter=list", "exit_code": 0, "result": "PASS", "summary": "BM-001 standalone spec passed in 6.8s" }
+  ],
+  "files_changed": [],
+  "artifacts": [
+    ".tmp-dev-healthcheck.log",
+    ".tmp-clerk-setup.log",
+    ".tmp-bm001-preview-replay.log",
+    "docs/audit/unified-bm-workspace/BM001_RUNTIME_PREVIEW_REPRO.latest.md",
+    "docs/audit/unified-bm-workspace/BM001_RUNTIME_PREVIEW_REPRO.latest.json"
+  ],
+  "next_recommended_phase": 3,
+  "next_recommended_phase_label": "Run preview-click smoke for all 37 if BM-001 passed"
+}

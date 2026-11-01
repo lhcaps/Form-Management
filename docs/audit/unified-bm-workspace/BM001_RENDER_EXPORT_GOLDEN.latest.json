@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "task": "BM001_RENDER_EXPORT_GOLDEN",
+  "templateCode": "BM-001",
+  "phase": "BM-001 RENDER / EXPORT GOLDEN VALIDATION",
+  "status": "PASS",
+  "strategy": "Strategy A — direct generated render core (PizZip + Docxtemplater, same engine as DocxtemplaterContractRenderEngine)",
+  "lifecycle": {
+    "renderCore": "apps/api/src/modules/documents/rendering/infrastructure/docxtemplater-contract-render-engine.ts (PizZip + Docxtemplater, {{ }} delimiters)",
+    "pdfHelper": "apps/api/scripts/pdf-convert-word-com.ps1 (Windows PowerShell + Microsoft Word COM); fallback: apps/api/scripts/pdf-convert-fallback.ps1 (LibreOffice → Word COM)",
+    "pdfTextExtractor": "pdf-parse v2 (apps/api/node_modules/pdf-parse, PDFParse class + getText)",
+    "dbAccess": "none",
+    "runtimeTemplatePreviewUsed": false
+  },
+  "noMutation": {
+    "sourceDocx": true,
+    "normalizedDocx": true,
+    "lockedContract": true,
+    "bm001Profile": true,
+    "bm171Profile": true,
+    "bm001HelperApi": true,
+    "prismaSchemaOrMigrations": true,
+    "otherFormUis": true
+  },
+  "artifacts": {
+    "docx": "docs/audit/unified-bm-workspace/bm001-golden/BM001_RENDERED_GOLDEN.latest.docx",
+    "pdf": "docs/audit/unified-bm-workspace/bm001-golden/BM001_RENDERED_GOLDEN.latest.pdf",
+    "detailedJson": "docs/audit/unified-bm-workspace/bm001-golden/BM001_RENDER_EXPORT_GOLDEN.latest.json",
+    "detailedMarkdown": "docs/audit/unified-bm-workspace/bm001-golden/BM001_RENDER_EXPORT_GOLDEN.latest.md",
+    "summaryMarkdown": "docs/audit/unified-bm-workspace/BM001_RENDER_EXPORT_GOLDEN.latest.md",
+    "summaryJson": "docs/audit/unified-bm-workspace/BM001_RENDER_EXPORT_GOLDEN.latest.json"
+  },
+  "summary": {
+    "docxStatus": "PASS",
+    "pdfStatus": "PASS",
+    "docxSizeBytes": 21865,
+    "pdfSizeBytes": 140687,
+    "docxRequiredTextPassed": "10/10",
+    "docxForbiddenTextAbsent": "7/7",
+    "docxRequiredSectionsPresent": "6/6",
+    "docxDemoNamesPresent": "2/2",
+    "docxKnownBugsAbsent": "2/2",
+    "docxPlaceholderLeaks": 0,
+    "pdfRequiredTextPassed": "10/10",
+    "pdfForbiddenTextAbsent": "7/7",
+    "pdfRequiredSectionsPresent": "6/6",
+    "pdfDemoNamesPresent": "2/2",
+    "pdfKnownBugsAbsent": "2/2",
+    "pdfPlaceholderLeaks": 0
+  },
+  "uiSampleBugProbe": {
+    "fixed": true,
+    "scope": "BM-001 only — apps/web/src/components/documents/bm-001-form-inputs.tsx (fillCustomerSample only)",
+    "fixes": [
+      {
+        "path": "receiver.fullName",
+        "before": "Nguyễn Thị Hồng Hạnh",
+        "after": "Nguyễn Thị Mai"
+      },
+      {
+        "path": "receiver.signerName",
+        "before": "(empty)",
+        "after": "Nguyễn Thị Mai"
+      },
+      {
+        "path": "informant.fullName",
+        "before": "(empty)",
+        "after": "Trần Văn Bình"
+      },
+      {
+        "path": "informant.signerName",
+        "before": "Nguyễn Thị Hồng Hạnh",
+        "after": "Trần Văn Bình"
+      },
+      {
+        "path": "crimeReport.content",
+        "before": "Ông  cung cấp nguồn tin về hành vi đánh bạc trái phép xảy ra tại phường Trung Mỹ Tây, Thành phố Hồ Chí Minh.",
+        "after": "Ông Trần Văn Bình trình bày: vào khoảng 21 giờ ngày 01/3/2026, tại địa chỉ số 49 đường Trần Hưng Đạo, Phường Phan Chu Trinh, Quận 1, Thành phố Hồ Chí Minh có một nhóm đối tượng lạ mặt tụ tập đánh bạc bằng hình thức đánh bài tây. Người cung cấp nguồn tin đề nghị cơ quan chức năng xác minh, xử lý theo quy định pháp luật."
+      },
+      {
+        "path": "agency.parentName",
+        "before": "(empty)",
+        "after": "VIỆN KIỂM SÁT NHÂN DÂN THÀNH PHỐ HỒ CHÍ MINH"
+      },
+      {
+        "path": "agency.name",
+        "before": "(empty)",
+        "after": "Viện Kiểm sát nhân dân Khu vực 7"
+      },
+      {
+        "path": "informant.temporaryAddress",
+        "before": "(empty)",
+        "after": "Không có"
+      },
+      {
+        "path": "informant.phone",
+        "before": "(empty)",
+        "after": "0901234567"
+      }
+    ]
+  },
+  "guardTests": {
+    "bm001RuntimeReadyGuard": {
+      "command": "node --test apps/web/src/lib/form-flight/bm001-runtime-ready.guard.test.mjs",
+      "passed": 15,
+      "failed": 0
+    },
+    "bm001RenderExportGoldenGuard": {
+      "command": "node --test apps/web/src/lib/form-flight/bm001-render-export-golden.guard.test.mjs",
+      "passed": 17,
+      "failed": 0
+    },
+    "profileRegistryGuard": {
+      "command": "node --test apps/web/src/lib/form-flight/profile-registry-guard.test.mjs",
+      "passed": 10,
+      "failed": 0
+    }
+  },
+  "filesChanged": [
+    "scripts/audit/validate-bm001-render-export-golden.mjs (NEW)",
+    "apps/web/src/lib/form-flight/bm001-render-export-golden.guard.test.mjs (NEW)",
+    "apps/web/src/components/documents/bm-001-form-inputs.tsx (MODIFIED — fillCustomerSample only)",
+    "docs/audit/unified-bm-workspace/bm001-golden/ (NEW directory)",
+    "docs/audit/unified-bm-workspace/BM001_RENDER_EXPORT_GOLDEN.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/BM001_RENDER_EXPORT_GOLDEN.latest.json (NEW)"
+  ],
+  "filesNotChanged": [
+    "docs/Biểu mẫu/Full/.../01-Biên bản tiếp nhận nguồn tin về tội phạm.doc",
+    "storage/templates/normalized-docx/BM-001/BM-001_normalized.docx",
+    "docs/audit/docx/contracts/locked/BM-001__f4c2aa3682d3.contract.locked.json",
+    "apps/web/src/lib/form-flight/profiles/bm001.ts",
+    "apps/web/src/lib/form-flight/profiles/bm171.ts",
+    "apps/web/src/lib/bm001-form-inputs-api.ts",
+    "apps/api/src/** (no backend mutations)",
+    "apps/api/prisma/schema.prisma + migrations/**",
+    "all bm-XXX-form-inputs.tsx files except bm-001-form-inputs.tsx"
+  ],
+  "remainingRisks": [
+    {
+      "risk": "PDF export requires Windows + Microsoft Word (or LibreOffice)",
+      "severity": "medium",
+      "mitigation": "pdf-convert-fallback.ps1 covers LibreOffice path; if neither available the script marks PDF as PARTIAL while DOCX path still passes"
+    },
+    {
+      "risk": "pdf-parse v2 API drift between minor versions",
+      "severity": "low",
+      "mitigation": "Script tries both default-export and PDFParse named-class shapes; failure reported as non-fatal textExtractionNote"
+    },
+    {
+      "risk": "fillCustomerSample rewrite changes user-facing demo data",
+      "severity": "low",
+      "mitigation": "Sample now mirrors BM001_DEMO so golden + UI stay aligned; explanatory comment added at top of function"
+    }
+  ],
+  "recommendedNext": "BM-002 Third Pilot — promote BM-002 to runtime-ready using the same skeleton → runtime-ready pipeline that worked for BM-001 + BM-171, then run validate-bm001-render-export-golden.mjs renamed for BM-002 to confirm the pattern generalizes."
+}

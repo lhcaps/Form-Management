@@ -1,0 +1,121 @@
+{
+  "phase": "Phase 13 — Customer Local Release Rehearsal (Pre-Commit)",
+  "executedAt": "2026-07-27T15:11:46.857296Z",
+  "scope": "scripts/local toolkit readiness and live stack rehearsal plan",
+  "environment_caveat": {
+    "active_services_on_shared_ports": true,
+    "ports_in_use": [
+      3000,
+      3001,
+      3307
+    ],
+    "active_services": [
+      "API on :3001",
+      "Web on :3000",
+      "MariaDB on :3307"
+    ],
+    "rule": "Do NOT kill processes owned by other sessions. Stack rehearsal in current dirty worktree cannot start a second customer stack.",
+    "deferred_to_phase_20": true,
+    "authoritative_rehearsal_phase": "Phase 20 — Post-merge clean-clone customer verification"
+  },
+  "toolkit_inventory": [
+    {
+      "script": "doctor.ps1",
+      "exists": true,
+      "size_bytes": 1042,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\doctor.ps1"
+    },
+    {
+      "script": "setup.ps1",
+      "exists": true,
+      "size_bytes": 1988,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\setup.ps1"
+    },
+    {
+      "script": "start.ps1",
+      "exists": true,
+      "size_bytes": 959,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\start.ps1"
+    },
+    {
+      "script": "stop.ps1",
+      "exists": true,
+      "size_bytes": 704,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\stop.ps1"
+    },
+    {
+      "script": "status.ps1",
+      "exists": true,
+      "size_bytes": 1392,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\status.ps1"
+    },
+    {
+      "script": "backup.ps1",
+      "exists": true,
+      "size_bytes": 1959,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\backup.ps1"
+    },
+    {
+      "script": "restore.ps1",
+      "exists": true,
+      "size_bytes": 1930,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\restore.ps1"
+    },
+    {
+      "script": "smoke.ps1",
+      "exists": true,
+      "size_bytes": 2726,
+      "path": "d:\\Study\\Project\\QLLaw-main\\scripts\\local\\smoke.ps1"
+    }
+  ],
+  "toolkit_readiness": {
+    "all_required_scripts_present": true,
+    "scripts_authored": "PowerShell 5.1 compatible",
+    "script_safety_controls": [
+      "$ErrorActionPreference = 'Stop'",
+      "validates repo root",
+      "avoids printing secrets",
+      "operates only on execution-owned processes/containers",
+      "never deletes Docker volumes automatically",
+      "returns meaningful exit codes"
+    ]
+  },
+  "in_worktree_rehearsal_steps_planned": [
+    "1. doctor.ps1 — environment check (Node, pnpm, Docker, ports)",
+    "2. setup.ps1 — copy .env.example, install deps, start DB, run migrations",
+    "3. start.ps1 — start API/Web, wait for health",
+    "4. status.ps1 — verify health and catalogue count",
+    "5. smoke.ps1 — API/Web/DB health + representative preview flow",
+    "6. backup.ps1 — create timestamped DB backup with SHA256 manifest",
+    "7. stop.ps1 — stop owned services (keep DB volumes)",
+    "8. start.ps1 — restart and verify persisted data remains"
+  ],
+  "in_worktree_rehearsal_executed": false,
+  "in_worktree_rehearsal_reason": "Active customer stack on :3000/:3001/:3307 prevents running a second customer-local stack in this worktree without violating safety rule 'Do NOT kill processes owned by other sessions'. Final rehearsal will occur in Phase 20 clean-clone verification.",
+  "static_checks_performed": {
+    "scripts_local_present": true,
+    "hygiene_guard_pass": true,
+    "quality_gates_pass": true,
+    "security_gate_pass": true,
+    "encoding_clean": true,
+    "corpus_213_intact": true,
+    "locked_contracts_unchanged": true,
+    "original_docx_unchanged": true
+  },
+  "required_for_phase_20": {
+    "catalogue_count_213": true,
+    "web_healthy": "verified in clean clone",
+    "api_healthy": "verified in clean clone",
+    "db_healthy": "verified in clean clone",
+    "customer_smoke": "verified in clean clone",
+    "backup": "verified in clean clone",
+    "restart_persistence": "verified in clean clone"
+  },
+  "verdict": "TOOLKIT_READY_DEFERRED_RUNTIME_REHEARSAL_TO_PHASE_20",
+  "notes": [
+    "scripts/local/* PowerShell scripts are authored and follow project conventions.",
+    "Active customer stack on shared ports blocks in-worktree stack start.",
+    "Final runtime rehearsal will be performed in a fresh, isolated clone during Phase 20.",
+    "Static gates (security, encoding, hygiene, corpus, contracts) all PASS in this worktree."
+  ]
+}

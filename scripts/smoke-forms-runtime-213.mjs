@@ -17,17 +17,24 @@
  */
 
 import { fileURLToPath } from "node:url";
+import { existsSync } from "node:fs";
 import path from "node:path";
+import { chromium } from "@playwright/test";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const API_URL =
+  process.env.E2E_API_BASE_URL?.replace(/\/api\/v1\/?$/, "") ??
   process.env.API_URL ??
   process.argv.find((a) => a.startsWith("--url="))?.replace("--url=", "") ??
   "http://localhost:3001";
 
 const HEALTH_URL = `${API_URL}/api/v1/health`;
-const LOGIN_URL = `${API_URL}/api/v1/auth/login`;
+const WEB_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+const CLERK_STORAGE_STATE_PATH = path.resolve(
+  process.env.CLERK_STORAGE_STATE_PATH ??
+    path.join("playwright", ".clerk", "admin.json"),
+);
 
 // BM-001 through BM-213
 const ALL_CODES = Array.from({ length: 213 }, (_, i) => {
@@ -35,10 +42,13 @@ const ALL_CODES = Array.from({ length: 213 }, (_, i) => {
   return `BM-${n}`;
 });
 
-async function checkJsonEndpoint(url, { fetchImpl = fetch, cookie = "" } = {}) {
+async function checkJsonEndpoint(
+  url,
+  { fetchImpl = fetch, authorization = "" } = {},
+) {
   try {
     const headers = {};
-    if (cookie) headers["Cookie"] = cookie;
+    if (authorization) headers.Authorization = authorization;
     const res = await fetchImpl(url, {
       headers,
       signal: AbortSignal.timeout(15_000),
@@ -83,11 +93,15 @@ function validateCompiledContract(body, templateCode) {
   }
 
   if (!Array.isArray(compiledContract.uiSchema?.sections)) {
-    errors.push("compiledContract.uiSchema.sections is missing or not an array");
+    errors.push(
+      "compiledContract.uiSchema.sections is missing or not an array",
+    );
   }
 
   if (!Array.isArray(compiledContract.renderPlan?.bindings)) {
-    errors.push("compiledContract.renderPlan.bindings is missing or not an array");
+    errors.push(
+      "compiledContract.renderPlan.bindings is missing or not an array",
+    );
   }
 
   if (source !== "GLOBAL_PUBLISHED") {
@@ -127,94 +141,206 @@ async function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-export async function runSmoke({ fetchImpl = fetch } = {}) {
+export async function createClerkAuthorizationProvider({
+  webUrl = WEB_URL,
+  storageStatePath = CLERK_STORAGE_STATE_PATH,
+} = {}) {
+  if (!existsSync(storageStatePath)) {
+    throw new Error(
+      `Clerk storage state is missing: ${storageStatePath}. Run the clerk setup project first.`,
+    );
+  }
+
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const context = await browser.newContext({
+      storageState: storageStatePath,
+    });
+    const page = await context.newPage();
+    await page.goto(`${webUrl}/templates/BM-001`, {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForFunction(
+      () => Boolean(window.Clerk?.session?.getToken),
+      undefined,
+      { timeout: 20_000 },
+    );
+    return {
+      getAuthorization: async () => {
+        const token = await page.evaluate(async () =>
+          window.Clerk?.session?.getToken?.(),
+        );
+        if (!token) {
+          throw new Error("Clerk session did not provide a bearer token.");
+        }
+        return `Bearer ${token}`;
+      },
+      dispose: async () => {
+        await browser.close();
+      },
+    };
+  } catch (error) {
+    await browser.close();
+    throw error;
+  }
+}
+
+export async function createClerkAuthorization(options = {}) {
+  const provider = await createClerkAuthorizationProvider(options);
+  try {
+    return await provider.getAuthorization();
+  } finally {
+    await provider.dispose();
+  }
+}
+
+async function resolveAuthorization(getAuthorization) {
+  const authorization = await getAuthorization();
+  if (
+    typeof authorization !== "string" ||
+    !authorization.startsWith("Bearer ")
+  ) {
+    throw new Error("expected a Bearer token.");
+  }
+  return authorization;
+}
+
+export async function runSmoke({
+  fetchImpl = fetch,
+  getAuthorization,
+  createAuthorizationProvider = createClerkAuthorizationProvider,
+  requestDelayMs = 1_000,
+} = {}) {
   const errors = [];
   const warnings = [];
+  let disposeAuthorization = async () => {};
 
-  // 0. Login to get session cookie
-  console.log("Logging in...");
-  const loginRes = await fetchImpl(LOGIN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: "admin", password: "admin123" }),
-    signal: AbortSignal.timeout(15_000),
-  });
-  const setCookie = loginRes.headers.get("set-cookie") ?? "";
-  const sessionCookie = setCookie
-    .split(",")
-    .map((c) => c.split(";")[0])
-    .join("; ");
-  if (!sessionCookie) {
-    errors.push("Login failed: no session cookie received");
-    return { ok: false, errors, warnings, passedCount: 0, failedCount: 0, failedForms: [] };
-  }
-  console.log("  Logged in OK\n");
-
-  // 1. API health
-  const health = await checkJsonEndpoint(HEALTH_URL, { fetchImpl, cookie: sessionCookie });
-  if (!health.ok || health.body?.ok !== true) {
-    errors.push(
-      `API health failed: ${health.error ?? `HTTP ${health.status}`}`,
-    );
-    return { ok: false, errors, warnings, passedCount: 0, failedCount: 0, failedForms: [] };
+  if (!getAuthorization) {
+    try {
+      const provider = await createAuthorizationProvider();
+      getAuthorization = provider.getAuthorization;
+      disposeAuthorization = provider.dispose;
+    } catch (error) {
+      errors.push(
+        `Clerk authorization failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      return {
+        ok: false,
+        errors,
+        warnings,
+        passedCount: 0,
+        failedCount: 0,
+        failedForms: [],
+      };
+    }
   }
 
-  // 2. Smoke each form with 1 request/second to avoid 429
-  let passedCount = 0;
-  let failedCount = 0;
-  const failedForms = [];
+  try {
+    // 0. Resolve a Clerk bearer token from the authenticated browser state.
+    // `qlv_session` is deliberately not accepted for Clerk-protected routes.
+    console.log("Resolving Clerk authorization...");
+    let authorization = await resolveAuthorization(getAuthorization);
+    console.log("  Clerk authorization resolved\n");
 
-  console.log(`Checking ${ALL_CODES.length} forms (1 req/s)...`);
-  const start = Date.now();
-
-  for (let i = 0; i < ALL_CODES.length; i++) {
-    const code = ALL_CODES[i];
-    const url = `${API_URL}/api/v1/forms/runtime/${encodeURIComponent(code)}`;
-
-    if (i > 0) await sleep(1000); // 1 req/s to stay under throttle
-
-    const resp = await checkJsonEndpoint(url, { fetchImpl, cookie: sessionCookie });
-
-    if (!resp.ok) {
-      failedForms.push({ code, errors: [`HTTP ${resp.status}: ${resp.error}`] });
-      failedCount++;
-      console.log(`[FAIL] ${code} HTTP ${resp.status}`);
-      continue;
+    // 1. API health
+    const health = await checkJsonEndpoint(HEALTH_URL, {
+      fetchImpl,
+      authorization,
+    });
+    if (!health.ok || health.body?.ok !== true) {
+      errors.push(
+        `API health failed: ${health.error ?? `HTTP ${health.status}`}`,
+      );
+      return {
+        ok: false,
+        errors,
+        warnings,
+        passedCount: 0,
+        failedCount: 0,
+        failedForms: [],
+      };
     }
 
-    const validation = validateCompiledContract(resp.body, code);
-    if (!validation.ok) {
-      failedForms.push({ code, errors: validation.errors, source: validation.source });
-      failedCount++;
-      console.log(`[FAIL] ${code}: ${validation.errors.join("; ")}`);
-    } else {
-      passedCount++;
-      if (i % 50 === 0 || i === ALL_CODES.length - 1) {
-        console.log(`[OK]   ${code} (${passedCount}/${i + 1} passed so far)`);
+    // 2. Smoke each form with 1 request/second to avoid 429.
+    // Resolve the token again per request so Clerk can refresh short-lived JWTs.
+    let passedCount = 0;
+    let failedCount = 0;
+    const failedForms = [];
+
+    console.log(`Checking ${ALL_CODES.length} forms (1 req/s)...`);
+    const start = Date.now();
+
+    for (let i = 0; i < ALL_CODES.length; i++) {
+      const code = ALL_CODES[i];
+      const url = `${API_URL}/api/v1/forms/runtime/${encodeURIComponent(code)}`;
+
+      if (i > 0 && requestDelayMs > 0) await sleep(requestDelayMs); // 1 req/s by default to stay under throttle
+
+      try {
+        authorization = await resolveAuthorization(getAuthorization);
+      } catch (error) {
+        failedForms.push({
+          code,
+          errors: [
+            `Clerk authorization failed: ${error instanceof Error ? error.message : String(error)}`,
+          ],
+        });
+        failedCount++;
+        continue;
+      }
+
+      const resp = await checkJsonEndpoint(url, { fetchImpl, authorization });
+
+      if (!resp.ok) {
+        failedForms.push({
+          code,
+          errors: [`HTTP ${resp.status}: ${resp.error}`],
+        });
+        failedCount++;
+        console.log(`[FAIL] ${code} HTTP ${resp.status}`);
+        continue;
+      }
+
+      const validation = validateCompiledContract(resp.body, code);
+      if (!validation.ok) {
+        failedForms.push({
+          code,
+          errors: validation.errors,
+          source: validation.source,
+        });
+        failedCount++;
+        console.log(`[FAIL] ${code}: ${validation.errors.join("; ")}`);
+      } else {
+        passedCount++;
+        if (i % 50 === 0 || i === ALL_CODES.length - 1) {
+          console.log(`[OK]   ${code} (${passedCount}/${i + 1} passed so far)`);
+        }
       }
     }
-  }
 
-  const elapsed = ((Date.now() - start) / 1000).toFixed(1);
-  console.log(`\nCompleted in ${elapsed}s`);
+    const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+    console.log(`\nCompleted in ${elapsed}s`);
 
-  // Build summary errors
-  if (failedCount > 0) {
-    errors.push(`${failedCount} form(s) failed runtime smoke:`);
-    for (const f of failedForms) {
-      errors.push(`  - ${f.code}: ${f.errors.join("; ")}`);
+    // Build summary errors
+    if (failedCount > 0) {
+      errors.push(`${failedCount} form(s) failed runtime smoke:`);
+      for (const f of failedForms) {
+        errors.push(`  - ${f.code}: ${f.errors.join("; ")}`);
+      }
     }
-  }
 
-  return {
-    ok: errors.length === 0,
-    errors,
-    warnings,
-    passedCount,
-    failedCount,
-    failedForms,
-    total: ALL_CODES.length,
-  };
+    return {
+      ok: errors.length === 0,
+      errors,
+      warnings,
+      passedCount,
+      failedCount,
+      failedForms,
+      total: ALL_CODES.length,
+    };
+  } finally {
+    await disposeAuthorization();
+  }
 }
 
 export async function main() {

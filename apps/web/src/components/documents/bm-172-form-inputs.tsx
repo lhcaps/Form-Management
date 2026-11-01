@@ -10,7 +10,7 @@ import {
   BmFieldTextarea,
   BmFormSection,
 } from "./bm-form";
-import { saveDocumentFormInputs, patchDocumentFormInputs, replaceDocumentFormInputs } from "@/lib/document-form-api";
+import { saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type SaveStatus = "idle" | "saving" | "success" | "error";
 
@@ -291,41 +291,17 @@ function buildPayload(state: Bm172FormState) {
 }
 
 async function trySaveToBackend(documentId: string, payload: any) {
-  const bodies = [
-    payload,
-    {
-      templateCode: "BM-172",
-      formInputs: payload,
-      payloadOverrides: payload,
-      renderPayloadOverrides: payload,
-      updatedByName: payload.updatedByName || "",
-      renderedByName: payload.renderedByName || "",
-      convertedByName: payload.convertedByName || "",
-    },
-  ];
+  const body = {
+    templateCode: "BM-172",
+    formInputs: payload,
+    payloadOverrides: payload,
+    renderPayloadOverrides: payload,
+    updatedByName: payload.updatedByName || "",
+    renderedByName: payload.renderedByName || "",
+    convertedByName: payload.convertedByName || "",
+  };
 
-  let lastError = "";
-
-  for (const body of bodies) {
-    try {
-      await patchDocumentFormInputs(documentId, body);
-      return { ok: true, method: "PATCH", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
-    } catch (_e) { /* try next */ }
-
-    try {
-      await replaceDocumentFormInputs(documentId, body);
-      return { ok: true, method: "PUT", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
-    } catch (_e) { /* try next */ }
-
-    try {
-      await saveDocumentFormInputs(documentId, body);
-      return { ok: true, method: "POST", url: `/documents/generated/${documentId}/form-inputs`, responseText: "" };
-    } catch (error) {
-      lastError = error instanceof Error ? error.message : String(error);
-    }
-  }
-
-  throw new Error(lastError || "Không tìm thấy endpoint lưu phù hợp.");
+  await saveDocumentFormInputs(documentId, body);
 }
 
 function TextField(props: {
@@ -557,10 +533,10 @@ export function Bm172FormInputs({
         throw new Error("Không lấy được documentId từ URL.");
       }
 
-      const result = await trySaveToBackend(documentId, payload);
+      await trySaveToBackend(documentId, payload);
 
       setSaveStatus("success");
-      setSaveMessage(`Đã lưu dữ liệu BM-172. Endpoint: ${result.method} ${result.url}`);
+      setSaveMessage("Đã lưu dữ liệu BM-172.");
     } catch (error) {
       setSaveStatus("error");
       setSaveMessage(error instanceof Error ? error.message : String(error));
@@ -719,6 +695,32 @@ export function Bm172FormInputs({
         </pre>
       </details>
     </div>
+  );
+}
+
+export function Bm172FormInputsPanel({
+  documentId,
+  onSaved,
+}: {
+  documentId: string;
+  onSaved?: () => void;
+}) {
+  return (
+    <Bm172FormInputs
+      onSave={async (payload) => {
+        const formInputs = payload as Record<string, unknown>;
+        await saveDocumentFormInputs(documentId, {
+          templateCode: "BM-172",
+          formInputs,
+          payloadOverrides: formInputs,
+          renderPayloadOverrides: formInputs,
+          updatedByName: String(formInputs.updatedByName ?? ""),
+          renderedByName: String(formInputs.renderedByName ?? ""),
+          convertedByName: String(formInputs.convertedByName ?? ""),
+        });
+        await onSaved?.();
+      }}
+    />
   );
 }
 

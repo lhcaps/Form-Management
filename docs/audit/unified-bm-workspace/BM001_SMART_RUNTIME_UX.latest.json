@@ -1,0 +1,119 @@
+{
+  "title": "BM-001 Smart Runtime UX Redesign",
+  "phase": "BM-001 SMART RUNTIME UX REDESIGN + GENERALIZABLE SMART FIELD CONTRACT",
+  "generatedAt": "2026-07-07",
+  "status": "PASS",
+  "approvedRuntimeReadyCodes": ["BM-001", "BM-171"],
+  "skeletonCount": 211,
+  "totalForms": 213,
+  "before": {
+    "uxQualityIssue": "Raw text inputs for every day/month/year; user had to type each legal fragment separately.",
+    "staleValues": [
+      "Nguyễn Văn A",
+      "Trần Thị B",
+      "1980",
+      "Ông  cung cấp...",
+      "Nguyễn Thị Hồng Hạnh"
+    ],
+    "smartKindsAvailable": 0,
+    "localStorage": "Wrote {} on reset, hiding stale-draft signal."
+  },
+  "after": {
+    "smartKindsAvailable": 8,
+    "smartKinds": [
+      "text",
+      "textarea",
+      "date",
+      "time",
+      "select",
+      "date-parts",
+      "year-or-date",
+      "issue-place-date-line"
+    ],
+    "bm001SmartFields": [
+      { "key": "document.issuePlaceDateLine", "kind": "issue-place-date-line" },
+      { "key": "informant.birthYear", "kind": "year-or-date", "derivedTargets": ["informant.birthDay", "informant.birthMonth", "informant.birthYear"] },
+      { "key": "informant.identityIssuedDay", "kind": "date-parts", "derivedTargets": ["informant.identityIssuedDay", "informant.identityIssuedMonth", "informant.identityIssuedYear"] },
+      { "key": "informant.genderLabel", "kind": "select", "options": ["Nam", "Nữ", "Khác"] },
+      { "key": "receiver.positionTitle", "kind": "select", "options": ["Kiểm sát viên", "Kiểm sát viên sơ cấp", "Kiểm tra viên", "Cán bộ tiếp nhận"] },
+      { "key": "reception.startedAtDay", "kind": "date-parts", "derivedTargets": ["reception.startedAtDay", "reception.startedAtMonth", "reception.startedAtYear"] },
+      { "key": "reception.startedAtTimeText", "kind": "time" },
+      { "key": "reception.endedAtDay", "kind": "date-parts", "derivedTargets": ["reception.endedAtDay", "reception.endedAtMonth", "reception.endedAtYear"] },
+      { "key": "reception.endedAtTimeText", "kind": "time" },
+      { "key": "crimeReport.content", "kind": "textarea" },
+      { "key": "crimeReport.attachedItemsDescription", "kind": "textarea" }
+    ],
+    "demoValues": {
+      "informant.fullName": "Nguyễn Thị Mai",
+      "receiver.fullName": "Trần Văn Bình",
+      "informant.birthYear": "1985",
+      "document.issuePlaceDateLine": "Thành phố Hồ Chí Minh, ngày 04 tháng 3 năm 2026"
+    },
+    "localStorageHandling": "removeRuntimeTemplateDraft removes the LS entry on reset; detectStaleDraft surfaces a banner for legacy fixtures."
+  },
+  "lifecycleSafety": {
+    "templatesDoesNotFakeGeneratedDocumentId": true,
+    "templatesDoesNotCallSaveEndpoint": true,
+    "documentsLifecycleUnchanged": true,
+    "skeletonsFailClosed": true
+  },
+  "staleValueFix": {
+    "nguyenVanAAbsent": true,
+    "tranThiBAbsent": true,
+    "y1980AbsentAsStaleDemo": true,
+    "ongCungCapAbsent": true,
+    "nguyenThiHongHanhAbsent": true
+  },
+  "renderExportGolden": {
+    "docx": "PASS",
+    "pdf": "PASS",
+    "requiredTextHits": "10/10",
+    "forbiddenTextAbsent": "7/7",
+    "sections": "6/6",
+    "demoNames": "2/2",
+    "knownBugsAbsent": "2/2",
+    "reportPath": "docs/audit/unified-bm-workspace/bm001-golden/BM001_RENDER_EXPORT_GOLDEN.latest.json"
+  },
+  "guards": {
+    "bm001SmartRuntimeUx": "20/20 PASS",
+    "runtimeUxSmartFieldContract": "18/18 PASS",
+    "bm001RuntimeReady": "15/15 PASS",
+    "formLifecycleWiring": "21/21 PASS",
+    "runtimeReadyTemplatePanelContract": "12/12 PASS",
+    "profileRegistryGuard": "10/10 PASS",
+    "bm001RenderExportGolden": "17/17 PASS"
+  },
+  "typecheck": {
+    "appsWeb": "tsc --noEmit clean",
+    "appsApi": "tsc --noEmit clean"
+  },
+  "browserManualVerification": {
+    "devServerStarted": "skipped (no sandbox browser)",
+    "nextInfo": "next 16.2.5 environment confirmed",
+    "fallbackToGuards": true,
+    "verdict": "guard-enforced"
+  },
+  "filesChanged": [
+    "apps/web/src/lib/runtime-ux/bm001-runtime-ux-profile.ts",
+    "apps/web/src/lib/runtime-ux/runtime-ux-profile.ts",
+    "apps/web/src/lib/runtime-ux/smart-field-helpers.ts",
+    "apps/web/src/lib/runtime-ux/index.ts",
+    "apps/web/src/components/documents/template-preview-workspace.tsx",
+    "apps/web/src/lib/runtime-template-draft.ts",
+    "apps/web/src/features/forms-contracts/ContractV2Renderer.tsx"
+  ],
+  "artifactsCreated": [
+    "apps/web/src/lib/form-flight/bm001-smart-runtime-ux.guard.test.mjs",
+    "apps/web/src/lib/form-flight/runtime-ux-smart-field-contract.guard.test.mjs",
+    "docs/audit/unified-bm-workspace/RUNTIME_UX_SMART_FIELD_CONTRACT.latest.md",
+    "docs/audit/unified-bm-workspace/RUNTIME_UX_SMART_FIELD_CONTRACT.latest.json",
+    "docs/audit/unified-bm-workspace/BM001_SMART_RUNTIME_UX.latest.md",
+    "docs/audit/unified-bm-workspace/BM001_SMART_RUNTIME_UX.latest.json"
+  ],
+  "remainingRisks": [
+    "RepeaterControl explicitly disables smart metadata for nested fields (smart={null}). If a future BM-NNN puts smart controls inside a repeater, those controls will fall back to the legacy text input.",
+    "Multi-target smart writes use a __smartWrites envelope that parent FieldControl must decompose. The renderer does this; if a future maintainer drops it, the contract guard test will catch it.",
+    "Browser visit was skipped (sandbox has no browser). The next phase with browser access should visually verify the new UX."
+  ],
+  "nextRecommendedPhase": "BM-001 Generated Document Workspace Visual Parity"
+}

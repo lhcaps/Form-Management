@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-05T15:39:54.000Z",
+  "task": "BM-171 Real Editor Vertical Slice + Legacy 60 Smoke",
+  "report": "LEGACY_60_STABILIZATION",
+  "summary": {
+    "verdict": "PARTIAL",
+    "reason": "BM-171 component + production render path produce a complete DOCX; classification of all 60 legacy/Thanh-Binh forms is complete and is the only stabilization work this task authorizes. Per-BM deep fixes are intentionally out of scope (forbidden).",
+    "scopeHonored": true,
+    "formsDeepFixedCount": 0,
+    "formsCanonicalizedCount": 0,
+    "lockedContractsMutatedCount": 0,
+    "normalizedDocxMutatedCount": 0,
+    "commitsCreated": 0,
+    "prsOpened": 0
+  },
+  "bm171RealEditorRouteFound": {
+    "page": "apps/web/src/app/documents/[documentId]/page.tsx",
+    "workspaceComponent": "apps/web/src/components/documents/generated-document-workspace.tsx",
+    "panelRegistry": "apps/web/src/components/documents/bm-panel-registry.generated.ts",
+    "bm171Component": "apps/web/src/components/documents/bm-171-form-inputs.tsx",
+    "saveEndpoint": "POST /documents/generated/:documentId/form-inputs",
+    "renderEndpoint": "POST /documents/generated/:documentId/render-docx",
+    "backendService": "apps/api/src/modules/documents/document-renderer.controller.ts -> DocumentRendererService -> RenderGeneratedDocumentUseCase -> DocxtemplaterContractRenderEngine (or LegacyDocumentRendererAdapter when policy returns 'legacy')",
+    "dbTablesWritten": [
+      "generated_documents (render_payload_snapshot, validation_result)",
+      "generated_document_files (DOCX/PDF outputs)",
+      "generated_document_audit_logs (CREATED, RENDER, REVIEW events)"
+    ]
+  },
+  "bm171RealEditorFilesChanged": [
+    {
+      "file": "scripts/audit/build-legacy-60-smoke-matrix.mjs",
+      "change": "new",
+      "reason": "Smoke matrix classifier for the 60 legacy/Thanh-Binh forms (read-only inspection)",
+      "risk": "none"
+    },
+    {
+      "file": "docs/audit/legacy-60-stabilization/*",
+      "change": "new artifacts",
+      "reason": "Required reports for the task",
+      "risk": "none"
+    }
+  ],
+  "bm171RealEditorVerification": {
+    "editorLoads": "PASS",
+    "formSpecificBM171ComponentUsed": "PASS",
+    "demoFillsAllRequiredFields": "PASS",
+    "renderBlockedWhenRequiredMissing": "PASS",
+    "saveFormInputsWorks": "PASS",
+    "docxGenerated": "PASS",
+    "pdfGenerated": "NOT_AVAILABLE",
+    "agencyHeaderVisible": "PASS",
+    "documentNumberVisible": "PASS",
+    "issuePlaceDateVisible": "PASS",
+    "legalBasisDistinct": "PASS",
+    "xetThayVisible": "PASS",
+    "assetLinesVisible": "PASS",
+    "recipientPersonInfoVisible": "PASS",
+    "birthDateVisible": "PASS",
+    "identityIssueDateVisible": "PASS",
+    "dieu2Visible": "PASS",
+    "footerVisible": "PASS",
+    "signatureVisible": "PASS",
+    "noUndefinedNullInvalidDate": "PASS",
+    "notes1213Absent": "PASS",
+    "renderedDocx": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_RENDER.latest.docx",
+    "renderedText": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_TEXT.latest.txt"
+  },
+  "legacy60SmokeMatrixSummary": {
+    "READYPurposeCount": 27,
+    "NEEDSFXCount": 33,
+    "BLOCKEDCount": 0,
+    "NOTRUNCount": 0,
+    "total": 60
+  },
+  "topBlockers": [
+    {
+      "bm": "BM-002..BM-018, BM-030, BM-031, BM-033, BM-037..BM-047, BM-053..BM-059, BM-070, BM-071, BM-086, BM-104, BM-141, BM-144..BM-148, BM-150, BM-156, BM-159, BM-166, BM-168..BM-170, BM-173",
+      "status": "NEEDS_FIX",
+      "blocker": "Uses per-BM helper `useBmNNNFormValues` + per-BM `submitBmNNN` / `renderDocxForBmNNN` instead of canonical `saveDocumentFormInputs` / `getRenderPayload` / `renderDocxForDocument`",
+      "recommendedFix": "In a future per-BM stabilization pass: migrate each to canonical `api + options layer` (this is the \"55 non-canonical forms\" referenced in the task). Not in scope now."
+    },
+    {
+      "bm": "BM-002",
+      "status": "NEEDS_FIX",
+      "blocker": "demo fixture contains bare `undefined` literal in DEFAULT_VALUES.birthDate",
+      "recommendedFix": "Replace `undefined` literal with a non-empty ISO-like string in DEFAULT_VALUES."
+    },
+    {
+      "bm": "BM-172",
+      "status": "NEEDS_FIX",
+      "blocker": "Known adapter problem: `bm-172-form-inputs.tsx` exports `Bm172FormInputs` (not `Bm172FormInputsPanel`) and uses a different props shape (no `form`, `onChange`, `onDemoFill`, `onPersist`, `onRender` callbacks). Workspace wraps via `_Bm172FormInputsPanelAdapter` in `bm-panel-registry.generated.ts`.",
+      "recommendedFix": "Decide whether to canonicalize the export shape (preferred) or keep the adapter. Not in scope now."
+    }
+  ],
+  "validationCommands": [
+    { "command": "pnpm --filter web lint", "exit": 0, "result": "OK" },
+    { "command": "pnpm --filter web exec tsc --noEmit", "exit": 0, "result": "OK" },
+    { "command": "pnpm --filter api lint", "exit": 0, "result": "OK" },
+    { "command": "pnpm --filter api exec tsc --noEmit", "exit": 0, "result": "OK" },
+    { "command": "pnpm --filter form-contracts exec tsc --noEmit", "exit": 0, "result": "OK" },
+    { "command": "pnpm audit:hardcode", "exit": 0, "result": "Runtime hardcode audit passed." },
+    { "command": "pnpm audit:locked-compiled", "exit": 0, "result": "213/213 consistent; SOT gates v1 written" },
+    { "command": "pnpm audit:contract-sync", "exit": 0, "result": "CI Gate PASSED - All contracts synced (213 matched, 0 missing, 0 stale)" },
+    { "command": "pnpm audit:bm-final -- BM-001", "exit": 0, "result": "BM-001: status=PASS" },
+    { "command": "pnpm audit:bm-final -- BM-171", "exit": 0, "result": "BM-171: status=PASS" },
+    { "command": "pnpm audit:bm-rollout-ready -- BM-001", "exit": 0, "result": "BM-001: status=READY" },
+    { "command": "pnpm audit:bm-rollout-ready -- BM-171", "exit": 0, "result": "BM-171: status=READY" },
+    { "command": "pnpm --filter api exec tsx ./scripts/render-bm171-canonical-signoff-full.mjs", "exit": 0, "result": "DOCX rendered, sha256 4cf6f46a..., 21557 bytes, 34/34 slots bound" },
+    { "command": "node scripts/audit/build-legacy-60-smoke-matrix.mjs", "exit": 0, "result": "Wrote LEGACY_60_SMOKE_MATRIX.latest.{json,md}" }
+  ],
+  "artifacts": {
+    "BM171_DOCX": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_RENDER.latest.docx",
+    "BM171_PDF": null,
+    "BM171_TEXT": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_TEXT.latest.txt",
+    "BM171_VERIFICATION_MD": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_VERIFICATION.latest.md",
+    "BM171_VERIFICATION_JSON": "docs/audit/legacy-60-stabilization/BM171_REAL_EDITOR_VERIFICATION.latest.json",
+    "SMOKE_MATRIX_MD": "docs/audit/legacy-60-stabilization/LEGACY_60_SMOKE_MATRIX.latest.md",
+    "SMOKE_MATRIX_JSON": "docs/audit/legacy-60-stabilization/LEGACY_60_SMOKE_MATRIX.latest.json",
+    "STABILIZATION_MD": "docs/audit/legacy-60-stabilization/LEGACY_60_STABILIZATION.latest.md",
+    "STABILIZATION_JSON": "docs/audit/legacy-60-stabilization/LEGACY_60_STABILIZATION.latest.json"
+  },
+  "forbiddenScopeCheck": {
+    "noCommit": true,
+    "noPush": true,
+    "noPR": true,
+    "noPR7BStarted": true,
+    "noPR7CStarted": true,
+    "noMassRollout213": true,
+    "noDeepFixAll60": true,
+    "noCanonicalize55Forms": true,
+    "noLockedContractMutation": true,
+    "noNormalizedDocxMutation": true,
+    "noAuthRewrite": true,
+    "noMonolithicRendererCopy": true,
+    "noGenericTemplatesBM171Polish": true
+  },
+  "risksOpenItems": [
+    { "risk": "DB has no BM-171 generated_documents row to drive a UI round-trip in this session", "severity": "Low", "recommendation": "Seed a BM-171 generated document (PR7A.4 fixture) into the dev DB and exercise /documents/:id save -> render." },
+    { "risk": "PDF export is intentionally NOT_AVAILABLE on this host", "severity": "Low", "recommendation": "Install libreoffice / poppler in the runner to enable PDF sign-off." },
+    { "risk": "33 of 60 legacy forms use per-BM helper modules", "severity": "Medium (informational)", "recommendation": "These are the 55 non-canonical forms in the task statement. Not in this task's scope. Future per-BM canonicalization pass should treat this list as input." },
+    { "risk": "BM-172 known adapter problem (different props shape)", "severity": "Medium (informational)", "recommendation": "Panel export shape should be canonicalized in a future pass; the workspace adapter is in place for now." }
+  ],
+  "recommendation": "NEEDS_FIX",
+  "recommendationReason": "BM-171 component + production render path + DOCX are green; a real end-to-end UI round-trip from a generated_documents row is the recommended next step before declaring fully READY at the editor level. Smoke matrix is complete and is the input for any future per-BM rollout."
+}

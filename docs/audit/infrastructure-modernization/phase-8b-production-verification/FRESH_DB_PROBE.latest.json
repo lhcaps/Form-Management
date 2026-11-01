@@ -1,0 +1,79 @@
+{
+  "stage": "3",
+  "name": "FRESH_DB_PROBE",
+  "run_id": "phase8b-20260711-0100",
+  "captured_at": "2026-07-11T01:14:02+07:00",
+  "mariadb_image": "mariadb:11",
+  "mariadb_image_source": "infra/docker-compose.dev.yml + Stage 5 DOCKER_BUILD expectation",
+  "mariadb_version_observed": "mariadb:11 (latest 11.x tag resolved at boot)",
+  "probe_db": "quanlyvks_probe",
+  "probe_credentials_in": "phase-owned env file (docker -e MYSQL_DATABASE / MYSQL_USER / MYSQL_PASSWORD / MYSQL_ROOT_PASSWORD)",
+  "credentials_printed": false,
+  "host": {
+    "os": "win32 10.0.26200",
+    "shell": "powershell",
+    "docker": "docker CLI",
+    "compose": "docker compose v2"
+  },
+  "infrastructure": {
+    "container_name": "phase8b-20260711-0100-mariadb",
+    "network": "phase8b-20260711-0100-net",
+    "volume": "phase8b-20260711-0100-mariadb-data",
+    "sidecar_name": "phase8b-20260711-0100-prisma",
+    "sidecar_image": "node:22-bookworm-slim",
+    "host_port_used": null
+  },
+  "execution": {
+    "boot_succeeded": true,
+    "healthy_after_seconds": 5,
+    "pre_migrate_table_count": 0,
+    "post_init_schema_table_count": 32,
+    "post_migrate_table_count": 32,
+    "_prisma_migrations_after_first_run": [
+      {"migration_name": "20260615000000_init_schema",        "finished_at": "2026-07-10 18:14:01.664", "applied_steps_count": 1},
+      {"migration_name": "20260616_add_auth_sessions",       "finished_at": "2026-07-10 18:14:01.666", "applied_steps_count": 1},
+      {"migration_name": "20260616000000_add_officials_role", "finished_at": null,                       "applied_steps_count": 0}
+    ]
+  },
+  "first_deploy": {
+    "exit_code": 1,
+    "applied_migrations": ["20260615000000_init_schema", "20260616_add_auth_sessions"],
+    "failed_migration": "20260616000000_add_officials_role",
+    "prisma_error_code": "P3018",
+    "mariadb_error_code": 1060,
+    "mariadb_error_message": "Duplicate column name 'role'",
+    "failing_sql_index": 1,
+    "log_file": "docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/stage3-migrate-deploy.log"
+  },
+  "second_deploy": {
+    "exit_code": 1,
+    "applied_migrations": [],
+    "failed_migration": "20260616000000_add_officials_role",
+    "prisma_error_code": "P3009",
+    "prisma_error_message": "migrate found failed migrations in the target database, new migrations will not be applied",
+    "log_file": "docs/audit/infrastructure-modernization/phase-8b-production-verification/logs/stage3-migrate-deploy-second.log"
+  },
+  "idempotent": false,
+  "empty_db_reproduced_failure": true,
+  "root_cause_classification": "MIGRATION_CODE_DEFECT",
+  "root_cause_evidence": [
+    "init_schema (the FIRST applied migration) already creates officials.role (line 486 of 20260615000000_init_schema/migration.sql).",
+    "20260616000000_add_officials_role/migration.sql unconditionally issues ALTER TABLE officials ADD COLUMN role, which collides with init_schema.",
+    "schema.prisma model 'officials' declares role with default 'OFFICIAL' (line 571), which is consistent with init_schema, NOT with the additive migration.",
+    "Reproduction occurs on a fresh MariaDB with 0 prior tables; therefore the failure is NOT caused by persistent-DB drift and NOT caused by an invalid probe.",
+    "Failure is NOT caused by the entrypoint (we ran prisma migrate deploy directly inside a sidecar on the same network)."
+  ],
+  "competing_hypotheses_disconfirmed": [
+    {"id": "PERSISTENT_DB_DRIFT",     "status": "DISCONFIRMED", "reason": "0 tables in fresh disposable DB before migrate; failure still reproduces."},
+    {"id": "ENTRYPOINT_DEFECT",       "status": "DISCONFIRMED", "reason": "Stage 3 invokes prisma migrate deploy directly, bypassing docker/api-entrypoint.sh."},
+    {"id": "PROBE_CONFIGURATION_DEFECT","status": "DISCONFIRMED", "reason": "Probe uses unique volume, unique network, unique container name, schema-confirmed empty."}
+  ],
+  "remaining_hypothesis": [
+    {"id": "MIGRATION_CODE_DEFECT", "status": "CONFIRMED", "reason": "add_officials_role migration duplicates a column already created by init_schema."}
+  ],
+  "protected_areas_touched": [],
+  "persistent_db_touched": false,
+  "migrate_resolve_invoked": false,
+  "migrations_edited": [],
+  "next_step": "STAGE 4 — Migration remediation gate. Since the failure reproduces on a fresh DB, enter Stage 4 with the documented repair options and stop short of editing without a separate user-decision unless the chosen repair is provably forward-only and idempotent."
+}

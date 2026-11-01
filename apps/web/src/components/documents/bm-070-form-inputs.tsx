@@ -11,6 +11,8 @@ import { FormActionBar } from "@/components/common/form-action-bar";
 
 import { BmFlatFormCasePayloadButton } from "./bm-form/case-payload-button";
 
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
+
 type Bm070FormInputsPanelProps = {
   documentId: string;
   onSaved?: () => void;
@@ -78,9 +80,6 @@ type Bm070FormState = {
   positionTitle: string;
   signerName: string;
 };
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
 
 const AGENCY_OPTIONS: AgencyOption[] = [
   {
@@ -811,19 +810,7 @@ export function Bm070FormInputsPanel({
     setErrorMessage(null);
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-        {
-          method: "GET",
-          cache: "no-store",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`Không tải được render-payload: HTTP ${response.status}`);
-      }
-
-      const payload: unknown = await response.json();
+      const payload = await getDocumentRenderPayload<unknown>(documentId);
       const nextState = prepareBm070StateForSave(buildStateFromPayload(payload));
 
       setFormState(nextState);
@@ -947,63 +934,43 @@ export function Bm070FormInputsPanel({
       const formToSave = prepareBm070StateForSave(formState);
       const payloadToSave = buildBm070RenderPayloadFromState(formToSave);
 
-      const response = await fetch(
-        `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
-          body: JSON.stringify({
-            ...payloadToSave,
+      await saveDocumentFormInputs(documentId, {
+        ...payloadToSave,
 
-            templateCode: "BM-070",
+        templateCode: "BM-070",
 
-            // Raw state: giữ toàn bộ input khách nhập, để sau này ô nào đổi cũng còn dữ liệu.
-            formState: formToSave,
-            bm070FormState: formToSave,
+        formState: formToSave,
+        bm070FormState: formToSave,
 
-            // Nested payload: backend render trực tiếp theo nhóm template dùng.
-            formInputs: payloadToSave,
-            payloadOverrides: payloadToSave,
-            renderPayloadOverrides: payloadToSave,
+        formInputs: payloadToSave,
+        payloadOverrides: payloadToSave,
+        renderPayloadOverrides: payloadToSave,
 
-            // Flat atomic fields: backup source-of-truth cho backend.
-            documentCode: formToSave.documentCode,
-            documentIssueDate: formToSave.documentIssueDate,
-            caseDecisionNo: formToSave.caseDecisionNo,
-            caseDecisionIssueDate: formToSave.caseDecisionIssueDate,
-            caseDecisionIssuedBy: formToSave.caseDecisionIssuedBy,
-            offenseName: formToSave.offenseName,
-            legalArticle: formToSave.legalArticle,
-            criminalCodeText: formToSave.criminalCodeText,
-            assignmentProcedureArticlesLine:
-              formToSave.assignmentProcedureArticlesLine,
-            deputyChiefName: formToSave.deputyChiefName,
-            deputyChiefTitle: formToSave.deputyChiefTitle,
-            deputyChiefAgencyName: formToSave.deputyChiefAgencyName,
-            responsibilityLine: formToSave.responsibilityLine,
-            investigationAuthorityLine: formToSave.investigationAuthorityLine,
-            assignedPersonLine: formToSave.assignedPersonLine,
-            archiveLine: formToSave.archiveLine,
-            signMode: formToSave.signMode,
-            positionTitle: formToSave.positionTitle,
-            signerName: formToSave.signerName,
+        documentCode: formToSave.documentCode,
+        documentIssueDate: formToSave.documentIssueDate,
+        caseDecisionNo: formToSave.caseDecisionNo,
+        caseDecisionIssueDate: formToSave.caseDecisionIssueDate,
+        caseDecisionIssuedBy: formToSave.caseDecisionIssuedBy,
+        offenseName: formToSave.offenseName,
+        legalArticle: formToSave.legalArticle,
+        criminalCodeText: formToSave.criminalCodeText,
+        assignmentProcedureArticlesLine:
+          formToSave.assignmentProcedureArticlesLine,
+        deputyChiefName: formToSave.deputyChiefName,
+        deputyChiefTitle: formToSave.deputyChiefTitle,
+        deputyChiefAgencyName: formToSave.deputyChiefAgencyName,
+        responsibilityLine: formToSave.responsibilityLine,
+        investigationAuthorityLine: formToSave.investigationAuthorityLine,
+        assignedPersonLine: formToSave.assignedPersonLine,
+        archiveLine: formToSave.archiveLine,
+        signMode: formToSave.signMode,
+        positionTitle: formToSave.positionTitle,
+        signerName: formToSave.signerName,
 
-            updatedByName: formToSave.signerName || "",
-            renderedByName: formToSave.signerName || "",
-            convertedByName: formToSave.signerName || "",
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        const responseText = await response.text();
-
-        throw new Error(
-          responseText || `Không lưu được dữ liệu BM-070: HTTP ${response.status}`,
-        );
-      }
+        updatedByName: formToSave.signerName || "",
+        renderedByName: formToSave.signerName || "",
+        convertedByName: formToSave.signerName || "",
+      });
 
       setFormState(formToSave);
       setInitialState(formToSave);

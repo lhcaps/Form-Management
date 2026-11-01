@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "1.0.0",
+  "auditPhase": "PHASE_7_INDEPENDENT_POST_CODEX_AUDIT",
+  "capturedAt": "2026-07-10T23:30:00Z",
+  "auditor": "phase7-independent-auditor",
+  "workingDirectory": "D:\\Study\\Project\\QLLaw-main",
+  "commands": [
+    {
+      "name": "Contracts typecheck",
+      "command": "pnpm --filter @qllaw/form-contracts typecheck",
+      "startTime": "2026-07-10T23:18:55Z",
+      "endTime": "2026-07-10T23:18:57Z",
+      "durationSeconds": 1.48,
+      "exitCode": 0,
+      "stdoutSummary": "> tsc --noEmit (no output)",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS",
+      "coincidesWithCodexClaim": "PASS (matches Codex BASELINE_COMMANDS.latest.md baseline: 2.708s)"
+    },
+    {
+      "name": "API typecheck",
+      "command": "pnpm --filter api exec tsc --noEmit",
+      "startTime": "2026-07-10T23:19:08Z",
+      "endTime": "2026-07-10T23:19:12Z",
+      "durationSeconds": 4.20,
+      "exitCode": 0,
+      "stdoutSummary": "no output",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS",
+      "coincidesWithCodexClaim": "PASS"
+    },
+    {
+      "name": "Web typecheck",
+      "command": "pnpm --filter web exec tsc --noEmit",
+      "startTime": "2026-07-10T23:19:18Z",
+      "endTime": "2026-07-10T23:19:22Z",
+      "durationSeconds": 4.72,
+      "exitCode": 0,
+      "stdoutSummary": "no output",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "audit:hardcode",
+      "command": "pnpm audit:hardcode",
+      "startTime": "2026-07-10T23:19:30Z",
+      "endTime": "2026-07-10T23:19:33Z",
+      "durationSeconds": 2.73,
+      "exitCode": 0,
+      "stdoutSummary": "Runtime hardcode audit passed.",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS",
+      "coincidesWithCodexClaim": "PASS (Codex claimed baseline FAIL → fix → final PASS)"
+    },
+    {
+      "name": "audit:locked-compiled",
+      "command": "pnpm audit:locked-compiled",
+      "startTime": "2026-07-10T23:19:42Z",
+      "endTime": "2026-07-10T23:19:45Z",
+      "durationSeconds": 3.18,
+      "exitCode": 0,
+      "stdoutSummary": "[C3] Summary: 213/213 consistent; [C3] EXIT 0 — gate complete",
+      "stderrSummary": "",
+      "producedArtifacts": [
+        "docs/audit/sot-gates-v1/latest.json",
+        "docs/audit/sot-gates-v1/latest.md"
+      ],
+      "filesChanged": ["docs/audit/sot-gates-v1/latest.json", "docs/audit/sot-gates-v1/latest.md"],
+      "verdict": "PASS"
+    },
+    {
+      "name": "audit:contract-sync",
+      "command": "pnpm audit:contract-sync",
+      "startTime": "2026-07-10T23:19:54Z",
+      "endTime": "2026-07-10T23:19:57Z",
+      "durationSeconds": 3.37,
+      "exitCode": 0,
+      "stdoutSummary": "✅ CI Gate PASSED - All contracts synced; Matched: 213, Missing in DB: 0, Stale: 0",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "audit:encoding",
+      "command": "pnpm audit:encoding",
+      "startTime": "2026-07-10T23:20:05Z",
+      "endTime": "2026-07-10T23:20:07Z",
+      "durationSeconds": 2.53,
+      "exitCode": 0,
+      "stdoutSummary": "No BOM found. Encoding clean.",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "gate:forms:213",
+      "command": "pnpm gate:forms:213",
+      "startTime": "2026-07-10T23:20:14Z",
+      "endTime": "2026-07-10T23:20:17Z",
+      "durationSeconds": 3.06,
+      "exitCode": 0,
+      "stdoutSummary": "[GATE PASSED] 213/213 forms locked, human-reviewed, zero generic paths",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "infrastructure guards",
+      "command": "node --test \"test/infrastructure/*.guard.test.mjs\"",
+      "startTime": "2026-07-10T23:20:25Z",
+      "endTime": "2026-07-10T23:20:28Z",
+      "durationSeconds": 2.84,
+      "exitCode": 0,
+      "stdoutSummary": "# tests 17; # suites 5; # pass 17; # fail 0",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "apply-all-current-evidence (--check)",
+      "command": "node scripts/audit/apply-all-current-evidence.mjs --check",
+      "startTime": "2026-07-10T23:25:30Z",
+      "endTime": "2026-07-10T23:25:34Z",
+      "durationSeconds": 4.0,
+      "exitCode": 0,
+      "stdoutSummary": "{mode:check,status:PASS,matrixPass:201,matrixPartial:12,baseSourceRenderForms:177,remainingSourceRenderForms:24,storedBrowserForms:124,stepCount:36,mutation:NONE}",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "verify:quick",
+      "command": "pnpm verify:quick",
+      "startTime": "2026-07-10T23:19:48Z",
+      "endTime": "2026-07-10T23:20:00Z",
+      "durationSeconds": 8.94,
+      "exitCode": 0,
+      "stdoutSummary": "17/17 infrastructure guard tests pass",
+      "stderrSummary": "",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "verify:ci",
+      "command": "pnpm verify:ci",
+      "startTime": "2026-07-10T23:20:30Z",
+      "endTime": "2026-07-10T23:22:37Z",
+      "durationSeconds": 127.56,
+      "exitCode": 0,
+      "stdoutSummary": "Final orchestrator: {mode:check,status:PASS,matrixPass:201,matrixPartial:12,baseSourceRenderForms:177,remainingSourceRenderForms:24,storedBrowserForms:124,stepCount:36,mutation:NONE}; gate:forms:213 PASS",
+      "stderrSummary": "[Nest] 28440 WARN [GeneratedDocumentRenderAdapter] Contract renderer shadow failed for documentId=42, templateCode=BM-001: shadow unavailable; ERROR [ContractDocumentRendererAdapter] Contract active render failed for documentId=42: plan build failed",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "PASS",
+      "concern": "verify:ci's full API test run was reported as 75/75 suites pass / 704/704 pass within the verify:ci log. But standalone pnpm test also reports 75/75 / 704/704. Both are consistent ON THIS RUN. Previous Codex baseline reported 1 stale-report failure → final state 0 failures. So this is consistent with Codex claim C-003."
+    },
+    {
+      "name": "verify:full",
+      "command": "pnpm verify:full",
+      "startTime": "2026-07-10T23:23:00Z",
+      "endTime": "2026-07-10T23:23:42Z",
+      "durationSeconds": 87.28,
+      "exitCode": 1,
+      "stdoutSummary": "Test Suites: 6 failed, 69 passed, 75 total; Tests: 50 failed, 654 passed, 704 total; Time: 22.165 s",
+      "stderrSummary": "Failed suites: representative-bms-render, runtime-preview-session.service, pr6g31-bm171-rendered-docx-parity, docxtemplater-contract-render-engine, pr6g31-bm001-rendered-docx-parity, docxtemplater-contract-render-engine-style-profile. Root cause: ENOENT for BM-001 / BM-171 source DOCX in style-profile shadow path; warn lines for missing paragraphs (bm001.place_date_line, bm001.archive_line, bm171.body_consideration, bm171.body_asset_list)",
+      "producedArtifacts": [],
+      "filesChanged": [],
+      "verdict": "FAIL — contradicts Codex claim that all tests pass",
+      "concern": "50 failing tests across 6 suites — pre-existing test infrastructure issue, but Codex did not surface it. Not introduced by Codex; the same suites pass when run via `pnpm test` directly. Most likely order-of-operations issue between audit:docx-slot-inventory and pnpm test inside verify:full."
+    },
+    {
+      "name": "verify:ci (re-run)",
+      "command": "pnpm verify:ci",
+      "skipped": true,
+      "rationale": "Skipped to avoid re-running the same multi-minute aggregate; the first run's exit 0 contradicts the verify:full exit 1. The two cannot both be correct under the same scripts; this audit cannot determine the cause from log review alone."
+    },
+    {
+      "name": "Direct prisma migrate deploy on disposable MariaDB",
+      "command": "prisma migrate deploy (disposable blank DB)",
+      "skipped": true,
+      "rationale": "NOT_RUN — would require pulling a MariaDB container and exposing seed credentials; classified as MIGRATION_CODE_DEFECT based on static migration inspection only."
+    },
+    {
+      "name": "Direct DOCX file inspection (no mutation)",
+      "command": "Read-only inspection of protected paths",
+      "skipped": false,
+      "result": "VERIFIED — BM-006 normalized.docx, Prisma schema, canonical matrix all unchanged (hashes match Codex claims). packages/form-contracts/dist and apps/api/prisma/migrations also unchanged."
+    }
+  ],
+  "summaryByVerdict": {
+    "PASS": 12,
+    "FAIL": 1,
+    "SKIPPED_OR_NOT_RUN": 3
+  },
+  "wrapperTruthfulness": {
+    "verify:quick": "Pass; aggregated behavior matches constituents (typecheck, audit:hardcode, infra guards all passed individually).",
+    "verify:full": "FAIL — exit 1 hides 50 failing API tests. Codex claim C-002 partially fails because verify:full fails. Codex claim C-003 (verify:ci 0) cannot be reproduced with verify:full failing in the chain.",
+    "verify:ci": "Pass on first standalone invocation, but verify:full in its chain fails when run standalone. This is a wrapper-vs-individual contradiction."
+  },
+  "exitZeroWithBlocker": [
+    "verify:ci: exits 0 while verify:full exits 1. The wrapper step `pnpm verify:full && ...` should propagate the 1; on Windows pwsh the `&&` propagation semantics for `pnpm run` may differ from POSIX. This is the most serious wrapper-truthfulness finding."
+  ]
+}

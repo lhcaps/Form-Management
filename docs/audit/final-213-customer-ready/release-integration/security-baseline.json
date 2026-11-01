@@ -1,0 +1,95 @@
+{
+  "schema": "qllaw.release.security_baseline/v1",
+  "capturedAt": "2026-07-27T22:30:00+07:00",
+  "capturedOnBranch": "codex/customer-ready-baseline",
+  "capturedAtSha": "17e0199da893833611e6a4b9958a31941f45431b",
+  "phase15Batch": "SECURITY_REMEDIATION_BATCH_ENTRY",
+  "tool": "pnpm",
+  "toolVersion": "pnpm@10.33.2",
+  "scope": "production-only",
+  "command": "pnpm audit --prod --json",
+  "beforeRemediation": {
+    "exitCode": 1,
+    "criticalAdvisories": 0,
+    "highAdvisories": 0,
+    "moderateAdvisories": 3,
+    "lowAdvisories": 1,
+    "totalAdvisories": 4,
+    "moderateAdvisoryIds": ["1116281", "1124006", "1124298"],
+    "lowAdvisoryIds": ["1123976"],
+    "transitiveAdvisoriesSurfaced": [],
+    "allDependencies": 513,
+    "productionDependencies": 513,
+    "devDependencies": 0,
+    "manifestAtCapture": {
+      "prisma": "7.8.0",
+      "@prisma/client": "7.8.0",
+      "@prisma/adapter-mariadb": "7.8.0",
+      "body-parserResolved": "2.2.2",
+      "valibotResolved": "1.2.0",
+      "@hono/node-serverResolved": "1.19.11"
+    },
+    "pnpmOverrides": [
+      "@babel/core", "js-yaml", "multer", "postcss", "qs",
+      "uuid", "shell-quote", "fast-uri", "sharp", "form-data", "next"
+    ],
+    "note": "Pre-existing prod advisories were 3 moderate + 1 low; the historic narrative that 'four High prod advisories' exist was a stale snapshot from before lockfile refresh that already moved js-yaml to 4.3.0 and fast-uri to 3.1.4. Correct baseline is captured here from `pnpm audit --prod --json`."
+  },
+  "afterRemediation": {
+    "exitCode": 0,
+    "criticalAdvisories": 0,
+    "highAdvisories": 0,
+    "moderateAdvisories": 0,
+    "lowAdvisories": 0,
+    "totalAdvisories": 0,
+    "allDependencies": 555,
+    "manifestAtCapture": {
+      "prisma": "7.9.1",
+      "@prisma/client": "7.9.1",
+      "@prisma/adapter-mariadb": "7.9.1",
+      "body-parserResolved": "2.3.0",
+      "valibotResolved": "1.4.2",
+      "@hono/node-serverResolved": "ABSENT_FROM_TREE"
+    },
+    "pnpmOverrides": [
+      "@babel/core", "js-yaml", "multer", "postcss", "qs",
+      "uuid", "shell-quote", "fast-uri", "sharp", "form-data", "next",
+      "brace-expansion", "body-parser"
+    ],
+    "note": "`brace-expansion` global override (5.0.8) was added as a clean transitive remediation covering both exceljs>archiver>archiver-utils>glob>minimatch>brace-expansion and exceljs>archiver>readdir-glob>minimatch>brace-expansion paths. pnpm accepted it without manifest/lockfile conflict."
+  },
+  "devSideAdvisories": [
+    {
+      "advisoryId": "1120680",
+      "module": "esbuild",
+      "severity": "low",
+      "vulnerableVersions": ">=0.27.3 <0.28.1",
+      "patchedVersions": ">=0.28.1",
+      "currentVersion": "0.27.7",
+      "path": "packages__form-contracts>tsup>esbuild",
+      "productionReachable": false,
+      "reachabilityEvidence": "esbuild is a build-time bundler invoked by tsup during form-contracts build. esbuild dev server (the attack surface for the path-traversal advisory GHSA-g7r4-m6w7-qqqr) is only started via `tsup --watch` for local development and is not started in customer-local or production runtime.",
+      "mitigation": "Build pipeline is offline; no request handling. Documented and accepted. Will be revisited when tsup upgrades to a transitive esbuild >=0.28.1."
+    },
+    {
+      "advisoryId": "1124287",
+      "module": "tar",
+      "severity": "moderate",
+      "vulnerableVersions": "<=7.5.20",
+      "patchedVersions": ">=7.5.21",
+      "currentVersion": "7.5.20",
+      "path": ".>@cyclonedx/cyclonedx-npm>libxmljs2>node-gyp>tar",
+      "productionReachable": false,
+      "reachabilityEvidence": "tar is invoked through node-gyp which is invoked through libxmljs2 native build, which is invoked through @cyclonedx/cyclonedx-npm SBOM generator. This is a one-shot SBOM build script (`pnpm security:dependencies` / CI SBOM), not a request-path module. tar.t/tar.x with member selection is never called from API runtime.",
+      "mitigation": "Documented and accepted. Will be revisited when @cyclonedx/cyclonedx-npm updates its node-gyp pin."
+    }
+  ],
+  "rawAuditFiles": {
+    "beforeProdAuditJson": "docs/audit/final-213-customer-ready/release-integration/security-audit-prod.raw.json",
+    "afterProdAuditJson": "docs/audit/final-213-customer-ready/release-integration/final-prod-audit.json",
+    "fullAuditJson": "docs/audit/final-213-customer-ready/release-integration/final-full-audit.json",
+    "beforeProdAuditSummary": "n/a (json only)",
+    "afterProdAuditSummary": "docs/audit/final-213-customer-ready/release-integration/final-prod-audit.txt"
+  },
+  "releaseGateStatus": "PROD_SECURITY_GATE_GREEN"
+}

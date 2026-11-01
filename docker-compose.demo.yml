@@ -1,0 +1,57 @@
+# docker-compose.demo.yml — Docker Demo/Staging override
+#
+# Usage:
+#   pnpm docker:demo:build
+#   pnpm docker:demo:up
+#   pnpm docker:demo:down
+#
+# This file OVERRIDES docker-compose.prod.yml for demo/staging runs:
+#   1. Sets QLLAW_FONT_POLICY=fallback-allowed (no licensed font needed)
+#   2. Removes the mandatory Times New Roman bind mount
+#   3. Exposes MariaDB port for local inspection
+#   4. Applies office-lite resource profile
+#   5. Uses QLLAW_DOCKER_ENV_FILE=.env.docker.demo
+#
+# Classification: PRODUCTION_STACK_DEMO_AUTH_PASS
+#                 DEMO_FONT_FALLBACK_ACTIVE
+#                 CLERK_WEBHOOK_OPTIONAL_FOR_DEMO
+#
+# This does NOT weaken the production docker-compose.prod.yml.
+
+services:
+  mysql:
+    # Expose MariaDB on host for local inspection during demo.
+    ports:
+      - "${MARIADB_HOST_PORT:-3307}:3306"
+
+  api:
+    # Override env_file to use demo credentials.
+    env_file:
+      - ${QLLAW_DOCKER_ENV_FILE:-.env.docker.demo}
+    environment:
+      # Override font policy: fallback-allowed — DEMO_FONT_FALLBACK_ACTIVE.
+      QLLAW_FONT_POLICY: fallback-allowed
+      # Override cookie settings for demo (no HTTPS required locally).
+      AUTH_COOKIE_SECURE: "false"
+      AUTH_COOKIE_SAMESITE: "lax"
+      # Override CORS for demo local origins.
+      API_CORS_ORIGIN: ${API_CORS_ORIGIN:-http://localhost:3000,http://127.0.0.1:3000}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
+    volumes:
+      - ./storage:/app/storage
+      - ./logs:/app/logs
+      # The production base file mounts ${QLLAW_TNR_FONT_DIR} with :? required.
+      # In demo mode .env.docker.demo sets QLLAW_TNR_FONT_DIR=./infra/fonts-fallback
+      # (an empty directory that satisfies the variable interpolation). The
+      # fallback-allowed policy means the API entrypoint does not fail-close
+      # on the empty bind mount. This preserves the production Compose structure
+      # while making demo runnable without licensed fonts.
+
+  web:
+    env_file:
+      - ${QLLAW_DOCKER_ENV_FILE:-.env.docker.demo}
+    environment:
+      # Allow HTTP cookies for demo.
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3001/api/v1}

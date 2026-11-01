@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { DocumentFilesController } from './document-files.controller';
 import { DocumentFilesService } from './document-files.service';
 import { DocumentPreExportService } from './document-pre-export.service';
@@ -21,6 +21,9 @@ import {
 } from './rendering/application/document-renderer.ports';
 import { DocumentRendererRoutingPolicy } from './rendering/application/document-renderer-routing.policy';
 import { RenderGeneratedDocumentUseCase } from './rendering/application/render-generated-document.use-case';
+import { ApiRenderOrchestrator } from './rendering/application/api-render-core/api-render-orchestrator';
+import { GeneratedDocumentRenderAdapter } from './rendering/application/api-render-core/generated-document-render.adapter';
+import { RuntimeTemplateRenderAdapter } from './rendering/application/api-render-core/runtime-template-render.adapter';
 import { StandaloneTemplateRenderService } from './rendering/application/standalone-template-render.service';
 import { ContractRenderPlanBuilder } from './rendering/application/contract-render-plan.builder';
 import { ContractShadowRendererOrchestrator } from './rendering/application/contract-shadow-renderer.orchestrator';
@@ -35,8 +38,11 @@ import { DocxPreviewController } from './preview/docx-preview.controller';
 import { DocxPreviewService } from './preview/docx-preview.service';
 import { DocxStyleAuditService } from './style/docx-style-audit.service';
 import { AgencyResourceAccessService } from '../auth/agency-resource-access.service';
+import { LegacyGeneratedFormInputsSaveAdapter } from './rendering/application/generated-input-save-core/legacy-generated-form-inputs-save.adapter';
+import { GeneratedInputSaveModule } from './rendering/application/generated-input-save-core/generated-input-save.module';
 
 @Module({
+  imports: [forwardRef(() => GeneratedInputSaveModule)],
   controllers: [
     DocumentsController,
     DocumentReviewsController,
@@ -71,6 +77,12 @@ import { AgencyResourceAccessService } from '../auth/agency-resource-access.serv
     DocxPreviewService,
     DocxStyleAuditService,
     RuntimePreviewSessionService,
+    RuntimeTemplateRenderAdapter,
+    GeneratedDocumentRenderAdapter,
+    ApiRenderOrchestrator,
+    // PR-E: legacy generated form-inputs adapter — owner of the legacy
+    // save route inside the shared GeneratedInputSaveOrchestrator.
+    LegacyGeneratedFormInputsSaveAdapter,
     {
       provide: LEGACY_DOCUMENT_RENDERER,
       useExisting: LegacyDocumentRendererAdapter,
@@ -84,5 +96,8 @@ import { AgencyResourceAccessService } from '../auth/agency-resource-access.serv
       useExisting: PrismaGeneratedDocumentDescriptorRepository,
     },
   ],
+  // PR-E: expose the legacy adapter so GeneratedInputSaveModule can
+  // inject it via the forwardRef-wrapped module graph.
+  exports: [LegacyGeneratedFormInputsSaveAdapter],
 })
 export class DocumentsModule {}

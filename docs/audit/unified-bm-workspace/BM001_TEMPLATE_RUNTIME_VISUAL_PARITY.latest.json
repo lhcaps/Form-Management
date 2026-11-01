@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "1.0",
+  "phase": "BM-001 TEMPLATE RUNTIME VISUAL PARITY + GENERALIZABLE RUNTIME-READY FORM CONTRACT",
+  "generatedAt": "2026-07-07",
+  "status": "PASS-pending-browser-verification",
+  "approvedRuntimeReadyCodes": ["BM-001", "BM-171"],
+  "skeletonCount": 211,
+  "totalForms": 213,
+  "rootCause": "/templates/BM-001 rendered the legacy screenshot because TemplatePreviewWorkspace mounted <ContractV2Renderer uxProfile={...} /> where uxProfile = getRuntimeUxProfile('BM-001') returned null. No BM-001 runtime-ux profile existed; the renderer fell back to localizeSectionTitle() (which produced 'Thông tin bổ sung' for the two Vietnamese-titled sections) and to the generic getSampleData() heuristic (which leaks 'Nguyễn Văn A / Trần Thị B / 1980 / Ông  cung cấp...'). decideFormLifecycle() correctly returned panelKind='form-flight-runtime' for BM-001, but the workspace host never read panelKind.",
+  "whyPreviousPhaseInsufficient": "FORM_LIFECYCLE_WIRING_CONTRACT centralised registration and the lifecycle decision but never created the visible-panel selector the host could read. The actual <ContractV2Renderer> mount kept using the legacy getRuntimeUxProfile() lookup, so the lifecycle decision was invisible to the rendered UI.",
+  "filesChanged": [
+    "apps/web/src/lib/runtime-ux/bm001-runtime-ux-profile.ts (NEW)",
+    "apps/web/src/lib/runtime-ux/index.ts (single-line side-effect import)",
+    "apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.ts (NEW)",
+    "apps/web/src/components/documents/template-preview-workspace.tsx (selector call + diagnostic banner; no UI regression)",
+    "apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.guard.test.mjs (NEW, 12 assertions)",
+    "apps/web/src/lib/form-flight/bm001-template-runtime-visual.guard.test.mjs (NEW, 14 assertions)",
+    "docs/audit/unified-bm-workspace/RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/BM001_TEMPLATE_RUNTIME_VISUAL_TARGET.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/BM001_TEMPLATE_RUNTIME_VISUAL_PARITY.latest.md (NEW)",
+    "docs/audit/unified-bm-workspace/BM001_TEMPLATE_RUNTIME_VISUAL_PARITY.latest.json (NEW)"
+  ],
+  "filesNotChanged": [
+    "apps/web/src/lib/form-flight/profiles/bm001.ts",
+    "apps/web/src/lib/form-flight/profiles/bm171.ts",
+    "apps/web/src/lib/form-flight/form-lifecycle.ts",
+    "apps/web/src/components/documents/bm-001-form-inputs.tsx",
+    "apps/web/src/components/documents/bm-171-form-inputs.tsx",
+    "apps/web/src/lib/bm001-form-inputs-api.ts",
+    "All 211 skeleton profile files",
+    "All 211 bm-NNN-form-inputs.tsx files",
+    "Locked contract, normalized DOCX, source DOCX",
+    "Prisma schema, migrations, DB rows, public API route paths"
+  ],
+  "futureFormPromotionContract": {
+    "requiredProfileStatus": "runtimeReady: true AND profileStatus: 'runtime-ready' AND non-empty demo + summaryLines + acceptance.requiredText",
+    "requiredVisibleTemplatePanelRegistration": "apps/web/src/lib/runtime-ux/bmNNN-runtime-ux-profile.ts must exist, side-effect imported in apps/web/src/lib/runtime-ux/index.ts",
+    "requiredGeneratedDocumentLifecycleCondition": "decideFormLifecycle({lifecycle: 'generated-document', templateCode: 'BM-NNN', hasRealGeneratedDocumentId: true}) returns useFormFlight: true",
+    "requiredDemoSummaryAcceptance": "bmNNN-runtime-ux-profile.ts demo must mirror BMNNN_FORM_FLIGHT_PROFILE.demo and must NOT contain legacy stale tokens",
+    "requiredGoldenValidation": "Render / export golden validation must PASS (generalising bm001-render-export-golden.guard.test.mjs)",
+    "requiredBrowserVerification": "manual browser smoke on /templates/BM-NNN must show the runtime-ready panel pattern, NOT the legacy screenshot",
+    "guardThatFailsOnDrift": "runtime-ready-template-panel-contract.guard.test.mjs #4 (BM-NNN resolves to runtime-ready-template-panel) and #6 (no skeleton resolves to it)"
+  },
+  "beforeAfter": {
+    "before": {
+      "bm001TemplateComponent": "TemplatePreviewWorkspace with <ContractV2Renderer uxProfile={null}>",
+      "bm001VisiblePanel": "legacy ContractV2Renderer + getSampleData heuristic (Nguyễn Văn A, Trần Thị B, 1980, Ông  cung cấp)",
+      "staleDefaultSource": "apps/web/src/features/forms-contracts/sample-data.ts PERSON_DEFAULTS (legacy heuristic)",
+      "bm171VisiblePanel": "TemplatePreviewWorkspace with <ContractV2Renderer uxProfile={bm171-runtime-ux-profile}> — clean Vietnamese legal-document wording + summary card",
+      "bm002Behavior": "TemplatePreviewWorkspace with <ContractV2Renderer uxProfile={null}>; generic skeleton fallback"
+    },
+    "after": {
+      "bm001TemplateComponent": "TemplatePreviewWorkspace with <ContractV2Renderer uxProfile={bm001-runtime-ux-profile}> + diagnostic banner",
+      "bm001VisiblePanel": "BM-001 sections/fields/demo/summary; BM001_DEMO values (Nguyễn Thị Mai / Trần Văn Bình / 1985)",
+      "bm171Parity": "identical (BM-171 source UNCHANGED)",
+      "staleDefaultSource": "removed (BM001_DEMO-aligned values; legacy tokens forbidden by guard test #9)",
+      "bm002SkeletonBehavior": "identical generic fallback (no promotion); panelKind=generic-template-panel",
+      "futureBmNNNOptInPath": "create bmNNN-runtime-ux-profile.ts + side-effect import in lib/runtime-ux/index.ts; allowlist code in form-lifecycle.ts; selector resolves it to runtime-ready-template-panel automatically"
+    }
+  },
+  "lifecycleSafety": {
+    "/templates does not fake generatedDocumentId": "PASS",
+    "/templates does not call generated-document save endpoint": "PASS",
+    "/templates does not instantiate createGeneratedDocumentAdapter": "PASS",
+    "preview uses runtime preview lifecycle": "PASS",
+    "/documents lifecycle unchanged": "PASS",
+    "skeletons stay fail-closed": "PASS"
+  },
+  "staleValueFix": {
+    "nguyenVanA_absent": "PASS",
+    "tranThiB_absent": "PASS",
+    "1980_absent": "PASS",
+    "ong_cung_cap_absent": "PASS",
+    "nguyenThiHongHanh_absent": "PASS",
+    "BM001_DEMO_values_available": "PASS"
+  },
+  "futureFormGuard": {
+    "runtimeReadyAllowlistChecked": "PASS",
+    "runtimeReadyFormsResolveToRuntimeReadyTemplatePanel": "PASS",
+    "skeletonsDoNotResolveToRuntimeReadyPanel": "PASS",
+    "generatedPathRequiresRealGeneratedDocumentId": "PASS",
+    "missingFutureRegistrationFailsGuard": "PASS"
+  },
+  "guardTestResults": {
+    "runtime-ready-template-panel-contract.guard.test.mjs": "12/12 PASS",
+    "bm001-template-runtime-visual.guard.test.mjs": "14/14 PASS",
+    "form-lifecycle-wiring.guard.test.mjs": "21/21 PASS (regression)",
+    "bm001-runtime-ready.guard.test.mjs": "15/15 PASS (regression)",
+    "bm001-render-export-golden.guard.test.mjs": "17/17 PASS (regression)",
+    "profile-registry-guard.test.mjs": "10/10 PASS (regression)",
+    "total": "89/89 PASS"
+  },
+  "typeScript": {
+    "pnpm --filter web exec tsc --noEmit": "exit 0, no output",
+    "pnpm --filter api exec tsc --noEmit": "exit 0, no output"
+  },
+  "browserManualVerification": {
+    "devServerStarted": "PENDING (operator action — see markdown §10)",
+    "cleanBrowserContextUsed": "PENDING",
+    "bm001NoLongerMatchesLegacyScreenshot": "PENDING",
+    "bm001MatchesBM171Pattern": "PENDING",
+    "bm001PreviewWorks": "PENDING",
+    "bm171Unchanged": "PENDING",
+    "bm002SkeletonFailClosed": "PENDING",
+    "consoleErrors": "PENDING"
+  },
+  "remainingRisks": [
+    "Browser verification not run inside this session — see markdown §10 for manual checklist.",
+    "If the visible panel banner is ever removed, drift goes unnoticed — guard #13 catches the removal at CI time.",
+    "localStorage drafts from before this phase still hold legacy defaults — 'Xóa bản nháp' button cleans them; clean context starts at {}.",
+    "Each future BM-NNN needs its own runtime-ux profile (small TS file mirroring bm001-runtime-ux-profile.ts) — documented in the contract §4."
+  ],
+  "nextRecommendedPhase": "1. BM-001 Generated Document Workspace Visual Parity",
+  "alternatives": [
+    "2. BM-002 Third Pilot Using Runtime-Ready Contract",
+    "3. Generalize Render / Export Golden Validation to BM-NNN",
+    "4. 213 Batch Family Planning",
+    "5. Stop — user decision needed"
+  ]
+}

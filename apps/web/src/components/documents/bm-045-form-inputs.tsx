@@ -10,9 +10,7 @@ import {
 
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001/api/v1";
+import { getDocumentRenderPayload, saveDocumentFormInputs } from "@/lib/document-form-api";
 
 type SectionName =
   | "agency"
@@ -494,76 +492,6 @@ function normalizeFormInputs(payload: Record<string, unknown>): Bm045FormInputs 
   });
 }
 
-async function getBm045RenderPayload(
-  documentId: string | number,
-): Promise<Record<string, unknown>> {
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/render-payload`,
-    {
-      method: "GET",
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không tải được render-payload BM-045. HTTP ${response.status}`);
-  }
-
-  return (await response.json()) as Record<string, unknown>;
-}
-
-async function saveBm045FormInputs(
-  documentId: string | number,
-  form: Bm045FormInputs,
-): Promise<void> {
-  const syncedPayload = buildSyncedForm(form);
-  const includeJuvenileJusticeLine =
-    form.bailApproval.includeJuvenileJusticeLine === true;
-
-  const savePayload: Bm045FormInputs = {
-    ...syncedPayload,
-    legalBasis: {
-      ...syncedPayload.legalBasis,
-      juvenileJusticeLine: includeJuvenileJusticeLine
-        ? syncedPayload.legalBasis.juvenileJusticeLine
-        : "",
-    },
-    bailApproval: {
-      ...syncedPayload.bailApproval,
-      includeJuvenileJusticeLine,
-    },
-  };
-
-  const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
-
-  const response = await fetch(
-    `${API_BASE_URL}/documents/generated/${documentId}/form-inputs`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        updatedByName,
-        formInputs: savePayload,
-        person: {
-          fullName: savePayload.bailApproval.accusedName,
-        },
-        offense: {
-          offenseName: savePayload.bailApproval.offenseName,
-          legalArticle: savePayload.bailApproval.legalArticle,
-        },
-        ...savePayload,
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    throw new Error(`Không lưu được dữ liệu BM-045. HTTP ${response.status}`);
-  }
-}
 
 function CheckboxInput({
   label,
@@ -710,7 +638,7 @@ export function Bm045FormInputsPanel({
       setSuccessMessage("");
 
       try {
-        const payload = await getBm045RenderPayload(documentId);
+        const payload = await getDocumentRenderPayload<Record<string, unknown>>(documentId);
         const nextForm = normalizeFormInputs(payload);
 
         if (!isMounted) {
@@ -777,8 +705,38 @@ export function Bm045FormInputsPanel({
     setSuccessMessage("");
 
     try {
-      const savePayload = buildSyncedForm(form);
-      await saveBm045FormInputs(documentId, savePayload);
+      const syncedPayload = buildSyncedForm(form);
+      const includeJuvenileJusticeLine =
+        form.bailApproval.includeJuvenileJusticeLine === true;
+
+      const savePayload: Bm045FormInputs = {
+        ...syncedPayload,
+        legalBasis: {
+          ...syncedPayload.legalBasis,
+          juvenileJusticeLine: includeJuvenileJusticeLine
+            ? syncedPayload.legalBasis.juvenileJusticeLine
+            : "",
+        },
+        bailApproval: {
+          ...syncedPayload.bailApproval,
+          includeJuvenileJusticeLine,
+        },
+      };
+
+      const updatedByName = savePayload.signature.signerName.trim() || DEFAULT_SIGNER_NAME;
+
+      await saveDocumentFormInputs(documentId, {
+        updatedByName,
+        formInputs: savePayload,
+        person: {
+          fullName: savePayload.bailApproval.accusedName,
+        },
+        offense: {
+          offenseName: savePayload.bailApproval.offenseName,
+          legalArticle: savePayload.bailApproval.legalArticle,
+        },
+        ...savePayload,
+      });
 
       setForm(savePayload);
       setInitialSnapshot(JSON.stringify(savePayload));

@@ -1,0 +1,58 @@
+{
+  "stats": {
+    "startTime": "2026-07-07T20:52:19.624Z",
+    "duration": 14358.442,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "durationMs": 14358.442,
+  "expected": 4,
+  "unexpected": 1,
+  "flaky": 0,
+  "skipped": 0,
+  "passed": 3,
+  "codes": [
+    {
+      "templateCode": null,
+      "title": "create sign-in ticket for E2E user",
+      "file": "global.setup.ts",
+      "status": "passed",
+      "durationMs": 765,
+      "errorMessage": null
+    },
+    {
+      "templateCode": null,
+      "title": "authenticate via ticket and persist session state",
+      "file": "global.setup.ts",
+      "status": "passed",
+      "durationMs": 6677,
+      "errorMessage": null
+    },
+    {
+      "templateCode": "BM-037",
+      "title": "BM-037 demo click populates demo data and stays editable",
+      "file": "curated-37-demo-click.auth.spec.ts",
+      "status": "passed",
+      "durationMs": 2026,
+      "errorMessage": null
+    },
+    {
+      "templateCode": "BM-043",
+      "title": "BM-043 demo click populates demo data and stays editable",
+      "file": "curated-37-demo-click.auth.spec.ts",
+      "status": "passed",
+      "durationMs": 1978,
+      "errorMessage": null
+    },
+    {
+      "templateCode": "BM-171",
+      "title": "BM-171 demo click populates demo data and stays editable",
+      "file": "curated-37-demo-click.auth.spec.ts",
+      "status": "failed",
+      "durationMs": 1971,
+      "errorMessage": "Error: BM-171: stale demo token \"Trß║ºn Thß╗ï B\" leaked into rendered demo data\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeNull\u001b[2m()\u001b[22m\n\nReceived: \u001b[31m\"Trß║ºn Thß╗ï B\"\u001b[39m"
+    }
+  ]
+}

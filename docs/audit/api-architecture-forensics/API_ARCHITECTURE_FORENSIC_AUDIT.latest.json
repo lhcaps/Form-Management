@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-07-06T00:00:00.000+07:00",
+  "status": "PARTIAL",
+  "verdict": "Runtime/generated route lifecycle boundary mostly holds, but render, payload, validation, and audit are not unified and contain critical duplicate paths.",
+  "scopeInspected": {
+    "appsApiControllers": "PASS",
+    "renderServices": "PASS",
+    "formInputServices": "PASS",
+    "contractsPackage": "PASS",
+    "prismaPersistence": "PASS",
+    "authRbacBoundary": "PASS",
+    "frontendApiCallers": "PASS",
+    "runtimeTemplateFlow": "PASS",
+    "generatedDocumentFlow": "PASS",
+    "scriptsAudit": "PASS"
+  },
+  "coreBoundary": {
+    "runtimeTemplate": {
+      "routeFamily": "/forms/runtime/* plus frontend /templates/:templateCode",
+      "persisted": false,
+      "dbWritesFound": [],
+      "storage": ["storage/runtime-preview-sessions"],
+      "risk": "MEDIUM"
+    },
+    "generatedDocument": {
+      "routeFamily": "/documents/generated/* plus frontend /documents/:id",
+      "persisted": true,
+      "dbWritesFound": ["generated_documents", "generated_document_files", "stored_files", "case_events", "generated_document_audit_logs on selected paths"],
+      "storage": ["generated documents storage roots", "stored_files", "generated_document_files"],
+      "risk": "CRITICAL"
+    }
+  },
+  "criticalFindings": [
+    {
+      "id": "F-001",
+      "severity": "CRITICAL",
+      "finding": "Generated render is policy-switched between legacy, shadow, and active contract renderer.",
+      "evidence": ["RenderGeneratedDocumentUseCase", "DocumentRendererRoutingPolicy", "LegacyDocumentRendererAdapter", "ContractDocumentRendererAdapter"],
+      "recommendation": "Extract shared render core and adapterize legacy/generated persistence before deprecating legacy."
+    },
+    {
+      "id": "F-002",
+      "severity": "CRITICAL",
+      "finding": "Generated form inputs have competing save paths.",
+      "evidence": ["POST /documents/generated/:documentId/form-inputs", "PUT /documents/generated/:documentId/contract-form-inputs", "POST /documents/generated/:id/bm031-direct-form-inputs"],
+      "recommendation": "Make ContractFormInputsService-style validation the shared backend boundary."
+    },
+    {
+      "id": "F-003",
+      "severity": "HIGH",
+      "finding": "Runtime UI contract resolution and runtime render plan can use different contract sources.",
+      "evidence": ["RuntimeFormContractService DB-published first", "ContractRenderPlanBuilder locked JSON only"],
+      "recommendation": "Create one ContractSourceResolver used by UI schema and render plan."
+    },
+    {
+      "id": "F-004",
+      "severity": "HIGH",
+      "finding": "Frontend helper surface includes methods not backed by matching backend decorators.",
+      "evidence": ["patchDocumentFormInputs", "replaceDocumentFormInputs", "patchBm031DirectFormInputs", "rg @Patch route inventory"],
+      "recommendation": "Remove unsupported helper methods or add explicit backend routes with tests."
+    },
+    {
+      "id": "F-005",
+      "severity": "HIGH",
+      "finding": "Generated render/save audit coverage is inconsistent.",
+      "evidence": ["GeneratedDocumentAuditService used in create/file routes", "ContractShadowRendererOrchestrator records case_events but not audit rows"],
+      "recommendation": "Add RenderAuditEmitter in GeneratedDocumentAdapter."
+    }
+  ],
+  "duplicatesSummary": {
+    "highestSeverity": "CRITICAL",
+    "counts": {
+      "DUPLICATE_RENDERER": 4,
+      "DUPLICATE_PAYLOAD_BUILDER": 5,
+      "DUPLICATE_VALIDATOR": 2,
+      "RAW_FETCH": 1,
+      "LEGACY_BM_HELPER": 1,
+      "AUDIT_ONLY": 2,
+      "DEAD_SCRIPT": 1,
+      "UNKNOWN": 1
+    }
+  },
+  "artifacts": {
+    "docxReport": "docs/audit/api-architecture-forensics/API_ARCHITECTURE_FORENSIC_AUDIT.latest.docx",
+    "mdReport": "docs/audit/api-architecture-forensics/API_ARCHITECTURE_FORENSIC_AUDIT.latest.md",
+    "jsonReport": "docs/audit/api-architecture-forensics/API_ARCHITECTURE_FORENSIC_AUDIT.latest.json",
+    "endpointInventoryCsv": "docs/audit/api-architecture-forensics/API_ENDPOINT_INVENTORY.latest.csv",
+    "workflowGraphJson": "docs/audit/api-architecture-forensics/API_RENDER_WORKFLOW_GRAPH.latest.json",
+    "duplicationRegisterJson": "docs/audit/api-architecture-forensics/API_DUPLICATION_AND_DEAD_CODE.latest.json",
+    "unificationPlanMd": "docs/audit/api-architecture-forensics/API_UNIFICATION_PLAN.latest.md",
+    "unificationPlanJson": "docs/audit/api-architecture-forensics/API_UNIFICATION_PLAN.latest.json",
+    "codegraphFindings": "docs/audit/api-architecture-forensics/codegraph-findings/CODEGRAPH_FINDINGS.latest.md"
+  },
+  "codeGraphHealth": {
+    "cliFound": "not required for MCP use",
+    "projectInitialized": true,
+    "cursorMcpConfigured": true,
+    "mcpToolAvailableInAgent": true,
+    "exploreQuerySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  }
+}

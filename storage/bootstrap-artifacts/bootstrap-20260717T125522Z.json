@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1",
+  "mode": "write+apply",
+  "generatedAt": "2026-07-17T12:55:22.003Z",
+  "corpusFingerprint": "ab417791bfa58dbd831fcb33190593c050ba7730f5c6660de4c23bf8d16a4e14",
+  "lockedContractCount": 213,
+  "expectedLockedContractCount": 213,
+  "templatesColumns": [
+    "template_code",
+    "template_name",
+    "is_active",
+    "render_scope",
+    "output_strategy",
+    "requires_review"
+  ],
+  "formContractColumns": [
+    "template_id",
+    "scope_key",
+    "version_no",
+    "status",
+    "revision",
+    "base_contract_hash",
+    "contract_hash",
+    "template_hash",
+    "draft_json",
+    "compiled_json",
+    "agency_id",
+    "created_by_official_id",
+    "submitted_at",
+    "approved_at",
+    "published_at"
+  ],
+  "templatesOperations": 213,
+  "versionOperations": 213,
+  "totalOperations": 426,
+  "sqlBytes": 6765800,
+  "sqlPath": "/app/storage/bootstrap-artifacts/bootstrap-20260717T125522Z.sql",
+  "latestSqlPath": "/app/storage/bootstrap-artifacts/bootstrap.latest.sql",
+  "sampleTemplateCodes": [
+    "BM-001",
+    "BM-002",
+    "BM-003"
+  ],
+  "requiredTemplates": [
+    "BM-001",
+    "BM-002",
+    "BM-003"
+  ],
+  "legacyColumnsRemoved": [
+    "document_kind",
+    "status",
+    "extraction_sha256",
+    "locked_at"
+  ],
+  "schemaAuthority": "apps/api/prisma/schema.prisma + apps/api/prisma/migrations/20260711000000_squashed_baseline/migration.sql",
+  "applyRequested": true,
+  "applied": true,
+  "applyResult": {
+    "status": 0,
+    "stdout": "Script executed successfully.\n",
+    "stderr": "┌─────────────────────────────────────────────────────────┐\n│  Update available 6.19.3 -> 7.8.0                       │\n│                                                         │\n│  This is a major update - please follow the guide at    │\n│  https://pris.ly/d/major-version-upgrade                │\n│                                                         │\n│  Run the following to update                            │\n│    npm i --save-dev prisma@latest                       │\n│    npm i @prisma/client@latest                          │\n└─────────────────────────────────────────────────────────┘\n"
+  },
+  "schemaCompatibility": {
+    "ok": true,
+    "missing": [],
+    "missingTables": [],
+    "tablesFound": [
+      "templates",
+      "form_contract_versions"
+    ]
+  },
+  "operator": {
+    "pid": 7,
+    "cwd": "/app/apps/api",
+    "argv": [
+      "--apply"
+    ]
+  }
+}

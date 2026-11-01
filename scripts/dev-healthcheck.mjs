@@ -127,7 +127,7 @@ export async function runHealthChecks({
   const [apiReadiness, apiCatalog, web] = await Promise.all([
     checkJsonEndpoint(urls.apiReady, { fetchImpl, timeoutMs }),
     checkJsonEndpoint(urls.apiCatalog, { fetchImpl, timeoutMs }),
-    checkJsonEndpoint(urls.web, { fetchImpl, timeoutMs }),
+    checkTextEndpoint(urls.web, { fetchImpl, timeoutMs }),
   ]);
 
   const readinessHealthy =

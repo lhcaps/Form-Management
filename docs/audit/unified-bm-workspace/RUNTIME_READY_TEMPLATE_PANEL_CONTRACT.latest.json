@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0",
+  "phase": "BM-001 TEMPLATE RUNTIME VISUAL PARITY + GENERALIZABLE RUNTIME-READY FORM CONTRACT",
+  "generatedAt": "2026-07-07",
+  "status": "PASS",
+  "approvedRuntimeReadyCodes": ["BM-001", "BM-171"],
+  "skeletonCount": 211,
+  "totalForms": 213,
+  "selector": {
+    "module": "apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.ts",
+    "kind": "pure",
+    "kindsEmitted": [
+      "runtime-ready-template-panel",
+      "legacy-template-panel",
+      "generic-template-panel"
+    ],
+    "noReact": true,
+    "noDOM": true,
+    "noFetch": true,
+    "noStorage": true,
+    "noConsole": true,
+    "doesNotRequireGeneratedDocumentId": true,
+    "doesNotCallGeneratedSaveEndpoint": true,
+    "doesNotImportProfilesDirectly": true
+  },
+  "decisionMatrix": [
+    {
+      "lifecycle": "template-runtime",
+      "profileStatus": "runtime-ready",
+      "allowlisted": true,
+      "kind": "runtime-ready-template-panel"
+    },
+    {
+      "lifecycle": "template-runtime",
+      "profileStatus": "runtime-ready",
+      "allowlisted": false,
+      "kind": "legacy-template-panel",
+      "note": "drift guard — surfaces programming error loudly"
+    },
+    {
+      "lifecycle": "template-runtime",
+      "profileStatus": "skeleton",
+      "allowlisted": false,
+      "kind": "generic-template-panel"
+    },
+    {
+      "lifecycle": "template-runtime",
+      "profileStatus": "missing",
+      "allowlisted": false,
+      "kind": "generic-template-panel"
+    },
+    {
+      "lifecycle": "template-runtime",
+      "profileStatus": "invalid",
+      "allowlisted": false,
+      "kind": "generic-template-panel"
+    },
+    {
+      "lifecycle": "generated-document",
+      "kind": "legacy-template-panel",
+      "note": "selector is scoped to the template runtime route only"
+    }
+  ],
+  "futureFormPromotionChecklist": [
+    "profile/bmNNN.ts declares runtimeReady=true + profileStatus='runtime-ready' + non-empty demo + summaryLines + acceptance.requiredText",
+    "bmNNN is appended to RUNTIME_READY_FORM_FLIGHT_PROFILES in apps/web/src/lib/form-flight/form-lifecycle.ts",
+    "bmNNN.ts is imported in registerRuntimeReadyFormFlightProfiles",
+    "bmNNN-runtime-ux-profile.ts exists with sections/fields/demo aligned to BMNNN_FORM_FLIGHT_PROFILE",
+    "bmNNN-runtime-ux-profile.ts is side-effect-imported in apps/web/src/lib/runtime-ux/index.ts",
+    "selectRuntimeReadyTemplatePanel({templateCode: 'BM-NNN', ...}) returns runtime-ready-template-panel",
+    "decideFormLifecycle({lifecycle: 'generated-document', templateCode: 'BM-NNN', hasRealGeneratedDocumentId: true}) returns useFormFlight=true",
+    "Render / export golden validation PASSes (generalising bm001-render-export-golden.guard.test.mjs)",
+    "Manual browser verification on /templates/BM-NNN shows the runtime-ready UI pattern"
+  ],
+  "guardTestInvariants": [
+    "1 single canonical selector file",
+    "2 pure function (no React/DOM/fetch/console)",
+    "3 host imports selector + form-lifecycle helper",
+    "4 BM-001 → runtime-ready-template-panel",
+    "5 BM-171 → runtime-ready-template-panel",
+    "6 BM-002 → generic-template-panel",
+    "7 BM-002 NOT runtime-ready-template-panel",
+    "8 allowlist codes → runtime-ready-template-panel",
+    "9 selector omits generated save/adapter imports",
+    "10 selector omits generatedDocumentId",
+    "11 selector omits bmNNN profile imports",
+    "12 only BM-001+BM-171 declare runtimeReady: true (file-system)"
+  ],
+  "files": [
+    "apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.ts",
+    "apps/web/src/lib/form-flight/runtime-ready-template-panel-contract.guard.test.mjs",
+    "apps/web/src/lib/runtime-ux/bm001-runtime-ux-profile.ts",
+    "apps/web/src/lib/runtime-ux/index.ts",
+    "docs/audit/unified-bm-workspace/RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.md",
+    "docs/audit/unified-bm-workspace/RUNTIME_READY_TEMPLATE_PANEL_CONTRACT.latest.json"
+  ]
+}

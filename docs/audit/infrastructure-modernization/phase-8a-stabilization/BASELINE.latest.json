@@ -1,0 +1,92 @@
+{
+  "phase": "8A — DETERMINISTIC TEST STABILIZATION AND CHANGE PROVENANCE",
+  "capturedAt": "2026-07-10T23:58:00+07:00",
+  "capturedBy": "phase-8a-stabilization run #0",
+  "gitPolicy": "NO_STAGE_NO_COMMIT_NO_PUSH_NO_PR",
+  "repository": {
+    "root": "D:/Study/Project/QLLaw-main",
+    "branch": "audit/bm006-visual-fidelity-evidence",
+    "head": "ea3e1c3c53278fad09c8557487ffb1d48d685a65",
+    "headUnix": 1783631278,
+    "remoteMainHead": "12749f1fefaca7e63e1f0df7cf5c0d5b19f126f4"
+  },
+  "gitCounts": {
+    "porcelainTotal": 1097,
+    "staged": 0,
+    "modifiedTracked": 215,
+    "deletedTracked": 32,
+    "untracked": 850,
+    "diffNameStatusLines": 247
+  },
+  "operatingEnvironment": {
+    "os": "Windows 11 Pro 10.0.26200 (x64)",
+    "shell": "PowerShell 5.1.26100.8655",
+    "comSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "node": "v22.23.1",
+    "pnpm": "10.33.2",
+    "git": "2.54.0.windows.1",
+    "scriptShell": "undefined (pnpm defaults to OS shell)"
+  },
+  "criticalFileHashes": {
+    "package.json": "A7B428CE270F63C9D30901E3CD3AEE6C972584134F0C47D8E50D49C413B58ADA",
+    ".github/workflows/ci.yml": "803212F0E577233DC09790F009F74473B491154FE0D2C1E9CE492A6E1C54BDDA",
+    "apps/api/package.json": "724A221E86D68D99CEA8C1B2ABCAD88EC9FB6EEB527F20FDCC86276904BD0D21",
+    "packages/form-contracts/package.json": "9DBC00D27E1A893F2E66A13EF79E2594A625B8F2834CB5C4AE902AEFD36D8FB7",
+    "apps/web/package.json": "734ABB7BDB7AA5708C94F419FBCFF198B2DB87A02D92E18D3665F35C9A3B5A46"
+  },
+  "criticalGuards": {
+    "canonicalMatrixSha256": "fb24e01b76ea5a35874f32c0449a6ca37df9aba14ef2313ee29011a5b9ee3399",
+    "bm006NormalizedDocxSha256": "b83c42ad854f5cd4e08bc8f901389be0ee17c1401c4e42a309016154bd399f56",
+    "prismaSchemaSha256": "057375956a72fe40e11e0950c4126c4827e05824714a881f9de9ea0826e6022b"
+  },
+  "verificationScripts": {
+    "test": "pnpm test:contracts && pnpm test:api && pnpm test:node && pnpm test:web-unit",
+    "testApi": "pnpm --filter api test --runInBand",
+    "verify:quick": "pnpm typecheck && pnpm audit:hardcode && node --test \"test/infrastructure/*.guard.test.mjs\"",
+    "verify:full": "pnpm audit:docx-slot-inventory && pnpm verify:quick && pnpm lint && pnpm test && pnpm build && pnpm audit:locked-compiled && pnpm audit:contract-sync && pnpm audit:encoding",
+    "verify:ci": "pnpm verify:full && pnpm audit:templates && pnpm smoke:bm001-shadow-render && pnpm audit:docx:verify-locked:ci && pnpm gate:forms:213 --allow-source-unknown && node scripts/audit/apply-all-current-evidence.mjs --check",
+    "audit:docx-slot-inventory": "node scripts/audit/audit-docx-slot-inventory.mjs"
+  },
+  "nodeProcessesAtStart": [
+    { "id": 9356, "path": "D:\\Node\\node.exe" },
+    { "id": 10660, "path": "D:\\Node\\node.exe" },
+    { "id": 13416, "path": "D:\\Node\\node.exe" },
+    { "id": 31808, "path": "D:\\Node\\node.exe" },
+    { "id": 36112, "path": "D:\\Node\\node.exe" },
+    { "id": 41132, "path": "D:\\Node\\node.exe" },
+    { "id": 48340, "path": "D:\\Node\\node.exe" },
+    { "id": 49260, "path": "D:\\Node\\node.exe" },
+    { "id": 5376, "path": "codegraph node" },
+    { "id": 5424, "path": "codegraph node" },
+    { "id": 8376, "path": "codegraph node" },
+    { "id": 36388, "path": "codegraph node" },
+    { "id": 41084, "path": "codegraph node" },
+    { "id": 46384, "path": "codegraph node" },
+    { "id": 51556, "path": "codegraph node" },
+    { "id": 20768, "path": "cursor helper node" },
+    { "id": 35156, "path": "cursor helper node" },
+    { "id": 54084, "path": "cursor helper node" }
+  ],
+  "phaseTempDirs": [
+    "docs/audit/infrastructure-modernization/phase-8a-stabilization/",
+    "docs/audit/infrastructure-modernization/phase-8a-stabilization/logs/"
+  ],
+  "applicableInstructions": [
+    "AGENTS.md",
+    "apps/web/AGENTS.md",
+    ".ai/harness/project-intake.md",
+    ".ai/harness/project_failure-log.md",
+    ".cursor/rules/00-meta.mdc",
+    ".cursor/rules/10-coding-style.mdc",
+    ".cursor/rules/20-safety.mdc",
+    ".cursor/rules/30-tooling.mdc",
+    ".cursor/rules/50-codegraph-context.mdc",
+    "Phase 8A User Task (verbatim, directives apply on top of meta-harness rules)"
+  ],
+  "startupWarnings": [
+    "Multiple in-the-loop git LF/CRLF warnings observed (Windows + autoCommitBOM state); these are advisory, not failures.",
+    "Codex infrastructure modernization final-report wrapper exit code reported 0 in one capture, 1 in another (CRIT-02).",
+    "Three failing suite paths use fixed tmpdir() names: qllaw-e2-render-six-bms, qllaw-pr6g4-style-profile-bm001, qllaw-pr6g1-rendered-preservation."
+  ],
+  "stagedListAtStart": []
+}

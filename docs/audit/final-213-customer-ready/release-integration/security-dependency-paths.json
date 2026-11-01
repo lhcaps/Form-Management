@@ -1,0 +1,112 @@
+{
+  "schema": "qllaw.release.security_dependency_paths/v1",
+  "capturedAt": "2026-07-27T22:35:00+07:00",
+  "phase15Batch": "SECURITY_REMEDIATION_BATCH",
+  "advisories": [
+    {
+      "advisoryId": "1116281",
+      "title": "@hono/node-server: Middleware bypass via repeated slashes in serveStatic",
+      "module": "@hono/node-server",
+      "vulnerableVersionBefore": "1.19.11",
+      "patchedRange": ">=1.19.13",
+      "productionReachable": true,
+      "chainBefore": "apps__api>@prisma/client>prisma>@prisma/dev>@hono/node-server",
+      "chainAfter": "ABSENT — @prisma/dev@0.24.17 (pinned by prisma@7.9.1) declares no @hono/node-server dependency in its package.json; the transitive chain is eliminated by upgrading the direct parent.",
+      "workspace": "apps/api",
+      "directParent": "prisma@7.9.1",
+      "currentOverride": null,
+      "overrideApplied": null,
+      "lockfileNode": null,
+      "remediationStrategy": "Phase B Option B (compatible direct-parent Prisma upgrade). Bumped prisma/@prisma/client/@prisma/adapter-mariadb from 7.8.0 → 7.9.1. New @prisma/dev=0.24.17 no longer references @hono/node-server."
+    },
+    {
+      "advisoryId": "1124006",
+      "title": "Node.js Adapter for Hono: Path traversal in serve-static on Windows via encoded backslash",
+      "module": "@hono/node-server",
+      "vulnerableVersionBefore": "1.19.11",
+      "patchedRange": ">=2.0.5",
+      "productionReachable": true,
+      "chainBefore": "apps__api>@prisma/client>prisma>@prisma/dev>@hono/node-server",
+      "chainAfter": "ABSENT — same chain removal as advisory 1116281.",
+      "workspace": "apps/api",
+      "directParent": "prisma@7.9.1",
+      "currentOverride": null,
+      "overrideApplied": null,
+      "lockfileNode": null,
+      "remediationStrategy": "Phase B Option B (compatible direct-parent Prisma upgrade). Same remediation as 1116281."
+    },
+    {
+      "advisoryId": "1124298",
+      "title": "Valibot: record() issue paths can make flatten() throw for inherited Object property names",
+      "module": "valibot",
+      "vulnerableVersionBefore": "1.2.0",
+      "patchedRange": ">=1.4.2",
+      "productionReachable": true,
+      "chainBefore": "apps__api>@prisma/client>prisma>@prisma/dev>valibot",
+      "chainAfter": "apps__api>@prisma/client>prisma@7.9.1>@prisma/dev@0.24.17>valibot@1.4.2",
+      "workspace": "apps/api",
+      "directParent": "prisma@7.9.1",
+      "currentOverride": null,
+      "overrideApplied": null,
+      "lockfileNode": "valibot@1.4.2(typescript@5.9.3)",
+      "remediationStrategy": "Phase B Option B. valibot upgraded transitively from 1.2.0 to 1.4.2 via @prisma/dev@0.24.17. Validated patched range via npm registry metadata."
+    },
+    {
+      "advisoryId": "1123976",
+      "title": "body-parser vulnerable to denial of service when invalid limit value silently disables size enforcement",
+      "module": "body-parser",
+      "vulnerableVersionBefore": "2.2.2",
+      "patchedRange": ">=2.3.0",
+      "productionReachable": true,
+      "chainBefore": "apps__api>@nestjs/platform-express>express@5.2.1>body-parser@2.2.2",
+      "chainAfter": "apps__api>@nestjs/platform-express>express@5.2.1>body-parser@2.3.0",
+      "workspace": "apps/api",
+      "directParent": "express@5.2.1",
+      "currentOverride": null,
+      "overrideApplied": "pnpm.overrides['body-parser'] = '2.3.0'",
+      "lockfileNode": "body-parser@2.3.0",
+      "remediationStrategy": "Phase C Option 3 (precise pnpm override). express@5.2.1 declares body-parser@^2.2.1 which already admits 2.3.0, so an explicit root override selecting 2.3.0 is fully compatible and forced."
+    },
+    {
+      "advisoryId": "1124334",
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "module": "brace-expansion",
+      "vulnerableVersionBefore": "1.1.16, 2.1.2",
+      "patchedRange": ">=5.0.8",
+      "productionReachable": true,
+      "chainBefore": "apps__api>exceljs>archiver>archiver-utils>glob>minimatch>brace-expansion@1.1.16; apps__api>exceljs>archiver>readdir-glob>minimatch>brace-expansion@2.1.2",
+      "chainAfter": "All edges rewritten to brace-expansion@5.0.8 via root override. minimatch 3/5/9 declare caret ranges ^1.1.0 and ^2.0.0 that do not include 5.0.8; pnpm still accepts the explicit root override and resolves the package graph to 5.0.8 across all minimatch paths.",
+      "workspace": "apps/api",
+      "directParent": "minimatch (3, 5, 9)",
+      "currentOverride": null,
+      "overrideApplied": "pnpm.overrides['brace-expansion'] = '5.0.8'",
+      "lockfileNode": "brace-expansion@5.0.8",
+      "remediationStrategy": "Phase D. Global root override because (a) all three minimatch ranges required a single common patched target, (b) minimatch 3.x and 5.x/9.x declare non-overlapping ranges so a parent-qualified override cannot converge without an additional minimatch upgrade, and (c) brace-expansion@5.x keeps the same expand() API as 1.x/2.x (only adds maxLength option), so runtime compatibility holds. No package was pinned to a vulnerable version."
+    }
+  ],
+  "previouslyClosedAlready": [
+    {
+      "module": "js-yaml",
+      "rationale": "Resolved version 4.3.0 already satisfies patched range. No change required.",
+      "transitivePaths": "@nestjs/swagger, ESLint toolchain"
+    },
+    {
+      "module": "fast-uri",
+      "rationale": "Resolved version 3.1.4 already satisfies patched range. No change required.",
+      "transitivePaths": "ajv, Prisma dev chain, webpack"
+    }
+  ],
+  "queriesUsed": [
+    "docs/audit/final-213-customer-ready/release-integration/_queries/prisma-versions.json",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/prisma-7.9.1-deps.json",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/prisma-dev-0.24.17-deps.json",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/prisma-client-7.9.1-peers.json",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/prisma-adapter-mariadb-dist.txt",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/express-5.2.1-bp.txt",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/express-dist.txt",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/nest-platform-express-dist.txt",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/body-parser-dist.txt",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/body-parser-2.3.0-deps.json",
+    "docs/audit/final-213-customer-ready/release-integration/_queries/brace-expansion-dist.txt"
+  ]
+}

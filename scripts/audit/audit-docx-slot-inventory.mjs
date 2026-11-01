@@ -36,7 +36,7 @@
  */
 
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 import { createHash } from 'node:crypto';
 import PizZip from 'pizzip';
 
@@ -322,7 +322,7 @@ const dedupeFindings = (findings) => {
 // Per-contract audit
 // ────────────────────────────────────────────────────────────────────────────
 
-const auditOne = (templateCode, contract, fileName) => {
+const auditOne = (templateCode, contract, fileName, contractSha256) => {
   const sourceId = contract.sourceId ?? null;
   const inventory = collectSlotInventory(contract);
 
@@ -331,6 +331,10 @@ const auditOne = (templateCode, contract, fileName) => {
     : join(NORMALIZED_DIR, templateCode, `${templateCode}_normalized.docx`);
 
   const docxBuffer = safeRead(extractionSourcePath);
+  const docxRelativePath = relative(ROOT, extractionSourcePath).replace(
+    /\\/g,
+    '/',
+  );
   let docxPresent = docxBuffer !== null;
   let docxSha256 = null;
   let malformedPlaceholders = [];
@@ -349,8 +353,10 @@ const auditOne = (templateCode, contract, fileName) => {
     templateCode,
     sourceId,
     fileName,
+    contractSha256,
     docxPresent,
     docxPath: extractionSourcePath,
+    docxRelativePath,
     docxSha256,
     ...inventory,
     malformedPlaceholders,
@@ -421,6 +427,28 @@ const summarize = (perBm) => {
   };
 };
 
+const buildProvenance = (report) => {
+  const inputs = report.map((row) => ({
+    templateCode: row.templateCode,
+    fileName: row.fileName,
+    contractSha256: row.contractSha256,
+    docxRelativePath: row.docxRelativePath,
+    docxSha256: row.docxSha256,
+  }));
+  return {
+    schemaVersion: 1,
+    algorithm: 'sha256',
+    auditImplementationSha256: sha256(
+      readFileSync(
+        join(ROOT, 'scripts', 'audit', 'audit-docx-slot-inventory.mjs'),
+      ),
+    ),
+    inputDigest: sha256(JSON.stringify(inputs)),
+    lockedContractCount: report.length,
+    normalizedDocxCount: report.filter((row) => row.docxPresent).length,
+  };
+};
+
 const writeReports = (report, summary) => {
   mkdirSync(OUT_DIR, { recursive: true });
   const jsonPath = join(OUT_DIR, 'latest.json');
@@ -428,6 +456,7 @@ const writeReports = (report, summary) => {
   const jsonBody = {
     generatedAt: new Date().toISOString(),
     status: summary.failCount === 0 ? 'PASS' : 'FAIL',
+    provenance: buildProvenance(report),
     summary,
     perBm: report,
   };
@@ -439,6 +468,10 @@ const writeReports = (report, summary) => {
   lines.push(`Generated: ${jsonBody.generatedAt}`);
   lines.push(
     `Overall status: **${jsonBody.status}** (${summary.passCount}/${summary.totalContracts} BMs PASS)`,
+  );
+  lines.push(`Input digest: \`${jsonBody.provenance.inputDigest}\``);
+  lines.push(
+    `Audit implementation: \`${jsonBody.provenance.auditImplementationSha256}\``,
   );
   lines.push('');
   lines.push('## Corpus totals');
@@ -506,16 +539,20 @@ const main = () => {
   for (const fileName of files) {
     const fullPath = join(LOCKED_DIR, fileName);
     let contract;
+    let contractBuffer;
     try {
-      contract = loadJson(fullPath);
+      contractBuffer = readFileSync(fullPath);
+      contract = JSON.parse(contractBuffer.toString('utf8'));
     } catch (err) {
       log(`  [parse-error] ${fileName}: ${err.message}`);
       report.push({
         templateCode: 'UNKNOWN',
         sourceId: null,
         fileName,
+        contractSha256: contractBuffer ? sha256(contractBuffer) : null,
         docxPresent: false,
         docxPath: null,
+        docxRelativePath: null,
         docxSha256: null,
         totalDocxSlots: 0,
         boundSlots: [],
@@ -533,7 +570,12 @@ const main = () => {
       continue;
     }
     const templateCode = contract.templateCode ?? 'UNKNOWN';
-    const result = auditOne(templateCode, contract, fileName);
+    const result = auditOne(
+      templateCode,
+      contract,
+      fileName,
+      sha256(contractBuffer),
+    );
     report.push(result);
   }
 

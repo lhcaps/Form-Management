@@ -1,0 +1,176 @@
+{
+  "auditId": "FE_ARCHITECTURE_FORENSIC_AUDIT_PHASE_0",
+  "generatedAt": "2026-07-06T05:20:00+07:00",
+  "summary": {
+    "duplicateUiSystems": 9,
+    "deadOrUnusedCandidates": 7,
+    "highestSeverity": "HIGH",
+    "sourceCodeMutated": false
+  },
+  "duplicateUiSystems": [
+    {
+      "id": "UI-001",
+      "path": "apps/web/src/components/documents/bm-panel-registry.generated.ts",
+      "symbol": "BM_PANEL_REGISTRY / BM_PANEL_BY_CODE",
+      "classification": "EXISTING_GOOD_UI",
+      "lifecycle": "generated-document",
+      "ownerConsumer": "GeneratedDocumentWorkspace",
+      "whyItExists": "Registry for 212 generated document BM-specific panels.",
+      "risk": "LOW for registered existing UI; MEDIUM because generated workspace also has published/generic fallbacks.",
+      "recommendation": "KEEP; add selector priority tests for BM-001 and BM-171."
+    },
+    {
+      "id": "UI-002",
+      "path": "apps/web/src/components/documents/generic-template-form-inputs.tsx",
+      "symbol": "GenericTemplateFormInputsPanel",
+      "classification": "ACTIVE_BUT_DUPLICATIVE",
+      "lifecycle": "generated-document",
+      "ownerConsumer": "GeneratedDocumentWorkspace and many stub BM panels",
+      "whyItExists": "Fallback for BM panels without bespoke UI and wrapper for stub panels.",
+      "risk": "HIGH if selected for a form that has an existing-good bespoke panel or legal-specific required behavior.",
+      "recommendation": "KEEP as fallback only; PR-A should ensure it cannot override existing-good panels."
+    },
+    {
+      "id": "UI-003",
+      "path": "apps/web/src/components/documents/published-contract-form-inputs.tsx",
+      "symbol": "PublishedContractFormInputsPanel",
+      "classification": "ACTIVE_BUT_DUPLICATIVE",
+      "lifecycle": "generated-document",
+      "ownerConsumer": "GeneratedDocumentWorkspace publishedRuntime branch",
+      "whyItExists": "Renders non-LOCKED_FILE published compiled contracts using ContractV2Renderer.",
+      "risk": "HIGH because it currently takes precedence over BM_PANEL_BY_CODE when publishedRuntime exists.",
+      "recommendation": "WRAP_WITH_ADAPTER; require generated-ready/published status before it can supersede BM-specific UI."
+    },
+    {
+      "id": "UI-004",
+      "path": "apps/web/src/features/forms-contracts/ContractV2Renderer.tsx",
+      "symbol": "ContractV2Renderer",
+      "classification": "ACTIVE",
+      "lifecycle": "runtime-template and generated-document published contracts",
+      "ownerConsumer": "TemplatePreviewWorkspace, PublishedContractFormInputsPanel, form studio",
+      "whyItExists": "Generic V2 contract renderer for compiled contracts.",
+      "risk": "MEDIUM because runtime template route always uses it; can feel like a generic takeover for BM-001 when no bespoke runtime selector exists.",
+      "recommendation": "KEEP; use only after explicit selector denies audit-only/skeleton profiles and preserves existing-good runtime UI."
+    },
+    {
+      "id": "UI-005",
+      "path": "apps/web/src/lib/runtime-ux/bm171-runtime-ux-profile.ts",
+      "symbol": "BM171_PROFILE",
+      "classification": "RUNTIME_READY",
+      "lifecycle": "runtime-template",
+      "ownerConsumer": "TemplatePreviewWorkspace -> ContractV2Renderer",
+      "whyItExists": "UI-only overrides and demo fixture for BM-171 runtime template page.",
+      "risk": "MEDIUM if copied for skeleton forms without readiness flags; currently runtime-ux has no generic status field.",
+      "recommendation": "KEEP for BM-171; PR-A should avoid using runtime-ux as implicit readiness for other templates."
+    },
+    {
+      "id": "UI-006",
+      "path": "apps/web/src/lib/form-flight/profiles/bm171.ts",
+      "symbol": "BM171_FORM_FLIGHT_PROFILE",
+      "classification": "RUNTIME_READY",
+      "lifecycle": "runtime-template and generated-document shared profile metadata",
+      "ownerConsumer": "Form Flight adapter helpers and tests; BM-171 generated panel uses save/gate helpers",
+      "whyItExists": "Canonical profile for BM-171 parity across runtime and generated flows.",
+      "risk": "LOW if guarded by isRuntimeReadyProfile; HIGH if future selectors read registry directly.",
+      "recommendation": "KEEP; require all consumers to go through isRuntimeReadyProfile."
+    },
+    {
+      "id": "UI-007",
+      "path": "apps/web/src/lib/form-flight/profiles/bm001.ts",
+      "symbol": "BM001_FORM_FLIGHT_PROFILE",
+      "classification": "AUDIT_ONLY",
+      "lifecycle": "audit-only profile metadata",
+      "ownerConsumer": "Audit pipelines and Form Flight tests",
+      "whyItExists": "BM-001 skeleton/coverage metadata while existing-good UI remains source of truth.",
+      "risk": "CRITICAL if selected as runtime authoritative profile; currently helpers deny it.",
+      "recommendation": "KEEP as audit-only; PR-A must lock selector to deny audit-only/skeleton profiles."
+    },
+    {
+      "id": "UI-008",
+      "path": "apps/web/src/features/forms-contracts/sample-data.ts",
+      "symbol": "getSampleData / mergeWithSampleData",
+      "classification": "ACTIVE_BUT_DUPLICATIVE",
+      "lifecycle": "runtime-template demo/sample",
+      "ownerConsumer": "TemplatePreviewWorkspace",
+      "whyItExists": "Generic demo data for compiled contract fields when no profile demo exists.",
+      "risk": "MEDIUM; can insert synthetic/stale placeholders unless profile demo overrides it.",
+      "recommendation": "KEEP but label demo-only and never use for case-bound save."
+    },
+    {
+      "id": "UI-009",
+      "path": "apps/web/src/components/documents/bm-0xx-form-inputs.tsx raw fetch family",
+      "symbol": "per-BM local API helpers",
+      "classification": "DANGEROUS_DUPLICATE",
+      "lifecycle": "generated-document",
+      "ownerConsumer": "Many BM-specific panels",
+      "whyItExists": "Older panels predate centralized document-form-api/api-client helpers.",
+      "risk": "HIGH; bypasses typed helper consistency and may rely on global fetch patch for Clerk token bridge.",
+      "recommendation": "DEPRECATE later; not PR-A unless selector tests need stable API mocking."
+    }
+  ],
+  "deadOrUnusedCandidates": [
+    {
+      "id": "DU-001",
+      "path": "apps/web/src/lib/form-flight/adapters/template-runtime-adapter.ts",
+      "symbol": "createTemplateRuntimeAdapter",
+      "classification": "DEAD_OR_UNUSED",
+      "evidence": "Static search found exports and tests/barrel references, but TemplatePreviewWorkspace does not instantiate createTemplateRuntimeAdapter.",
+      "risk": "MEDIUM: architecture suggests adapter ownership but runtime page still uses direct helper calls.",
+      "recommendation": "Keep for PR-A/PR-B; wire or delete later after adapter strategy is decided."
+    },
+    {
+      "id": "DU-002",
+      "path": "apps/web/src/lib/form-flight/adapters/generated-document-adapter.ts",
+      "symbol": "createGeneratedDocumentAdapter",
+      "classification": "DEAD_OR_UNUSED",
+      "evidence": "Static search found no production instantiation; BM-171 imports individual helper functions instead.",
+      "risk": "MEDIUM: adapter abstraction exists but host panels bypass it.",
+      "recommendation": "Keep for PR-B; add real host integration or downgrade to test-only helper."
+    },
+    {
+      "id": "DU-003",
+      "path": "apps/web/src/lib/document-form-api.ts",
+      "symbol": "patchDocumentFormInputs / replaceDocumentFormInputs",
+      "classification": "UNSUPPORTED_API_CALLER",
+      "evidence": "Backend route search shows POST /documents/generated/:documentId/form-inputs only; no PATCH/PUT decorators for same route.",
+      "risk": "HIGH if called; helper advertises unsupported backend behavior.",
+      "recommendation": "Delete later or add backend support in a scoped API PR; do not use in PR-A."
+    },
+    {
+      "id": "DU-004",
+      "path": "apps/web/src/components/documents/bm-172-form-inputs.tsx / generated-document-workspace adapter",
+      "symbol": "_Bm172FormInputsPanelAdapter",
+      "classification": "SKELETON_OR_INCOMPLETE",
+      "evidence": "Generated workspace wraps Bm172FormInputs with no-op onChange/onSave/onReload because props are incompatible.",
+      "risk": "MEDIUM: selected UI may not save document data as expected.",
+      "recommendation": "Manual review after PR-A; should not affect BM-001/BM-171 guard."
+    },
+    {
+      "id": "DU-005",
+      "path": "apps/web/src/components/documents/bm-0xx stub panels",
+      "symbol": "STUB panels using GenericTemplateFormInputsPanel",
+      "classification": "SKELETON_OR_INCOMPLETE",
+      "evidence": "Many files declare STUB and render GenericTemplateFormInputsPanel.",
+      "risk": "MEDIUM: registry count suggests coverage, but many entries are generic wrappers not true BM-specific UI.",
+      "recommendation": "Track in rollout matrix; PR-A should distinguish existing-good from generic-wrapper panels."
+    },
+    {
+      "id": "DU-006",
+      "path": "docs/templates/BM-171/_fe_backup/*",
+      "symbol": "old GeneratedDocumentWorkspace backups",
+      "classification": "AUDIT_ONLY",
+      "evidence": "CodeGraph found backup TSX under docs/templates, not active app source.",
+      "risk": "LOW for runtime; MEDIUM for agent confusion if indexed as code.",
+      "recommendation": "Do not import; label as backup/audit-only."
+    },
+    {
+      "id": "DU-007",
+      "path": "apps/web/src/components/documents/generated-document-action-panel.tsx",
+      "symbol": "success badge 'Đã tạo bản xem trước'",
+      "classification": "UNKNOWN_NEEDS_MANUAL_REVIEW",
+      "evidence": "Generated files tab displays success badge based on latest file metadata; audit did not run browser preview.",
+      "risk": "MEDIUM UX truthfulness risk if file exists but browser/PDF preview was not generated.",
+      "recommendation": "Add PR-A/PR-B UX truthfulness test or relabel to 'Đã tạo tệp'."
+    }
+  ]
+}

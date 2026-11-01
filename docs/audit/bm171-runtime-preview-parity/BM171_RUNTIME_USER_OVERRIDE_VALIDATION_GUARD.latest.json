@@ -1,0 +1,81 @@
+{
+  "task": "BM171_RUNTIME_PREVIEW_USER_OVERRIDE_AND_VALIDATION_GUARD",
+  "templateCode": "BM-171",
+  "page": "/templates/BM-171",
+  "at": "2026-07-05T17:10:00Z",
+  "status": "PASS",
+  "filesAdded": [
+    {
+      "path": "apps/web/src/lib/runtime-ux/runtime-preview-payload.ts",
+      "purpose": "Pure-function payload builder. mode='preview'|'export' preserves every user-typed value, only sanitizes known stale fallback garbage at a profile.demo path (whole-value exact match, never broad substring). mode='demo-reset' intentionally overwrites every profile path with the demo value. Returns warnings for any sanitization that could not produce a clean replacement."
+    },
+    {
+      "path": "apps/web/src/lib/runtime-ux/runtime-preview-payload.test.ts",
+      "purpose": "8 unit tests pinned to the 5 mandated scenarios (user-override preservation, stale-fallback cleanup, missing-required-non-fill, demo reset, preview/export parity). Uses node:test + tsx from the api workspace."
+    },
+    {
+      "path": "apps/api/scripts/reproduce-bm171-runtime-user-override.mjs",
+      "purpose": "Reproduction script — drives the production renderer with a user-modified draft that overrides every profile path. Asserts every mandated user override is present in the rendered text and the demo fallback garbage is absent."
+    },
+    {
+      "path": "apps/api/scripts/reproduce-bm171-runtime-stale-cleanup.mjs",
+      "purpose": "Reproduction script — drives the production renderer starting from a stale draft carrying every known fallback value. Asserts all stale fragments are replaced with canonical BM171_DEMO and the repeated 'Căn cứ Điều 41' is gone."
+    },
+    {
+      "path": "apps/api/scripts/reproduce-bm171-runtime-missing-required.mjs",
+      "purpose": "Reproduction script — enumerates locked-contract requiredFieldKeys, builds a draft with the three mandated missing fields (assetOwner.fullName, document.documentCode, signature.signerName), and asserts the workspace collectMissingRequired gate detects all three and produces the audit footprint for the gate contract (no render endpoint call, no DOCX, no green success)."
+    }
+  ],
+  "filesChanged": [
+    {
+      "path": "apps/web/src/lib/runtime-ux/index.ts",
+      "change": "Exports the new buildRuntimePreviewPayloadFromDraft, setNestedPath, and the BuildPayload* types in the public barrel.",
+      "reason": "Workspace + tests both import from the same surface.",
+      "risk": "low"
+    },
+    {
+      "path": "apps/web/src/components/documents/template-preview-workspace.tsx",
+      "change": "Removed inline helpers `buildRuntimePreviewCanonicalBaseline`, `applyProfileSampleReset`, and local `setNestedPath`. Replaced with `buildRuntimePreviewPayloadFromDraft({ draft, profile, mode })` from the new payload module. Added `collectMissingRequired(data, requiredFieldKeys)` client gate — previewDocx and exportDocx short-circuit BEFORE calling the render endpoint when locked-contract requiredFieldKeys have missing values; an ErrorBanner surfaces the missing-field list, previewSession is never set, isExporting is cleaned up. applySampleData now dispatches to `mode: 'demo-reset'` for profile-equipped templates (the only path where demo wins over user input). State `sanitizationWarnings` was added so non-blocking warnings surface in the UI.",
+      "reason": "Fix — the prior PR's `buildRuntimePreviewCanonicalBaseline` unconditionally re-asserted every profile.demo path; that overwrote valid user-typed values like '99/QĐ-USER', 'Trần Văn User', '123456789999' etc. The new builder only re-asserts when the existing value is empty or matches a known stale fallback.",
+      "risk": "low"
+    }
+  ],
+  "filesNotTouched": [
+    "docs/audit/docx/contracts/locked/BM-171__46b9a8be4e01.contract.locked.json",
+    "storage/templates/normalized-docx/BM-171/BM-171_normalized.docx",
+    "apps/api/src/modules/documents/renderering/...",
+    "apps/web/src/features/forms-contracts/sample-data.ts",
+    "apps/web/src/lib/smart-generic-prefill.ts",
+    "apps/web/src/lib/runtime-template-draft.ts",
+    "apps/web/src/lib/runtime-template-preview.ts",
+    "apps/web/src/lib/runtime-template-export.ts"
+  ],
+  "validationCommands": [
+    { "command": "pnpm --filter web lint", "exit": 0, "result": "clean (0 warnings, 0 errors)" },
+    { "command": "pnpm --filter web exec tsc --noEmit", "exit": 0, "result": "clean" },
+    { "command": "pnpm --filter api lint", "exit": 0, "result": "clean" },
+    { "command": "pnpm --filter api exec tsc --noEmit", "exit": 0, "result": "clean" },
+    { "command": "pnpm --filter @qllaw/form-contracts exec tsc --noEmit", "exit": 0, "result": "clean" },
+    { "command": "pnpm audit:hardcode", "exit": 0, "result": "Runtime hardcode audit passed." },
+    { "command": "pnpm audit:locked-compiled", "exit": 0, "result": "Summary: 213/213 consistent. EXIT 0." },
+    { "command": "pnpm audit:contract-sync", "exit": 0, "result": "CI Gate PASSED — All contracts synced (213 matched, 0 missing, 0 stale)." },
+    { "command": "pnpm audit:bm-final -- BM-171", "exit": 0, "result": "status=PASS harnessReady=true rolloutReady=true" },
+    { "command": "pnpm audit:bm-rollout-ready -- BM-171", "exit": 0, "result": "status=READY technicalReady=true manualReviewRequired=false rolloutReady=true" },
+    { "command": "pnpm test:web-unit", "exit": 0, "result": "452/452 tests pass (8 new payload-builder tests included; up from 444)" },
+    { "command": "pnpm --filter api exec tsx ./scripts/reproduce-bm171-runtime-user-override.mjs", "exit": 0, "result": "User-override acceptance: 6/6 mustContainAll pass, 5/5 mustNotContainAll pass" },
+    { "command": "pnpm --filter api exec tsx ./scripts/reproduce-bm171-runtime-stale-cleanup.mjs", "exit": 0, "result": "Stale-fallback acceptance: 4/4 mustContainAll pass, 5/5 mustNotContainAll pass, 0 repeated Căn cứ Điều 41" },
+    { "command": "pnpm --filter api exec tsx ./scripts/reproduce-bm171-runtime-missing-required.mjs", "exit": 0, "result": "Missing-required gate detects all three mandated required fields (assetOwner.fullName, document.documentCode, signature.signerName)" }
+  ],
+  "outOfScope": {
+    "lockedContractsMutated": false,
+    "normalizedDocxMutated": false,
+    "sourceDocxMutated": false,
+    "massRollout213Started": false,
+    "pr7bStarted": false,
+    "pr7cStarted": false,
+    "documentsRouteFakedTemplatePreview": false,
+    "commitsCreated": false,
+    "pushesPerformed": false,
+    "prsOpened": false
+  }
+}

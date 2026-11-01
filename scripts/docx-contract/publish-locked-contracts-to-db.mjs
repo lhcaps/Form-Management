@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createPrismaMariaDbAdapter } from '../prisma-mariadb-adapter.mjs';
 /**
  * Phase D — Publish all locked contracts to the runtime database.
  *
@@ -326,7 +327,7 @@ async function publishToDb(toPublish, opts) {
     }
   }
 
-  const prisma = new PrismaClient({ datasourceUrl: DATABASE_URL });
+  const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter(DATABASE_URL) });
 
   console.log("Publishing to database...\n");
   console.log(`Official ID: ${officialId}${agencyId ? `, Agency ID: ${agencyId}` : " (global scope)"}`);

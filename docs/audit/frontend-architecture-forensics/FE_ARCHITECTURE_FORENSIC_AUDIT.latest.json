@@ -1,0 +1,110 @@
+{
+  "auditId": "FE_ARCHITECTURE_FORENSIC_AUDIT_PHASE_0",
+  "status": "PASS",
+  "generatedAt": "2026-07-06T05:20:00+07:00",
+  "codeMutated": false,
+  "backendMutated": false,
+  "dbMutated": false,
+  "lockedContractsMutated": false,
+  "oneLineVerdict": "BM-001 generated workspace is protected by BM_PANEL_BY_CODE, but runtime /templates/:code is generic ContractV2Renderer plus optional runtime-ux; PR-A must make profile readiness an explicit selector contract so audit-only/skeleton profiles cannot become authoritative.",
+  "codeGraphHealth": {
+    "initialized": true,
+    "querySucceeded": true,
+    "fallbackUsed": false,
+    "errors": []
+  },
+  "scopeInspected": {
+    "routes": ["apps/web/src/app/templates/[templateCode]/page.tsx", "apps/web/src/app/documents/[documentId]/page.tsx"],
+    "workspaceComponents": ["TemplatePreviewWorkspace", "GeneratedDocumentWorkspace"],
+    "selectorsRegistries": ["BM_PANEL_BY_CODE", "BM_PANEL_REGISTRY", "getRuntimeUxProfile", "getFormFlightProfile", "isRuntimeReadyProfile"],
+    "formFlight": ["TemplateRuntimeAdapter", "GeneratedDocumentAdapter", "BM001_FORM_FLIGHT_PROFILE", "BM171_FORM_FLIGHT_PROFILE"],
+    "runtimeUx": ["RuntimeUxProfile", "BM171_PROFILE"],
+    "contractV2Renderer": ["ContractV2Renderer"],
+    "bmSpecificPanels": ["Bm001FormInputsPanel", "Bm171FormInputsPanel", "BM_PANEL_REGISTRY count 212"],
+    "apiClientsHelpers": ["api-client", "document-form-api", "runtime-template-preview", "runtime-template-export", "document-render-api", "generated-documents-api"],
+    "tests": ["form-flight profile-status", "bm001-second-pilot", "bm171-shared-core", "runtime-ux tests", "generated-document-workspace-shadcn"],
+    "e2e": "Static search only; no E2E executed."
+  },
+  "topFindings": [
+    {
+      "id": "FE-001",
+      "severity": "CRITICAL",
+      "finding": "Form Flight skeleton/audit-only profiles can be dangerous if any future selector reads getFormFlightProfile directly instead of isRuntimeReadyProfile.",
+      "evidence": "BM001_FORM_FLIGHT_PROFILE is registered, has field paths and required paths, but profileStatus='audit-only' and runtimeReady=false; tests pin helper no-op behavior.",
+      "prARelevance": "Main PR-A guard: selectors/adapters must deny non-runtime-ready profiles before they can affect UI/payload/gates.",
+      "recommendation": "Centralize profile selection behind isRuntimeReadyProfile and add route-level tests for BM-001/BM-171."
+    },
+    {
+      "id": "FE-002",
+      "severity": "HIGH",
+      "finding": "Runtime /templates/:code has no BM-specific selector; it always renders ContractV2Renderer plus optional runtime-ux.",
+      "evidence": "TemplatePreviewWorkspace loads getRuntimeFormContract and renders ContractV2Renderer; no BM_PANEL_BY_CODE branch exists there.",
+      "prARelevance": "Explains BM-001 perceived generic takeover on runtime route.",
+      "recommendation": "Add explicit runtime UI selector priority: existing-good runtime UI, runtime-ready profile, generic ContractV2Renderer fallback."
+    },
+    {
+      "id": "FE-003",
+      "severity": "HIGH",
+      "finding": "Generated workspace lets PublishedContractFormInputsPanel supersede BM_PANEL_BY_CODE when publishedRuntime is non-null.",
+      "evidence": "GeneratedDocumentWorkspace renders PublishedContractFormInputsPanel before Panel when publishedRuntime exists; Panel is BM_PANEL_BY_CODE[templateCode] ?? Generic.",
+      "prARelevance": "BM-specific UI can lose to published contract renderer in generated flow if runtime contract source changes.",
+      "recommendation": "Require generated-ready/published status before published contract UI can override an existing-good BM panel."
+    },
+    {
+      "id": "FE-004",
+      "severity": "HIGH",
+      "finding": "Many BM panels still use raw fetch or local readApi helpers rather than centralized api-client/document-form-api.",
+      "evidence": "Repo-wide search found raw fetch in many bm-XXX-form-inputs.tsx and local readApi in bm001/bm090/bm097/bm053/bm156 helper files.",
+      "prARelevance": "Test mocks and auth behavior can diverge across duplicate UI systems.",
+      "recommendation": "Defer migration; inventory only for PR-A, then migrate in later API/helper cleanup PR."
+    },
+    {
+      "id": "FE-005",
+      "severity": "MEDIUM",
+      "finding": "Generated/document stubs make registry coverage look more complete than true bespoke UI coverage.",
+      "evidence": "Many BM panels declare STUB and render GenericTemplateFormInputsPanel.",
+      "prARelevance": "Selector must distinguish existing-good UI from generic-wrapper panels.",
+      "recommendation": "Add metadata classification before allowing profile/generic fallback to supersede bespoke panels."
+    }
+  ],
+  "bm001Trace": {
+    "runtimeRoute": "/templates/BM-001 -> TemplatePreviewWorkspace -> getRuntimeFormContract -> getRuntimeUxProfile(null unless profile exists) -> ContractV2Renderer",
+    "generatedRoute": "/documents/:id where payload.template.templateCode='BM-001' -> GeneratedDocumentWorkspace -> BM_PANEL_BY_CODE['BM-001'] -> Bm001FormInputsPanel, unless publishedRuntime exists",
+    "candidateComponentsProfiles": ["ContractV2Renderer", "Bm001FormInputsPanel", "GenericTemplateFormInputsPanel", "PublishedContractFormInputsPanel", "BM001_FORM_FLIGHT_PROFILE audit-only"],
+    "currentLikelyWinner": {
+      "runtime": "ContractV2Renderer generic compiled contract renderer",
+      "generated": "Bm001FormInputsPanel if publishedRuntime is null"
+    },
+    "takeoverMechanism": "The registered BM-001 Form Flight profile itself is currently no-op guarded; the visible runtime generic takeover comes from lack of runtime BM-specific selector. Future risk is any selector using getFormFlightProfile directly and treating audit-only BM-001 as authoritative.",
+    "guardInsertionPoint": "apps/web/src/components/documents/template-preview-workspace.tsx plus apps/web/src/lib/form-flight/profile-status.ts",
+    "expectedPrAFix": "Add selector tests and guard: audit-only/skeleton Form Flight profiles must never drive runtime UI/payload/summary; existing-good BM-001 UI remains winner where available."
+  },
+  "bm171Trace": {
+    "runtimeRoute": "/templates/BM-171 -> TemplatePreviewWorkspace imports bm171 Form Flight profile -> runtime-ux BM171_PROFILE -> ContractV2Renderer with UX overrides -> preview-session/export helpers",
+    "generatedRoute": "/documents/:id BM-171 -> GeneratedDocumentWorkspace -> BM_PANEL_BY_CODE['BM-171'] -> Bm171FormInputsPanel -> Form Flight generated save/gate helpers -> saveDocumentFormInputs",
+    "candidateComponentsProfiles": ["ContractV2Renderer", "BM171_PROFILE runtime-ux", "BM171_FORM_FLIGHT_PROFILE runtime-ready", "Bm171FormInputsPanel"],
+    "currentLikelyWinner": {
+      "runtime": "ContractV2Renderer with BM-171 runtime-ux profile and Form Flight gate parity",
+      "generated": "Bm171FormInputsPanel unless publishedRuntime overrides"
+    },
+    "mustPreserve": "runtime-ready Form Flight profile remains active; BM-171 required placeholder gate and demo parity continue working in both flows.",
+    "expectedPrAGuardImpact": "No regression because BM-171 has runtimeReady=true and profileStatus='runtime-ready'."
+  },
+  "selectorFlowBefore": "Runtime: route -> TemplatePreviewWorkspace -> ContractV2Renderer (+ runtime-ux if registered) -> /forms/runtime. Generated: route -> GeneratedDocumentWorkspace -> publishedRuntime ? PublishedContractFormInputsPanel : BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel -> /documents/generated.",
+  "selectorFlowRisk": "Runtime has no existing-good BM UI priority; generated has publishedRuntime override before BM-specific panel. Form Flight readiness guard exists but only protects helper consumers, not arbitrary future selectors.",
+  "recommendedSelectorFlowAfter": [
+    "Normalize templateCode.",
+    "If lifecycle is generated-document and template has existing-good BM panel, prefer it unless an explicit generated-ready published contract override is true.",
+    "If lifecycle is runtime-template and template has existing-good runtime UI, prefer it.",
+    "If a Form Flight profile exists, use it only when isRuntimeReadyProfile(profile) is true.",
+    "If runtime-ux profile exists, use only as UI metadata for an already selected runtime-ready/generic renderer; do not imply profile readiness globally.",
+    "Fallback to ContractV2Renderer/GenericTemplateFormInputsPanel only when no protected existing-good UI applies."
+  ],
+  "testCoverageGapsForPrA": [
+    "Route-level selector test for /templates/BM-001 proving BM001 audit-only profile cannot drive summary/gate/payload or replace existing-good UI decision.",
+    "Generated workspace selector test proving BM-001 BM_PANEL_BY_CODE wins over generic fallback and cannot be superseded by skeleton/audit-only profile.",
+    "BM-171 regression test proving runtime-ready profile still gates missing required fields and generated save helper still sanitizes stale fallbacks.",
+    "PublishedContractFormInputsPanel precedence test documenting when it may override BM_PANEL_BY_CODE.",
+    "Static guard test that all Form Flight selector consumers import isRuntimeReadyProfile rather than raw getFormFlightProfile for runtime authority."
+  ]
+}

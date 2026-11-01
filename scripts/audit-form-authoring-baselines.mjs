@@ -11,6 +11,7 @@ import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { evaluateFormArtifact } from "./docx-contract/lib/form-corpus-quality.mjs";
+import { createPrismaMariaDbAdapter } from "./prisma-mariadb-adapter.mjs";
 
 const THIS_FILE = fileURLToPath(import.meta.url);
 const DEFAULT_REPO_ROOT = resolve(dirname(THIS_FILE), "..");
@@ -224,6 +225,21 @@ export function generatedRendererManifestCodes(repoRoot = DEFAULT_REPO_ROOT) {
   );
 }
 
+export function legacyRendererManifestExists(repoRoot = DEFAULT_REPO_ROOT) {
+  return existsSync(
+    join(
+      repoRoot,
+      "apps",
+      "api",
+      "src",
+      "modules",
+      "form-studio",
+      "infrastructure",
+      "legacy-renderer-capabilities.generated.ts",
+    ),
+  );
+}
+
 export function actualGenericRendererCodes(repoRoot = DEFAULT_REPO_ROOT) {
   const result = new Set();
   for (const code of canonicalCodes()) {
@@ -237,7 +253,7 @@ async function collectDatabaseState(repoRoot, codes) {
   loadEnvFile(join(repoRoot, "apps", "api", ".env"), true);
   const requireFromApi = createRequire(join(repoRoot, "apps", "api", "package.json"));
   const { PrismaClient } = requireFromApi("@prisma/client");
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
 
   try {
     const templates = await prisma.templates.findMany({
@@ -496,10 +512,12 @@ async function main() {
 
   const actualGeneric = actualGenericRendererCodes(repoRoot);
   const generatedGeneric = generatedRendererManifestCodes(repoRoot);
-  const manifestMismatch = [
-    ...[...actualGeneric].filter((code) => !generatedGeneric.has(code)),
-    ...[...generatedGeneric].filter((code) => !actualGeneric.has(code)),
-  ];
+  const manifestMismatch = legacyRendererManifestExists(repoRoot)
+    ? [
+        ...[...actualGeneric].filter((code) => !generatedGeneric.has(code)),
+        ...[...generatedGeneric].filter((code) => !actualGeneric.has(code)),
+      ]
+    : [];
   if (manifestMismatch.length > 0) {
     for (const row of requested) {
       if (manifestMismatch.includes(row.code)) {

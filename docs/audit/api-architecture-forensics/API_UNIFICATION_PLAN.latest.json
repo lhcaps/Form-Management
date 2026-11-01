@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1",
+  "generatedAt": "2026-07-06T00:00:00.000+07:00",
+  "targetArchitecture": {
+    "principle": "Different route lifecycle semantics, one shared render core.",
+    "core": "ApiRenderOrchestrator",
+    "adapters": [
+      {
+        "name": "RuntimeTemplateAdapter",
+        "mustWrite": ["runtime preview-session files", "runtime preview-session metadata"],
+        "mustNotWrite": ["generated_documents", "generated_document_files", "generated_document_audit_logs", "case_events"],
+        "uses": ["shared contract resolver", "shared validator", "shared payload normalizer", "shared contract renderer"]
+      },
+      {
+        "name": "GeneratedDocumentAdapter",
+        "mustWrite": ["generated_documents snapshot/validation", "stored_files", "generated_document_files", "case_events", "generated_document_audit_logs"],
+        "mustNotWrite": ["runtime-preview-sessions except explicit preview-only endpoints"],
+        "uses": ["shared contract resolver", "shared validator", "shared payload normalizer", "shared contract renderer"]
+      }
+    ]
+  },
+  "currentState": [
+    "Runtime preview uses RuntimePreviewSessionService + StandaloneTemplateRenderService + locked-contract render plan.",
+    "Generated render uses RenderGeneratedDocumentUseCase + routing policy to legacy/shadow/active renderer.",
+    "Generated form saves are split across legacy form-inputs, contract-form-inputs, and BM-031 direct endpoints.",
+    "Runtime contract UI source can be DB-published while runtime render plan reads locked contracts directly.",
+    "Audit coverage is strong for file download/delete but incomplete or inconsistent for render/save paths."
+  ],
+  "flowsToKeep": [
+    "POST /forms/runtime/:templateCode/preview-session",
+    "GET /forms/runtime/preview-sessions/:sessionId/docx",
+    "GET /forms/runtime/preview-sessions/:sessionId/pdf",
+    "POST /documents/cases/:caseId/batches",
+    "POST /documents/generated/:documentId/render-docx",
+    "GET /documents/generated/:documentId/form-schema",
+    "PUT /documents/generated/:documentId/contract-form-inputs"
+  ],
+  "flowsToDeprecate": [
+    "POST /documents/generated/:documentId/form-inputs after adapter parity",
+    "GET/POST /documents/generated/:id/bm031-direct-* after schema parity",
+    "frontend PATCH/PUT form-inputs helpers unless backend routes are intentionally added",
+    "per-BM API payload builders as source of truth"
+  ],
+  "sharedServicesToExtract": [
+    "ApiRenderOrchestrator",
+    "ContractSourceResolver",
+    "RenderPayloadNormalizer",
+    "ContractInputValidator",
+    "RenderArtifactWriter",
+    "RenderAuditEmitter"
+  ],
+  "migrationSequence": [
+    {
+      "pr": "PR-A",
+      "goal": "guard runtime selector from skeleton profile takeover",
+      "filesOrAreas": ["apps/web/src/lib/form-flight", "apps/web/src/lib/runtime-ux", "profile selection tests"],
+      "risk": "MEDIUM"
+    },
+    {
+      "pr": "PR-B",
+      "goal": "extract shared API render orchestration core",
+      "filesOrAreas": ["apps/api/src/modules/documents/rendering/application", "apps/api/src/modules/form-studio/application"],
+      "risk": "MEDIUM"
+    },
+    {
+      "pr": "PR-C",
+      "goal": "route runtime preview through shared core",
+      "filesOrAreas": ["RuntimePreviewSessionService", "StandaloneTemplateRenderService", "RuntimeTemplateAdapter"],
+      "risk": "MEDIUM"
+    },
+    {
+      "pr": "PR-D",
+      "goal": "route generated document render through shared core",
+      "filesOrAreas": ["RenderGeneratedDocumentUseCase", "ContractShadowRendererOrchestrator", "GeneratedDocumentAdapter"],
+      "risk": "HIGH"
+    },
+    {
+      "pr": "PR-E",
+      "goal": "adapterize existing good UI forms",
+      "filesOrAreas": ["Form Flight profiles", "BM-001", "BM-171", "generated workspace registry"],
+      "risk": "MEDIUM"
+    },
+    {
+      "pr": "PR-F",
+      "goal": "deprecate duplicate per-BM API helpers",
+      "filesOrAreas": ["document-form-api.ts", "BM panels", "BM-031 direct module"],
+      "risk": "HIGH"
+    }
+  ],
+  "noGoList": [
+    "Do not merge /templates/:code and /documents/:id semantics.",
+    "Do not let runtime preview write generated document tables.",
+    "Do not let generated document render bypass agency authorization.",
+    "Do not use sample/demo data for persisted legal output.",
+    "Do not mutate locked DOCX/source DOCX/normalized DOCX in architecture PRs.",
+    "Do not run mass rollout/remediation scripts during architecture PRs."
+  ],
+  "firstSafePrAfterAudit": "PR-A: guard runtime selector from skeleton profile takeover"
+}

@@ -1,10 +1,12 @@
-﻿name: quanlyvks
+name: quanlyvks
 
 services:
   mysql:
     image: mariadb:11
-    container_name: quanlyvks-mysql
     restart: unless-stopped
+    cpus: "${MYSQL_CPU_LIMIT:-1.00}"
+    mem_limit: "${MYSQL_MEMORY_LIMIT:-1024m}"
+    pids_limit: ${MYSQL_PIDS_LIMIT:-256}
     environment:
       MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MARIADB_DATABASE: ${MYSQL_DATABASE}
@@ -16,51 +18,121 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-time-zone=+07:00
       - --max_allowed_packet=256M
-    ports:
-      - "${MYSQL_HOST_PORT:-3306}:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -uroot -p$${MARIADB_ROOT_PASSWORD} --silent"]
       interval: 10s
       timeout: 5s
+      start_period: 30s
       retries: 30
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 45s
+    logging:
+      driver: local
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # Explicit one-shot initializer for a fresh database. It is profile-gated so
+  # routine restarts cannot overwrite the approved locked-contract corpus.
+  # Run it once with `docker compose --profile bootstrap run --rm contract-bootstrap`
+  # after MySQL is healthy and before bringing up API/web.
+  contract-bootstrap:
+    profiles: ["bootstrap"]
+    cpus: "${BOOTSTRAP_CPU_LIMIT:-0.75}"
+    mem_limit: "${BOOTSTRAP_MEMORY_LIMIT:-1024m}"
+    pids_limit: ${BOOTSTRAP_PIDS_LIMIT:-256}
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    init: true
+    entrypoint: ["/usr/local/bin/contract-bootstrap-entrypoint.sh"]
+    environment:
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?connection_limit=10
+      QLLAW_BOOTSTRAP_ALLOW_DB_WRITE: "1"
+      QLLAW_BOOTSTRAP_OUTPUT_DIR: /app/storage/bootstrap-artifacts
+    volumes:
+      - ./storage:/app/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
 
   api:
     build:
       context: .
       dockerfile: docker/api.Dockerfile
-    container_name: quanlyvks-api
     restart: unless-stopped
+    init: true
+    cpus: "${API_CPU_LIMIT:-1.50}"
+    mem_limit: "${API_MEMORY_LIMIT:-1536m}"
+    pids_limit: ${API_PIDS_LIMIT:-512}
     env_file:
-      - .env.docker
+      - ${QLLAW_DOCKER_ENV_FILE:-.env.docker}
     environment:
       NODE_ENV: production
+      API_PORT: 3001
       PORT: 3001
       TZ: Asia/Ho_Chi_Minh
       DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?connection_limit=10
       DB_HOST: mysql
       DB_PORT: "3306"
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       STORAGE_ROOT: /app/storage
       GENERATED_FILES_ROOT: /app/storage/generated
       NORMALIZED_DOCX_ROOT: /app/storage/templates/normalized-docx
       LIBREOFFICE_PATH: /usr/bin/libreoffice
-      # Cookie settings for cross-origin session auth with Vercel frontend
       AUTH_COOKIE_SECURE: "true"
       AUTH_COOKIE_SAMESITE: "none"
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
+      CLERK_WEBHOOK_SECRET: ${CLERK_WEBHOOK_SECRET}
       WEB_ORIGIN: ${WEB_ORIGIN}
       API_CORS_ORIGIN: ${API_CORS_ORIGIN}
       TUNNEL_TEST: "false"
-      # Set SEED_DATA=true on first deploy only; leave false for subsequent restarts
-      SEED_DATA: "false"
+      SEED_DATA: ${SEED_DATA:-false}
+      # Phase 8C font policy: required in production, fallback-allowed only in dev/test.
+      QLLAW_FONT_POLICY: ${QLLAW_FONT_POLICY:-required}
+      QLLAW_REQUIRED_FONT_FAMILY: ${QLLAW_REQUIRED_FONT_FAMILY:-Times New Roman}
+      # env_file carries the host path used by Compose interpolation. Inside
+      # the Linux container, verification must inspect the bind-mount target.
+      QLLAW_TNR_FONT_DIR: /opt/qllaw/fonts/times-new-roman
+      QLLAW_CONTAINER_TNR_FONT_DIR: /opt/qllaw/fonts/times-new-roman
+      # API readiness will reflect the resolved font state under required.
     ports:
       - "${API_PORT:-3001}:3001"
     volumes:
       - ./storage:/app/storage
       - ./logs:/app/logs
+      # Phase 8C: read-only bind mount of the operator-provided licensed
+      # Times New Roman font directory. QLLAW_TNR_FONT_DIR is required when
+      # QLLAW_FONT_POLICY=required. The path must exist on the host; compose
+      # will fail-fast if it does not, which is the desired behavior (no
+      # silent empty directory).
+      - type: bind
+        source: ${QLLAW_TNR_FONT_DIR:?QLLAW_TNR_FONT_DIR must be set when QLLAW_FONT_POLICY=required}
+        target: /opt/qllaw/fonts/times-new-roman
+        read_only: true
     depends_on:
       mysql:
         condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 30s
+    logging:
+      driver: local
+      options:
+        max-size: "20m"
+        max-file: "5"
 
   web:
     build:
@@ -68,20 +140,37 @@ services:
       dockerfile: docker/web.Dockerfile
       args:
         NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
-    container_name: quanlyvks-web
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     restart: unless-stopped
+    init: true
+    cpus: "${WEB_CPU_LIMIT:-0.75}"
+    mem_limit: "${WEB_MEMORY_LIMIT:-768m}"
+    pids_limit: ${WEB_PIDS_LIMIT:-256}
     env_file:
-      - .env.docker
+      - ${QLLAW_DOCKER_ENV_FILE:-.env.docker}
     environment:
       NODE_ENV: production
       PORT: 3000
       HOSTNAME: 0.0.0.0
       TZ: Asia/Ho_Chi_Minh
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY}
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:
-      - api
+      api:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 30s
+    logging:
+      driver: local
+      options:
+        max-size: "20m"
+        max-file: "5"
 
 volumes:
   mysql_data:

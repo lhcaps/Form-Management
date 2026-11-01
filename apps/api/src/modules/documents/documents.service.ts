@@ -1,13 +1,20 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { createHash } from 'node:crypto';
+import { getPersistedDraftBridgeIneligibilityReason } from '@qllaw/form-contracts';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateDocumentGenerationBatchDto } from './dto/create-document-generation-batch.dto';
 
 function toPublicId(value: bigint | number | null | undefined): string | null {
   if (value === null || value === undefined) return null;
+  return String(value);
+}
+
+function toRequiredPublicId(value: bigint | number): string {
   return String(value);
 }
 
@@ -592,5 +599,248 @@ export class DocumentsService {
       template_name: doc.templates?.template_name ?? null,
       output_strategy: doc.templates?.output_strategy ?? null,
     };
+  }
+
+  async createDraftFromTemplate(dto: {
+    templateCode: string;
+    caseId: string;
+    targetPersonId?: string;
+    source: 'TEMPLATE_BRIDGE';
+    officialId: bigint;
+    agencyId: bigint | null;
+    officialName: string;
+  }): Promise<{
+    documentId: string;
+    templateCode: string;
+    isNew: boolean;
+    reused: boolean;
+    caseId: string;
+    reviewStatus: string;
+    documentTitle: string;
+  }> {
+    const caseId = parseBigIntId(dto.caseId, 'caseId');
+    const targetPersonId = dto.targetPersonId
+      ? parseBigIntId(dto.targetPersonId, 'targetPersonId')
+      : null;
+
+    // Verify case exists and user has access
+    const caseItem = await this.prisma.cases.findFirst({
+      where: {
+        id: caseId,
+        is_deleted: false,
+        ...(dto.agencyId === null ? {} : { agency_id: dto.agencyId }),
+      },
+    });
+
+    if (!caseItem) {
+      throw new NotFoundException(
+        'Không tìm thấy hồ sơ hoặc bạn không có quyền truy cập.',
+      );
+    }
+
+    // Verify targetPerson belongs to case if provided
+    if (targetPersonId) {
+      const targetPerson = await this.prisma.case_people.findFirst({
+        where: {
+          case_id: caseId,
+          person_id: targetPersonId,
+          is_active: true,
+        },
+      });
+
+      if (!targetPerson) {
+        throw new BadRequestException('Người liên quan không thuộc hồ sơ này.');
+      }
+
+      const activePerson = await this.prisma.people.findFirst({
+        where: { id: targetPersonId, is_deleted: false },
+      });
+      if (!activePerson) {
+        throw new BadRequestException('Người liên quan không còn hoạt động.');
+      }
+    }
+
+    // Find template by code and verify it exists
+    const template = await this.prisma.templates.findFirst({
+      where: {
+        template_code: dto.templateCode,
+        is_active: true,
+      },
+    });
+
+    if (!template) {
+      throw new NotFoundException(
+        `Không tìm thấy biểu mẫu ${dto.templateCode}.`,
+      );
+    }
+
+    const bridgeIneligibility = getPersistedDraftBridgeIneligibilityReason({
+      templateCode: dto.templateCode,
+      renderScope: template.render_scope,
+    });
+    if (bridgeIneligibility === 'STANDALONE_RUNTIME_TEMPLATE') {
+      throw new BadRequestException(
+        'Biểu mẫu runtime-ready phải dùng phiên xem trước độc lập, không tạo draft bridge.',
+      );
+    }
+
+    const personScoped =
+      template.render_scope === 'PERSON_LEVEL' ||
+      template.render_scope === 'SELECTED_PERSONS';
+    if (template.render_scope === 'CASE_LEVEL' && targetPersonId !== null) {
+      throw new BadRequestException(
+        'Biểu mẫu cấp hồ sơ không nhận targetPersonId.',
+      );
+    }
+    if (personScoped && targetPersonId === null) {
+      throw new BadRequestException(
+        'Biểu mẫu theo người yêu cầu targetPersonId.',
+      );
+    }
+    if (bridgeIneligibility === 'UNSUPPORTED_RENDER_SCOPE') {
+      throw new BadRequestException(
+        `Bridge chưa hỗ trợ render_scope ${template.render_scope}.`,
+      );
+    }
+
+    const contract = await this.prisma.form_contract_versions.findFirst({
+      where: { template_id: template.id, status: 'PUBLISHED' },
+      orderBy: { published_at: 'desc' },
+    });
+    if (!contract) {
+      throw new BadRequestException(
+        `Biểu mẫu ${dto.templateCode} chưa có hợp đồng đã phát hành cho draft bridge.`,
+      );
+    }
+
+    const bridgeDraftKey = createHash('sha256')
+      .update(
+        [
+          dto.source,
+          template.id.toString(),
+          caseId.toString(),
+          template.render_scope,
+          targetPersonId?.toString() ?? '',
+          dto.officialId.toString(),
+          dto.agencyId?.toString() ?? '',
+        ].join('|'),
+      )
+      .digest('hex');
+
+    const existingDraft = await this.prisma.generated_documents.findUnique({
+      where: { bridge_draft_key: bridgeDraftKey },
+    });
+
+    if (existingDraft?.review_status === 'DRAFT') {
+      return {
+        documentId: toRequiredPublicId(existingDraft.id),
+        templateCode: dto.templateCode,
+        isNew: false,
+        reused: true,
+        caseId: dto.caseId,
+        reviewStatus: existingDraft.review_status,
+        documentTitle: existingDraft.document_title,
+      };
+    }
+
+    if (existingDraft) {
+      await this.prisma.generated_documents.update({
+        where: { id: existingDraft.id },
+        data: { bridge_draft_key: null },
+      });
+    }
+
+    // Create new draft
+    const documentTitle = `${template.template_name} - Bản nháp - ${caseItem.case_code}`;
+
+    try {
+      const document = await this.prisma.generated_documents.create({
+        data: {
+          case_id: caseId,
+          template_id: template.id,
+          template_version_id: null,
+          document_code: null,
+          document_title: documentTitle,
+          target_scope: template.render_scope || 'CASE_LEVEL',
+          target_person_id: targetPersonId,
+          target_evidence_id: null,
+          target_event_id: null,
+          review_status: 'DRAFT',
+          bridge_draft_key: bridgeDraftKey,
+          render_payload_snapshot: {
+            source: dto.source, // Server-controlled
+            case: {
+              id: toPublicId(caseItem.id),
+              caseCode: caseItem.case_code,
+              caseTitle: caseItem.case_title,
+              currentStage: caseItem.current_stage,
+              currentStatus: caseItem.current_status,
+            },
+            template: {
+              id: toPublicId(template.id),
+              templateCode: template.template_code,
+              templateNo: template.template_no,
+              templateName: template.template_name,
+              renderScope: template.render_scope,
+            },
+            formInputs: {},
+            payloadOverrides: {},
+            renderPayloadOverrides: {},
+            contractMeta: {
+              templateCode: template.template_code,
+              sourceId: toRequiredPublicId(contract.id),
+              contractVersionHash: contract.contract_hash,
+              contractLookupStatus: 'PUBLISHED',
+            },
+            bridgeMeta: {
+              actorOfficialId: toRequiredPublicId(dto.officialId),
+              agencyId:
+                dto.agencyId === null ? null : toRequiredPublicId(dto.agencyId),
+              bridgeDraftKey,
+            },
+          } as any,
+          validation_result: {
+            status: 'NOT_RENDERED_YET',
+            message: 'Bản nháp chưa render.',
+          } as any,
+          generated_by_name: dto.officialName || null,
+          note: `Created via template bridge from /templates/${dto.templateCode}`,
+        },
+      });
+
+      return {
+        documentId: toRequiredPublicId(document.id),
+        templateCode: dto.templateCode,
+        isNew: true,
+        reused: false,
+        caseId: dto.caseId,
+        reviewStatus: document.review_status,
+        documentTitle: document.document_title,
+      };
+    } catch (error) {
+      const code =
+        error && typeof error === 'object' && 'code' in error
+          ? String((error as { code?: unknown }).code)
+          : null;
+      if (code !== 'P2002') throw error;
+
+      const concurrentDraft = await this.prisma.generated_documents.findUnique({
+        where: { bridge_draft_key: bridgeDraftKey },
+      });
+      if (!concurrentDraft || concurrentDraft.review_status !== 'DRAFT') {
+        throw new ConflictException(
+          'Không thể tạo bản nháp đồng thời, vui lòng thử lại.',
+        );
+      }
+      return {
+        documentId: toRequiredPublicId(concurrentDraft.id),
+        templateCode: dto.templateCode,
+        isNew: false,
+        reused: true,
+        caseId: dto.caseId,
+        reviewStatus: concurrentDraft.review_status,
+        documentTitle: concurrentDraft.document_title,
+      };
+    }
   }
 }

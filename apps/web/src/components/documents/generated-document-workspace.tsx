@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { CompiledFormContract } from "@qllaw/form-contracts";
 import { getRuntimeFormContract } from "@/lib/form-studio-api";
+import { createPersistedFormFlightProfile } from "@/lib/form-flight/persisted-profile";
+import { isPersistedReadyProfile } from "@/lib/form-flight/profile-status";
 import { PublishedContractFormInputsPanel } from "@/components/documents/published-contract-form-inputs";
 import {
   BM_PANEL_REGISTRY,
@@ -13,7 +15,9 @@ import { GeneratedDocumentAuditPanel } from "@/components/documents/generated-do
 import { GeneratedDocumentActionPanel } from "@/components/documents/generated-document-action-panel";
 import { GeneratedDocumentPreviewPanel } from "@/components/documents/generated-document-preview-panel";
 import { GenericTemplateFormInputsPanel } from "@/components/documents/generic-template-form-inputs";
-import { getDocumentRenderPayload } from "@/lib/document-form-api";
+import {
+  getDocumentRenderPayload,
+} from "@/lib/document-form-api";
 import { SHOW_INTERNAL_IDS } from "@/lib/debug";
 import {
   getDocumentHistory,
@@ -27,6 +31,7 @@ import {
 import { StatusBadge } from "@/components/common/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { selectGeneratedFormPanel } from "./generated-form-panel-selector";
 
 // ─── History tab ─────────────────────────────────────────────────────────────
 
@@ -230,6 +235,13 @@ type RenderPayloadResponse = RenderPayloadForCaseContext & {
   } | null;
 };
 
+// Form Flight — register the approved runtime-ready profile set so the
+// generated-document flow can resolve `decideFormLifecycle(...)` for the
+// same set as the runtime route. Side-effect: BM-001 + BM-171 are
+// registered here once when this module first loads.
+import { registerRuntimeReadyFormFlightProfiles } from "@/lib/form-flight";
+registerRuntimeReadyFormFlightProfiles();
+
 const TABS: Array<{
   key: TabKey;
   label: string;
@@ -257,32 +269,7 @@ const TABS: Array<{
   },
 ];
 
-// Use the generated registry. Regenerate with: node scripts/generate-bm-panel-registry.mjs
-// Missing panels (if any) fall back to PublishedContractFormInputsPanel / GenericTemplateFormInputsPanel.
-// bm-172 exports Bm172FormInputs (not Bm172FormInputsPanel) with incompatible props (Bm172FormInputsProps vs standard {documentId,onSaved}).
-// Wrap it to satisfy the registry's ComponentType<{documentId,onSaved}> contract.
-import { Bm172FormInputs as _Bm172FormInputsRaw } from "./bm-172-form-inputs";
-
-function _Bm172FormInputsPanelAdapter({ documentId, onSaved }: { documentId: string; onSaved?: () => void }) {
-  return (
-    <_Bm172FormInputsRaw
-      value={undefined}
-      initialValue={undefined}
-      disabled={false}
-      isSaving={false}
-      onChange={() => {}}
-      onSave={() => {}}
-      onReload={() => {}}
-    />
-  );
-}
-
-// Extend the registry with the alias so the same lookup works for BM-172
-const _registryWith172 = {
-  ...BM_PANEL_REGISTRY,
-  "BM-172": _Bm172FormInputsPanelAdapter,
-};
-const BM_PANEL_BY_CODE = _registryWith172;
+const BM_PANEL_BY_CODE = BM_PANEL_REGISTRY;
 
 function getTemplateDescription(templateCode: string | null | undefined) {
   switch (templateCode) {
@@ -471,6 +458,7 @@ export function GeneratedDocumentWorkspace({
     source: string;
     contractHash: string;
     compiledContract: CompiledFormContract;
+    profile: ReturnType<typeof createPersistedFormFlightProfile>;
   } | null>(null);
 
   useEffect(() => {
@@ -538,9 +526,20 @@ export function GeneratedDocumentWorkspace({
     [payload],
   );
 
-  const Panel = templateCode
-    ? BM_PANEL_BY_CODE[templateCode] ?? GenericTemplateFormInputsPanel
-    : GenericTemplateFormInputsPanel;
+  const bmPanel = templateCode ? BM_PANEL_BY_CODE[templateCode] : undefined;
+  const profileStatus =
+    publishedRuntime && isPersistedReadyProfile(publishedRuntime.profile)
+      ? "persisted-ready"
+      : null;
+  const formPanel = selectGeneratedFormPanel({
+    templateCode,
+    bmPanel,
+    publishedRuntime,
+    profileStatus,
+  });
+  const Panel = formPanel === "bm-panel" ? bmPanel : undefined;
+  const contractPanel =
+    formPanel === "published-runtime" ? publishedRuntime : null;
 
   useEffect(() => {
     let active = true;
@@ -548,17 +547,17 @@ export function GeneratedDocumentWorkspace({
       setPublishedRuntime(null);
       return;
     }
+    setPublishedRuntime(null);
     void getRuntimeFormContract(templateCode)
       .then((result) => {
         if (!active) return;
         setPublishedRuntime(
-          result.source === "LOCKED_FILE"
-            ? null
-            : {
-                source: result.source,
-                contractHash: result.contractHash,
-                compiledContract: result.compiledContract,
-              },
+          {
+            source: result.source,
+            contractHash: result.contractHash,
+            compiledContract: result.compiledContract,
+            profile: createPersistedFormFlightProfile(result.compiledContract),
+          },
         );
       })
       .catch(() => {
@@ -672,17 +671,24 @@ export function GeneratedDocumentWorkspace({
                 </section>
               ) : null}
 
-              {!isInitialPayloadLoading && publishedRuntime ? (
-                <PublishedContractFormInputsPanel
+              {!isInitialPayloadLoading && Panel ? (
+                <Panel
                   documentId={documentId}
-                  contract={publishedRuntime.compiledContract}
-                  contractHash={publishedRuntime.contractHash}
                   onSaved={() => setRefreshKey((current) => current + 1)}
                 />
               ) : null}
 
-              {!isInitialPayloadLoading && !publishedRuntime && Panel ? (
-                <Panel
+              {!isInitialPayloadLoading && !Panel && contractPanel ? (
+                <PublishedContractFormInputsPanel
+                  documentId={documentId}
+                  contract={contractPanel.compiledContract}
+                  contractHash={contractPanel.contractHash}
+                  onSaved={() => setRefreshKey((current) => current + 1)}
+                />
+              ) : null}
+
+              {!isInitialPayloadLoading && !Panel && !contractPanel ? (
+                <GenericTemplateFormInputsPanel
                   documentId={documentId}
                   onSaved={() => setRefreshKey((current) => current + 1)}
                 />

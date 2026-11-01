@@ -22,6 +22,7 @@ import { Logger } from '@nestjs/common';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { PrismaClient } from '@prisma/client';
+import { createPrismaMariaDbAdapter } from '../../../prisma/prisma-mariadb-adapter';
 import { resolveRepoRoot } from '../../../common/repo-root';
 
 export type ContractSyncPathsOptions = {
@@ -34,6 +35,8 @@ export type ContractSyncPaths = {
   lockedDir: string;
   compiledV2Dir: string;
 };
+
+export const EXPECTED_LOCKED_CONTRACT_COUNT = 213;
 
 export function resolveContractSyncPaths(
   options: ContractSyncPathsOptions = {},
@@ -63,7 +66,11 @@ interface GuardResult {
 
 export class ContractSyncGuard {
   private readonly logger = new Logger('ContractSyncGuard');
-  private readonly paths = resolveContractSyncPaths();
+  private readonly paths: ContractSyncPaths;
+
+  constructor(options: ContractSyncPathsOptions = {}) {
+    this.paths = resolveContractSyncPaths(options);
+  }
 
   /**
    * Main guard entry point
@@ -129,16 +136,23 @@ export class ContractSyncGuard {
 
   private getLockedContractFiles(): string[] {
     if (!existsSync(this.paths.lockedDir)) {
-      this.logger.warn(
-        `Locked contracts directory not found: ${this.paths.lockedDir}`,
+      throw new Error(
+        `Expected ${EXPECTED_LOCKED_CONTRACT_COUNT} locked contracts, but the governed directory is missing: ${this.paths.lockedDir}`,
       );
-      return [];
     }
 
-    return readdirSync(this.paths.lockedDir)
+    const files = readdirSync(this.paths.lockedDir)
       .filter((f) => f.endsWith('.contract.locked.json'))
       .sort()
       .map((f) => join(this.paths.lockedDir, f));
+
+    if (files.length !== EXPECTED_LOCKED_CONTRACT_COUNT) {
+      throw new Error(
+        `Expected ${EXPECTED_LOCKED_CONTRACT_COUNT} locked contracts, found ${files.length} in ${this.paths.lockedDir}.`,
+      );
+    }
+
+    return files;
   }
 
   private loadLockedContractsWithHashes(
@@ -196,13 +210,14 @@ export class ContractSyncGuard {
       return false;
     }
 
+    const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
     try {
-      const prisma = new PrismaClient();
       await prisma.$queryRaw`SELECT 1`;
-      await prisma.$disconnect();
       return true;
     } catch {
       return false;
+    } finally {
+      await prisma.$disconnect();
     }
   }
 
@@ -212,7 +227,7 @@ export class ContractSyncGuard {
       { sourceId: string; compiledHash: string | null; templateCode: string }
     >,
   ): Promise<GuardResult> {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient({ adapter: createPrismaMariaDbAdapter() });
     const missingInDb: string[] = [];
     const stale: string[] = [];
     let matched = 0;
@@ -281,14 +296,15 @@ export class ContractSyncGuard {
         }
       }
 
+      const driftDetected = missingInDb.length > 0 || stale.length > 0;
       return {
         strategy: 'DB_COMPARE',
         totalLocked: lockedContracts.size,
         matched,
         missingInDb,
         stale,
-        driftDetected: missingInDb.length > 0 || stale.length > 0,
-        canProceed: false,
+        driftDetected,
+        canProceed: !driftDetected,
         warnings: [],
       };
     } finally {
@@ -310,22 +326,19 @@ export class ContractSyncGuard {
       }
     }
 
-    // FILE_ONLY mode: no DB available, so drift cannot be detected.
-    // Missing compiled artifacts = pre-publish state (not drift).
-    // Allow startup with a warning listing missing artifacts.
-    // The CI gate (C2) will catch missing artifacts before merge.
+    const driftDetected = missingCompiled.length > 0;
     return {
       strategy: 'FILE_ONLY',
       totalLocked: lockedContracts.size,
       matched: lockedContracts.size - missingCompiled.length,
       missingInDb: missingCompiled,
       stale: [],
-      driftDetected: false,
-      canProceed: true,
+      driftDetected,
+      canProceed: !driftDetected,
       warnings: [
         'DATABASE_URL not set — using file-only guard mode',
-        'Drift detection unavailable without DB. Only verifying compiled artifacts exist.',
-        `${missingCompiled.length} locked contracts have no compiled artifact yet (run pnpm contract:compile)`,
+        'File-only mode fails closed when any compiled artifact is missing.',
+        `${missingCompiled.length} locked contracts have no compiled artifact (run pnpm contract:compile).`,
       ],
     };
   }
