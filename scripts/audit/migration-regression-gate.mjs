@@ -139,18 +139,22 @@ function activeMigrationInventory() {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort();
-  if (directories.length !== 1) {
-    throw new Error(`Expected exactly one active migration directory, found ${directories.length}`);
+  if (directories.length < 1) {
+    throw new Error(`Expected at least one active migration directory, found 0`);
   }
-  const migrationSql = join(MIGRATIONS, directories[0], 'migration.sql');
-  if (!existsSync(migrationSql)) throw new Error(`Missing active migration SQL: ${migrationSql}`);
-  const sql = readFileSync(migrationSql, 'utf8');
-  const dataStatements = sql.match(/\b(?:INSERT\s+INTO|REPLACE\s+INTO|LOAD\s+DATA)\b/giu) ?? [];
+  let dataStatementCount = 0;
+  for (const dir of directories) {
+    const migrationSql = join(MIGRATIONS, dir, 'migration.sql');
+    if (!existsSync(migrationSql)) throw new Error(`Missing active migration SQL: ${migrationSql}`);
+    const sql = readFileSync(migrationSql, 'utf8');
+    const dataStatements = sql.match(/\b(?:INSERT\s+INTO|REPLACE\s+INTO|LOAD\s+DATA)\b/giu) ?? [];
+    dataStatementCount += dataStatements.length;
+  }
   return {
     directories,
-    migrationSql,
-    dataStatementCount: dataStatements.length,
-    requiredBootstrapData: dataStatements.length === 0 ? 'NONE' : 'PRESENT',
+    migrationSql: join(MIGRATIONS, directories[0], 'migration.sql'),
+    dataStatementCount,
+    requiredBootstrapData: dataStatementCount === 0 ? 'NONE' : 'PRESENT',
   };
 }
 

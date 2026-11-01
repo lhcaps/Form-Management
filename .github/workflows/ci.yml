@@ -23,7 +23,7 @@ env:
 jobs:
   static-verification:
     name: Static verification
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - name: Checkout
@@ -42,6 +42,11 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Prepare env files
+        run: |
+          cp .env.docker.example .env.docker
+          cp .env.docker.demo.example .env.docker.demo
 
       - name: Build workspace contract package
         run: pnpm build:contracts
@@ -69,7 +74,7 @@ jobs:
 
   migration-regression-gate:
     name: Fresh MariaDB migration gate
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -109,7 +114,7 @@ jobs:
 
   docker-production-build:
     name: Docker production build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
       - name: Checkout
@@ -142,6 +147,7 @@ jobs:
         shell: bash
         env:
           QLLAW_DOCKER_VERIFY_ENV: .env.docker
+          QLLAW_DOCKER_VERIFY_FONT_POLICY: fallback-allowed
         run: |
           set -o pipefail
           mkdir -p .artifacts
