@@ -202,7 +202,7 @@ function analyze(templateCode, locked, compiled) {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
-function main() {
+async function main() {
   const log = (...msg) => {
     if (!JSON_ONLY) console.error(...msg);
   };
@@ -362,19 +362,25 @@ function main() {
     if (!JSON_ONLY) log(`[C3] Written: ${mdPath}`);
   }
 
-  // In JSON-only mode, also emit JSON to stdout
+  // In JSON-only mode, also emit JSON to stdout and ensure drain before exit
   if (JSON_ONLY) {
-    process.stdout.write(JSON.stringify(outputData, null, 2));
+    await new Promise((resolve, reject) => {
+      process.stdout.write(JSON.stringify(outputData, null, 2) + "\n", (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
   }
 
   // Exit code logic for --strict
   const hasBlocking = blockingIssues.length > 0;
   if (STRICT && hasBlocking) {
     log(`[C3] EXIT 1 — --strict and ${blockingIssues.length} blocking issue(s) detected`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
   log(`[C3] EXIT 0 — gate complete`);
-  process.exit(0);
+  process.exitCode = 0;
 }
 
 function buildMarkdown(data) {

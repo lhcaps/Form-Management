@@ -28,6 +28,8 @@ function runGate(args = [], input = "") {
       cwd: ROOT,
       shell: false,
     });
+    proc.stdout.setEncoding("utf8");
+    proc.stderr.setEncoding("utf8");
     let stdout = "";
     let stderr = "";
     proc.stdout.on("data", (d) => (stdout += d));

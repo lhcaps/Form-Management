@@ -20,8 +20,12 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, realpathSync, statSync } from 'node:fs';
-import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';
+import { dirname, isAbsolute, posix, relative, resolve, sep, win32 } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+function isAnyAbsolute(p) {
+  return typeof p === 'string' && (win32.isAbsolute(p) || posix.isAbsolute(p));
+}
 
 const HELPER_DIR = dirname(fileURLToPath(import.meta.url));
 export const PROJECT_ROOT = resolve(HELPER_DIR, '..', '..', '..');
@@ -77,7 +81,7 @@ export function assertRepositoryLocalPath(declaredPath, options = {}) {
     'declared path must not be empty',
   );
   assert.equal(
-    isAbsolute(declaredPath),
+    isAnyAbsolute(declaredPath),
     false,
     `declared path must not be absolute: ${declaredPath}`,
   );
@@ -93,7 +97,7 @@ export function assertRepositoryLocalPath(declaredPath, options = {}) {
   assert.equal(
     rel === '..' ||
       rel.startsWith(`..${sep}`) ||
-      isAbsolute(rel),
+      isAnyAbsolute(rel),
     false,
     `resolved path must remain inside PROJECT_ROOT: ${declaredPath} -> ${resolved}`,
   );
