@@ -66,7 +66,11 @@ ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 # Image size: ~300-400 MB vs ~1.2 GB before.
 
 # form-contracts dist is referenced by the standalone bundle
+# form-contracts dist and package metadata are referenced by the standalone bundle and runtime probes
+COPY --from=builder --chown=node:node /app/packages/form-contracts/package.json ./packages/form-contracts/package.json
 COPY --from=builder --chown=node:node /app/packages/form-contracts/dist ./packages/form-contracts/dist
+COPY --from=builder --chown=node:node /app/packages/form-contracts/package.json ./node_modules/@qllaw/form-contracts/package.json
+COPY --from=builder --chown=node:node /app/packages/form-contracts/dist ./node_modules/@qllaw/form-contracts/dist
 
 # Standalone bundle: server.js + minimal node_modules
 COPY --from=builder --chown=node:node /app/apps/web/.next/standalone ./
