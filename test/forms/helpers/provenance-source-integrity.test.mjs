@@ -213,6 +213,6 @@ describe('realpath containment — sanity check', () => {
   it('project realpath is a stable absolute path', async () => {
     const { realpathSync } = await import('node:fs');
     const real = realpathSync(projectRoot());
-    assert.match(real, /[\\/]QLLaw-main$/u);
+    assert.ok(existsSync(resolve(real, 'package.json')), `project realpath must contain package.json: ${real}`);
   });
 });

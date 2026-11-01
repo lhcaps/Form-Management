@@ -21,7 +21,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 
-const PROJECT_ROOT = process.env.QLLAW_ROOT ?? 'D:/Study/Project/QLLaw-main';
+const PROJECT_ROOT = process.env.QLLAW_ROOT ?? process.cwd();
 const SCRIPT_PATH = join(PROJECT_ROOT, 'scripts/document-fidelity/classify-form-fields.mjs');
 const OUT_PATH = join(PROJECT_ROOT, 'docs/audit/document-fidelity/QLLAW_FORMNUMBER_VS_DOCUMENTNUMBER.json');
 
