@@ -440,7 +440,10 @@ export class AppConfigService {
       }
     };
 
-    if (origins.length === 0 || origins.some((origin) => !isLoopbackHttpOrigin(origin))) {
+    if (
+      origins.length === 0 ||
+      origins.some((origin) => !isLoopbackHttpOrigin(origin))
+    ) {
       throw new ConfigurationError(
         'INVALID_CUSTOMER_LOCAL_ORIGIN',
         'Customer-local deployments must use loopback HTTP origins only.',
