@@ -13,13 +13,16 @@
 //   - TRANSFORM_REGRESSION
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { assertDocxWellFormed, readDocxParts, replaceDocxPart } from './lib/docx-zip.mjs';
 import { classifyStructuralFamily } from './lib/ooxml-token-scope.mjs';
 import { defloatLegalHeaderTables, transformFamilyA } from './lib/family-a-transformer.mjs';
 import { transformFamilyB } from './lib/family-b-transformer.mjs';
 
-const PROJECT_ROOT = process.env.QLLAW_ROOT ?? 'D:/Study/Project/QLLaw-main';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const PROJECT_ROOT = process.env.QLLAW_ROOT ?? resolve(__dirname, '../..');
 
 const MAU_SO_PREFIX = 'M' + String.fromCharCode(0x1EAB) + 'u s' + String.fromCharCode(0x1ED1) + ' ';
 

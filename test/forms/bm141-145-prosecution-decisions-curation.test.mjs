@@ -108,7 +108,7 @@ const FORMS = [
     compiledTitle: 'QĐ chuyển vụ án để truy tố',
     extractHeading: 'QUYẾT ĐỊNH',
     compiledSha256:
-      'ee75785d9c7d5674f34ff505181b8d06f47a0c5c2233ea5243b0ea1c2067c674',
+      '129cf915e16c384a9e9842d805a799fa144c4c6468e4723bdd949ceecc7b79b2',
     extractSha256:
       'b0bd3ac6c91c4a06b9b6c8c6fbd70e51fd3a3b7e8de74f4e4c0f5cb4d4c1b0a3', // placeholder; will be filled by discovered SHA below
     fieldCount: 19,
@@ -132,7 +132,7 @@ const FORMS = [
     compiledTitle: 'Quyết định nhập vụ án hình sự trong giai đoạn truy tố',
     extractHeading: 'QUYẾT ĐỊNH',
     compiledSha256:
-      'bf41691b070c479b2edf0fe117004b024a1c061faaaacf570edcd748351f01af',
+      '3a8cd8609516578859b6cd90edc0051cb51df1c1433afb28055a5ca0ee028e3e',
     extractSha256: '',
     fieldCount: 5,
     sectionCount: 1,
@@ -149,7 +149,7 @@ const FORMS = [
     compiledTitle: 'Quyết định tách vụ án hình sự trong giai đoạn truy tố',
     extractHeading: 'QUYẾT ĐỊNH',
     compiledSha256:
-      '92c076690dcc010409822f00eca3cd611bda70167f8d4691fa2b2d7d03a2cc5e',
+      '712168621baeb052a96da18052188dbc1a8de4266196a2dea10606e9a02d4356',
     extractSha256: '',
     fieldCount: 3,
     sectionCount: 1,
@@ -166,7 +166,7 @@ const FORMS = [
     compiledTitle: 'QĐ gia hạn thời hạn QĐ việc truy tố',
     extractHeading: 'QUYẾT ĐỊNH',
     compiledSha256:
-      '33c8cd2bddc02dddcbaa4d0f965e475e8e22aa22f78809237fa753a38f2b8c0f',
+      'ef8343e911d4933385bf90a3cdf09a264b2ba9a263152906092168eae221073c',
     extractSha256: '',
     fieldCount: 17,
     sectionCount: 5,
@@ -189,7 +189,7 @@ const FORMS = [
     compiledTitle: 'QĐ trả hồ sơ vụ án để điều tra bổ sung',
     extractHeading: 'QUYẾT ĐỊNH',
     compiledSha256:
-      'f6f699c5e39f9d4dbb4c46520029207044ea3463c6b2e1a1749ad079ddea9483',
+      '6e6123f721df6293fa1378c17eb53fb9f568434ce78560f1edf195359d46b971',
     extractSha256: '',
     fieldCount: 21,
     sectionCount: 5,

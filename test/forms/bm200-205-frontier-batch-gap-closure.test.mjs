@@ -13,32 +13,32 @@ const HOLDOUT_ARTIFACT_PATH = "docs/audit/unified-bm-workspace/QLLAW_HOLDOUT_12_
 
 const FORMS = [
   {
-    code: "BM-200", extractId: "d340f628394e", compiledSha: "daf25d41d8098c7e07e9591f2198ae84e59f8f99be607b1ffa4b5df617a7ae79", extractMdSha: "84efd7a23f711da38045f62e711e03e9677eae6ad140121b9ffc314e6102e394",
+    code: "BM-200", extractId: "d340f628394e", compiledSha: "f08510d365a557c803c6ddc0e59a3eab25052bb06959fae4169610ddb628bc5d", extractMdSha: "84efd7a23f711da38045f62e711e03e9677eae6ad140121b9ffc314e6102e394",
     title: "Thông báo tiếp nhận khiếu nại, kiến nghị cân nhắc tính cần thiết", operative: "tiếp nhận để xem xét, giải quyết theo quy định của pháp luật", legalBasis: "Điều 69 và Điều 71 của Luật Tư pháp người chưa thành niên",
     role: "SPECIAL_CANARY_SINGLETON complaint-receipt notice", boundary: "PRESENTATION_CANARY_WITH_SAFE_CURATION_ALLOWED", words: ["tiếp nhận khiếu nại hoặc kiến nghị", "xử lý chuyển hướng tại cộng đồng"], special: true,
   },
   {
-    code: "BM-201", extractId: "2d0aab05928d", compiledSha: "b54176c7da6c523226361b47d082db96c8b99af754b7a1a6e9b140429eba5cf3", extractMdSha: "65d21624d75a104d249042e64179ba44615124a5b91bea1e0a5485c06a42f5fd",
+    code: "BM-201", extractId: "2d0aab05928d", compiledSha: "709ce27ab74472f2317d46e7251b0dd8cebeafb27e4c9f0a93541f24ac042f30", extractMdSha: "65d21624d75a104d249042e64179ba44615124a5b91bea1e0a5485c06a42f5fd",
     title: "Quyết định giải quyết khiếu nại, kiến nghị", operative: "Chấp nhận/không chấp nhận khiếu nại/kiến nghị", legalBasis: "các điều 69, 70, 71 và 72 của Luật Tư pháp người chưa thành niên",
     role: "SHARED_DOMAIN_DISTINCT_DOCUMENTS complaint disposition", boundary: "BM-201/BM-202 share complaint domain but resolve versus discontinue", words: ["chấp nhận hoặc không chấp nhận", "hủy bỏ hoặc giữ nguyên"],
   },
   {
-    code: "BM-202", extractId: "0c74f6ae9727", compiledSha: "7e97a72c78a2d0d17495ce295940ae1c2bb4a233bb8d6d0c87944e6fce7ff086", extractMdSha: "428d5c7e42924f7925d4d26349124026d9737dc77fbe48bbed50badaca9a8a66",
+    code: "BM-202", extractId: "0c74f6ae9727", compiledSha: "ec1a70b8a23bdcc6112fdaa15f4a871ceaa8f76e44646598abe90da5116b17d1", extractMdSha: "428d5c7e42924f7925d4d26349124026d9737dc77fbe48bbed50badaca9a8a66",
     title: "Quyết định đình chỉ việc giải quyết khiếu nại, kiến nghị", operative: "Đình chỉ việc giải quyết khiếu nại/kiến nghị", legalBasis: "các điều 69, 70, 71 và 72 của Luật Tư pháp người chưa thành niên",
     role: "SHARED_DOMAIN_DISTINCT_DOCUMENTS complaint discontinuance", boundary: "BM-201/BM-202 share complaint domain but resolve versus discontinue", words: ["đình chỉ", "khiếu nại hoặc kiến nghị"],
   },
   {
-    code: "BM-203", extractId: "7572e687ae0f", compiledSha: "0d5ae5edb59ad7af6f311875173e69aea48f263d9651886790057aba18743710", extractMdSha: "a3aaf0afe40149c9f6023586e9ebd6c40bde2d1432a03762f1ae433565dde26d",
+    code: "BM-203", extractId: "7572e687ae0f", compiledSha: "9ff0b9b976d1ea318c05a83b939eda2d205efe7b07bb308ac647fe17d497f572", extractMdSha: "a3aaf0afe40149c9f6023586e9ebd6c40bde2d1432a03762f1ae433565dde26d",
     title: "Thông báo về hoạt động tố tụng", operative: "Về hoạt động tố tụng", legalBasis: "Điều 131 của Luật Tư pháp người chưa thành niên",
     role: "ISOLATED_SINGLETON procedural-activity notice", boundary: "not a complaint decision, representative-participation decision or preventive-measure notice", words: ["người bào chữa", "thời gian, địa điểm"],
   },
   {
-    code: "BM-204", extractId: "f334b93daabe", compiledSha: "e83d741bb308e06ea539e0bf4683ef60ecb48e38ebaad44660f70f1bd7645540", extractMdSha: "b4d8cfd67bb77aee967abb3943430c7670762a82be1801f8952756134abb6004",
+    code: "BM-204", extractId: "f334b93daabe", compiledSha: "3a2fab7dd087e45cf083743cb215b60a33e699950c86d394a3da6d6bf0607e9d", extractMdSha: "b4d8cfd67bb77aee967abb3943430c7670762a82be1801f8952756134abb6004",
     title: "QĐ việc tham gia tố tụng của người đại diện, tổ chức", operative: "Tham gia tố tụng với tư cách là", legalBasis: "Điều 132 và Điều 133 của Luật Tư pháp người chưa thành niên",
     role: "ISOLATED_SINGLETON representative/organization participation decision", boundary: "distinct from BM-203 notice and BM-205 preventive-measure notice", words: ["cá nhân đại diện", "tổ chức nơi người chưa thành niên"],
   },
   {
-    code: "BM-205", extractId: "e6427663d551", compiledSha: "65a09bb873b22611ff53a302fecb295b8711d39ebdfc78d416a2d904ec1f9c7b", extractMdSha: "06a9657ccdfbdb06b3d1b5cbf900d0a07f600d22aa3de929c1900996e3559b65",
+    code: "BM-205", extractId: "e6427663d551", compiledSha: "9d05138a989116b21c11b95def3fd791075c3d80ad1890e811c20730a1c681d8", extractMdSha: "06a9657ccdfbdb06b3d1b5cbf900d0a07f600d22aa3de929c1900996e3559b65",
     title: "Thông báo áp dụng biện pháp ngăn chặn đối với NCTN", operative: "Về việc áp dụng biện pháp ngăn chặn", legalBasis: "Điều 135 của Luật Tư pháp người chưa thành niên",
     role: "ISOLATED_SINGLETON juvenile preventive-measure notice", boundary: "not diversion, social investigation, community supervision, protection request or BM-206/BM-207 electronic-monitoring decision", words: ["biện pháp ngăn chặn", "người chưa thành niên"],
   },

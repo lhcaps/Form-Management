@@ -14,10 +14,13 @@
 //   - classification: see below
 
 import { readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { readDocxParts } from './lib/docx-zip.mjs';
 
-const PROJECT_ROOT = process.env.QLLAW_ROOT ?? 'D:/Study/Project/QLLaw-main';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const PROJECT_ROOT = process.env.QLLAW_ROOT ?? resolve(__dirname, '../..');
 
 export const RUNTIME_READY_FORMS = Object.freeze([
   'BM-001', 'BM-136', 'BM-148', 'BM-156', 'BM-157',

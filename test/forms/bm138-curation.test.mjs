@@ -99,7 +99,7 @@ const BM138_COMPILED_TITLE =
   'Yêu cầu cung cấp tài liệu liên quan đến hành vi, QĐ tố tụng có vi phạm pháp luật trong điều tra';
 const BM138_EXTRACT_HEADING = 'YÊU CẦU';
 const BM138_COMPILED_FILE_SHA256 =
-  'f71babae54230a87a15b8f88e240f9b19aadb99c8a51e3bd50aeadcff2fa29b5';
+  'fe518153e90f4f670d43bb9aa759604a7ada14614621a79913af22a4900cab3b';
 const BM138_EXTRACT_FILE_SHA256 =
   'e96dff737424760663f7e0fcdbacc01fdec73a7e83f9010cc4e37bfea451e600';
 

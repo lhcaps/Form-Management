@@ -87,7 +87,7 @@ const BM139_COMPILED_TITLE =
   'Kiến nghị khắc phục vi phạm trong hoạt động khởi tố, điều tra';
 const BM139_EXTRACT_HEADING = 'KIẾN NGHỊ';
 const BM139_COMPILED_FILE_SHA256 =
-  'ab569269b827dbb73805cbec3f3918d83c2eaac703865e6c7a378637e9034942';
+  '7dc539805281bf825f43d1b612ad40c25e35f1ebc4848b590aa571350128debf';
 const BM139_EXTRACT_FILE_SHA256 =
   '2a6f4a5a53192c49d615aeab5a5ba4da4ea9afdaf850a96142203d024dd7d934';
 
@@ -129,7 +129,7 @@ const BM140_COMPILED_TITLE =
   'Kiến nghị áp dụng biện pháp phòng ngừa tội phạm và vi phạm pháp luật';
 const BM140_EXTRACT_HEADING = 'KIẾN NGHỊ';
 const BM140_COMPILED_FILE_SHA256 =
-  'c8e4c8d0a06d36c1a9a7fa2966a0e72531acb138c9529c1be5af5e35a4baf222';
+  'c7db51764b8573e5224b572c8f204b1f110ddc46c798d6bb52d6f310ed8e8f06';
 const BM140_EXTRACT_FILE_SHA256 =
   'ca7a3a645e68c70fcca140ccdafcc634b4db662e58f5d4b5ff2e5d5132396a3';
 

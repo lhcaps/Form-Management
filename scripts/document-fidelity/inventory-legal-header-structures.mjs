@@ -9,11 +9,14 @@
 // stays pure ASCII.
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { readDocxParts } from './lib/docx-zip.mjs';
 import { classifyStructuralFamily } from './lib/ooxml-token-scope.mjs';
 
-const PROJECT_ROOT = process.env.QLLAW_ROOT ?? 'D:/Study/Project/QLLaw-main';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const PROJECT_ROOT = process.env.QLLAW_ROOT ?? resolve(__dirname, '../..');
 const NORMALIZED_ROOT = join(PROJECT_ROOT, 'storage/templates/normalized-docx');
 
 // Vietnamese form-number prefix: "M?u s? " (precomposed/NFC code points).

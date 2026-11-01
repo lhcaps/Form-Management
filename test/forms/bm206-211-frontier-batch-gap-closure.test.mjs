@@ -18,7 +18,7 @@ const FORMS = [
   {
     code: "BM-206",
     extractId: "83dd8f078d92",
-    compiledSha: "7fd97745e55ec59ea9261ce2f6787eb9388e5e038a7f4cdcf1bd3c01433234f2",
+    compiledSha: "a84da2408bceaef7ee6416c2a0c97ce2fc8a152b1d964f271d22efef69511797",
     extractMdSha: "588db6673fac099498a658ec0c503370efe96b7d2359dfeaf601e5ccd7de5748",
     title:
       "Quyết định áp dụng biện pháp giám sát điện tử đối với NCTN - Copy",
@@ -41,7 +41,7 @@ const FORMS = [
   {
     code: "BM-207",
     extractId: "34a77bfcbd63",
-    compiledSha: "2a152adeddb7d3722b5e23e41d5598acbffdc21c7c0a531bb5baa009f1907188",
+    compiledSha: "227669080b46004d38a761c35e19b89bd7091f45e82b7638b6e7016110435ef1",
     extractMdSha: "17e1438a5f67174dd400f3155826130f5d42b55ab2d25c87bb2b2e894a19be65",
     title:
       "Quyết định phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN",
@@ -57,7 +57,7 @@ const FORMS = [
   {
     code: "BM-208",
     extractId: "93ee4a40d673",
-    compiledSha: "07a288578a875b3519f490878a343ca5a6074e392a560f8fecbddd60bb02f08f",
+    compiledSha: "eb0f1fca51182a9baf5c57b700e5344d4a897b3237877a4efdcebe92ffa1e4d9",
     extractMdSha: "386576fbf7385180ee580c0eca3a0932b735f7e7b6f1525c463a008b8ec5108c",
     title:
       "Quyết định không phê chuẩn quyết định áp dụng biện pháp giám sát điện tử đối với NCTN",
@@ -74,7 +74,7 @@ const FORMS = [
   {
     code: "BM-209",
     extractId: "2547ef797798",
-    compiledSha: "e2cf2841860de839a6093281a0dc1fe9b15b586631718e0e465ce33e5a91dee5",
+    compiledSha: "58aee71e58b2064e92fa64f33538c878ff3d2d3bc796286752ad4d1dfbd5cafe",
     extractMdSha: "39fb403d5f2f4e7e2434b3e5ab2b23901bc15f0af10609a289d3cd8a04ba58fd",
     title: "Quyết định áp dụng biện pháp giám sát bởi người đại diện",
     operative: "áp dụng biện pháp giám sát bởi người đại diện",
@@ -89,7 +89,7 @@ const FORMS = [
   {
     code: "BM-210",
     extractId: "7266a312afb8",
-    compiledSha: "2318ee76b0404169493a4deb40d3a5a173c99b718d488cad38ff6af01bfbc105",
+    compiledSha: "5e62bf1ac77be8874704863b3f65a25d2842566f5f076e96258d2e44bcbe231f",
     extractMdSha: "f0036019505cbb63f5334aa680875cc2f975cdbdcc4a11141dbd8d7588cc9485",
     title: "Quyết định thay đổi người đại diện",
     operative: "thay đổi người đại diện giám sát",
@@ -104,7 +104,7 @@ const FORMS = [
   {
     code: "BM-211",
     extractId: "ff91d4c3b4e0",
-    compiledSha: "4c881d026a10a75540a144719361925e548846c08b5b6ed10a0cb0c6a1267aa7",
+    compiledSha: "e9cf12d0fcee1d347b8532ad0be991a26ed9509de8153f4fadeee8c9361252ed",
     extractMdSha: "3b95ce39a3c592790bc84711342c6d19d1519f046a94815c708ae708e2ba00c6",
     title: "Thông báo về việc thụ lý vụ án",
     operative: "thông báo về việc thụ lý vụ án",
